@@ -6,9 +6,9 @@ import powerplayicon from '../../assets/powerplay-icon.png'
 
 const HomePage = props => (
     <div className='__HomePage'>
-        <div className='__viewport __sb __ai __viewport-1'>
+        <div className='__viewport __ai __viewport-1'>
             <Header />
-            <div className='__center'>
+            <div className='__center __mt-a'>
                 <div className='__viewport-title __primary'>Our Games Defy Reality<sup>TM</sup></div>
                 <div className='__h4 __mt-1'>
                     Experience our ground-breaking live-play games <br /> where you have the Power to control your destiny. *
@@ -83,6 +83,7 @@ const HomePage = props => (
                             <div className='__h4 __primary-color __mt-1 __bold'>Play & Win</div>
                             <div>Tune in during the live game on your PC, tablet, laptop or mobile device!</div>
                         </div>
+                        <br />
                         <Link to='/' className="__btn __h5 __mt-4">Power up!</Link>
                     </div>
                 </div>
