@@ -1,17 +1,65 @@
+@import '../../scss/colors.scss';
+
 .__HomePage{
     .__viewport-1{
-        background-image: url('../../assets/HomePageViewPortImage.png');
+        background-image: url('../../assets/HomePageViewPortImage.jpg');
     }
-    .__viewport-2{
-        background-image: url('../../assets/HomePageViewPortImage (02).png');
-        >div:first-child{
-            margin: 3em auto;
-        }
+    .__main{
+        width: 50%;
+    }
+    .__background{
+        padding: 0.1px;
+    }
+    .__background-2{
+        background-image: url('../../assets/HomePageViewPortImage (02).jpg');
+    }
+    .__background-3{
+        background-image: url('../../assets/HomePageViewPortImage (03).jpg');
     }
     .__list-power-play-icon{
         top: 1em;
     }
     .__explore-games{
         text-decoration: underline;
+    }
+    .__background-4{
+        padding: 0.1px;
+        background-image: url('../../assets/HomePageViewPortImage (04).jpg');
+        .__h2{
+            font-weight: 500;
+        }
+        .__socket-ball-boy-image{
+            background: url('../../assets/HomePageViewPortImage (05).png') no-repeat left center;
+        }
+    }
+    .__instructions-step {
+        margin-left: 30em;
+        >div{
+            counter-increment: section;
+            position: relative;
+            padding-left: 6.2em;
+            &::before{
+                content: counter(section);
+                position: absolute;
+                width: 2.4em;
+                height: 2.4em;
+                background: $primary;
+                top: 0.3em;
+                left: 0;
+                color: #f2f2f2;
+                font-size: 1.85em;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 400;
+                border-radius: 0.2em;
+            }
+        }
+    }
+    .__background-5{
+        background-image: url('../../assets/HomePageViewPortImage (06).png');
+    }
+    .__background-5-main{
+        max-width: 37em;
     }
 }

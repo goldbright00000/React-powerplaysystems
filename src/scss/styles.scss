@@ -1,5 +1,4 @@
-.__h2, .__h3, .__h5{
-    font-weight: 600;
+.__h2, .__h3, .__h4, .__h5{
     line-height: 1.4em;
 }
 .__h2{
@@ -17,11 +16,21 @@
 .__h6{
     font-size: 1.28em;
 }
+.__bold{
+    font-weight: 600;
+}
+.__bolder{
+    font-weight: 700;
+}
 .__mediam{
     font-size: 1.14em;
+    line-height: 1.8em;
 }
-.__dark-white{
+.__dark-white-color{
     color: #f2f2f2;
+}
+.__light-black-color{
+    color: $lightBlack;
 }
 .__primary{
     background: $primary;
@@ -38,6 +47,7 @@
     text-transform: uppercase;
     font-weight: 600;
     display: inline-block;
+    color: #fff;
     &.__style-2{
         background: transparent;
         color: $primary;
@@ -48,9 +58,7 @@
 }
 .__unordered-list{
     list-style-type: none;
-    max-width: 520px;
     padding: 0;
-    margin: 1.6em 0;
     >li{
         margin: 1.2em 0;
         padding-left: 2.4em;

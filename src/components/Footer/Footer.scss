@@ -1,0 +1,10 @@
+.__footer{
+    background-image: linear-gradient(to bottom, #202124, #111111);
+    padding: 4em 0 5em 0;
+    .__footer-links{
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-gap: 1.2em;
+        margin: 0 10em;
+    }
+}

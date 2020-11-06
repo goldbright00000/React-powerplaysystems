@@ -5,7 +5,7 @@ import logo from '../../assets/logo.png';
 const Header = props => (
     <nav className='__Header'>
         <div className='__container __flex __sb __f1'>
-            <Link to='/'><img src={logo} alt='' /></Link>
+            <Link to='/' className='__brand-logo'><img src={logo} alt='' /></Link>
             <ul className='__navlinks __flex'>
                 <li><NavLink to='/contest-central'>Contest Central</NavLink></li>
                 <li><NavLink to='/sponser-central'>Sponsor a Contest</NavLink></li>
