@@ -1,5 +1,33 @@
+.__h2, .__h3, .__h5{
+    font-weight: 600;
+    line-height: 1.4em;
+}
+.__h2{
+    font-size: 2.85em;
+}
+.__h3{
+    font-size: 2.1em;
+}
+.__h4{
+    font-size: 1.71em;
+}
+.__h5{
+    font-size: 1.42em;
+}
+.__h6{
+    font-size: 1.28em;
+}
+.__mediam{
+    font-size: 1.14em;
+}
+.__dark-white{
+    color: #f2f2f2;
+}
 .__primary{
     background: $primary;
+}
+.__uppercase{
+    text-transform: uppercase;
 }
 .__btn{
     padding: 0.315em 1.574em;
@@ -9,41 +37,51 @@
     border: 2px solid $primary;
     text-transform: uppercase;
     font-weight: 600;
+    display: inline-block;
     &.__style-2{
         background: transparent;
         color: $primary;
     }
 }
-.__viewport{
-    height: 100vh;
-    @extend .__row;
-    background-position: center;
-    background-size: auto 100%;
+.__primary-color{
+    color: $primary;
 }
-.__h3{
-    font-size: 1.71em;
-}
-.__h4{
-    font-size: 1.42em;
-}
-.__viewport-title{
-    font-size: 3.71em;
-    letter-spacing: -0.5px;
-    text-shadow: -3px 3px rgba(0,0,0,.16);
-    padding: 0 0.58em;
-    border-radius: 4px;
-    sup, sub{
-        font-size: 0.462em;
-    }
-    sup{
-        margin-left: 0.3em;
+.__unordered-list{
+    list-style-type: none;
+    max-width: 520px;
+    padding: 0;
+    margin: 1.6em 0;
+    >li{
+        margin: 1.2em 0;
+        padding-left: 2.4em;
         position: relative;
-        top: -0.4em;
+        &::after, &::before{
+            content: '';
+            min-width: 1em;
+            height: 1em;
+            background: $primary;
+            position: absolute;
+            top: 0.21em;
+            border-radius: 0.2em;
+        }
+        &::before{
+            left: 0;
+        }
+        &::after{
+            display: none;
+            left: 0;
+        }
     }
 }
-.__relative{
-    position: relative;
-}
-.__absolute{
-    position: absolute;
+.__chevron-right::after {
+	border-style: solid;
+	border-width: 3px 3px 0 0;
+	content: '';
+	display: inline-block;
+	height: 0.45em;
+	left: 0.24em;
+	position: relative;
+	transform: rotate(45deg);
+	vertical-align: center;
+	width: 0.45em;
 }

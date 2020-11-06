@@ -1,8 +1,10 @@
 @import '../../scss/colors.scss';
 .__Header{
-    padding: 0.2em 7em;
+    padding: 0.2em 0;
     background: rgba($color: $black, $alpha: 0.3);
     width: 100%;
+    position: sticky;
+    top: 0;
     .__navlinks{
         list-style-type: none;
         >li{

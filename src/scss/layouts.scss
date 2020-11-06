@@ -10,12 +10,56 @@
 .__center{
     text-align: center;
 }
+.__right{
+    text-align: right;
+}
+.__italic{
+    font-style: italic;
+}
+.__viewport{
+    min-height: 100vh;
+    @extend .__row;
+    background-size: 100% 100%;
+}
+.__viewport-title{
+    font-size: 3.71em;
+    letter-spacing: -0.5px;
+    text-shadow: -3px 3px rgba(0,0,0,.16);
+    padding: 0 0.58em;
+    border-radius: 4px;
+    sup, sub{
+        font-size: 0.462em;
+    }
+    sup{
+        margin-left: 0.3em;
+        position: relative;
+        top: -0.4em;
+    }
+}
+.__relative{
+    position: relative;
+}
+.__absolute{
+    position: absolute;
+}
 
 .__p-0{
     padding: 1em;
 }
 .__p-1{
     padding: 1em;
+}
+.__pl-1{
+    padding-left: 1em;
+}
+.__pr-1{
+    padding-right: 1em;
+}
+.__pt-1{
+    padding-top: 1em;
+}
+.__pb-1{
+    padding-bottom: 1em;
 }
 
 .__m-0{
@@ -90,8 +134,14 @@
 }
 
 .__container{
-    width: 90%;
-    margin: auto;
+    width: 86%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    &.__style-2{
+        width: 70%;
+    }
 }
 
 @media (max-width: 1200px){

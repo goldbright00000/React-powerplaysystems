@@ -1,5 +1,17 @@
 .__HomePage{
-    .__viewport{
+    .__viewport-1{
         background-image: url('../../assets/HomePageViewPortImage.png');
+    }
+    .__viewport-2{
+        background-image: url('../../assets/HomePageViewPortImage (02).png');
+        >div:first-child{
+            margin: 3em auto;
+        }
+    }
+    .__list-power-play-icon{
+        top: 1em;
+    }
+    .__explore-games{
+        text-decoration: underline;
     }
 }
