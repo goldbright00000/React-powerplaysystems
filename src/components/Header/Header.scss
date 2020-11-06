@@ -1,0 +1,16 @@
+@import '../../scss/colors.scss';
+.__Header{
+    padding: 0.2em 7em;
+    background: rgba($color: $black, $alpha: 0.3);
+    width: 100%;
+    .__navlinks{
+        list-style-type: none;
+        >li{
+            margin: 0 1.5em;
+            text-transform: uppercase;
+            &:last-child{
+                margin-right: 0;
+            }
+        }
+    }
+}

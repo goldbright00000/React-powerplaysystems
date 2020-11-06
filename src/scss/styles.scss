@@ -1,0 +1,49 @@
+.__primary{
+    background: $primary;
+}
+.__btn{
+    padding: 0.315em 1.574em;
+    @extend .__primary;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 2px solid $primary;
+    text-transform: uppercase;
+    font-weight: 600;
+    &.__style-2{
+        background: transparent;
+        color: $primary;
+    }
+}
+.__viewport{
+    height: 100vh;
+    @extend .__row;
+    background-position: center;
+    background-size: auto 100%;
+}
+.__h3{
+    font-size: 1.71em;
+}
+.__h4{
+    font-size: 1.42em;
+}
+.__viewport-title{
+    font-size: 3.71em;
+    letter-spacing: -0.5px;
+    text-shadow: -3px 3px rgba(0,0,0,.16);
+    padding: 0 0.58em;
+    border-radius: 4px;
+    sup, sub{
+        font-size: 0.462em;
+    }
+    sup{
+        margin-left: 0.3em;
+        position: relative;
+        top: -0.4em;
+    }
+}
+.__relative{
+    position: relative;
+}
+.__absolute{
+    position: absolute;
+}
