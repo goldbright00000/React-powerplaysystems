@@ -1,26 +1,26 @@
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import './HomePage.scss';
+import './SponserContestPage.scss';
 import powerplayicon from '../../assets/powerplay-icon.png'
 
-const HomePage = props => (
-    <div className='__HomePage'>
+const SponserContestPage = props => (
+    <div className='__SponserContestPage'>
         <div className='__viewport __ai __viewport-1'>
-            <Header />
+            <Header btnBorderStyle={true} />
             <div className='__center __mt-a'>
-                <div className='__viewport-title __primary __m-a __inline-block'>Our Games Defy Reality<sup>TM</sup></div>
-                <div className='__h4 __mt-1 __viewport-subtitle'>
-                    Experience our ground-breaking live-play games where you have the Power to control your destiny. *
+                <div className='__viewport-title __primary __inline-block'>Our Games Defy Reality<sup>TM</sup></div>
+                <div className='__h6 __mt-3 __m-a __viewport-subtitle'>
+                    <div className='__mb-2'>Not only do our games defy reality, but they also build powerful customer engagement opportunities for your brand.</div>
+                    <div>Whether you are a for-profit business or a not-for-profit charity or foundation, our games will meet your brand or fundraising goals.</div>
                 </div>
-                <Link to='/' className='__btn __style-2 __h5 __mb-4 __mt-4 __inline-block'>Power Up!</Link>
+                <Link to='/' className='__btn __h5 __mb-4 __mt-4 __inline-block'>partner with us</Link>
             </div>
         </div>
         <div className='__right __pt-1 __pb-1 __container __italic'>*International Patent Pending</div>
-        <div className='__background-2 __background __dark-white-color'>
+        <div className='__background-2 __background  __dark-white-color'>
             <div className='__container-2 __mt-3'>
-                <div className='__h2 __primary-color __center'>PowerdFS</div>
-                <div className='__h3 __uppercase __center'>Live-Play Fantasy Sports Platform</div>
+                <div className='__h2 __primary-color __center'>We offer a no cost, no risk solution <br /> for all our promotional contests. </div>
                 <div className='__main'>
                     <div className='__h6 __mt-2'>
                         We are disrupting the ‘Pick and Wait’ Fantasy format with our patent <br />
@@ -42,7 +42,7 @@ const HomePage = props => (
                 </div>
             </div>
         </div>
-        <div className='__background __to-right __background-3'>
+        <div className='__background __background-3'>
             <div className='__container-2'>
                 <div className='__h3 __center __mb-2 __mt-2 __uppercase'>Live-Play Promotional Contests</div>
                 <div className='__ml-a __main'>
@@ -120,4 +120,4 @@ const HomePage = props => (
     </div>
 )
 
-export default HomePage;
+export default SponserContestPage;

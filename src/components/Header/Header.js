@@ -10,7 +10,7 @@ const Header = props => (
                 <li><NavLink to='/contest-central'>Contest Central</NavLink></li>
                 <li><NavLink to='/sponser-central'>Sponsor a Contest</NavLink></li>
                 <li><NavLink to='/login'>Log In</NavLink></li>
-                <li><NavLink to='/power-up' className='__btn'>Power up!</NavLink></li>
+                <li><NavLink to='/power-up' className={`__btn ${props.btnBorderStyle ? '__style-2' : ''}`}>Power up!</NavLink></li>
             </ul>
         </div>
     </nav>
