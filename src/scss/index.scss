@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 @import './colors.scss', './flex.scss', './layouts.scss', './styles.scss';
 
 *{
@@ -14,5 +14,44 @@ body{
     font-size: 14px;
     background: $black;
     color: #fff;
+}
+.__h2, .__h3, .__h4, .__h5{
+    line-height: 1.4em;
+}
+.__h2{
+    font-size: 2.85em;
+}
+.__h3{
+    font-size: 30px;
+}
+.__h4{
+    font-size: 24px;
+}
+.__h5{
+    font-size: 20px;
+}
+.__h6{
+    font-size: 18px;
+}
+.__light-bold{
     font-weight: 500;
+}
+.__light{
+    font-weight: 300;
+}
+.__bold{
+    font-weight: 600;
+}
+.__bolder{
+    font-weight: 700;
+}
+.__mediam{
+    font-size: 16px;
+    line-height: 1.8em;
+}
+.__small{
+    font-size: 0.94em;
+}
+.__light-black-color{
+    color: $lightBlack;
 }

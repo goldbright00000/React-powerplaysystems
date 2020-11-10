@@ -21,3 +21,14 @@
 .__f1{
     flex: 1;
 }
+.__fg{
+    flex-grow: 1;
+}
+.__inline-flex{
+    display: inline-flex;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.__flex-stretch{
+    display: flex;
+}

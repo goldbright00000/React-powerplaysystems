@@ -93,7 +93,18 @@
 .__m-5{
     margin: 5em;
 }
-
+.__mt-s{
+    margin-top: 0.5em;
+}
+.__mb-s{
+    margin-bottom: 0.5em;
+}
+.__mr-s{
+    margin-right: 0.5em;
+}
+.__ml-s{
+    margin-left: 0.5em;
+}
 .__ml-1{
     margin-left: 1em !important;
 }
@@ -173,15 +184,43 @@
 .__mr-5{
     margin-right: 5em;
 }
+.__mt-6{
+    margin-top: 6em;
+}
+.__mb-6{
+    margin-bottom: 6em;
+}
+.__ml-6{
+    margin-left: 6em;
+}
+.__mr-6{
+    margin-right: 6em;
+}
+.__mt-7{
+    margin-top: 7em;
+}
+.__mb-7{
+    margin-bottom: 7em;
+}
+.__ml-7{
+    margin-left: 7em;
+}
+.__mr-7{
+    margin-right: 7em;
+}
+
 .__container{
     width: 86%;
-    margin: auto;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+    margin-left: auto;
+    margin-right: auto;
 }
 .__container-2{
     width: 70%;
     margin: auto;
+}
+.__container-3{
+    margin-left: 48px;
+    margin-right: 48px;
 }
 @media (max-width: 1200px){
     .__container-2, .__container{

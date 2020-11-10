@@ -1,37 +1,3 @@
-.__h2, .__h3, .__h4, .__h5{
-    line-height: 1.4em;
-}
-.__h2{
-    font-size: 2.85em;
-}
-.__h3{
-    font-size: 2.1em;
-}
-.__h4{
-    font-size: 1.71em;
-}
-.__h5{
-    font-size: 1.42em;
-}
-.__h6{
-    font-size: 1.28em;
-}
-.__bold{
-    font-weight: 600;
-}
-.__bolder{
-    font-weight: 700;
-}
-.__mediam{
-    font-size: 1.14em;
-    line-height: 1.8em;
-}
-.__dark-white-color{
-    color: #f2f2f2;
-}
-.__light-black-color{
-    color: $lightBlack;
-}
 .__primary{
     background: $primary;
 }
@@ -41,20 +7,33 @@
 .__btn{
     padding: 0.315em 1.5em;
     @extend .__primary;
-    border-radius: 6px;
+    border-radius: 4px;
     cursor: pointer;
-    border: 2px solid $primary;
+    border: 1px solid $primary;
     text-transform: uppercase;
-    font-weight: 600;
+    font-weight: 500;
     display: inline-block;
     color: #fff;
+    text-align: center;
     &.__style-2{
         background: transparent;
         color: $primary;
     }
+    &.__style-3{
+        box-shadow: 0 3px 27px 0 #fb6e00;
+        border-radius: 2em;
+        padding: 0.4em 2.29em;
+    }
 }
 .__primary-color{
     color: $primary;
+}
+.__dark-white-color{
+    color: #f2f2f2;
+}
+.__white-color{
+    color: #fff !important;
+    border-color: #fff !important;
 }
 .__unordered-list{
     list-style-type: none;
@@ -92,4 +71,39 @@
 	transform: rotate(45deg);
 	vertical-align: center;
 	width: 0.45em;
+}
+.__badge{
+    background: linear-gradient(to right, #fb6e00 11%, #fa3800 94%);
+    padding: 0.15em 0.43em;
+    border-radius: 8px;
+}
+.__small-border{
+    width: 39px;
+    height: 4px;
+    background: $primary;
+    border-radius: 2px;
+}
+.__input-field{
+    font-size: inherit;
+    font-family: inherit;
+    outline: none;
+    border: none;
+    background-color: #35363a;
+    font-size: 15px;
+    border-radius: 2em;
+    padding: 0.76em 2em;
+    color: #fff;
+}
+.__outline-badge{
+    padding: 0.532em 0.69em;
+    border: 2px solid;
+    font-size: 0.94em;
+    border-radius: 0.5em;
+    background: #555658;
+    &.__active{
+        font-size: 1em;
+        padding: 0.434em 0.68em;
+        color: $primary;
+        font-weight: 500;
+    }
 }

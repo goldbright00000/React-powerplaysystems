@@ -6,14 +6,15 @@ import powerplayicon from '../../assets/powerplay-icon.png'
 
 const HomePage = props => (
     <div className='__HomePage'>
+        <Header />
         <div className='__viewport __ai __viewport-1'>
-            <Header />
-            <div className='__center __mt-a'>
+            <div className='__center __mt-a __container'>
                 <div className='__viewport-title __primary __m-a __inline-block'>Our Games Defy Reality<sup>TM</sup></div>
-                <div className='__h4 __mt-1 __viewport-subtitle'>
+                <div className='__h4 __mt-1 __viewport-subtitle __ml-a __mr-a'>
                     Experience our ground-breaking live-play games where you have the Power to control your destiny. *
                 </div>
-                <Link to='/' className='__btn __style-2 __h5 __mb-4 __mt-4 __inline-block'>Power Up!</Link>
+                <Link to='/' className='__btn __style-2 __h5 __mb-3 __mt-2 __inline-block'>Power Up!</Link>
+                <div className='__ml-a __italic __right __mb-2'>*International Patent Pending</div>
             </div>
         </div>
         <div className='__background-2 __background __dark-white-color'>
