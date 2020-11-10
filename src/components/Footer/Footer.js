@@ -4,16 +4,18 @@ import { Link } from 'react-router-dom';
 
 const Footer = props => (
     <footer className='__footer'>
-        <div className='__container-2 __flex __sb'>
-            <img src={logo} alt='' />
-            <div className='__footer-links __f1'>
-                <Link to='/'>Terms and Conditions</Link>
-                <Link to='/'>Responsible Gaming</Link>
-                <Link to='/'>About Us</Link>
-                <Link to='/'>Privacy Policy</Link>
-                <Link to='/'>Trust and Safety</Link>
-                <Link to='/'>FAQ</Link>
-            </div>
+        <div className='__footer-links __container-2'>
+            <img src={logo} alt='' className='__logo' />
+            <div>Legal Privacy</div>
+            <div>Company</div>
+            <Link to='/terms'>Terms of use</Link>
+            <Link to='/faqs'>FAQs</Link>
+            <Link to='/my-account'>My Account</Link>
+            <Link to='/privacy'>Privacy</Link>
+            <Link to='/trust-and-safety'>Trust & Safety </Link>
+            <Link to='/sponer-contest' >Sponsor a contest</Link>
+            <Link to='/account-security'>Account Security</Link>
+            <Link to='/about-us'>About Us</Link>
         </div>
     </footer>
 )

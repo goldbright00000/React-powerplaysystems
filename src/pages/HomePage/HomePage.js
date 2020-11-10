@@ -16,11 +16,10 @@ const HomePage = props => (
                 <Link to='/' className='__btn __style-2 __h5 __mb-4 __mt-4 __inline-block'>Power Up!</Link>
             </div>
         </div>
-        <div className='__right __pt-1 __pb-1 __container __italic'>*International Patent Pending</div>
         <div className='__background-2 __background __dark-white-color'>
             <div className='__container-2 __mt-3'>
-                <div className='__h2 __primary-color __center'>PowerdFS</div>
-                <div className='__h3 __uppercase __center'>Live-Play Fantasy Sports Platform</div>
+                <div className='__h2 __primary-color __center __bold'>PowerdFS</div>
+                <div className='__h3 __uppercase __center __bold'>Live-Play Fantasy Sports Platform</div>
                 <div className='__main'>
                     <div className='__h6 __mt-2'>
                         We are disrupting the ‘Pick and Wait’ Fantasy format with our patent <br />
@@ -29,7 +28,7 @@ const HomePage = props => (
                     <ul className='__unordered-list __mediam __mt-2 __mb-2'>
                         <li>No longer will you shed tears if your QB is injured on the 1st drive of the game…  <span className='__primary-color'>swap him out in real time!</span></li>
                         <li>Not only can you swap your players in real-time, but you can also boost your points live during the game using our <span className='__primary-color'>Point Boosting Powers.</span></li>
-                        <li>Try one our live-play Parlay games like Chase the Ace to win <img alt='' src={powerplayicon} className='__relative __list-power-play-icon' /> Powers.</li>
+                        <li>Try one our live-play Parlay games like Chase the Ace to win <img alt='' src={powerplayicon} align='center' /> Powers.</li>
                         <li>JOIN NOW! And experience the future of Fantasy Sports. Already a member? Log in.</li>
                     </ul>
                     <div className='__primary-color __h6 __mb-2'>Imagine actually being in control of your team… <br />Now that is Powerful!</div>
@@ -37,7 +36,7 @@ const HomePage = props => (
                         <Link to='/' className='__explore-games __chevron-right'>Explore Games</Link>
                     </div>
                 </div>
-                <div className='__center __h5 __mt-3 __mb-3'>
+                <div className='__center __h5 __mt-2 __mb-3'>
                     <Link to='/' className='__btn'>Power Up</Link>
                 </div>
             </div>
@@ -56,7 +55,7 @@ const HomePage = props => (
                         <Link to='/' className='__explore-games __chevron-right'>Explore Games</Link>
                     </div>
                 </div>
-                <div className='__center __h5 __mt-4 __mb-3'>
+                <div className='__center __h5 __mt-3 __mb-3'>
                     <Link to='/' className='__btn'>Power Up</Link>
                 </div>
             </div>

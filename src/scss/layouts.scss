@@ -90,6 +90,9 @@
 .__m-a{
     margin: auto;
 }
+.__m-5{
+    margin: 5em;
+}
 
 .__ml-1{
     margin-left: 1em !important;
@@ -158,7 +161,18 @@
 .__mb-a{
     margin-bottom: auto !important;
 }
-
+.__mt-5{
+    margin-top: 5em;
+}
+.__mb-5{
+    margin-bottom: 5em;
+}
+.__ml-5{
+    margin-left: 5em;
+}
+.__mr-5{
+    margin-right: 5em;
+}
 .__container{
     width: 86%;
     margin: auto;
@@ -170,8 +184,8 @@
     margin: auto;
 }
 @media (max-width: 1200px){
-    .__container-2{
-        width: 86%;
+    .__container-2, .__container{
+        width: 90%;
     }
     .__m-0-on-large{
         margin: 0;

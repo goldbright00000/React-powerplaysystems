@@ -4,7 +4,18 @@
     .__footer-links{
         display: grid;
         grid-template-columns: auto auto auto;
-        grid-gap: 1.2em;
-        margin: 0 10em;
+        justify-content: space-around;
+        grid-gap: 1em;
+        >div{
+            font-weight: 300 !important;
+        }
+        >a{
+            font-weight: 600;
+        }
+    }
+    .__logo{
+        grid-row-start: 1;
+        grid-row-end: 3;
+        width: 9.3em;
     }
 }
