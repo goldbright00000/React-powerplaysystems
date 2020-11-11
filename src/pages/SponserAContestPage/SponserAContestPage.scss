@@ -1,0 +1,19 @@
+.__SponserAContestPage{
+    background: url('../../assets/stadium@2x.jpg');
+    .__title{
+        padding: 0.4em 1.54em;
+        border-radius: 6px;
+    }
+    .__SponserAContestPage-form{
+        display: grid;
+        width: 47.02em;
+        grid-gap: 1.3em;
+        grid-template-columns: auto auto;
+        .__btn{
+            width: 11em;
+        }
+    }
+    .__full-width{
+        grid-column-end: span 2;
+    }
+}

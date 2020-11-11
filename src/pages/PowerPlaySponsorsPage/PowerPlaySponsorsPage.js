@@ -8,13 +8,13 @@ const PowerPlaySponsorsPage = props => (
         <div className='__viewport __ai __viewport-1'>
             <Header btnBorderStyle={true} />
             <div className='__center __mt-a'>
-                <div className='__viewport-title __primary __inline-block'>Our Games Defy Reality<sup>TM</sup></div>
+                <div className='__viewport-title __primary'>Our Games Defy Reality<sup>TM</sup></div>
                 <div className='__mediam __mt-3 __m-a __viewport-subtitle'>
                     <div className='__mb-1'>Not only do our games defy reality, but they also build powerful customer engagement opportunities for your brand.</div>
                     <div>Whether you are a for-profit business or a not-for-profit charity or foundation, our games will meet your brand or fundraising goals.</div>
                 </div>
                 <div className='__italic __primary-color __h5 __mt-2 __mb-2'>Are you ready to defy reality?</div>
-                <Link to='/' className='__btn __PowerPlaySponsorsPage-btn __h5 __mb-4 __inline-block __lets-go-btn'>Let's go!</Link>
+                <Link to='/power-play-sponsors//sponsor-a-contest' className='__btn __PowerPlaySponsorsPage-btn __h5 __mb-4 __inline-block'>Let's go!</Link>
             </div>
         </div>
         <div className='__background-2 __background  __dark-white-color'>
@@ -34,7 +34,7 @@ const PowerPlaySponsorsPage = props => (
                 </div>
                 <div className='__h5 __italic __ready-to-play-game __m-a __mt-3 __primary-color'>Are you ready to Power your brand with no-cost, no-risk promotional contest?</div>
                 <div className='__center __h5 __mt-2 __mb-3'>
-                    <Link to='/' className='__btn __PowerPlaySponsorsPage-btn'>Let's go</Link>
+                    <Link to='/power-play-sponsors//sponsor-a-contest' className='__btn __PowerPlaySponsorsPage-btn'>Let's go</Link>
                 </div>
             </div>
         </div>
@@ -78,7 +78,7 @@ const PowerPlaySponsorsPage = props => (
                 </div>
                 <div className='__center __h5 __italic __mt-2 __primary-color'>Are you ready to Power Up your brand?</div>
                 <div className='__center __h5 __mt-2 __mb-3'>
-                    <Link to='/' className='__btn __PowerPlaySponsorsPage-btn'>Let's go</Link>
+                    <Link to='/power-play-sponsors//sponsor-a-contest' className='__btn __PowerPlaySponsorsPage-btn'>Let's go</Link>
                 </div>
             </div>
         </div>
@@ -117,7 +117,7 @@ const PowerPlaySponsorsPage = props => (
                 <div className='__h5 __center __primary-color __italic'>Are you ready to experience the power of our promotional contests?</div>
             </div>
             <div className='__center __h5 __mt-2 __mb-3'>
-                <Link to='/' className='__btn __PowerPlaySponsorsPage-btn'>Let's go</Link>
+                <Link to='/power-play-sponsors//sponsor-a-contest' className='__btn __PowerPlaySponsorsPage-btn'>Let's go</Link>
             </div>
         </div>
 

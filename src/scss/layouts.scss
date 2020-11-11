@@ -13,6 +13,9 @@
 .__right{
     text-align: right;
 }
+.__left{
+    text-align: left;
+}
 .__italic{
     font-style: italic;
 }
@@ -33,9 +36,9 @@
 .__viewport-title{
     font-size: 3.71em;
     letter-spacing: -0.5px;
-    text-shadow: -3px 3px rgba(0,0,0,.16);
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
     padding: 0 0.5em;
-    border-radius: 4px;
+    border-radius: 6px;
     font-weight: 600;
     sup, sub{
         font-size: 0.462em;
@@ -59,7 +62,8 @@
 }
 .__container-2{
     width: 70%;
-    margin: auto;
+    margin-left: auto;
+    margin-right: auto;
 }
 .__container-3{
     margin-left: 48px;

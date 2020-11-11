@@ -22,11 +22,11 @@ const HomePage = props => (
             <div className='__container-2 __mt-3'>
                 <div className='__h2 __primary-color __center __bold'>PowerdFS</div>
                 <div className='__h3 __uppercase __center __bold'>Live-Play Fantasy Sports Platform</div>
-                <div className='__main'>
                     <div className='__h6 __mt-2'>
                         We are disrupting the ‘Pick and Wait’ Fantasy format with our patent <br />
                         pending live sports platform
                     </div>
+                <div className='__main'>
                     <ul className='__unordered-list __mediam __mt-2 __mb-2'>
                         <li>No longer will you shed tears if your QB is injured on the 1st drive of the game…  <span className='__primary-color'>swap him out in real time!</span></li>
                         <li>Not only can you swap your players in real-time, but you can also boost your points live during the game using our <span className='__primary-color'>Point Boosting Powers.</span></li>
