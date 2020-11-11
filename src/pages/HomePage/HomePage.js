@@ -3,6 +3,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './HomePage.scss';
 import powerplayicon from '../../assets/powerplay-icon.png'
+import powerplayLargeicon from '../../assets/powerplay-large-icon.png'
 
 const HomePage = props => (
     <div className='__HomePage'>
@@ -13,7 +14,7 @@ const HomePage = props => (
                 <div className='__h4 __mt-1 __viewport-subtitle __ml-a __mr-a'>
                     Experience our ground-breaking live-play games where you have the Power to control your destiny. *
                 </div>
-                <Link to='/' className='__btn __style-2 __h5 __mb-3 __mt-2 __inline-block'>Power Up!</Link>
+                <Link to='/' className='__btn __style-2 __primary-color __h5 __mb-3 __mt-2 __inline-block'>Power Up!</Link>
                 <div className='__ml-a __italic __right __mb-2'>*International Patent Pending</div>
             </div>
         </div>
@@ -89,12 +90,13 @@ const HomePage = props => (
                 </div>
             </div>
         </div>
-        <div className='__background __background-5'>
+        <div className='__background __background-5 __relative'>
+            <img src={powerplayLargeicon} alt='' className='__powerplay-large-icon __absolute' />
             <div className='__container-2'>
-                <div className=' __mt-4 __background-5-main'>
+                <div className=' __mt-5 __background-5-main'>
                     <div className='__mb-3'>
                         <div className='__h2 __mb-1'>
-                            <div className='__bold __primary-color'>PowerPlay Games</div>
+                            <div className='__bold __primary-color __mb-s'>PowerPlay Games</div>
                             <div>is crypto friendly!</div>
                         </div>
                         <div className='__dark-white __mediam'>
@@ -112,7 +114,7 @@ const HomePage = props => (
                 </div>
                 <div className='__h5 __italic __bold'>We are giving Power to the People! Sign-up today and  <span className='__primary-color'> get 100 tokens!</span></div>
                 <div className='__center __mb-4 __mt-4'>
-                    <Link to='/' className='__btn __style-2 __h5'>WIN Powers</Link>
+                    <Link to='/' className='__btn __style-2 __h5 __primary-color'>WIN Powers</Link>
                 </div>
             </div>
         </div>

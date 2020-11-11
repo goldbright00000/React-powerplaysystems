@@ -8,9 +8,9 @@ const Header = props => (
             <Link to='/' className='__brand-logo'><img src={logo} alt='' /></Link>
             <ul className='__navlinks __flex'>
                 <li><NavLink to='/contest-central'>Contest Central</NavLink></li>
-                <li><NavLink to='/sponser-central'>Sponsor a Contest</NavLink></li>
+                <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li>
                 <li><NavLink to='/login'>Log In</NavLink></li>
-                <li><NavLink to='/power-up' className={`__btn ${props.btnBorderStyle ? '__style-2' : ''}`}>Power up!</NavLink></li>
+                <li><NavLink to='/power-up' className={`__btn __header-btn ${props.btnBorderStyle ? '__style-2 __primary-color' : ''}`}>Power up!</NavLink></li>
             </ul>
         </div>
     </nav>

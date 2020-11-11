@@ -9,7 +9,7 @@ const Header2 = props => (
             <Link to='/' className='__brand-logo'><img src={logo} alt='' /></Link>
             <ul className='__navlinks __flex'>
                 <li><NavLink to='/contest-central'>Contest Central</NavLink></li>
-                <li><NavLink to='/sponser-central'>Sponsor a Contest</NavLink></li>
+                <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li>
                 <li><NavLink to='/login'>Log In</NavLink></li>
                 <li><NavLink to='/get-started' className='__btn __style-3 __small'>Get Started</NavLink></li>
             </ul>

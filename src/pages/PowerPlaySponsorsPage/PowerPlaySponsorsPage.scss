@@ -1,0 +1,45 @@
+@import '../../scss/colors.scss';
+
+.__PowerPlaySponsorsPage{
+    .__viewport-1{
+        background-image: url('../../assets/stadium.jpg');
+    }
+    .__viewport-subtitle{
+        max-width: 34em;
+    }
+    .__main{
+        width: 50%;
+    }
+    .__background{
+        padding: 0.1px;
+    }
+    .__background-2{
+        background-image: url('../../assets/PowerPlaySponser (02).jpg');
+        .__ready-to-play-game{
+            width: 20em;
+        }
+    }
+    .__background-3{
+        background-image: url('../../assets/PowerPlaySponser(03).jpg');
+    }
+    .__background-4{
+        background-image: url('../../assets/PowerPlaySponser(04).jpg');
+    }
+    .__PowerPlaySponsorsPage-btn{
+        width: 11em;
+    }
+    .__custom-bullets-wrapper{
+        >div{
+            display: flex;
+            &::before{
+                content: '';
+                min-width: 1em;
+                height: 1em;
+                background: $primary;
+                display: inline-block;
+                margin: 2.3em 1.1em 0 0;
+                border-radius: 3px;
+            }
+        }
+    }
+}

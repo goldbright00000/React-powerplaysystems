@@ -27,7 +27,7 @@ const SelectTeamsPage = props => (
                     <div>Select <b>8</b> teams</div>
                     <div className='__small-border __ml-s'></div>
                 </div>
-                <div className='__h5 __light-bold'>Search & Filter for your teams</div>
+                <div className='__h5'>Search & Filter for your teams</div>
                 <div className='__flex __mt-1'>
                     <input type='text' placeholder='Search...' className='__input-field __f1' />
                     <div className='__flex __outline-badges-wrapper __h6 __ml-1'>
