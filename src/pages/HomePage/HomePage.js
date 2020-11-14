@@ -35,7 +35,7 @@ const HomePage = props => (
                     </ul>
                     <div className='__primary-color __h6 __mb-2'>Imagine actually being in control of your team… <br />Now that is Powerful!</div>
                     <div className='__uppercase __h5 '>
-                        <Link to='/' className='__explore-games __chevron-right'>Explore Games</Link>
+                        <Link to='/' className='__explore-games __chevron __-right'>Explore Games</Link>
                     </div>
                 </div>
                 <div className='__center __h5 __mt-2 __mb-3'>

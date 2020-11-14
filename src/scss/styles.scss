@@ -24,6 +24,9 @@
         border-radius: 2em;
         padding: 0.4em 2.29em;
     }
+    &.__shadow{
+        box-shadow: 0 3px 27px 0 rgba(251, 110, 0, 0.48);
+    }
 }
 .__primary-color{
     color: $primary;
@@ -63,17 +66,21 @@
         }
     }
 }
-.__chevron-right::after {
-	border-style: solid;
-	border-width: 3px 3px 0 0;
-	content: '';
-	display: inline-block;
-	height: 0.45em;
-	left: 0.24em;
-	position: relative;
-	transform: rotate(45deg);
-	vertical-align: center;
-	width: 0.45em;
+.__chevron{
+    &::after{
+        border-style: solid;
+        border-width: 3px 3px 0 0;
+        content: '';
+        display: inline-block;
+        height: 0.45em;
+        left: 0.24em;
+        position: relative;
+        vertical-align: center;
+        width: 0.45em;
+    }
+    &.__-right::after{
+        transform: rotate(45deg);
+    }
 }
 .__badge{
     background: linear-gradient(to right, #fb6e00 11%, #fa3800 94%);
@@ -127,4 +134,13 @@ input::-webkit-inner-spin-button {
         color: $primary;
         font-weight: 500;
     }
+}
+.__pointer{
+    cursor: pointer;
+}
+.__relative{
+    position: relative;
+}
+.__absolute{
+    position: absolute;
 }

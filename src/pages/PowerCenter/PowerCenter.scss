@@ -1,0 +1,32 @@
+.__PowerCenter{
+    .__viewport{
+        background-image: url('../../assets/PowerContest.jpg');
+        background-position: center;
+    }
+    .__power-play-viewport-btn{
+        min-width: 11.67em;
+        border-radius: 11px;
+    }
+    @media (max-width: 1200px) {
+        .__viewport{
+            padding: 1.4em;
+            justify-content: center !important;
+            min-height: calc(100vh - 67px);
+            margin-top: 67px;        
+        }
+        .__power-play-viewport-btn{
+            font-size: 16px;
+            padding: 0.712em;
+            min-width: 15em;
+        }
+        .__paragraph{
+            font-size: 14px;
+            line-height: 1.6em;
+            color: #f2f2f2;
+            margin-bottom: 0 !important;
+        }
+        .__viewport-large-title{
+            margin: 0 0 1em 0 !important;
+        }
+    }
+}

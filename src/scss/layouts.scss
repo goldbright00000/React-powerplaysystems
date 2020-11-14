@@ -31,10 +31,14 @@
 }
 .__viewport{
     min-height: 100vh;
-    @extend .__row, .__background;
+    @extend .__column, .__background;
+}
+.__viewport-large-title{
+    font-size: 90px;
+    font-weight: bolder;
 }
 .__viewport-title{
-    font-size: 3.71em;
+    font-size: 52px;
     letter-spacing: -0.5px;
     text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
     padding: 0 0.5em;
