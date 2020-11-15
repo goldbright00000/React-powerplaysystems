@@ -16,6 +16,15 @@
     .__viewport-large-title{
         font-size: 52px;
     }
+    .__container-2, .__container{
+        width: 90%;
+    }
+    .__m-0-on-large{
+        margin: 0;
+    }
+    .__block-on-large{
+        display: block;;
+    }
 }
 @media (max-width: 1023px){
     .__column-on-mediam{
@@ -24,12 +33,27 @@
     .__hide-on-mediam{
         display: none;
     }
+    .__m-0-on-mediam{
+        margin: 0;
+    }
+    .__block-on-mediam{
+        display: block;;
+    }
 }
 @media (max-width: 767px){
+    .__container-2, .__container{
+        width: calc(100% - 2em);
+    }
     .__column-on-small{
         flex-direction: column;
     }
     .__hide-on-small{
         display: none;
+    }
+    .__m-0-on-small{
+        margin: 0;
+    }
+    .__block-on-small{
+        display: block;;
     }
 }

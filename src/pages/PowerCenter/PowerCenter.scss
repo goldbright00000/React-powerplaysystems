@@ -1,11 +1,15 @@
+@import '../../scss/colors.scss';
+
 .__PowerCenter{
+    .__btn{
+        border-radius: 11px;
+    }
     .__viewport{
         background-image: url('../../assets/PowerContest.jpg');
         background-position: center;
     }
     .__power-play-viewport-btn{
         min-width: 11.67em;
-        border-radius: 11px;
     }
     @media (max-width: 1200px) {
         .__viewport{
@@ -19,14 +23,83 @@
             padding: 0.712em;
             min-width: 15em;
         }
+        .__viewport-large-title{
+            margin: 0 0 1em 0 !important;
+        }
+    }
+    @media (max-width: 767px) {
         .__paragraph{
             font-size: 14px;
             line-height: 1.6em;
             color: #f2f2f2;
             margin-bottom: 0 !important;
         }
-        .__viewport-large-title{
-            margin: 0 0 1em 0 !important;
+    }
+}
+
+.__PowerCenter{
+    .__background-2{
+        background: url('../../assets/group-4x.png');
+        padding: 0.1px;
+        background-size:  79%;
+        background-position: top right;
+        background-repeat: no-repeat;
+        .__black-background{
+            padding: 0.1px;
+            background: linear-gradient(to bottom, rgba(32, 33, 36, 0.5), #000000);    
+        }
+        .__btn{
+            width: 13em;
+            color: #111111;
+        }
+        a{
+            .__btn{
+                box-shadow: 0 3px 27px -2px rgba(251, 110, 0, 0.34);
+            }
+            &.active .__btn{
+                background: #f2f2f2;
+                border-color: #f2f2f2;
+                box-shadow: 0 3px 27px -2px rgba(255, 255, 255, 0.34);
+            }
+            &:not(.active):hover .__btn{
+                color: #f2f2f2;
+                box-shadow: 0 3px 27px -2px rgba(255, 255, 255, 0.34);
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            background: none;
+            .__flex{
+                justify-content: space-around;
+            }
+            .__h2{
+                font-size: 20px;
+                text-align: left;
+                font-weight: 400;
+                margin: 0;
+                color: #f2f2f2;
+                border: 3px solid transparent;
+                padding: 0.4em 0;
+            }
+            .__mb-6{
+                margin-bottom: 0;
+            }
+            a{
+                margin: 3em 0;
+                flex: initial;
+                &.active .__h2{
+                    border-bottom: 2px solid;
+                    color: $primary;
+                }
+            }
+            .__black-background{
+                background: initial;
+            }
+        }
+        @media (max-width: 767px) {
+            .__flex{
+                justify-content: space-between;
+            }
         }
     }
 }

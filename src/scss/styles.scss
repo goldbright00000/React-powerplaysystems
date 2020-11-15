@@ -126,13 +126,18 @@ input::-webkit-inner-spin-button {
     padding: 0.532em 0.69em;
     border: 2px solid;
     font-size: 0.94em;
-    border-radius: 0.5em;
+    border-radius: 0.6em;
     background: #555658;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg{
+        margin-right: 0.5em;
+    }
     &.__active{
-        font-size: 1em;
-        padding: 0.434em 0.68em;
         color: $primary;
         font-weight: 500;
+        background-color: rgba(99, 99, 99, 0.24);
     }
 }
 .__pointer{

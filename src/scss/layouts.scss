@@ -229,31 +229,3 @@
 .__mr-7{
     margin-right: 7em;
 }
-
-@media (max-width: 1200px){
-    .__container-2, .__container{
-        width: 90%;
-    }
-    .__m-0-on-large{
-        margin: 0;
-    }
-    .__block-on-large{
-        display: block;;
-    }
-}
-@media (max-width: 900px){
-    .__m-0-on-mediam{
-        margin: 0;
-    }
-    .__block-on-mediam{
-        display: block;;
-    }
-}
-@media (max-width: 760px){
-    .__m-0-on-small{
-        margin: 0;
-    }
-    .__block-on-small{
-        display: block;;
-    }
-}
