@@ -11,7 +11,7 @@
         flex-direction: column;
     }
     .__hide-on-large{
-        display: none;
+        display: none !important;
     }
     .__viewport-large-title{
         font-size: 52px;
@@ -31,7 +31,7 @@
         flex-direction: column;
     }
     .__hide-on-mediam{
-        display: none;
+        display: none !important;
     }
     .__m-0-on-mediam{
         margin: 0;

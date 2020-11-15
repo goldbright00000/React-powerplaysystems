@@ -1,10 +1,12 @@
+@import '../../scss/colors.scss';
+
 .__table-wrapper{
     .__badges-wrapper{
         table-layout: fixed;
         margin: auto;
         border-spacing: 1em;
         td{
-            width: 25%;
+            min-width: 25%;
         }
     }
     .__main-grid{
@@ -32,45 +34,106 @@
     }
 }
 
-@media (min-width: 1200px){
-
+.__table-wrapper{
+    @media (max-width: 1200px){
+        .__badges-wrapper svg{
+            display: none;
+            white-space: nowrap;
+            clear: both;
+        }
+    }
 }
 
 .__table-wrapper{
     .__main-grid{
         display: grid;
-        grid-template-columns: auto auto auto auto auto;
-        grid-auto-rows: 1fr;
-        white-space: nowrap;
-        border-radius: 6px;
-        overflow: hidden;
-        >*{
+        grid-template-rows: 1fr 1fr;
+        >div{
             padding: 4.5px 24px;
-        }
-        >*:nth-last-child(1),
-        >*:nth-last-child(2),
-        >*:nth-last-child(3),
-        >*:nth-last-child(4),
-        >*:nth-last-child(5){
-            background: #17181a;
-        }
-    
-        >*:nth-child(10n + 1),
-        >*:nth-child(10n + 2),
-        >*:nth-child(10n + 3),
-        >*:nth-child(10n + 4),
-        >*:nth-child(10n + 5){
-            background: rgba(17, 17, 17, 0.8);
-        }
-    
-        >*:nth-child(1),
-        >*:nth-child(2),
-        >*:nth-child(3),
-        >*:nth-child(4),
-        >*:nth-child(5){
-            background: #111111;
-            display: flex;
+            .__info-icon{
+                top: -1em;
+            }
             align-items: center;
+            &:nth-child(odd){
+                background: rgba(17, 17, 17, 0.8);
+            }
+            &:first-child{
+                background: #111111;
+            }
+            display: grid;
+            grid-template-columns: 330px 18% 20% 15% auto;            
+        }
+    }
+}
+
+.__table-wrapper{
+    .__main-grid{
+        @media (max-width: 1200px) {
+            >div{
+                display: flex;
+                background: linear-gradient(to bottom, #111111, #232529);
+                margin:  1em 0;
+                flex-wrap: wrap;
+                padding: 5px 16px 16px 16px;
+                border-radius: 6px;
+                &:not(:first-child){
+                    margin: 1em 0;
+                }
+                .__type{
+                    width: 100%;
+                    >.__game-image{
+                        background: $primary;
+                        top: -10px;
+                        padding: 2.5px 5px;
+                        border-radius: 0 0 1em 1em;
+                        position: relative;
+                        >svg{
+                            color: #111111;
+                            width: 16px;
+                        }
+                    }
+                    .__info-icon{
+                        top: 0.4em;
+                        margin-left: 0.2em !important;
+                    }
+                    .__main{
+                        display: flex;
+                        justify-content: space-between;
+                        flex: 1;
+                        .__h6{
+                            font-size: 16px;
+                        }
+                    }
+                }
+                .__contest{
+                    position: absolute;
+                    top: 28px;
+                    left: 57px;
+                    font-size: 18px;
+                }
+                .__entries{
+                    width: 50%;
+                    margin: 1em 0;
+                }
+                .__prizes{
+                    width: 50%;
+                    text-align: right;
+                }
+                .__fee-charges{
+                    background-image: linear-gradient(to bottom, #fb6e00, rgba(251, 110, 0, 0.6));
+                    margin-left: auto;
+                    padding: 2px;
+                    border-radius: 1em;
+                    cursor: pointer;
+                    font-size: 14px;
+                    width: 8.57em;
+                    justify-content: center;
+                    display: flex;
+                    .__flex{
+                        margin: auto;
+                    }
+                }
+            }
         }
     }
 }

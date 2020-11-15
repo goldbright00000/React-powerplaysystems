@@ -19,15 +19,18 @@ const LivePowerPlay = props => (
         </table>
         <div className='__h6 __mt-2 __mb-1'>Most Popular</div>
         <div className='__main-grid'>
-            <div>Type</div>
-            <div>Contest</div>
-            <div>Entries (min)</div>
-            <div>Total Prizes</div>
-            <div></div>
+            <div className='__hide-on-large'>
+                <div>Type</div>
+                <div>Contest</div>
+                <div>Entries (min)</div>
+                <div>Total Prizes</div>
+                <div></div>
+            </div>
             <PowerPlayGridRow
                 type='Chase The Ace'
                 Icon={CasinoChips}
-                date='Oct 24, 2020 | 8:00PM ET'
+                date='Oct 24, 2020'
+                time='8:00PM ET'
                 contest='TDB'
                 entries='58589'
                 totalEntries='200000'
