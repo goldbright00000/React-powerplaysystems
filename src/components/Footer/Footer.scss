@@ -24,4 +24,38 @@
     .__mediam{
         letter-spacing: 2px;
     }
+    @media (max-width: 600px) {
+        .__footer-links{
+            grid-template-columns: auto;
+            grid-gap: initial;
+            >*{
+                padding: 0.5em;
+            }
+            .elm-1{
+                grid-row-start: 1;
+            }
+            .__add-border{
+                &::after{
+                    display: block;
+                    content: '';
+                    border-bottom: 1px solid;
+                    width: 100px;
+                    margin: auto;
+                    padding: 0.5em;
+                }
+            }
+            .elm-2{
+                grid-row-start: 2;
+            }
+            .elm-3{
+                grid-row-start: 3;
+            }
+            .elm-4{
+                grid-row-start: 4;
+            }
+            .elm-5{
+                grid-row-start: 5;
+            }
+        }
+    }
 }

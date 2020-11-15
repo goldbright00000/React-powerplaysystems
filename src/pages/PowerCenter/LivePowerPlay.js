@@ -143,8 +143,10 @@ const LivePowerPlay = props => (
                 />
             </div>
         </div>
-        <div className='__h2 __center'>Your Cash Balance: <span className='__primary-color'>$3,000</span></div>
-        <div className='__h2 __center __mt-1'>Your Powerplay Token Balance: <span className='__primary-color'>5,000 <img alt='' src={PowerPlayIcon} width='36' /></span></div>
+        <div className='__container'>
+            <div className='__h2 __center __resize'>Your Cash Balance: <span className='__primary-color'> $3,000</span></div>
+            <div className='__h2 __center __mt-1 __mb-2 __resize'>Your Powerplay Token Balance: <span className='__primary-color'> 5,000 <img alt='' src={PowerPlayIcon} width='36' /></span></div>
+        </div>
     </div>
 )
 
