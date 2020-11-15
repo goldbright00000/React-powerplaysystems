@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PowerPlayIcon from '../../assets/powerplay-icon.png';
 import Info from '../../icons/Info';
 
@@ -18,7 +18,7 @@ const PowerPlayGridRow = ({ type, Icon, date, time, contest, entries, totalEntri
                 </div>
             </div>
             <div className='__h5 __primary-color __flex __contest'>{contest}</div>
-            <div className='__entries'>
+            <div className='__entries __mr-a'>
                 <span className='__h6'>{addCommas(entries)}</span> of {addCommas(totalEntries)}
                 <div className='__flex'>
                     <span className='__subtitle'>{percentage} FULL</span>
@@ -32,11 +32,11 @@ const PowerPlayGridRow = ({ type, Icon, date, time, contest, entries, totalEntri
                 <div className='__mediam'>{prize}</div>
                 <div className='__subtitle __hide-on-large'>PRIZES</div>
             </div>
-            <div className='__h5 __fee-charges'>
+            <div className='__h5 __fee-charges __flex'>
                 {entryFee ? <div className='__flex __ml-a'>
                     {entryFee} 
                     <img src={PowerPlayIcon} className='__ml-s' alt='' /> <div className='__chevron __-right __hide-only-on-large'></div></div> :
-                    <div className='__chevron __-right __ml-a'>Free Entry</div>
+                    <div className='__flex __chevron __-right __ml-a'>Free Entry</div>
                 }
             </div>
         </div>

@@ -1,6 +1,9 @@
 .__footer{
-    background-image: linear-gradient(to bottom, #202124, #111111);
-    padding: 4em 0 5em 0;
+    background: linear-gradient(to bottom, #202124, #111111);
+    padding: 4em 0;
+    &.__style-2{
+        background: #17181a;
+    }
     .__footer-links{
         display: grid;
         grid-template-columns: auto auto auto;
@@ -17,5 +20,8 @@
         grid-row-start: 1;
         grid-row-end: 3;
         width: 9.3em;
+    }
+    .__mediam{
+        letter-spacing: 2px;
     }
 }

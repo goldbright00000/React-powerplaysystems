@@ -1,14 +1,6 @@
 @import '../../scss/colors.scss';
 
 .__table-wrapper{
-    .__badges-wrapper{
-        table-layout: fixed;
-        margin: auto;
-        border-spacing: 1em;
-        td{
-            min-width: 25%;
-        }
-    }
     .__main-grid{
         .__subtitle{
             color: rgba(242, 242, 242, 0.6);
@@ -34,17 +26,26 @@
     }
 }
 
-.__table-wrapper{
-    @media (max-width: 1200px){
-        .__badges-wrapper svg{
-            display: none;
-            white-space: nowrap;
-            clear: both;
+.__badges-wrapper{
+    .__grid{
+        display: grid;
+        grid-template-columns:  repeat(4, 1fr);
+        grid-gap: 1em;
+    }
+    overflow: auto;
+    white-space: nowrap;
+    @media (max-width: 1200px) {
+        svg {
+            display: none
         }
     }
 }
 
 .__table-wrapper{
+    .__grid-wrapper{
+        max-height: 495px;
+        overflow: auto;
+    }
     .__main-grid{
         display: grid;
         grid-template-rows: 1fr 1fr;
@@ -57,25 +58,31 @@
             &:nth-child(odd){
                 background: rgba(17, 17, 17, 0.8);
             }
+            &:nth-child(even){
+                background-color: #17181a;
+            }
             &:first-child{
                 background: #111111;
             }
             display: grid;
-            grid-template-columns: 330px 18% 20% 15% auto;            
+            grid-template-columns: 320px 20% auto 20% 120px;
         }
     }
 }
 
 .__table-wrapper{
-    .__main-grid{
-        @media (max-width: 1200px) {
+    @media (max-width: 1200px) {
+        margin: 0 0 1.6em 0 !important;
+        .__main-grid{
+            grid-template-columns: 1fr;
+            grid-gap: 1em;
             >div{
                 display: flex;
                 background: linear-gradient(to bottom, #111111, #232529);
-                margin:  1em 0;
                 flex-wrap: wrap;
                 padding: 5px 16px 16px 16px;
                 border-radius: 6px;
+                margin: 0 !important;
                 &:not(:first-child){
                     margin: 1em 0;
                 }
@@ -112,12 +119,18 @@
                     font-size: 18px;
                 }
                 .__entries{
+                    min-width: 150px;
                     width: 50%;
                     margin: 1em 0;
+                    white-space: nowrap;
+                    font-size: 12px;
+                    .__h6{
+                        font-size: 16px;
+                    }
                 }
                 .__prizes{
-                    width: 50%;
                     text-align: right;
+                    width: 50%;
                 }
                 .__fee-charges{
                     background-image: linear-gradient(to bottom, #fb6e00, rgba(251, 110, 0, 0.6));
@@ -127,10 +140,11 @@
                     cursor: pointer;
                     font-size: 14px;
                     width: 8.57em;
+                    height: 28px;
                     justify-content: center;
                     display: flex;
                     .__flex{
-                        margin: auto;
+                        margin: auto !important;
                     }
                 }
             }

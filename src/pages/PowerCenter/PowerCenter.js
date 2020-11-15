@@ -4,6 +4,7 @@ import Header from '../../components/Header/Header';
 import LivePowerPlay from './LivePowerPlay';
 import './PowerCenter.scss';
 import './table.scss';
+import Footer from '../../components/Footer/Footer'
 
 const PowerCenter = props => {
     const { url } = props.match;
@@ -35,6 +36,7 @@ const PowerCenter = props => {
             <div className='__container'>
                 <Route path={url} component={LivePowerPlay} />
             </div>
+            <Footer isBlack={true} />
         </div>
     )
 }
