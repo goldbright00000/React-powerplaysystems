@@ -65,6 +65,11 @@
             }
             &:first-child{
                 background: #111111;
+                position: sticky;
+                top: 0;
+                left: 0;
+                position: -webkit-sticky;
+                z-index: 1;
             }
             display: grid;
             grid-template-columns: 320px 20% auto 20% 120px;

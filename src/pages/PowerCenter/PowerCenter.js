@@ -26,7 +26,7 @@ const PowerCenter = props => {
                         <div className='__flex __container __mb-6'>
                             <NavLink exact to={`${url}`} className='__mt-a __f1 __block'>
                                 <div className='__h2 __bolder __primary-color __mt-5'>Live-Play <br /> Fantasy Sports</div>
-                                <div className='__btn __mt-4 __h5 __shadow __hide-on-large'>Explore</div>
+                                <div className='__btn __mt-4 __h5 __hide-on-large'>Explore</div>
                             </NavLink>
                             <NavLink to={`${url}/contests`} className='__f1 __block'>
                                 <div className='__h2 __bolder __primary-color __mt-5'>Interactive <br /> Promotional Contests</div>
@@ -36,8 +36,8 @@ const PowerCenter = props => {
                     </div>
                 </div>
                 <div className='__container'>
-                    <Route exact path={url} component={LivePowerPlay} />
-                    <Route path={`${url}/contests`} component={InteractiveContests} />
+                    <Route exact path={url} component={InteractiveContests} />
+                    <Route path={`${url}/contests`} component={LivePowerPlay} />
                 </div>
             </div>
             <Footer isBlack={true} />

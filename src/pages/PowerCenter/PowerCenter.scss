@@ -53,18 +53,20 @@
             color: #111111;
         }
         a{
-            .__btn{
-                box-shadow: 0 3px 27px -2px rgba(251, 110, 0, 0.34);
-            }
-            &.active .__btn{
+            &:not(.active) .__btn{
                 background: #f2f2f2;
                 border-color: #f2f2f2;
                 box-shadow: 0 3px 27px -2px rgba(255, 255, 255, 0.34);
             }
-            &:not(.active):hover .__btn{
-                color: #f2f2f2;
-                box-shadow: 0 3px 27px -2px rgba(255, 255, 255, 0.34);
+            &.active .__btn{
+                box-shadow: 0 3px 27px -2px rgba(251, 110, 0, 0.34);
             }
+            // &.active .__btn{
+            // }
+            // &:not(.active):hover .__btn{
+            //     color: #f2f2f2;
+            //     box-shadow: 0 3px 27px -2px rgba(255, 255, 255, 0.34);
+            // }
         }
         
         @media (max-width: 1200px) {
