@@ -5,6 +5,7 @@ import LivePowerPlay from './LivePowerPlay';
 import './PowerCenter.scss';
 import './table.scss';
 import Footer from '../../components/Footer/Footer'
+import InteractiveContests from './InteractiveContests';
 
 const PowerCenter = props => {
     const { url } = props.match;
@@ -34,7 +35,8 @@ const PowerCenter = props => {
                 </div>
             </div>
             <div className='__container'>
-                <Route path={url} component={LivePowerPlay} />
+                <Route exact path={url} component={LivePowerPlay} />
+                <Route path={`${url}/contests`} component={InteractiveContests} />
             </div>
             <Footer isBlack={true} />
         </div>
