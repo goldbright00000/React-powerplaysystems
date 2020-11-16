@@ -47,7 +47,6 @@
 .__table-wrapper{
     .__grid-wrapper{
         max-height: 495px;
-        overflow: auto;
     }
     .__main-grid{
         display: grid;
@@ -84,6 +83,9 @@
             .__primary-color{
                 font-size: 30px;
             }
+        }
+        .__grid-wrapper{
+            max-height: initial;
         }
         .__main-grid{
             grid-template-columns: 1fr;

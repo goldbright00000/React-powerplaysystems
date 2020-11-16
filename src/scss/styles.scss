@@ -150,7 +150,9 @@ input::-webkit-inner-spin-button {
     position: absolute;
 }
 
-.__hide-scrollbar{
+.__scrollbar{
+    overflow: auto;
+    cursor: pointer;
     &::-webkit-scrollbar {
         width: 0;
     }

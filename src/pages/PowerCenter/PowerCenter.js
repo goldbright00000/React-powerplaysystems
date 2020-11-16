@@ -36,7 +36,7 @@ const PowerCenter = props => {
                     </div>
                 </div>
                 <div className='__container'>
-                    <Route ex path={url} component={LivePowerPlay} />
+                    <Route exact path={url} component={LivePowerPlay} />
                     <Route path={`${url}/contests`} component={InteractiveContests} />
                 </div>
             </div>
