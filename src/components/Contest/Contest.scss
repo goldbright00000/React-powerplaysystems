@@ -1,0 +1,66 @@
+@import '../../scss/colors.scss';
+
+.__contest{
+    .__main{
+        box-shadow: 0 4px 8px 0 rgba(4, 4, 4, 0.4);
+        border-radius: 5px;
+        background-color: #202124;
+        border: 2px solid #202124;
+        width: 75%;
+        &.__active{
+            border-color: $primary;
+        }
+        .__border{
+            border-left: solid 1px #111;
+            height: 100%;
+            height: 160px;
+            margin: auto;
+        }
+    }
+    .__board{
+        padding: 1.2em;
+        .__title{
+            border-bottom: 1px solid;
+            line-height: 1em;
+        }
+        .__keyname{
+            width: 100px;
+        }
+        .__wagar{
+            border: solid 1.5px rgba(242, 242, 242, 0.6);
+            padding: 3px 38px 3px 10px;
+            border-radius: 1em;
+        }
+        .__wagar-badge-wrapper{
+            color: rgba(242, 242, 242, 0.6);
+        }
+        &.__active{
+            .__title, .__checkbox:checked ~ *{
+                color: $primary;
+            }
+            .__return{
+                color: #f2f2f2;
+            }
+            .__wagar{
+                color: #fff;
+                border-color: $primary;
+                >div{
+                    color: $primary;
+                }
+            }
+        }
+    }
+    .__vs{
+        -webkit-text-stroke: 1px #f2f2f2;
+        margin: 0.7em;
+        text-stroke: 1px #f2f2f2;
+        color: transparent;
+        font-family: Teko;
+        text-shadow: 0 2px 6px rgba(4, 4, 4, 0.5);
+    }
+}
+
+.VS {
+    text-shadow: none;
+    font-size: 32px;
+}
