@@ -1,0 +1,21 @@
+@import '../../scss/colors.scss';
+
+.__ContestRules{
+    .__rules{
+        background-color: #17181a;
+        padding: 2em;
+        border-radius: 9px;
+    }
+    .__image-wrapper{
+        z-index: 1;
+        position: relative;
+        margin-bottom: -3em;
+        span::after{
+            content: '';
+            display: block;
+            width: 2.7em;
+            border-bottom: 4px solid $primary;
+            border-radius: 4px;
+        }
+    }
+}

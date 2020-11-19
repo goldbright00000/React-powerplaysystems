@@ -53,12 +53,6 @@
         top: -0.4em;
     }
 }
-.__relative{
-    position: relative;
-}
-.__absolute{
-    position: absolute;
-}
 .__container{
     width: 86%;
     margin-left: auto;
@@ -115,16 +109,16 @@
     margin: 5em;
 }
 .__mt-s{
-    margin-top: 0.4em;
+    margin-top: 0.5em !important;
 }
 .__mb-s{
-    margin-bottom: 0.4em;
+    margin-bottom: 0.5em !important;
 }
 .__mr-s{
-    margin-right: 0.4em !important;
+    margin-right: 0.5em !important;
 }
 .__ml-s{
-    margin-left: 0.4em !important;
+    margin-left: 0.5em !important;
 }
 .__ml-1{
     margin-left: 1em !important;
@@ -138,7 +132,6 @@
 .__mb-1{
     margin-bottom: 1em !important;
 }
-
 .__ml-2{
     margin-left: 2em !important;
 }

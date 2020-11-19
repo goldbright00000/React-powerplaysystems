@@ -4,6 +4,9 @@
 .__uppercase{
     text-transform: uppercase;
 }
+svg{
+    height: 1.3em;
+}
 .__btn{
     padding: 0.55em 1.75em;
     @extend .__primary;

@@ -6,6 +6,8 @@ import Trophy from '../../icons/Trophy';
 import PowerplayIcon from '../../assets/powerplay-icon.png'
 import Search from '../../icons/Search';
 import Contest from '../../components/Contest/Contest';
+import Scrollbar from '../../utility/Scrollbar';
+import ContestRules from '../../components/ContestRules/ContestRules';
 
 const PowerBetContest = props => (
     <div className='__PowerBetContest'>
@@ -50,16 +52,17 @@ const PowerBetContest = props => (
                         <div className='__outline-badge'>NFC West</div>
                     </div>
                 </div>
-                <div className='__players-wrapper __p-1 __mt-2'>
+                <Scrollbar className='__players-wrapper __mt-2 __mb-6'>
+
                     <Contest
-                        player1= {{
+                        player1={{
                             name: 'Denver Broncos',
                             pointerSpeed: "+11/-108",
                             moneyLine: '+360',
                             wagar: '$200',
                             return: '$999,999'
                         }}
-                        player2= {{
+                        player2={{
                             name: 'Buffalo Bills',
                             pointerSpeed: "+11/-108",
                             moneyLine: '+360',
@@ -75,7 +78,80 @@ const PowerBetContest = props => (
                             return: '$0',
                         }}
                     />
-                </div>
+                    <Contest
+                        player1={{
+                            name: 'Washinghton Redskins',
+                            pointerSpeed: "+11/-108",
+                            moneyLine: '+360',
+                            wagar: '$200',
+                            return: '$999,999'
+                        }}
+                        player2={{
+                            name: 'Arizona Cardinals',
+                            pointerSpeed: "+11/-108",
+                            moneyLine: '+360',
+                            wagar: '$0',
+                            return: '$0'
+                        }}
+                        score={{
+                            over: '44.5',
+                            over2: '1.90',
+                            under: '44.50',
+                            under2: '1.90',
+                            wagar: '$0',
+                            return: '$0',
+                        }}
+                    />
+                    <Contest
+                        player1={{
+                            name: 'Denver Broncos',
+                            pointerSpeed: "+11/-108",
+                            moneyLine: '+360',
+                            wagar: '$200',
+                            return: '$999,999'
+                        }}
+                        player2={{
+                            name: 'Buffalo Bills',
+                            pointerSpeed: "+11/-108",
+                            moneyLine: '+360',
+                            wagar: '$0',
+                            return: '$0'
+                        }}
+                        score={{
+                            over: '44.5',
+                            over2: '1.90',
+                            under: '44.50',
+                            under2: '1.90',
+                            wagar: '$0',
+                            return: '$0',
+                        }}
+                    />
+                    <Contest
+                        player1={{
+                            name: 'Washinghton Redskins',
+                            pointerSpeed: "+11/-108",
+                            moneyLine: '+360',
+                            wagar: '$200',
+                            return: '$999,999'
+                        }}
+                        player2={{
+                            name: 'Arizona Cardinals',
+                            pointerSpeed: "+11/-108",
+                            moneyLine: '+360',
+                            wagar: '$0',
+                            return: '$0'
+                        }}
+                        score={{
+                            over: '44.5',
+                            over2: '1.90',
+                            under: '44.50',
+                            under2: '1.90',
+                            wagar: '$0',
+                            return: '$0',
+                        }}
+                    />
+                </Scrollbar>
+                <ContestRules />
             </div>
             <div className='__right-panel'>
 
