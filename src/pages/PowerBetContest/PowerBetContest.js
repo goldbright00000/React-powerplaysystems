@@ -17,8 +17,8 @@ const PowerBetContest = props => (
                 <div className='__viewport-title __bolder'>2020 NFL <span className='__primary-color'>PowerBet Contest</span></div>
                 <div className='__h5 __light'>Pick 8 Teams & use Powerplays to win!</div>
                 <div className='__flex __m-a __flex-btns __mt-2 __mb-4'>
-                    <button className='__btn __mediam __style-2 __f1 __white-color'><Document />Contest Rules</button>
-                    <button className='__btn __style-2 __mediam __f1 __white-color'><Trophy />Prize Grid</button>
+                    <button className='__btn __mediam __style-2 __f1 __white-color'><Document className='__mr-s' />Contest Rules</button>
+                    <button className='__btn __style-2 __mediam __f1 __white-color'><Trophy className='__mr-s' />Prize Grid</button>
                 </div>
                 <div className='__winner-prize'>Turn $2,000 into $10,000 and win<span className='__badge __light-bold __ml-s'>$1000 cash</span></div>
                 <div className='__h5 __mt-2'>
@@ -52,7 +52,7 @@ const PowerBetContest = props => (
                         <div className='__outline-badge'>NFC West</div>
                     </div>
                 </div>
-                <Scrollbar className='__players-wrapper __mt-2 __mb-6'>
+                <Scrollbar className='__players-wrapper __mt-2'>
 
                     <Contest
                         player1={{
@@ -70,9 +70,9 @@ const PowerBetContest = props => (
                             return: '$0'
                         }}
                         score={{
-                            over: '44.5',
+                            over1: '44.5',
                             over2: '1.90',
-                            under: '44.50',
+                            under1: '44.5',
                             under2: '1.90',
                             wagar: '$0',
                             return: '$0',
@@ -94,9 +94,9 @@ const PowerBetContest = props => (
                             return: '$0'
                         }}
                         score={{
-                            over: '44.5',
+                            over1: '44.5',
                             over2: '1.90',
-                            under: '44.50',
+                            under1: '4.50',
                             under2: '1.90',
                             wagar: '$0',
                             return: '$0',
@@ -118,9 +118,9 @@ const PowerBetContest = props => (
                             return: '$0'
                         }}
                         score={{
-                            over: '44.5',
+                            over1: '44.5',
                             over2: '1.90',
-                            under: '44.50',
+                            under1: '4.50',
                             under2: '1.90',
                             wagar: '$0',
                             return: '$0',
@@ -142,9 +142,9 @@ const PowerBetContest = props => (
                             return: '$0'
                         }}
                         score={{
-                            over: '44.5',
+                            over1: '44.5',
                             over2: '1.90',
-                            under: '44.50',
+                            under1: '44.5',
                             under2: '1.90',
                             wagar: '$0',
                             return: '$0',
@@ -154,7 +154,7 @@ const PowerBetContest = props => (
                 <ContestRules />
             </div>
             <div className='__right-panel'>
-
+                
             </div>
         </div>
     </div>

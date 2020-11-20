@@ -7,14 +7,12 @@
         border-radius: 5px;
         background-color: #202124;
         border: 2px solid #202124;
-        width: 75%;
         &.__active{
             border-color: $primary;
         }
         .__border{
             border-left: solid 1px #111;
             height: 160px;
-            margin: auto;
         }
     }
     .__contest-btn{
@@ -40,12 +38,9 @@
             border-bottom: 1px solid;
             line-height: 1em;
         }
-        .__keyname{
-            width: 100px;
-        }
         .__wagar{
             border: solid 1.5px rgba(242, 242, 242, 0.6);
-            padding: 3px 38px 3px 10px;
+            padding: 1.2px 38px 3px 10px;
             border-radius: 1em;
         }
         .__wagar-badge-wrapper{

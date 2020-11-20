@@ -20,20 +20,23 @@ svg{
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    svg{
-        margin-right: 0.4em;
-    }
     &.__style-2{
         background: transparent;
         border-color: currentColor;
     }
     &.__style-3{
-        box-shadow: 0 3px 27px 0 #fb6e00;
         border-radius: 2em;
         padding: 0.4em 2.29em;
     }
     &.__shadow{
         box-shadow: 0 3px 27px 0 rgba(251, 110, 0, 0.48);
+    }
+    &.__shadow-2{
+        box-shadow: 0 3px 27px 0 #fb6e00;
+    }
+    &.__large-btn{
+        padding: 0.563em 1.14em;
+        min-width: 10.625em;
     }
 }
 .__primary-color{
@@ -48,6 +51,11 @@ svg{
 .__white-color{
     color: #fff !important;
     border-color: #fff !important;
+}
+.__white{
+    background: #fff;
+    border-color: #fff;
+    color: #000;
 }
 .__unordered-list{
     list-style-type: none;

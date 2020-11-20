@@ -13,7 +13,7 @@ const Header2 = props => (
                 <li><NavLink to='/about-us'>About Us</NavLink></li>
                 <li><NavLink to='/partner-with-us'>Partner With Us</NavLink></li>
                 <li><NavLink to='/sign-in' className='__ml-1'>Sign In</NavLink></li>
-                <li><NavLink to='/get-started' className='__btn __bold __style-3 __small'>Get Started</NavLink></li>
+                <li><NavLink to='/get-started' className='__btn __large-btn __shadow-2 __bold __style-3'>Get Started</NavLink></li>
             </ul>
         </div>
     </header>

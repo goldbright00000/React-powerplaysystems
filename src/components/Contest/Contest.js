@@ -4,7 +4,7 @@ import Clock from '../../icons/Clock';
 import Crown from '../../icons/Crown';
 import './Contest.scss'
 
-const Contest = ({ player1, player2 }) => {
+const Contest = ({ player1, player2, score }) => {
     const [isFirstPointerChecked, setIsFirstPointerChecked] = useState(false);
     const [isFirstScoreChecked, setIsFirstScoreChecked] = useState(false);
     const [isSecPointerChecked, setIsSecPointerChecked] = useState(false);
@@ -16,19 +16,18 @@ const Contest = ({ player1, player2 }) => {
     const onFirstScoreChange = e => setIsFirstScoreChecked(e.target.checked);
     const onSecPlayerPontChange = e => setIsSecPointerChecked(e.target.checked);
     const onSecScoreChange = e => setIsSecScoreChecked(e.target.checked);
-    const onOverChange = e => setIsOverChecked(e.target.value);
-    const onUnderChange = e => setIsUnderChecked(e.target.value);
+    const onOverChange = e => setIsOverChecked(e.target.checked);
+    const onUnderChange = e => setIsUnderChecked(e.target.checked);
 
-    const placeTheBet = isFirstPointerChecked || isFirstScoreChecked || isSecPointerChecked || isSecScoreChecked;
+    const placeTheBet = isFirstPointerChecked || isFirstScoreChecked || isSecPointerChecked || isSecScoreChecked ||isOverChecked || isUnderChecked;
 
     return (
         <div className='__contest __flex
         <div>$999,999</div>
         <div>To Return <span >$999,999</span></div>'>
-            <div className={`__main ${placeTheBet ? '__active' : ''}`}>
+            <div className={`__main __f1 ${placeTheBet ? '__active' : ''}`}>
                 <div className='__flex'>
-
-                    <div className={`__board ${isFirstPointerChecked || isFirstScoreChecked ? '__active' : ''}`}>
+                    <div className={`__board __f1 ${isFirstPointerChecked || isFirstScoreChecked ? '__active' : ''}`}>
                         <div className='__mediam __bold __title __inline-block'>{player1.name}</div>
                         <label className='__flex __mt-1 __mb-s'>
                             <input type='checkbox' className='__checkbox __mr-1' checked={isFirstPointerChecked} onChange={onFirstPlayerPontChange} />
@@ -41,47 +40,49 @@ const Contest = ({ player1, player2 }) => {
                             <div>{player1.moneyLine}</div>
                         </label>
                         <div className='__wagar-badge-wrapper'>
-                            <div className='__wagar __flex __sb __mt-2 __mb-s'>Wagar <div>{player1.wagar}</div> </div>
+                            <div className='__wagar __flex __sb __mt-2 __m-s'>Wagar <div>{player1.wagar}</div> </div>
                             <div className='__return __ml-1'>To Return {player1.return}</div>
                         </div>
                     </div>
 
-                    <div className='__h3 __vs __m-a'>VS</div>
+                    <div className='__m-1 __mediam'><div className='__h3 __vs'>VS</div></div>
 
-                    <div className={`__board ${isSecPointerChecked || isSecScoreChecked ? '__active' : ''}`}>
+                    <div className={`__board __f1 ${isSecPointerChecked || isSecScoreChecked ? '__active' : ''}`}>
                         <div className='__mediam __bold __title __inline-block'>{player2.name}</div>
                         <label className='__flex __mt-1 __mb-s'>
                             <input type='checkbox' className='__checkbox __mr-1' checked={isSecPointerChecked} onChange={onSecPlayerPontChange} />
-                            <div className='__keyname'>Point Spread</div>
+                            <div className='__f1'>Point Spread</div>
                             <div>{player2.pointerSpeed}</div>
                         </label>
                         <label className='__flex'>
                             <input type='checkbox' className='__checkbox __mr-1' checked={isSecScoreChecked} onChange={onSecScoreChange} />
-                            <div className='__keyname'>Money Line</div>
+                            <div className='__f1'>Money Line</div>
                             <div>{player2.moneyLine}</div>
                         </label>
                         <div className='__wagar-badge-wrapper'>
-                            <div className='__wagar __flex __sb __mt-2 __mb-s'>Wagar <div>{player2.wagar}</div> </div>
+                            <div className='__wagar __flex __sb __mt-2 __m-s'>Wagar <div>{player2.wagar}</div> </div>
                             <div className='__return __ml-1'>To Return {player2.return}</div>
                         </div>
                     </div>
 
-                    <div className='__border'></div>
+                    <div className='__border __m-1'></div>
 
-                    <div className={`__board __mr-1 ${isOverChecked || isUnderChecked ? '__active' : ''}`}>
+                    <div className={`__board __f1 ${isOverChecked || isUnderChecked ? '__active' : ''}`}>
                         <div className='__mediam __bold __title __inline-block'>Score Total</div>
                         <label className='__flex __mt-1 __mb-s'>
                             <input type='checkbox' className='__checkbox __mr-1' checked={isOverChecked} onChange={onOverChange} />
-                            <div className='__keyname'>Point Spread</div>
-                            <div>{player1.pointerSpeed}</div>
+                            <div className='__f1'>Over</div>
+                            <div className='__f1 __center'>{score.over1}</div>
+                            <div className='__f1 __right'>{score.over2}</div>
                         </label>
                         <label className='__flex'>
                             <input type='checkbox' className='__checkbox __mr-1' checked={isUnderChecked} onChange={onUnderChange} />
-                            <div className='__keyname'>Money Line</div>
-                            <div>{player1.moneyLine}</div>
+                            <div className='__f1'>Under</div>
+                            <div className='__f1 __center'>{score.under1}</div>
+                            <div className='__f1 __right'>{score.under2}</div>
                         </label>
                         <div className='__wagar-badge-wrapper'>
-                            <div className='__wagar __flex __sb __mt-2 __mb-s'>Wagar <div>{player1.wagar}</div> </div>
+                            <div className='__wagar __flex __sb __mt-2 __m-s'>Wagar <div>{player1.wagar}</div> </div>
                             <div className='__return __ml-1'>To Return {player1.return}</div>
                         </div>
                     </div>
@@ -93,7 +94,7 @@ const Contest = ({ player1, player2 }) => {
                     <div className='__flex'><Crown className='__mr-s' />Empower Field</div>
                 </div>
             </div>
-            <div className='__total-wagered __center __ml-3 __mr-3 __f1'>
+            <div className='__total-wagered __center __m-2'>
                 Total Wagered
                 <div className='__contest-btn __bold __mt-s __mb-1'>$999,999</div>
                 <div className='__contest-btn'>To Return <b className='__bold'>$999,999</b></div>
