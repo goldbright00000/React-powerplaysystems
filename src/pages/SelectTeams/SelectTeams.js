@@ -1,6 +1,6 @@
 import React from 'react';
 import Header2 from '../../components/Header2/Header2';
-import './PowerBetContest.scss';
+import './SelectTeams.scss';
 import Document from '../../icons/Document';
 import Trophy from '../../icons/Trophy';
 import PowerplayIcon from '../../assets/powerplay-icon.png'
@@ -8,9 +8,11 @@ import Search from '../../icons/Search';
 import Contest from '../../components/Contest/Contest';
 import Scrollbar from '../../utility/Scrollbar';
 import ContestRules from '../../components/ContestRules/ContestRules';
+import Trash from '../../icons/Trash';
+import Footer from '../../components/Footer/Footer';
 
 const PowerBetContest = props => (
-    <div className='__PowerBetContest'>
+    <div className='__SelectTeams'>
         <Header2 />
         <div className='__intoduction __background __center'>
             <div className='__mt-6 __mb-7'>
@@ -21,7 +23,7 @@ const PowerBetContest = props => (
                     <button className='__btn __style-2 __mediam __f1 __white-color'><Trophy className='__mr-s' />Prize Grid</button>
                 </div>
                 <div className='__winner-prize'>Turn $2,000 into $10,000 and win<span className='__badge __light-bold __ml-s'>$1000 cash</span></div>
-                <div className='__h5 __mt-2'>
+                <div className='__h5 __small-line-height __mt-2'>
                     Start with <span className='__primary-color'>$1,000 Powerplay money</span>, whoever turns
                     <div className='__mt-s'>the highest return, <span className='__primary-color'>will win $2,000 Real Money!</span></div>
                 </div>
@@ -29,7 +31,7 @@ const PowerBetContest = props => (
         </div>
         <div className='__main __flex-stretch'>
             <div className='__container-3 __mt-7 __mb-7 __f1'>
-                <div className='__flex __sb'>
+                <div className='__flex __flex-start __sb'>
                     <div>
                         <div className='__h3'>Select your teams</div>
                         <div className='__h6 __flex __mb-2'>
@@ -154,9 +156,91 @@ const PowerBetContest = props => (
                 <ContestRules />
             </div>
             <div className='__right-panel'>
-                
+                <div className='__center __main __mt-7'>
+                    <div className='__inline-block'>
+                        <div className='__h5 __defaul-font-weight __mb-s'>Potential Return</div>
+                        <div className='__badge __h3s __small-line-height __right-panel-badge'>$999,999</div>
+                        <div className='__right-border __small __ml-a __mr-a __mt-2 __mb-1'></div>
+                        <div className='__h5 __defaul-font-weight __mediam-line-height'>Total Wagered</div>
+                        <div className='__h3s __light-bold'>$2,000</div>
+                    </div>
+                    <div className='__left __mt-5'>
+                        <div className='__light-black __mediam __mb-s'>2/8 Teams Selected</div>
+                        <Scrollbar className='__card'>
+                            <div>
+                                <div>
+                                    <div className='__mediam'>HOU Texans</div>
+                                    <div className='__light-black'>U  44.5  1.90</div>
+                                </div>
+                                <div className='__light-black __m-a __mt-0'> vs </div>
+                                <div>
+                                    <div className='__mediam'>NY Jets</div>
+                                    <div className='__primary-color __center __mediam'>$999,999</div>
+                                </div>
+                                <div className='__trash __pointer __ml-1 __mt-a __mb-a __flex'>
+                                    <Trash className='__m-a' />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div className='__mediam'>MIA Dolphins</div>
+                                    <div className='__light-black'>To win  -110</div>
+                                </div>
+                                <div className='__ml-a'>
+                                    <div className='__light-black'>Money Line</div>
+                                    <div className='__primary-color __center __mediam'>$999,999</div>
+                                </div>
+                                <div className='__trash __pointer __ml-1 __mt-a __mb-a __flex'>
+                                    <Trash className='__m-a' />
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div className='__mediam'>IND Colts</div>
+                                    <div className='__light-black'>-2.5  1.86</div>
+                                </div>
+                                <div className='__ml-a'>
+                                    <div className='__light-black'>Point Spread</div>
+                                    <div className='__primary-color __center __mediam'>$999,999</div>
+                                </div>
+                                <div className='__trash __pointer __ml-1 __mt-a __mb-a __flex'>
+                                    <Trash className='__m-a' />
+                                </div>
+                            </div>
+                            <div>
+                                <div className='__mediam __light-black __mt-a __mb-a'>Not Selected</div>
+                            </div>
+                            <div>
+                                <div className='__mediam __light-black __mt-a __mb-a'>Not Selected</div>
+                            </div>
+                            <div>
+                                <div className='__mediam __light-black __mt-a __mb-a'>Not Selected</div>
+                            </div>
+                            <div>
+                                <div className='__mediam __light-black __mt-a __mb-a'>Not Selected</div>
+                            </div>
+                            <div>
+                                <div className='__mediam __light-black __mt-a __mb-a'>Not Selected</div>
+                            </div>
+                        </Scrollbar>
+                        <form className='__mt-1 __right-form'>
+                            <div className='__flex __flex-center'>
+                                <label className='__flex __mr-4'>
+                                    <input type='checkbox' className='__checkbox' defaultChecked={true} />
+                                    <span className='__ml-s'>Bets</span>
+                                </label>
+                                <label className='__flex'>
+                                    <input type='checkbox' className='__checkbox' />
+                                    <span className='__ml-s'>Return</span>
+                                </label>
+                            </div>
+                            <button className='__btn __mt-2 __mediam __shadow __default-font-weight __style-3'>Submit</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
+        <Footer isBlack={true} />
     </div>
 )
 

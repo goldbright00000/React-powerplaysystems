@@ -74,7 +74,7 @@
     padding: 0;
 }
 .__p-1{
-    padding: 1em;
+    padding: 1em !important;
 }
 .__pl-1{
     padding-left: 1em;
@@ -112,6 +112,18 @@
 }
 .__m-5{
     margin: 5em;
+}
+.__mt-0{
+    margin-top: 0;
+}
+.__mb-0{
+    margin-bottom: 0;
+}
+.__ml-0{
+    margin-left: 0;
+}
+.__mr-0{
+    margin-right: 0;
 }
 .__mt-s{
     margin-top: 0.5em !important;

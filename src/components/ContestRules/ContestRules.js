@@ -1,12 +1,11 @@
 import React from 'react';
 import book from '../../assets/gaming.svg';
 import './ContestRules.scss';
-import gaurd from '../../assets/group-46.png';
 import check from '../../assets/check.svg';
 import LeftArrow from '../../icons/LeftArrow';
 
 const ContestRules = props => (
-    <div className='__ContestRules __p-3 __m-1 __relative'>
+    <div className='__ContestRules __p-3 __relative'>
             <div className='__rules-header __flex __flex-start'>
                 <div className='__flex-start __flex __mr-1s'>
                     <img src={check} alt='' />

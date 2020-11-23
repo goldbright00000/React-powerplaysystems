@@ -11,7 +11,7 @@ const Header = props => (
                 <span></span>
                 <span></span>
             </button>
-            <ul className='__navlinks __flex'>
+            <ul className='__navlinks __flex' onClick={() => window.screenTop()}>
                 <li><NavLink to='/power-center'>Power Center</NavLink></li>
                 <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li>
                 <li><NavLink to='/login'>Log In</NavLink></li>

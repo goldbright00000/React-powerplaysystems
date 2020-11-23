@@ -35,7 +35,7 @@ svg{
         box-shadow: 0 3px 27px 0 #fb6e00;
     }
     &.__large-btn{
-        padding: 0.563em 1.14em;
+        padding: 0.563em 1.1em;
         min-width: 10.625em;
     }
 }
@@ -137,6 +137,11 @@ input::-webkit-inner-spin-button {
     font-size: 15px;
     border-radius: 2em;
     color: #fff;
+}
+label{
+    .__checkbox:checked + span{
+        color: $primary !important;
+    }
 }
 .__checkbox{
     padding: 0;

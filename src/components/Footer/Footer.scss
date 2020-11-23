@@ -1,5 +1,7 @@
+@import '../../scss/colors.scss';
+
 .__footer{
-    background: linear-gradient(to bottom, #202124, #111111);
+    background: linear-gradient(to bottom, $lightBlack, $black);
     padding: 4em 0;
     &.__style-2{
         background: #17181a;

@@ -58,13 +58,13 @@
             }
             align-items: center;
             &:nth-child(odd){
-                background: rgba(17, 17, 17, 0.8);
+                background: rgba($color: $black, $alpha: 0.8);
             }
             &:nth-child(even){
                 background-color: #17181a;
             }
             &:first-child{
-                background: #111111;
+                background: $black;
                 position: sticky;
                 top: 0;
                 left: 0;
@@ -97,7 +97,7 @@
             grid-gap: 1em;
             >div{
                 display: flex;
-                background: linear-gradient(to bottom, #111111, #232529);
+                background: linear-gradient(to bottom, $black, #232529);
                 flex-wrap: wrap;
                 padding: 5px 16px 16px 16px;
                 border-radius: 6px;
@@ -114,7 +114,7 @@
                         border-radius: 0 0 1em 1em;
                         position: relative;
                         >svg{
-                            color: #111111;
+                            color: $black;
                             width: 16px;
                         }
                     }

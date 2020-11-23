@@ -1,10 +1,9 @@
 import { Switch, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage/HomePage';
-import SelectTeamsPage from './pages/SelectTeamsPage/SelectTeamsPage';
 import PowerPlaySponsorsPage from './pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage';
 import SponserAContestPage from './pages/SponserAContestPage/SponserAContestPage';
 import PowerCenter from './pages/PowerCenter/PowerCenter';
-import PowerBetContest from './pages/PowerBetContest/PowerBetContest';
+import SelectTeams from './pages/SelectTeams/SelectTeams';
 
 const App = props => (
     <Switch>
@@ -12,8 +11,7 @@ const App = props => (
         <Route path='/power-play-sponsors/sponsor-a-contest' component={SponserAContestPage} />
         <Route exact path='/' component={HomePage} />
         <Route path='/power-center' component={PowerCenter} />
-        <Route path='/select-teams' component={SelectTeamsPage} />
-        <Route path='/powerbet-contest' component={PowerBetContest} />
+        <Route path='/select-teams' component={SelectTeams} />
     </Switch>   
 )
 
