@@ -4,6 +4,7 @@ import PowerPlaySponsorsPage from './pages/PowerPlaySponsorsPage/PowerPlaySponso
 import SponserAContestPage from './pages/SponserAContestPage/SponserAContestPage';
 import PowerCenter from './pages/PowerCenter/PowerCenter';
 import SelectTeams from './pages/SelectTeams/SelectTeams';
+import PowerBetLive from './pages/PowerBetLive/PowerBetLive';
 
 const App = props => (
     <Switch>
@@ -12,6 +13,7 @@ const App = props => (
         <Route exact path='/' component={HomePage} />
         <Route path='/power-center' component={PowerCenter} />
         <Route path='/select-teams' component={SelectTeams} />
+        <Route path='/powerbet-live' component={PowerBetLive} />
     </Switch>   
 )
 

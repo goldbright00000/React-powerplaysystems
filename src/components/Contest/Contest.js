@@ -22,9 +22,7 @@ const Contest = ({ player1, player2, score }) => {
     const placeTheBet = isFirstPointerChecked || isFirstScoreChecked || isSecPointerChecked || isSecScoreChecked ||isOverChecked || isUnderChecked;
 
     return (
-        <div className='__contest __flex
-        <div>$999,999</div>
-        <div>To Return <span >$999,999</span></div>'>
+        <div className='__contest __flex'>
             <div className={`__main __f1 ${placeTheBet ? '__active' : ''}`}>
                 <div className='__flex'>
                     <div className={`__board __f1 ${isFirstPointerChecked || isFirstScoreChecked ? '__active' : ''}`}>
