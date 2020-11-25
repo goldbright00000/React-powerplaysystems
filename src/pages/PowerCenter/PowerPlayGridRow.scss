@@ -1,0 +1,51 @@
+@import '../../scss/colors.scss';
+.__table{
+    >div, >a{
+        padding: 0.27em 2em;
+        &:nth-child(2n + 1), &:nth-child(2n + 2), &:nth-child(2n + 3), &:nth-child(2n + 4), &:nth-child(2n + 5){
+            background-color: #17181a;
+        }
+        &:nth-child(1), &:nth-child(2), &:nth-child(3), &:nth-child(4), &:nth-child(5){
+            background: $black;
+            display: flex;
+            align-items: center;
+        }
+    }
+    >a:last-child{
+        justify-content: flex-end;   
+    }
+    .__light-grey{
+        color: rgba(255, 255, 255, 0.6);
+    }
+    .__bar{
+        width: 80px;
+        background-color: rgba(242, 242, 242, 0.1);
+        border-radius: 1em;
+        >span{
+            border-radius: 1em;
+            height: 6px;
+        }
+    }
+}
+
+.__table{
+    .__support{
+        display: grid;
+        grid-template-columns: auto auto 1fr;
+        grid-template-areas: "svgicon title infoicon" "svgicon date infoicon";
+        align-items: center;
+        grid-gap: 0.1em 0.7em;
+        .__icon{
+            grid-area: svgicon;
+        }
+        .__info-icon{
+            grid-area: infoicon;
+        }
+        .__title{
+            grid-area: title;
+        }
+        .__date{
+            grid-area: date;
+        }
+    }
+}

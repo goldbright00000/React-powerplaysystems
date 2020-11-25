@@ -8,9 +8,9 @@ import PowerPlayIcon from '../../assets/powerplay-icon.png';
 
 const LivePowerPlay = props => (
     <div className='__table-wrapper __mt-6 __mb-6'>
-        <div className='__center __badges-wrapper __h6'>
+        <div className='__center __badges-wrapper'>
             <div className='__inline-block'>
-                <div className='__grid'>
+                <div className='__grid __small'>
                     <div className='__outline-badge __active'><Stadium />Live sports</div>
                     <div className='__outline-badge'><Billards />Power Match</div>
                     <div className='__outline-badge'><CasinoChips />Parlay Games</div>

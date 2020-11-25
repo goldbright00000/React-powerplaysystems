@@ -1,172 +1,20 @@
 @import '../../scss/colors.scss';
 
 .__table-wrapper{
-    .__main-grid{
-        .__subtitle{
-            color: rgba(242, 242, 242, 0.6);
-        }
-        .__entries{
-            .__subtitle{
-                width: 5em;
-            }
-            .__bar{
-                background-color: rgba(242, 242, 242, 0.1);
-                padding: 1px 55.1px 1px 0.9px;
-                border-radius: 3px;
-                width: 80px;
-                height: 6px;
-                >div{
-                    border-radius: 3px;
-                    height: 100%;
-                    top: 0;
-                    left: 0;
-                }
-            }
-        }
-    }
-}
-
-.__badges-wrapper{
-    .__grid{
+    .__badges-wrapper{
         display: grid;
-        grid-template-columns:  repeat(4, 1fr);
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 1em;
-        &.__interactive-grid{
-            grid-template-columns:  repeat(5, 1fr);
+        .__outline-badge{
+            padding: 0.69em 2.13em;
         }
     }
-    overflow: auto;
-    white-space: nowrap;
-    @media (max-width: 1200px) {
-        svg {
-            display: none
-        }
-    }
-}
-
-.__table-wrapper{
-    .__grid-wrapper{
-        max-height: 495px;
-    }
-    .__main-grid{
-        display: grid;
-        grid-template-rows: 1fr 1fr;
-        >div{
-            padding: 4.5px 24px;
-            .__info-icon{
-                top: -1em;
-            }
-            align-items: center;
-            &:nth-child(odd){
-                background: rgba($color: $black, $alpha: 0.8);
-            }
-            &:nth-child(even){
-                background-color: #17181a;
-            }
-            &:first-child{
-                background: $black;
-                position: sticky;
-                top: 0;
-                left: 0;
-                position: -webkit-sticky;
-                z-index: 1;
-            }
+    .__power-center-scrollbar{
+        max-height: 400px;
+        .__table{
             display: grid;
-            grid-template-columns: 320px 20% auto 20% 120px;
-        }
-    }
-}
-
-.__table-wrapper{
-    @media (max-width: 1200px) {
-        margin: 0 0 1.6em 0 !important;
-        .__resize{
-            font-size: 20px;
-            img{
-                width: 1em;
-            }
-            .__primary-color{
-                font-size: 30px;
-            }
-        }
-        .__grid-wrapper{
-            max-height: initial;
-        }
-        .__main-grid{
-            grid-template-columns: 1fr;
-            grid-gap: 1em;
-            >div{
-                display: flex;
-                background: linear-gradient(to bottom, $black, #232529);
-                flex-wrap: wrap;
-                padding: 5px 16px 16px 16px;
-                border-radius: 6px;
-                margin: 0 !important;
-                &:not(:first-child){
-                    margin: 1em 0;
-                }
-                .__type{
-                    width: 100%;
-                    >.__game-image{
-                        background: $primary;
-                        top: -10px;
-                        padding: 2.5px 5px;
-                        border-radius: 0 0 1em 1em;
-                        position: relative;
-                        >svg{
-                            color: $black;
-                            width: 16px;
-                        }
-                    }
-                    .__info-icon{
-                        top: 0.4em;
-                        margin-left: 0.2em !important;
-                    }
-                    .__main{
-                        display: flex;
-                        justify-content: space-between;
-                        flex: 1;
-                        .__h6{
-                            font-size: 16px;
-                        }
-                    }
-                }
-                .__contest{
-                    position: absolute;
-                    top: 28px;
-                    left: 57px;
-                    font-size: 18px;
-                }
-                .__entries{
-                    min-width: 150px;
-                    width: 50%;
-                    margin: 1em 0;
-                    white-space: nowrap;
-                    font-size: 12px;
-                    .__h6{
-                        font-size: 16px;
-                    }
-                }
-                .__prizes{
-                    text-align: right;
-                    width: 50%;
-                }
-                .__fee-charges{
-                    background-image: linear-gradient(to bottom, #fb6e00, rgba(251, 110, 0, 0.6));
-                    margin-left: auto;
-                    padding: 2px;
-                    border-radius: 1em;
-                    cursor: pointer;
-                    font-size: 14px;
-                    width: 8.57em;
-                    height: 28px;
-                    justify-content: center;
-                    display: flex;
-                    .__flex{
-                        margin: auto !important;
-                    }
-                }
-            }
+            grid-template-columns: auto auto auto auto auto;
+            grid-auto-rows: 1fr;
         }
     }
 }

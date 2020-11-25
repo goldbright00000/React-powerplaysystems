@@ -184,7 +184,7 @@ label{
 }
 
 .__outline-badge{
-    padding: 0.532em 0.69em;
+    padding: 0.54em 1.2em;
     border: 2px solid;
     font-size: 0.94em;
     border-radius: 0.6em;
@@ -193,7 +193,7 @@ label{
     align-items: center;
     justify-content: center;
     svg{
-        margin-right: 0.5em;
+        margin-right: 0.4em;
     }
     &.__active{
         color: $primary;

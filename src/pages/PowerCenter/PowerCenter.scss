@@ -1,100 +1,43 @@
 @import '../../scss/colors.scss';
 
 .__PowerCenter{
-    .__btn{
-        border-radius: 11px;
-    }
-    .__viewport{
+    .__viewport-large-title{
+        padding: 0.2em;
         background-image: url('../../assets/PowerContest.jpg');
+        background-size: 100% auto;
         background-position: center;
-    }
-    .__power-play-viewport-btn{
-        min-width: 11.67em;
-    }
-    @media (max-width: 1200px) {
-        .__viewport{
-            padding: 1.4em;
-            justify-content: center !important;
-            min-height: calc(100vh - 67px);
-            margin-top: 67px;        
-        }
-        .__power-play-viewport-btn{
-            font-size: 16px;
-            padding: 0.712em;
-            min-width: 15em;
-        }
-        .__viewport-large-title{
-            margin: 0 0 1em 0 !important;
-        }
-    }
-    @media (max-width: 767px) {
-        .__paragraph{
-            font-size: 14px;
-            line-height: 1.6em;
-            color: #f2f2f2;
-            margin-bottom: 0 !important;
-        }
     }
 }
 
 .__PowerCenter{
-    .__background-2{
-        background: url('../../assets/group-4x.png');
-        padding: 0.1px;
-        background-size:  79%;
-        background-position: top right;
-        background-repeat: no-repeat;
-        .__black-background{
-            padding: 0.1px;
-            background: linear-gradient(to bottom, rgba(32, 33, 36, 0.5), #000000);    
-        }
-        .__btn{
-            width: 13em;
-            color: $black;
-        }
+    .__power-center-links{
+        overflow: hidden;
+        background-color: rgba(17, 17, 17, 0.3);
         a{
-            &:not(.active) .__btn{
-                background: #f2f2f2;
-                border-color: #f2f2f2;
-                box-shadow: 0 3px 27px -2px rgba(255, 255, 255, 0.34);
+            padding: 1em 7em;
+            transform: skew(-45deg);
+            border: 2px solid transparent;
+            span{
+                transform: skew(45deg);
             }
-            &.active .__btn{
-                box-shadow: 0 3px 27px -2px rgba(251, 110, 0, 0.34);
+            &.active{
+                color: $primary;
+                border-color: currentColor;
+                background-color: rgba(99, 99, 99, 0.24);
             }
-        }
-        
-        @media (max-width: 1200px) {
-            background: none;
-            .__flex{
-                justify-content: space-around;
-            }
-            .__h2{
-                font-size: 20px;
-                text-align: left;
-                font-weight: 400;
-                margin: 0;
-                color: #f2f2f2;
-                border: 3px solid transparent;
-                padding: 0.4em 0;
-            }
-            .__mb-6{
-                margin-bottom: 0;
-            }
-            a{
-                margin: 3em 0;
-                flex: initial;
-                &.active .__h2{
-                    border-bottom: 2px solid;
-                    color: $primary;
+            &:first-child{
+                margin-left: -4em;
+                &.active{
+                    border-top-right-radius: 1em;
+                    border-bottom-right-radius: 0.4em;
                 }
             }
-            .__black-background{
-                background: initial;
-            }
-        }
-        @media (max-width: 767px) {
-            .__flex{
-                justify-content: space-between;
+            &:last-child{
+                margin-right: -4em;
+                &.active{
+                    border-top-left-radius: 0.4em;
+                    border-bottom-left-radius: 1em;
+                }
             }
         }
     }
