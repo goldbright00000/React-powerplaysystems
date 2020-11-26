@@ -5,7 +5,6 @@ import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
 import SuperBall from '../../icons/SuperBall';
 import PowerPlayGridRow from './PowerPlayGridRow';
-import PowerPlayIcon from '../../assets/powerplay-icon.png';
 import Scrollbar from '../../utility/Scrollbar';
 
 const InteractiveContests = props => {
@@ -33,19 +32,19 @@ const InteractiveContests = props => {
                 <div className='__table __block-on-large'>
                     {!isMobileDevice && (
                         <Fragment>
-                            <div>Sport</div>
-                            <div>Contest</div>
-                            <div>Entries (min)</div>
-                            <div>Total Prize</div>
-                            <div></div>
+                            <div className='__h6'>Sport</div>
+                            <div className='__h6'>Contest</div>
+                            <div className='__h6'>Entries (min)</div>
+                            <div className='__h6'>Total Prize</div>
+                            <div className='__h6'></div>
                         </Fragment>
                     )}
                     <PowerPlayGridRow
-                        type='MLB'
+                        contest='MLB'
                         Icon={Ball}
                         date='Oct 24, 2020'
                         time='8:00PM ET'
-                        contest='Chase The Ace'
+                        type='Chase The Ace'
                         entries='58589'
                         totalEntries='200000'
                         prize='800'
@@ -53,14 +52,160 @@ const InteractiveContests = props => {
                         isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
-                        type='MLB'
+                        contest='MLB'
                         Icon={Ball}
                         date='Oct 24, 2020'
                         time='8:00PM ET'
-                        contest='PowerLine'
+                        type='PowerLine'
                         entries='15385'
                         totalEntries='19161'
                         prize='$1K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NBA'
+                        Icon={BasketBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='21’s'
+                        entries='1497'
+                        totalEntries='150000'
+                        prize='3000'
+                        entryFee='10000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='MLB'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='PowerLine'
+                        entries='27433'
+                        totalEntries='71856'
+                        prize='$3K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NFL'
+                        Icon={SuperBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='Power DFS'
+                        entries='32975'
+                        totalEntries='250000'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NBA'
+                        Icon={BasketBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='Power Draft'
+                        entries='18699'
+                        totalEntries='247904'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='MLB'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='PowerLine'
+                        entries='15385'
+                        totalEntries='19161'
+                        prize='$1K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NBA'
+                        Icon={BasketBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='21’s'
+                        entries='1497'
+                        totalEntries='150000'
+                        prize='3000'
+                        entryFee='10000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='MLB'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='PowerLine'
+                        entries='27433'
+                        totalEntries='71856'
+                        prize='$3K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NFL'
+                        Icon={SuperBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='Power DFS'
+                        entries='32975'
+                        totalEntries='250000'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NBA'
+                        Icon={BasketBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='Power Draft'
+                        entries='18699'
+                        totalEntries='247904'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NBA'
+                        Icon={BasketBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='21’s'
+                        entries='1497'
+                        totalEntries='150000'
+                        prize='3000'
+                        entryFee='10000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='MLB'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='PowerLine'
+                        entries='27433'
+                        totalEntries='71856'
+                        prize='$3K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NFL'
+                        Icon={SuperBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='Power DFS'
+                        entries='32975'
+                        totalEntries='250000'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        contest='NBA'
+                        Icon={BasketBall}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='Power Draft'
+                        entries='18699'
+                        totalEntries='247904'
+                        prize='3000'
                         isMobileDevice={isMobileDevice}
                     />
                 </div>

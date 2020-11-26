@@ -12,21 +12,19 @@ const TableRow = ({ type, Icon, date, time, contest, entries, totalEntries, priz
     const addCommas = entry => entry.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     return (
         <Fragment>
-            <div className='__support'>
-                <div className='__flex __relative'>
-                    <span className='__icon __relative'><span></span><Icon className='__relative' /></span>
-                    <div className='__f1 __main'>
-                        <span className='__title __h6'>{contest}</span>
-                        <div className='__date __ml-a __light-grey __very-small-on-large __block-on-large __flex'>
-                            {date}
-                            <span className='__hide-on-large'> | </span>
-                            <span className='__block-on-large'></span> {time}
-                            <Info className='__info-icon __relative __ml-s' />
-                        </div>
+            <div className='__support __flex __relative'>
+                <span className='__icon __relative'><span></span><Icon className='__relative' /></span>
+                <div className='__f1 __main'>
+                    <span className='__title __h6'>{contest}</span>
+                    <div className='__date __ml-a __light-grey __very-small-on-large __block-on-large __flex'>
+                        <span> {date} </span>
+                        <span className='__hide-on-large __vertical-line'> | </span>
+                        <span className='__block-on-large'></span> {time}
+                        <Info className='__info-icon __relative __ml-s' />
                     </div>
                 </div>
             </div>
-            <div className='__flex __h6 __primary-color __bold __type __mediam-on-large'> {type} </div>
+            <div className='__flex __h6 __primary-color __bold __type __mediam-on-large __left'> {type} </div>
             <div className='__entries'>
                 <div>
                     <span className='__filled-entries __h6 __mediam-on-large'>{addCommas(entries)} </span>
@@ -39,7 +37,7 @@ const TableRow = ({ type, Icon, date, time, contest, entries, totalEntries, priz
             </div>
             <div className='__flex __prize __column __flex-start'>
                 <div className='__h6 __mediam-on-large'>{+prize ? `$${prize}` : prize} </div>
-                <div className='__very-small-on-large'><span className='__hide-only-on-large'>TOTAL</span> PRIZES</div>
+                <div className='__very-small-on-large __light-grey'><span className='__hide-only-on-large'>TOTAL</span> PRIZES</div>
             </div>
             <Link to='/' className='__flex  __h5 __small-on-large __entryfee'>
                 {entryFee ? (

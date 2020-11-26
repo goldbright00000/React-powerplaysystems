@@ -8,18 +8,18 @@
             border-radius: 1em;
             height: 6px;
         }
-        .__date{
-            line-height: 0.8em;
-        }
         .__entryfee{
             justify-content: flex-end;
         }
+    }
+    .__vertical-line{
+        margin: 0 0.22em;
     }
 }
 @media (min-width: 1199px){
     .__table{
         >div, >a{
-            padding: 0.27em 2em;
+            padding: 6px 28px;
             background-color: rgba(17, 17, 17, 0.8);
             &:nth-child(10n + 6), &:nth-child(10n + 7), &:nth-child(10n + 8), &:nth-child(10n + 9), &:nth-child(10n + 10){
                 background-color: #17181a;
@@ -28,6 +28,8 @@
                 background: $black;
                 display: flex;
                 align-items: center;
+                position: -webkit-sticky;
+                position: sticky;
             }
         }
         .__light-grey{
@@ -46,6 +48,7 @@
 
 @media (max-width: 1200px){
     .__table{
+        line-height: 1.2em;
         .__bar{
             width: 70px;
         }
@@ -60,6 +63,7 @@
         overflow: hidden;
         .__support{
             width: 100%;
+            align-items: flex-start;
             .__main{
                 display: flex;
             }
@@ -69,30 +73,27 @@
                 width: 1em;
             }
             .__icon{
-                margin-right: 0.84em;
+                margin-right: 0.8em;
                 height: 100%;
                 left: 0;
                 span{
                     position: absolute;
-                    padding: 2.4em 0;
+                    padding: 2em 0 ;
                     width: 100%;
                     bottom: 0;
                     background: $primary;
-                    border-radius: 2em;
+                    border-radius: 0 0 2em 2em;
                 }
                 svg{
-                    margin: 0 0.5em 0.5em 0.5em;
+                    margin: 0.5em 0.5em 0 0.5em;
                     color: #111;
                 }
-            }
-            .__title{
-                margin-top: 1em;
             }
         }
         .__type{
             position: absolute;
-            top: 0.7em;
-            left: 4em;
+            top: 2.2em;
+            left: 3.9em;
         }
         .__entries{
             width: 50%;

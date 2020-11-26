@@ -47,26 +47,16 @@
 @media (max-width: 899px){
     .__PowerCenter{
         .__power-center-links{
-            margin: 5em 1em;
             justify-content: space-around;
             a{
                 font-size: 20px;
+                text-align: initial;
+                flex: initial;
             }
             a.active{
                 color: $primary;
                 border: 2px solid transparent;
                 border-bottom-color: $primary;
-            }
-        }
-    }
-}
-
-@media (max-width: 600px){
-    .__PowerCenter{
-        .__power-center-links{
-            a{
-                text-align: initial;
-                flex: initial;
             }
             a:first-child{
                 margin-right: 1em;
@@ -74,6 +64,7 @@
         }
     }
 }
+
 @media (max-width: 365px){
     .__PowerCenter{
         .__power-center-links{

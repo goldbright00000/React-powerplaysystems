@@ -1,153 +1,162 @@
-import React from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import Billards from '../../icons/Billards';
 import CasinoChips from '../../icons/CasinoChips';
 import Stadium from '../../icons/Stadium';
 import PowerPlayGridRow from './PowerPlayGridRow';
 import './table.scss';
 import PowerPlayIcon from '../../assets/powerplay-icon.png';
+import { Link } from 'react-router-dom';
+import Scrollbar from '../../utility/Scrollbar';
 
-const LivePowerPlay = props => (
-    <div className='__table-wrapper __mt-6 __mb-6'>
-        <div className='__center __badges-wrapper'>
-            <div className='__inline-block'>
-                <div className='__grid __small'>
-                    <div className='__outline-badge __active'><Stadium />Live sports</div>
-                    <div className='__outline-badge'><Billards />Power Match</div>
-                    <div className='__outline-badge'><CasinoChips />Parlay Games</div>
-                    <div className='__outline-badge'>Show All</div>
+const LivePowerPlay = props => {
+    const [isMobileDevice, setMobileDevice] = useState(false);
+    const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
+    useEffect(() => {
+        const maxWidth = window.matchMedia("(max-width: 1200px)");
+        responsiveHandler(maxWidth);
+        maxWidth.addEventListener('change', responsiveHandler);
+        return () => maxWidth.removeEventListener('change', responsiveHandler);
+    }, [])
+    return (
+        <div className='__table-wrapper __mb-6'>
+            <div className='__flex'>
+                <div className='__badges-wrapper __live-power-play-badges-wrapper __ml-a __text-in-one-line __mediam'>
+                    <Link to='/' className='__outline-badge __active __f1'><Stadium />Live sports</Link>
+                    <Link to='/' className='__outline-badge __f1'><Billards />Power Match</Link>
+                    <Link to='/' className='__outline-badge __f1'><CasinoChips />Parlay Games</Link>
+                    <Link to='/' className='__outline-badge __f1'>Show All</Link>
                 </div>
             </div>
-        </div>
 
-        <div className='__h6 __mt-2 __mb-1'>Most Popular</div>
-        <div className='__grid-wrapper __hide-scrollbar __mb-5'>
-            <div className='__main-grid'>
-                <div className='__hide-on-large'>
-                    <div>Type</div>
-                    <div>Contest</div>
-                    <div>Entries (min)</div>
-                    <div>Total Prizes</div>
-                    <div></div>
+            <div className='__h6 __mt-2 __mb-1'>Most Popular</div>
+            <Scrollbar className='__power-center-scrollbar'>
+                <div className='__table __block-on-large'>
+                    {!isMobileDevice && (
+                        <Fragment>
+                            <div className='__h6'>Sport</div>
+                            <div className='__h6'>Contest</div>
+                            <div className='__h6'>Entries (min)</div>
+                            <div className='__h6'>Total Prize</div>
+                            <div className='__h6'></div>
+                        </Fragment>
+                    )}
+                    <PowerPlayGridRow
+                        type='Chase The Ace'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='58589'
+                        totalEntries='200000'
+                        prize='$800'
+                        entryFee='$1000'
+                    />
+                    <PowerPlayGridRow
+                        type='Power Poker'
+                        Icon={Billards}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='15395'
+                        totalEntries='19161'
+                        prize='$1K in Bonus Cash'
+                    />
+                    <PowerPlayGridRow
+                        type='Bingo'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='1497'
+                        totalEntries='150000'
+                        prize='$3000'
+                        entryFee='$10,000'
+                    />
+                    <PowerPlayGridRow
+                        type='21’s'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='27433'
+                        totalEntries='71856'
+                        prize='$3K in Bonus Cash'
+                    />
+                    <PowerPlayGridRow
+                        type='747'
+                        Icon={Billards}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='32795'
+                        totalEntries='250000'
+                        prize='$3000'
+                    />
+                    <PowerPlayGridRow
+                        type='Elite 8'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='18699'
+                        totalEntries='247904'
+                        prize='$10,0000'
+                    />
+                    <PowerPlayGridRow
+                        type='Elite 8'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='21183'
+                        totalEntries='59523'
+                        prize='$300,000'
+                    />
+                    <PowerPlayGridRow
+                        type='21’s'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='27433'
+                        totalEntries='71856'
+                        prize='$3K in Bonus Cash'
+                    />
+                    <PowerPlayGridRow
+                        type='747'
+                        Icon={Billards}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='32795'
+                        totalEntries='250000'
+                        prize='$3000'
+                    />
+                    <PowerPlayGridRow
+                        type='Elite 8'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='18699'
+                        totalEntries='247904'
+                        prize='$10,0000'
+                    />
+                    <PowerPlayGridRow
+                        type='Elite 8'
+                        Icon={CasinoChips}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='TDB'
+                        entries='21183'
+                        totalEntries='59523'
+                        prize='$300,000'
+                    />
                 </div>
-                <PowerPlayGridRow
-                    type='Chase The Ace'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='58589'
-                    totalEntries='200000'
-                    prize='$800'
-                    entryFee='$1000'
-                />
-                <PowerPlayGridRow
-                    type='Power Poker'
-                    Icon={Billards}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='15395'
-                    totalEntries='19161'
-                    prize='$1K in Bonus Cash'
-                />
-                <PowerPlayGridRow
-                    type='Bingo'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='1497'
-                    totalEntries='150000'
-                    prize='$3000'
-                    entryFee='$10,000'
-                />
-                <PowerPlayGridRow
-                    type='21’s'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='27433'
-                    totalEntries='71856'
-                    prize='$3K in Bonus Cash'
-                />
-                <PowerPlayGridRow
-                    type='747'
-                    Icon={Billards}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='32795'
-                    totalEntries='250000'
-                    prize='$3000'
-                />
-                <PowerPlayGridRow
-                    type='Elite 8'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='18699'
-                    totalEntries='247904'
-                    prize='$10,0000'
-                />
-                <PowerPlayGridRow
-                    type='Elite 8'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='21183'
-                    totalEntries='59523'
-                    prize='$300,000'
-                />
-                <PowerPlayGridRow
-                    type='21’s'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='27433'
-                    totalEntries='71856'
-                    prize='$3K in Bonus Cash'
-                />
-                <PowerPlayGridRow
-                    type='747'
-                    Icon={Billards}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='32795'
-                    totalEntries='250000'
-                    prize='$3000'
-                />
-                <PowerPlayGridRow
-                    type='Elite 8'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='18699'
-                    totalEntries='247904'
-                    prize='$10,0000'
-                />
-                <PowerPlayGridRow
-                    type='Elite 8'
-                    Icon={CasinoChips}
-                    date='Oct 24, 2020'
-                    time='8:00PM ET'
-                    contest='TDB'
-                    entries='21183'
-                    totalEntries='59523'
-                    prize='$300,000'
-                />
-            </div>
+            </Scrollbar>
+    
         </div>
-        <div className='__container'>
-            <div className='__h2 __center __resize'>Your Cash Balance: <span className='__primary-color'> $3,000</span></div>
-            <div className='__h2 __center __mt-1 __mb-2 __resize'>Your Powerplay Token Balance: <span className='__primary-color'> 5,000 <img alt='' src={PowerPlayIcon} width='36' /></span></div>
-        </div>
-    </div>
-)
+    )
+}
 
 export default LivePowerPlay;
