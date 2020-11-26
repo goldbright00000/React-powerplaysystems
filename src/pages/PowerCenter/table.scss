@@ -5,8 +5,15 @@
         display: grid;
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
         grid-gap: 1em;
+        overflow: auto;
         .__outline-badge{
             padding: 0.69em 2.13em;
+            @media (max-width: 1050px) {
+                padding: 0.5em 1.4em;
+                svg{
+                    display: none;
+                }
+            }
         }
     }
     .__power-center-scrollbar{
@@ -15,6 +22,10 @@
             display: grid;
             grid-template-columns: auto auto auto auto auto;
             grid-auto-rows: 1fr;
+            @media (max-width: 1200px) {
+                grid-template-columns: 1fr;
+                grid-row-gap: 1em;
+            }
         }
     }
 }

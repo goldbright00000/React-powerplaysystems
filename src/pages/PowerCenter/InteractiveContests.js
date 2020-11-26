@@ -10,15 +10,15 @@ import Scrollbar from '../../utility/Scrollbar';
 
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
-    const responsiveHandler = maxWidth => maxWidth.matches && !isMobileDevice ? setMobileDevice(true) : (isMobileDevice && setMobileDevice(false));
-
+    const responsiveHandler = maxWidth =>  setMobileDevice(maxWidth.matches);
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
         responsiveHandler(maxWidth);
         maxWidth.addEventListener('change', responsiveHandler);
+        return () => maxWidth.removeEventListener('change', responsiveHandler);
     }, [])
     return (
-        <div className='__table-wrapper __mt-6 __mb-6'>
+        <div className='__table-wrapper __mb-6'>
             <div className='__flex'>
                 <div className='__badges-wrapper __ml-a __text-in-one-line __mediam'>
                     <NavLink to='/' className='__outline-badge __f1 __active'><SuperBall />NFL</NavLink>
@@ -48,8 +48,19 @@ const InteractiveContests = props => {
                         contest='Chase The Ace'
                         entries='58589'
                         totalEntries='200000'
-                        prize='$800'
-                        entryFee='$1000'
+                        prize='800'
+                        entryFee='1000'
+                        isMobileDevice={isMobileDevice}
+                    />
+                    <PowerPlayGridRow
+                        type='MLB'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        contest='PowerLine'
+                        entries='15385'
+                        totalEntries='19161'
+                        prize='$1K in Bonus Cash'
                         isMobileDevice={isMobileDevice}
                     />
                 </div>

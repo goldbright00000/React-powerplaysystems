@@ -13,9 +13,6 @@
     .__hide-on-large{
         display: none !important;
     }
-    .__viewport-large-title{
-        font-size: 52px;
-    }
     .__container-2, .__container{
         width: 90%;
     }
@@ -24,6 +21,21 @@
     }
     .__block-on-large{
         display: block;;
+    }
+    .__viewport-large-title{
+        font-size: 52px !important;
+    }
+    .__small-on-large{
+        font-size: 15px !important;
+    }
+    .__mediam-on-large{
+        font-size: 16px !important;
+    }
+    .__h5-on-large{
+        font-size: 20px !important;
+    }
+    .__very-small-on-large{
+        font-size: 12px !important;
     }
 }
 @media (max-width: 1023px){
