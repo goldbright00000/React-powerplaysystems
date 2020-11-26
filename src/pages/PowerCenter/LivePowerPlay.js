@@ -1,10 +1,9 @@
-import React, {useState, useEffect, Fragment} from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import Billards from '../../icons/Billards';
 import CasinoChips from '../../icons/CasinoChips';
 import Stadium from '../../icons/Stadium';
 import PowerPlayGridRow from './PowerPlayGridRow';
 import './table.scss';
-import PowerPlayIcon from '../../assets/powerplay-icon.png';
 import { Link } from 'react-router-dom';
 import Scrollbar from '../../utility/Scrollbar';
 
@@ -48,8 +47,9 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='58589'
                         totalEntries='200000'
-                        prize='$800'
-                        entryFee='$1000'
+                        prize='800'
+                        entryFee='1000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='Power Poker'
@@ -60,6 +60,7 @@ const LivePowerPlay = props => {
                         entries='15395'
                         totalEntries='19161'
                         prize='$1K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='Bingo'
@@ -69,8 +70,9 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='1497'
                         totalEntries='150000'
-                        prize='$3000'
-                        entryFee='$10,000'
+                        prize='3000'
+                        entryFee='10,000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='21’s'
@@ -81,6 +83,7 @@ const LivePowerPlay = props => {
                         entries='27433'
                         totalEntries='71856'
                         prize='$3K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='747'
@@ -90,7 +93,8 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='32795'
                         totalEntries='250000'
-                        prize='$3000'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='Elite 8'
@@ -100,7 +104,8 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='18699'
                         totalEntries='247904'
-                        prize='$10,0000'
+                        prize='10,0000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='Elite 8'
@@ -110,7 +115,8 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='21183'
                         totalEntries='59523'
-                        prize='$300,000'
+                        prize='300,000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='21’s'
@@ -121,6 +127,7 @@ const LivePowerPlay = props => {
                         entries='27433'
                         totalEntries='71856'
                         prize='$3K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='747'
@@ -130,7 +137,8 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='32795'
                         totalEntries='250000'
-                        prize='$3000'
+                        prize='3000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='Elite 8'
@@ -140,7 +148,8 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='18699'
                         totalEntries='247904'
-                        prize='$10,0000'
+                        prize='10,0000'
+                        isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
                         type='Elite 8'
@@ -150,11 +159,12 @@ const LivePowerPlay = props => {
                         contest='TDB'
                         entries='21183'
                         totalEntries='59523'
-                        prize='$300,000'
+                        prize='300,000'
+                        isMobileDevice={isMobileDevice}
                     />
                 </div>
             </Scrollbar>
-    
+
         </div>
     )
 }

@@ -12,9 +12,9 @@ const PowerCenter = props => {
     const { url } = props.match;
     return (
         <Fragment>
-            <Header />
+            <Header isStick={true} />
             <div className='__PowerCenter'>
-                <div className='__viewport-large-title __center'>Power Center</div>
+                <div className='__viewport-large-title __center __pt-1'>Power Center</div>
                 <div className='__flex __power-center-links __mb-5'>
                     <NavLink exact to={`${url}`} className='__f1 __block __right __relative'>
                         <span className='__block'>Live-Play Fantasy Sports</span>

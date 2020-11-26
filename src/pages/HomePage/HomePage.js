@@ -7,7 +7,7 @@ import powerplayLargeicon from '../../assets/powerplay-large-icon.png'
 
 const HomePage = props => (
     <div className='__HomePage'>
-        <Header />
+            <Header />
         <div className='__viewport __ai __viewport-1'>
             <div className='__center __mt-a __container'>
                 <div className='__viewport-title __primary __m-a __inline-block'>Our Games Defy Reality<sup>TM</sup></div>
@@ -22,8 +22,8 @@ const HomePage = props => (
             <div className='__container-2 __mt-3'>
                 <div className='__h2 __primary-color __center __bold'>PowerdFS</div>
                 <div className='__h3 __uppercase __center __bold'>Live-Play Fantasy Sports Platform</div>
-                    <div className='__h6 __mt-2'>
-                        We are disrupting the ‘Pick and Wait’ Fantasy format with our patent <br />
+                <div className='__h6 __mt-2'>
+                    We are disrupting the ‘Pick and Wait’ Fantasy format with our patent <br />
                         pending live sports platform
                     </div>
                 <div className='__main'>

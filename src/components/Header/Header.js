@@ -7,7 +7,7 @@ const Header = props => {
         document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
     return (
-        <nav className='__Header'>
+        <nav className='__Header' style={{position: props.isStick ? 'sticky' : 'fixed'}}>
             <div className='__container __flex __sb __f1 __light-bold'>
                 <Link to='/' className='__brand-logo'><img src={logo} alt='' /></Link>
                 <button className='__menu-icon __hide-only-on-large __pointer'>
