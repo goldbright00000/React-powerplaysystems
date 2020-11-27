@@ -48,7 +48,7 @@ const InteractiveContests = props => {
                         entries='58589'
                         totalEntries='200000'
                         prize='800'
-                        entryFee='1000'
+                        pointsRequired='1000'
                         isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
@@ -71,7 +71,7 @@ const InteractiveContests = props => {
                         entries='1497'
                         totalEntries='150000'
                         prize='3000'
-                        entryFee='10000'
+                        pointsRequired='10000'
                         isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
@@ -127,7 +127,7 @@ const InteractiveContests = props => {
                         entries='1497'
                         totalEntries='150000'
                         prize='3000'
-                        entryFee='10000'
+                        pointsRequired='10000'
                         isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow
@@ -172,7 +172,7 @@ const InteractiveContests = props => {
                         entries='1497'
                         totalEntries='150000'
                         prize='3000'
-                        entryFee='10000'
+                        pointsRequired='10000'
                         isMobileDevice={isMobileDevice}
                     />
                     <PowerPlayGridRow

@@ -8,7 +8,7 @@
             border-radius: 1em;
             height: 6px;
         }
-        .__entryfee{
+        .__pointsRequired{
             justify-content: flex-end;
         }
     }
@@ -76,6 +76,9 @@
                 margin-right: 0.8em;
                 height: 100%;
                 left: 0;
+                svg{
+                    max-width: 1.2em;
+                }
                 span{
                     position: absolute;
                     padding: 2em 0 ;
@@ -90,11 +93,6 @@
                 }
             }
         }
-        .__type{
-            position: absolute;
-            top: 2.2em;
-            left: 3.9em;
-        }
         .__entries{
             width: 50%;
             margin: 1em 0;
@@ -106,7 +104,7 @@
             flex-direction: column-reverse;
 
         }
-        .__entryfee{
+        .__pointsRequired{
             background-image: linear-gradient(to bottom, #fb6e00, rgba(251, 110, 0, 0.6));
             width: 9em;
             padding: 0.3em;
