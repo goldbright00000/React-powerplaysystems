@@ -35,7 +35,7 @@ const HomePage = props => (
                     </ul>
                     <div className='__primary-color __h6 __mb-2'>Imagine actually being in control of your team… <br />Now that is Powerful!</div>
                     <div className='__uppercase __h5 '>
-                        <Link to='/' className='__explore-games __chevron __-right'>Explore Games</Link>
+                        <Link to='/power-center' className='__explore-games __chevron __-right'>Explore Games</Link>
                     </div>
                 </div>
                 <div className='__center __h5 __mt-2 __mb-3'>
@@ -54,7 +54,7 @@ const HomePage = props => (
                         <li>Join NOW! and experience live-play contests for yourself</li>
                     </ul>
                     <div className='__uppercase __h5 __primary-color'>
-                        <Link to='/' className='__explore-games __chevron-right'>Explore Games</Link>
+                        <Link to='/power-center/contests' className='__explore-games __chevron-right'>Explore Games</Link>
                     </div>
                 </div>
                 <div className='__center __h5 __mt-3 __mb-3'>
