@@ -64,6 +64,10 @@
     }
     .__default-size-on-mediam{
         font-size: 14px;
+        font-weight: 400;
+    }
+    .__small-on-small{
+        font-size: 15px;
     }
     .__mediam-on-mediam{
         font-size: 16px;
@@ -114,5 +118,11 @@
                 height: 1.2em;
             }
         }
+    }
+    .__uppercase-on-small{
+        text-transform: uppercase;
+    }
+    .__center-on-small{
+        text-align: center;
     }
 }
