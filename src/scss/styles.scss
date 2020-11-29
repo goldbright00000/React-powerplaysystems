@@ -8,7 +8,7 @@ svg{
     height: 1.3em;
 }
 .__btn{
-    padding: 0.55em 1em;
+    padding: 0.5em 1em;
     @extend .__primary;
     border-radius: 6px;
     cursor: pointer;
@@ -64,7 +64,7 @@ svg{
         margin: 1.2em 0;
         padding-left: 2.4em;
         position: relative;
-        &::after, &::before{
+        &::before{
             content: '';
             min-width: 1em;
             height: 1em;
@@ -72,12 +72,6 @@ svg{
             position: absolute;
             top: 0.21em;
             border-radius: 0.2em;
-        }
-        &::before{
-            left: 0;
-        }
-        &::after{
-            display: none;
             left: 0;
         }
     }
@@ -88,11 +82,11 @@ svg{
         border-width: 3px 3px 0 0;
         content: '';
         display: inline-block;
-        height: 0.45em;
+        height: 0.4em;
         left: 0.24em;
         position: relative;
         vertical-align: center;
-        width: 0.45em;
+        width: 0.4em;
     }
     &.__-right::after{
         transform: rotate(45deg);
