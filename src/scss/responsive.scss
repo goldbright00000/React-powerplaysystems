@@ -94,7 +94,7 @@
 }
 @media (max-width: 767px){
     .__container-2, .__container{
-        width: calc(100% - 2em);
+        width: calc(100% - 3.2em);
     }
     .__column-on-small{
         flex-direction: column;
@@ -124,5 +124,8 @@
     }
     .__center-on-small{
         text-align: center;
+    }
+    .__default-size-on-small{
+        font-size: 14px;
     }
 }
