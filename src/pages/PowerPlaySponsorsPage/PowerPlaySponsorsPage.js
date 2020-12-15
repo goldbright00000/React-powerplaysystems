@@ -8,7 +8,7 @@ const PowerPlaySponsorsPage = props => (
         <div className='__viewport __ai __viewport-1'>
             <Header btnBorderStyle={true} />
             <div className='__center __mt-a'>
-                <div className='__viewport-title __primary __h5-on-mediam'>Our Games Defy Reality<sup>TM</sup></div>
+                <div className='__viewport-title __primary __h5-on-mediam'>Power Your Brand</div>
                 <div className='__mediam __mt-3 __m-a __viewport-subtitle'>
                     <div className='__mb-1'>Not only do our games defy reality, but they also build powerful customer engagement opportunities for your brand.</div>
                     <div className='__hide-on-mediam'>Whether you are a for-profit business or a not-for-profit charity or foundation, our games will meet your brand or fundraising goals.</div>

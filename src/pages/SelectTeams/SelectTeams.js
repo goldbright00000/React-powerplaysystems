@@ -15,15 +15,15 @@ const PowerBetContest = props => (
     <div className='__SelectTeams'>
         <Header2 />
         <div className='__intoduction __background __center'>
-            <div className='__mt-6 __mb-7'>
+            <div className='__mt-6 __mb-6'>
                 <div className='__viewport-title __bolder'>2020 NFL <span className='__primary-color'>PowerBet Contest</span></div>
-                <div className='__h5 __light'>Pick 8 Teams & use Powerplays to win!</div>
+                <div className='__h5 __light'>Pick 8 Teams & use <span className='__primary-color'>Powerplays</span> to boost your scores!</div>
                 <div className='__flex __m-a __flex-btns __mt-2 __mb-4'>
                     <button className='__btn __mediam __style-2 __f1 __white-color'><Document className='__mr-s' />Contest Rules</button>
                     <button className='__btn __style-2 __mediam __f1 __white-color'><Trophy className='__mr-s' />Prize Grid</button>
                 </div>
-                <div className='__winner-prize'>Turn $2,000 into $10,000 and win<span className='__badge __light-bold __ml-s'>$1000 cash</span></div>
-                <div className='__h5 __small-line-height __mt-2'>
+                <div className='__winner-prize __mb-1'>Turn $2,000 into $10,000 and win<span className='__badge __light-bold __ml-s'>$1000 cash</span></div>
+                <div className='__h5 __small-line-height'>
                     Start with <span className='__primary-color'>$1,000 Powerplay money</span>, whoever turns
                     <div className='__mt-s'>the highest return, <span className='__primary-color'>will win $2,000 Real Money!</span></div>
                 </div>

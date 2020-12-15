@@ -117,7 +117,7 @@ const HomePage = props => (
                 </div>
                 <div className='__h5 __italic __bold __default-size-on-mediam __center-on-mediam'>We are giving Power to the People! Sign-up today and  <span className='__primary-color'> get 100 tokens!</span></div>
                 <div className='__center __mb-4 __mt-4'>
-                    <Link to='/' className='__btn __style-2 __h5 __primary-color'>WIN Powers</Link>
+                    <Link to='/power-center/contests' className='__btn __style-2 __h5 __primary-color'>WIN Powers</Link>
                 </div>
             </div>
         </div>
