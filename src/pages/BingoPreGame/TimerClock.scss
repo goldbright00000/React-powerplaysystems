@@ -1,0 +1,16 @@
+.__TimerClock{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 0 1em;
+    .__primary-color{
+        background: #000;
+        width: 1.6em;
+        height: 1.6em;
+        text-align: center;  
+        border-radius: 0.2em;
+        line-height: 1.75em;
+    }
+    .__label{
+        font-size: 12px;
+    }
+}

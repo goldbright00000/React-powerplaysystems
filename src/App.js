@@ -7,6 +7,7 @@ import PowerCenter from './pages/PowerCenter/PowerCenter';
 import SelectTeams from './pages/SelectTeams/SelectTeams';
 import PowerBetLive from './pages/PowerBetLive/PowerBetLive';
 import ScrollToTop from './utility/ScrollToTop';
+import BingoPreGame from './pages/BingoPreGame/BingoPreGame';
 
 const App = props => {
     return (
@@ -19,6 +20,7 @@ const App = props => {
                 <Route path='/power-center' component={PowerCenter} />
                 <Route path='/select-teams' component={SelectTeams} />
                 <Route path='/powerbet-live' component={PowerBetLive} />
+                <Route path='/bingo-game' component={BingoPreGame} />
             </Switch>
         </Fragment>
     )

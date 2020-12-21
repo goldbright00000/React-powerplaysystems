@@ -1,0 +1,38 @@
+@import '../../scss/colors.scss';
+
+.__BingoPreGame{
+    .__main{
+        .__left{
+            .__title{
+                font-size: 72px;
+            }
+            .__see-contesy-rules{
+                background: rgba($color: $primary, $alpha: 0.1);
+                padding: 0.7em 1.4em;
+                border-radius: 2em;
+            }
+            .__progress-bar{
+                padding: 0.2em;
+                border-radius: 1em;
+            }
+            .__timer{
+                border: dashed 2px #979797;
+                border-radius: 0.8em;
+                width: 17em;
+                &::after{
+                    content: '';
+                    display: block;
+                    padding-top: 120%;
+                }
+                .__absolute{
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+            .__clock-image{
+                width: 3em;
+            }
+        }
+    }
+}
