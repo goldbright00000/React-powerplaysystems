@@ -1,0 +1,13 @@
+@import "../../scss/colors.scss";
+
+.__sidebar_container {
+  position: absolute;
+  width: 20%;
+  right: 0;
+  top: 50px;
+  flex-direction: column;
+  background-color: $lightBlack;
+  box-shadow: -4px 0 38px 0 rgba(4, 4, 4, 0.58);
+  margin: 0;
+  padding: 1rem;
+}

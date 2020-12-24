@@ -1,0 +1,11 @@
+@import "../../scss/colors.scss";
+
+.__card {
+  display: flex;
+  flex-wrap: wrap;
+  flex: auto;
+  flex-direction: column;
+  background-color: $black2;
+  padding: 2.5rem;
+  border-radius: 14px;
+}

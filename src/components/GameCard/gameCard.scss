@@ -1,0 +1,11 @@
+@import "../../scss/colors.scss";
+
+.__game_card_container {
+  width: 122px;
+  height: 187px;
+  border-radius: 12px;
+  border: dashed 1px $grey;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

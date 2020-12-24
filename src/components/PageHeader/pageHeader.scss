@@ -1,0 +1,52 @@
+@import "../../scss/colors.scss";
+
+.__page_header {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 1;
+  margin-top: 100px;
+  padding: 0 66px;
+  justify-content: space-between;
+  align-items: center;
+
+  small {
+    font-size: 18px;
+  }
+
+  .__page_header_leftside {
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+      font-size: 56px;
+      margin: 0;
+      padding: 0;
+    }
+
+    p {
+      font-size: 32px;
+      margin: 0;
+      padding: 0;
+    }
+
+    span {
+      color: $primary;
+    }
+
+    .__page_header_leftside_sub {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .__page_header_btn {
+      border-radius: 34px;
+      height: 39px;
+      font-size: 16.2px;
+      width: 196px;
+      text-transform: uppercase;
+      margin: 0 1rem;
+    }
+  }
+}
