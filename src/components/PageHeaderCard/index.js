@@ -2,6 +2,7 @@ import React from 'react'
 
 import "./pageHeaderCard.scss"
 import Card from '../Card'
+import Time from '../../icons/Time'
 
 function PageHeaderCard(props) {
     return (
@@ -22,10 +23,13 @@ function PageHeaderCard(props) {
                 <div className="__divider" />
                 <div className="__card_body_right">
                     <span>Live Draw in Progress</span>
-                    <p>
-                    Pay attention, you will have <br />
-                    12 seconds to match each card.
-                    </p>
+                    <div className="__card_body_right_bottom">
+                        <Time size={25} style={{height: 'auto', marginRight: 10}} />
+                        <p>
+                        Pay attention, you will have <br />
+                        12 seconds to match each card.
+                        </p>
+                    </div>
                 </div>
             </div>
         </Card>

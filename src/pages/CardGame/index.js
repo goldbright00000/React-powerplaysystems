@@ -54,19 +54,19 @@ function CardGame(props) {
                         <Card>
                             <div className="__card_game_content_cards">
                                 <GameCard />
-                                <GameCard />
+                                <GameCard showPopup />
                                 <GameCard />
                                 <GameCard />
                                 <GameCard />
                             </div>
                             <button className={'__reload_btn'}>
-                                <Reload size={54} className="__reload_svg_icon" />
+                                <Reload size={48} className="__reload_svg_icon" />
                             </button>
                         </Card>
                     </div>
 
                     <div className="__card_game_content_footer">
-                        <Alert success />
+                        <Alert primary />
                         
                         <button className={`__btn __card_game_footer_btn`}>Chace The Ace!</button>
                     </div>

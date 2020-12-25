@@ -1,12 +1,14 @@
 @import "../../scss/colors.scss";
 
 .__card_game_content {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 0 0 40px 0;
+  margin: 0 0 50px 0;
   padding: 0;
+  top: 50px;
 
   .__card_game_content_left {
     display: flex;
@@ -84,8 +86,7 @@
       display: flex;
       align-self: flex-end;
       border-radius: 100px;
-      height: 48px;
-      width: 48px;
+      padding: 0;
       position: absolute;
       background-color: $primary;
       border: none;
