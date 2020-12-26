@@ -6,14 +6,19 @@ import Arrow from '../../icons/Arrow'
 import ArrowDown from '../../icons/ArrowDown'
 import ArrowUp from '../../icons/ArrowUp'
 import flashImg from '../../assets/flash.png'
+import Tick from '../../icons/Tick'
 import "./gameCard.scss"
 
 function GameCard(props) {
 
-    const { isSelected = false, showPopup = false } = props || {}
+    const { isSelected = false, showPopup = false, isCompleted = false } = props || {}
 
     return (
         <div className="__game_card_wrapper">
+            {
+                isCompleted &&
+                    <Tick style={{height: 'auto', position: 'absolute', alignSelf: 'center', transform: 'translate(25%, -25%)'}} />
+            }
             <div className="__game_card_container">
                 {
                     isSelected
@@ -26,7 +31,6 @@ function GameCard(props) {
             {
                 showPopup &&
                     <div className="__game_card_popup_container">
-                        <Arrow size={15} color="#3b3c3e" style={{height: 'auto', padding: 0, marginBottom: -3.2}} />
                         <div className="__game_card_popup">
                             <button className="__btn__" title="Decrease">
                                 <Shuffle style={{ height: 'auto' }} size={39} />
@@ -51,7 +55,7 @@ function GameCard(props) {
 }
 
 GameCard.propTypes = {
-    isSelected: PropTypes.bool, showPopup: PropTypes.bool
+    isSelected: PropTypes.bool, showPopup: PropTypes.bool, isCompleted: PropTypes.bool
 }
 
 export default GameCard

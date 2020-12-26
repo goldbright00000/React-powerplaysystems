@@ -28,6 +28,12 @@
     border-width: 0;
   }
 
+  .__game_card_popup_container::before {
+    content: "";
+    border: 10px solid transparent;
+    border-bottom-color: $lightBlack2;
+  }
+
   .__game_card_popup {
     display: flex;
     background-color: $lightBlack2;
