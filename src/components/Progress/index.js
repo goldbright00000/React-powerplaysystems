@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 import PropTypes from 'prop-types';
-import './progressBar.scss';
+import classes from './progressBar.module.scss';
 
 const ProgressBar = props => {
     const [offset, setOffset] = useState(0);
@@ -28,12 +28,12 @@ const ProgressBar = props => {
     return (
         <>
             <svg
-                className="__svg"
+                className={classes.__svg}
                 width={size}
                 height={size}
             >
                 <circle
-                    className="__svg_circle_bg"
+                    className={classes.__svg_circle_bg}
                     stroke={circleOneStroke}
                     cx={center}
                     cy={center}
@@ -42,12 +42,12 @@ const ProgressBar = props => {
                 />
                 <defs>
                     <linearGradient id="gradient" x1={0} y1={0} x2={0} y2={maxProgress}>
-                        <stop offset={0} stopColor="#ffb5a0" />
+                        <stop offset={0} stopColor="#e3610a" />
                         <stop offset={maxProgress} stopColor={circleTwoStroke} />
                     </linearGradient>
                 </defs>
                 <circle
-                    className="__svg_circle"
+                    className={classes.__svg_circle}
                     ref={circleRef}
                     stroke="url(#gradient)"
                     cx={center}
@@ -58,10 +58,10 @@ const ProgressBar = props => {
                     strokeDashoffset={offset}
                     transform={`rotate(-90 ${center} ${center})`}
                 />
-                <text x={center} y={center} className="__svg_circle_text">
+                <text x={center} y={center} className={classes.__svg_circle_text}>
                             {progress}
                     </text>
-                    <text className="__svg_circle_text_2" x={center} y={center + 20}>
+                    <text className={classes.__svg_circle_text_2} x={center} y={center + 20}>
                             Sec
                     </text>
             </svg>

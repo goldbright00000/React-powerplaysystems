@@ -1,10 +1,10 @@
 import React from 'react';
 
-import './card.scss'
+import classes from './card.module.scss'
 
 function Card(props) {
     return (
-        <div className={'__card'}>
+        <div className={classes.__card}>
             {props.children}
         </div>
     )

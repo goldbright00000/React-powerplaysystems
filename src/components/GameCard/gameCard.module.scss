@@ -7,6 +7,10 @@
   height: 187px;
   width: 122px;
 
+  &:hover {
+    cursor: pointer;
+  }
+
   .__game_card_container {
     display: flex;
     flex: 1;
@@ -14,6 +18,16 @@
     border: dashed 1px $grey;
     justify-content: center;
     align-items: center;
+  }
+
+  .__game_card_selected {
+    display: flex;
+    flex: 1;
+    border-radius: 12px;
+    border: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
   }
 
   .__game_card_popup_container {
@@ -55,5 +69,12 @@
         cursor: pointer;
       }
     }
+  }
+
+  .__tick_mark {
+    height: "auto";
+    position: "absolute";
+    align-self: "center";
+    transform: translate(25%, -25%);
   }
 }

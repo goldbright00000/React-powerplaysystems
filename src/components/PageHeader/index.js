@@ -1,23 +1,23 @@
 import React from 'react';
 import ProptTypes from 'prop-types';
 
-import './pageHeader.scss';
+import classes from './pageHeader.module.scss';
 import PageHeaderCard from '../PageHeaderCard'
 
 function PageHeader(props) {
     const { title = '', reward = 0 } = props || {}
     return (
-        <div className='__page_header'>
-            <div className='__page_header_leftside'>
+        <div className={classes.__page_header}>
+            <div className={classes.__page_header_leftside}>
                 <h1>{title}</h1>
-                <div className='__page_header_leftside_sub'>    
+                <div className={classes.__page_header_leftside_sub}>    
                     <p>
                         Win <span>${reward}</span> <small>CAD</small>
                     </p>
-                    <button className={`__btn __page_header_btn`}>See Contest Rules</button>
+                    <button className={`__btn ${classes.__page_header_btn}`}>See Contest Rules</button>
                 </div>
             </div>
-            <div className='__page_header_rightside'>
+            <div className={classes.__page_header_rightside}>
                 <PageHeaderCard />
             </div>
         </div>
