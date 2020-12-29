@@ -12,6 +12,12 @@ import CardGame from './pages/CardGame';
 import PowerPicks from './pages/PowerPicks';
 import ChaseACard from './pages/ChaseACard';
 import SignInPage from './pages/SignInPage/SignInPage';
+import FAQ from './pages/FAQ';
+import Privacy from './pages/Privacy';
+import TrustAndSafety from './pages/TrustAndSafety';
+import AccountSecurity from './pages/AccountSecurity';
+import TermsOfUse from './pages/TermsOfUse';
+
 
 const App = props => {
     return (
@@ -29,6 +35,11 @@ const App = props => {
                 <Route path='/power-picks' component={PowerPicks} />
                 <Route path='/chase-a-card' component={ChaseACard} />
                 <Route path='/signin' component={SignInPage} />
+                <Route path='/faqs' component={FAQ} />
+                <Route path='/privacy' component={Privacy} />
+                <Route path='/trust-and-safety' component={TrustAndSafety} />
+                <Route path='/account-security' component={AccountSecurity} />
+                <Route path='/terms' component={TermsOfUse} />
             </Switch>
         </Fragment>
     )
