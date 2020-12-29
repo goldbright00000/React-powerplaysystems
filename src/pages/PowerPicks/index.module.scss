@@ -1,0 +1,110 @@
+@import "../../scss/colors.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .page_left {
+    position: relative;
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 60%;
+    margin: 100px 0 0 0;
+    justify-content: center;
+    align-items: center;
+
+    .header_top {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+      padding: 0;
+      justify-content: center;
+      align-items: center;
+
+      h1 {
+        margin: 0;
+        padding: 0;
+        color: $white;
+        font-size: 56px;
+
+        .h1_orange {
+          color: $primary;
+        }
+      }
+
+      p {
+        font-size: 20px;
+        padding: 0;
+        margin: 0 0 30px 0;
+      }
+    }
+
+    .header_bottom {
+      display: grid;
+      grid-template-columns: repeat(3, 200px);
+      gap: 10px;
+      justify-content: center;
+      align-items: center;
+
+      p {
+        font-size: 20px;
+        margin: 0;
+        padding: 0;
+      }
+
+      span {
+        font-size: 26px;
+        font-weight: bold;
+        color: $primary;
+      }
+    }
+  }
+
+  .content_header {
+    display: flex;
+    width: 99%;
+    justify-content: space-around;
+    align-items: flex-end;
+    margin: 60px 0 10px 0;
+  }
+
+  .content_left {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+
+    .content_body {
+      margin: 0 0 40px 0;
+      display: flex;
+      flex-direction: column;
+      width: 82%;
+    }
+  }
+
+  .content_header_right {
+    display: flex;
+    flex-direction: row;
+    flex: 0.6;
+    justify-content: space-evenly;
+  }
+
+  .content_header_left {
+    color: $primary;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+  }
+}

@@ -1,0 +1,63 @@
+@import "../../scss/colors.scss";
+
+.__footer {
+  background: linear-gradient(to bottom, $lightBlack, $black);
+  padding: 4em 0;
+  &.__style_2 {
+    background: #17181a;
+  }
+  .__footer_links {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: space-around;
+    grid-gap: 1em;
+    > div {
+      font-weight: 300 !important;
+    }
+    > a {
+      font-weight: 600;
+    }
+  }
+  .__logo {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    width: 9.3em;
+  }
+  .__mediam {
+    letter-spacing: 2px;
+  }
+  @media (max-width: 600px) {
+    .__footer-links {
+      grid-template-columns: auto;
+      grid-gap: initial;
+      > * {
+        padding: 0.5em;
+      }
+      .elm_1 {
+        grid-row-start: 1;
+      }
+      .__add_border {
+        &::after {
+          display: block;
+          content: "";
+          border-bottom: 1px solid;
+          width: 100px;
+          margin: auto;
+          padding: 0.5em;
+        }
+      }
+      .elm_2 {
+        grid-row-start: 2;
+      }
+      .elm_3 {
+        grid-row-start: 3;
+      }
+      .elm_4 {
+        grid-row-start: 4;
+      }
+      .elm_5 {
+        grid-row-start: 5;
+      }
+    }
+  }
+}

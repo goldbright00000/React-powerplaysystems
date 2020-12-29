@@ -1,169 +1,172 @@
-@import '../../scss/colors.scss';
+@import "../../scss/colors.scss";
 
-.__HomePage{
-    overflow-y: hidden;
-    .__viewport-1{
-        background: url('../../assets/HomePageViewPortImage.jpg') top center;
+.__HomePage {
+  overflow-y: hidden;
+  .__viewport_1 {
+    background: url("../../assets/HomePageViewPortImage.jpg") top center;
+  }
+  .__viewport-subtitle {
+    max-width: 28em;
+  }
+  .__main {
+    width: 50%;
+  }
+  .__background {
+    padding: 0.1px;
+  }
+  .__background-2 {
+    background-image: url("../../assets/HomePageViewPortImage (02).jpg");
+    background-position: bottom right;
+  }
+  .__background-3 {
+    background-image: url("../../assets/HomePageViewPortImage (03).jpg");
+  }
+  .__explore-games {
+    text-decoration: underline;
+  }
+  .__background-4 {
+    padding: 0.1px;
+    background-image: url("../../assets/HomePageViewPortImage (04).jpg");
+    .__socket-ball-boy-image {
+      background: url("../../assets/HomePageViewPortImage (05).png") no-repeat
+        left center;
     }
-    .__viewport-subtitle{
-        max-width: 28em;
+  }
+  .__instructions-step {
+    margin-left: 30em;
+    > div {
+      counter-increment: section;
+      position: relative;
+      padding-left: 6.2em;
+      &::before {
+        content: counter(section);
+        position: absolute;
+        width: 2.4em;
+        height: 2.4em;
+        background: $primary;
+        top: 0.3em;
+        left: 0;
+        color: #f2f2f2;
+        font-size: 1.85em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 0.2em;
+      }
     }
-    .__main{
-        width: 50%;
+  }
+  .__background-5 {
+    background-image: url("../../assets/HomePageViewPortImage (06).png");
+    background-position: top right;
+  }
+  .__background-5-main {
+    max-width: 37em;
+  }
+  .__powerplay-large-icon {
+    right: 0;
+    top: 8em;
+  }
+}
+
+@media (max-width: 1023px) {
+  .__HomePage {
+    .__viewport_title {
+      background: transparent;
     }
-    .__background{
-        padding: 0.1px;
+    .__internation-patent-pending {
+      text-align: center;
     }
-    .__background-2{
-        background-image: url('../../assets/HomePageViewPortImage (02).jpg');
-        background-position: bottom right;
+    .__main {
+      width: initial;
+      .__explore-games {
+        display: inline-block;
+      }
     }
-    .__background-3{
-        background-image: url('../../assets/HomePageViewPortImage (03).jpg');
+    .__explore-games {
+      color: #f2f2f2;
     }
-    .__explore-games{
-        text-decoration: underline;
-    }
-    .__background-4{
-        padding: 0.1px;
-        background-image: url('../../assets/HomePageViewPortImage (04).jpg');
-        .__socket-ball-boy-image{
-            background: url('../../assets/HomePageViewPortImage (05).png') no-repeat left center;
-        }
+    .__power-up-btn {
+      margin-top: 1em !important;
     }
     .__instructions-step {
-        margin-left: 30em;
-        >div{
-            counter-increment: section;
-            position: relative;
-            padding-left: 6.2em;
-            &::before{
-                content: counter(section);
-                position: absolute;
-                width: 2.4em;
-                height: 2.4em;
-                background: $primary;
-                top: 0.3em;
-                left: 0;
-                color: #f2f2f2;
-                font-size: 1.85em;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 0.2em;
-            }
+      margin: 1em 0 4em 0 !important;
+      > div {
+        padding-left: 2.4em;
+        margin-right: 40%;
+        &::before {
+          width: 1.7em;
+          height: 1.7em;
+          font-size: 1em;
         }
+      }
     }
-    .__background-5{
-        background-image: url('../../assets/HomePageViewPortImage (06).png');
-        background-position: top right;
-    }
-    .__background-5-main{
-        max-width: 37em;
-    }
-    .__powerplay-large-icon{
-        right: 0;
-        top: 8em
-    }
+  }
 }
 
-@media (max-width: 1023px){
-    .__HomePage{
-        .__viewport-title{
-            background: transparent;
-        }
-        .__internation-patent-pending{
-            text-align: center;
-        }
-        .__main{
-            width: initial;
-            .__explore-games{
-                display: inline-block;
-            }
-        }
-        .__explore-games{
-            color: #f2f2f2;
-        }
-        .__power-up-btn{
-            margin-top: 1em !important;
-        }
-        .__instructions-step{
-            margin: 1em 0 4em 0 !important;
-            >div{
-                padding-left: 2.4em;
-                margin-right: 40%;
-                &::before{
-                    width: 1.7em;
-                    height: 1.7em;
-                    font-size: 1em;
-                }
-            }
-        }
+@media (max-width: 800px) {
+  .__HomePage {
+    .__background-3,
+    .__background-4,
+    .__background-5 {
+      background-size: cover 100%;
     }
+    .__background-2 {
+      background-image: url("../../assets/group-7@2x.jpg");
+      background-position: bottom center;
+      .__power-up-btn {
+        margin-bottom: 2em !important;
+      }
+      .__explore-games {
+        margin-top: 2em;
+      }
+    }
+    .__background-3 {
+      background-image: url("../../assets/group-7-copy@2x.jpg");
+      background-position: center right;
+    }
+    .__background-4 {
+      background-image: url("../../assets/group-9@2x.jpg");
+      background-position: bottom right;
+      .__socket-ball-boy-image {
+        background: none;
+      }
+      .__bold {
+        font-weight: 500;
+      }
+      .__title {
+        color: $primary;
+      }
+      .__power-up-btn {
+        margin-top: 3em !important;
+      }
+    }
+    .__background-5-main {
+      max-width: initial;
+    }
+    .__background-5 {
+      .__powerplay-large-icon {
+        width: 8em;
+        position: relative;
+        right: -3em;
+        top: -1em;
+      }
+    }
+  }
 }
-
-@media (max-width: 800px){
-    .__HomePage{
-        .__background-3, .__background-4, .__background-5{
-            background-size: cover 100%;
+@media (max-width: 600px) {
+  .__HomePage {
+    .__background-4 {
+      .__instructions-step {
+        > div {
+          margin-right: 0;
+          &:nth-child(3) {
+            margin-right: 20vw;
+          }
+          &:nth-child(4) {
+            margin-right: 50%;
+          }
         }
-        .__background-2{
-            background-image: url('../../assets/group-7@2x.jpg');
-            background-position: bottom center;
-            .__power-up-btn{
-                margin-bottom: 2em !important;
-            }
-            .__explore-games{
-                margin-top: 2em;
-            }
-        }
-        .__background-3{
-            background-image: url('../../assets/group-7-copy@2x.jpg');
-            background-position: center right;
-        } 
-        .__background-4{
-            background-image: url('../../assets/group-9@2x.jpg');
-            background-position: bottom right;
-            .__socket-ball-boy-image{
-                background: none;
-            }
-            .__bold{
-                font-weight: 500;
-            }
-            .__title{
-                color: $primary;
-            }
-            .__power-up-btn{
-                margin-top: 3em !important;
-            }
-        }
-        .__background-5-main{
-            max-width: initial;
-        }
-        .__background-5{
-            .__powerplay-large-icon{
-                width: 8em;
-                position: relative;
-                right: -3em;
-                top: -1em;
-            }
-        }
+      }
     }
-}
-@media (max-width: 600px){
-    .__HomePage{
-        .__background-4{
-            .__instructions-step{
-                >div{
-                    margin-right: 0;
-                    &:nth-child(3){
-                        margin-right: 20vw;
-                    }
-                    &:nth-child(4){
-                        margin-right: 50%;
-                    }
-                }
-            }
-        }
-    }
+  }
 }
