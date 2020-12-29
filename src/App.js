@@ -8,6 +8,7 @@ import SelectTeams from './pages/SelectTeams/SelectTeams';
 import PowerBetLive from './pages/PowerBetLive/PowerBetLive';
 import ScrollToTop from './utility/ScrollToTop';
 import BingoPreGame from './pages/BingoPreGame/BingoPreGame';
+import SignInPage from './pages/SignInPage/SignInPage';
 
 const App = props => {
     return (
@@ -21,6 +22,7 @@ const App = props => {
                 <Route path='/select-teams' component={SelectTeams} />
                 <Route path='/powerbet-live' component={PowerBetLive} />
                 <Route path='/bingo-game' component={BingoPreGame} />
+                <Route path='/signin' component={SignInPage} />
             </Switch>
         </Fragment>
     )

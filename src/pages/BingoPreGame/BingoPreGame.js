@@ -1,7 +1,7 @@
 import React from 'react';
 import './BingoPreGame.scss';
 import Footer from '../../components/Footer/Footer';
-import Header2 from '../../components/Header2/Header2';
+import Header from '../../components/Header/Header';
 import { Link } from 'react-router-dom';
 import clockimage from '../../assets/StopWatchIcon@2x.png';
 import TimerClock from './TimerClock';
@@ -15,7 +15,7 @@ import DecreaseIcon from '../../assets/DecreaseIcon.png';
 const BingoPreGame = props => {
     return (
         <div className='__BingoPreGame'>
-            <Header2 />
+            <Header isStick={true} />
             <div className='__flex-stretch __main'>
                 <div className='__main-left __mt-5 __ml-5'>
                     <div className='__title __bold'>Bingo</div>
