@@ -10,7 +10,8 @@ import ScrollToTop from './utility/ScrollToTop';
 import BingoPreGame from './pages/BingoPreGame/BingoPreGame';
 import CardGame from './pages/CardGame';
 import PowerPicks from './pages/PowerPicks';
-import ChaseACard from './pages/ChaseACard'
+import ChaseACard from './pages/ChaseACard';
+import SignInPage from './pages/SignInPage/SignInPage';
 
 const App = props => {
     return (
@@ -27,6 +28,7 @@ const App = props => {
                 <Route path='/card-game' component={CardGame} />
                 <Route path='/power-picks' component={PowerPicks} />
                 <Route path='/chase-a-card' component={ChaseACard} />
+                <Route path='/signin' component={SignInPage} />
             </Switch>
         </Fragment>
     )

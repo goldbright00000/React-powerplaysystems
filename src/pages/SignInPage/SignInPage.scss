@@ -1,0 +1,86 @@
+.__SignInPage{
+    .__sign-in-container{
+        width: calc(100% - 2em);
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+    .__viewport-title{
+        padding: 0.2em;
+    }
+    .__viewport-subtitle{
+        letter-spacing: -0.17px;
+    }
+    .__sign-in-section{
+        padding: 0.1px 0;
+    }
+    .__sign-in-form{
+        padding: 0.5em 1.2em;
+        background: #fff;
+        border-radius: 0.7em;
+        margin-top: 7em;
+    }
+    .__submit-btn{
+        display: block;
+        padding: 0.86em;
+        width: calc(100% - 1em);
+        border-radius: 0.4em;
+        margin: 3em auto -3.6em auto;
+    }
+    .__login-link{
+        text-decoration: underline;
+    }
+}
+
+@media (min-width: 600px){
+    .__SignInPage{
+        .__background-section{
+            background: #0A0A0A url('../../assets/signin-background.png') no-repeat left top;
+            background-size: auto 120%;
+        }
+        .__background-color{
+            padding: 0.1px 0 13em 0;
+            background-color: rgba(17, 17, 17, 0.6);
+        }
+        .__sign-in-section{
+            transform: skewY(-4deg);
+            background: #202124;
+            transform-origin: top left;
+        }
+        .__form-wrapper{
+            transform: skewY(4deg);
+        }
+        .__sign-in-form{
+            margin: -5.5em auto 0 auto;
+            max-width: 33em;
+            padding: 3.6em 3.4em;
+        }
+    }
+}
+
+@media (max-width: 600px){
+    .__SignInPage{
+        .__mt-7.__sign-in-container{
+            margin-top: 3em !important;
+        }
+        .__submit-btn{
+            margin: 3em auto -1.5em auto;
+            padding: 0.4em;
+            width: 220px;
+        }
+        .__sign-in-form{
+            width: 100%;
+        }
+        .__sign-in-section{
+            margin-bottom: 8em;
+        }
+    }
+}
+
+@media (max-width: 350px){
+    .__SignInPage{
+        .__viewport-title{
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+    }
+}
