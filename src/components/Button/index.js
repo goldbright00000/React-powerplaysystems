@@ -7,7 +7,7 @@ function Button(props) {
     const { title = '', icon = '', isRounded = false, style = {}, iconOnly = false,
             onClick = () => { } } = props || {}
     return (
-        <button className={`${!iconOnly && '__btn'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick}>
+        <button className={`${!iconOnly && '__btn'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick} style={style}>
             {
                 !iconOnly
                     ?

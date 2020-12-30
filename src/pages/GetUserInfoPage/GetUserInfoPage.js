@@ -24,8 +24,9 @@ const GetUserInfoPage = props => {
             <div className='__form-section __mb-5'>
                 <div className='__form-wrapper __container-2 __flex __sb __block-on-mediam'>
                     <div className='__center'>
-                        <div className='__primary-color __h3 __bolder __mt-4'>10 Powerplay tokens</div>
-                        <div className='__h5 __mt-s __mb-4'>will be added to your account!</div>
+                        <div className='__primary-color __h3 __bolder __mt-4 __h6-on-mediam __form-title'><span className='__show-on-mediam'>Receive </span>10 Powerplay tokens</div>
+                        <div className='__h5 __mt-s __mb-4 __hide-on-mediam'>will be added to your account!</div>
+                        <div className='__show-on-mediam __small __mb-3'>just for signing up!</div>
                         <img alt='' src={img1} className='__block __powerplay-image __hide-on-mediam' />
                     </div>
                     <form className='__sign-in-form'>
@@ -41,7 +42,11 @@ const GetUserInfoPage = props => {
                             <Input type='text' title='Country' id='country' />
                             <Input type='text' title='State/Province' id='state' />
                         </div>
-                        <div className='__flex __flex-end __inputs-wrapper __date-fields-wrapper'>
+                        <div className='__flex __flex-end __inputs-wrapper __date-fields-wrapper __relative'>
+                            <div className='__bonus-token __absolute __primary-color __flex'>
+                                <span className='__mr-s'>+ 5 bonus tokens</span>
+                                <img src={powerplayicon} alt='' />
+                            </div>
                             <Select title='Date of birth'>
                                 <option>Month</option>
                                 <option>Jan</option>
@@ -72,9 +77,15 @@ const GetUserInfoPage = props => {
                             <CheckBox />
                             <span>I agree to receive email communications regarding status of games that I enter.</span>
                         </label>
-                        <label className='__flex __flex-start __checkbox-wrapper __mb-1'>
+                        <label className='__flex __flex-start __checkbox-wrapper __mb-1 __relative'>
                             <CheckBox />
-                            <span>I agree to receive marketing email communications from Powerplay Systems and or their partners.</span>
+                            <span className='__f1'>
+                                I agree to receive marketing email communications from Powerplay Systems and or their partners.
+                            <span className='__bonus-token __absolute'>
+                                    <span className='__mr-s __primary-color'>+ 5 bonus tokens</span>
+                                    <img src={powerplayicon} alt='' align='center' />
+                                </span>
+                            </span>
                         </label>
                         <button className='__btn __h4 __submit-btn __uppercase __block __h5-on-small'>Power up!</button>
                     </form>

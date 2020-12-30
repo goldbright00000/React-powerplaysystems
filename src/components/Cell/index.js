@@ -8,30 +8,30 @@ import CellVeryLow from '../../icons/CellVeryLow'
 import classes from './index.module.scss'
 
 const Cell = props => {
-    const {high = false, medium = false, low = false, veryLow = false, text = ''} = props || {}
+    const { high = false, medium = false, low = false, veryLow = false, text = '', styles = {}, size = 0} = props || {}
     return (
-        <div className={`${classes.cell_container} ${high && classes.cell_high} ${medium && classes.cell_medium} ${low && classes.cell_low} ${veryLow && classes.cell_low}`}>
+        <div className={`${classes.cell_container} ${high && classes.cell_high} ${medium && classes.cell_medium} ${low && classes.cell_low} ${veryLow && classes.cell_low}`} style={styles}>
             <span>
                 {text}
             </span>
             {
                 high &&
-                    <CellHigh style={{height: 'auto'}} />
+                    <CellHigh style={{height: 'auto'}} size={size !== 0 && size} />
             }
 
             {
                 medium &&
-                    <CellMedium style={{height: 'auto'}} />
+                    <CellMedium style={{height: 'auto'}} size={size !== 0 && size} />
             }
 
             {
                 low &&
-                    <CellLow style={{height: 'auto'}} />
+                    <CellLow style={{height: 'auto'}} size={size !== 0 && size} />
             }
 
             {
                 veryLow &&
-                    <CellVeryLow style={{height: 'auto'}} />
+                    <CellVeryLow style={{height: 'auto'}} size={size !== 0 && size} />
             }
             
         </div>
@@ -43,7 +43,8 @@ Cell.propTypes = {
     medium: PropTypes.bool,
     low: PropTypes.bool,
     veryLow: PropTypes.bool,
-    text: PropTypes.string
+    text: PropTypes.string,
+    styles: PropTypes.object
 }
 
 export default Cell

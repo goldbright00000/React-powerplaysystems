@@ -1,3 +1,5 @@
+@import '../../scss/colors.scss';
+
 .__GetUserInfoPage{
     .__background-color{
         padding: 0.1px 0 13em 0;
@@ -7,6 +9,7 @@
         transform: skewY(-4deg);
         background: #202124;
         transform-origin: top left;
+        padding: 0.1px 0;
     }
     .__form-wrapper{
         transform: skewY(4deg);
@@ -37,9 +40,6 @@
     }
     .__viewport-subtitle{
         letter-spacing: -0.17px;
-    }
-    .__form-section{
-        padding: 0.1px 0;
     }
     .__sign-in-form{
         background: #fff;
@@ -79,6 +79,28 @@
             text-decoration: underline  ;
         }
     }
+    .__inputs-wrapper{
+        .__bonus-token{
+            top: 1.3em;
+        }
+    }
+    .__bonus-token{
+        right: 0;
+        margin-right: 0 !important;
+        font-size: 12px !important;
+        img{
+            width: 1.66em;
+        }
+    }
+    .__checkbox-wrapper{
+        .__bonus-token{
+            top: 1.24em;
+            span{
+                font-size: 12px;
+                color: $primary;
+            }
+        }
+    }
 }
 
 @media (max-width: 1023px){
@@ -91,6 +113,21 @@
 
 @media (max-width: 600px){
     .__GetUserInfoPage{
+        .__checkbox-wrapper{
+            .__bonus-token{
+                position: initial;
+            }
+        }
+        .__form-wrapper{
+            margin-top: -7em;
+            transform: skewY(8deg);
+        }
+        .__form-title{
+            font-weight: 600;
+        }
+        .__background-color{
+            padding-bottom: 7em;
+        }
         .__mt-7.__sign-in-container{
             margin-top: 3em !important;
         }
@@ -105,6 +142,15 @@
         }
         .__form-section{
             margin-bottom: 8em;
+            transform: skewY(-8deg);
+        }
+        .__container-2{
+            width: calc(100% - 2em);
+        }
+        .__block-on-small{
+            >*{
+                margin-right: 0 !important;
+            }
         }
     }
 }
@@ -114,6 +160,7 @@
         .__viewport-title{
             margin-left: 0 !important;
             margin-right: 0 !important;
+            font-size: 1.5em;
         }
     }
 }
