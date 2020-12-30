@@ -12,6 +12,7 @@ import CardGame from './pages/CardGame';
 import PowerPicks from './pages/PowerPicks';
 import ChaseACard from './pages/ChaseACard';
 import SignInPage from './pages/SignInPage/SignInPage';
+import GetUserInfoPage from './pages/GetUserInfoPage/GetUserInfoPage';
 
 const App = props => {
     return (
@@ -29,6 +30,7 @@ const App = props => {
                 <Route path='/power-picks' component={PowerPicks} />
                 <Route path='/chase-a-card' component={ChaseACard} />
                 <Route path='/signin' component={SignInPage} />
+                <Route path='/user-profile-info' component={GetUserInfoPage} />
             </Switch>
         </Fragment>
     )

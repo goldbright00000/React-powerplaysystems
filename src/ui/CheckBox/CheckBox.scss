@@ -1,0 +1,18 @@
+@import '../../scss/colors.scss';
+
+.__checkbox-field{
+    &.__flex{
+        margin: 1em 0;
+        input{
+            margin-top: 0.2em !important;
+        }
+    }
+    input{
+        color: $primary;
+    }
+    label{
+        font-size: 10px;
+        opacity: 0.6;
+        line-height: 1.6em;
+    }
+}
