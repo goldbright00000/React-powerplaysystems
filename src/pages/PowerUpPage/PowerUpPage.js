@@ -2,12 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import './SignInPage.scss';
+import './PowerUpPage.scss';
 import Input from '../../ui/Input/Input';
 
-const SignInPage = props => {
+const PowerUpPage = props => {
+    const onSubmit = e => {
+        e.preventDefault();
+        props.history.push('/user-profile-info')
+    }
     return (
-        <div className='__SignInPage'>
+        <div className='__PowerUpPage'>
             <Header isStick={true} />
             <div className='__background-section'>
                 <div className='__background-color'>
@@ -21,7 +25,7 @@ const SignInPage = props => {
             </div>
             <div className='__sign-in-section __form-section'>
                 <div className='__form-wrapper __sign-in-container'>
-                    <form className='__sign-in-form __container'>
+                    <form className='__sign-in-form __container' onSubmit={onSubmit}>
                         <Input type='text' title='Username' id='username' />
                         <Input type='email' title='E-mail' id='email' />
                         <Input type='password' title='Create-a-password' id='password' />
@@ -36,4 +40,4 @@ const SignInPage = props => {
     )
 }
 
-export default SignInPage;
+export default PowerUpPage;
