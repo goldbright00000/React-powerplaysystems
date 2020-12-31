@@ -77,3 +77,9 @@ body{
 }
 
 @import './responsive.scss';
+
+@media (min-width: 1800px){
+    body{
+        font-size: 18px;
+    }
+}
