@@ -11,6 +11,11 @@
         display: none;
     }
 }
+@media (min-width: 1023px){
+    .__show-on-mediam{
+        display: none;
+    }
+}
 @media (max-width: 1200px){
     .__column-on-large{
         flex-direction: column;

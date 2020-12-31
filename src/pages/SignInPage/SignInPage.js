@@ -19,7 +19,7 @@ const SignInPage = props => {
                     </div>
                 </div>
             </div>
-            <div className='__sign-in-section'>
+            <div className='__sign-in-section __form-section'>
                 <div className='__form-wrapper __sign-in-container'>
                     <form className='__sign-in-form __container'>
                         <Input type='text' title='Username' id='username' />
