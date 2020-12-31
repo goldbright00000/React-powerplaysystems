@@ -13,8 +13,15 @@ import Button from '../../components/Button'
 import AngleIcon from '../../icons/AngleIcon'
 import Cell from '../../components/Cell'
 
+const listItems = [
+    { title: 'NCAA', value: 'ncaa' },
+    { title: 'NCAA Football', value: 'football' },
+    { title: 'NCAA Basketball', value: 'basketball' }
+]
+
 function PowerPicksPage() {
-    const [selected, setSelected] = useState('')
+    const [selected, setSelected] = useState(listItems[0])
+
     const isTableOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
     return (
         <>
@@ -48,7 +55,10 @@ function PowerPicksPage() {
                                     </>
                                     :
                                     <div className={classes.header_bottom_mobile}>
-                                    <PowerPickCard shadow styles={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: '16px'}}>
+                                        <PowerPickCard shadow styles={{
+                                            display: 'flex',
+                                            flexDirection: 'row', justifyContent: 'space-around', fontSize: '16px'
+                                        }}>
                                         <div>
                                             <p>Spread</p>
                                             <span>54%</span>
@@ -80,29 +90,33 @@ function PowerPicksPage() {
                             </div>
 
                             <div className={classes.content_header_right}>
-                                <ButtonDropdown elements={[
-                                    { title: 'NCAA', value: 'ncaa' },
-                                ]} selected={selected} onChange={(e) => {
-                                    setSelected(e?.target?.value)
-                                    }} isActive styles={{margin: '0 5px'}} />
+                                <ButtonDropdown elements={listItems} selected={selected} onChange={(item) => {
+                                    setSelected(item)
+                                    }} isActive styles={{ margin: '0 5px' }} />
                                 
-                                <ButtonDropdown elements={[
-                                    { title: 'Basketball', value: 'basketball' },
-                                ]} selected={selected} onChange={(e) => {
-                                    setSelected(e?.target?.value)
-                                    }} styles={{margin: '0 5px'}} />
-                                
-                                <ButtonDropdown elements={[
-                                    { title: 'Hockey', value: 'hockey' },
-                                ]} selected={selected} onChange={(e) => {
-                                    setSelected(e?.target?.value)
-                                    }} styles={{margin: '0 5px'}} />
-                                
-                                <ButtonDropdown elements={[
-                                    { title: 'Baseball', value: 'baseball' },
-                                ]} selected={selected} onChange={(e) => {
-                                    setSelected(e?.target?.value)
-                                }} styles={{margin: '0 5px'}} />
+                                <Button title="NHL" styles={{
+                                    backgroundColor: '#303133',
+                                    border: '1px solid #fff',
+                                    borderRadius: '12px', margin: '0 4px',
+                                }} />
+
+                                <Button title="NBA" styles={{
+                                    backgroundColor: '#303133',
+                                    border: '1px solid #fff',
+                                    borderRadius: '12px', margin: '0 4px'
+                                }} />
+
+                                <Button title="NFL" styles={{
+                                    backgroundColor: '#303133',
+                                    border: '1px solid #fff',
+                                    borderRadius: '12px', margin: '0 4px'
+                                }} />
+
+                                <Button title="MLB" styles={{
+                                    backgroundColor: '#303133',
+                                    border: '1px solid #fff',
+                                    borderRadius: '12px', margin: '0 4px'
+                                }} />
                             </div>
                         </div>
                     
@@ -116,7 +130,7 @@ function PowerPicksPage() {
                                     </PowerPickCard>
                                     :
                                     <>
-                                        <PowerPickInfoCard />
+                                        <PowerPickInfoCard/>
                                         <PowerPickInfoCard />
                                         <PowerPickInfoCard />
                                     </>

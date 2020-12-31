@@ -4,10 +4,10 @@ import PropTypes from 'prop-types'
 import "./button.scss"
 
 function Button(props) {
-    const { title = '', icon = '', isRounded = false, style = {}, iconOnly = false,
+    const { title = '', icon = '', isRounded = false, styles = {}, iconOnly = false,
             onClick = () => { } } = props || {}
     return (
-        <button className={`${!iconOnly && '__btn'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick} style={style}>
+        <button className={`${!iconOnly && '__btn'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick} style={styles}>
             {
                 !iconOnly
                     ?
@@ -16,6 +16,7 @@ function Button(props) {
                         {title}
                     </div>
                     :
+                    icon &&
                     {...icon}
             }
         </button>
@@ -26,7 +27,7 @@ Button.propTypes = {
     title: PropTypes.string,
     icon: PropTypes.any,
     isRounded: PropTypes.bool,
-    style: PropTypes.any,
+    styles: PropTypes.any,
     iconOnly: PropTypes.bool,
     onClick: PropTypes.func
 }

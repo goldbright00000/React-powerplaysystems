@@ -1,45 +1,108 @@
 @import "../../scss/colors.scss";
 
-.select_container {
+.select_container_1 {
   position: relative;
-}
-
-.select_container:after {
-  content: ">";
-  right: 5px;
-  top: -6px;
-  border: 10px solid transparent;
-  position: absolute;
-  color: $white;
-  font-size: 30px;
-  transform: rotate(90deg);
-}
-
-select::-ms-expand {
-  display: none;
-}
-
-.select_container select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: transparent;
-  border: 2px solid $white;
+  display: flex;
+  flex-direction: column;
   height: 48px;
   line-height: 48px;
-  padding: 0px 25px 0px 18px;
-  font-size: 18px;
-  -ms-word-break: normal;
-  word-break: normal;
-  color: $white;
-  border-radius: 12px;
+  width: 150px;
+
+  .select_header {
+    height: 100%;
+    width: 100%;
+
+    button {
+      width: 100%;
+      height: 100%;
+      background-color: $lightGrey;
+      border-radius: 12px;
+      border: 2px solid $primary;
+    }
+  }
+
+  .select_body {
+    border: 2px solid $primary;
+    border-radius: 12px;
+    background-color: $lightGrey;
+    position: relative;
+    margin: 2px 0 0 0;
+  }
+
+  button {
+    width: 100%;
+    height: 48px;
+    background-color: $lightGrey;
+    border: none;
+    color: $white;
+  }
+
+  .divider {
+    border-bottom: 2px solid $primary;
+    margin: 0;
+    padding: 0;
+  }
+
+  .borderRadiusTop {
+    border-radius: 12px 12px 0 0;
+  }
+
+  .borderRadiusBottom {
+    border-radius: 0 0 12px 12px;
+  }
 }
 
-.selected select {
-  color: $primary;
-  border-color: $primary;
-}
+@media only screen and (max-width: 1224px) {
+  .select_container_1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 35px;
+    line-height: 35px;
+    width: 97%;
+    z-index: 1;
 
-.selected:after {
-  color: $primary;
+    .select_header {
+      height: 100%;
+      width: 100%;
+
+      button {
+        width: 100%;
+        height: 100%;
+        background-color: $lightGrey;
+        border-radius: 12px;
+        border: 2px solid $primary;
+      }
+    }
+
+    .select_body {
+      border: 2px solid $primary;
+      border-radius: 12px;
+      background-color: $lightGrey;
+      position: relative;
+      margin: 2px 0 0 0;
+    }
+
+    button {
+      width: 100%;
+      height: 35px;
+      background-color: $lightGrey;
+      border: none;
+      color: $white;
+    }
+
+    .divider {
+      border-bottom: 2px solid $primary;
+      margin: 0;
+      padding: 0;
+    }
+
+    .borderRadiusTop {
+      border-radius: 12px 12px 0 0;
+    }
+
+    .borderRadiusBottom {
+      border-radius: 0 0 12px 12px;
+    }
+  }
 }
