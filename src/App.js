@@ -11,8 +11,6 @@ import BingoPreGame from './pages/BingoPreGame/BingoPreGame';
 import CardGame from './pages/CardGame';
 import PowerPicks from './pages/PowerPicks';
 import ChaseACard from './pages/ChaseACard';
-
-import SignInPage from './pages/SignInPage/SignInPage';
 import FAQ from './pages/FAQ';
 import Privacy from './pages/Privacy';
 import TrustAndSafety from './pages/TrustAndSafety';
@@ -37,7 +35,6 @@ const App = props => {
                 <Route path='/card-game' component={CardGame} />
                 <Route path='/power-picks' component={PowerPicks} />
                 <Route path='/chase-a-card' component={ChaseACard} />
-                <Route path='/signin' component={SignInPage} />
                 <Route path='/faqs' component={FAQ} />
                 <Route path='/privacy' component={Privacy} />
                 <Route path='/trust-and-safety' component={TrustAndSafety} />
