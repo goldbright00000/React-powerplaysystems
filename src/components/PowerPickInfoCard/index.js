@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useMediaQuery } from 'react-responsive'
 
 import Clock2 from '../../icons/Clock2'
 import Calendar2 from '../../icons/Calendar2'
@@ -9,36 +10,37 @@ import Cell from '../../components/Cell'
 import classes from './index.module.scss'
 
 function PowerPickInfoCard(props) {
-    const {showHeader = false} = props || {}
+    const { showHeader = false } = props || {}
+    const isTableOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
     return (
         <div className={classes.content_card_grid_wrapper}>
             {
                 showHeader &&
                 <div className={classes.content_card_grid_header}>
-                <div className={classes.content_card_grid_header_left}>
-                    <span>
-                        HOME
-                    </span>
+                    <div className={classes.content_card_grid_header_left}>
+                        <span>
+                            HOME
+                        </span>
 
-                    <span>
-                        VISITOR
-                    </span>
-                </div>
-
-                <div className={classes.content_card_grid_header_right}>
-                    <div className={classes.content_card_grid_header_right_sub}>
-                        SPREAD
+                        <span>
+                            VISITOR
+                        </span>
                     </div>
 
-                    <div className={classes.content_card_grid_header_right_sub}>
-                        WINNER
-                    </div>
+                    <div className={classes.content_card_grid_header_right}>
+                        <div className={classes.content_card_grid_header_right_sub}>
+                            SPREAD
+                        </div>
 
-                    <div className={classes.content_card_grid_header_right_sub}>
-                        OVER/UNDER
+                        <div className={classes.content_card_grid_header_right_sub}>
+                            WINNER
+                        </div>
+
+                        <div className={classes.content_card_grid_header_right_sub}>
+                            OVER/UNDER
+                        </div>
                     </div>
-                </div>
-            </div>
+                 </div>
             }
             <div className={classes.content_card_grid_container}>
                 <div className={classes.content_card_body}>
@@ -115,15 +117,18 @@ function PowerPickInfoCard(props) {
 
                     <div className={classes.content_card_body_right}>
                         <div className={classes.content_card_body_right_grid}>
-                            <Cell high text="Bengals +3.5" />
+                            {isTableOrMobile && <span className={classes.content_card_body_right_grid_title}>SPREAD</span>}
+                            <Cell high text="Bengals +3.5" size={isTableOrMobile && 33} />
                         </div>
 
                         <div className={classes.content_card_body_right_grid}>
-                            <Cell medium text="Saints to Win" />
+                        {isTableOrMobile && <span className={classes.content_card_body_right_grid_title}>WINNING</span>}
+                            <Cell medium text="Saints to Win" size={isTableOrMobile && 33}/>
                         </div>
 
                         <div className={classes.content_card_body_right_grid}>
-                            <Cell veryLow text="U 45.5" />
+                        {isTableOrMobile && <span className={classes.content_card_body_right_grid_title}>OVER/UNDER</span>}
+                            <Cell veryLow text="U 45.5" size={isTableOrMobile && 33}/>
                         </div>
                     </div>
                 </div>

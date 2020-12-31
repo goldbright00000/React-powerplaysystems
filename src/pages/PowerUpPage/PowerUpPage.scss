@@ -1,4 +1,4 @@
-.__SignInPage{
+.__PowerUpPage{
     .__sign-in-container{
         width: calc(100% - 2em);
         margin-left: 1em;
@@ -32,7 +32,7 @@
 }
 
 @media (min-width: 600px){
-    .__SignInPage{
+    .__PowerUpPage{
         .__background-section{
             background: #0A0A0A url('../../assets/signin-background.png') no-repeat left top;
             background-size: auto 120%;
@@ -58,7 +58,7 @@
 }
 
 @media (max-width: 600px){
-    .__SignInPage{
+    .__PowerUpPage{
         .__mt-7.__sign-in-container{
             margin-top: 3em !important;
         }
@@ -77,7 +77,7 @@
 }
 
 @media (max-width: 350px){
-    .__SignInPage{
+    .__PowerUpPage{
         .__viewport-title{
             margin-left: 0 !important;
             margin-right: 0 !important;

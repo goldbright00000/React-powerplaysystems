@@ -1,0 +1,166 @@
+@import '../../scss/colors.scss';
+
+.__GetUserInfoPage{
+    .__background-color{
+        padding: 0.1px 0 13em 0;
+        background-color: rgba(17, 17, 17, 0.6);
+    }
+    .__form-section{
+        transform: skewY(-4deg);
+        background: #202124;
+        transform-origin: top left;
+        padding: 0.1px 0;
+    }
+    .__form-wrapper{
+        transform: skewY(4deg);
+        margin-top: -11em;
+    }
+    .__sign-in-form{
+        max-width: 33em;
+        padding: 2em 3.4em 3.6em 3.4em;
+    }
+    .__inputs-wrapper{
+        >*:not(:last-child){
+            margin-right: 1.2em;
+        }
+    }
+    .__powerplay-image{
+        width: 100%;
+        max-width: 30em;
+        position: relative;
+        left: 1em;
+    }
+    .__sign-in-container{
+        width: calc(100% - 2em);
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+    .__viewport-title{
+        padding: 0.2em;
+    }
+    .__viewport-subtitle{
+        letter-spacing: -0.17px;
+    }
+    .__sign-in-form{
+        background: #fff;
+        border-radius: 0.7em;
+        margin-top: 7em;
+        color: #000;
+    }
+    .__date-fields-wrapper{
+        >*{
+            flex: 1;
+            &:first-child{
+                flex: 2;
+            }
+        }
+    }
+    .__submit-btn{
+        display: block;
+        padding: 0.86em;
+        width: calc(100% - 1em);
+        border-radius: 0.4em;
+        margin: 3em auto -3.6em auto;
+    }
+    .__login-link{
+        text-decoration: underline;
+    }
+    .__checkbox-wrapper{
+        span{
+            font-size: 0.715em;
+            line-height: 1.6em;
+            color: rgba($color: #000000, $alpha: 0.6);
+            margin-left: 1.6em;
+        }
+        input{
+            margin-top: 1;
+        }
+        .__terms-conditions{
+            text-decoration: underline  ;
+        }
+    }
+    .__inputs-wrapper{
+        .__bonus-token{
+            top: 1.3em;
+        }
+    }
+    .__bonus-token{
+        right: 0;
+        margin-right: 0 !important;
+        font-size: 12px !important;
+        img{
+            width: 1.66em;
+        }
+    }
+    .__checkbox-wrapper{
+        .__bonus-token{
+            top: 1.24em;
+            span{
+                font-size: 12px;
+                color: $primary;
+            }
+        }
+    }
+}
+
+@media (max-width: 1023px){
+    .__GetUserInfoPage{
+        .__sign-in-form{
+            margin: auto;
+        }
+    }
+}
+
+@media (max-width: 600px){
+    .__GetUserInfoPage{
+        .__checkbox-wrapper{
+            .__bonus-token{
+                position: initial;
+            }
+        }
+        .__form-wrapper{
+            margin-top: -7em;
+            transform: skewY(8deg);
+        }
+        .__form-title{
+            font-weight: 600;
+        }
+        .__background-color{
+            padding-bottom: 7em;
+        }
+        .__mt-7.__sign-in-container{
+            margin-top: 3em !important;
+        }
+        .__submit-btn{
+            margin: 3em auto -1.5em auto;
+            padding: 0.4em;
+            width: 220px;
+        }
+        .__sign-in-form{
+            width: 100%;
+            padding: 0.5em 1.2em;
+        }
+        .__form-section{
+            margin-bottom: 8em;
+            transform: skewY(-8deg);
+        }
+        .__container-2{
+            width: calc(100% - 2em);
+        }
+        .__block-on-small{
+            >*{
+                margin-right: 0 !important;
+            }
+        }
+    }
+}
+
+@media (max-width: 350px){
+    .__GetUserInfoPage{
+        .__viewport-title{
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            font-size: 1.5em;
+        }
+    }
+}

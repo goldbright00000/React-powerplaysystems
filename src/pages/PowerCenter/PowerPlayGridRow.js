@@ -42,7 +42,7 @@ const TableRow = ({ type, Icon, date, time, contest, entries, totalEntries, priz
                 <div className='__h6 __mediam-on-large'>{+prize ? `$${prize}` : prize} </div>
                 <div className='__very-small-on-large __light-grey'><span className='__hide-only-on-large'>TOTAL</span> PRIZES</div>
             </div>
-            <Link to='/' className='__flex  __h5 __small-on-large __pointsRequired'>
+            <Link to='/powerbet-live' className='__flex  __h5 __small-on-large __pointsRequired'>
                 {pointsRequired ? (
                     <div className='__flex'>
                         <span className='__hide-on-large'>$</span>

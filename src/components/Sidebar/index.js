@@ -4,7 +4,7 @@ import classes from "./sidebar.module.scss"
 
 function Sidebar(props) {
     return (
-        <div className={classes.__sidebar_container}>
+        <div className={`${classes.__sidebar_container} ${props?.styles}`}>
             <div className={classes.__sidebar_container_2}>
                 {
                     props?.children

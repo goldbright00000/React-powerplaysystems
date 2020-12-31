@@ -11,12 +11,15 @@ import BingoPreGame from './pages/BingoPreGame/BingoPreGame';
 import CardGame from './pages/CardGame';
 import PowerPicks from './pages/PowerPicks';
 import ChaseACard from './pages/ChaseACard';
+
 import SignInPage from './pages/SignInPage/SignInPage';
 import FAQ from './pages/FAQ';
 import Privacy from './pages/Privacy';
 import TrustAndSafety from './pages/TrustAndSafety';
 import AccountSecurity from './pages/AccountSecurity';
 import TermsOfUse from './pages/TermsOfUse';
+import PowerUpPage from './pages/PowerUpPage/PowerUpPage';
+import GetUserInfoPage from './pages/GetUserInfoPage/GetUserInfoPage';
 
 
 const App = props => {
@@ -40,6 +43,9 @@ const App = props => {
                 <Route path='/trust-and-safety' component={TrustAndSafety} />
                 <Route path='/account-security' component={AccountSecurity} />
                 <Route path='/terms' component={TermsOfUse} />
+                <Route path='/power-up' component={PowerUpPage} />
+                <Route path='/user-profile-info' component={GetUserInfoPage} />
+
             </Switch>
         </Fragment>
     )
