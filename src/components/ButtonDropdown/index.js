@@ -6,7 +6,7 @@ import classes from './index.module.scss'
 function ButtonDropdown(props) {
     const [isVisible, setVisibleState] = useState(false)
     const [_selected, setSelected] = useState({})
-    const { elements = [], selected = 0, onChange = () => { }, isActive = false, styles = {} } = props || {}
+    const { elements = [], selected = {}, onChange = () => { }, isActive = false, styles = {} } = props || {}
 
     useEffect(() => {
         if(!selected && elements.length)
@@ -55,7 +55,7 @@ function ButtonDropdown(props) {
 
 ButtonDropdown.propTypes = {
     elements: PropTypes.array,
-    selected: PropTypes.number,
+    selected: PropTypes.object,
     isActive: PropTypes.bool,
     onChange: PropTypes.func,
     styles: PropTypes.object

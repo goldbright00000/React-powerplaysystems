@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import "./button.scss"
+import "./index.module.scss"
 
 function Button(props) {
     const { title = '', icon = '', isRounded = false, styles = {}, iconOnly = false,
@@ -16,7 +16,6 @@ function Button(props) {
                         {title}
                     </div>
                     :
-                    icon &&
                     {...icon}
             }
         </button>
@@ -27,7 +26,7 @@ Button.propTypes = {
     title: PropTypes.string,
     icon: PropTypes.any,
     isRounded: PropTypes.bool,
-    styles: PropTypes.any,
+    style: PropTypes.any,
     iconOnly: PropTypes.bool,
     onClick: PropTypes.func,
     block: PropTypes.bool,

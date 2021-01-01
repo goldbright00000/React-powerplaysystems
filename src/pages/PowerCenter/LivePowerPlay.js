@@ -50,6 +50,7 @@ const LivePowerPlay = props => {
                         prize='800'
                         entryFee='1000'
                         isMobileDevice={isMobileDevice}
+                        link="/card-game"
                     />
                     <PowerPlayGridRow
                         type='Power Poker'

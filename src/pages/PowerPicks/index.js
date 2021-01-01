@@ -19,8 +19,7 @@ const listItems = [
 ]
 
 function PowerPicksPage() {
-    const [selected, setSelected] = useState(listItems[0])
-
+    const [selected, setSelected] = useState('')
     const isTableOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
     return (
         <>
@@ -54,10 +53,7 @@ function PowerPicksPage() {
                                     </>
                                     :
                                     <div className={classes.header_bottom_mobile}>
-                                        <PowerPickCard shadow styles={{
-                                            display: 'flex',
-                                            flexDirection: 'row', justifyContent: 'space-around', fontSize: '16px'
-                                        }}>
+                                    <PowerPickCard shadow styles={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', fontSize: '16px'}}>
                                         <div>
                                             <p>Spread</p>
                                             <span>54%</span>
@@ -89,9 +85,9 @@ function PowerPicksPage() {
                             </div>
 
                             <div className={classes.content_header_right}>
-                                <ButtonDropdown elements={listItems} selected={selected} onChange={(item) => {
-                                    setSelected(item)
-                                    }} isActive styles={{ margin: '0 5px' }} />
+                                <ButtonDropdown elements={listItems} selected={listItems[0]} onChange={(e) => {
+                                    setSelected(e?.target?.value)
+                                    }} isActive styles={{margin: '0 5px'}} />
                                 
                                 <Button title="NHL" styles={{
                                     width: isTableOrMobile ? '98%' : '90px',
@@ -189,7 +185,8 @@ function PowerPicksPage() {
                                                 isCell: true,
                                                 cellTitle: "U 45.5",
                                                 veryLowCell: true,
-                                            }}/>
+                                            }}
+                                        />
                                         <PowerPickInfoCard
                                             game1={{
                                                 isPowerUp: true,
