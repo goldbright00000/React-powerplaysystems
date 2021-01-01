@@ -27,7 +27,7 @@
     border: none;
     justify-content: center;
     align-items: center;
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
   }
 
   .__game_card_popup_container {
@@ -40,6 +40,7 @@
     padding: 0;
     margin-top: 187px;
     border-width: 0;
+    z-index: 100;
   }
 
   .__game_card_popup_container::before {
@@ -72,9 +73,9 @@
   }
 
   .__tick_mark {
-    height: "auto";
-    position: "absolute";
-    align-self: "center";
+    height: auto;
+    position: absolute;
+    align-self: center;
     transform: translate(25%, -25%);
   }
 }

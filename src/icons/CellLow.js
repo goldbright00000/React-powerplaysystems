@@ -2,8 +2,8 @@ import React from 'react';
 
 const CellLow = props => (
     <svg xmlns="http://www.w3.org/2000/svg" width={props?.size || "80"} height={props?.size || "50"} viewBox="0 0 80 50" {...props}>
-        <g xmlns="http://www.w3.org/2000/svg" fill="none" fill-rule="evenodd">
-        <g fill-rule="nonzero">
+        <g xmlns="http://www.w3.org/2000/svg" fill="none" fillRule="evenodd">
+        <g fillRule="nonzero">
             <g>
                 <g>
                     <g>

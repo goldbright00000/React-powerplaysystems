@@ -6,13 +6,16 @@ import Clock2 from '../../icons/Clock2'
 import Calendar2 from '../../icons/Calendar2'
 import Stadium from '../../icons/Stadium2'
 import Pinnacle from '../../icons/Pinnacle'
-import Cell from '../../components/Cell'
+import Games from './Games'
 import classes from './index.module.scss'
-import NoPick from '../NoPick'
-import NoPickIcon from '../../icons/NoPick'
 
 function PowerPickInfoCard(props) {
-    const { showHeader = false, noPick = false } = props || {}
+    const {
+        showHeader = false,
+        game1 = {},
+        game2 = {},
+        game3 = {}
+    } = props || {}
     const isTableOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
     return (
         <div className={classes.content_card_grid_wrapper}>
@@ -52,6 +55,7 @@ function PowerPickInfoCard(props) {
                                 <h2>
                                     New Orleans Saints
                                 </h2>
+                                    <span className={classes.divider} />
 
                                 <div className={classes.content_card_body_info}>
                                     <span>
@@ -78,6 +82,7 @@ function PowerPickInfoCard(props) {
                                 <h2>
                                     Cincinnati Bengals
                                 </h2>
+                                <span className={classes.divider} />
                                 
                                 <div className={classes.content_card_body_info}>
                                     <span>
@@ -115,38 +120,23 @@ function PowerPickInfoCard(props) {
                             </div>
                         </div>
                     </div>
-
+            
 
                     <div className={classes.content_card_body_right}>
                         <div className={classes.content_card_body_right_grid}>
                             {isTableOrMobile && <span className={classes.content_card_body_right_grid_title}>SPREAD</span>}
 
-                            {
-                                noPick ?
-                                <NoPick icon={<NoPickIcon style={{height: 'auto'}} size={isTableOrMobile && 33} />} />
-                                :
-                                <Cell high text="Bengals +3.5" size={isTableOrMobile && 33} />
-                            }
+                            <Games {...game1}/>
                         </div>
 
                         <div className={classes.content_card_body_right_grid}>
                         {isTableOrMobile && <span className={classes.content_card_body_right_grid_title}>WINNING</span>}
-                            {
-                                noPick ?
-                                <NoPick icon={<NoPickIcon style={{height: 'auto'}} size={isTableOrMobile && 33} />} />
-                                :
-                                <Cell medium text="Saints to Win" size={isTableOrMobile && 33} />
-                            }
+                            <Games {...game2}/>
                         </div>
 
                         <div className={classes.content_card_body_right_grid}>
                         {isTableOrMobile && <span className={classes.content_card_body_right_grid_title}>OVER/UNDER</span>}
-                            {
-                                noPick ?
-                                <NoPick icon={<NoPickIcon style={{height: 'auto'}} size={isTableOrMobile && 33} />} />
-                                :
-                                <Cell veryLow text="U 45.5" size={isTableOrMobile && 33} />
-                            }
+                            <Games {...game3}/>
                         </div>
                     </div>
                 </div>
@@ -177,7 +167,9 @@ function PowerPickInfoCard(props) {
 
 PowerPickInfoCard.propTypes = {
     showHeader: PropTypes.bool,
-    noPick: PropTypes.bool,
+    game1: PropTypes.object,
+    game2: PropTypes.object,
+    game3: PropTypes.object,
 }
 
 export default PowerPickInfoCard

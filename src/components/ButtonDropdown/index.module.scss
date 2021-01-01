@@ -20,13 +20,22 @@
       border: 2px solid $primary;
     }
   }
+  .select_header::after {
+    content: "";
+    position: absolute;
+    border: 7px solid transparent;
+    border-top-color: $primary;
+    top: 45%;
+    right: 10%;
+  }
 
   .select_body {
     border: 2px solid $primary;
     border-radius: 12px;
-    background-color: $lightGrey;
+    background-color: $black;
     position: relative;
     margin: 2px 0 0 0;
+    box-shadow: 0 2px 14px 0 rgba(0, 0, 0, 0.5);
   }
 
   button {
@@ -73,6 +82,10 @@
         border-radius: 12px;
         border: 2px solid $primary;
       }
+    }
+
+    .select_header::after {
+      border: none;
     }
 
     .select_body {

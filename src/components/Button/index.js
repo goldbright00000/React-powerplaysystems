@@ -5,9 +5,9 @@ import "./button.scss"
 
 function Button(props) {
     const { title = '', icon = '', isRounded = false, styles = {}, iconOnly = false,
-            onClick = () => { } } = props || {}
+            onClick = () => { }, block = false, shadow = false, transparent = false } = props || {}
     return (
-        <button className={`${!iconOnly && '__btn'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick} style={styles}>
+        <button className={`${!iconOnly && '__btn'} ${block && '__large-btn'} ${shadow && '__shadow-2'} ${transparent && '__style-2'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick} style={styles}>
             {
                 !iconOnly
                     ?
@@ -29,7 +29,10 @@ Button.propTypes = {
     isRounded: PropTypes.bool,
     styles: PropTypes.any,
     iconOnly: PropTypes.bool,
-    onClick: PropTypes.func
+    onClick: PropTypes.func,
+    block: PropTypes.bool,
+    shadow: PropTypes.bool,
+    transparent: PropTypes.bool
 }
 
 export default Button

@@ -14,9 +14,8 @@ import AngleIcon from '../../icons/AngleIcon'
 import Cell from '../../components/Cell'
 
 const listItems = [
-    { title: 'NCAA', value: 'ncaa' },
-    { title: 'NCAA Football', value: 'football' },
-    { title: 'NCAA Basketball', value: 'basketball' }
+    { title: 'Football', value: 'football' },
+    { title: 'Basketball', value: 'basketball' }
 ]
 
 function PowerPicksPage() {
@@ -95,27 +94,35 @@ function PowerPicksPage() {
                                     }} isActive styles={{ margin: '0 5px' }} />
                                 
                                 <Button title="NHL" styles={{
+                                    width: isTableOrMobile ? '98%' : '90px',
                                     backgroundColor: '#303133',
                                     border: '1px solid #fff',
                                     borderRadius: '12px', margin: '0 4px',
+                                    margin: '0 3px'
                                 }} />
 
                                 <Button title="NBA" styles={{
+                                    width: isTableOrMobile ? '98%' : '90px',
                                     backgroundColor: '#303133',
                                     border: '1px solid #fff',
-                                    borderRadius: '12px', margin: '0 4px'
+                                    borderRadius: '12px', margin: '0 4px',
+                                    margin: '0 3px'
                                 }} />
 
                                 <Button title="NFL" styles={{
+                                    width: isTableOrMobile ? '98%' : '90px',
                                     backgroundColor: '#303133',
                                     border: '1px solid #fff',
-                                    borderRadius: '12px', margin: '0 4px'
+                                    borderRadius: '12px', margin: '0 4px',
+                                    margin: '0 3px'
                                 }} />
 
                                 <Button title="MLB" styles={{
+                                    width: isTableOrMobile ? '98%' : '90px',
                                     backgroundColor: '#303133',
                                     border: '1px solid #fff',
-                                    borderRadius: '12px', margin: '0 4px'
+                                    borderRadius: '12px', margin: '0 4px',
+                                    margin: '0 3px'
                                 }} />
                             </div>
                         </div>
@@ -124,21 +131,93 @@ function PowerPicksPage() {
                             {
                                 !isTableOrMobile ?
                                     <PowerPickCard styles={{width: '100%'}}>
-                                        <PowerPickInfoCard showHeader />
-                                        <PowerPickInfoCard />
-                                        <PowerPickInfoCard />
+                                        <PowerPickInfoCard
+                                            showHeader
+                                            game1={{
+                                                isCell: true,
+                                                cellTitle: "Bengals +3.5",
+                                                highCell: true,
+                                             }}
+                                            game2={{
+                                                isCell: true,
+                                                cellTitle: "Saints to Win",
+                                                mediumCell: true,
+                                            }}
+                                            game3={{
+                                                isCell: true,
+                                                cellTitle: "U 45.5",
+                                                veryLowCell: true,
+                                            }}
+                                        />
+                                        <PowerPickInfoCard
+                                            game1={{
+                                                isPowerUp: true,
+                                             }}
+                                             game2={{
+                                                isPowerUp: true,
+                                             }}
+                                             game3={{
+                                                isPowerUp: true,
+                                             }}
+                                        />
+                                        <PowerPickInfoCard
+                                            game1={{
+                                                isPowerUp: true,
+                                             }}
+                                             game2={{
+                                                isPowerUp: true,
+                                             }}
+                                             game3={{
+                                                isPowerUp: true,
+                                             }}
+                                        />
                                     </PowerPickCard>
                                     :
                                     <>
-                                        <PowerPickInfoCard/>
-                                        <PowerPickInfoCard />
-                                        <PowerPickInfoCard />
+                                        <PowerPickInfoCard
+                                            game1={{
+                                                isCell: true,
+                                                cellTitle: "Bengals +3.5",
+                                                highCell: true,
+                                            }}
+                                            game2={{
+                                                isCell: true,
+                                                cellTitle: "Saints to Win",
+                                                mediumCell: true,
+                                            }}
+                                            game3={{
+                                                isCell: true,
+                                                cellTitle: "U 45.5",
+                                                veryLowCell: true,
+                                            }}/>
+                                        <PowerPickInfoCard
+                                            game1={{
+                                                isPowerUp: true,
+                                             }}
+                                             game2={{
+                                                isPowerUp: true,
+                                             }}
+                                             game3={{
+                                                isPowerUp: true,
+                                             }}
+                                        />
+                                        <PowerPickInfoCard
+                                            game1={{
+                                                isPowerUp: true,
+                                             }}
+                                             game2={{
+                                                isPowerUp: true,
+                                             }}
+                                             game3={{
+                                                isPowerUp: true,
+                                             }}
+                                        />
                                     </>
                             }
                         </div>
                         <div className={classes.content_body_footer}>
                             <strong>Log in to reveal <span>More Picks!</span> </strong>
-                            <Button title="Log in" icon={null} style={{width: isTableOrMobile ? '80%' : '30%', height: '52px'}} />
+                            <Button title="Log in" icon={null} block style={{width: isTableOrMobile ? '80%' : '30%', height: '52px'}} />
 
                             {
                                 !isTableOrMobile &&
@@ -153,7 +232,8 @@ function PowerPicksPage() {
 
                 {
                     !isTableOrMobile &&
-                        <Sidebar>
+                        <div className={classes.page_sidebar}>
+                        <Sidebar styles={{width: '18%'}}>
                             <div className={classes.sidebar}>
                                 <h2>Confidence Level</h2>
                                 <Cell high text="HIGH" styles={{ display: 'flex', justifyContent: 'center', padding: 0, margin: 0 }} />
@@ -162,6 +242,7 @@ function PowerPicksPage() {
                                 <Cell veryLow text="VERY LOW" styles={{ display: 'flex', justifyContent: 'center', padding: 0, margin: 0 }} />
                             </div>
                         </Sidebar>
+                        </div>
                 }
             </div>
             <Footer isBlack />

@@ -4,13 +4,13 @@ const Time = props => (
     <svg xmlns="http://www.w3.org/2000/svg" width={props?.size || "28"} height={props?.size || "28"} viewBox="0 0 23 28" {...props}>
     <defs>
         <linearGradient id="grsd9zyrta" x1="50%" x2="50%" y1="100%" y2="0%">
-            <stop offset="0%" stop-color="#ADDCFF"/>
-            <stop offset="50.28%" stop-color="#EAF6FF"/>
-            <stop offset="100%" stop-color="#EAF6FF"/>
+            <stop offset="0%" stopColor="#ADDCFF"/>
+            <stop offset="50.28%" stopColor="#EAF6FF"/>
+            <stop offset="100%" stopColor="#EAF6FF"/>
         </linearGradient>
         <linearGradient id="zq1u1ki6kb" x1="50%" x2="50%" y1="100%" y2="0%">
-            <stop offset="0%" stop-color="#FFB355"/>
-            <stop offset="100%" stop-color="#F40"/>
+            <stop offset="0%" stopColor="#FFB355"/>
+            <stop offset="100%" stopColor="#F40"/>
         </linearGradient>
     </defs>
     <g fill="none">

@@ -62,7 +62,7 @@
         border-right: 1px solid $black;
 
         h1 {
-          margin: -10px 30px;
+          margin: -10px 35px -10px 0;
           padding: 0;
           font-size: 32px;
           color: $black;
@@ -73,21 +73,28 @@
         .content_card_body_top {
           display: flex;
           flex-direction: row;
-          flex: 1;
+          // flex: 1;
+          flex-wrap: wrap;
           padding: 1rem 0.7rem;
 
           .content_card_body_left_sub {
             display: flex;
-            flex: 0.46;
+            flex: 0.46 1 10%;
             flex-direction: column;
 
             h2 {
               padding: 0;
               margin: 0;
-              width: 95%;
+              width: 100%;
               font-size: 17px;
-              border-bottom: 2px solid $primary;
               color: $primary;
+              z-index: 1;
+            }
+
+            .divider {
+              border-bottom: 0.5px solid $primary;
+              width: 165px;
+              margin: -3px 0 0 0;
             }
 
             .content_card_body_info {
@@ -227,10 +234,15 @@
               h2 {
                 padding: 0;
                 margin: 0;
-                width: 80%;
+                width: 100%;
                 font-size: 12px;
-                border-bottom: 2px solid $primary;
                 color: $primary;
+              }
+
+              .divider {
+                border-bottom: 0.5px solid $primary;
+                width: 120px;
+                margin: -3px 0 0 0;
               }
 
               .content_card_body_info {
