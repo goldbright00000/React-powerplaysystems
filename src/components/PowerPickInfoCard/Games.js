@@ -1,11 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { useMediaQuery } from 'react-responsive'
+import { useHistory } from 'react-router-dom'
 
 import NoPick from '../NoPick'
 import Cell from '../Cell'
 import Button from '../Button'
 import NoPickIcon from '../../icons/NoPick'
+import { redirectTo } from '../../utility/shared'
+import { Redirect } from 'react-router-dom'
 
 function Games(props) {
     const {
@@ -19,7 +22,8 @@ function Games(props) {
         veryLowCell = false,
         onPowerUp = () => { }
     } = props || {}
-    const isTableOrMobile = useMediaQuery({query: '(max-width: 1224px)'})
+    const isTableOrMobile = useMediaQuery({ query: '(max-width: 1224px)' })
+    const history = useHistory()
     return (
         <>
             {
@@ -34,7 +38,10 @@ function Games(props) {
 
             {
                 isPowerUp &&
-                    <Button title="POWER UP!" onClick={onPowerUp} styles={{width: '100px', fontSize: '13px'}} />
+                <Button title="POWER UP!" onClick={() => {
+                    onPowerUp()
+                    history.push("/power-up")
+                }} styles={{ width: '100px', fontSize: '13px' }} />
             }
         </>
     )
@@ -53,4 +60,3 @@ Games.propTypes = {
 }
 
 export default Games
-
