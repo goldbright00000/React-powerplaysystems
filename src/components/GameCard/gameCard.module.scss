@@ -21,13 +21,15 @@
   }
 
   .__game_card_selected {
-    display: flex;
-    flex: 1;
-    border-radius: 12px;
-    border: none;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
+    // display: flex;
+    // flex: 1;
+    // border-radius: 12px;
+    // border: none;
+    // justify-content: flex-start;
+    // align-items: flex-start;
+    // padding: 0;
+    // background-color: aliceblue;
+    // box-shadow: 0 6px 8px rgba(0, 0, 0, 0.4);
   }
 
   .__game_card_popup_container {

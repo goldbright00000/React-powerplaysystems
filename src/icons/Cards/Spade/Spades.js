@@ -6,7 +6,7 @@ import SpadeJack from './SpadeJack';
 import SpadeQueen from './SpadeQueen';
 import SpadeAce from './SpadeAce';
 
-const SpaceNumbers = props => {
+const Spades = props => {
     const renderCards = (value) => {
         let _value = value.toString();
         switch(_value) {
@@ -66,7 +66,7 @@ const SpaceNumbers = props => {
                         {props?.value}
                     </text>
 
-                    <text x={props?.value?.length === 1 ? "63.5" : "58"} y="96" fill="#000" style={{ fontSize: '12px', fontFamily: 'arial, sans-serif' }}>
+                    <text x={props?.value?.length === 1 ? "-70" : "-72.5"} y="-88" fill="#000" style={{ fontSize: '12px', fontFamily: 'arial, sans-serif', transform: 'rotate(180deg)' }}>
                         {props?.value}
                     </text>
                 </>
@@ -75,4 +75,4 @@ const SpaceNumbers = props => {
     )
 }
 
-export default SpaceNumbers;
+export default Spades;

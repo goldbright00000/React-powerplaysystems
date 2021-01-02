@@ -4,12 +4,11 @@ import PropTypes from 'prop-types'
 import Shuffle from '../../icons/Shuffle'
 import Plus from '../../icons/Plus'
 import Minus from '../../icons/Minus'
-import ArrowDown from '../../icons/ArrowDown'
-import ArrowUp from '../../icons/ArrowUp'
 import flashImg from '../../assets/flash.png'
 import Tick from '../../icons/Tick'
 import classes from "./gameCard.module.scss"
 import {CONSTANTS} from "../../utility/constants";
+import Cards from '../../icons/Cards/index'
 
 function GameCard(props) {
 
@@ -23,29 +22,12 @@ function GameCard(props) {
         styles = {},
         onClick = () => {
         },
-        card: {suit = '', rank = ''} = {}
+        card = {}
     } = props || {}
 
-    const renderCard = (suit, rank) => {
-        let _rank = CONSTANTS.CARD_RANKS[rank]
-        switch (suit) {
-            case CONSTANTS.CARD_SUITS.DIAMOND:
+    const { suit = '', rank = '' } = card || {}
 
-                break;
-
-            case CONSTANTS.CARD_SUITS.CLUB:
-
-                break;
-
-            case CONSTANTS.CARD_SUITS.HEART:
-
-                break;
-
-            case CONSTANTS.CARD_SUITS.SPADE:
-
-                break;
-        }
-    }
+    console.log(CONSTANTS.CARD_RANKS[rank] === "2" || CONSTANTS.CARD_RANKS[rank] === "3" || CONSTANTS.CARD_RANKS[rank] === "4" || CONSTANTS.CARD_RANKS[rank] === "5" || CONSTANTS.CARD_RANKS[rank] === "6" || CONSTANTS.CARD_RANKS[rank] === "7" || CONSTANTS.CARD_RANKS[rank] === "8" || CONSTANTS.CARD_RANKS[rank] === "9")
 
     return (
         <div className={classes.__game_card_wrapper} style={styles} onClick={() => {
@@ -57,8 +39,8 @@ function GameCard(props) {
             setPopupState(false)
         }}>
             {
-                //14 = Ace
-                rank === 12 &&
+                //if rank === 12 => "A"
+                CONSTANTS.CARD_RANKS[rank] === "2" || CONSTANTS.CARD_RANKS[rank] === "3" || CONSTANTS.CARD_RANKS[rank] === "4" || CONSTANTS.CARD_RANKS[rank] === "5" || CONSTANTS.CARD_RANKS[rank] === "6" || CONSTANTS.CARD_RANKS[rank] === "7" || CONSTANTS.CARD_RANKS[rank] === "8" || CONSTANTS.CARD_RANKS[rank] === "9" &&
                 <Tick style={{
                     height: "auto",
                     position: "absolute",
@@ -70,7 +52,7 @@ function GameCard(props) {
                 isSelected
                     ?
                     <div className={classes.__game_card_selected}>
-                        renderCard(suit, rank)
+                        <Cards card={card} />
                     </div>
                     :
                     image ?

@@ -12,20 +12,17 @@ import Alert from '../../components/Alert'
 import Reload from '../../icons/Reload'
 import CardsSvg from '../../icons/Cards'
 import Sidebar from '../../components/Sidebar'
-import Shuffle from '../../icons/Shuffle'
 import SidebarButton from '../../components/SidebarButton'
 import PowerMatchImg from '../../assets/flash.png'
-import ArrowUp from '../../icons/ArrowUp'
-import ArrowDown from '../../icons/ArrowDown'
 import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
 import classes from './cardGamePage.module.scss'
-import Spades from '../../icons/Cards/Spade/SpadeNumber'
 
 const TOTAL_ROUNDS = 5;
-const TOTAL_CARDS = 5;
 let currentCard = 1;
 let _round = 0;
+const roundPassed = []
+const cardsArr = []
 
 function CardGame(props) {
     const [count, setCount] = useState(5);
@@ -45,10 +42,12 @@ function CardGame(props) {
                     time = 5;
                     setCount(5)
 
+                    roundPassed.push(_round+1)
                     _round += 1;
                     setCurrentRound(_round)
                     currentCard++;
                     let _card = getACard()
+                    cardsArr.push(_card)
                     setCard(_card)
                 }
             }, 1000)
@@ -65,7 +64,6 @@ function CardGame(props) {
         let _cardRank = Math.floor(Math.random() * (12 - 2) + 2)
         card.suit = _cardSuit;
         card.rank = _cardRank;
-        console.log(card)
         return card
     }
 
@@ -98,11 +96,11 @@ function CardGame(props) {
                     <div className={classes.__card_game_content_body}>
                         <Card>
                             <div className={classes.__card_game_content_cards}>
-                                <GameCard showCardPopup card={_round === 1 && card}/>
-                                <GameCard showCardPopup card={_round === 2 && card}/>
-                                <GameCard showCardPopup card={_round === 3 && card}/>
-                                <GameCard showCardPopup card={_round === 4 && card}/>
-                                <GameCard showCardPopup card={_round === 5 && card}/>
+                                <GameCard showCardPopup card={cardsArr[0]} isSelected={roundPassed[0] === 1} />
+                                <GameCard showCardPopup card={cardsArr[1]} isSelected={roundPassed[1] === 2}/>
+                                <GameCard showCardPopup card={cardsArr[2]} isSelected={roundPassed[2] === 3}/>
+                                <GameCard showCardPopup card={cardsArr[3]} isSelected={roundPassed[3] === 4}/>
+                                <GameCard showCardPopup card={cardsArr[4]} isSelected={roundPassed[4] === 5}/>
                             </div>
                             <button className={classes.__reload_btn}>
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
@@ -117,8 +115,6 @@ function CardGame(props) {
                                 onClick={() => _redirectTo('/chase-a-card')}>Chase The Ace!
                         </button>
                     </div>
-
-                    <Spades style={{height: 'auto'}} width={176} height={204} value={"A"} />
                 </div>
 
                 <Sidebar>
