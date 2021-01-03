@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment, useState } from 'react';
 import './BingoPreGame.scss';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -11,9 +11,10 @@ import ReplaceAllIcon from '../../assets/ReplaceAllIcon.png';
 import PowerMatchIcon from '../../assets/PowerMatchIcon.png';
 import IncreaseIcon from '../../assets/IncreaseIcon.png';
 import DecreaseIcon from '../../assets/DecreaseIcon.png';
-import Timer from '../../components/Timer/Timer';
+import ReverseTimer from '../../components/ReverseTimer/ReverseTimer';
 
 const BingoPreGame = props => {
+    const [inPrgress, setProgress] = useState(true);
     return (
         <div className='__BingoPreGame'>
             <Header isStick={true} />
@@ -24,13 +25,26 @@ const BingoPreGame = props => {
                     <Link to='/' className='__uppercase __primary-color __see-contesy-rules __inline-block __mt-1 __mb-6 __light-bold'>SEE CONTEST RULES</Link>
                     <div className='__h4'>In Play</div>
                     <div className='__primary __progress-bar __mb-2' style={{ width: '26%' }}></div>
-                    <div className='__timer __relative'>
-                        <Timer />
-                        {/* <div className='__absolute __center'>
-                            <img src={clockimage} alt='' className='__clock-image' />
-                            <div className='__dark-white-color __smaller __mt-1 __mb-s'>Live draw begins in</div>
-                            <TimerClock days={1} hours={23} mins={2} secs={50} />
-                        </div> */}
+                    <div className='__timer __relative __center'>
+                        <div className='__absolute __center'>
+                            {inPrgress ? (
+                                <Fragment>
+                                    <div className='__mt-2'>Next number drawn in</div>
+                                    <ReverseTimer className='__ml-a __mr-a __mt-1' />
+                                    <div className='__ball __h3 __primary-color __column __ai __flex-center __m-a __mb-1 __mt-1'>
+                                        <div>G</div>
+                                        <div>59</div>
+                                    </div>
+                                </Fragment>
+                            ) : (
+                                <Fragment>
+                                        <img src={clockimage} alt='' className='__clock-image' />
+                                        <div className='__dark-white-color __smaller __mt-1 __mb-s'>Live draw begins in</div>
+                                        <TimerClock days={1} hours={23} mins={2} secs={50} />
+                                    </Fragment>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className='__main-center __mt-6 __ml-a __mr-a'>

@@ -19,19 +19,30 @@
             .__timer{
                 border: dashed 2px #979797;
                 border-radius: 0.8em;
-                &::after{
-                    content: '';
-                    display: block;
-                    padding-top: 120%;
-                }
+                width: 17em;
                 .__absolute{
                     left: 50%;
                     top: 50%;
                     transform: translate(-50%, -50%);
+                    white-space: nowrap;
+                }
+                &::after{
+                    padding-top: 120%;
+                    content: '';
+                    display: block;
                 }
             }
             .__clock-image{
                 width: 3em;
+            }
+            .__ball{
+                background: url('../../assets/ball.png') center center;
+                line-height: 1.1em;
+                width: 3.4em;
+                height: 3.4em;
+                background-size: 100% 100%;
+                border: 2px solid;
+                border-radius: 50%;
             }
         }
         .__main-center{
