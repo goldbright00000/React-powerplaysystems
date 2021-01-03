@@ -17,17 +17,22 @@ import PowerMatchImg from '../../assets/flash.png'
 import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
 import classes from './cardGamePage.module.scss'
+import { CONSTANTS } from '../../utility/constants'
 
 const TOTAL_ROUNDS = 5;
-let currentCard = 1;
 let _round = 0;
-const roundPassed = []
+let _collectedAces = 0;
 const cardsArr = []
 
 function CardGame(props) {
-    const [count, setCount] = useState(5);
-    const [currentRound, setCurrentRound] = useState(1)
-    const [card, setCard] = useState({suit: 0, rank: 0})
+    const [count, setCount] = useState(5)
+    const [currentRound, setCurrentRound] = useState(0)
+    const [collectedAces, setCollectedAces] = useState(0)
+    const [card, setCard] = useState({ suit: 0, rank: 0 })
+    
+    useEffect(() => { 
+        resetStates()
+    }, [])
 
     useEffect(() => {
         let timeOut = null;
@@ -42,10 +47,8 @@ function CardGame(props) {
                     time = 5;
                     setCount(5)
 
-                    roundPassed.push(_round+1)
                     _round += 1;
                     setCurrentRound(_round)
-                    currentCard++;
                     let _card = getACard()
                     cardsArr.push(_card)
                     setCard(_card)
@@ -58,12 +61,29 @@ function CardGame(props) {
         return () => clearInterval(timeOut)
     }, [currentRound])
 
+    const resetStates = () => {
+        while (cardsArr.length > 0) {
+            cardsArr.pop();
+        }
+
+        _round = 0;
+        _collectedAces = 0;
+        setCollectedAces(0);
+        setCard({ suit: 0, rank: 0 });
+        setCurrentRound(0)
+    }
+
     const getACard = () => {
         let card = {};
         let _cardSuit = Math.floor(Math.random() * (3 - 1) + 1)
-        let _cardRank = Math.floor(Math.random() * (12 - 2) + 2)
+        let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2)
+        
+        if (CONSTANTS.CARD_RANKS[_cardRankIndex] === "A") {
+            _collectedAces += 1;
+            setCollectedAces(_collectedAces)
+        }
         card.suit = _cardSuit;
-        card.rank = _cardRank;
+        card.rank = _cardRankIndex;
         return card
     }
 
@@ -96,23 +116,45 @@ function CardGame(props) {
                     <div className={classes.__card_game_content_body}>
                         <Card>
                             <div className={classes.__card_game_content_cards}>
-                                <GameCard showCardPopup card={cardsArr[0]} isSelected={roundPassed[0] === 1} />
-                                <GameCard showCardPopup card={cardsArr[1]} isSelected={roundPassed[1] === 2}/>
-                                <GameCard showCardPopup card={cardsArr[2]} isSelected={roundPassed[2] === 3}/>
-                                <GameCard showCardPopup card={cardsArr[3]} isSelected={roundPassed[3] === 4}/>
-                                <GameCard showCardPopup card={cardsArr[4]} isSelected={roundPassed[4] === 5}/>
+                                <GameCard
+                                    showCardPopup
+                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[0]?.rank] === "A"}
+                                    card={cardsArr[0]}
+                                    isSelected={cardsArr[0] && true}
+                                />
+                                <GameCard
+                                    showCardPopup
+                                    card={cardsArr[1]}
+                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[1]?.rank] === "A"}
+                                    isSelected={cardsArr[1] && true} />
+                                <GameCard
+                                    showCardPopup
+                                    card={cardsArr[2]}
+                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[2]?.rank] === "A"}
+                                    isSelected={cardsArr[2] && true} />
+                                <GameCard
+                                    showCardPopup
+                                    card={cardsArr[3]}
+                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[3]?.rank] === "A"}
+                                    isSelected={cardsArr[3] && true} />
+                                <GameCard
+                                    showCardPopup
+                                    card={cardsArr[4]}
+                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[4]?.rank] === "A"}
+                                    isSelected={cardsArr[4] && true} />
                             </div>
-                            <button className={classes.__reload_btn}>
+                            <button className={classes.__reload_btn} onClick={resetStates}>
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
                             </button>
                         </Card>
                     </div>
 
                     <div className={classes.__card_game_content_footer}>
-                        <Alert primary/>
+                        <Alert primary collectedAce={collectedAces} />
 
                         <button className={`__btn ${classes.__card_game_footer_btn}`}
-                                onClick={() => _redirectTo('/chase-a-card')}>Chase The Ace!
+                            onClick={() => _redirectTo('/chase-a-card')}>
+                            Chase The Ace!
                         </button>
                     </div>
                 </div>

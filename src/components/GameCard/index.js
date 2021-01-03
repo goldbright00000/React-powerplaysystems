@@ -24,11 +24,7 @@ function GameCard(props) {
         },
         card = {}
     } = props || {}
-
-    const { suit = '', rank = '' } = card || {}
-
-    console.log(CONSTANTS.CARD_RANKS[rank] === "2" || CONSTANTS.CARD_RANKS[rank] === "3" || CONSTANTS.CARD_RANKS[rank] === "4" || CONSTANTS.CARD_RANKS[rank] === "5" || CONSTANTS.CARD_RANKS[rank] === "6" || CONSTANTS.CARD_RANKS[rank] === "7" || CONSTANTS.CARD_RANKS[rank] === "8" || CONSTANTS.CARD_RANKS[rank] === "9")
-
+    
     return (
         <div className={classes.__game_card_wrapper} style={styles} onClick={() => {
             if (showCardPopup) {
@@ -40,7 +36,7 @@ function GameCard(props) {
         }}>
             {
                 //if rank === 12 => "A"
-                CONSTANTS.CARD_RANKS[rank] === "2" || CONSTANTS.CARD_RANKS[rank] === "3" || CONSTANTS.CARD_RANKS[rank] === "4" || CONSTANTS.CARD_RANKS[rank] === "5" || CONSTANTS.CARD_RANKS[rank] === "6" || CONSTANTS.CARD_RANKS[rank] === "7" || CONSTANTS.CARD_RANKS[rank] === "8" || CONSTANTS.CARD_RANKS[rank] === "9" &&
+                isCompleted &&
                 <Tick style={{
                     height: "auto",
                     position: "absolute",
