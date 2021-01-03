@@ -1,0 +1,99 @@
+@import '../../scss/colors.scss';
+
+.__BingoGameBall{
+    font-size: 20px;
+    width: 102px;
+    height: 102px;
+    display: flex;
+    place-items: center;
+    border-radius: 8px;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    .__ball-number{
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        color: #1e1e1e;
+    }
+    &::after, &::before{
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+    }
+    &::before{
+        width: 70%;
+        height: 70%;
+        background-image: linear-gradient(to top, #ff8f37, #b24e00);
+    }
+    &::after{
+        width: 50%;
+        height: 50%;
+        background: #fff;
+    }
+    &.active{
+        >div{
+            color: inherit;
+        }
+        &::before{
+            background-image: linear-gradient(to top, #1bbc86, #006644);
+        }
+        &::after{
+            content: initial;
+        }
+    }
+    .__ball-actions-wrapper{
+        top: 100%;
+        opacity: 0;
+        visibility: hidden;
+        transition: linear 0.15s all;
+        left: 1em;
+        .__triangle{
+            left: 1em;
+        }
+    }
+    &:hover .__ball-actions-wrapper{
+        opacity: 1;
+        display: initial;
+        visibility: visible;
+        z-index: 2;
+    }
+    .__ball-actions{
+        background: #3b3c3e;
+        border: 2px solid;
+        border-radius: 0.4em;
+        img{
+            margin: 0.5em;
+        }
+    }
+    .__triangle{
+        border-bottom: 12px solid;
+        border-right: 9px solid transparent;
+        border-left: 9px solid transparent;
+        width: 10px;
+        top: -12px;
+    }
+}
+
+.__game-wrapper{
+    .__BingoGameBall:nth-child(5n + 2),
+    .__BingoGameBall:nth-child(5n + 3){
+        .__ball-actions-wrapper{
+            left: -50%;
+            .__triangle{
+                left: 33.33%;
+            }
+        }
+    }
+    .__BingoGameBall:nth-child(5n + 4),
+    .__BingoGameBall:nth-child(5n + 5){
+        .__ball-actions-wrapper{
+            left: initial;
+            right: 0;
+            .__triangle{
+                left: initial;
+                right: 15%;
+            }
+        }
+    }
+}

@@ -62,6 +62,14 @@
                 right: -1.5em;
                 top: -1.5em;
             }
+            .__live-draw{
+                background: #1bbc86;
+                padding: 0.15em 0.8em;
+                border-radius: 0.2em;
+            }
+            .__in-progress-clock-image{
+                width: 1.57em;
+            }
         }
         
     }
@@ -80,47 +88,7 @@
             grid-template-columns: repeat(5, 1fr);
             >div{
                 border: 1px solid $primary;
-                font-size: 20px;
-                width: 102px;
-                height: 102px;
-                display: flex;
-                place-items: center;
-                border-radius: 8px;
-                position: relative;
-                align-items: center;
-                justify-content: center;
                 background: #000000;
-                >div{
-                    position: relative;
-                    z-index: 1;
-                    color: #1e1e1e;
-                }
-                &::after, &::before{
-                    content: '';
-                    position: absolute;
-                    border-radius: 50%;
-                }
-                &::before{
-                    width: 70%;
-                    height: 70%;
-                    background-image: linear-gradient(to top, #ff8f37, #b24e00);
-                }
-                &::after{
-                    width: 50%;
-                    height: 50%;
-                    background: #fff;
-                }
-                &.active{
-                    >div{
-                        color: inherit;
-                    }
-                    &::before{
-                        background-image: linear-gradient(to top, #1bbc86, #006644);
-                    }
-                    &::after{
-                        content: initial;
-                    }
-                }
                 &:nth-child(1), &:nth-child(2), &:nth-child(3),
                 &:nth-child(4), &:nth-child(5){
                     font-size: 60px;
@@ -148,6 +116,74 @@
                     border-radius: 0 8px 8px 0;
                 }
             }
+            // >div{
+            //     font-size: 20px;
+            //     width: 102px;
+            //     height: 102px;
+            //     display: flex;
+            //     place-items: center;
+            //     border-radius: 8px;
+            //     position: relative;
+            //     align-items: center;
+            //     justify-content: center;
+            //     >div{
+            //         position: relative;
+            //         z-index: 1;
+            //         color: #1e1e1e;
+            //     }
+            //     &::after, &::before{
+            //         content: '';
+            //         position: absolute;
+            //         border-radius: 50%;
+            //     }
+            //     &::before{
+            //         width: 70%;
+            //         height: 70%;
+            //         background-image: linear-gradient(to top, #ff8f37, #b24e00);
+            //     }
+            //     &::after{
+            //         width: 50%;
+            //         height: 50%;
+            //         background: #fff;
+            //     }
+            //     &.active{
+            //         >div{
+            //             color: inherit;
+            //         }
+            //         &::before{
+            //             background-image: linear-gradient(to top, #1bbc86, #006644);
+            //         }
+            //         &::after{
+            //             content: initial;
+            //         }
+            //     }
+            //     &:nth-child(1), &:nth-child(2), &:nth-child(3),
+            //     &:nth-child(4), &:nth-child(5){
+            //         font-size: 60px;
+            //         font-weight: 600;
+            //         color: $primary;
+            //         height: initial;
+            //         background: initial;
+            //         margin-bottom: 0.4em;
+            //         &::after, &::before{
+            //             content: initial;
+            //         }
+            //     }
+            //     &:nth-child(2), &:nth-child(3),
+            //     &:nth-child(4){
+            //         border-right: none;
+            //         border-radius: initial;
+            //         border-left: none;
+            //     }
+            //     &:nth-child(1){
+            //         border-right: none;
+            //         border-radius: 8px 0 0 8px;
+            //     }
+            //     &:nth-child(5){
+            //         border-left: none;
+            //         border-radius: 0 8px 8px 0;
+            //     }
+            // }
         }
     }
 }

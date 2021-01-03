@@ -12,6 +12,7 @@ import PowerMatchIcon from '../../assets/PowerMatchIcon.png';
 import IncreaseIcon from '../../assets/IncreaseIcon.png';
 import DecreaseIcon from '../../assets/DecreaseIcon.png';
 import ReverseTimer from '../../components/ReverseTimer/ReverseTimer';
+import BingoGameBall from '../../components/BingoGameBall/BingoGameBall';
 
 const BingoPreGame = props => {
     const [inPrgress, setProgress] = useState(true);
@@ -37,7 +38,7 @@ const BingoPreGame = props => {
                                     </div>
                                 </Fragment>
                             ) : (
-                                <Fragment>
+                                    <Fragment>
                                         <img src={clockimage} alt='' className='__clock-image' />
                                         <div className='__dark-white-color __smaller __mt-1 __mb-s'>Live draw begins in</div>
                                         <TimerClock days={1} hours={23} mins={2} secs={50} />
@@ -58,11 +59,23 @@ const BingoPreGame = props => {
                             </div>
                         </div>
                         <div className='__border'></div>
-                        <div>
-                            <div>Next draw starts in</div>
-                            <div className='__inline-block'><TimerClock days={1} hours={23} mins={2} secs={50} /></div>
-                            <div>Draw date <span className='__light-bold'>Sept 5th, 2020 , 8:00 pm EST</span></div>
-                        </div>
+                        {inPrgress ?
+                            (
+                                <div>
+                                    <div className='__h6 __live-draw __light-bold __inline-block __mt-1'>Live Draw in Progress</div>
+                                    <div className='__flex __mt-1'>
+                                        <img src={clockimage} alt='' className='__in-progress-clock-image' />
+                                        <div className='__smaller __ml-1'>Pay attention, you will have 12 seconds <br /> to match each ball.</div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div>
+                                    <div>Next draw starts in</div>
+                                    <div className='__inline-block'><TimerClock days={1} hours={23} mins={2} secs={50} /></div>
+                                    <div>Draw date <span className='__light-bold'>Sept 5th, 2020 , 8:00 pm EST</span></div>
+                                </div>
+                            )
+                        }
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image' />
                     </div>
                     <div className='__bingo-game __center'>
@@ -73,31 +86,31 @@ const BingoPreGame = props => {
                                 <div>N</div>
                                 <div>G</div>
                                 <div>O</div>
-                                <div><div>2</div></div>
-                                <div><div>17</div></div>
-                                <div><div>43</div></div>
-                                <div><div>46</div></div>
-                                <div><div>74</div></div>
-                                <div><div>7</div></div>
-                                <div><div>34</div></div>
-                                <div><div>19</div></div>
-                                <div><div>17</div></div>
-                                <div><div>59</div></div>
-                                <div><div>10</div></div>
-                                <div><div>26</div></div>
-                                <div className='active'><div>Free</div></div>
-                                <div><div>28</div></div>
-                                <div><div>45</div></div>
-                                <div><div>9</div></div>
-                                <div><div>29</div></div>
-                                <div><div>20</div></div>
-                                <div><div>67</div></div>
-                                <div><div>22</div></div>
-                                <div><div>14</div></div>
-                                <div><div>33</div></div>
-                                <div><div>53</div></div>
-                                <div><div>72</div></div>
-                                <div><div>66</div></div>
+                                <BingoGameBall>2</BingoGameBall>
+                                <BingoGameBall>17</BingoGameBall>
+                                <BingoGameBall>43</BingoGameBall>
+                                <BingoGameBall>46</BingoGameBall>
+                                <BingoGameBall>74</BingoGameBall>
+                                <BingoGameBall>7</BingoGameBall>
+                                <BingoGameBall>34</BingoGameBall>
+                                <BingoGameBall>19</BingoGameBall>
+                                <BingoGameBall>17</BingoGameBall>
+                                <BingoGameBall>59</BingoGameBall>
+                                <BingoGameBall>10</BingoGameBall>
+                                <BingoGameBall>26</BingoGameBall>
+                                <BingoGameBall active>Free</BingoGameBall>
+                                <BingoGameBall>28</BingoGameBall>
+                                <BingoGameBall>45</BingoGameBall>
+                                <BingoGameBall>9</BingoGameBall>
+                                <BingoGameBall>29</BingoGameBall>
+                                <BingoGameBall>20</BingoGameBall>
+                                <BingoGameBall>67</BingoGameBall>
+                                <BingoGameBall>22</BingoGameBall>
+                                <BingoGameBall>14</BingoGameBall>
+                                <BingoGameBall>33</BingoGameBall>
+                                <BingoGameBall>53</BingoGameBall>
+                                <BingoGameBall>72</BingoGameBall>
+                                <BingoGameBall>66</BingoGameBall>
                             </div>
                         </div>
                     </div>
