@@ -97,6 +97,10 @@
       background-color: $primary;
       border: none;
       margin: 200px -60px 0 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
