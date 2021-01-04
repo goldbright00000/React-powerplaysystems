@@ -1,0 +1,20 @@
+@import '../../scss/colors.scss';
+
+.__Bing-PowerPlays{
+    box-shadow: -4px 0 38px 0 rgba(4, 4, 4, 0.58);
+    background-color: $lightBlack;
+    margin-bottom: 1.5em;
+    .__my-balance{
+        background: rgba($color: $primary, $alpha: 0.1);
+        padding: 0.7em 2em;
+        border-radius: 2em;   
+    }
+    .__bingo-badge{
+        border-radius: 1em;
+        background-color: #35363a;
+        min-width: 48px;
+        top: -0.9em;
+        left: calc(50% + 1.8em);
+        transform: translateX(-50%);
+    }
+}

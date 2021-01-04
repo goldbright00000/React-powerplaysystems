@@ -1,0 +1,76 @@
+@import '../../scss/colors.scss';
+
+.__BingoGame{
+    .__main{
+        .__main-left{
+            .__title{
+                font-size: 72px;
+                line-height: 1em;
+            }
+            .__see-contesy-rules{
+                background: rgba($color: $primary, $alpha: 0.1);
+                padding: 0.7em 1.4em;
+                border-radius: 2em;
+            }
+            .__progress-bar{
+                padding: 0.25em;
+                border-radius: 1em;
+            }
+            .__timer{
+                border: dashed 2px #979797;
+                border-radius: 0.8em;
+                width: 17em;
+                .__absolute{
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    white-space: nowrap;
+                }
+                &::after{
+                    padding-top: 120%;
+                    content: '';
+                    display: block;
+                }
+            }
+            .__clock-image{
+                width: 3em;
+            }
+            .__ball{
+                background: url('../../assets/ball.png') center center;
+                line-height: 1.1em;
+                width: 3.4em;
+                height: 3.4em;
+                background-size: 100% 100%;
+                border: 2px solid;
+                border-radius: 50%;
+            }
+        }
+        .__main-center{
+            .__header{
+                padding: 1.7em 4em 1.2em 4em;
+                background: #17181a;
+                border-radius: 0.7em;
+                .__border{
+                    height: 3em;
+                    margin: 1em 3em;
+                    width: 1px;
+                    background: #979797;
+                }
+            }
+            .__lottery-image{
+                width: 6.29em;
+                right: -1.5em;
+                top: -1.5em;
+            }
+            .__live-draw{
+                background: #1bbc86;
+                padding: 0.15em 0.8em;
+                border-radius: 0.2em;
+            }
+            .__in-progress-clock-image{
+                width: 1.57em;
+            }
+        }
+        
+    }
+}

@@ -18,6 +18,7 @@ import AccountSecurity from './pages/AccountSecurity';
 import TermsOfUse from './pages/TermsOfUse';
 import PowerUpPage from './pages/PowerUpPage/PowerUpPage';
 import GetUserInfoPage from './pages/GetUserInfoPage/GetUserInfoPage';
+import BingoInProgressGame from './pages/BingoInProgressGame/BingoInProgressGame';
 
 
 const App = props => {
@@ -31,7 +32,7 @@ const App = props => {
                 <Route path='/power-center' component={PowerCenter} />
                 <Route path='/select-teams' component={SelectTeams} />
                 <Route path='/powerbet-live' component={PowerBetLive} />
-                <Route path='/bingo-game' component={BingoPreGame} />
+                <Route path='/bingo-pre-game' component={BingoPreGame} />
                 <Route path='/card-game' component={CardGame} />
                 <Route path='/power-picks' component={PowerPicks} />
                 <Route path='/chase-a-card' component={ChaseACard} />
@@ -42,7 +43,7 @@ const App = props => {
                 <Route path='/terms' component={TermsOfUse} />
                 <Route path='/power-up' component={PowerUpPage} />
                 <Route path='/user-profile-info' component={GetUserInfoPage} />
-
+                <Route path='/bingo-in-progress' component={BingoInProgressGame} />
             </Switch>
         </Fragment>
     )

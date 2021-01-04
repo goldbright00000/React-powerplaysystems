@@ -1,19 +1,18 @@
 import React from 'react';
-import './BingoGameMain.scss';
-import './BingoPreGame.scss';
+import './BingoInProgressGame.scss';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { Link } from 'react-router-dom';
 import clockimage from '../../assets/StopWatchIcon@2x.png';
-import TimerClock from '../../components/TimerClock/TimerClock';
 import lotteryImage from '../../assets/lotteryImg@2x.png';
-import PowerPlays from '../../components/PowerPlays/PowerPlays';
-import BingoGame from '../../components/BingoGame/BingoGame';
+import ReverseTimer from '../../components/ReverseTimer/ReverseTimer';
 import BingoGame2 from '../../components/BingoGame2/BingoGame2';
+import BingoGame from '../../components/BingoGame/BingoGame';
+import PowerPlays from '../../components/PowerPlays/PowerPlays';
 
-const BingoPreGame = props => {
+const BingoInProgressGame = props => {
     return (
-        <div className='__BingoGame'>
+        <div className='__BingoInProgressGame __BingoGame'>
             <Header isStick={true} />
             <div className='__flex-stretch __main'>
                 <div className='__main-left __mt-5 __ml-5'>
@@ -24,9 +23,12 @@ const BingoPreGame = props => {
                     <div className='__primary __progress-bar __mb-2' style={{ width: '26%' }}></div>
                     <div className='__timer __relative __center'>
                         <div className='__absolute __center'>
-                            <img src={clockimage} alt='' className='__clock-image' />
-                            <div className='__dark-white-color __smaller __mt-1 __mb-s'>Live draw begins in</div>
-                            <TimerClock days={1} hours={23} mins={2} secs={50} />
+                            <div className='__mt-2'>Next number drawn in</div>
+                            <ReverseTimer className='__ml-a __mr-a __mt-1' />
+                            <div className='__ball __h3 __primary-color __column __ai __flex-center __m-a __mb-1 __mt-1'>
+                                <div>G</div>
+                                <div>59</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -42,9 +44,11 @@ const BingoPreGame = props => {
                         </div>
                         <div className='__border'></div>
                         <div>
-                            <div>Next draw starts in</div>
-                            <div className='__inline-block'><TimerClock days={1} hours={23} mins={2} secs={50} /></div>
-                            <div>Draw date <span className='__light-bold'>Sept 5th, 2020 , 8:00 pm EST</span></div>
+                            <div className='__h6 __live-draw __light-bold __inline-block __mt-1'>Live Draw in Progress</div>
+                            <div className='__flex __mt-1'>
+                                <img src={clockimage} alt='' className='__in-progress-clock-image' />
+                                <div className='__smaller __ml-1'>Pay attention, you will have 12 seconds <br /> to match each ball.</div>
+                            </div>
                         </div>
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image' />
                     </div>
@@ -58,4 +62,4 @@ const BingoPreGame = props => {
     )
 }
 
-export default BingoPreGame;
+export default BingoInProgressGame;
