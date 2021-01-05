@@ -7,8 +7,8 @@ export const CONSTANTS = {
     CARD_POP_ACTIONS: {
         INCREASE: 'INCREASE',
         DECREASE: 'DECREASE',
-        RETRY: 'RETRY',
-        FLASH: 'FLASH'
+        REPLACE: 'REPLACE',
+        POWER_MATCH: 'POWER_MATCH'
     },
     MAX_ACE_PER_CARD: 2,
 }

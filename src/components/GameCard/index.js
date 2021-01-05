@@ -21,48 +21,96 @@ function GameCard(props) {
         isCompleted = false,
         image = '',
         styles = {},
-        onClick = () => {
-        },
         card = {},
+        cardIndex = 0,
+        collectedAceCards = [],
+        inventory: { replace = 0, replaceAll = 0, powerMatch = 0, increase = 0, decrease = 0 } = {},
+        onClick = () => {},
         updateCards = () => { },
-        cardIndex = 0
+        updateInventory = () => { },
+        getRandomCard = () => { },
     } = props || {}
 
-    const onIncrease = () => {
-        const { suit = 0, rank = 0, aces = 0 } = card || {}
-        let _rank = rank;
-        let _aces = aces;
+    const { suit = 0, rank = 0 } = card || {}
+    let _rank = rank;
+    const aceCard = collectedAceCards?.filter(card => card.suit === suit)[0];
+    const { aceCards = 0 } = aceCard || {}
 
-        if (aces === CONSTANTS.MAX_ACE_PER_CARD) {
+    const onIncrease = () => {
+        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increase <= 0) {
             return;
         }
 
-        
         if (_rank !== GetAceCardIndex()) {
             _rank += 1;
-            
-            //if the card rank === "A" then cards ace will increase
-            if (_rank === GetAceCardIndex()) {
-                _aces += 1;
-            }
         }
         
-        console.log(_rank, GetAceCardIndex())
         const _card = {
             suit: suit,
             rank: _rank,
-            aces: _aces,
         }
+
+        let _increase = increase;
+        _increase -= 1;
 
         //update the cards array in parent component
         updateCards(cardIndex, _card)
+        updateInventory(_increase, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
     }
 
-    const onRetry = () => { }
+    const onReplace = () => { 
+        if (replace <= 0)
+        return;
 
-    const onBolt = () => { }
+        let _replace = replace;
+        _replace -= 1;
 
-    const onDecrease = () => { }
+        let newCard = getRandomCard();
+        if (newCard?.rank === rank) {
+            newCard = getRandomCard();
+        }
+        updateCards(cardIndex, newCard)
+        updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
+    }
+
+    const onPowerMatch = () => {
+        if (powerMatch <= 0) return
+
+        let _powerMatch = powerMatch;
+        _powerMatch -= 1;
+
+        const aceCard = {
+            suit: suit,
+            rank: GetAceCardIndex(),
+        }
+
+        updateCards(cardIndex, aceCard)
+        updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
+    }
+
+    const onDecrease = () => { 
+        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || decrease <= 0) {
+            return;
+        }
+
+        if (_rank > 0) {
+            _rank -= 1;
+        } else {
+            _rank = GetAceCardIndex()
+        }
+        
+        const _card = {
+            suit: suit,
+            rank: _rank,
+        }
+
+        let _decrease = decrease;
+        _decrease -= 1;
+
+        //update the cards array in parent component
+        updateCards(cardIndex, _card)
+        updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.DECREASE)
+    }
     
     return (
         <div className={classes.__game_card_wrapper} style={styles}>
@@ -108,11 +156,11 @@ function GameCard(props) {
                                 <span>No action required</span>
                                 :
                                 <>             
-                                    <button className={classes.__btn__} onClick={onRetry}>
+                                    <button className={classes.__btn__} onClick={onReplace}>
                                         <Replace style={{height: 'auto'}} size={39}/>
                                     </button>
 
-                                    <button className={classes.__btn__} onClick={onBolt}>
+                                    <button className={classes.__btn__} onClick={onPowerMatch}>
                                         <img src={boltIcon} width={40} height={40}/>
                                     </button>
 
@@ -141,7 +189,11 @@ GameCard.propTypes = {
     onClick: PropTypes.func,
     card: PropTypes.object,
     updateCards: PropTypes.func,
-    cardIndex: PropTypes.number
+    cardIndex: PropTypes.number,
+    collectedAceCards: PropTypes.array,
+    inventory: PropTypes.object,
+    updateInventory: PropTypes.func,
+    getRandomCard: PropTypes.func,
 }
 
 export default GameCard

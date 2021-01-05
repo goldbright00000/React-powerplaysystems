@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
-import {withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 import {redirectTo} from '../../utility/shared'
 import Card from '../../components/Card'
@@ -16,19 +17,28 @@ import Sidebar from '../../components/Sidebar'
 import SidebarButton from '../../components/SidebarButton'
 import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
-import classes from './cardGamePage.module.scss'
 import { CONSTANTS } from '../../utility/constants'
 import { IsAceCard } from '../../utility/shared'
+import { setCardState, resetCardState, cardGameInventory } from '../../actions/cardGameAction'
+import classes from './cardGamePage.module.scss'
 
 const TOTAL_ROUNDS = 5;
-const MAX_ROUND_TIME = 1;
+const MAX_ROUND_TIME = 2;
 let _round = 0;
 const cardsArr = []
+const aceCardsArr = []
 
 function CardGame(props) {
     const [cardsState, setCardsState] = useState({})
     const [count, setCount] = useState(MAX_ROUND_TIME)
     const [currentRound, setCurrentRound] = useState(0)
+
+    const dispatch = useDispatch();
+    const { collectedAceCards = [],
+        inventory = {}
+    } = useSelector(state => state.cardGame)
+
+    const { replace = 0, replaceAll = 0, powerMatch = 0, increase = 0, decrease = 0 } = inventory || {}
     
     useEffect(() => { 
         resetStates()
@@ -60,67 +70,139 @@ function CardGame(props) {
     }, [currentRound])
 
     const resetStates = () => {
-        while (cardsArr.length > 0) {
+        while (cardsArr?.length > 0) {
             cardsArr.pop();
+        }
+
+        while (aceCardsArr?.length > 0) {
+            aceCardsArr.pop()
         }
 
         _round = 0;
         setCardsState({})
         setCurrentRound(0)
         setCount(MAX_ROUND_TIME)
+        dispatch(resetCardState())
     }
 
     const updateCardState = () => {
+        let card = getRandomCard()
+
+        // let collectedAce = getAceCount(card);
+        let isCardAceCompleted = updateAceCard(card)
+        if (isCardAceCompleted) {
+            //recursive call
+            return updateCardState()
+        }
+        cardsArr.push(card)
+
+        setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
+    }
+
+    const getRandomCard = () => {
         let card = {};
         let _cardSuit = Math.floor(Math.random() * (3 - 1) + 1)
         let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2)
         
         card.suit = _cardSuit;
         card.rank = _cardRankIndex;
-        card.aces = 0;
-        
-        let collectedAce = getAceCount(card);
-        cardsArr.push(card)
-        
-        //check and push ace of each card if there is any one
-        updateCardAceWithSuit(cardsArr, card)
-        console.log(cardsArr)
 
-        setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card, collectedAce: collectedAce})
+        return card
+    }
+
+    const updateAceCard = (card) => {
+        if (IsAceCard(card)) {
+            const _collectedAceCards = collectedAceCards;
+            if (_collectedAceCards?.length && _collectedAceCards?.length > 0) {
+                const _aceCardInfo = _collectedAceCards?.filter(_card => _card.suit === card.suit)[0]
+                if (_aceCardInfo) {
+                    const { suit = 0, aceCards = 0 } = _aceCardInfo || {}
+                    let _aceCards = aceCards
+                    if (_aceCards === CONSTANTS.MAX_ACE_PER_CARD) {
+                        //ace cards for current suit is completed
+                        //select random card
+                        return true
+                    } else {
+                        _aceCards += 1;
+                    }
+
+                    const _aceCard = {
+                        suit: suit,
+                        aceCards: _aceCards,
+                    }
+                    let cardIndex = _collectedAceCards?.indexOf(_aceCardInfo)
+                    aceCardsArr[cardIndex] = _aceCard
+                    dispatch(setCardState(aceCardsArr))   
+                } else {
+                    const _aceCard = {
+                        suit: card.suit,
+                        aceCards: 1
+                    }
+    
+                    aceCardsArr.push(_aceCard)
+                    dispatch(setCardState(aceCardsArr))
+                }
+            } else {
+                //no ace card is available in state
+                //store new ace cards to state
+                const _aceCard = {
+                    suit: card.suit,
+                    aceCards: 1
+                }
+
+                aceCardsArr.push(_aceCard)
+                dispatch(setCardState(aceCardsArr))
+            }
+        }
+
+        return false
     }
 
     const updateCards = (index, card) => {
         cardsArr[index] = card
-        updateCardAceWithSuit(cardsArr, card)
-        let collectedAce = getAceCount(card);
-        setCardsState({...cardsState, collectedCards: cardsArr, collectedAce: collectedAce})
-    }
-
-    const updateCardAceWithSuit = (cards, card) => {
-        const cardSuitsArray = cards?.filter(_card => _card.suit === card.suit)
-        if (cardSuitsArray) {
-            for (let i = 0; i < cardSuitsArray?.length; i++) {
-                if (IsAceCard(card) && cardSuitsArray?.[i]?.aces !== CONSTANTS.MAX_ACE_PER_CARD) {
-                    let cardAce = cardsArr?.[i]?.aces
-                    cardAce += 1
-                    cardSuitsArray[i].aces = cardAce
-                }
-            }
+        let isAceCompleted = updateAceCard(card)
+        if (!isAceCompleted) {
+            setCardsState({...cardsState, collectedCards: cardsArr})
         }
-    }
-
-    const getAceCount = (card) => {
-        let collectedAces = cardsState?.collectedAce || 0;
-
-        if (IsAceCard(card) && card?.aces !== CONSTANTS.MAX_ACE_PER_CARD) {
-            collectedAces += 1;
-        }
-
-        return collectedAces
     }
 
     const _redirectTo = (path = '/') => {
         redirectTo(props, {path})
+    }
+
+    const getAceCards = () => {
+        let totalAces = 0;
+        if (collectedAceCards.length) {
+            totalAces = collectedAceCards?.reduce((c1, c2) => {
+                return c1 + (c2['aceCards'] || 0)
+            }, 0)
+        }
+
+        return totalAces;
+    }
+
+    const updateInventory = (inventoryValue, actionType) => {
+        const _inventory = inventory;
+
+        switch (actionType) {
+            case CONSTANTS.CARD_POP_ACTIONS.INCREASE:
+                _inventory.increase = inventoryValue
+                break
+            
+            case CONSTANTS.CARD_POP_ACTIONS.DECREASE:
+                _inventory.decrease = inventoryValue
+                break;
+            
+            case CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH:
+                _inventory.powerMatch = inventoryValue
+                break;
+            
+            case CONSTANTS.CARD_POP_ACTIONS.REPLACE:
+                _inventory.replace = inventoryValue
+                break;
+        }
+
+        dispatch(cardGameInventory(_inventory))
     }
 
     return (
@@ -154,7 +236,11 @@ function CardGame(props) {
                                     card={cardsState?.collectedCards?.[0]}
                                     isSelected={cardsArr[0] && true}
                                     cardIndex={0}
+                                    collectedAceCards={collectedAceCards}
+                                    inventory={inventory}
                                     updateCards={updateCards}
+                                    updateInventory={updateInventory}
+                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup
@@ -162,7 +248,11 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[1]?.rank] === "A"}
                                     isSelected={cardsArr[1] && true}
                                     cardIndex={1}
+                                    collectedAceCards={collectedAceCards}
+                                    inventory={inventory}
                                     updateCards={updateCards}
+                                    updateInventory={updateInventory}
+                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup
@@ -170,7 +260,11 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[2]?.rank] === "A"}
                                     isSelected={cardsArr[2] && true}
                                     cardIndex={2}
+                                    collectedAceCards={collectedAceCards}
+                                    inventory={inventory}
                                     updateCards={updateCards}
+                                    updateInventory={updateInventory}
+                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup
@@ -178,7 +272,11 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[3]?.rank] === "A"}
                                     isSelected={cardsArr[3] && true}
                                     cardIndex={3}
+                                    collectedAceCards={collectedAceCards}
+                                    inventory={inventory}
                                     updateCards={updateCards}
+                                    updateInventory={updateInventory}
+                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup
@@ -186,18 +284,23 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[4]?.rank] === "A"}
                                     isSelected={cardsArr[4] && true}
                                     cardIndex={4}
+                                    collectedAceCards={collectedAceCards}
+                                    inventory={inventory}
                                     updateCards={updateCards}
+                                    updateInventory={updateInventory}
+                                    getRandomCard={getRandomCard}
                                 />
                             </div>
                             <button className={classes.__reload_btn} onClick={resetStates}
-                                disabled={cardsArr.length !== 5 ? true : false}>
+                                disabled={cardsArr.length !== 5 ? true : false}
+                            >
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
                             </button>
                         </Card>
                     </div>
 
                     <div className={classes.__card_game_content_footer}>
-                        <Alert primary collectedAce={cardsState?.collectedAce || 0} />
+                        <Alert primary collectedAce={getAceCards() || 0} />
 
                         <button className={`__btn ${classes.__card_game_footer_btn}`}
                             onClick={() => _redirectTo('/chase-a-card')}>
@@ -219,14 +322,14 @@ function CardGame(props) {
                         <SidebarButton
                             success
                             title="Replace"
-                            toolText="1 left"
+                            toolText={`${replace} left`}
                             icon={<Replace style={{height: 'auto'}}/>}
                         />
 
                         <SidebarButton
                             primary
                             title="Replace All"
-                            toolText="2 left"
+                            toolText={`${replaceAll} left`}
                             icon={<div
                                 className={classes.__sidebar_reload_btn}>
                                 <Reload bgColor={"#0ff"} style={{height: 'auto'}}/>
@@ -236,14 +339,14 @@ function CardGame(props) {
                         <SidebarButton
                             primary
                             title="Power Match"
-                            toolText="2 left"
+                            toolText={`${powerMatch} left`}
                             icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
                         />
 
                         <SidebarButton
                             primary
                             title="Increase"
-                            toolText="2 left"
+                            toolText={`${increase} left`}
                             icon={<PlusMinus style={{height: 'auto'}}/>}
                         />
 
