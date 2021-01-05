@@ -2,45 +2,46 @@
 
 .__BingoGameBall{
     font-size: 20px;
-    width: 102px;
-    height: 102px;
-    display: flex;
-    place-items: center;
     border-radius: 8px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    .__ball-number{
-        cursor: pointer;
-        position: relative;
-        z-index: 1;
-        color: #1e1e1e;
+    &::before{
+        content: '';
+        padding-top: 100%;
+        display: block;
     }
-    &::after, &::before{
+    &::after{
         content: '';
         position: absolute;
-        border-radius: 50%;
-    }
-    &::before{
         width: 70%;
         height: 70%;
         background-image: linear-gradient(to top, #ff8f37, #b24e00);
-    }
-    &::after{
-        width: 50%;
-        height: 50%;
-        background: #fff;
+        border-radius: 50%;
     }
     &.active{
-        >div{
-            color: inherit;
-        }
-        &::before{
+        &::after{
             background-image: linear-gradient(to top, #1bbc86, #006644);
         }
-        &::after{
-            content: initial;
+        .__ball-number{
+            background: transparent;
+            color: #fff;
         }
+    }
+    .__ball-number{
+        cursor: pointer;
+        z-index: 1;
+        color: #1e1e1e;
+        width: 50%;
+        height: 50%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background-image: linear-gradient(to top, #ffffff, #dbdbdb);
+        &::after, &::before{
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+        }
+        
     }
     .__ball-actions-wrapper{
         top: 100%;
@@ -51,12 +52,6 @@
         .__triangle{
             left: 1em;
         }
-    }
-    &:hover .__ball-actions-wrapper{
-        opacity: 1;
-        display: initial;
-        visibility: visible;
-        z-index: 2;
     }
     .__ball-actions{
         background: #3b3c3e;
@@ -94,6 +89,34 @@
                 left: initial;
                 right: 15%;
             }
+        }
+    }
+}
+
+@media (min-width: 1200px){
+    .__BingoGameBall{
+        &:hover .__ball-actions-wrapper{
+            opacity: 1;
+            display: initial;
+            visibility: visible;
+            z-index: 2;
+        }
+    }
+}
+
+@media (max-width: 600px){
+    .__BingoGameBall{
+        font-size: 16px;
+        display: none;
+    }
+}
+
+@media (max-width: 350px){
+    .__BingoGameBall{
+        font-size: 15px;
+        .__ball-number{
+            width: 47%;
+            height: 47%;
         }
     }
 }

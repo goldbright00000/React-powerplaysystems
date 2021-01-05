@@ -1,13 +1,11 @@
 @import '../../scss/colors.scss';
 
 .__bingo-game-1{
-    margin: 1.5em;
+    margin: 1.5em 0;
     .__game-wrapper{
         background-color: $black2;
         padding: 1.5em;
         border-radius: 8px;
-    }
-    .__game{
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         >div{
@@ -38,6 +36,19 @@
             &:nth-child(5){
                 border-left: none;
                 border-radius: 0 8px 8px 0;
+            }
+        }
+    }
+    @media (max-width: 600px) {
+        .__game-wrapper{
+            background: transparent;
+            padding: 0;
+            overflow: hidden;
+            >div{
+                &:nth-child(1), &:nth-child(2), &:nth-child(3),
+                &:nth-child(4), &:nth-child(5){
+                    font-size: 30px;        
+                }
             }
         }
     }

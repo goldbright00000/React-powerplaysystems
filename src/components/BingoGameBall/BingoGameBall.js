@@ -9,8 +9,8 @@ import DecreaseIcon from '../../assets/DecreaseIcon.png';
 const BingoGameBall = props => {
     const [isActive, setActive] = useState(props.active || false)
     return (
-        <div className={`__BingoGameBall __relative ${isActive ? 'active' : ''}`} onClick={() => setActive(old => !old)}>
-            <div className='__ball-number'>{props.children}</div>
+        <div className={`__BingoGameBall __relative __flex __flex-center ${isActive ? 'active' : ''}`} onClick={() => setActive(old => !old)}>
+            <div className='__ball-number __flex __flex-center __absolute'>{props.children}</div>
             <div className='__absolute __ball-actions-wrapper __primary-color'>
                 <div className='__triangle __absolute'></div>
                 <div className='__flex __ball-actions'>

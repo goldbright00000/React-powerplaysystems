@@ -1,16 +1,16 @@
 @import '../../scss/colors.scss';
 
 .__BingoGame{
+    .__see-contesy-rules{
+        background: rgba($color: $primary, $alpha: 0.1);
+        padding: 0.7em 1.4em;
+        border-radius: 2em;
+    }
     .__main{
         .__main-left{
             .__title{
                 font-size: 72px;
                 line-height: 1em;
-            }
-            .__see-contesy-rules{
-                background: rgba($color: $primary, $alpha: 0.1);
-                padding: 0.7em 1.4em;
-                border-radius: 2em;
             }
             .__progress-bar{
                 padding: 0.25em;
@@ -47,9 +47,6 @@
         }
         .__main-center{
             .__header{
-                padding: 1.7em 4em 1.2em 4em;
-                background: #17181a;
-                border-radius: 0.7em;
                 .__border{
                     height: 3em;
                     margin: 1em 3em;
@@ -72,5 +69,39 @@
             }
         }
         
+    }
+}
+
+@media (min-width: 1200px){
+    .__BingoGame{
+        .__main{
+            width: 100%;
+            .__main-center{
+                .__header{
+                    padding: 1.7em 4em 1.2em 4em;
+                    background: #17181a;
+                    border-radius: 0.7em;
+                }
+                .__title{
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1200px){
+    .__BingoGame{
+        .__main-center{
+            margin-top: 1em !important;
+            .__title{
+                min-width: 50%;
+            }
+            .__header{
+                .__h2{
+                    line-height: 1em;
+                }
+            }
+        }
     }
 }
