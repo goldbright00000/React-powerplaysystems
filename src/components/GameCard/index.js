@@ -24,7 +24,7 @@ function GameCard(props) {
         card = {},
         cardIndex = 0,
         collectedAceCards = [],
-        inventory: { replace = 0, replaceAll = 0, powerMatch = 0, increase = 0, decrease = 0 } = {},
+        inventory: { replace = 0, powerMatch = 0, increase = 0, decrease = 0 } = {},
         onClick = () => {},
         updateCards = () => { },
         updateInventory = () => { },
@@ -74,7 +74,7 @@ function GameCard(props) {
     }
 
     const onPowerMatch = () => {
-        if (powerMatch <= 0) return
+        if (powerMatch <= 0 || aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD) return
 
         let _powerMatch = powerMatch;
         _powerMatch -= 1;
