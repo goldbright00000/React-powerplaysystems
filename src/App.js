@@ -19,6 +19,8 @@ import TermsOfUse from './pages/TermsOfUse';
 import PowerUpPage from './pages/PowerUpPage/PowerUpPage';
 import GetUserInfoPage from './pages/GetUserInfoPage/GetUserInfoPage';
 import BingoInProgressGame from './pages/BingoInProgressGame/BingoInProgressGame';
+import Elite8 from './pages/Elite8';
+import Elite8Draw from './pages/Elite8Draw';
 
 
 const App = props => {
@@ -44,6 +46,8 @@ const App = props => {
                 <Route path='/power-up' component={PowerUpPage} />
                 <Route path='/user-profile-info' component={GetUserInfoPage} />
                 <Route path='/bingo-in-progress' component={BingoInProgressGame} />
+                <Route path='/elite8' component={Elite8} />
+                <Route path='/elite8-draw' component={Elite8Draw} />
             </Switch>
         </Fragment>
     )
