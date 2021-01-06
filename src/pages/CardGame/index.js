@@ -103,6 +103,7 @@ function CardGame(props) {
             }, 1000)
         }
 
+        
         return () => clearInterval(timeOut)
     }, [currentCard, currentRound])
 
