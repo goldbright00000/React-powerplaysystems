@@ -56,8 +56,10 @@ const BingoPreGame = props => {
                 </div>
                 <PowerPlays />
             </div>
-            <div className='__hide-on-large'>
+            <div className='__container __bing-2-game-wrapper'>
                 <BingoGame2 />
+            </div>
+            <div className='__hide-on-large'>
                 <Footer isBlack={true} />
             </div>
         </div>

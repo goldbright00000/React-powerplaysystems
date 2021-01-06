@@ -3,7 +3,7 @@ import './BingoGame2.scss';
 
 const BingoGame2 = props => {
     return (
-        <div className='__container __bingo-game-2 __primary-color __h2'>
+        <div className='__bingo-game-2 __primary-color __h2 __mediam-on-small'>
             <div className='__bold'>B</div>
             <div>-</div>
             <div>-</div>

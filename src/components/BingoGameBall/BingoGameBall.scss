@@ -1,7 +1,6 @@
 @import '../../scss/colors.scss';
 
 .__BingoGameBall{
-    font-size: 20px;
     border-radius: 8px;
     &::before{
         content: '';
@@ -43,22 +42,14 @@
         }
         
     }
-    .__ball-actions-wrapper{
-        top: 100%;
-        opacity: 0;
-        visibility: hidden;
-        transition: linear 0.15s all;
-        left: 1em;
-        .__triangle{
-            left: 1em;
-        }
-    }
     .__ball-actions{
         background: #3b3c3e;
         border: 2px solid;
         border-radius: 0.4em;
+        top: 100%;
         img{
             margin: 0.5em;
+            width: 2.4em;
         }
     }
     .__triangle{
@@ -66,54 +57,42 @@
         border-right: 9px solid transparent;
         border-left: 9px solid transparent;
         width: 10px;
-        top: -12px;
+        top: calc(100% - 10px);
     }
-}
-
-.__game-wrapper{
-    .__BingoGameBall:nth-child(5n + 2),
-    .__BingoGameBall:nth-child(5n + 3){
-        .__ball-actions-wrapper{
-            left: -50%;
-            .__triangle{
-                left: 33.33%;
-            }
-        }
+    .__triangle, .__ball-actions{
+        opacity: 0;
+        visibility: hidden;
+        transition: linear 0.15s all;
+        
     }
-    .__BingoGameBall:nth-child(5n + 4),
-    .__BingoGameBall:nth-child(5n + 5){
-        .__ball-actions-wrapper{
-            left: initial;
-            right: 0;
-            .__triangle{
-                left: initial;
-                right: 15%;
-            }
-        }
-    }
-}
-
-@media (min-width: 1200px){
-    .__BingoGameBall{
-        &:hover .__ball-actions-wrapper{
+    &:hover {
+        .__triangle, .__ball-actions{
             opacity: 1;
-            display: initial;
             visibility: visible;
             z-index: 2;
         }
     }
 }
 
-@media (max-width: 600px){
-    .__BingoGameBall{
-        font-size: 16px;
-        display: none;
+.__BingoGameBall{
+    &:nth-child(5n + 1) .__ball-actions{
+        left: 20%;
+    }
+    &:nth-child(5n + 2) .__ball-actions,
+    &:nth-child(5n + 3) .__ball-actions{
+        left: -40%;
+    }
+    &:nth-child(5n + 4) .__ball-actions{
+        right: -40%;
+    }
+    &:nth-child(5n + 5) .__ball-actions{
+        right: 20%;
     }
 }
 
 @media (max-width: 350px){
     .__BingoGameBall{
-        font-size: 15px;
+        font-size: 13px !important;
         .__ball-number{
             width: 47%;
             height: 47%;
