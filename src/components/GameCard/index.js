@@ -25,6 +25,8 @@ function GameCard(props) {
         cardIndex = 0,
         collectedAceCards = [],
         inventory: { replace = 0, powerMatch = 0, increase = 0, decrease = 0 } = {},
+        activeCard = {},
+        time = 0,
         onClick = () => {},
         updateCards = () => { },
         updateInventory = () => { },
@@ -37,7 +39,7 @@ function GameCard(props) {
     const { aceCards = 0 } = aceCard || {}
 
     const onIncrease = () => {
-        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increase <= 0) {
+        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increase <= 0 || activeCard !== card) {
             return;
         }
 
@@ -59,7 +61,7 @@ function GameCard(props) {
     }
 
     const onReplace = () => { 
-        if (replace <= 0)
+        if (replace <= 0 || activeCard !== card)
         return;
 
         let _replace = replace;
@@ -74,7 +76,7 @@ function GameCard(props) {
     }
 
     const onPowerMatch = () => {
-        if (powerMatch <= 0 || aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD) return
+        if (powerMatch <= 0 || aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || activeCard !== card) return
 
         let _powerMatch = powerMatch;
         _powerMatch -= 1;
@@ -89,7 +91,7 @@ function GameCard(props) {
     }
 
     const onDecrease = () => { 
-        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || decrease <= 0) {
+        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || decrease <= 0 || activeCard !== card) {
             return;
         }
 
@@ -148,7 +150,7 @@ function GameCard(props) {
                         </div>
             }
             {
-                showPopup &&
+                showPopup && activeCard === card && time > 0 &&
                 <div className={classes.__game_card_popup_container}>
                     <div className={classes.__game_card_popup}>
                         {
@@ -194,6 +196,8 @@ GameCard.propTypes = {
     inventory: PropTypes.object,
     updateInventory: PropTypes.func,
     getRandomCard: PropTypes.func,
+    activeCard: PropTypes.object,
+    time: PropTypes.number,
 }
 
 export default GameCard

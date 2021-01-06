@@ -94,9 +94,12 @@
       border-radius: 100px;
       padding: 0;
       position: absolute;
-      background-color: $primary;
       border: none;
       margin: 200px -60px 0 0;
+      background-color: rgba(251, 110, 0, 0.5);
+    }
+    .active {
+      background-color: $primary;
 
       &:hover {
         cursor: pointer;

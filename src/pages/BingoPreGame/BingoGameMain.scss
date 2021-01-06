@@ -8,30 +8,12 @@
     }
     .__main{
         .__main-left{
-            .__title{
-                font-size: 72px;
-                line-height: 1em;
-            }
             .__progress-bar{
                 padding: 0.25em;
                 border-radius: 1em;
             }
-            .__timer{
-                border: dashed 2px #979797;
-                border-radius: 0.8em;
-                width: 17em;
-                .__absolute{
-                    left: 50%;
-                    top: 50%;
-                    transform: translate(-50%, -50%);
-                    white-space: nowrap;
-                }
-                &::after{
-                    padding-top: 120%;
-                    content: '';
-                    display: block;
-                }
-            }
+        }
+        .__timer-section{
             .__clock-image{
                 width: 3em;
             }
@@ -76,6 +58,28 @@
     .__BingoGame{
         .__main{
             width: 100%;
+            .__timer-section{
+                border: dashed 2px #979797;
+                border-radius: 0.8em;
+                width: 17em;
+                .__absolute{
+                    left: 50%;
+                    top: 50%;
+                    transform: translate(-50%, -50%);
+                    white-space: nowrap;
+                }
+                &::after{
+                    padding-top: 120%;
+                    content: '';
+                    display: block;
+                }
+            }
+            .__main-left{
+                .__title{
+                    font-size: 72px;
+                    line-height: 1em;
+                }
+            }
             .__main-center{
                 .__header{
                     padding: 1.7em 4em 1.2em 4em;
@@ -92,14 +96,50 @@
 
 @media (max-width: 1200px){
     .__BingoGame{
+        .__main-left{
+            margin: 2em 1em 0 0 !important;
+            .__timer-section{
+                border: none;
+                font-size: 10px;
+                margin-top: 3em;
+                >.__absolute{
+                    position: relative;
+                }
+                .__ball{
+                    width: 2.7em;
+                    height: 2.7em;
+                }
+            }
+        }
         .__main-center{
             margin-top: 1em !important;
-            .__title{
-                min-width: 50%;
-            }
             .__header{
                 .__h2{
                     line-height: 1em;
+                }
+                .__timer-wrapper{
+                    background: #17181a;
+                    padding: 0.5em 0.8em;
+                    border-radius: 1em;
+                }
+            }
+        }
+        .__bing-2-game-wrapper{
+            margin-bottom: 6em;
+        }
+    }
+}
+
+@media (max-width: 600px){
+    .__BingoGame{
+        .__live-draw-in-progress-section{
+            margin-right: 0 !important;
+            padding-right: 0 !important;
+            text-align: right;
+            .__live-draw-blog{
+                margin-top: 0.4em !important;
+                .__smaller{
+                    font-size: 10px;
                 }
             }
         }

@@ -13,7 +13,7 @@ import BingoGame2 from '../../components/BingoGame2/BingoGame2';
 
 const BingoPreGame = props => {
     return (
-        <div className='__BingoGame'>
+        <div className='__BingoGame __BingoPreGame'>
             <Header isStick={true} />
             <div className='__flex-stretch __main __container'>
                 <div className='__main-left __mt-5 __ml-5 __hide-on-large'>
@@ -22,7 +22,7 @@ const BingoPreGame = props => {
                     <Link to='/' className='__uppercase __primary-color __see-contesy-rules __inline-block __mt-1 __mb-6 __light-bold'>SEE CONTEST RULES</Link>
                     <div className='__h4'>In Play</div>
                     <div className='__primary __progress-bar __mb-2' style={{ width: '26%' }}></div>
-                    <div className='__timer __relative __center'>
+                    <div className='__timer-section __relative __center'>
                         <div className='__absolute __center'>
                             <img src={clockimage} alt='' className='__clock-image' />
                             <div className='__dark-white-color __smaller __mt-1 __mb-s'>Live draw begins in</div>
@@ -56,8 +56,10 @@ const BingoPreGame = props => {
                 </div>
                 <PowerPlays />
             </div>
-            <div className='__hide-on-large'>
+            <div className='__container __bing-2-game-wrapper'>
                 <BingoGame2 />
+            </div>
+            <div className='__hide-on-large'>
                 <Footer isBlack={true} />
             </div>
         </div>

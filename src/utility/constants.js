@@ -8,7 +8,9 @@ export const CONSTANTS = {
         INCREASE: 'INCREASE',
         DECREASE: 'DECREASE',
         REPLACE: 'REPLACE',
-        POWER_MATCH: 'POWER_MATCH'
+        POWER_MATCH: 'POWER_MATCH',
+        REPLACE_ALL: 'REPLACE_ALL'
     },
     MAX_ACE_PER_CARD: 2,
+    MAX_ACE_CARDS: 5,
 }

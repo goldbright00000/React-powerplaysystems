@@ -23,15 +23,23 @@ import { setCardState, resetCardState, cardGameInventory } from '../../actions/c
 import classes from './cardGamePage.module.scss'
 
 const TOTAL_ROUNDS = 5;
-const MAX_ROUND_TIME = 2;
-let _round = 0;
+const TOTAL_CARDS = 5;
+const MAX_ROUND_TIME = 5;
+const MAX_RESET_BTN_COUNT_DOWN = 5;
+let _round = 1;
+let _currentCard = 0;
 const cardsArr = []
 const aceCardsArr = []
+let time = MAX_ROUND_TIME;
+let resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN;
 
 function CardGame(props) {
     const [cardsState, setCardsState] = useState({})
     const [count, setCount] = useState(MAX_ROUND_TIME)
-    const [currentRound, setCurrentRound] = useState(0)
+    const [currentRound, setCurrentRound] = useState(_round)
+    const [currentCard, setCurrentCard] = useState(_currentCard)
+    const [resetBtnCountDown, setResetBtnCountDown] = useState(MAX_RESET_BTN_COUNT_DOWN)
+    const [showResetTimer, setResetTimerState] = useState(false)
 
     const dispatch = useDispatch();
     const { collectedAceCards = [],
@@ -41,14 +49,18 @@ function CardGame(props) {
     const { replace = 0, replaceAll = 0, powerMatch = 0, increase = 0, decrease = 0 } = inventory || {}
     
     useEffect(() => { 
-        resetStates()
+        resetGameState()
     }, [])
 
     useEffect(() => {
         let timeOut = null;
+        if (getAceCards() >= CONSTANTS.MAX_ACE_CARDS) {
+            return clearTimeout(timeOut)
+        }
 
-        if (_round < TOTAL_ROUNDS) {
-            let time = MAX_ROUND_TIME;
+        if (_currentCard < TOTAL_CARDS) {
+            time = MAX_ROUND_TIME;
+            setResetTimerState(false)
             timeOut = setInterval(() => {
                 if (time !== 0) {
                     time--;
@@ -57,38 +69,60 @@ function CardGame(props) {
                     time = MAX_ROUND_TIME;
                     setCount(time)
 
-                    _round += 1;
-                    setCurrentRound(_round)
+                    _currentCard += 1;
+                    setCurrentCard(_currentCard)
                     updateCardState()
                 }
             }, 1000)
         } else {
-            clearInterval(timeOut)
+            resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
+            timeOut = setInterval(() => {
+                if (time !== 0) {
+                    time--;
+                    setCount(time)
+                } else {
+                    if (currentRound < TOTAL_ROUNDS) {
+                        setResetTimerState(true)
+                        if (resetAllBtnTime !== 0) {
+                            resetAllBtnTime--;
+                            setResetBtnCountDown(resetAllBtnTime)
+                        } else {
+                            _round += 1;
+                            setCurrentRound(_round)
+                            setCurrentCard(0)
+                            resetGameState()
+                            resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
+                            setResetBtnCountDown(resetAllBtnTime)
+                            setResetTimerState(false)
+                        }
+                    } else {
+                        setResetTimerState(false)
+                        clearInterval(timeOut)
+                    }
+                }
+            }, 1000)
         }
 
         return () => clearInterval(timeOut)
-    }, [currentRound])
+    }, [currentCard, currentRound])
 
-    const resetStates = () => {
+    const resetGameState = () => {
         while (cardsArr?.length > 0) {
             cardsArr.pop();
         }
 
-        while (aceCardsArr?.length > 0) {
-            aceCardsArr.pop()
-        }
-
-        _round = 0;
+        resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
+        _currentCard = 0;
         setCardsState({})
-        setCurrentRound(0)
+        setCurrentCard(_currentCard)
         setCount(MAX_ROUND_TIME)
-        dispatch(resetCardState())
+        setResetBtnCountDown(MAX_RESET_BTN_COUNT_DOWN)
+        setResetTimerState(false)
     }
 
     const updateCardState = () => {
         let card = getRandomCard()
 
-        // let collectedAce = getAceCount(card);
         let isCardAceCompleted = updateAceCard(card)
         if (isCardAceCompleted) {
             //recursive call
@@ -101,7 +135,7 @@ function CardGame(props) {
 
     const getRandomCard = () => {
         let card = {};
-        let _cardSuit = Math.floor(Math.random() * (3 - 1) + 1)
+        let _cardSuit = Math.floor(Math.random() * (5 - 2) + 2)
         let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2)
         
         card.suit = _cardSuit;
@@ -200,9 +234,23 @@ function CardGame(props) {
             case CONSTANTS.CARD_POP_ACTIONS.REPLACE:
                 _inventory.replace = inventoryValue
                 break;
+            
+            case CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL:
+                _inventory.replaceAll = inventoryValue
+                break;
         }
 
         dispatch(cardGameInventory(_inventory))
+    }
+
+    const onReplaceAll = () => {
+        let _replaceAll = replaceAll;
+        
+        if (_replaceAll <= 0) return
+
+        _replaceAll -= 1;
+        updateInventory(_replaceAll, CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL)
+        resetGameState()
     }
 
     return (
@@ -213,9 +261,9 @@ function CardGame(props) {
                     <PageHeader title="Chase The Ace"/>
                     <div className={classes._card_game_content_top}>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
-                        <p className={classes.__card_game_card_counter}>Card <span>{currentRound}</span> of {TOTAL_ROUNDS}
+                        <p className={classes.__card_game_card_counter}>Card <span>{currentCard}</span> of {TOTAL_CARDS}
                         </p>
-                        <p className={classes.__card_game_round_counter}>Round <span>2</span> of 5</p>
+                        <p className={classes.__card_game_round_counter}>Round <span>{currentRound}</span> of { TOTAL_ROUNDS }</p>
                         <span className={classes.__card_divider} />
                         <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
                         <ProgressBar
@@ -235,8 +283,10 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[0]?.rank] === "A"}
                                     card={cardsState?.collectedCards?.[0]}
                                     isSelected={cardsArr[0] && true}
+                                    activeCard={cardsState?.activeCard}
                                     cardIndex={0}
                                     collectedAceCards={collectedAceCards}
+                                    time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
@@ -248,7 +298,9 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[1]?.rank] === "A"}
                                     isSelected={cardsArr[1] && true}
                                     cardIndex={1}
+                                    activeCard={cardsState?.activeCard}
                                     collectedAceCards={collectedAceCards}
+                                    time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
@@ -259,8 +311,10 @@ function CardGame(props) {
                                     card={cardsState?.collectedCards?.[2]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[2]?.rank] === "A"}
                                     isSelected={cardsArr[2] && true}
-                                    cardIndex={2}
+                                    cardIndex={2}activeCard={cardsState?.activeCard}
+                                    activeCard={cardsState?.activeCard}
                                     collectedAceCards={collectedAceCards}
+                                    time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
@@ -272,7 +326,9 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[3]?.rank] === "A"}
                                     isSelected={cardsArr[3] && true}
                                     cardIndex={3}
+                                    activeCard={cardsState?.activeCard}
                                     collectedAceCards={collectedAceCards}
+                                    time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
@@ -284,23 +340,39 @@ function CardGame(props) {
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[4]?.rank] === "A"}
                                     isSelected={cardsArr[4] && true}
                                     cardIndex={4}
+                                    activeCard={cardsState?.activeCard}
                                     collectedAceCards={collectedAceCards}
+                                    time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
                                     getRandomCard={getRandomCard}
                                 />
                             </div>
-                            <button className={classes.__reload_btn} onClick={resetStates}
-                                disabled={cardsArr.length !== 5 ? true : false}
+                            <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
+                                disabled={!showResetTimer}
                             >
+                                {
+                                    showResetTimer &&
+                                    <span style={{ position: 'absolute', top: '-15px', left: '50%', color: '#fff', transform: 'translateX(-50%)' }}>{ resetBtnCountDown }</span>
+
+                                }
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
                             </button>
                         </Card>
                     </div>
 
                     <div className={classes.__card_game_content_footer}>
-                        <Alert primary collectedAce={getAceCards() || 0} />
+                        {
+                            getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
+                            <Alert success collectedAce={getAceCards() || 0} />    
+                                :
+                                currentRound === TOTAL_ROUNDS && time <= 0 && cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
+                                    ?
+                                    <Alert danger collectedAce={getAceCards() || 0} />
+                                    :
+                                    <Alert primary collectedAce={getAceCards() || 0} />
+                        }
 
                         <button className={`__btn ${classes.__card_game_footer_btn}`}
                             onClick={() => _redirectTo('/chase-a-card')}>
