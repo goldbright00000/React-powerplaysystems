@@ -264,6 +264,7 @@ function CardGame(props) {
         dispatch(cardGameInventory(_inventory))
     }
 
+    
     const onReplaceAll = () => {
         let _replaceAll = replaceAll
         
