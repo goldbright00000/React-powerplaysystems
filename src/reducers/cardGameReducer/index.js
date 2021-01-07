@@ -6,8 +6,7 @@ const INITIAL_STATE = {
         replace: 2,
         replaceAll: 2,
         powerMatch: 2,
-        increase: 2,
-        decrease: 2,
+        increaseOrDecrease: 4
     },
 }
 
