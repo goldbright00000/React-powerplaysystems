@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
 
 import Replace from '../../icons/Replace'
@@ -14,6 +14,7 @@ import { GetAceCardIndex } from '../../utility/shared'
 function GameCard(props) {
 
     const [showPopup, setPopupState] = useState(false)
+    const [hasReplaced, setHasReplacedState] = useState(false)
 
     const {
         isSelected = false,
@@ -24,7 +25,7 @@ function GameCard(props) {
         card = {},
         cardIndex = 0,
         collectedAceCards = [],
-        inventory: { replace = 0, powerMatch = 0, increase = 0, decrease = 0 } = {},
+        inventory: { replace = 0, powerMatch = 0, increaseOrDecrease = 0, decrease = 0 } = {},
         activeCard = {},
         time = 0,
         onClick = () => {},
@@ -38,8 +39,15 @@ function GameCard(props) {
     const aceCard = collectedAceCards?.filter(card => card.suit === suit)[0];
     const { aceCards = 0 } = aceCard || {}
 
+    useEffect(() => {
+        if (time <= 0) {
+            setHasReplacedState(false)
+            setPopupState(false)
+        }
+    }, [time])
+
     const onIncrease = () => {
-        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increase <= 0 || activeCard !== card) {
+        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increaseOrDecrease <= 0 || activeCard !== card) {
             return;
         }
 
@@ -52,7 +60,7 @@ function GameCard(props) {
             rank: _rank,
         }
 
-        let _increase = increase;
+        let _increase = increaseOrDecrease;
         _increase -= 1;
 
         //update the cards array in parent component
@@ -71,6 +79,7 @@ function GameCard(props) {
         if (newCard?.rank === rank) {
             newCard = getRandomCard();
         }
+        setHasReplacedState(true)
         updateCards(cardIndex, newCard)
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
     }
@@ -91,7 +100,7 @@ function GameCard(props) {
     }
 
     const onDecrease = () => { 
-        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || decrease <= 0 || activeCard !== card) {
+        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increaseOrDecrease <= 0 || activeCard !== card) {
             return;
         }
 
@@ -106,12 +115,12 @@ function GameCard(props) {
             rank: _rank,
         }
 
-        let _decrease = decrease;
+        let _decrease = increaseOrDecrease;
         _decrease -= 1;
 
         //update the cards array in parent component
         updateCards(cardIndex, _card)
-        updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.DECREASE)
+        updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
     }
     
     return (
@@ -157,22 +166,41 @@ function GameCard(props) {
                             isCompleted ?
                                 <span>No action required</span>
                                 :
-                                <>             
-                                    <button className={classes.__btn__} onClick={onReplace}>
-                                        <Replace style={{height: 'auto'}} size={39}/>
-                                    </button>
+                                <>
+                                    {
+                                        replace > 0 || powerMatch > 0 || increaseOrDecrease > 0 
+                                            ?
+                                            <>
+                                                {
+                                                    replace > 0 && !hasReplaced &&
+                                                    <button className={classes.__btn__} onClick={onReplace}>
+                                                        <Replace style={{height: 'auto'}} size={39}/>
+                                                    </button>
+                                                }    
 
-                                    <button className={classes.__btn__} onClick={onPowerMatch}>
-                                        <img src={boltIcon} width={40} height={40}/>
-                                    </button>
+                                                {
+                                                    powerMatch > 0 &&
+                                                    <button className={classes.__btn__} onClick={onPowerMatch}>
+                                                        <img src={boltIcon} width={40} height={40}/>
+                                                    </button>
+                                                }
 
-                                    <button className={classes.__btn__}>
-                                        <Plus style={{height: 'auto'}} size={39} onClick={onIncrease}/>
-                                    </button>
+                                                {
+                                                    increaseOrDecrease > 0 &&
+                                                    <>
+                                                        <button className={classes.__btn__}>
+                                                            <Plus style={{height: 'auto'}} size={39} onClick={onIncrease}/>
+                                                        </button>
 
-                                    <button className={classes.__btn__}>
-                                        <Minus style={{height: 'auto'}} size={39} onClick={onDecrease}/>
-                                    </button>
+                                                        <button className={classes.__btn__}>
+                                                            <Minus style={{height: 'auto'}} size={39} onClick={onDecrease}/>
+                                                        </button>
+                                                    </>
+                                                }
+                                            </>
+                                            :
+                                            <span>No item remaining item in your inventory</span>
+                                    }
                                 </>
                         }
                     </div>

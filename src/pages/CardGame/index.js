@@ -26,6 +26,7 @@ const TOTAL_ROUNDS = 5;
 const TOTAL_CARDS = 5;
 const MAX_ROUND_TIME = 5;
 const MAX_RESET_BTN_COUNT_DOWN = 5;
+const REPLACE_ALL_SPEED_TIME = 1;
 let _round = 1;
 let _currentCard = 0;
 const cardsArr = []
@@ -40,43 +41,57 @@ function CardGame(props) {
     const [currentCard, setCurrentCard] = useState(_currentCard)
     const [resetBtnCountDown, setResetBtnCountDown] = useState(MAX_RESET_BTN_COUNT_DOWN)
     const [showResetTimer, setResetTimerState] = useState(false)
+    const [isReplaceAll, setIsReplaceAllState] = useState(false)
 
     const dispatch = useDispatch();
     const { collectedAceCards = [],
         inventory = {}
     } = useSelector(state => state.cardGame)
 
-    const { replace = 0, replaceAll = 0, powerMatch = 0, increase = 0, decrease = 0 } = inventory || {}
+    const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0, decrease = 0 } = inventory || {}
     
     useEffect(() => { 
+        dispatch(resetCardState())
         resetGameState()
     }, [])
 
     useEffect(() => {
-        let timeOut = null;
-        if (getAceCards() >= CONSTANTS.MAX_ACE_CARDS) {
-            return clearTimeout(timeOut)
-        }
+        let timeOut = countDownTimer();
+        gameCompleted(timeOut);
+        
+        return () => clearInterval(timeOut)
+    }, [currentCard, currentRound])
 
+    const countDownTimer = () => {
+        let timeOut = null
         if (_currentCard < TOTAL_CARDS) {
-            time = MAX_ROUND_TIME;
+            if(!isReplaceAll)
+                time = MAX_ROUND_TIME;
+            else
+                time = REPLACE_ALL_SPEED_TIME
             setResetTimerState(false)
             timeOut = setInterval(() => {
+                gameCompleted(timeOut)
                 if (time !== 0) {
                     time--;
                     setCount(time)
                 } else {
-                    time = MAX_ROUND_TIME;
+                    if(!isReplaceAll)
+                        time = MAX_ROUND_TIME;
+                    else
+                        time = REPLACE_ALL_SPEED_TIME
                     setCount(time)
 
                     _currentCard += 1;
                     setCurrentCard(_currentCard)
                     updateCardState()
+                    if(currentCard >= TOTAL_CARDS) setIsReplaceAllState(false)
                 }
             }, 1000)
         } else {
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
+                setIsReplaceAllState(false)
                 if (time !== 0) {
                     time--;
                     setCount(time)
@@ -97,15 +112,15 @@ function CardGame(props) {
                         }
                     } else {
                         setResetTimerState(false)
+                        setIsReplaceAllState(false)
                         clearInterval(timeOut)
                     }
                 }
             }, 1000)
         }
 
-        
-        return () => clearInterval(timeOut)
-    }, [currentCard, currentRound])
+        return timeOut
+    }
 
     const resetGameState = () => {
         while (cardsArr?.length > 0) {
@@ -119,6 +134,8 @@ function CardGame(props) {
         setCount(MAX_ROUND_TIME)
         setResetBtnCountDown(MAX_RESET_BTN_COUNT_DOWN)
         setResetTimerState(false)
+        setIsReplaceAllState(false)
+        dispatch(setCardState([]))
     }
 
     const updateCardState = () => {
@@ -156,7 +173,8 @@ function CardGame(props) {
                     if (_aceCards === CONSTANTS.MAX_ACE_PER_CARD) {
                         //ace cards for current suit is completed
                         //select random card
-                        return true
+                        updateCardState()
+                        return true;
                     } else {
                         _aceCards += 1;
                     }
@@ -197,7 +215,13 @@ function CardGame(props) {
         cardsArr[index] = card
         let isAceCompleted = updateAceCard(card)
         if (!isAceCompleted) {
-            setCardsState({...cardsState, collectedCards: cardsArr})
+            setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
+        }
+    }
+
+    const gameCompleted = (timeOut = setInterval(null, 0)) => {
+        if (getAceCards() >= CONSTANTS.MAX_ACE_CARDS) {
+            return clearTimeout(timeOut)
         }
     }
 
@@ -221,12 +245,8 @@ function CardGame(props) {
 
         switch (actionType) {
             case CONSTANTS.CARD_POP_ACTIONS.INCREASE:
-                _inventory.increase = inventoryValue
+                _inventory.increaseOrDecrease = inventoryValue
                 break
-            
-            case CONSTANTS.CARD_POP_ACTIONS.DECREASE:
-                _inventory.decrease = inventoryValue
-                break;
             
             case CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH:
                 _inventory.powerMatch = inventoryValue
@@ -244,14 +264,18 @@ function CardGame(props) {
         dispatch(cardGameInventory(_inventory))
     }
 
+    
     const onReplaceAll = () => {
-        let _replaceAll = replaceAll;
+        let _replaceAll = replaceAll
         
         if (_replaceAll <= 0) return
 
-        _replaceAll -= 1;
+        _replaceAll -= 1
         updateInventory(_replaceAll, CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL)
         resetGameState()
+        setIsReplaceAllState(true)
+        setCount(REPLACE_ALL_SPEED_TIME)
+        time = REPLACE_ALL_SPEED_TIME
     }
 
     return (
@@ -280,7 +304,7 @@ function CardGame(props) {
                         <Card>
                             <div className={classes.__card_game_content_cards}>
                                 <GameCard
-                                    showCardPopup
+                                    showCardPopup={!isReplaceAll && true}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[0]?.rank] === "A"}
                                     card={cardsState?.collectedCards?.[0]}
                                     isSelected={cardsArr[0] && true}
@@ -294,7 +318,7 @@ function CardGame(props) {
                                     getRandomCard={getRandomCard}
                                 />
                                 <GameCard
-                                    showCardPopup
+                                    showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[1]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[1]?.rank] === "A"}
                                     isSelected={cardsArr[1] && true}
@@ -308,7 +332,7 @@ function CardGame(props) {
                                     getRandomCard={getRandomCard}
                                 />
                                 <GameCard
-                                    showCardPopup
+                                    showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[2]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[2]?.rank] === "A"}
                                     isSelected={cardsArr[2] && true}
@@ -322,7 +346,7 @@ function CardGame(props) {
                                     getRandomCard={getRandomCard}
                                 />
                                 <GameCard
-                                    showCardPopup
+                                    showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[3]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[3]?.rank] === "A"}
                                     isSelected={cardsArr[3] && true}
@@ -336,7 +360,7 @@ function CardGame(props) {
                                     getRandomCard={getRandomCard}
                                 />
                                 <GameCard
-                                    showCardPopup
+                                    showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[4]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[4]?.rank] === "A"}
                                     isSelected={cardsArr[4] && true}
@@ -366,7 +390,13 @@ function CardGame(props) {
                     <div className={classes.__card_game_content_footer}>
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
-                            <Alert success collectedAce={getAceCards() || 0} />    
+                                <>
+                                    <Alert success collectedAce={getAceCards() || 0} />
+                                    <button className={`__btn ${classes.__card_game_footer_btn}`}
+                                        onClick={() => _redirectTo('/chase-a-card')}>
+                                        Chase The Ace!
+                                    </button>
+                                </>
                                 :
                                 currentRound === TOTAL_ROUNDS && time <= 0 && cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
                                     ?
@@ -374,11 +404,6 @@ function CardGame(props) {
                                     :
                                     <Alert primary collectedAce={getAceCards() || 0} />
                         }
-
-                        <button className={`__btn ${classes.__card_game_footer_btn}`}
-                            onClick={() => _redirectTo('/chase-a-card')}>
-                            Chase The Ace!
-                        </button>
                     </div>
                 </div>
 
@@ -393,14 +418,16 @@ function CardGame(props) {
 
                     <div className={classes.__sidebar_button_wrapper}>
                         <SidebarButton
-                            success
+                            success={replace > 0 ? true : false}
+                            primary={replace <= 0 ? true : false}
                             title="Replace"
                             toolText={`${replace} left`}
                             icon={<Replace style={{height: 'auto'}}/>}
                         />
 
                         <SidebarButton
-                            primary
+                            success={replaceAll > 0 ? true : false}
+                            primary={replaceAll <= 0 ? true : false}
                             title="Replace All"
                             toolText={`${replaceAll} left`}
                             icon={<div
@@ -410,16 +437,18 @@ function CardGame(props) {
                         />
 
                         <SidebarButton
-                            primary
+                            success={powerMatch > 0 ? true : false}
+                            primary={powerMatch <= 0 ? true : false}
                             title="Power Match"
                             toolText={`${powerMatch} left`}
                             icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
                         />
 
                         <SidebarButton
-                            primary
+                            success={increaseOrDecrease > 0 ? true : false}
+                            primary={increaseOrDecrease <= 0 ? true : false}
                             title="Increase"
-                            toolText={`${increase} left`}
+                            toolText={`${increaseOrDecrease} left`}
                             icon={<PlusMinus style={{height: 'auto'}}/>}
                         />
 
