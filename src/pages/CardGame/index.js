@@ -25,7 +25,7 @@ import classes from './cardGamePage.module.scss'
 const TOTAL_ROUNDS = 5;
 const TOTAL_CARDS = 5;
 const MAX_ROUND_TIME = 5;
-const MAX_RESET_BTN_COUNT_DOWN = 5;
+const MAX_RESET_BTN_COUNT_DOWN = 0;
 const REPLACE_ALL_SPEED_TIME = 1;
 let _round = 1;
 let _currentCard = 0;
@@ -48,7 +48,7 @@ function CardGame(props) {
         inventory = {}
     } = useSelector(state => state.cardGame)
 
-    const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0, decrease = 0 } = inventory || {}
+    const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
     
     useEffect(() => { 
         dispatch(resetCardState())
@@ -56,13 +56,13 @@ function CardGame(props) {
     }, [])
 
     useEffect(() => {
-        let timeOut = countDownTimer();
+        let timeOut = gameStart();
         gameCompleted(timeOut);
         
         return () => clearInterval(timeOut)
     }, [currentCard, currentRound])
 
-    const countDownTimer = () => {
+    const gameStart = () => {
         let timeOut = null
         if (_currentCard < TOTAL_CARDS) {
             if(!isReplaceAll)
@@ -92,6 +92,7 @@ function CardGame(props) {
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
                 setIsReplaceAllState(false)
+                gameCompleted(timeOut)
                 if (time !== 0) {
                     time--;
                     setCount(time)
@@ -109,6 +110,7 @@ function CardGame(props) {
                             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
                             setResetBtnCountDown(resetAllBtnTime)
                             setResetTimerState(false)
+                            resetList(aceCardsArr)
                         }
                     } else {
                         setResetTimerState(false)
@@ -122,10 +124,14 @@ function CardGame(props) {
         return timeOut
     }
 
-    const resetGameState = () => {
-        while (cardsArr?.length > 0) {
-            cardsArr.pop();
+    const resetList = (list = []) => {
+        while (list?.length > 0) {
+            list.pop()
         }
+    }
+
+    const resetGameState = () => {
+        resetList(cardsArr)
 
         resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
         _currentCard = 0;
@@ -374,7 +380,7 @@ function CardGame(props) {
                                     getRandomCard={getRandomCard}
                                 />
                             </div>
-                            <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
+                            {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
                                 disabled={!showResetTimer}
                             >
                                 {
@@ -383,7 +389,7 @@ function CardGame(props) {
 
                                 }
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
-                            </button>
+                            </button> */}
                         </Card>
                     </div>
 
@@ -391,7 +397,7 @@ function CardGame(props) {
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
                                 <>
-                                    <Alert success collectedAce={getAceCards() || 0} />
+                                    <Alert success renderMsg={() => (<p>Congratulations on <strong>{ getAceCards() || 0 }</strong> Aces!</p>)} />
                                     <button className={`__btn ${classes.__card_game_footer_btn}`}
                                         onClick={() => _redirectTo('/chase-a-card')}>
                                         Chase The Ace!
@@ -400,16 +406,16 @@ function CardGame(props) {
                                 :
                                 currentRound === TOTAL_ROUNDS && time <= 0 && cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
                                     ?
-                                    <Alert danger collectedAce={getAceCards() || 0} />
+                                    <Alert danger renderMsg={() => (<p>Sorry, you did not get 5 Aces. The next draw will be tomorrow at 8:00PM</p>)} />
                                     :
-                                    <Alert primary collectedAce={getAceCards() || 0} />
+                                    <Alert primary renderMsg={() => (<p>Round { currentRound } in Progress: Aces = <strong>{getAceCards() || 0}</strong></p>)} />
                         }
                     </div>
                 </div>
 
                 <Sidebar>
                     <div className={classes.__sidebar_header}>
-                        <span className={classes.__sidebar_header_title}>My Powerplays</span>
+                        <span className={classes.__sidebar_header_title}>My Powers</span>
                         <div className={classes.__sidebar_header_balance}>
                             <span>My Balance</span>
                             <span className={classes.__sidebar_balance_text}>$0.00</span>
@@ -422,10 +428,10 @@ function CardGame(props) {
                             primary={replace <= 0 ? true : false}
                             title="Replace"
                             toolText={`${replace} left`}
-                            icon={<Replace style={{height: 'auto'}}/>}
+                            icon={<Replace style={{ height: 'auto' }} />}
                         />
 
-                        <SidebarButton
+                        {/* <SidebarButton
                             success={replaceAll > 0 ? true : false}
                             primary={replaceAll <= 0 ? true : false}
                             title="Replace All"
@@ -434,7 +440,7 @@ function CardGame(props) {
                                 className={classes.__sidebar_reload_btn}>
                                 <Reload bgColor={"#0ff"} style={{height: 'auto'}}/>
                             </div>}
-                        />
+                        /> */}
 
                         <SidebarButton
                             success={powerMatch > 0 ? true : false}
@@ -447,7 +453,7 @@ function CardGame(props) {
                         <SidebarButton
                             success={increaseOrDecrease > 0 ? true : false}
                             primary={increaseOrDecrease <= 0 ? true : false}
-                            title="Increase"
+                            title="Increase/Decrease"
                             toolText={`${increaseOrDecrease} left`}
                             icon={<PlusMinus style={{height: 'auto'}}/>}
                         />

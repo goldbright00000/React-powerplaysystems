@@ -199,7 +199,7 @@ function GameCard(props) {
                                                 }
                                             </>
                                             :
-                                            <span>No item remaining item in your inventory</span>
+                                            <span>All your Powers have been used</span>
                                     }
                                 </>
                         }
