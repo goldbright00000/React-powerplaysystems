@@ -62,7 +62,7 @@ const InteractiveContests = props => {
                         totalEntries='19161'
                         prize='$1K in Bonus Cash'
                         isMobileDevice={isMobileDevice}
-                        link="powerbet-live"
+                        link="select-teams"
                     />
                     <PowerPlayGridRow
                         contest='NBA'

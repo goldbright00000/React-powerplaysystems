@@ -1,5 +1,5 @@
 import React from 'react';
-import Header2 from '../../components/Header2/Header2';
+import Header from '../../components/Header/Header';
 import './SelectTeams.scss';
 import Document from '../../icons/Document';
 import Trophy from '../../icons/Trophy';
@@ -13,7 +13,7 @@ import Footer from '../../components/Footer/Footer';
 
 const PowerBetContest = props => (
     <div className='__SelectTeams'>
-        <Header2 />
+        <Header />
         <div className='__intoduction __background __center'>
             <div className='__mt-6 __mb-6'>
                 <div className='__viewport-title __bolder'>2020 NFL <span className='__primary-color'>PowerBet Contest</span></div>
