@@ -89,12 +89,7 @@ function ChaseACard(props) {
         }
 
         shuffleCards(_cards)
-        const aceOfSpade = {
-            suit: CONSTANTS.CARD_SUITS.SPADE,
-            rank: 12,
-            isSelected: false
-        }
-        let spadeOfAceIndex = _cards.findIndex(_card => _card.card?.suit === CONSTANTS.CARD_SUITS.SPADE && _card?.card?.rank === 12)
+        let spadeOfAceIndex = _cards.findIndex(_card => _card?.card?.suit === CONSTANTS.CARD_SUITS.SPADE && _card?.card?.rank === 12)
         setSpadeCardIndex(spadeOfAceIndex)
         setCards(_cards)
     }
