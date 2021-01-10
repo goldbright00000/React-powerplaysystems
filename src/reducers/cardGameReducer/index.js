@@ -5,7 +5,7 @@ const INITIAL_STATE = {
     inventory: {
         replace: 2,
         replaceAll: 2,
-        powerMatch: 2,
+        powerMatch: 255,
         increaseOrDecrease: 4
     },
 }

@@ -6,10 +6,10 @@ import Plus from '../../icons/Plus'
 import Minus from '../../icons/Minus'
 import boltIcon from '../../assets/bolt.png'
 import Tick from '../../icons/Tick'
-import classes from "./gameCard.module.scss"
 import Cards from '../../icons/Cards/index'
 import { CONSTANTS } from '../../utility/constants'
-import { GetAceCardIndex } from '../../utility/shared'
+import { GetAceCardIndex, getRandomCard, hasMaxAceCards } from '../../utility/shared'
+import classes from "./gameCard.module.scss"
 
 function GameCard(props) {
 
@@ -31,7 +31,9 @@ function GameCard(props) {
         onClick = () => {},
         updateCards = () => { },
         updateInventory = () => { },
-        getRandomCard = () => { },
+        width = 0,
+        height = 0,
+        hoverShadow = false
     } = props || {}
 
     const { suit = 0, rank = 0 } = card || {}
@@ -47,7 +49,7 @@ function GameCard(props) {
     }, [time])
 
     const onIncrease = () => {
-        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increaseOrDecrease <= 0 || activeCard !== card) {
+        if (aceCards && aceCards && hasMaxAceCards(aceCards) || increaseOrDecrease <= 0 || activeCard !== card) {
             return;
         }
 
@@ -85,7 +87,7 @@ function GameCard(props) {
     }
 
     const onPowerMatch = () => {
-        if (powerMatch <= 0 || aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || activeCard !== card) return
+        if (powerMatch <= 0 || aceCards && hasMaxAceCards(aceCards) || activeCard !== card) return
 
         let _powerMatch = powerMatch;
         _powerMatch -= 1;
@@ -100,7 +102,7 @@ function GameCard(props) {
     }
 
     const onDecrease = () => { 
-        if (aceCards && aceCards === CONSTANTS.MAX_ACE_PER_CARD || increaseOrDecrease <= 0 || activeCard !== card) {
+        if (aceCards && hasMaxAceCards(aceCards) || increaseOrDecrease <= 0 || activeCard !== card) {
             return;
         }
 
@@ -124,7 +126,7 @@ function GameCard(props) {
     }
     
     return (
-        <div className={classes.__game_card_wrapper} style={styles}>
+        <div className={`${classes.__game_card_wrapper} ${hoverShadow && classes.shadow}`} style={styles}>
             {
                 //if rank === 12 => "A"
                 isCompleted &&
@@ -145,18 +147,20 @@ function GameCard(props) {
                         onClick()
                     }} onBlur={() => {
                         setPopupState(false)
-                    }}>
-                        <Cards card={card} />
+                        }}>
+                        {
+                            image ?
+                                <div className={classes.__game_card_selected}>
+                                    <img src={image} style={{width: '100%', height: '100%'}}/>
+                                </div>
+                                :
+                                <Cards card={card} width={width || 130} height={height || 195} />
+                        }
                     </div>
                     :
-                    image ?
-                        <div className={classes.__game_card_selected}>
-                            <img src={image} style={{width: '100%', height: '100%'}}/>
-                        </div>
-                        :
-                        <div className={classes.__game_card_container}>
-                            <span>?</span>
-                        </div>
+                    <div className={classes.__game_card_container}>
+                        <span>?</span>
+                    </div>
             }
             {
                 showPopup && activeCard === card && time > 0 &&
@@ -179,7 +183,7 @@ function GameCard(props) {
                                                 }    
 
                                                 {
-                                                    powerMatch > 0 &&
+                                                    powerMatch > 0 && !hasMaxAceCards(aceCards) &&
                                                     <button className={classes.__btn__} onClick={onPowerMatch}>
                                                         <img src={boltIcon} width={40} height={40}/>
                                                     </button>
@@ -223,9 +227,11 @@ GameCard.propTypes = {
     collectedAceCards: PropTypes.array,
     inventory: PropTypes.object,
     updateInventory: PropTypes.func,
-    getRandomCard: PropTypes.func,
     activeCard: PropTypes.object,
     time: PropTypes.number,
+    width: PropTypes.number,
+    height: PropTypes.number,
+    hoverShadow: PropTypes.bool
 }
 
 export default GameCard

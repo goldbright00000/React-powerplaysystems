@@ -18,7 +18,7 @@ import SidebarButton from '../../components/SidebarButton'
 import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
 import { CONSTANTS } from '../../utility/constants'
-import { IsAceCard } from '../../utility/shared'
+import { IsAceCard, getRandomCard } from '../../utility/shared'
 import { setCardState, resetCardState, cardGameInventory } from '../../actions/cardGameAction'
 import classes from './cardGamePage.module.scss'
 
@@ -157,17 +157,6 @@ function CardGame(props) {
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
     }
 
-    const getRandomCard = () => {
-        let card = {};
-        let _cardSuit = Math.floor(Math.random() * (5 - 2) + 2)
-        let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2)
-        
-        card.suit = _cardSuit;
-        card.rank = _cardRankIndex;
-
-        return card
-    }
-
     const updateAceCard = (card) => {
         if (IsAceCard(card)) {
             const _collectedAceCards = collectedAceCards;
@@ -291,10 +280,16 @@ function CardGame(props) {
                 <div className={classes.__card_game_content_left}>
                     <PageHeader title="Chase The Ace"/>
                     <div className={classes._card_game_content_top}>
+                        <div className={classes._card_game_content_header_text}>
+                            <p>
+                                Welcome to <span>Chase the Ace!</span> Your goal is to obtain 5 Aces in order to advance
+                                to the next round! Find the Ace of Spades and win! User your <span>Powers</span> wisely!
+                            </p>
+                        </div>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
                         <p className={classes.__card_game_card_counter}>Card <span>{currentCard}</span> of {TOTAL_CARDS}
                         </p>
-                        <p className={classes.__card_game_round_counter}>Round <span>{currentRound}</span> of { TOTAL_ROUNDS }</p>
+                        <p className={classes.__card_game_round_counter}>Hand <span>{currentRound}</span> of { TOTAL_ROUNDS }</p>
                         <span className={classes.__card_divider} />
                         <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
                         <ProgressBar
@@ -321,7 +316,6 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
-                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -335,7 +329,6 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
-                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -349,7 +342,6 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
-                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -363,7 +355,6 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
-                                    getRandomCard={getRandomCard}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -377,7 +368,6 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
-                                    getRandomCard={getRandomCard}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -426,7 +416,7 @@ function CardGame(props) {
                         <SidebarButton
                             success={replace > 0 ? true : false}
                             primary={replace <= 0 ? true : false}
-                            title="Replace"
+                            title="New Card"
                             toolText={`${replace} left`}
                             icon={<Replace style={{ height: 'auto' }} />}
                         />
