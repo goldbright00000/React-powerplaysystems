@@ -84,6 +84,10 @@
 
     .__card_game_content_game_end_failed {
       background-color: #3e232a;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .__card_game_content_game_end_success {
@@ -188,6 +192,12 @@
       background-color: $primary;
       border: none;
       margin: 200px -60px 0 0;
+    }
+
+    .card_footer {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0 0 0;
     }
   }
 

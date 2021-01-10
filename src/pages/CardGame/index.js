@@ -53,13 +53,17 @@ function CardGame(props) {
     useEffect(() => { 
         dispatch(resetCardState())
         resetGameState()
+
+        return () => resetGameState()
     }, [])
 
     useEffect(() => {
         let timeOut = gameStart();
         gameCompleted(timeOut);
         
-        return () => clearInterval(timeOut)
+        return function clearnup() {
+            return clearInterval(timeOut)
+        }
     }, [currentCard, currentRound])
 
     const gameStart = () => {
@@ -132,6 +136,7 @@ function CardGame(props) {
 
     const resetGameState = () => {
         resetList(cardsArr)
+        resetList(aceCardsArr)
 
         resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
         _currentCard = 0;

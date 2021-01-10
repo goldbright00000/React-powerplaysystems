@@ -69,12 +69,7 @@ function ChaseACard(props) {
 
         if (suit === CONSTANTS.CARD_SUITS.SPADE && CONSTANTS.CARD_RANKS[rank] === "A") {
             return setHasWonState(true)
-        } else {
-            return redirectTo(props, {
-                path: '/card-game'
-            })
         }
-
      }
 
     function generateCards() {
@@ -101,6 +96,20 @@ function ChaseACard(props) {
         }
     }
 
+    function onRevealCard() {
+        if(hasWon) return
+
+        let spadeOfAce = cards[spadeCardIndex]
+        const revealCard = {
+            card: spadeOfAce?.card,
+            isSelected: true
+        }
+
+        const _cards = [...cards]
+        _cards[spadeCardIndex] = revealCard
+        setCards(_cards)
+    }
+
     function card(suit, rank) {
         return {
             suit,
@@ -123,10 +132,12 @@ function ChaseACard(props) {
                     <div className={`${classes.__card_game_content_body}`}>
                         {
                             hasCardSelected &&
-                                <div className={`${classes.__card_game_content_game_end} ${hasWon ?  classes.__card_game_content_game_end_success : classes.__card_game_content_game_end_failed}`}>
+                            <div className={`${classes.__card_game_content_game_end} ${hasWon ? classes.__card_game_content_game_end_success : classes.__card_game_content_game_end_failed}`}
+                                onClick={onRevealCard}
+                            >
                                     <Alert danger={!hasWon} success={hasWon} renderMsg={() => (
                                         <p style={{ fontWeight: 'bold', fontSize: '18px' }}>
-                                            {hasWon ? `Congratulations! You are a winner!` : `Better Luck Next Time`}
+                                            {hasWon ? `Congratulations! You are a winner!` : `Sorry, you did not find the Ace of Spade. Try again tomorrow at 8:00PM ET.`}
                                         </p>)
                                 }   />
                                 </div>
@@ -183,6 +194,15 @@ function ChaseACard(props) {
                                         }
                                     )
                                 }
+                            </div>
+                            <div className={classes.card_footer}>
+                                <button className={`${'__btn'}`} onClick={() => {
+                                    return redirectTo(props, {
+                                        path: '/card-game'
+                                    })
+                                }}>
+                                    Try again
+                                </button>
                             </div>
                         </Card>
                     </div>                
