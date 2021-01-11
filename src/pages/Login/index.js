@@ -7,6 +7,12 @@ import SignInImage from '../../assets/signin-background.png'
 import Input from '../../components/Input'
 
 function LoginPage() {
+
+    const onLoginSubmit = (e) => {
+        e?.preventDefault();
+
+    }
+
     return (
         <>
             <Header />
@@ -26,10 +32,17 @@ function LoginPage() {
                 <div className={classes.content_wrapper}>
                     <div className={classes.content_top_skew} />
                     <div className={classes.content_card}>
-                        <Input />
+                        <form onSubmit={onLoginSubmit}>
+                            <Input type="text" block rounded label="E-mail" />
+                            <Input type="password" block rounded label="Password" />
+                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit">Log in</button>
+                        </form>
                     </div>
-                </div>
 
+                    <p>
+                    Don't have an account? Click here to Power-up!
+                    </p>
+                </div>
             </div>
             <Footer />
         </>

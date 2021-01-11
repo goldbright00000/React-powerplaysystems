@@ -1,0 +1,26 @@
+@import "../../scss/colors.scss";
+
+.input_container {
+  width: 100%;
+  margin: 0 0 14px 0;
+
+  label {
+    font-size: 14px;
+    color: $black;
+    margin: 6px 0 0 0;
+  }
+
+  input {
+    height: 57px;
+    border: 1px solid $offwhite;
+    background-color: $grey2;
+  }
+
+  .block {
+    width: 100%;
+  }
+
+  .rounded {
+    border-radius: 7px;
+  }
+}
