@@ -1,0 +1,77 @@
+@import "../../scss/colors.scss";
+.__Elite8Draw {
+  .__heading {
+    color: $white;
+    font-size: 72px;
+    font-weight: 600;
+  }
+  .__heading-description {
+    font-size: 32px;
+  }
+  .__btn-rules {
+    width: 196px;
+    height: 39px;
+    margin: 12px 0 0 0;
+    border-radius: 19.5px;
+    background-color: rgba(251, 110, 0, 0.1);
+    font-size: 16px;
+    font-weight: 500;
+    color: $primary;
+    cursor: pointer;
+  }
+  .__my-powerplays {
+    margin-left: auto;
+    width: 278px;
+    padding: 88px 0 238px 0px;
+    box-shadow: -4px 0 38px 0 rgba(4, 4, 4, 0.58);
+    background-color: #202124;
+    .powerplays-header {
+      .__heading-text {
+        margin: 0 0px 16px 0px;
+        font-family: Poppins;
+        font-size: 24px;
+      }
+      .__balance {
+        width: 200px;
+        height: 39px;
+        margin: 14px 0 0;
+        padding: 8px 25px 8px 24px;
+        border-radius: 19.5px;
+        background-color: rgba(251, 110, 0, 0.2);
+      }
+      .__my_balance {
+        font-size: 15px;
+        margin: 0 14px 0 0;
+      }
+      .__balance_dollars {
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: bold;
+        text-align: center;
+        color: #fb6e00;
+      }
+    }
+    .__powerplays-detail {
+        
+      .__powerplay_item {
+        .__powerplay_name {
+          font-size: 16px;
+          font-weight: 500;
+        }
+        .__powerplay_img {
+          width: 48px;
+          height: 48px;
+        }
+        .__powerplay_amount {
+          font-size: 16px;
+          font-weight: 500;
+          text-align: center;
+          color: #1bbc86;
+        }
+        .img_replace {
+          background-image: url("../../assets/elite-8-live/shuffle.png");
+        }
+      }
+    }
+  }
+}
