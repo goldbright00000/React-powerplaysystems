@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 import classes from './index.module.scss'
 import Footer from '../../components/Footer/Footer'
@@ -33,18 +34,19 @@ function LoginPage() {
                     <div className={classes.content_top_skew} />
                     <div className={classes.content_card}>
                         <form onSubmit={onLoginSubmit}>
-                            <Input type="text" block rounded label="E-mail" />
-                            <Input type="password" block rounded label="Password" />
+                            <Input type="text" block rounded label="E-mail" required />
+                            <Input type="password" block rounded label="Password" required />
                             <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit">Log in</button>
                         </form>
+                        <br />
                     </div>
 
-                    <p>
-                    Don't have an account? Click here to Power-up!
+                    <p className={classes.content_footer_p}>
+                        Don't have an account? <Link to="/">Click here to Power-up!</Link>
                     </p>
                 </div>
             </div>
-            <Footer />
+            <Footer isBlack />
         </>
     )
 }

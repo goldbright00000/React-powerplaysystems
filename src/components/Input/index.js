@@ -11,6 +11,7 @@ function Input(props) {
         placeholder = '',
         block = false,
         rounded = false,
+        required = false,
     } = props || {}
     return (
         <div className={classes.input_container}>
@@ -20,6 +21,7 @@ function Input(props) {
                 onChange={onChange}
                 placeholder={placeholder}
                 className={`${block && classes.block} ${rounded && classes.rounded}`}
+                required={required}
             />
         </div>
     )
@@ -31,7 +33,8 @@ Input.propTypes = {
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
     block: PropTypes.bool,
-    rounded: PropTypes.bool
+    rounded: PropTypes.bool,
+    required: PropTypes.bool
 }
 
 export default Input
