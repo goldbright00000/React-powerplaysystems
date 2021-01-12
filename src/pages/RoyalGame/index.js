@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {GetAceCardIndex, hasMaxAceCards, redirectTo} from '../../utility/shared'
+import {hasPowerRoyalsCard, redirectTo} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -18,11 +18,11 @@ import SidebarButton from '../../components/SidebarButton'
 import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
 import { CONSTANTS } from '../../utility/constants'
-import { IsAceCard, getRandomCard } from '../../utility/shared'
-import { setCardState, resetCardState, cardGameInventory } from '../../actions/cardGameAction'
+import { getRandomCard } from '../../utility/shared'
+import { setPowerCardState, resetPowerRoyalsCardState, powerRoyalsGameInventory } from '../../actions/powerRoyalsActions'
 import classes from './cardGamePage.module.scss'
 
-const TOTAL_ROUNDS = 5;
+const TOTAL_ROUNDS = 2;
 const TOTAL_CARDS = 5;
 const MAX_ROUND_TIME = 5;
 const MAX_RESET_BTN_COUNT_DOWN = 0;
@@ -30,7 +30,7 @@ const REPLACE_ALL_SPEED_TIME = 1;
 let _round = 1;
 let _currentCard = 0;
 const cardsArr = []
-const aceCardsArr = []
+const powerCards = []
 let time = MAX_ROUND_TIME;
 let resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN;
 
@@ -44,14 +44,14 @@ function CardGame(props) {
     const [isReplaceAll, setIsReplaceAllState] = useState(false)
 
     const dispatch = useDispatch();
-    const { collectedAceCards = [],
+    const { collectedCards = [],
         inventory = {}
-    } = useSelector(state => state.cardGame)
+    } = useSelector(state => state.powerRoyals)
 
-    const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
+    const { replace = 0, replaceAll = 0, newHands = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
     
     useEffect(() => { 
-        dispatch(resetCardState())
+        dispatch(resetPowerRoyalsCardState())
         resetGameState()
 
         return () => resetGameState()
@@ -59,7 +59,6 @@ function CardGame(props) {
 
     useEffect(() => {
         let timeOut = gameStart();
-        gameCompleted(timeOut);
         
         return function clearnup() {
             return clearInterval(timeOut)
@@ -75,7 +74,6 @@ function CardGame(props) {
                 time = REPLACE_ALL_SPEED_TIME
             setResetTimerState(false)
             timeOut = setInterval(() => {
-                gameCompleted(timeOut)
                 if (time !== 0) {
                     time--;
                     setCount(time)
@@ -96,7 +94,6 @@ function CardGame(props) {
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
                 setIsReplaceAllState(false)
-                gameCompleted(timeOut)
                 if (time !== 0) {
                     time--;
                     setCount(time)
@@ -114,7 +111,6 @@ function CardGame(props) {
                             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
                             setResetBtnCountDown(resetAllBtnTime)
                             setResetTimerState(false)
-                            resetList(aceCardsArr)
                         }
                     } else {
                         setResetTimerState(false)
@@ -136,7 +132,7 @@ function CardGame(props) {
 
     const resetGameState = () => {
         resetList(cardsArr)
-        resetList(aceCardsArr)
+        resetList(powerCards)
 
         resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
         _currentCard = 0;
@@ -146,98 +142,43 @@ function CardGame(props) {
         setResetBtnCountDown(MAX_RESET_BTN_COUNT_DOWN)
         setResetTimerState(false)
         setIsReplaceAllState(false)
-        dispatch(setCardState([]))
+        dispatch(setPowerCardState([]))
     }
 
     const updateCardState = () => {
         let card = getRandomCard()
-
-        let isCardAceCompleted = updateAceCard(card)
-        if (isCardAceCompleted) {
-            //recursive call
-            return updateCardState()
-        }
+        
+        getTargetCard(card)
         cardsArr.push(card)
 
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
     }
 
-    const updateAceCard = (card) => {
-        if (IsAceCard(card)) {
-            const _collectedAceCards = collectedAceCards;
-            if (_collectedAceCards?.length && _collectedAceCards?.length > 0) {
-                const _aceCardInfo = _collectedAceCards?.filter(_card => _card.suit === card.suit)[0]
-                if (_aceCardInfo) {
-                    const { suit = 0, aceCards = 0 } = _aceCardInfo || {}
-                    let _aceCards = aceCards
-                    if (_aceCards === CONSTANTS.MAX_ACE_PER_CARD) {
-                        //ace cards for current suit is completed
-                        //select random card
-                        updateCardState()
-                        return true;
-                    } else {
-                        _aceCards += 1;
-                    }
-
-                    const _aceCard = {
-                        suit: suit,
-                        aceCards: _aceCards,
-                    }
-                    let cardIndex = _collectedAceCards?.indexOf(_aceCardInfo)
-                    aceCardsArr[cardIndex] = _aceCard
-                    dispatch(setCardState(aceCardsArr))   
-                } else {
-                    const _aceCard = {
-                        suit: card.suit,
-                        aceCards: 1
-                    }
-    
-                    aceCardsArr.push(_aceCard)
-                    dispatch(setCardState(aceCardsArr))
+    const getTargetCard = (card) => {
+        const { suit = 0 } = card || {}
+        switch (suit) {
+            case CONSTANTS.CARD_SUITS.HEART:
+                if ( currentRound === 1 && hasPowerRoyalsCard(card, CONSTANTS.CARD_SUITS.HEART)) {
+                    powerCards.push(card)
+                    dispatch(setPowerCardState(powerCards))
+                    return card;
                 }
-            } else {
-                //no ace card is available in state
-                //store new ace cards to state
-                const _aceCard = {
-                    suit: card.suit,
-                    aceCards: 1
+                break;
+            
+            case CONSTANTS.CARD_SUITS.SPADE:
+                if (currentRound === 2 && hasPowerRoyalsCard(card, CONSTANTS.CARD_SUITS.SPADE)) {
+                    powerCards.push(card)
+                    dispatch(setPowerCardState(powerCards))
+                    return card;
                 }
-
-                aceCardsArr.push(_aceCard)
-                dispatch(setCardState(aceCardsArr))
-            }
+                break;
         }
 
-        return false
-    }
-
-    const updateCards = (index, card) => {
-        cardsArr[index] = card
-        let isAceCompleted = updateAceCard(card)
-        if (!isAceCompleted) {
-            setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
-        }
-    }
-
-    const gameCompleted = (timeOut = setInterval(null, 0)) => {
-        if (getAceCards() >= CONSTANTS.MAX_ACE_CARDS) {
-            return clearTimeout(timeOut)
-        }
+        return null
     }
 
     const _redirectTo = (path = '/') => {
         redirectTo(props, {path})
-    }
-
-    const getAceCards = () => {
-        let totalAces = 0;
-        if (collectedAceCards.length) {
-            totalAces = collectedAceCards?.reduce((c1, c2) => {
-                return c1 + (c2['aceCards'] || 0)
-            }, 0)
-        }
-
-        return totalAces;
     }
 
     const updateInventory = (inventoryValue, actionType) => {
@@ -256,119 +197,130 @@ function CardGame(props) {
                 _inventory.replace = inventoryValue
                 break;
             
-            case CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL:
-                _inventory.replaceAll = inventoryValue
+            case CONSTANTS.CARD_POP_ACTIONS.NEW_HAND:
+                _inventory.newHands = inventoryValue
                 break;
         }
 
-        dispatch(cardGameInventory(_inventory))
+        dispatch(powerRoyalsGameInventory(_inventory))
     }
 
     
     const onReplaceAll = () => {
-        let _replaceAll = replaceAll
-        
-        if (_replaceAll <= 0) return
+        let _newHands = newHands
+        if (_newHands <= 0) return
 
-        _replaceAll -= 1
-        updateInventory(_replaceAll, CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL)
+        _newHands -= 1
+        updateInventory(_newHands, CONSTANTS.CARD_POP_ACTIONS.NEW_HAND)
         resetGameState()
         setIsReplaceAllState(true)
         setCount(REPLACE_ALL_SPEED_TIME)
         time = REPLACE_ALL_SPEED_TIME
     }
 
-    const onIncrease = (cardIndex, card) => {
-        const { suit = 0, rank = 0 } = card || {}
-        let _rank = rank
-        if (getMaxAceCardsForCardSuit(card) || increaseOrDecrease <= 0 || cardsState?.activeCard !== card) {
-            return;
-        }
-
-        if (_rank !== GetAceCardIndex()) {
-            _rank += 1;
-        }
-        
-        const _card = {
-            suit: suit,
-            rank: _rank,
-        }
-
-        let _increase = increaseOrDecrease;
-        _increase -= 1;
-
-        //update the cards array in parent component
-        updateCards(cardIndex, _card)
-        updateInventory(_increase, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
+    const isCardCompleted = (card) => {
+        return (hasPowerRoyalsCard(card, currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)
+        && card?.rank === CONSTANTS.POWER_ROYALS.TENS)
     }
 
-    const onReplace = (cardIndex, card) => {
-        const { rank = 0 } = card || {}
-        if (replace <= 0 || cardsState?.activeCard !== card)
-        return;
-
-        let _replace = replace;
-        _replace -= 1;
-
-        let newCard = getRandomCard();
-        if (newCard?.rank === rank) {
-            newCard = getRandomCard();
-        }
-        updateCards(cardIndex, newCard)
-        updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
+    const hasCardCollected = (card) => {
+        return collectedCards?.filter(c => c?.rank === card?.rank)[0]
     }
 
-    const onPowerMatch = (cardIndex, card) => {
-        const { suit = 0 } = card || {}
-        if (powerMatch <= 0 || getMaxAceCardsForCardSuit(card) || cardsState?.activeCard !== card) return
+    const onIncrease = (card, cardIndex) => {
+        const { rank = 0, suit = 0 } = card || {}
+        let _increaseOrDecrease = increaseOrDecrease
 
-        let _powerMatch = powerMatch;
-        _powerMatch -= 1;
-
-        const _aceCard = {
-            suit: suit,
-            rank: GetAceCardIndex(),
+        if (increaseOrDecrease <= 0) {
+            return
         }
 
-        updateCards(cardIndex, _aceCard)
-        updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
+        switch (currentRound) {
+            case 1:
+                let _rank = rank
+                if (CONSTANTS.CARD_RANKS[_rank] !== "A" && hasCardCollected(card)) {
+                    _rank = hasCardCollected(card)?.rank
+                    _rank += 1;
+                } else if(CONSTANTS.CARD_RANKS[_rank] !== "A") {
+                    _rank += 1;
+                }
+
+                const newCard = {
+                    suit: suit,
+                    rank: _rank
+                }
+                cardsArr[cardIndex] = newCard
+                setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
+                
+                // if (hasPowerRoyalsCard(card, CONSTANTS.CARD_SUITS.HEART)) {
+                //     dispatch(setPowerCardState())
+                // }
+                break;
+            
+            case 2:
+                if (hasPowerRoyalsCard(card, CONSTANTS.CARD_SUITS.SPADE)) {
+                    const _collectedCards = [...cardsState?.collectedCards]
+                    _collectedCards[cardIndex] = hasPowerRoyalsCard(card, CONSTANTS.CARD_SUITS.SPADE)
+                    dispatch(setPowerCardState(_collectedCards))
+                }
+                break;
+        }
+
+        updateInventory(_increaseOrDecrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
     }
 
-    const onDecrease = (cardIndex, card) => {
-        const { suit = 0, rank = 0 } = card || {}
-        let _rank = rank
-        if (getMaxAceCardsForCardSuit(card) || increaseOrDecrease <= 0 || cardsState?.activeCard !== card) {
-            return;
+    const onPowerMatch = (card, cardIndex) => {
+        if (powerMatch <= 0) {
+            return
         }
 
-        if (_rank > 0) {
-            _rank -= 1;
+        const powerCard = {
+            suit: currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE,
+            rank: card?.rank
+        }
+
+        if (powerCards?.length) {
+            //cards exists in power royals array
+            for (let i = 0; i < powerCards?.length - 1; i++) {
+                if (hasCardCollected(powerCards[i])) {
+                    let _powerCard = powerCards[i]
+                    if (CONSTANTS.CARD_RANKS[_powerCard?.rank] === CONSTANTS.POWER_ROYALS.TENS) {
+                        powerCard.rank = CONSTANTS.CARD_RANKS[CONSTANTS.CARD_RANKS_INDEXES.JACK]
+                        break
+                    }
+                    if (CONSTANTS.CARD_RANKS[_powerCard?.rank] === CONSTANTS.POWER_ROYALS.JACK) {
+                        powerCard.rank = CONSTANTS.CARD_RANKS[CONSTANTS.CARD_RANKS_INDEXES.QUEEN]
+                        break
+                    }
+                    if (CONSTANTS.CARD_RANKS[_powerCard?.rank] === CONSTANTS.POWER_ROYALS.QUEEN) {
+                        powerCard.rank = CONSTANTS.CARD_RANKS[CONSTANTS.CARD_RANKS_INDEXES.KING]
+                        break
+                    }
+                    if (CONSTANTS.CARD_RANKS[_powerCard?.rank] === CONSTANTS.POWER_ROYALS.KING) {
+                        powerCard.rank = CONSTANTS.CARD_RANKS[CONSTANTS.CARD_RANKS_INDEXES.ACE]
+                        break
+                    }
+                } else {
+                    powerCard.rank = CONSTANTS.CARD_RANKS[CONSTANTS.CARD_RANKS_INDEXES.TENS]
+                    break
+                }
+            }
         } else {
-            _rank = GetAceCardIndex()
-        }
-        
-        const _card = {
-            suit: suit,
-            rank: _rank,
+            powerCard.rank = CONSTANTS.CARD_RANKS[CONSTANTS.CARD_RANKS_INDEXES.TENS]
         }
 
-        let _decrease = increaseOrDecrease;
-        _decrease -= 1;
+        console.log(powerCard)
 
-        //update the cards array in parent component
-        updateCards(cardIndex, _card)
-        updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
     }
 
-    const getMaxAceCardsForCardSuit = (card) => {
-        const { suit = 0 } = card || {}
-        const aceCard = collectedAceCards?.filter(_card => _card?.suit === suit)[0];
-        const { aceCards = 0 } = aceCard || {}
-        if (aceCards && hasMaxAceCards(aceCards)) {
-            return true
+    const getPowerMatchCard = (newSuit, newRank, cardIndex) => {
+        const newCard = {
+            suit: newSuit,
+            rank: newRank
         }
-
-        return false
+        cardsArr[cardIndex] = newCard
+        powerCards.push(newCard)
+        setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
     }
 
     return (
@@ -376,12 +328,11 @@ function CardGame(props) {
             <Header/>
             <div className={classes.__card_game_content}>
                 <div className={classes.__card_game_content_left}>
-                    <PageHeader title="Chase The Ace"/>
+                    <PageHeader title="Power Royals" seconds={6}/>
                     <div className={classes._card_game_content_top}>
                         <div className={classes._card_game_content_header_text}>
                             <p>
-                                Welcome to <span>Chase the Ace!</span> Your goal is to obtain 5 Aces in order to advance
-                                to the next round! Find the Ace of Spades and win! User your <span>Powers</span> wisely!
+                                Welcome to <span>Power Royals!</span> If you can get a red card royal flush followed by a black card royal flush, you win!
                             </p>
                         </div>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
@@ -404,83 +355,68 @@ function CardGame(props) {
                             <div className={classes.__card_game_content_cards}>
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
-                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[0]?.rank] === "A"}
+                                    isCompleted={isCardCompleted(cardsState?.collectedCards?.[currentCard])}
                                     card={cardsState?.collectedCards?.[0]}
                                     isSelected={cardsState?.collectedCards?.[0] && true}
                                     activeCard={cardsState?.activeCard}
-                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsState?.collectedCards?.[0]) && powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
-                                    onIncrease={() => onIncrease(0, cardsState?.collectedCards?.[0])}
-                                    onDecrease={() => onDecrease(0, cardsState?.collectedCards?.[0])}
-                                    onPowerMatch={() => onPowerMatch(0, cardsState?.collectedCards?.[0])}
-                                    onReplace={() => onReplace(0, cardsState?.collectedCards?.[0])}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                    showPowerMatchPower={powerMatch > 0}
+                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[currentCard], currentCard)}
+                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[currentCard], currentCard)}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[1]}
-                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[1]?.rank] === "A"}
+                                    isCompleted={isCardCompleted(cardsState?.collectedCards?.[1])}
                                     isSelected={cardsState?.collectedCards?.[1] && true}
                                     activeCard={cardsState?.activeCard}
-                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsArr[1]) && powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
-                                    onIncrease={() => onIncrease(1, cardsState?.collectedCards?.[1])}
-                                    onDecrease={() => onDecrease(1, cardsState?.collectedCards?.[1])}
-                                    onPowerMatch={() => onPowerMatch(1, cardsState?.collectedCards?.[1])}
-                                    onReplace={() => onReplace(1, cardsState?.collectedCards?.[1])}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                    showPowerMatchPower={powerMatch > 0}
+                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[currentCard], currentCard)}
+                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[currentCard], currentCard)}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[2]}
-                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[2]?.rank] === "A"}
+                                    isCompleted={isCardCompleted(cardsState?.collectedCards?.[2])}
                                     isSelected={cardsState?.collectedCards?.[2] && true}
                                     activeCard={cardsState?.activeCard}
-                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsArr[2]) && powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
-                                    onIncrease={() => onIncrease(2, cardsState?.collectedCards?.[2])}
-                                    onDecrease={() => onDecrease(2, cardsState?.collectedCards?.[2])}
-                                    onPowerMatch={() => onPowerMatch(2, cardsState?.collectedCards?.[2])}
-                                    onReplace={() => onReplace(2, cardsState?.collectedCards?.[2])}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                    showPowerMatchPower={powerMatch > 0}
+                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[currentCard], currentCard)}
+                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[currentCard], currentCard)}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[3]}
-                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[3]?.rank] === "A"}
+                                    isCompleted={isCardCompleted(cardsState?.collectedCards?.[3])}
                                     isSelected={cardsState?.collectedCards?.[3] && true}
                                     activeCard={cardsState?.activeCard}
-                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsArr[3]) && powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
-                                    onIncrease={() => onIncrease(3, cardsState?.collectedCards?.[3])}
-                                    onDecrease={() => onDecrease(3, cardsState?.collectedCards?.[3])}
-                                    onPowerMatch={() => onPowerMatch(3, cardsState?.collectedCards?.[3])}
-                                    onReplace={() => onReplace(3, cardsState?.collectedCards?.[3])}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                    showPowerMatchPower={powerMatch > 0}
+                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[currentCard], currentCard)}
+                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[currentCard], currentCard)}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[4]}
-                                    isCompleted={CONSTANTS.CARD_RANKS[cardsArr[4]?.rank] === "A"}
+                                    isCompleted={isCardCompleted(cardsState?.collectedCards?.[4])}
                                     isSelected={cardsState?.collectedCards?.[4] && true}
                                     activeCard={cardsState?.activeCard}
-                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsState?.activeCard) && powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
-                                    onIncrease={() => onIncrease(4, cardsState?.collectedCards?.[4])}
-                                    onDecrease={() => onDecrease(4, cardsState?.collectedCards?.[4])}
-                                    onPowerMatch={() => onPowerMatch(4, cardsState?.collectedCards?.[4])}
-                                    onReplace={() => onReplace(4, cardsState?.collectedCards?.[4])}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                    showPowerMatchPower={powerMatch > 0}
+                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[currentCard], currentCard)}
+                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[currentCard], currentCard)}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -496,7 +432,7 @@ function CardGame(props) {
                         </Card>
                     </div>
 
-                    <div className={classes.__card_game_content_footer}>
+                    {/* <div className={classes.__card_game_content_footer}>
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
                                 <>
@@ -513,7 +449,7 @@ function CardGame(props) {
                                     :
                                     <Alert primary renderMsg={() => (<p>Round { currentRound } in Progress: Aces = <strong>{getAceCards() || 0}</strong></p>)} />
                         }
-                    </div>
+                    </div> */}
                 </div>
 
                 <Sidebar>
@@ -534,16 +470,16 @@ function CardGame(props) {
                             icon={<Replace style={{ height: 'auto' }} />}
                         />
 
-                        {/* <SidebarButton
-                            success={replaceAll > 0 ? true : false}
-                            primary={replaceAll <= 0 ? true : false}
-                            title="Replace All"
-                            toolText={`${replaceAll} left`}
+                        <SidebarButton
+                            success={newHands > 0 ? true : false}
+                            primary={newHands <= 0 ? true : false}
+                            title="Power Hand"
+                            toolText={`${newHands} left`}
                             icon={<div
                                 className={classes.__sidebar_reload_btn}>
                                 <Reload bgColor={"#0ff"} style={{height: 'auto'}}/>
                             </div>}
-                        /> */}
+                        />
 
                         <SidebarButton
                             success={powerMatch > 0 ? true : false}

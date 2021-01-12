@@ -23,6 +23,7 @@ import PowerUpPage from './pages/PowerUpPage/PowerUpPage';
 import GetUserInfoPage from './pages/GetUserInfoPage/GetUserInfoPage';
 import BingoInProgressGame from './pages/BingoInProgressGame/BingoInProgressGame';
 import LoginPage from './pages/Login';
+import RoyalGame from './pages/RoyalGame';
 
 
 const App = props => {
@@ -50,6 +51,7 @@ const App = props => {
                     <Route path='/user-profile-info' component={GetUserInfoPage} />
                     <Route path='/bingo-in-progress' component={BingoInProgressGame} />
                     <Route path="/login" component={LoginPage} />
+                    <Route path="/power-royals" component={RoyalGame} />
                 </Switch>
             </Fragment>
         </ReduxProvider>

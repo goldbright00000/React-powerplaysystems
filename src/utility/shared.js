@@ -31,3 +31,24 @@ export function getRandomCard () {
 export function hasMaxAceCards(aceCards) {
     return aceCards === CONSTANTS.MAX_ACE_PER_CARD
 }
+
+export function hasPowerRoyalsCard(card, selectedSuit) {
+    const { rank = 0, suit = 0 } = card || {}
+    if (suit === selectedSuit &&
+        (
+            CONSTANTS.CARD_RANKS[rank] === CONSTANTS.POWER_ROYALS.TENS
+            ||
+            CONSTANTS.CARD_RANKS[rank] === CONSTANTS.POWER_ROYALS.JACK
+            ||
+            CONSTANTS.CARD_RANKS[rank] === CONSTANTS.POWER_ROYALS.QUEEN
+            ||
+            CONSTANTS.CARD_RANKS[rank] === CONSTANTS.POWER_ROYALS.KING
+            ||
+            CONSTANTS.CARD_RANKS[rank] === CONSTANTS.POWER_ROYALS.ACE
+        )
+    ) {
+        return card;
+    }
+
+    return
+}

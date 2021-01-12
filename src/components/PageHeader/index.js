@@ -5,7 +5,7 @@ import classes from './pageHeader.module.scss';
 import PageHeaderCard from '../PageHeaderCard'
 
 function PageHeader(props) {
-    const { title = '', reward = 0 } = props || {}
+    const { title = '', reward = 0, seconds = 12 } = props || {}
     return (
         <div className={classes.__page_header}>
             <div className={classes.__page_header_leftside}>
@@ -18,7 +18,7 @@ function PageHeader(props) {
                 </div>
             </div>
             <div className={classes.__page_header_rightside}>
-                <PageHeaderCard />
+                <PageHeaderCard seconds={seconds} />
             </div>
         </div>
     )
@@ -27,6 +27,7 @@ function PageHeader(props) {
 PageHeader.propTypes = {
     title: ProptTypes.string.isRequired,
     reward: ProptTypes.number.isRequired,
+    seconds: ProptTypes.number,
 }
 
 PageHeader.defaultProps = {

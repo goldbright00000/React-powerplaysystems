@@ -53,7 +53,7 @@ const LivePowerPlay = props => {
                         link="/card-game"
                     />
                     <PowerPlayGridRow
-                        type='Power Poker'
+                        type='Power Royals'
                         Icon={Billards}
                         date='Oct 24, 2020'
                         time='8:00PM ET'
@@ -62,6 +62,7 @@ const LivePowerPlay = props => {
                         totalEntries='19161'
                         prize='$1K in Bonus Cash'
                         isMobileDevice={isMobileDevice}
+                        link="/power-royals"
                     />
                     <PowerPlayGridRow
                         type='Bingo'

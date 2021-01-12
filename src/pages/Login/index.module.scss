@@ -58,13 +58,14 @@
     right: 0;
     position: relative;
     align-items: center;
+    margin-top: 30px;
 
     .content_top_skew {
       background-color: $lightBlack;
       height: 80px;
       width: 200%;
       border-top: 1px solid transparent;
-      transform: translate(-50%, 0) skew(0, -2.5deg);
+      transform: translate(-50%, -35%) skew(0, -2deg);
     }
 
     .content_card {
