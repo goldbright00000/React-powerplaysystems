@@ -52,3 +52,28 @@ export function hasPowerRoyalsCard(card, selectedSuit) {
 
     return
 }
+
+export function powerRoyalCards(suit) {
+    return [
+        {
+            suit: suit,
+            rank: CONSTANTS.CARD_RANKS_INDEXES.TENS
+        },
+        {
+            suit: suit,
+            rank: CONSTANTS.CARD_RANKS_INDEXES.JACK
+        },
+        {
+            suit: suit,
+            rank: CONSTANTS.CARD_RANKS_INDEXES.QUEEN
+        },
+        {
+            suit: suit,
+            rank: CONSTANTS.CARD_RANKS_INDEXES.KING
+        },
+        {
+            suit: suit,
+            rank: CONSTANTS.CARD_RANKS_INDEXES.ACE
+        },
+    ]
+}
