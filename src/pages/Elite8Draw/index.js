@@ -1,32 +1,54 @@
+//import modules
 import React, { useState, useEffect } from "react";
 import _ from "lodash";
+//import components
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import ProgressBar from "../../components/Progress";
-import "./Elite8draw.scss";
 import PageHeaderCard from "../../components/PageHeaderCard";
+import LottoBall from "../../components/LottoBall";
+
+//styling
+import "./Elite8draw.scss";
 
 //constants
 const TOTAL_NUMBERS_TO_DRAW = 8;
 const MY_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8];
-const ROUND_TIME = 12;
+const MAX_TIME = 12;
 const TOTAL_NUMBERS_DRAWN = 0;
 const ACTIVE_NUMBER = 0;
 
 function Elte8Game(props) {
-  const [drawnNumbers, setdrawnNumbers] = useState([]);
-  const [myNumbers, setmyNumbers] = useState(MY_NUMBERS);
+  const [drawnNumbersArray, setDrawnNumbersArray] = useState([]);
+  const [myPickedNumbers, setMyPickedNumbers] = useState(MY_NUMBERS);
   const [counter, setCounter] = useState(12);
-  const [activeNumber, setactiveNumber] = useState(0);
+  const [latestDrawnNumber, setLatestDrawnNumber] = useState(0);
+  const [activeLottoBall, setActiveLottoBall] = useState(0);
+  const [powerplays, setPowerplays] = useState({
+    reset: 1,
+    power_match: 1,
+    increase: 1,
+    decrease: 1,
+    reset_all: 1,
+  });
   useEffect(() => {
+    if (latestDrawnNumber == 0) {
+      //initial state, don't start timer
+      //return
+    }
+
     let timeOut = null;
-    if (drawnNumbers.length < TOTAL_NUMBERS_TO_DRAW) {
+    if (drawnNumbersArray.length < TOTAL_NUMBERS_TO_DRAW) {
+      //start the timer from MAX_TIME
       let time = counter;
       timeOut = setInterval(() => {
         if (time !== 0) {
           time--;
           setCounter(time);
         } else {
+          //if timer reaches zero
+          resetCounter();
+          clearInterval(timeOut);
           getNewNumber();
         }
       }, 1000);
@@ -35,15 +57,153 @@ function Elte8Game(props) {
     }
 
     return () => clearInterval(timeOut);
-  }, [activeNumber]);
-
+  }, [latestDrawnNumber]);
+  function startGame() {
+    //get New number
+    getNewNumber();
+  }
   function getNewNumber() {
-    //adding a random number
+    //building connection with the APIs and sockets.
+    //request for a new number
+
+    //adding a random number to array
+    const newNumber = Math.floor(Math.random() * 48) + 1;
+    setDrawnNumbersArray((drawnNumbersArray) => [
+      ...drawnNumbersArray,
+      newNumber,
+    ]);
+    setLatestDrawnNumber(newNumber);
   }
   function resetCounter() {
-    //set counter value back to ROUND_TIME
+    //set counter value back to MAX_TIME
+    setCounter(MAX_TIME);
   }
+  function handleLottoBallClick(lottoBallNumber) {
+    activeLottoBall == lottoBallNumber
+      ? setActiveLottoBall(0)
+      : setActiveLottoBall(lottoBallNumber);
+  }
+  function handlePowerplayClick(powerplay, lottoBallNumber) {
+    switch (powerplay) {
+      case "reset":
+        handleResetClicked(lottoBallNumber);
+        break;
+      case "power-match":
+        handleForceMatchClicked(lottoBallNumber);
+        break;
+      case "increase":
+        handleIncreaseClicked(lottoBallNumber);
+        break;
+      case "decrease":
+        handleDecreaseClicked(lottoBallNumber);
+        break;
 
+      default:
+      // code block
+    }
+    setActiveLottoBall(0);
+  }
+  function handleIncreaseClicked(lottoBallNumber) {
+    if (powerplays.increase < 1) {
+      return;
+    }
+    const newNumber = lottoBallNumber + 1;
+    if (myPickedNumbers.includes(newNumber)) {
+      return;
+    }
+    if (newNumber > 48 || newNumber < 1) {
+      return;
+    }
+    var newPickedNumbers = [...myPickedNumbers];
+    newPickedNumbers[newPickedNumbers.indexOf(lottoBallNumber)] = newNumber;
+    setMyPickedNumbers(newPickedNumbers);
+    //reduce amount
+    setPowerplays({
+      reset: powerplays.reset,
+      increase: powerplays.increase - 1,
+      decrease: powerplays.decrease,
+      power_match: powerplays.power_match,
+    });
+  }
+  function handleDecreaseClicked(lottoBallNumber) {
+    if (powerplays.decrease < 1) {
+      return;
+    }
+    const newNumber = lottoBallNumber - 1;
+    if (myPickedNumbers.includes(newNumber)) {
+      return;
+    }
+    if (newNumber > 48 || newNumber < 1) {
+      return;
+    }
+    var newPickedNumbers = [...myPickedNumbers];
+    newPickedNumbers[newPickedNumbers.indexOf(lottoBallNumber)] = newNumber;
+    setMyPickedNumbers(newPickedNumbers);
+    //reduce amount
+    setPowerplays({
+      reset: powerplays.reset,
+      increase: powerplays.increase,
+      decrease: powerplays.decrease - 1,
+      power_match: powerplays.power_match,
+    });
+  }
+  function handleForceMatchClicked(lottoBallNumber) {
+    if (powerplays.power_match < 1) {
+      return;
+    }
+    const newNumber = latestDrawnNumber;
+    if (myPickedNumbers.includes(newNumber)) {
+      return;
+    }
+    if (newNumber > 48 || newNumber < 1) {
+      return;
+    }
+    var newPickedNumbers = [...myPickedNumbers];
+    newPickedNumbers[newPickedNumbers.indexOf(lottoBallNumber)] = newNumber;
+    setMyPickedNumbers(newPickedNumbers);
+    //reduce amount
+    setPowerplays({
+      reset: powerplays.reset,
+      increase: powerplays.increase,
+      decrease: powerplays.decrease,
+      power_match: powerplays.power_match - 1,
+    });
+  }
+  function handleResetClicked(lottoBallNumber) {
+    //check amount left
+    if (powerplays.reset < 1) {
+      return;
+    }
+    //update the number
+
+    var flag = true;
+    while (flag) {
+      var newNumber = Math.floor(Math.random() * 48) + 1;
+      if (!myPickedNumbers.includes(newNumber)) {
+        //update number
+        var newPickedNumbers = [...myPickedNumbers];
+        newPickedNumbers[newPickedNumbers.indexOf(lottoBallNumber)] = newNumber;
+        setMyPickedNumbers(newPickedNumbers);
+        flag = false;
+      }
+    }
+    //reduce amount
+    setPowerplays({
+      reset: powerplays.reset - 1,
+      increase: powerplays.increase,
+      decrease: powerplays.decrease,
+      power_match: powerplays.power_match,
+    });
+  }
+  function isLottoBallActive(lottoBallNumber) {
+    return lottoBallNumber == activeLottoBall ? true : false;
+  }
+  function isLottoBallMatched(lottoBallNumber) {
+    return drawnNumbersArray.includes(lottoBallNumber);
+  }
+  function getTotalMatched(){
+    
+  }
   return (
     <>
       <div className="__Elite8Draw">
@@ -69,22 +229,22 @@ function Elte8Game(props) {
                   <div className="text">In Play</div>
                   <div className="underline"></div>
                 </div>
-                <div className="__draw_box __flex __column __flex-center">
+                <div className="__draw_box __flex __column">
                   <div className="counter_text">
-                    Number <span>1</span> of 8
+                    Number&nbsp;<span>{drawnNumbersArray.length}&nbsp;</span> of{" "}
+                    {TOTAL_NUMBERS_TO_DRAW}
                   </div>
                   <div className="t2">Next number drawn in</div>
                   <ProgressBar
-                    style="flex=unset;height=65px"
                     progress={counter}
-                    maxProgress={12}
+                    maxProgress={MAX_TIME}
                     size={62}
                     strokeWidth={4}
                     circleOneStroke="grey"
                     circleTwoStroke="#fff"
                   />
                   <div className="__background __drawn_number __flex __flex-center">
-                    3
+                    {latestDrawnNumber > 0 ? latestDrawnNumber : "-"}
                   </div>
                 </div>
               </div>
@@ -98,9 +258,11 @@ function Elte8Game(props) {
                   <div className="underline"></div>
                 </div>
                 <div className="__numbers_row __flex __flex-center">
-                  {_.times(TOTAL_NUMBERS_TO_DRAW, () => (
+                  {_.times(TOTAL_NUMBERS_TO_DRAW, (index) => (
                     <div className="__number_ball __flex __flex-center __background">
-                      ?
+                      {drawnNumbersArray[index]
+                        ? drawnNumbersArray[index]
+                        : "?"}
                     </div>
                   ))}
                 </div>
@@ -115,10 +277,19 @@ function Elte8Game(props) {
                 </div>
                 <div className="__numbers_row __flex __flex-center">
                   {_.times(TOTAL_NUMBERS_TO_DRAW, (index) => (
-                    <div className="__my_number_ball __flex __flex-center">
-                      {myNumbers[index]}
-                    </div>
+                    <LottoBall
+                      number={myPickedNumbers[index]}
+                      matched={isLottoBallMatched(myPickedNumbers[index])}
+                      isActive={isLottoBallActive(myPickedNumbers[index])}
+                      onClick={handleLottoBallClick}
+                      handlePowerplayClick={handlePowerplayClick}
+                    />
                   ))}
+                </div>
+              </div>
+              <div className="__matched_numbers_info">
+                <div className="__info_tick _background">
+                  Matched{" "}{}{" "} of 8 numbers
                 </div>
               </div>
             </div>
@@ -134,27 +305,37 @@ function Elte8Game(props) {
             </div>
             <div className="__powerplays-detail __flex __column __flex-center ">
               <div className="__powerplay_item">
-                <div className="__powerplay_amount">1 left</div>
+                <div className="__powerplay_amount">
+                  {powerplays.reset} left
+                </div>
                 <div className="__powerplay_img img_replace __background"></div>
                 <div className="__powerplay_name">Replace</div>
               </div>
               <div className="__powerplay_item">
-                <div className="__powerplay_amount">1 left</div>
+                <div className="__powerplay_amount">
+                  {powerplays.reset_all} left
+                </div>
                 <div className="__powerplay_img img_replace_all __background"></div>
                 <div className="__powerplay_name">Replace All</div>
               </div>
               <div className="__powerplay_item">
-                <div className="__powerplay_amount">1 left</div>
+                <div className="__powerplay_amount">
+                  {powerplays.power_match} left
+                </div>
                 <div className="__powerplay_img img_power __background"></div>
                 <div className="__powerplay_name">Power Match</div>
               </div>
               <div className="__powerplay_item">
-                <div className="__powerplay_amount">1 left</div>
+                <div className="__powerplay_amount">
+                  {powerplays.increase} left
+                </div>
                 <div className="__powerplay_img img_increase __background"></div>
                 <div className="__powerplay_name">Increase</div>
               </div>
               <div className="__powerplay_item">
-                <div className="__powerplay_amount">1 left</div>
+                <div className="__powerplay_amount">
+                  {powerplays.decrease} left
+                </div>
                 <div className="__powerplay_img img_decrease __background"></div>
                 <div className="__powerplay_name">Decrease</div>
               </div>
