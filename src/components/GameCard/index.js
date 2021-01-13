@@ -49,7 +49,7 @@ function GameCard(props) {
     }
 
     return (
-        <div className={`${classes.__game_card_wrapper} ${hoverShadow && classes.shadow}`} style={styles}>
+        <div className={`${classes.__game_card_wrapper} ${hoverShadow && classes.shadow}`} style={styles} {...props}>
             {
                 //if rank === 12 => "A"
                 isCompleted &&

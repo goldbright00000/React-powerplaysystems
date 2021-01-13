@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
 import {hasPowerRoyalsCard, powerRoyalCards, redirectTo} from '../../utility/shared'
 import Card from '../../components/Card'
@@ -349,88 +350,99 @@ function CardGame(props) {
 
                     <div className={classes.__card_game_content_body}>
                         <Card>
-                            <div className={classes.__card_game_content_cards}>
-                                <GameCard
-                                    showCardPopup={!isReplaceAll && true}
-                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[0], powerCards[0])}
-                                    card={cardsState?.collectedCards?.[0]}
-                                    isSelected={cardsState?.collectedCards?.[0] && true}
-                                    activeCard={cardsState?.activeCard}
-                                    time={time}
-                                    inventory={inventory}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                    showPowerMatchPower={powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[0], 0)}
-                                    onReplace={() => onReplace(cardsState?.collectedCards?.[0], 0)}
-                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[0], 0)}
-                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[0], 0)}
-                                />
-                                <GameCard
-                                    showCardPopup={!isReplaceAll && true}
-                                    card={cardsState?.collectedCards?.[1]}
-                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[1], powerCards[1])}
-                                    isSelected={cardsState?.collectedCards?.[1] && true}
-                                    activeCard={cardsState?.activeCard}
-                                    time={time}
-                                    inventory={inventory}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                    showPowerMatchPower={powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[1], 1)}
-                                    onReplace={() => onReplace(cardsState?.collectedCards?.[1], 1)}
-                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[1], 1)}
-                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[1], 1)}
-                                />
-                                <GameCard
-                                    showCardPopup={!isReplaceAll && true}
-                                    card={cardsState?.collectedCards?.[2]}
-                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[2], powerCards[2])}
-                                    isSelected={cardsState?.collectedCards?.[2] && true}
-                                    activeCard={cardsState?.activeCard}
-                                    time={time}
-                                    inventory={inventory}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                    showPowerMatchPower={powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[2], 2)}
-                                    onReplace={() => onReplace(cardsState?.collectedCards?.[2], 2)}
-                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[2], 2)}
-                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[2], 2)}
-                                />
-                                <GameCard
-                                    showCardPopup={!isReplaceAll && true}
-                                    card={cardsState?.collectedCards?.[3]}
-                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[3], powerCards[3])}
-                                    isSelected={cardsState?.collectedCards?.[3] && true}
-                                    activeCard={cardsState?.activeCard}
-                                    time={time}
-                                    inventory={inventory}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                    showPowerMatchPower={powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[3], 3)}
-                                    onReplace={() => onReplace(cardsState?.collectedCards?.[3], 3)}
-                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[3],3)}
-                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[3], 3)}
-                                />
-                                <GameCard
-                                    showCardPopup={!isReplaceAll && true}
-                                    card={cardsState?.collectedCards?.[4]}
-                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[4], powerCards[4])}
-                                    isSelected={cardsState?.collectedCards?.[4] && true}
-                                    activeCard={cardsState?.activeCard}
-                                    time={time}
-                                    inventory={inventory}
-                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                    showPowerMatchPower={powerMatch > 0}
-                                    showReplacePower={replace > 0}
-                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[4], 4)}
-                                    onReplace={() => onReplace(cardsState?.collectedCards?.[4], 4)}
-                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[4],4)}
-                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[4], 4)}
-                                />
-                            </div>
+                            <DragDropContext>
+                                <Droppable droppableId="power_royals_card_droppable_id">
+                                    {
+                                        (provided) => (
+                                            <div className={`${classes.__card_game_content_cards} power_royals_card_droppable_id`}
+                                                ref={provided?.innerRef}
+                                                {...provided?.droppableProps}
+                                            >
+                                                <GameCard
+                                                    showCardPopup={!isReplaceAll && true}
+                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[0], powerCards[0])}
+                                                    card={cardsState?.collectedCards?.[0]}
+                                                    isSelected={cardsState?.collectedCards?.[0] && true}
+                                                    activeCard={cardsState?.activeCard}
+                                                    time={time}
+                                                    inventory={inventory}
+                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                                    showPowerMatchPower={powerMatch > 0}
+                                                    showReplacePower={replace > 0}
+                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[0], 0)}
+                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[0], 0)}
+                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[0], 0)}
+                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[0], 0)}
+                                                />
+                                                <GameCard
+                                                    showCardPopup={!isReplaceAll && true}
+                                                    card={cardsState?.collectedCards?.[1]}
+                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[1], powerCards[1])}
+                                                    isSelected={cardsState?.collectedCards?.[1] && true}
+                                                    activeCard={cardsState?.activeCard}
+                                                    time={time}
+                                                    inventory={inventory}
+                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                                    showPowerMatchPower={powerMatch > 0}
+                                                    showReplacePower={replace > 0}
+                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[1], 1)}
+                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[1], 1)}
+                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[1], 1)}
+                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[1], 1)}
+                                                />
+                                                <GameCard
+                                                    showCardPopup={!isReplaceAll && true}
+                                                    card={cardsState?.collectedCards?.[2]}
+                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[2], powerCards[2])}
+                                                    isSelected={cardsState?.collectedCards?.[2] && true}
+                                                    activeCard={cardsState?.activeCard}
+                                                    time={time}
+                                                    inventory={inventory}
+                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                                    showPowerMatchPower={powerMatch > 0}
+                                                    showReplacePower={replace > 0}
+                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[2], 2)}
+                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[2], 2)}
+                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[2], 2)}
+                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[2], 2)}
+                                                />
+                                                <GameCard
+                                                    showCardPopup={!isReplaceAll && true}
+                                                    card={cardsState?.collectedCards?.[3]}
+                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[3], powerCards[3])}
+                                                    isSelected={cardsState?.collectedCards?.[3] && true}
+                                                    activeCard={cardsState?.activeCard}
+                                                    time={time}
+                                                    inventory={inventory}
+                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                                    showPowerMatchPower={powerMatch > 0}
+                                                    showReplacePower={replace > 0}
+                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[3], 3)}
+                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[3], 3)}
+                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[3],3)}
+                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[3], 3)}
+                                                />
+                                                <GameCard
+                                                    showCardPopup={!isReplaceAll && true}
+                                                    card={cardsState?.collectedCards?.[4]}
+                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[4], powerCards[4])}
+                                                    isSelected={cardsState?.collectedCards?.[4] && true}
+                                                    activeCard={cardsState?.activeCard}
+                                                    time={time}
+                                                    inventory={inventory}
+                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                                    showPowerMatchPower={powerMatch > 0}
+                                                    showReplacePower={replace > 0}
+                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[4], 4)}
+                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[4], 4)}
+                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[4],4)}
+                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[4], 4)}
+                                                />
+                                            </div>    
+                                        )
+                                    }
+                                </Droppable>
+                            </DragDropContext>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
                                 disabled={!showResetTimer}
                             >
