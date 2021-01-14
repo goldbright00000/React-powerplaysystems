@@ -131,7 +131,7 @@ class SelectNumbers extends React.Component {
   initBalls() {
     var mArray = [];
     // function for loop of Balls
-    for (let i = 1; i <= 46; i++) {
+    for (let i = 1; i <= 48; i++) {
       mArray.push(
         <div
           className="elite8-ball-wrapper"

@@ -111,10 +111,12 @@
   font-size: 24px;
   font-weight: 400;
   text-align: center;
+  cursor: pointer;
 }
 
 .c-pick-your-numbers-btn.submit {
   margin-top: -27px;
+  
 }
 
 .hero-text4 {

@@ -4,12 +4,21 @@
     justify-content: center;
     margin-top: 46px;
     align-items: end;
+    max-width: 1600px;
+    @media (min-width: 1550px) {
+      margin: 46px auto;
+    }
   }
   .__game-box {
     justify-content: center;
-    margin-left: 80px ;
+    width: 1150px;
     align-items: unset;
-
+    @media (min-width: 1450px) {
+      width: 1250px;
+    }
+    @media (min-width: 1550px) {
+      width: 1350px;
+    }
     .__game-box-left {
       margin-top: 51px;
       // headering with description
@@ -146,7 +155,26 @@
           justify-content: flex-start;
           margin-top: 21px;
           align-items: baseline;
-         
+        }
+      }
+      .__matched_numbers_info {
+        margin-top: 21px;
+        .__info_tick {
+          width: 35px;
+          height: 35px;
+          margin: 0 11px 1px 0;
+          border: 100%;
+          background-image: url(../../assets/elite-8-live/checked.png);
+          background-repeat: no-repeat;
+        }
+        .__matched_text {
+          font-family: Poppins;
+          font-size: 24px;
+          text-align: center;
+          color: #ffffff;
+          span {
+            color: $primary;
+          }
         }
       }
     }

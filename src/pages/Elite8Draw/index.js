@@ -24,6 +24,7 @@ function Elte8Game(props) {
   const [counter, setCounter] = useState(12);
   const [latestDrawnNumber, setLatestDrawnNumber] = useState(0);
   const [activeLottoBall, setActiveLottoBall] = useState(0);
+  const [totalMatchedNumbers, setTotalMatchedNumbers] = useState(0);
   const [powerplays, setPowerplays] = useState({
     reset: 1,
     power_match: 1,
@@ -31,6 +32,23 @@ function Elte8Game(props) {
     decrease: 1,
     reset_all: 1,
   });
+  //componet mount and unmount
+  useEffect(() => {
+    var picks = props.location.state.picks;
+    console.log(picks);
+    picks ? setMyPickedNumbers(picks) : setMyPickedNumbers(MY_NUMBERS);
+    return () => {
+      //when the component will unmount
+    };
+  }, []);
+
+  ///runs when User Picked Numbers Array changed or New Number added to Draw
+  useEffect(() => {
+    getTotalMatched();
+    //ascending order
+  }, [myPickedNumbers, drawnNumbersArray]);
+
+  //runs when a new number drawn
   useEffect(() => {
     if (latestDrawnNumber == 0) {
       //initial state, don't start timer
@@ -58,6 +76,7 @@ function Elte8Game(props) {
 
     return () => clearInterval(timeOut);
   }, [latestDrawnNumber]);
+  
   function startGame() {
     //get New number
     getNewNumber();
@@ -116,6 +135,7 @@ function Elte8Game(props) {
     }
     var newPickedNumbers = [...myPickedNumbers];
     newPickedNumbers[newPickedNumbers.indexOf(lottoBallNumber)] = newNumber;
+
     setMyPickedNumbers(newPickedNumbers);
     //reduce amount
     setPowerplays({
@@ -201,8 +221,14 @@ function Elte8Game(props) {
   function isLottoBallMatched(lottoBallNumber) {
     return drawnNumbersArray.includes(lottoBallNumber);
   }
-  function getTotalMatched(){
-    
+  function getTotalMatched() {
+    var num = 0;
+    drawnNumbersArray.forEach((number) => {
+      if (myPickedNumbers.includes(number)) {
+        num++;
+        setTotalMatchedNumbers(num);
+      }
+    });
   }
   return (
     <>
@@ -287,9 +313,11 @@ function Elte8Game(props) {
                   ))}
                 </div>
               </div>
-              <div className="__matched_numbers_info">
-                <div className="__info_tick _background">
-                  Matched{" "}{}{" "} of 8 numbers
+              <div className="__matched_numbers_info __flex __flex-center">
+                <div className="__info_tick __background"></div>
+                <div className="__matched_text">
+                  Matched &nbsp;<span>{totalMatchedNumbers}&nbsp;</span>of 8
+                  numbers
                 </div>
               </div>
             </div>
