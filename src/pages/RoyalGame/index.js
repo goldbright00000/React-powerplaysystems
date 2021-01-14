@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
-import {hasPowerRoyalsCard, powerRoyalCards, redirectTo} from '../../utility/shared'
+import {flushList, hasPowerRoyalsCard, powerRoyalCards, redirectTo} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -21,8 +21,8 @@ import PlusMinus from '../../icons/PlusAndMinus'
 import { CONSTANTS } from '../../utility/constants'
 import { getRandomCard } from '../../utility/shared'
 import { setPowerCardState, resetPowerRoyalsCardState, powerRoyalsGameInventory } from '../../actions/powerRoyalsActions'
+import { differenceWith, isEmpty, isEqual } from 'lodash'
 import classes from './cardGamePage.module.scss'
-import { differenceWith, isEqual } from 'lodash'
 
 const TOTAL_ROUNDS = 2;
 const TOTAL_CARDS = 5;
@@ -36,7 +36,7 @@ let time = MAX_ROUND_TIME;
 let resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN;
 let hasRoundCompleted = false
 
-function CardGame(props) {
+function PowerRoyalsGame(props) {
     const [cardsState, setCardsState] = useState({})
     const [count, setCount] = useState(MAX_ROUND_TIME)
     const [currentRound, setCurrentRound] = useState(_round)
@@ -44,6 +44,8 @@ function CardGame(props) {
     const [resetBtnCountDown, setResetBtnCountDown] = useState(MAX_RESET_BTN_COUNT_DOWN)
     const [showResetTimer, setResetTimerState] = useState(false)
     const [isReplaceAll, setIsReplaceAllState] = useState(false)
+    const [selectedRoundCard, setSelectedRoundCard] = useState()
+    const [isDroppable, setIsDroppable] = useState(false)
 
     const dispatch = useDispatch();
     const { collectedCards = [],
@@ -89,6 +91,10 @@ function CardGame(props) {
                     _currentCard += 1;
                     setCurrentCard(_currentCard)
                     updateCardState()
+
+                    if (!isDroppable && _currentCard >= 4) {
+                        setIsDroppable(true)
+                    } 
                     if (currentCard >= TOTAL_CARDS) setIsReplaceAllState(false)
                 }
             }, 1000)
@@ -126,31 +132,31 @@ function CardGame(props) {
         return timeOut
     }
 
-    const resetList = (list = []) => {
-        while (list?.length > 0) {
-            list.pop()
-        }
-    }
-
     const resetGameState = () => {
-        resetList(cardsArr)
+        flushList(cardsArr)
 
         resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
         _currentCard = 0;
         setCardsState({})
         setCurrentCard(_currentCard)
+        setIsDroppable(false)
         setCount(MAX_ROUND_TIME)
         setResetBtnCountDown(MAX_RESET_BTN_COUNT_DOWN)
         setResetTimerState(false)
         setIsReplaceAllState(false)
+        setSelectedRoundCard(null)
         dispatch(setPowerCardState([]))
     }
 
     const updateCardState = () => {
         let card = getRandomCard()
         
+        if (isEmpty(selectedRoundCard) && _currentCard === 1) {
+            setSelectedRoundCard(card)
+        }
+
         const alreadyExistsCard = cardsState?.collectedCards?.filter(c => c.rank === card?.rank);
-        if (alreadyExistsCard?.length > 0) {
+        if (alreadyExistsCard?.length > 2) {
             return updateCardState()
         }
         cardsArr.push(card)
@@ -206,6 +212,8 @@ function CardGame(props) {
             return
         }
         
+        _increaseOrDecrease -= 1;
+
         let _rank = rank
         if(CONSTANTS.CARD_RANKS[_rank] !== "A") {
             _rank += 1;
@@ -230,6 +238,8 @@ function CardGame(props) {
             return
         }
 
+        _increaseOrDecrease -= 1
+
         let _rank = rank
         if(CONSTANTS.CARD_RANKS[_rank] !== "2") {
             _rank -= 1;
@@ -247,28 +257,34 @@ function CardGame(props) {
     }
 
     const onPowerMatch = (card, cardIndex) => {
+        let _powerMatch = powerMatch
         if (powerMatch <= 0) {
             return
         }
+
+        _powerMatch -= 1;
         
-        const powerRyalCards = powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)
+        const powerRyalCards = powerRoyalCards(selectedRoundCard?.suit)
         
         let unAvailableCards = differenceWith(powerRyalCards, cardsArr, isEqual)
-        console.log(unAvailableCards)
         const { rank = 0 } = unAvailableCards[0] || {}
         const newPowerCard = {
-            suit: currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE,
+            suit: selectedRoundCard?.suit,
             rank: rank
         }
         
         cardsArr[cardIndex] = newPowerCard;
-        setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newPowerCard})
+        setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newPowerCard })
+        updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
     }
 
     const onReplace = (card, cardIndex) => {
+        let _replace = replace
         if (replace <= 0) {
             return
         }
+
+        _replace -= 1
 
         let newCard = getRandomCard();
         if (isEqual(newCard, card)) {
@@ -276,6 +292,7 @@ function CardGame(props) {
         }
         cardsArr[cardIndex] = newCard;
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newCard })
+        updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
     }
 
     const onDrageEnd = (result) => {
@@ -287,7 +304,7 @@ function CardGame(props) {
         const [reOrderItems] = itms.splice(sourceIndex, 1);
         itms.splice(destinationIndex, 0, reOrderItems)
         if (
-            isEqual(powerRoyalCards(CONSTANTS.CARD_SUITS.HEART)[destinationIndex], itms[sourceIndex])
+            isEqual(powerRoyalCards(selectedRoundCard?.suit)[destinationIndex], itms[sourceIndex])
         ) {
             console.log('Card has been collected')
         }
@@ -327,14 +344,14 @@ function CardGame(props) {
                             <DragDropContext
                                 onDragEnd={onDrageEnd}
                             >
-                                <Droppable droppableId="power_royals_card_droppable_id" direction="horizontal">
+                                <Droppable droppableId="power_royals_card_droppable_id" direction="horizontal" isDropDisabled={!isDroppable}>
                                     {
                                         (provided) => (
                                             <div className={`${classes.__card_game_content_cards} power_royals_card_droppable_id`}
                                                 ref={provided?.innerRef}
                                                 {...provided?.droppableProps}
                                             >
-                                                <Draggable draggableId="d1" index={0}>
+                                                <Draggable draggableId="d1" index={0} isDragDisabled={!isDroppable}>
                                                     {
                                                         (p) => (
                                                             <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
@@ -342,7 +359,7 @@ function CardGame(props) {
                                                             >
                                                                 <GameCard
                                                                     showCardPopup={!isReplaceAll && true}
-                                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[0], cardsState?.collectedCards?.[0])}
+                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[0], cardsState?.collectedCards?.[0])}
                                                                     card={cardsState?.collectedCards?.[0]}
                                                                     isSelected={cardsState?.collectedCards?.[0] && true}
                                                                     activeCard={cardsState?.activeCard}
@@ -361,7 +378,7 @@ function CardGame(props) {
                                                     }
                                                 </Draggable>
 
-                                                <Draggable draggableId="d2" index={1}>
+                                                <Draggable draggableId="d2" index={1} isDragDisabled={!isDroppable}>
                                                     {
                                                         (p) => (
                                                             <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
@@ -370,7 +387,7 @@ function CardGame(props) {
                                                                 <GameCard
                                                                     showCardPopup={!isReplaceAll && true}
                                                                     card={cardsState?.collectedCards?.[1]}
-                                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[1], cardsState?.collectedCards?.[1])}
+                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[1], cardsState?.collectedCards?.[1])}
                                                                     isSelected={cardsState?.collectedCards?.[1] && true}
                                                                     activeCard={cardsState?.activeCard}
                                                                     time={time}
@@ -388,7 +405,7 @@ function CardGame(props) {
                                                     }
                                                 </Draggable>
 
-                                                <Draggable draggableId="d3" index={2}>
+                                                <Draggable draggableId="d3" index={2} isDragDisabled={!isDroppable}>
                                                     {
                                                         (p) => (
                                                             <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
@@ -397,7 +414,7 @@ function CardGame(props) {
                                                                 <GameCard
                                                                     showCardPopup={!isReplaceAll && true}
                                                                     card={cardsState?.collectedCards?.[2]}
-                                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[2], cardsState?.collectedCards?.[2])}
+                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[2], cardsState?.collectedCards?.[2])}
                                                                     isSelected={cardsState?.collectedCards?.[2] && true}
                                                                     activeCard={cardsState?.activeCard}
                                                                     time={time}
@@ -415,7 +432,7 @@ function CardGame(props) {
                                                     }
                                                 </Draggable>
                                                 
-                                                <Draggable draggableId="d4" index={3}>
+                                                <Draggable draggableId="d4" index={3} isDragDisabled={!isDroppable}>
                                                     {
                                                         (p) => (
                                                             <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
@@ -424,7 +441,7 @@ function CardGame(props) {
                                                                 <GameCard
                                                                     showCardPopup={!isReplaceAll && true}
                                                                     card={cardsState?.collectedCards?.[3]}
-                                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[3], cardsState?.collectedCards?.[3])}
+                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[3], cardsState?.collectedCards?.[3])}
                                                                     isSelected={cardsState?.collectedCards?.[3] && true}
                                                                     activeCard={cardsState?.activeCard}
                                                                     time={time}
@@ -442,7 +459,7 @@ function CardGame(props) {
                                                     }
                                                 </Draggable>
 
-                                                <Draggable draggableId="d5" index={4}>
+                                                <Draggable draggableId="d5" index={4} isDragDisabled={!isDroppable}>
                                                     {
                                                         (p) => (
                                                             <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
@@ -451,7 +468,7 @@ function CardGame(props) {
                                                                 <GameCard
                                                                     showCardPopup={!isReplaceAll && true}
                                                                     card={cardsState?.collectedCards?.[4]}
-                                                                    isCompleted={isEqual(powerRoyalCards(currentRound === 1 ? CONSTANTS.CARD_SUITS.HEART : CONSTANTS.CARD_SUITS.SPADE)[4], cardsState?.collectedCards?.[4])}
+                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[4], cardsState?.collectedCards?.[4])}
                                                                     isSelected={cardsState?.collectedCards?.[4] && true}
                                                                     activeCard={cardsState?.activeCard}
                                                                     time={time}
@@ -483,7 +500,7 @@ function CardGame(props) {
                             </button> */}
                                 </Droppable>
                         </DragDropContext>
-                                </Card>
+                        </Card>
                     </div>
 
                     {/* <div className={classes.__card_game_content_footer}>
@@ -554,13 +571,6 @@ function CardGame(props) {
                             toolText={`${increaseOrDecrease} left`}
                             icon={<PlusMinus style={{height: 'auto'}}/>}
                         />
-
-                        {/* <SidebarButton
-                            primary
-                            title="Decrease"
-                            toolText="$.25"
-                            icon={<ArrowDown style={{height: 'auto'}}/>}
-                        /> */}
                     </div>
                 </Sidebar>
             </div>
@@ -569,7 +579,5 @@ function CardGame(props) {
     )
 }
 
-CardGame.propTypes = {}
-
-export default withRouter(CardGame)
+export default withRouter(PowerRoyalsGame)
 

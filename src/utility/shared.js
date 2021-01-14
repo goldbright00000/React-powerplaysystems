@@ -53,6 +53,12 @@ export function hasPowerRoyalsCard(card, selectedSuit) {
     return
 }
 
+export function flushList(list = []) {
+    while (list?.length > 0) {
+        list?.pop()
+    }
+}
+
 export function powerRoyalCards(suit) {
     return [
         {
