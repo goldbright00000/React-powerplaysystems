@@ -20,24 +20,32 @@ import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
 import { CONSTANTS } from '../../utility/constants'
 import { getRandomCard } from '../../utility/shared'
-import { setPowerCardState, resetPowerRoyalsCardState, powerRoyalsGameInventory } from '../../actions/powerRoyalsActions'
+import {
+    setPowerCardState,
+    resetPowerRoyalsCardState,
+    powerRoyalsGameInventory
+} from '../../actions/powerRoyalsActions'
 import { differenceWith, isEmpty, isEqual } from 'lodash'
 import classes from './cardGamePage.module.scss'
 
+const INITIAL_STATE = {
+    collectedCards: [{}, {}, {}, {}, {}],
+    activeCard: {}
+}
 const TOTAL_ROUNDS = 2;
 const TOTAL_CARDS = 5;
-const MAX_ROUND_TIME = 3;
+const MAX_ROUND_TIME = 5;
 const MAX_RESET_BTN_COUNT_DOWN = 0;
 const REPLACE_ALL_SPEED_TIME = 1;
 let _round = 1;
 let _currentCard = 0;
-const cardsArr = []
+const cardsArr = [{}, {}, {}, {}, {}]
 let time = MAX_ROUND_TIME;
 let resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN;
 let hasRoundCompleted = false
 
 function PowerRoyalsGame(props) {
-    const [cardsState, setCardsState] = useState({})
+    const [cardsState, setCardsState] = useState(INITIAL_STATE)
     const [count, setCount] = useState(MAX_ROUND_TIME)
     const [currentRound, setCurrentRound] = useState(_round)
     const [currentCard, setCurrentCard] = useState(_currentCard)
@@ -52,7 +60,10 @@ function PowerRoyalsGame(props) {
         inventory = {}
     } = useSelector(state => state.powerRoyals)
 
-    const { replace = 0, replaceAll = 0, newHands = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
+    const {
+        replace = 0, replaceAll = 0, newHands = 0,
+        powerMatch = 0, increaseOrDecrease = 0
+    } = inventory || {}
     
     useEffect(() => { 
         dispatch(resetPowerRoyalsCardState())
@@ -133,11 +144,13 @@ function PowerRoyalsGame(props) {
     }
 
     const resetGameState = () => {
-        flushList(cardsArr)
+        for (let i = 0; i < cardsArr?.length - 1; i++) {
+            cardsArr[i] = {}
+        }
 
         resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
         _currentCard = 0;
-        setCardsState({})
+        setCardsState(INITIAL_STATE)
         setCurrentCard(_currentCard)
         setIsDroppable(false)
         setCount(MAX_ROUND_TIME)
@@ -155,11 +168,19 @@ function PowerRoyalsGame(props) {
             setSelectedRoundCard(card)
         }
 
-        const alreadyExistsCard = cardsState?.collectedCards?.filter(c => c.rank === card?.rank);
+        const alreadyExistsCard = cardsState?.collectedCards?.filter(c => c?.rank === card?.rank);
         if (alreadyExistsCard?.length > 2) {
             return updateCardState()
         }
-        cardsArr.push(card)
+        // cardsArr.push(card)
+        console.log(isEmpty(cardsArr[currentCard]))
+        if (!isEmpty(cardsArr[currentCard])) {
+            //find and empty index and place the card at that index
+            let emptyIndex = cardsArr?.findIndex((c) => Object.keys(c)?.length === 0)
+            cardsArr[emptyIndex] = card;
+        } else {
+            cardsArr[currentCard] = card;
+        }
 
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
     }
@@ -295,21 +316,25 @@ function PowerRoyalsGame(props) {
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
     }
 
-    const onDrageEnd = (result) => {
+    const onDragEnd = (result) => {
         if (!result.destination) return;
 
-        const { source: { index: sourceIndex = 0 } = {}, destination: { index: destinationIndex = 0 } = {} } = result || {}
+        const {
+            source: { index: sourceIndex = 0 } = {},
+            destination: { index: destinationIndex = 0 } = {} } = result || {}
+        
+        if(sourceIndex === destinationIndex) return
 
-        const itms = [...cardsState?.collectedCards]
-        const [reOrderItems] = itms.splice(sourceIndex, 1);
-        itms.splice(destinationIndex, 0, reOrderItems)
+        const [reOrderItems] = cardsArr.splice(sourceIndex, 1);
+        cardsArr.splice(destinationIndex, 0, reOrderItems)
         if (
-            isEqual(powerRoyalCards(selectedRoundCard?.suit)[destinationIndex], itms[sourceIndex])
-        ) {
-            console.log('Card has been collected')
-        }
-
-        setCardsState({...cardsState, collectedCards: itms})
+            isEqual(powerRoyalCards(selectedRoundCard?.suit)[destinationIndex], cardsArr[sourceIndex])
+            ) {
+                console.log('Card has been collected')
+            }
+        
+        
+        setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: reOrderItems })
     }
 
     return (
@@ -325,9 +350,12 @@ function PowerRoyalsGame(props) {
                             </p>
                         </div>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
-                        <p className={classes.__card_game_card_counter}>Card <span>{currentCard}</span> of {TOTAL_CARDS}
+                        <p className={classes.__card_game_card_counter}>
+                            Card <span>{currentCard}</span> of {TOTAL_CARDS}
                         </p>
-                        <p className={classes.__card_game_round_counter}>Hand <span>{currentRound}</span> of { TOTAL_ROUNDS }</p>
+                        <p className={classes.__card_game_round_counter}>
+                            Hand <span>{currentRound}</span> of {TOTAL_ROUNDS}
+                        </p>
                         <span className={classes.__card_divider} />
                         <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
                         <ProgressBar
@@ -341,150 +369,52 @@ function PowerRoyalsGame(props) {
 
                     <div className={classes.__card_game_content_body}>
                         <Card>
-                            <DragDropContext
-                                onDragEnd={onDrageEnd}
-                            >
-                                <Droppable droppableId="power_royals_card_droppable_id" direction="horizontal" isDropDisabled={!isDroppable}>
+                            <DragDropContext onDragEnd={onDragEnd} dragHandleUsageInstructions="Drag and Drop">
+                                <Droppable
+                                    droppableId="power_royals_card_droppable_id"
+                                    direction="horizontal"
+                                    mode="standard"
+                                >
                                     {
                                         (provided) => (
-                                            <div className={`${classes.__card_game_content_cards} power_royals_card_droppable_id`}
+                                            <div
+                                                className={`${classes.__card_game_content_cards} power_royals_card_droppable_id`}
                                                 ref={provided?.innerRef}
                                                 {...provided?.droppableProps}
                                             >
-                                                <Draggable draggableId="d1" index={0} isDragDisabled={!isDroppable}>
-                                                    {
-                                                        (p) => (
-                                                            <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
-                                                                className={classes.__card_game_content_card}
-                                                            >
-                                                                <GameCard
-                                                                    showCardPopup={!isReplaceAll && true}
-                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[0], cardsState?.collectedCards?.[0])}
-                                                                    card={cardsState?.collectedCards?.[0]}
-                                                                    isSelected={cardsState?.collectedCards?.[0] && true}
-                                                                    activeCard={cardsState?.activeCard}
-                                                                    time={time}
-                                                                    inventory={inventory}
-                                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                                                    showPowerMatchPower={powerMatch > 0}
-                                                                    showReplacePower={replace > 0}
-                                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[0], 0)}
-                                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[0], 0)}
-                                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[0], 0)}
-                                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[0], 0)}
-                                                                />
-                                                            </div>
-                                                        )
-                                                    }
-                                                </Draggable>
-
-                                                <Draggable draggableId="d2" index={1} isDragDisabled={!isDroppable}>
-                                                    {
-                                                        (p) => (
-                                                            <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
-                                                            className={classes.__card_game_content_card}
-                                                            >
-                                                                <GameCard
-                                                                    showCardPopup={!isReplaceAll && true}
-                                                                    card={cardsState?.collectedCards?.[1]}
-                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[1], cardsState?.collectedCards?.[1])}
-                                                                    isSelected={cardsState?.collectedCards?.[1] && true}
-                                                                    activeCard={cardsState?.activeCard}
-                                                                    time={time}
-                                                                    inventory={inventory}
-                                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                                                    showPowerMatchPower={powerMatch > 0}
-                                                                    showReplacePower={replace > 0}
-                                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[1], 1)}
-                                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[1], 1)}
-                                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[1], 1)}
-                                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[1], 1)}
-                                                                />
-                                                            </div>
-                                                        )
-                                                    }
-                                                </Draggable>
-
-                                                <Draggable draggableId="d3" index={2} isDragDisabled={!isDroppable}>
-                                                    {
-                                                        (p) => (
-                                                            <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
-                                                            className={classes.__card_game_content_card}
-                                                            >
-                                                                <GameCard
-                                                                    showCardPopup={!isReplaceAll && true}
-                                                                    card={cardsState?.collectedCards?.[2]}
-                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[2], cardsState?.collectedCards?.[2])}
-                                                                    isSelected={cardsState?.collectedCards?.[2] && true}
-                                                                    activeCard={cardsState?.activeCard}
-                                                                    time={time}
-                                                                    inventory={inventory}
-                                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                                                    showPowerMatchPower={powerMatch > 0}
-                                                                    showReplacePower={replace > 0}
-                                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[2], 2)}
-                                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[2], 2)}
-                                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[2], 2)}
-                                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[2], 2)}
-                                                                />
-                                                            </div>
-                                                        )
-                                                    }
-                                                </Draggable>
-                                                
-                                                <Draggable draggableId="d4" index={3} isDragDisabled={!isDroppable}>
-                                                    {
-                                                        (p) => (
-                                                            <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
-                                                            className={classes.__card_game_content_card}
-                                                            >
-                                                                <GameCard
-                                                                    showCardPopup={!isReplaceAll && true}
-                                                                    card={cardsState?.collectedCards?.[3]}
-                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[3], cardsState?.collectedCards?.[3])}
-                                                                    isSelected={cardsState?.collectedCards?.[3] && true}
-                                                                    activeCard={cardsState?.activeCard}
-                                                                    time={time}
-                                                                    inventory={inventory}
-                                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                                                    showPowerMatchPower={powerMatch > 0}
-                                                                    showReplacePower={replace > 0}
-                                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[3], 3)}
-                                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[3], 3)}
-                                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[3],3)}
-                                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[3], 3)}
-                                                                />
-                                                            </div>
-                                                        )
-                                                    }
-                                                </Draggable>
-
-                                                <Draggable draggableId="d5" index={4} isDragDisabled={!isDroppable}>
-                                                    {
-                                                        (p) => (
-                                                            <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
-                                                            className={classes.__card_game_content_card}
-                                                            >
-                                                                <GameCard
-                                                                    showCardPopup={!isReplaceAll && true}
-                                                                    card={cardsState?.collectedCards?.[4]}
-                                                                    isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[4], cardsState?.collectedCards?.[4])}
-                                                                    isSelected={cardsState?.collectedCards?.[4] && true}
-                                                                    activeCard={cardsState?.activeCard}
-                                                                    time={time}
-                                                                    inventory={inventory}
-                                                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                                                    showPowerMatchPower={powerMatch > 0}
-                                                                    showReplacePower={replace > 0}
-                                                                    onDecrease={() => onDecrease(cardsState?.collectedCards?.[4], 4)}
-                                                                    onReplace={() => onReplace(cardsState?.collectedCards?.[4], 4)}
-                                                                    onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[4],4)}
-                                                                    onIncrease={() => onIncrease(cardsState?.collectedCards?.[4], 4)}
-                                                                />
-                                                            </div>
-                                                        )
-                                                    }
-                                                </Draggable>
+                                                {
+                                                    cardsState?.collectedCards?.map((c, index) => (
+                                                        <Draggable draggableId={`d${index}`} index={index} shouldRespectForcePress>
+                                                            {
+                                                                (p) => (
+                                                                    <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
+                                                                        className={classes.__card_game_content_card}>
+                                                                        {isEmpty(c) ?
+                                                                            <GameCard isSelected={false} />
+                                                                            :
+                                                                            <GameCard
+                                                                                showCardPopup={!isReplaceAll && true}
+                                                                                isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[index], cardsState?.collectedCards?.[index])}
+                                                                                card={cardsState?.collectedCards?.[index]}
+                                                                                isSelected={cardsState?.collectedCards?.[index] && true}
+                                                                                activeCard={cardsState?.activeCard}
+                                                                                time={time}
+                                                                                inventory={inventory}
+                                                                                showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                                                                showPowerMatchPower={powerMatch > 0}
+                                                                                showReplacePower={replace > 0}
+                                                                                onDecrease={() => onDecrease(cardsState?.collectedCards?.[index], index)}
+                                                                                onReplace={() => onReplace(cardsState?.collectedCards?.[index], index)}
+                                                                                onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[index], index)}
+                                                                                onIncrease={() => onIncrease(cardsState?.collectedCards?.[index], index)}
+                                                                            />
+                                                                        }
+                                                                </div>
+                                                                )
+                                                            }
+                                                        </Draggable>
+                                                    ))
+                                                }
                                             </div>    
                                         )
                                     }
@@ -499,7 +429,7 @@ function PowerRoyalsGame(props) {
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
                             </button> */}
                                 </Droppable>
-                        </DragDropContext>
+                            </DragDropContext>
                         </Card>
                     </div>
 
@@ -580,4 +510,3 @@ function PowerRoyalsGame(props) {
 }
 
 export default withRouter(PowerRoyalsGame)
-
