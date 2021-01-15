@@ -18,3 +18,66 @@
         transform: translateX(-50%);
     }
 }
+
+@media (max-width: 1200px){
+    .__Bing-PowerPlays{
+        position: fixed;
+        width: 100vw;
+        left: 0;
+        bottom: 0;
+        z-index: 5;
+        margin: 0;
+        .__power-plays-main{
+            margin: 0 !important;
+        }
+        .__power-play-title{
+            background: $primary;
+            padding: 0.1px;
+            border-radius: 12px 12px 0 0;
+            cursor: pointer;
+            &::before, &::after{
+                content: '';
+                display: block;
+                position: relative;
+                margin-top: 0.67em;
+            }
+            &::before{
+                margin: 0.55em auto 0.4em auto;
+                width: 2.5em;
+                height: 2px;
+                background: #fff;
+            }
+        }
+        .__power-plays-wrapper{
+            transition: linear 0.5s all;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            overflow: hidden;
+            max-height: 1px;
+            opacity: 0;
+            visibility: hidden;
+        }
+        &.active .__power-plays-wrapper{
+            padding: 1em 1em 5.5em 1em;
+            max-height: 1000px;
+            opacity: 1;
+            visibility: visible;
+        }
+        .__my-balance{
+            position: absolute;
+            bottom: 1em;
+        }
+        .__my-powerplay{
+            width: 33.33%;
+            margin: 1em 0 0 0;
+            padding-top: 1em;
+            img{
+                width: 3em;
+            }
+        }
+        .__bingo-badge{
+            top: -0.5em;
+        }
+    }
+}

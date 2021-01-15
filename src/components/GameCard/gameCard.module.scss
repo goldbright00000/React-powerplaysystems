@@ -59,7 +59,7 @@
     border-radius: 8px;
     margin: 0;
     border: none;
-    width: 220px;
+    // width: 220px;
 
     .__btn__ {
       display: flex;
@@ -67,6 +67,7 @@
       padding: 0;
       background: none;
       border: none;
+      margin: 0 5px;
 
       &:hover {
         cursor: pointer;
@@ -79,5 +80,11 @@
     position: absolute;
     align-self: center;
     transform: translate(25%, -25%);
+  }
+}
+
+.shadow {
+  &:hover {
+    box-shadow: 0px 0px 5px 0.5px $primary;
   }
 }

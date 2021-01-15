@@ -1,69 +1,55 @@
 @import '../../scss/colors.scss';
 
 .__BingoGameBall{
-    font-size: 20px;
-    width: 102px;
-    height: 102px;
-    display: flex;
-    place-items: center;
     border-radius: 8px;
-    position: relative;
-    align-items: center;
-    justify-content: center;
-    .__ball-number{
-        cursor: pointer;
-        position: relative;
-        z-index: 1;
-        color: #1e1e1e;
+    &::before{
+        content: '';
+        padding-top: 100%;
+        display: block;
     }
-    &::after, &::before{
+    &::after{
         content: '';
         position: absolute;
-        border-radius: 50%;
-    }
-    &::before{
         width: 70%;
         height: 70%;
         background-image: linear-gradient(to top, #ff8f37, #b24e00);
-    }
-    &::after{
-        width: 50%;
-        height: 50%;
-        background: #fff;
+        border-radius: 50%;
     }
     &.active{
-        >div{
-            color: inherit;
-        }
-        &::before{
+        &::after{
             background-image: linear-gradient(to top, #1bbc86, #006644);
         }
-        &::after{
-            content: initial;
+        .__ball-number{
+            background: transparent;
+            color: #fff;
         }
     }
-    .__ball-actions-wrapper{
-        top: 100%;
-        opacity: 0;
-        visibility: hidden;
-        transition: linear 0.15s all;
-        left: 1em;
-        .__triangle{
-            left: 1em;
+    .__ball-number{
+        cursor: pointer;
+        z-index: 1;
+        color: #1e1e1e;
+        width: 50%;
+        height: 50%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background-image: linear-gradient(to top, #ffffff, #dbdbdb);
+        &::after, &::before{
+            content: '';
+            position: absolute;
+            border-radius: 50%;
         }
-    }
-    &:hover .__ball-actions-wrapper{
-        opacity: 1;
-        display: initial;
-        visibility: visible;
-        z-index: 2;
+        
     }
     .__ball-actions{
         background: #3b3c3e;
         border: 2px solid;
         border-radius: 0.4em;
+        top: 100%;
         img{
             margin: 0.5em;
+            width: 2.4em;
         }
     }
     .__triangle{
@@ -71,29 +57,45 @@
         border-right: 9px solid transparent;
         border-left: 9px solid transparent;
         width: 10px;
-        top: -12px;
+        top: calc(100% - 10px);
+    }
+    .__triangle, .__ball-actions{
+        opacity: 0;
+        visibility: hidden;
+        transition: linear 0.15s all;
+        
+    }
+    &:hover {
+        .__triangle, .__ball-actions{
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
     }
 }
 
-.__game-wrapper{
-    .__BingoGameBall:nth-child(5n + 2),
-    .__BingoGameBall:nth-child(5n + 3){
-        .__ball-actions-wrapper{
-            left: -50%;
-            .__triangle{
-                left: 33.33%;
-            }
-        }
+.__BingoGameBall{
+    &:nth-child(5n + 1) .__ball-actions{
+        left: 20%;
     }
-    .__BingoGameBall:nth-child(5n + 4),
-    .__BingoGameBall:nth-child(5n + 5){
-        .__ball-actions-wrapper{
-            left: initial;
-            right: 0;
-            .__triangle{
-                left: initial;
-                right: 15%;
-            }
+    &:nth-child(5n + 2) .__ball-actions,
+    &:nth-child(5n + 3) .__ball-actions{
+        left: -40%;
+    }
+    &:nth-child(5n + 4) .__ball-actions{
+        right: -40%;
+    }
+    &:nth-child(5n + 5) .__ball-actions{
+        right: 20%;
+    }
+}
+
+@media (max-width: 350px){
+    .__BingoGameBall{
+        font-size: 13px !important;
+        .__ball-number{
+            width: 47%;
+            height: 47%;
         }
     }
 }

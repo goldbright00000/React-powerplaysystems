@@ -14,7 +14,7 @@ const HomePage = props => (
                 <div className='__h4 __mt-1 __viewport-subtitle __ml-a __mr-a __default-size-on-mediam'>
                     Experience our ground-breaking live-play games where you have the Power to control your destiny. *
                 </div>
-                <Link to='/' className='__btn __style-2 __primary-color __h5 __mb-3 __mt-2 __inline-block'>Power Up!</Link>
+                <Link to='/power-up' className='__btn __style-2 __primary-color __h5 __mb-3 __mt-2 __inline-block'>Power Up!</Link>
                 <div className='__ml-a __italic __right __mb-2 __internation-patent-pending'>*International Patent Pending</div>
             </div>
         </div>
@@ -38,7 +38,7 @@ const HomePage = props => (
                     </div>
                 </div>
                 <div className='__center __h5 __mt-2 __mb-3 __power-up-btn'>
-                    <Link to='/' className='__btn'>Power Up</Link>
+                    <Link to='/power-up' className='__btn'>Power Up</Link>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@ const HomePage = props => (
                     </div>
                 </div>
                 <div className='__center __h5 __mt-3 __mb-3 __power-up-btn'>
-                    <Link to='/' className='__btn'>Power Up</Link>
+                    <Link to='/power-up' className='__btn'>Power Up</Link>
                 </div>
             </div>
         </div>
@@ -88,7 +88,7 @@ const HomePage = props => (
                         </div>
                         <br className='__hide-on-small' />
                         <span className='__center-on-mediam __mt-4 __power-up-btn __block'>
-                            <Link to='/' className="__btn __h5 __power-up">Power up!</Link>
+                            <Link to='/power-up' className="__btn __h5 __power-up">Power up!</Link>
                         </span>
                     </div>
                 </div>
