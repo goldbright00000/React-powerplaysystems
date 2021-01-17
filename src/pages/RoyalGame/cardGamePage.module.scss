@@ -79,19 +79,10 @@
 
   .__card_game_content_cards {
     display: flex;
-    width: 825px;
+    width: 823px;
     flex-direction: row;
-    // justify-content: space-between;
-    // flex-wrap: wrap;
-  }
-
-  .__card_game_content_card {
-    margin: 0 50px 0 0;
-    position: relative;
-  }
-
-  .__card_game_content_cards_no_drag {
     justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .__card_game_content_body {

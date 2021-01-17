@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import { CONSTANTS } from './constants'
 
 export function redirectTo(props ,{path = '/', state = {} }) {
@@ -30,6 +30,14 @@ export function getRandomCard () {
 
 export function hasMaxAceCards(aceCards) {
     return aceCards === CONSTANTS.MAX_ACE_PER_CARD
+}
+
+export function getIndexOfArrayElement(value, list) {
+    return list?.findIndex(val => isEqual(val, value))
+}
+
+export function isPowerRoyalCard(suit, rank, powerCardsList) {
+    return powerCardsList?.filter(c => c?.rank === rank && c?.suit === suit)
 }
 
 export function hasPowerRoyalsCard(card, selectedSuit) {

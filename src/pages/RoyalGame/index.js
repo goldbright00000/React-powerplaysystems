@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
-import {flushList, hasPowerRoyalsCard, powerRoyalCards, redirectTo} from '../../utility/shared'
+import {flushList, getIndexOfArrayElement, hasPowerRoyalsCard, isPowerRoyalCard, powerRoyalCards, redirectTo} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -78,7 +78,7 @@ function PowerRoyalsGame(props) {
         return function clearnup() {
             return clearInterval(timeOut)
         }
-    }, [currentCard, currentRound])
+    }, [currentCard, currentRound, selectedRoundCard])
 
     const gameStart = () => {
         let timeOut = null
@@ -167,13 +167,13 @@ function PowerRoyalsGame(props) {
         if (isEmpty(selectedRoundCard) && _currentCard === 1) {
             setSelectedRoundCard(card)
         }
-
+        
         const alreadyExistsCard = cardsState?.collectedCards?.filter(c => c?.rank === card?.rank);
         if (alreadyExistsCard?.length > 2) {
             return updateCardState()
         }
         // cardsArr.push(card)
-        console.log(isEmpty(cardsArr[currentCard]))
+        
         if (!isEmpty(cardsArr[currentCard])) {
             //find and empty index and place the card at that index
             let emptyIndex = cardsArr?.findIndex((c) => Object.keys(c)?.length === 0)
@@ -181,6 +181,8 @@ function PowerRoyalsGame(props) {
         } else {
             cardsArr[currentCard] = card;
         }
+
+        onCardCompleted(card)
 
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
     }
@@ -245,9 +247,8 @@ function PowerRoyalsGame(props) {
             rank: _rank
         }
         cardsArr[cardIndex] = newCard
-        
+        // otherPowerCardMatch(newCard, cardIndex)
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
-
         updateInventory(_increaseOrDecrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
     }
 
@@ -271,6 +272,7 @@ function PowerRoyalsGame(props) {
             rank: _rank
         }
         cardsArr[cardIndex] = newCard
+        // otherPowerCardMatch(newCard, cardIndex)
         
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
 
@@ -287,15 +289,9 @@ function PowerRoyalsGame(props) {
         
         const powerRyalCards = powerRoyalCards(selectedRoundCard?.suit)
         
-        let unAvailableCards = differenceWith(powerRyalCards, cardsArr, isEqual)
-        const { rank = 0 } = unAvailableCards[0] || {}
-        const newPowerCard = {
-            suit: selectedRoundCard?.suit,
-            rank: rank
-        }
+        cardsArr[cardIndex] = powerRyalCards[cardIndex]
         
-        cardsArr[cardIndex] = newPowerCard;
-        setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newPowerCard })
+        setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: powerRyalCards[cardIndex] })
         updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
     }
 
@@ -311,30 +307,79 @@ function PowerRoyalsGame(props) {
         if (isEqual(newCard, card)) {
             newCard = getRandomCard();
         }
-        cardsArr[cardIndex] = newCard;
+        // otherPowerCardMatch(newCard, cardIndex)
+
+        cardsArr[cardIndex] = newCard
+
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newCard })
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
     }
 
-    const onDragEnd = (result) => {
-        if (!result.destination) return;
+    const onCardCompleted = (card) => {
+        const { rank = 0, suit = 0 } = card || {}
+        const powerCardsList = powerRoyalCards(selectedRoundCard ? selectedRoundCard?.suit : suit);
 
-        const {
-            source: { index: sourceIndex = 0 } = {},
-            destination: { index: destinationIndex = 0 } = {} } = result || {}
-        
-        if(sourceIndex === destinationIndex) return
+        const [foundCard] = isPowerRoyalCard(suit, rank, powerCardsList);
 
-        const [reOrderItems] = cardsArr.splice(sourceIndex, 1);
-        cardsArr.splice(destinationIndex, 0, reOrderItems)
-        if (
-            isEqual(powerRoyalCards(selectedRoundCard?.suit)[destinationIndex], cardsArr[sourceIndex])
-            ) {
-                console.log('Card has been collected')
-            }
-        
-        
-        setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: reOrderItems })
+        if (!foundCard) return;
+
+        setMatchCard(foundCard, currentCard, powerCardsList)
+    }
+
+    const otherPowerCardMatch = (card, cardIndex) => {
+        const powerCardsList = powerRoyalCards(selectedRoundCard ? selectedRoundCard?.suit : card?.suit);
+        const [foundCard] = isPowerRoyalCard(card?.suit, card?.rank, powerCardsList);
+
+        if (foundCard) {
+            setMatchCard(foundCard, cardIndex, powerCardsList)
+        } else {
+            cardsArr[cardIndex] = card;
+        }
+    }
+
+    const setMatchCard = (card, index, list) => {
+        let indexOfCard = getIndexOfArrayElement(card, list)
+        cardsArr[index] = cardsArr[indexOfCard]
+        cardsArr[indexOfCard] = card
+    }
+    
+    const isCompleted = (index) => isEqual(powerRoyalCards(selectedRoundCard?.suit)[index], cardsState?.collectedCards?.[index])
+
+    const getTargetSuit = () => {
+        switch (selectedRoundCard?.suit) {
+            case CONSTANTS.CARD_SUITS.CLUB: 
+                return 'CLUBS'
+            
+            case CONSTANTS.CARD_SUITS.DIAMOND:
+                return 'DIAMONDS'
+            
+            case CONSTANTS.CARD_SUITS.HEART:
+                return 'HEARTS'
+            
+            case CONSTANTS.CARD_SUITS.SPADE:
+                return 'SPADES'
+        }
+    }
+
+    const text = (value) => (`Try for a ${value} card here`)
+
+    const renderCardText = (index) => {
+        switch (index) {
+            case 0: 
+                return text(10)
+            
+            case 1:
+                return text('Jack')
+            
+            case 2:
+                return text('Queen')
+            
+            case 3:
+                return text('King')
+            
+            case 4:
+                return 'Try for an Ace card here'
+        }
     }
 
     return (
@@ -369,88 +414,54 @@ function PowerRoyalsGame(props) {
 
                     <div className={classes.__card_game_content_body}>
                         <Card>
-                            <DragDropContext onDragEnd={onDragEnd} dragHandleUsageInstructions="Drag and Drop">
-                                <Droppable
-                                    droppableId="power_royals_card_droppable_id"
-                                    direction="horizontal"
-                                    mode="standard"
-                                >
-                                    {
-                                        (provided) => (
-                                            <div
-                                                className={`${classes.__card_game_content_cards} power_royals_card_droppable_id`}
-                                                ref={provided?.innerRef}
-                                                {...provided?.droppableProps}
-                                            >
-                                                {
-                                                    cardsState?.collectedCards?.map((c, index) => (
-                                                        <Draggable draggableId={`d${index}`} index={index} shouldRespectForcePress>
-                                                            {
-                                                                (p) => (
-                                                                    <div ref={p.innerRef} {...p.draggableProps} {...p.dragHandleProps}
-                                                                        className={classes.__card_game_content_card}>
-                                                                        {isEmpty(c) ?
-                                                                            <GameCard isSelected={false} />
-                                                                            :
-                                                                            <GameCard
-                                                                                showCardPopup={!isReplaceAll && true}
-                                                                                isCompleted={isEqual(powerRoyalCards(selectedRoundCard?.suit)[index], cardsState?.collectedCards?.[index])}
-                                                                                card={cardsState?.collectedCards?.[index]}
-                                                                                isSelected={cardsState?.collectedCards?.[index] && true}
-                                                                                activeCard={cardsState?.activeCard}
-                                                                                time={time}
-                                                                                inventory={inventory}
-                                                                                showIncrementOrDecrementPower={increaseOrDecrease > 0}
-                                                                                showPowerMatchPower={powerMatch > 0}
-                                                                                showReplacePower={replace > 0}
-                                                                                onDecrease={() => onDecrease(cardsState?.collectedCards?.[index], index)}
-                                                                                onReplace={() => onReplace(cardsState?.collectedCards?.[index], index)}
-                                                                                onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[index], index)}
-                                                                                onIncrease={() => onIncrease(cardsState?.collectedCards?.[index], index)}
-                                                                            />
-                                                                        }
-                                                                </div>
-                                                                )
-                                                            }
-                                                        </Draggable>
-                                                    ))
-                                                }
-                                            </div>    
-                                        )
-                                    }
-                            {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
-                                disabled={!showResetTimer}
-                            >
-                                {
-                                    showResetTimer &&
-                                    <span style={{ position: 'absolute', top: '-15px', left: '50%', color: '#fff', transform: 'translateX(-50%)' }}>{ resetBtnCountDown }</span>
-
-                                }
-                                <Reload size={48} className={classes.__reload_svg_icon}/>
-                            </button> */}
-                                </Droppable>
-                            </DragDropContext>
+                            <div className={`${classes.__card_game_content_cards}`}>
+                                {cardsState?.collectedCards?.map((c, index) => (
+                                    isEmpty(c) ?
+                                        <GameCard key={index + ''}
+                                            isCompleted={false}
+                                            showCardPopu={false}
+                                            isSelected={false}
+                                            activeCard={null}
+                                            showCardPopup={false}
+                                            time={0}
+                                            text={renderCardText(index)}
+                                            showIncrementOrDecrementPower={false}
+                                            showPowerMatchPower={false}
+                                            showReplacePower={false}
+                                            onDecrease={() => { }}
+                                            onReplace={() => { }}
+                                            onPowerMatch={() => { }}
+                                            onIncrease={() => { }}
+                                        />
+                                        :
+                                        <GameCard
+                                            key={index + ''}
+                                            showCardPopup={!isReplaceAll && true}
+                                            isCompleted={isCompleted(index)}
+                                            card={cardsState?.collectedCards?.[index]}
+                                            isSelected={cardsState?.collectedCards?.[index] && true}
+                                            activeCard={cardsState?.activeCard}
+                                            time={time}
+                                            inventory={inventory}
+                                            showIncrementOrDecrementPower={increaseOrDecrease > 0}
+                                            showPowerMatchPower={powerMatch > 0}
+                                            showReplacePower={replace > 0}
+                                            onDecrease={() => onDecrease(cardsState?.collectedCards?.[index], index)}
+                                            onReplace={() => onReplace(cardsState?.collectedCards?.[index], index)}
+                                            onPowerMatch={() => onPowerMatch(cardsState?.collectedCards?.[index], index)}
+                                            onIncrease={() => onIncrease(cardsState?.collectedCards?.[index], index)}
+                                        /> 
+                                    ))}
+                            </div> 
                         </Card>
-                    </div>
-
-                    {/* <div className={classes.__card_game_content_footer}>
                         {
-                            getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
+                            selectedRoundCard &&
                                 <>
-                                    <Alert success renderMsg={() => (<p>Congratulations on <strong>{ getAceCards() || 0 }</strong> Aces!</p>)} />
-                                    <button className={`__btn ${classes.__card_game_footer_btn}`}
-                                        onClick={() => _redirectTo('/chase-a-card')}>
-                                        Chase The Ace!
-                                    </button>
+                                    <br />
+                                    <Alert renderMsg={() => <p>Your target suit is <strong>{ getTargetSuit() }</strong></p>} primary />
                                 </>
-                                :
-                                currentRound === TOTAL_ROUNDS && time <= 0 && cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
-                                    ?
-                                    <Alert danger renderMsg={() => (<p>Sorry, you did not get 5 Aces. The next draw will be tomorrow at 8:00PM</p>)} />
-                                    :
-                                    <Alert primary renderMsg={() => (<p>Round { currentRound } in Progress: Aces = <strong>{getAceCards() || 0}</strong></p>)} />
                         }
-                    </div> */}
+                    </div>
                 </div>
 
                 <Sidebar>

@@ -19,6 +19,7 @@ function GameCard(props) {
         showCardPopup = false,
         isCompleted = false,
         image = '',
+        text = '',
         styles = {},
         card = {},
         inventory: { replace = 0, powerMatch = 0, increaseOrDecrease = 0 } = {},
@@ -82,7 +83,12 @@ function GameCard(props) {
                     </div>
                     :
                     <div className={classes.__game_card_container}>
-                        <span>?</span>
+                            {
+                                text ?
+                                <strong>{ text }</strong>
+                                    :
+                                <span>?</span>
+                            }
                     </div>
             }
             {
@@ -145,6 +151,7 @@ GameCard.propTypes = {
     showCardPopup: PropTypes.bool,
     isCompleted: PropTypes.bool,
     image: PropTypes.string,
+    text: PropTypes.string,
     styles: PropTypes.object,
     onClick: PropTypes.func,
     card: PropTypes.object,
