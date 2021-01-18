@@ -42,7 +42,6 @@ let _currentCard = 0;
 const cardsArr = [{}, {}, {}, {}, {}]
 let time = MAX_ROUND_TIME;
 let resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN;
-let hasRoundCompleted = false
 
 function PowerRoyalsGame(props) {
     const [cardsState, setCardsState] = useState(INITIAL_STATE)
@@ -54,6 +53,8 @@ function PowerRoyalsGame(props) {
     const [isReplaceAll, setIsReplaceAllState] = useState(false)
     const [selectedRoundCard, setSelectedRoundCard] = useState()
     const [isDroppable, setIsDroppable] = useState(false)
+    const [isRoundCompleted, setIsRounCompleted] = useState(false)
+    const [isGameCompleted, setGameCompleted] = useState(false)
 
     const dispatch = useDispatch();
     const { collectedCards = [],
@@ -78,7 +79,7 @@ function PowerRoyalsGame(props) {
         return function clearnup() {
             return clearInterval(timeOut)
         }
-    }, [currentCard, currentRound, selectedRoundCard])
+    }, [currentCard, currentRound, selectedRoundCard, isRoundCompleted])
 
     const gameStart = () => {
         let timeOut = null
@@ -88,6 +89,7 @@ function PowerRoyalsGame(props) {
             else
                 time = REPLACE_ALL_SPEED_TIME
             setResetTimerState(false)
+            hasRoundCompleted()
             timeOut = setInterval(() => {
                 if (time !== 0) {
                     time--;
@@ -109,7 +111,7 @@ function PowerRoyalsGame(props) {
                     if (currentCard >= TOTAL_CARDS) setIsReplaceAllState(false)
                 }
             }, 1000)
-        } else if (hasRoundCompleted) {
+        } else if (isRoundCompleted) {
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
                 setIsReplaceAllState(false)
@@ -144,7 +146,7 @@ function PowerRoyalsGame(props) {
     }
 
     const resetGameState = () => {
-        for (let i = 0; i < cardsArr?.length - 1; i++) {
+        for (let i = 0; i < 5; i++) {
             cardsArr[i] = {}
         }
 
@@ -168,8 +170,8 @@ function PowerRoyalsGame(props) {
             setSelectedRoundCard(card)
         }
         
-        const alreadyExistsCard = cardsState?.collectedCards?.filter(c => c?.rank === card?.rank);
-        if (alreadyExistsCard?.length > 2) {
+        
+        if (hasCardAlreadyExistInArray(card)) {
             return updateCardState()
         }
         // cardsArr.push(card)
@@ -246,10 +248,14 @@ function PowerRoyalsGame(props) {
             suit: suit,
             rank: _rank
         }
+        if (hasCardAlreadyExistInArray(newCard) && CONSTANTS.CARD_RANKS[_rank] !== "A") {
+            newCard.rank = newCard?.rank + 1;
+        }
         cardsArr[cardIndex] = newCard
         // otherPowerCardMatch(newCard, cardIndex)
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
         updateInventory(_increaseOrDecrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
+        hasRoundCompleted()
     }
 
     const onDecrease = (card, cardIndex) => {
@@ -271,12 +277,15 @@ function PowerRoyalsGame(props) {
             suit: suit,
             rank: _rank
         }
+        if (hasCardAlreadyExistInArray(newCard) && CONSTANTS.CARD_RANKS[_rank] !== "2") {
+            newCard.rank = newCard?.rank - 1;
+        }
         cardsArr[cardIndex] = newCard
         // otherPowerCardMatch(newCard, cardIndex)
         
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
-
         updateInventory(_increaseOrDecrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
+        hasRoundCompleted()
     }
 
     const onPowerMatch = (card, cardIndex) => {
@@ -293,6 +302,7 @@ function PowerRoyalsGame(props) {
         
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: powerRyalCards[cardIndex] })
         updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
+        hasRoundCompleted()
     }
 
     const onReplace = (card, cardIndex) => {
@@ -304,15 +314,17 @@ function PowerRoyalsGame(props) {
         _replace -= 1
 
         let newCard = getRandomCard();
-        if (isEqual(newCard, card)) {
+        if (isEqual(newCard, card) || hasCardAlreadyExistInArray(newCard)) {
             newCard = getRandomCard();
         }
-        // otherPowerCardMatch(newCard, cardIndex)
-
-        cardsArr[cardIndex] = newCard
+        otherPowerCardMatch(newCard, cardIndex)
+        if (currentRound === 1 && card === cardsState?.activeCard) {
+            setSelectedRoundCard(newCard)
+        }
 
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newCard })
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
+        hasRoundCompleted()
     }
 
     const onCardCompleted = (card) => {
@@ -342,6 +354,11 @@ function PowerRoyalsGame(props) {
         cardsArr[index] = cardsArr[indexOfCard]
         cardsArr[indexOfCard] = card
     }
+
+    const hasCardAlreadyExistInArray = (card) => {
+        const [alreadyExistsCard] = cardsArr?.filter(c => c?.rank === card?.rank && c?.suit === card?.suit);
+        return alreadyExistsCard;
+    }
     
     const isCompleted = (index) => isEqual(powerRoyalCards(selectedRoundCard?.suit)[index], cardsState?.collectedCards?.[index])
 
@@ -359,6 +376,22 @@ function PowerRoyalsGame(props) {
             case CONSTANTS.CARD_SUITS.SPADE:
                 return 'SPADES'
         }
+    }
+
+    const hasRoundCompleted = () => {
+        if (currentRound === 1 && isEqual(cardsArr, powerRoyalCards(selectedRoundCard?.suit))) {
+            setTimeout(() => { 
+                resetGameState()
+                setCurrentRound(2)
+            }, 3000)
+            
+            return setIsRounCompleted(true)
+        } else if (currentRound === 2 && isEqual(cardsArr, powerRoyalCards(selectedRoundCard?.suit))) {
+            return setGameCompleted(true)
+        }
+
+        setGameCompleted(false)
+        return setIsRounCompleted(false)
     }
 
     const text = (value) => (`Try for a ${value} card here`)
@@ -455,10 +488,26 @@ function PowerRoyalsGame(props) {
                             </div> 
                         </Card>
                         {
-                            selectedRoundCard &&
+                            selectedRoundCard && !isRoundCompleted &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => <p>Your target suit is <strong>{ getTargetSuit() }</strong></p>} primary />
+                                </>
+                        }
+
+                        {
+                            isRoundCompleted &&
+                                <>
+                                    <br />
+                                    <Alert renderMsg={() => <p>First Round has been completed!</p>} success />
+                                </>
+                        }
+
+                        {
+                            isGameCompleted &&
+                                <>
+                                    <br />
+                                    <Alert renderMsg={() => <p>You won the game!</p>} success />
                                 </>
                         }
                     </div>
@@ -501,14 +550,6 @@ function PowerRoyalsGame(props) {
                             success={increaseOrDecrease > 0 ? true : false}
                             primary={increaseOrDecrease <= 0 ? true : false}
                             title="Power Up/Down"
-                            toolText={`${increaseOrDecrease} left`}
-                            icon={<PlusMinus style={{height: 'auto'}}/>}
-                        />
-
-                        <SidebarButton
-                            success={increaseOrDecrease > 0 ? true : false}
-                            primary={increaseOrDecrease <= 0 ? true : false}
-                            title="Power Move"
                             toolText={`${increaseOrDecrease} left`}
                             icon={<PlusMinus style={{height: 'auto'}}/>}
                         />
