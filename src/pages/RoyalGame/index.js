@@ -317,10 +317,12 @@ function PowerRoyalsGame(props) {
         if (isEqual(newCard, card) || hasCardAlreadyExistInArray(newCard)) {
             newCard = getRandomCard();
         }
-        otherPowerCardMatch(newCard, cardIndex)
-        if (currentRound === 1 && card === cardsState?.activeCard) {
+
+        if (currentCard === 1 && card === cardsState?.activeCard) {
             setSelectedRoundCard(newCard)
         }
+        otherPowerCardMatch(newCard, cardIndex)
+        
 
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newCard })
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
@@ -499,7 +501,7 @@ function PowerRoyalsGame(props) {
                             isRoundCompleted &&
                                 <>
                                     <br />
-                                    <Alert renderMsg={() => <p>First Round has been completed!</p>} success />
+                                    <Alert renderMsg={() => <p>Royal Flush! moving on to Round 2.</p>} success />
                                 </>
                         }
 
