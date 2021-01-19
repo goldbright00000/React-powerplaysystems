@@ -498,6 +498,12 @@ function CardGame(props) {
 
                     <div className={classes.__card_game_content_footer}>
                         {
+                            currentCard === 0 && time > 0 &&
+                                <>
+                                    <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
+                                </>
+                        }
+                        {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
                                 <>
                                     <Alert success renderMsg={() => (<p>Congratulations on <strong>{ getAceCards() || 0 }</strong> Aces!</p>)} />

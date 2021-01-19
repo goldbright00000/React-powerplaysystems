@@ -67,7 +67,7 @@ export function flushList(list = []) {
     }
 }
 
-export function powerRoyalCards(suit) {
+export function royalFlush(suit) {
     return [
         {
             suit: suit,
