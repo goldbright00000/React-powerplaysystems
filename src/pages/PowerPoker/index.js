@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
-import {redirectTo, getRandomCard, royalFlush} from '../../utility/shared'
+import {redirectTo, getRandomCard, royalFlush, getCardsRankPairs} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -173,25 +173,60 @@ function PowerRoyalsGame(props) {
     }
 
     const challengeCompleted = (card) => {
-        if (isFlush(card)) {
-            //fluch completed
-        } else if (isRoyalFlush()) {
+        //Note: This poker hand is from Highiest to lowest, and the sequence must be below sequence
+
+        console.log(_currentCard, cardsArr?.length)
+        if (_currentCard !== cardsArr?.length) { return }
+
+        if (isRoyalFlush()) {
             //Royal flush completed
-        } else if (isStraight()) {
+            console.log('royal flush completed')
+            return
+        }
+        else if (hasStraightFlushSameSuit()) {
             //Straight Completed
-        } else if (isThreeOfAKind(card)) {
-            //three of a kind compeleted
-        } else if (isPair(card)) {
-            //Pair completed
-        } else if (isHighiest(card)) {
-            //Highiest completed
-        } else if (isFullHouse(card)) {
+            console.log('straight flush sam suit completed')
+            return
+        }
+        else if (hasFoureOfAKindFlush()) {
+            //4 of a kind completed
+            console.log('foure of a kind completed')
+            return
+        }
+        else if (hasFullHouseFlush()) {
             //Full House Completed
-        } else if (isAnyOfAKind(card)) {
-            //Any of a kind completed
-        } else if (isTwoPair()) {
-            //Two Pair
-            console.log('pair: ',isTwoPair())
+            console.log('full house completed')
+            return
+        }
+        else if (hasFlush(card)) {
+            //fluch completed
+            console.log('flush completed')
+            return
+        }
+        else if (hasStraightFlushDiffSuit()) {
+            //straight flush diff suit completed
+            console.log('straight flush diff suit completed')
+            return
+        }
+        else if (hasThreeOfAKindFlush()) {
+            //three of a kind compeleted
+            console.log('three of any kind completed')
+            return
+        }
+        else if (hasTwoPairFlush()) {
+            //two pair compeleted
+            console.log('two pair flush completed')
+            return
+        }
+        else if (hasPairFlush()) {
+            //Pair completed
+            console.log('pair completed')
+            return
+        }
+        else if (hasHighiestFlush()) {
+            //Highiest completed
+            console.log('highiest card completed')
+            return
         }
     }
 
@@ -315,15 +350,6 @@ function PowerRoyalsGame(props) {
         return setGameCompleted(false)
     }
 
-    const hasCardAlreadyExistInArray = (card) => {
-        const alreadyExistsCard = cardsArr?.filter(c => c?.rank === card?.rank);
-        if (alreadyExistsCard?.length > 2) {
-            return true
-        }
-
-        return false
-    }
-
     const isRoyalFlush = () => {
         //A, K, Q, J, 10, all the same suit.
         const _royalFlush = royalFlush(selectedRoundCard ? selectedRoundCard?.suit : cardsArr[0]?.suit)
@@ -333,21 +359,29 @@ function PowerRoyalsGame(props) {
         return false
     }
 
-    const isStraightFlush = () => {
+    const hasStraightFlushDiffSuit = () => {
         //Five cards in a sequence, but not of the same suit.
+        let hasFlush = cardsArr?.every((c, i, ar) => {
+            return !i || ar[i - 1]?.rank > c?.rank
+        })
+
+        return hasFlush
     }
 
-    const isFullHouse = (card) => {
+    const hasFullHouseFlush = () => {
         //Three of a kind with a pair.
-        const cards = cardsArr?.filter(c => c?.rank === card?.rank);
-        if (cards?.length === 3) {
-            return true
-        }
+        let hasFlush = false;
+        const threeOfAKind = getCardsRankPairs(cardsArr)
+        Object.entries(threeOfAKind).forEach(([key, val]) => {
+            if (val % 2 === 0 && val % 3 === 0) {
+                hasFlush = true
+            }
+        })
 
-        return false
+        return hasFlush
     }
 
-    const isFlush = (card) => {
+    const hasFlush = (card) => {
         //Any five cards of the same suit, but not in a sequence.
         const cards = cardsArr?.filter(c => c?.suit === card?.suit);
         if (cards?.length === 5) {
@@ -357,64 +391,76 @@ function PowerRoyalsGame(props) {
         return false;
     }
 
-    const isStraight = () => {
+    const hasStraightFlushSameSuit = () => {
         //Five cards in a sequence, all in the same suit.
-    }
-
-    const isThreeOfAKind = (card) => {
-        //Three cards of the same rank.
-    }
-
-    const isTwoPair = () => {
-        const reduce = cardsArr?.reduce((preVal, currentVal) => {
-            // console.log(preVal, currentVal)
-            if (preVal !== undefined) {
-                preVal[currentVal?.rank] = (preVal[currentVal?.rank] || 0) + 1
-                return preVal
-            }
-        }, {})
-
-        console.log(reduce)
-
-        // Object.entries(reduce).forEach((val) => {
-        //     console.log(val)
-            // if (val % 2 === 0) {
-            //     // console.log('Mod')
-            //     twoPairCount++;
-            // }
-        // })
-        return true
-    }
-
-    const isPair = (card) => {
-        //Two cards of the same rank.
-        const cardPair = cardsArr?.filter(c => c?.rank === card?.rank);
-        if (cardPair?.length === 2) {
-            return true
+        const flushCards = cardsArr?.filter(c => c?.suit === selectedRoundCard?.suit)
+        let hasFlush = false;
+        if (flushCards?.length >= 5) {
+            //all same suit cards
+            hasFlush = cardsArr?.every((c, i, ar) => {
+                return !i || ar[i - 1]?.rank > c?.rank
+            })
         }
 
-        return false
+        return hasFlush
     }
 
-    const isHighiest = (card) => {
+    const hasThreeOfAKindFlush = () => {
+        //Three cards of the same rank.
+        let hasFlush = false;
+        const counts = getCardsRankPairs(cardsArr)
+        Object.entries(counts).forEach(([key, val]) => {
+            if (val % 3 === 0) {
+                hasFlush = true
+            }
+        })
+
+        return hasFlush
+    }
+
+    const hasTwoPairFlush = () => {
+        //two pairs
+        let pairsCount = 0;
+        const counts = getCardsRankPairs(cardsArr)
+        Object.entries(counts).forEach(([key, val]) => {
+            if (val % 2 === 0) {
+                pairsCount ++
+            }
+        })
+
+        return pairsCount === 2 ? true : false
+    }
+
+    const hasPairFlush = () => {
+        //Two cards of the same rank.
+        let hasFlush = false
+        const counts = getCardsRankPairs(cardsArr)
+        Object.entries(counts).forEach(([key, val]) => {
+            if (val % 2 === 0) {
+                hasFlush = true
+            }
+        })
+
+        return hasFlush
+    }
+
+    const hasHighiestFlush = () => {
         const highiestValue = Math.max.apply(Math, cardsArr?.map(card => card?.rank));
 
-        return highiestValue;
+        return highiestValue ? true : false;
     }
 
-    const isAnyOfAKind = (card) => {
-        const cards = cardsArr?.filter(c => c?.rank === card?.rank)
-        switch (cards?.length) {
-            case 3:
-                //Three cards of the same rank.
-                return true
-            
-            case 4:
-                //All four cards of the same rank.
-                return true
-        }
+    const hasFoureOfAKindFlush = () => {
+        //foure cards of same rank
+        let hasFlush = false
+        const counts = getCardsRankPairs(cardsArr)
+        Object.entries(counts).forEach(([key, val]) => {
+            if(val % 4 === 0) {
+                hasFlush = true
+            }
+        })
 
-        return false
+        return hasFlush
     }
 
     return (
@@ -490,7 +536,7 @@ function PowerRoyalsGame(props) {
                         </Card>
 
                         {
-                            currentCard === 0 && time > 0 &&
+                            currentRound === 1 && currentCard === 0 && time > 0 &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />

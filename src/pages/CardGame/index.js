@@ -498,7 +498,7 @@ function CardGame(props) {
 
                     <div className={classes.__card_game_content_footer}>
                         {
-                            currentCard === 0 && time > 0 &&
+                            currentRound === 1 && currentCard === 0 && time > 0 &&
                                 <>
                                     <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
                                 </>

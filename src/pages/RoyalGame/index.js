@@ -490,7 +490,7 @@ function PowerRoyalsGame(props) {
                             </div> 
                         </Card>
                         {
-                            currentCard === 0 && time > 0 &&
+                            currentRound === 1 && currentCard === 0 && time > 0 &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />

@@ -91,3 +91,17 @@ export function royalFlush(suit) {
         },
     ]
 }
+
+export function getCardsRankPairs(cardsArr) {
+    const counts = {}
+
+    const pairs = cardsArr?.map((card) => {
+        return card?.rank
+    })
+
+    pairs.forEach((val) => {
+        counts[val] = (counts[val] || 0) + 1
+    })
+    
+    return counts;
+}
