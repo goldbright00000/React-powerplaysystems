@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {getRandomCard, getCardsRankPairs} from '../../utility/shared'
+import {getRandomCard, getCardsRankPairs, royalFlush} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -22,7 +22,7 @@ import {
     resetPowerPokersCardState,
     powerPokersGameInventory
 } from '../../actions/powerPokerActions'
-import { isEmpty } from 'lodash'
+import { isEmpty, isEqual } from 'lodash'
 import classes from './pokerHands.module.scss'
 
 const INITIAL_STATE = {
@@ -182,7 +182,13 @@ function PowerRoyalsGame(props) {
         
         if (_currentCard !== cardsArr?.length) { return null }
 
-        if (hasStraightFlushSameSuit()) {
+        if (hasRoyalFlush()) {
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Royal Flush! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+        }
+        else if (hasStraightFlushSameSuit()) {
             //Straight Completed
             setIsCurrentRoundFailed(false)
             setCompletedChallengeText(<p>Straight Flush! challenge completed</p>)
@@ -475,16 +481,25 @@ function PowerRoyalsGame(props) {
         return hasFlush
     }
 
+    const hasRoyalFlush = () => {
+        //A, K, Q, J, 10, all the same suit.
+        const _royalFlush = royalFlush(selectedRoundCard ? selectedRoundCard?.suit : cardsArr[0]?.suit)
+        if (isEqual(cardsArr, _royalFlush)) {
+            return true;
+        }
+        return false
+    }
+
     return (
         <>
             <Header/>
             <div className={classes.__card_game_content}>
                 <div className={classes.__card_game_content_left}>
-                    <PageHeader title="Power Royals" seconds={6}/>
+                    <PageHeader title="Power Poker" seconds={6}/>
                     <div className={classes._card_game_content_top}>
                         <div className={classes._card_game_content_header_text}>
                             <p>
-                                Welcome to <span>Power Poker!</span> If you can get a red card royal flush followed by a black card royal flush, you win!
+                                Welcome to <span>Power Poker!</span> Use Powers to make winning hands! Can you get a Royal Flush? You have the Power!
                             </p>
                         </div>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
@@ -587,25 +602,7 @@ function PowerRoyalsGame(props) {
                             icon={<Replace style={{ height: 'auto' }} />}
                         />
 
-                        <SidebarButton
-                            success={newHands > 0 ? true : false}
-                            primary={newHands <= 0 ? true : false}
-                            title="Power Hand"
-                            toolText={`${newHands} left`}
-                            icon={<div
-                                className={classes.__sidebar_reload_btn}>
-                                <Reload bgColor={"#0ff"} style={{height: 'auto'}}/>
-                            </div>}
-                        />
-
-                        <SidebarButton
-                            success={powerMatch > 0 ? true : false}
-                            primary={powerMatch <= 0 ? true : false}
-                            title="Power Match"
-                            toolText={`${powerMatch} left`}
-                            icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
-                        />
-
+                        
                         <SidebarButton
                             success={increaseOrDecrease > 0 ? true : false}
                             primary={increaseOrDecrease <= 0 ? true : false}
