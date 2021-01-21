@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 
-import {redirectTo, getRandomCard, royalFlush, getCardsRankPairs} from '../../utility/shared'
+import {getRandomCard, getCardsRankPairs} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -23,7 +22,7 @@ import {
     resetPowerPokersCardState,
     powerPokersGameInventory
 } from '../../actions/powerPokerActions'
-import { isEmpty, isEqual } from 'lodash'
+import { isEmpty } from 'lodash'
 import classes from './pokerHands.module.scss'
 
 const INITIAL_STATE = {
@@ -40,11 +39,11 @@ let _currentCard = 0;
 const cardsArr = [{}, {}, {}, {}, {}]
 let time = MAX_ROUND_TIME;
 let resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN;
-let twoPairCount = 0;
 
 function PowerRoyalsGame(props) {
     const [cardsState, setCardsState] = useState(INITIAL_STATE)
     const [count, setCount] = useState(MAX_ROUND_TIME)
+    const [completedChallengeText, setCompletedChallengeText] = useState()
     const [currentRound, setCurrentRound] = useState(_round)
     const [currentCard, setCurrentCard] = useState(_currentCard)
     const [resetBtnCountDown, setResetBtnCountDown] = useState(MAX_RESET_BTN_COUNT_DOWN)
@@ -52,6 +51,7 @@ function PowerRoyalsGame(props) {
     const [isReplaceAll, setIsReplaceAllState] = useState(false)
     const [isGameCompleted, setGameCompleted] = useState(false)
     const [selectedRoundCard, setSelectedRoundCard] = useState()
+    const [isCurrentFailed, setIsCurrentRoundFailed] = useState(false)
 
     const dispatch = useDispatch();
     const {inventory = {}} = useSelector(state => state.powerPoker)
@@ -70,11 +70,13 @@ function PowerRoyalsGame(props) {
 
     useEffect(() => {
         let timeOut = gameStart();
+
+        if(isGameCompleted) clearInterval(timeOut)
         
         return function cleanup() {
-            return clearInterval(timeOut)
+            return clearInterval(timeOut && timeOut)
         }
-    }, [currentCard, currentRound])
+    }, [currentCard, currentRound, completedChallengeText, isCurrentFailed])
 
     const gameStart = () => {
         let timeOut = null
@@ -143,8 +145,9 @@ function PowerRoyalsGame(props) {
 
         resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
         _currentCard = 0;
-        twoPairCount = 0;
         setCardsState(INITIAL_STATE)
+        setCompletedChallengeText(null)
+        setIsCurrentRoundFailed(false)
         setCurrentCard(_currentCard)
         setCount(MAX_ROUND_TIME)
         setResetBtnCountDown(MAX_RESET_BTN_COUNT_DOWN)
@@ -162,72 +165,84 @@ function PowerRoyalsGame(props) {
 
         cardsArr[currentCard] = card
 
-        challengeCompleted(card)
+        if (hasCardAlreadyExists(card)?.length > 1) {
+            return updateCardState()
+        }
+
+        challengeCompleted()
 
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: card })
-        gameCompleted(card)
     }
 
-    const _redirectTo = (path = '/') => {
-        redirectTo(props, {path})
-    }
+    //if the card of same rank and suit is already exists then get any other random card
+    const hasCardAlreadyExists = (card) => cardsArr?.filter(c => c?.rank === card?.rank && c?.suit === card?.suit);
 
-    const challengeCompleted = (card) => {
+    const challengeCompleted = () => {
         //Note: This poker hand is from Highiest to lowest, and the sequence must be below sequence
+        
+        if (_currentCard !== cardsArr?.length) { return null }
 
-        console.log(_currentCard, cardsArr?.length)
-        if (_currentCard !== cardsArr?.length) { return }
-
-        if (isRoyalFlush()) {
-            //Royal flush completed
-            console.log('royal flush completed')
-            return
-        }
-        else if (hasStraightFlushSameSuit()) {
+        if (hasStraightFlushSameSuit()) {
             //Straight Completed
-            console.log('straight flush sam suit completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Straight Flush! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
         else if (hasFoureOfAKindFlush()) {
             //4 of a kind completed
-            console.log('foure of a kind completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Four Of A Kind! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
         else if (hasFullHouseFlush()) {
             //Full House Completed
-            console.log('full house completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Full House! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
-        else if (hasFlush(card)) {
+        else if (hasFlush()) {
             //fluch completed
-            console.log('flush completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Flush! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
         else if (hasStraightFlushDiffSuit()) {
             //straight flush diff suit completed
-            console.log('straight flush diff suit completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Straight! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
         else if (hasThreeOfAKindFlush()) {
             //three of a kind compeleted
-            console.log('three of any kind completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Three Of A Kind! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
         else if (hasTwoPairFlush()) {
             //two pair compeleted
-            console.log('two pair flush completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>Two Pair! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
         else if (hasPairFlush()) {
             //Pair completed
-            console.log('pair completed')
-            return
+            setIsCurrentRoundFailed(false)
+            setCompletedChallengeText(<p>1 Pair! challenge completed</p>)
+
+            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
         }
-        else if (hasHighiestFlush()) {
-            //Highiest completed
-            console.log('highiest card completed')
-            return
-        }
+
+        setIsCurrentRoundFailed(true)
+        setCompletedChallengeText(<p>Sorry, you did not win on this hand.</p>)
+
+        return setGameCompleted(false)
     }
 
     const updateInventory = (inventoryValue, actionType) => {
@@ -287,11 +302,15 @@ function PowerRoyalsGame(props) {
         }
         cardsArr[cardIndex] = newCard
 
-        challengeCompleted(newCard)
+        if (hasCardAlreadyExists(newCard)?.length > 1) {
+            newCard.rank += 1;
+            cardsArr[cardIndex] = newCard
+        }
+
+        challengeCompleted()
         
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
         updateInventory(_increaseOrDecrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
-        gameCompleted(newCard)
     }
 
     const onDecrease = (card, cardIndex) => {
@@ -315,11 +334,17 @@ function PowerRoyalsGame(props) {
         }
         cardsArr[cardIndex] = newCard
 
-        challengeCompleted(newCard)
+        if (hasCardAlreadyExists(newCard)?.length > 1) {
+            if (CONSTANTS.CARD_RANKS[_rank] !== "2") {
+                newCard.rank -= 1;
+            }
+            cardsArr[cardIndex] = newCard
+        }
+
+        challengeCompleted()
         
         setCardsState({...cardsState, collectedCards: cardsArr, activeCard: newCard})
         updateInventory(_increaseOrDecrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
-        gameCompleted(newCard)
     }
 
     const onReplace = (card, cardIndex) => {
@@ -337,26 +362,16 @@ function PowerRoyalsGame(props) {
         }
         
         cardsArr[cardIndex] = newCard
-        challengeCompleted(newCard)
+        
+        if (hasCardAlreadyExists(newCard)?.length > 1) { 
+            newCard = getRandomCard()
+            cardsArr[cardIndex] = newCard
+        }
+
+        challengeCompleted()
         
         setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: newCard })
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
-        gameCompleted(newCard)
-    }
-
-    const gameCompleted = (card) => {
-        // if (hasCardAlreadyExistInArray(card)) return setGameCompleted(true)
-        
-        return setGameCompleted(false)
-    }
-
-    const isRoyalFlush = () => {
-        //A, K, Q, J, 10, all the same suit.
-        const _royalFlush = royalFlush(selectedRoundCard ? selectedRoundCard?.suit : cardsArr[0]?.suit)
-        if (isEqual(cardsArr, _royalFlush)) {
-            return true;
-        }
-        return false
     }
 
     const hasStraightFlushDiffSuit = () => {
@@ -381,9 +396,9 @@ function PowerRoyalsGame(props) {
         return hasFlush
     }
 
-    const hasFlush = (card) => {
+    const hasFlush = () => {
         //Any five cards of the same suit, but not in a sequence.
-        const cards = cardsArr?.filter(c => c?.suit === card?.suit);
+        const cards = cardsArr?.filter(c => c?.suit === cardsArr[0]?.suit);
         if (cards?.length === 5) {
             return true;
         }
@@ -398,7 +413,10 @@ function PowerRoyalsGame(props) {
         if (flushCards?.length >= 5) {
             //all same suit cards
             hasFlush = cardsArr?.every((c, i, ar) => {
-                return !i || ar[i - 1]?.rank > c?.rank
+                if(ar[0]?.rank > ar[1]?.rank)
+                    return !i || ar[i - 1]?.rank > c?.rank //highest to lowest
+                
+                return !i || ar[i - 1]?.rank < c?.rank //lowest to highest
             })
         }
 
@@ -442,12 +460,6 @@ function PowerRoyalsGame(props) {
         })
 
         return hasFlush
-    }
-
-    const hasHighiestFlush = () => {
-        const highiestValue = Math.max.apply(Math, cardsArr?.map(card => card?.rank));
-
-        return highiestValue ? true : false;
     }
 
     const hasFoureOfAKindFlush = () => {
@@ -544,10 +556,18 @@ function PowerRoyalsGame(props) {
                         }
                         
                         {
+                            completedChallengeText &&
+                                <>
+                                    <br />
+                                    <Alert renderMsg={() => completedChallengeText} success={!isCurrentFailed} danger={isCurrentFailed} />
+                                </>
+                        }
+
+                        {
                             isGameCompleted &&
                                 <>
                                     <br />
-                                    <Alert renderMsg={() => <p>You won the game!</p>} success />
+                                    <Alert renderMsg={() => <p>You have won the game!</p>} success />
                                 </>
                         }
                     </div>
