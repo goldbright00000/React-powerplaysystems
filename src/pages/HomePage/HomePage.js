@@ -4,20 +4,12 @@ import Footer from '../../components/Footer/Footer';
 import './HomePage.scss';
 import powerplayicon from '../../assets/powerplay-icon.png'
 import powerplayLargeicon from '../../assets/powerplay-large-icon.png'
+import HomePageContentHeader from '../../components/HomePageContentHeader';
 
 const HomePage = props => (
     <div className='__HomePage'>
         <Header />
-        <div className='__viewport __ai __viewport-1'>
-            <div className='__center __mt-a __container'>
-                <div className='__viewport-title __primary __m-a __inline-block __h4-on-mediam'>Our Games Defy Reality<sup>TM</sup></div>
-                <div className='__h4 __mt-1 __viewport-subtitle __ml-a __mr-a __default-size-on-mediam'>
-                    Experience our ground-breaking live-play games where you have the Power to control your destiny. *
-                </div>
-                <Link to='/power-up' className='__btn __style-2 __primary-color __h5 __mb-3 __mt-2 __inline-block'>Power Up!</Link>
-                <div className='__ml-a __italic __right __mb-2 __internation-patent-pending'>*International Patent Pending</div>
-            </div>
-        </div>
+        <HomePageContentHeader buttonTitle="POWER UP!" redirectTo="/power-play" />
         <div className='__background-2 __background __dark-white-color'>
             <div className='__container-2 __mt-3'>
                 <div className='__h2 __primary-color __center __bold __h5-on-mediam'>PowerdFS</div>
