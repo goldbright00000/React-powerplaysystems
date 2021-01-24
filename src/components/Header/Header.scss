@@ -99,5 +99,15 @@
         }
       }
     }
+
+    .__landing-page_title {
+      height: 100%;
+      margin: 6px 0;
+      justify-content: flex-end;
+
+      strong {
+        font-size: 16px;
+      }
+    }
   }
 }

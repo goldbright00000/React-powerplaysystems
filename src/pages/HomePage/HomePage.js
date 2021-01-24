@@ -9,7 +9,7 @@ import HomePageContentHeader from '../../components/HomePageContentHeader';
 const HomePage = props => (
     <div className='__HomePage'>
         <Header />
-        <HomePageContentHeader buttonTitle="POWER UP!" redirectTo="/power-play" />
+        <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/power-up" />
         <div className='__background-2 __background __dark-white-color'>
             <div className='__container-2 __mt-3'>
                 <div className='__h2 __primary-color __center __bold __h5-on-mediam'>PowerdFS</div>
