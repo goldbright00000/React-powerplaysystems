@@ -1,3 +1,5 @@
+import { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
 
@@ -11,17 +13,56 @@ import ShapeIcon from '../../icons/Shape';
 import AmericanFootballCup from '../../icons/AmericanFootballCup';
 import MegaPhone from '../../icons/MegaPhone';
 import powerplayLargeicon from '../../assets/powerPlayIcon2.png'
+import Modal from '../../components/Modal';
 
 const LandingPage = props => {
+    const [showModal, setModalState] = useState(false)
     const isMobileOrTablet = useMediaQuery({
         query: '(max-width: 540px)'
     })
+
+    let scrollRef = useRef();
+
+    useEffect(() => { 
+        // const scrollBody = ReactDOM.findDOMNode(scrollRef.current);
+        // scrollBody.addEventListener('scroll', onScroll);
+
+        // return function cleanUp() {
+        //     scrollBody.removeEventListener('scroll')
+        // }
+    }, [])
+    
+    useEffect(() => { 
+        // if (showModal) {
+        //     const scrollY = window.scrollY
+        //     document.body.style.position = 'fixed';
+        //     document.body.style.top = `-${window.scrollY}px`;
+        //     console.log(scrollY)
+        // } else if(!showModal) {
+        //     // const scrollY = document.body.style.top;
+        //     document.body.style.position = 'unset'
+        //     // window.scrollTo(0, parseInt(scrollY || 0) * -1)
+        // }
+    }, [showModal])
+
+    const onFormSubmit = (e) => {
+        e.preventDefault();
+
+        setModalState(false)
+    }
+
+    const onScroll = () => {
+        console.log('aa',window.scrollY, scrollRef)
+    }
+
+
     return (
-        <div className={classes.wrapper}>
+        <div className={classes.wrapper} onScroll={onScroll} ref={scrollRef}>
             <Header hasMenu={false} />
             <HomePageContentHeader
                 buttonTitle="Notify me of launch!"
-                footerTitle={<>Sign up to be notified and <span>receive 100 Power Tokens!</span></>} redirectTo="/power-up"
+                footerTitle={<>Sign up to be notified and <span>receive 100 Power Tokens!</span></>}
+                redirectTo="/power-up"
                 showBtnBg
             />
 
@@ -67,7 +108,7 @@ const LandingPage = props => {
                     </PowerPickCard>
                 </div>
 
-                <Link to="/power-up" className={classes.landing_page_btn}>
+                <Link to="#" onClick={() => setModalState(true)} className={classes.landing_page_btn}>
                             Notify me of launch!
                     </Link>
 
@@ -82,7 +123,7 @@ const LandingPage = props => {
                                 What is the Power Token?
                             </h2>
                             <p className={classes.p1}>
-                                The Power token (PWRS) is a registered crypt-currency coin on the Ethereum Network. We will be holding some contests where you can win Powers. <br /> It’s like we are giving you super powers!
+                                The Power token (PWRS) is a registered crypt-currency coin on the Ethereum Network.  <span>We will be holding some contests where you can win Powers. <br /> It’s like we are giving you super powers!</span>
                             </p>    
 
                             <h3>
@@ -96,12 +137,27 @@ const LandingPage = props => {
                         }
                     </div>
 
-                    <Link to="/power-up" className={classes.landing_page_btn}>
+                    <Link to="#" onClick={() => setModalState(true)} className={classes.landing_page_btn}>
                         Notify me of launch!
                     </Link>
                 </div>
             </div>
-            <Footer isBlack />
+            <Footer isBlack logoOnly={true} />
+            <Modal visible={showModal}>
+                <div className={classes.modal_body}>
+                    <form className={classes.news_alert_form} onSubmit={onFormSubmit}>
+                        <label>
+                            I want in! Notify me!
+                        </label>
+                        <div className={classes.news_alert_form_input}>
+                            <input type="email" placeholder="Your e-mail" required />
+                            <button type="submit">NOTIFY ME</button>
+                        </div>
+                    </form>
+
+                    <button className={classes.modal_close} onClick={() => setModalState(false)} />
+                </div>
+            </Modal>
         </div>
     )
 }
