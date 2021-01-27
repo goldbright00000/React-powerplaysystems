@@ -62,8 +62,9 @@ const LandingPage = props => {
             <HomePageContentHeader
                 buttonTitle="Notify me of launch!"
                 footerTitle={<>Sign up to be notified and <span>receive 100 Power Tokens!</span></>}
-                redirectTo="/power-up"
+                onButtonClick={() => setModalState(true)}
                 showBtnBg
+
             />
 
             <div className={classes.landing_page_body}>
