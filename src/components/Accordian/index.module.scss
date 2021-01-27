@@ -1,0 +1,49 @@
+@import "../../scss/colors.scss";
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+
+  .accoridan_bar {
+    background-color: $grey4;
+    padding: 9px 16px;
+    display: inherit;
+    justify-content: space-between;
+    align-items: center;
+
+    .accoridan_bar_right {
+      color: $primary;
+      font-size: 16px;
+
+      .amount {
+        font-weight: bold;
+        font-style: italic;
+      }
+
+      .arrow {
+        border: solid $white;
+        border-width: 0 4px 4px 0;
+        padding: 4px;
+        display: inline-block;
+        margin: 0 0 0 20px;
+      }
+
+      .down {
+        transform: rotate(45deg) translate(-5px, 3px);
+      }
+      .up {
+        transform: rotate(-135deg) translate(0, -5px);
+      }
+    }
+  }
+}
+
+.table_wrapper {
+  background-color: $black;
+  width: 90%;
+  left: -70px;
+  right: -70px;
+  margin: 70px auto;
+  // position: absolute;
+}

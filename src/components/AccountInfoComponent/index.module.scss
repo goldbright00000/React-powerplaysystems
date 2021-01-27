@@ -1,0 +1,29 @@
+@import "../../scss/colors.scss";
+
+.list_container {
+  display: flex;
+  flex-direction: column;
+
+  .list_item {
+    display: flex;
+    justify-content: space-between;
+    padding: 30px 0;
+    border-bottom: 2px solid $lightBlack3;
+
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: $primary;
+      margin: 0 0 0 10px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .list_item:last-child {
+    border-bottom: none;
+  }
+}

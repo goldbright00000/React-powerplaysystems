@@ -14,7 +14,7 @@ const Footer = props => (
                     <>
                     <div className={`${classes.__footer_links} __center`}>
                         <img src={logo} alt='' className={`${classes.__logo} __center`} />
-                        <img src={logo} alt='' className={`${classes.__logo} __hide-on-small`} />
+                        {/* <img src={logo} alt='' className={`${classes.__logo} __hide-on-small`} /> */}
                         <div className='__hide-on-small'>Legal Privacy</div>
                         <div className='__hide-on-small'>Company</div>
                         <Link to='/terms'>Terms of use</Link>

@@ -26,6 +26,7 @@ import LoginPage from './pages/Login';
 import RoyalGame from './pages/RoyalGame';
 import PowerPoker from './pages/PowerPoker';
 import LandingPage from './pages/LandingPage';
+import AccountPage from './pages/AccountPage';
 
 
 const App = props => {
@@ -56,6 +57,7 @@ const App = props => {
                     <Route path="/power-royals" component={RoyalGame} />
                     <Route path="/power-poker" component={PowerPoker} />
                     <Route path="/landing-page" component={LandingPage} />
+                    <Route path="/my-account" component={AccountPage} />
                 </Switch>
             </Fragment>
         </ReduxProvider>

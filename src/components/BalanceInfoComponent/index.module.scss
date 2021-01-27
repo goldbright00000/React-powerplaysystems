@@ -1,0 +1,91 @@
+@import "../../scss/colors.scss";
+
+.list_header_wrapper {
+  display: flex;
+  flex-direction: column;
+
+  .list_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid $lightBlack3;
+    padding: 10px 0;
+    font-style: 16px;
+
+    .list_left_side {
+      display: flex;
+      align-items: center;
+      font-size: 16px;
+
+      .span {
+        margin: 0 35px;
+        font-weight: bold;
+        font-size: 26px;
+        color: $primary;
+      }
+    }
+
+    .list_right_side {
+      display: inherit;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      span {
+        font-size: 14px;
+      }
+
+      button {
+        width: 190px;
+        height: 48px;
+        box-shadow: 0 0px 6px 0.5px $primary;
+      }
+    }
+  }
+
+  .list_container:last-child {
+    border-bottom: none;
+  }
+}
+
+.list_left_side_1 {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: $grey3;
+
+  span {
+    margin: 0 8px;
+  }
+}
+
+.list_body {
+  margin: 60px 0;
+
+  .list_item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 15px;
+    margin: 20px 0;
+    background-color: $grey4;
+    font-size: 16px;
+
+    button {
+      border: none;
+      outline: none;
+      background-color: transparent;
+      color: $primary;
+      font-weight: bold;
+      font-size: 16px;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    button.claimed {
+      color: $white;
+    }
+  }
+}
