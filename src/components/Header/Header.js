@@ -1,11 +1,15 @@
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import './Header.scss';
 import logo from '../../assets/logo.png';
+import { CONSTANTS } from '../../utility/constants';
+import { getLocalStorage } from '../../utility/shared';
 
 const Header = props => {
     const { isStick = false, btnBorderStyle = false, hasMenu = true } = props || {}
+    const { user: { token = '' } = {} } = useSelector((state) => state?.auth);
     return (
         <nav className='__Header' style={{ position: isStick ? 'sticky' : 'fixed' }}>
             <div className='__container __flex __sb __f1 __light-bold'>
@@ -20,10 +24,21 @@ const Header = props => {
                         </button>
                         <ul className='__navlinks __flex'>
                             <li><NavLink to='/power-center'>Power Center</NavLink></li>
-                            <li><NavLink to='/power-picks'>Powerpicks</NavLink></li>
-                            <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li>
-                            <li><NavLink to='/login'>Log In</NavLink></li>
-                            <li><NavLink to='/power-up' className={`__btn __header-btn ${btnBorderStyle ? '__style-2 __primary-color' : ''}`}>Power up!</NavLink></li>
+                                <li><NavLink to='/power-picks'>Powerpicks</NavLink></li>
+                                {
+                                    token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN) ? 
+                                    <>
+                                        <li><NavLink to='/power-picks'>My Game Center</NavLink></li> 
+                                        <li><NavLink to='/power-picks'>My Account</NavLink></li> 
+                                        <li><NavLink to='/power-picks'>Logout</NavLink></li> 
+                                    </>
+                                    :
+                                    <>
+                                        <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li>
+                                        <li><NavLink to='/login'>Log In</NavLink></li>
+                                        <li><NavLink to='/power-up' className={`__btn __header-btn ${btnBorderStyle ? '__style-2 __primary-color' : ''}`}>Power up!</NavLink></li>
+                                    </>
+                                }
                         </ul>
                         </>
                         :

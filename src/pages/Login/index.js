@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './index.module.scss'
@@ -11,15 +11,17 @@ import { socket } from '../../config/server_connection';
 import { CONSTANTS } from '../../utility/constants'
 import { userAuthLoading, userAuthSuccess, userAuthFailed } from '../../actions/authActions';
 import Alert from '../../components/Alert';
+import { getLocalStorage, setLocalStorage } from '../../utility/shared';
+import { isEmpty } from 'lodash';
 
 let _socket = null;
 
-function LoginPage() {
+function LoginPage(props) {
     const [user, setUser] = useState({ email: '', password: '' });
     const [auth, setAuth] = useState({});
     
     const dispatch = useDispatch();
-    const { loading, success, failed } = useSelector((state) => state.auth);
+    const { loading, success, failed, user: { token = '' } = {} } = useSelector((state) => state.auth);
     
     useEffect(() => {
         _socket = socket();
@@ -40,19 +42,28 @@ function LoginPage() {
         switch (status) {
             case true:
                 dispatch(userAuthSuccess(user))
-                setUser({email: '', password: ''})
-                break;
+                setUser({ email: '', password: '' })
+                setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN, user?.token)
+                return;
             
             case false:
                 setAuth(user)
                 dispatch(userAuthFailed())
-                setUser({email: '', password: ''})
-                break;
+                setUser({ email: '', password: '' })
+                return;
         
             default:
                 break;
         }
     })
+
+    const redirect = () => {
+        if (!isEmpty(token) || !isEmpty(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN))) {
+            const { location: { state: { from = '/' } = {} } = {} } = props || {}
+
+            return <Redirect to={from} />
+        }
+    }
 
     return (
         <>
@@ -94,7 +105,14 @@ function LoginPage() {
                             <Input type="password" block rounded label="Password" required value={user.password} onChange={(e) => {
                                 setUser({...user, password: e?.target?.value})
                             }} />
-                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading}>Log in</button>
+                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading}>
+                                {
+                                    loading ?
+                                        'Loading...'
+                                        :
+                                        'Log in'
+                                }
+                            </button>
                         </form>
                         <br />
                     </div>
@@ -105,6 +123,9 @@ function LoginPage() {
                 </div>
             </div>
             <Footer isBlack />
+            {
+                redirect()
+            }
         </>
     )
 }

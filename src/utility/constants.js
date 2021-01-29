@@ -37,5 +37,9 @@ export const CONSTANTS = {
             REGISTER: 'register',
             RESET_PASSWORD: 'reset_password'
         }
+    },
+
+    LOCAL_STORAGE_KEYS: {
+        TOKEN: 'token'
     }
 }
