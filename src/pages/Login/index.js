@@ -1,18 +1,58 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './index.module.scss'
 import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import SignInImage from '../../assets/signin-background.png'
 import Input from '../../components/Input'
+import { socket } from '../../config/server_connection';
+import { CONSTANTS } from '../../utility/constants'
+import { userAuthLoading, userAuthSuccess, userAuthFailed } from '../../actions/authActions';
+import Alert from '../../components/Alert';
+
+let _socket = null;
 
 function LoginPage() {
-
+    const [user, setUser] = useState({ email: '', password: '' });
+    const [auth, setAuth] = useState({});
+    
+    const dispatch = useDispatch();
+    const { loading, success, failed } = useSelector((state) => state.auth);
+    
+    useEffect(() => {
+        _socket = socket();
+    }, [])
+    
     const onLoginSubmit = (e) => {
         e?.preventDefault();
-
+        const data = {
+            type: CONSTANTS.SOCKET_EVENTS.AUTH_TYPE.LOGIN,
+            user
+        }
+        _socket.emit(CONSTANTS.SOCKET_EVENTS.AUTH, data)
+        dispatch(userAuthLoading())
     }
+
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.AUTH_STATUS, (user) => {
+        const { status = false, message = '' } = user || {}
+        switch (status) {
+            case true:
+                dispatch(userAuthSuccess(user))
+                setUser({email: '', password: ''})
+                break;
+            
+            case false:
+                setAuth(user)
+                dispatch(userAuthFailed())
+                setUser({email: '', password: ''})
+                break;
+        
+            default:
+                break;
+        }
+    })
 
     return (
         <>
@@ -33,10 +73,28 @@ function LoginPage() {
                 <div className={classes.content_wrapper}>
                     <div className={classes.content_top_skew} />
                     <div className={classes.content_card}>
+                        {
+                            failed &&
+                            <>
+                                <Alert renderMsg={() => <p>{auth?.message}</p>} danger />
+                                <br />
+                            </>
+                        }
+                        {
+                            success &&
+                            <>
+                                <Alert renderMsg={() => <p>Login Success</p>} success />
+                                <br />
+                            </>
+                        }
                         <form onSubmit={onLoginSubmit}>
-                            <Input type="text" block rounded label="E-mail" required />
-                            <Input type="password" block rounded label="Password" required />
-                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit">Log in</button>
+                            <Input type="text" block rounded label="E-mail" required value={user.email} onChange={(e) => {
+                                setUser({...user, email: e?.target?.value})
+                            }} />
+                            <Input type="password" block rounded label="Password" required value={user.password} onChange={(e) => {
+                                setUser({...user, password: e?.target?.value})
+                            }} />
+                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading}>Log in</button>
                         </form>
                         <br />
                     </div>

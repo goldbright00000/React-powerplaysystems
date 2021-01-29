@@ -1,3 +1,4 @@
+import authReducer from './authReducer'
 import CardGameReducer from './cardGameReducer'
 import powerPokerReducer from './powerPokerReducer'
 import powerRoyalsReducer from './powerRoyalsGameReducer'
@@ -5,5 +6,6 @@ import powerRoyalsReducer from './powerRoyalsGameReducer'
 export const reducers = {
     cardGame: CardGameReducer,
     powerRoyals: powerRoyalsReducer,
-    powerPoker: powerPokerReducer
+    powerPoker: powerPokerReducer,
+    auth: authReducer
 }

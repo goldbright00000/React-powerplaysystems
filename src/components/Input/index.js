@@ -12,6 +12,7 @@ function Input(props) {
         block = false,
         rounded = false,
         required = false,
+        value = ''
     } = props || {}
     return (
         <div className={classes.input_container}>
@@ -22,6 +23,7 @@ function Input(props) {
                 placeholder={placeholder}
                 className={`${block && classes.block} ${rounded && classes.rounded}`}
                 required={required}
+                value={value}
             />
         </div>
     )
@@ -31,6 +33,7 @@ Input.propTypes = {
     type: PropTypes.string,
     label: PropTypes.string,
     placeholder: PropTypes.string,
+    value: PropTypes.string,
     onChange: PropTypes.func,
     block: PropTypes.bool,
     rounded: PropTypes.bool,

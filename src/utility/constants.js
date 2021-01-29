@@ -27,5 +27,15 @@ export const CONSTANTS = {
         QUEEN: 10,
         KING: 11,
         ACE: 12
+    },
+    
+    SOCKET_EVENTS: {
+        AUTH: 'auth',
+        AUTH_STATUS: 'auth_status',
+        AUTH_TYPE: {
+            LOGIN: 'login',
+            REGISTER: 'register',
+            RESET_PASSWORD: 'reset_password'
+        }
     }
 }
