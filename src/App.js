@@ -1,8 +1,7 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, createContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { Provider as ReduxProvider } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import store from './store'
 import HomePage from './pages/HomePage/HomePage';
 import PowerPlaySponsorsPage from './pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage';
 import SponserAContestPage from './pages/SponserAContestPage/SponserAContestPage';
@@ -32,37 +31,35 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 const App = props => {
     return (
-        <ReduxProvider store={store}>
-            <Fragment>
-                <ScrollToTop />
-                <Switch>
-                    <Route exact path='/power-play-sponsors' component={PowerPlaySponsorsPage} />
-                    <Route path='/power-play-sponsors/sponsor-a-contest' component={SponserAContestPage} />
-                    <Route exact path='/' component={HomePage} />
-                    <Route path='/power-center' component={PowerCenter} />
-                    <Route path='/select-teams' component={SelectTeams} />
-                    <Route path='/powerbet-live' component={PowerBetLive} />
-                    <Route path='/bingo-pre-game' component={BingoPreGame} />
-                    {/* <Route path='/card-game' component={CardGame} /> */}
-                    <ProtectedRoute path='/card-game' component={CardGame} />
-                    <Route path='/power-picks' component={PowerPicks} />
-                    <Route path='/chase-a-card' component={ChaseACard} />
-                    <Route path='/faqs' component={FAQ} />
-                    <Route path='/privacy' component={Privacy} />
-                    <Route path='/trust-and-safety' component={TrustAndSafety} />
-                    <Route path='/account-security' component={AccountSecurity} />
-                    <Route path='/terms' component={TermsOfUse} />
-                    <Route path='/power-up' component={PowerUpPage} />
-                    <Route path='/user-profile-info' component={GetUserInfoPage} />
-                    <Route path='/bingo-in-progress' component={BingoInProgressGame} />
-                    <Route path="/login" component={LoginPage} />
-                    <Route path="/power-royals" component={RoyalGame} />
-                    <Route path="/power-poker" component={PowerPoker} />
-                    <Route path="/landing-page" component={LandingPage} />
-                    <Route path="/my-account" component={AccountPage} />
-                </Switch>
-            </Fragment>
-        </ReduxProvider>
+        <Fragment>
+            <ScrollToTop />
+            <Switch>
+                <Route exact path='/power-play-sponsors' component={PowerPlaySponsorsPage} />
+                <Route path='/power-play-sponsors/sponsor-a-contest' component={SponserAContestPage} />
+                <Route exact path='/' component={HomePage} />
+                <Route path='/power-center' component={PowerCenter} />
+                <Route path='/select-teams' component={SelectTeams} />
+                <Route path='/powerbet-live' component={PowerBetLive} />
+                <Route path='/bingo-pre-game' component={BingoPreGame} />
+                {/* <Route path='/card-game' component={CardGame} /> */}
+                <ProtectedRoute path='/card-game' component={CardGame} />
+                <Route path='/power-picks' component={PowerPicks} />
+                <Route path='/chase-a-card' component={ChaseACard} />
+                <Route path='/faqs' component={FAQ} />
+                <Route path='/privacy' component={Privacy} />
+                <Route path='/trust-and-safety' component={TrustAndSafety} />
+                <Route path='/account-security' component={AccountSecurity} />
+                <Route path='/terms' component={TermsOfUse} />
+                <Route path='/power-up' component={PowerUpPage} />
+                <Route path='/user-profile-info' component={GetUserInfoPage} />
+                <Route path='/bingo-in-progress' component={BingoInProgressGame} />
+                <Route path="/login" component={LoginPage} />
+                <Route path="/power-royals" component={RoyalGame} />
+                <Route path="/power-poker" component={PowerPoker} />
+                <Route path="/landing-page" component={LandingPage} />
+                <Route path="/my-account" component={AccountPage} />
+            </Switch>
+        </Fragment>
     )
 }
 

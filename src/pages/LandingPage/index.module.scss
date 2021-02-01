@@ -423,8 +423,8 @@
         }
 
         input {
-          background-color: transparent;
-          border: 2px solid $primary;
+          // background-color: transparent;
+          // border: 2px solid $primary;
           height: 48px;
           width: 98%;
           padding-left: 10px;
@@ -433,6 +433,11 @@
           font-weight: 300;
           color: $primary;
           outline: none;
+        }
+
+        .error {
+          border: 2px solid red;
+          background-color: ivory;
         }
 
         input::placeholder {

@@ -36,6 +36,10 @@ export const CONSTANTS = {
             LOGIN: 'login',
             REGISTER: 'register',
             RESET_PASSWORD: 'reset_password'
+        },
+        LANDING_PAGE_EMAIL: {
+            ON: 'on_landing_page_email',
+            EMIT: 'emit_landing_page_email'
         }
     },
 

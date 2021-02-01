@@ -1,8 +1,6 @@
-const env = 'development';
-
 
 export function getApi() {
-    if (env === 'development') {
+    if (process.env.NODE_ENV === 'development') {
         return 'http://localhost:4000'
     }
 

@@ -11,15 +11,15 @@ import { socket } from '../../config/server_connection';
 import { CONSTANTS } from '../../utility/constants'
 import { userAuthLoading, userAuthSuccess, userAuthFailed } from '../../actions/authActions';
 import Alert from '../../components/Alert';
-import { getLocalStorage, setLocalStorage } from '../../utility/shared';
 import { isEmpty } from 'lodash';
+import { getToken } from '../../utility/shared';
 
 let _socket = null;
 
 function LoginPage(props) {
     const [user, setUser] = useState({ email: '', password: '' });
     const [auth, setAuth] = useState({});
-    
+
     const dispatch = useDispatch();
     const { loading, success, failed, user: { token = '' } = {} } = useSelector((state) => state.auth);
     
@@ -43,7 +43,6 @@ function LoginPage(props) {
             case true:
                 dispatch(userAuthSuccess(user))
                 setUser({ email: '', password: '' })
-                setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN, user?.token)
                 return;
             
             case false:
@@ -57,11 +56,12 @@ function LoginPage(props) {
         }
     })
 
+    
     const redirect = () => {
-        if (!isEmpty(token) || !isEmpty(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN))) {
-            const { location: { state: { from = '/' } = {} } = {} } = props || {}
-
-            return <Redirect to={from} />
+        if (!isEmpty(token) || !isEmpty(getToken())) {
+            const { location: { state = {} } = {} } = props || {}
+            
+            return <Redirect to={!isEmpty(state) ? state?.from : '/'} />
         }
     }
 

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
+import { useSelector, useDispatch } from 'react-redux';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -14,42 +14,57 @@ import AmericanFootballCup from '../../icons/AmericanFootballCup';
 import MegaPhone from '../../icons/MegaPhone';
 import powerplayLargeicon from '../../assets/powerPlayIcon2.png'
 import Modal from '../../components/Modal';
+import { socket } from '../../config/server_connection';
+import { validateEmail } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
+import { isEmpty } from 'lodash';
+import { landingPageLoading, landingPageDone } from '../../actions/landingPageActions';
+import Alert from '../../components/Alert';
+
+let _socket = null;
 
 const LandingPage = props => {
+    const [email, setEmail] = useState();
     const [showModal, setModalState] = useState(false)
     const isMobileOrTablet = useMediaQuery({
         query: '(max-width: 540px)'
     })
 
+    const { loading, done, message } = useSelector((state) => state.landingPage);
+    const dispatch = useDispatch();
+
     let scrollRef = useRef();
-
-    useEffect(() => { 
-        // const scrollBody = ReactDOM.findDOMNode(scrollRef.current);
-        // scrollBody.addEventListener('scroll', onScroll);
-
-        // return function cleanUp() {
-        //     scrollBody.removeEventListener('scroll')
-        // }
-    }, [])
     
     useEffect(() => { 
-        // if (showModal) {
-        //     const scrollY = window.scrollY
-        //     document.body.style.position = 'fixed';
-        //     document.body.style.top = `-${window.scrollY}px`;
-        //     console.log(scrollY)
-        // } else if(!showModal) {
-        //     // const scrollY = document.body.style.top;
-        //     document.body.style.position = 'unset'
-        //     // window.scrollTo(0, parseInt(scrollY || 0) * -1)
-        // }
-    }, [showModal])
+        _socket = socket()
+        
+        return function cleanUp() {
+            _socket = null;
+        }
+    }, [])
 
     const onFormSubmit = (e) => {
         e.preventDefault();
 
-        setModalState(false)
+        if (!validateEmail(email) || isEmpty(email)) {
+            //invalid email
+            console.log('invalid email')
+            return;
+        }
+
+        _socket?.emit(CONSTANTS.SOCKET_EVENTS.LANDING_PAGE_EMAIL.ON, {
+            email: email
+        })
+        dispatch(landingPageLoading());
+
+        // setModalState(false)
     }
+
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.LANDING_PAGE_EMAIL.EMIT, (email) => {
+        const { error = false, message = "", success = false } = email || {};
+        
+        dispatch(landingPageDone(message));
+    });
 
     const onScroll = () => {
         console.log('aa',window.scrollY, scrollRef)
@@ -151,8 +166,21 @@ const LandingPage = props => {
                             I want in! Notify me!
                         </label>
                         <div className={classes.news_alert_form_input}>
-                            <input type="email" placeholder="Your e-mail" required />
-                            <button type="submit">NOTIFY ME</button>
+                            <input type="email" placeholder="Your e-mail" onChange={(e) => {
+                                setEmail(e?.target?.value)
+                            }} required />
+                            <button type="submit" disabled={loading}>
+                                {
+                                    loading ?
+                                        'Loading...'
+                                        :
+                                        'NOTIFY ME'
+                                }
+                            </button>
+                            {
+                                done &&
+                                <Alert renderMsg={() => <p style={{padding: 0, margin: 0}}>{ message }</p>} />
+                            }
                         </div>
                     </form>
 

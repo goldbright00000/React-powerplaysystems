@@ -1,15 +1,21 @@
 import { Link, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import './Header.scss';
 import logo from '../../assets/logo.png';
-import { CONSTANTS } from '../../utility/constants';
-import { getLocalStorage } from '../../utility/shared';
+import { resetAuth } from '../../actions/authActions';
 
 const Header = props => {
     const { isStick = false, btnBorderStyle = false, hasMenu = true } = props || {}
+    
     const { user: { token = '' } = {} } = useSelector((state) => state?.auth);
+    const dispatch = useDispatch();
+
+    const onLogout = () => {
+        return dispatch(resetAuth())
+    }
+    
     return (
         <nav className='__Header' style={{ position: isStick ? 'sticky' : 'fixed' }}>
             <div className='__container __flex __sb __f1 __light-bold'>
@@ -26,11 +32,11 @@ const Header = props => {
                             <li><NavLink to='/power-center'>Power Center</NavLink></li>
                                 <li><NavLink to='/power-picks'>Powerpicks</NavLink></li>
                                 {
-                                    token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN) ? 
+                                    token ? 
                                     <>
                                         <li><NavLink to='/power-picks'>My Game Center</NavLink></li> 
                                         <li><NavLink to='/power-picks'>My Account</NavLink></li> 
-                                        <li><NavLink to='/power-picks'>Logout</NavLink></li> 
+                                        <li><NavLink to='#' onClick={onLogout}>Logout</NavLink></li> 
                                     </>
                                     :
                                     <>

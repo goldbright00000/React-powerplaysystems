@@ -1,6 +1,7 @@
 import { isEmpty, isEqual } from 'lodash'
 import { CONSTANTS } from './constants'
 
+
 export function redirectTo(props ,{path = '/', state = {} }) {
     const { history: { push = () => { } } = {} } = props || {}
     if(!isEmpty(state))
@@ -112,4 +113,21 @@ export function setLocalStorage(key, data) {
 
 export function getLocalStorage(key) {
     return localStorage.getItem(key)
+}
+
+export function removeLocalStorage(key) {
+    return localStorage.removeItem(key)
+}
+
+export function getToken() {
+    return ''
+}
+
+export function removeToken() {
+    
+}
+
+export function validateEmail(email) {
+    const regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return regx.test(String(email).toLocaleLowerCase())
 }
