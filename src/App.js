@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect, createContext } from 'react';
+import React, { Fragment } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
 import HomePage from './pages/HomePage/HomePage';
 import PowerPlaySponsorsPage from './pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage';
@@ -51,7 +50,7 @@ const App = props => {
                 <Route path='/account-security' component={AccountSecurity} />
                 <Route path='/terms' component={TermsOfUse} />
                 <Route path='/power-up' component={PowerUpPage} />
-                <Route path='/user-profile-info' component={GetUserInfoPage} />
+                <ProtectedRoute path='/user-profile-info' component={GetUserInfoPage} />
                 <Route path='/bingo-in-progress' component={BingoInProgressGame} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/power-royals" component={RoyalGame} />

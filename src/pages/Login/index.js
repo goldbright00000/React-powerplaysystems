@@ -12,7 +12,8 @@ import { CONSTANTS } from '../../utility/constants'
 import { userAuthLoading, userAuthSuccess, userAuthFailed } from '../../actions/authActions';
 import Alert from '../../components/Alert';
 import { isEmpty } from 'lodash';
-import { getToken } from '../../utility/shared';
+import { getLocalStorage, setLocalStorage } from '../../utility/shared';
+import http from '../../config/http';
 
 let _socket = null;
 
@@ -27,38 +28,48 @@ function LoginPage(props) {
         _socket = socket();
     }, [])
     
-    const onLoginSubmit = (e) => {
+    const onLoginSubmit = async (e) => {
         e?.preventDefault();
         const data = {
-            type: CONSTANTS.SOCKET_EVENTS.AUTH_TYPE.LOGIN,
-            user
+            // type: CONSTANTS.SOCKET_EVENTS.AUTH_TYPE.LOGIN,
+            ...user
         }
-        _socket.emit(CONSTANTS.SOCKET_EVENTS.AUTH, data)
-        dispatch(userAuthLoading())
+        // _socket.emit(CONSTANTS.SOCKET_EVENTS.AUTH, data)
+        
+        dispatch(userAuthLoading());
+        const response = await http.post('/users/login', data);
+        let responseData = response.data;
+        if (responseData.status === false) {
+            setAuth(responseData)
+            return dispatch(userAuthFailed())
+        }
+        
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, JSON.stringify(responseData.user))
+        return dispatch(userAuthSuccess(responseData))
     }
 
-    _socket?.on(CONSTANTS.SOCKET_EVENTS.AUTH_STATUS, (user) => {
-        const { status = false, message = '' } = user || {}
-        switch (status) {
-            case true:
-                dispatch(userAuthSuccess(user))
-                setUser({ email: '', password: '' })
-                return;
+    // _socket?.on(CONSTANTS.SOCKET_EVENTS.AUTH_STATUS, (user) => {
+    //     const { status = false, message = '' } = user || {}
+    //     switch (status) {
+    //         case true:
+    //             dispatch(userAuthSuccess(user))
+    //             setUser({ email: '', password: '' })
+    //             return;
             
-            case false:
-                setAuth(user)
-                dispatch(userAuthFailed())
-                setUser({ email: '', password: '' })
-                return;
+    //         case false:
+    //             setAuth(user)
+    //             dispatch(userAuthFailed())
+    //             setUser({ email: '', password: '' })
+    //             return;
         
-            default:
-                break;
-        }
-    })
+    //         default:
+    //             break;
+    //     }
+    // })
 
     
     const redirect = () => {
-        if (!isEmpty(token) || !isEmpty(getToken())) {
+        if (!isEmpty(token) || !isEmpty(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))) {
             const { location: { state = {} } = {} } = props || {}
             
             return <Redirect to={!isEmpty(state) ? state?.from : '/'} />

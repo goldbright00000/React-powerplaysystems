@@ -5,7 +5,7 @@ import './HomePage.scss';
 import powerplayicon from '../../assets/powerplay-icon.png'
 import powerplayLargeicon from '../../assets/powerplay-large-icon.png'
 import HomePageContentHeader from '../../components/HomePageContentHeader';
-import { getToken } from '../../utility/shared';
+import { getUser } from '../../utility/shared';
 
 const HomePage = props => (
     <div className='__HomePage'>

@@ -1,3 +1,5 @@
+import http from "../config/http";
+
 export const AUTH_ACTION = {
     LOADING: '/actions/user/auth/LOADING',
     SUCCESS: '/actions/user/auth/SUCCESS',

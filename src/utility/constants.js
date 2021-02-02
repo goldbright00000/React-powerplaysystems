@@ -44,6 +44,6 @@ export const CONSTANTS = {
     },
 
     LOCAL_STORAGE_KEYS: {
-        TOKEN: 'token'
+        USER: 'user',
     }
 }

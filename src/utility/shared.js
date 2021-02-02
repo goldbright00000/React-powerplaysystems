@@ -119,10 +119,6 @@ export function removeLocalStorage(key) {
     return localStorage.removeItem(key)
 }
 
-export function getToken() {
-    return ''
-}
-
 export function removeToken() {
     
 }

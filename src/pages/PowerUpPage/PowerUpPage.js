@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { isEmpty, isEqual } from 'lodash';
 
 import { socket } from '../../config/server_connection';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './PowerUpPage.scss';
 import Input from '../../ui/Input/Input';
-import { isEmpty, isEqual } from 'lodash';
 import Alert from '../../components/Alert';
+import { CONSTANTS } from '../../utility/constants';
+import { userAuthSuccess, userAuthFailed } from '../../actions/authActions';
+import http from '../../config/http';
+import { setLocalStorage } from '../../utility/shared';
 
 let _socket = null
+const INITIAL_STATE = { username: '', email: '', password: '', cPassword: '', isLoading: false, isFailed: false, errorMsg: '', message: '' }
 
 const PowerUpPage = props => {
-    const [user, setUser] = useState({ username: '', email: '', password: '', cPassword: '', isLoading: false, isFailed: false, errorMsg: '' });
+    const [user, setUser] = useState(INITIAL_STATE);
+    const { success } = useSelector((state) => state.auth)
+    const dispatch = useDispatch();
 
     useEffect(() => { 
-        _socket = socket();
+        // _socket = socket();
     }, []);
 
 
-    const onSubmit = e => {
+    const onSubmit = async e => {
         e.preventDefault();
         const { username = '', email = '', password = '', cPassword = '' } = user || {}
         setUser({...user, isLoading: true})
@@ -33,21 +41,36 @@ const PowerUpPage = props => {
         }
 
         const data = {
-            type: 'register',
-            user: {
+            // type: 'register',
+            // user: {
                 username,
                 email,
                 password
-            }
+            // }
         }
 
-        _socket?.emit('register', data);
+        const response = await http.post('/users/signup', data);
+        let responseData = response.data;
+        if (responseData.status === false) {
+            setUser({...user, isLoading: false})
+            return dispatch(userAuthFailed())
+        }
+        
+        setUser({...user, isLoading: false})
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, JSON.stringify(responseData.user))
+        return dispatch(userAuthSuccess(responseData))
+
+        // _socket?.emit(CONSTANTS.SOCKET_EVENTS.AUTH, data);
         // props.history.push('/user-profile-info')
     }
 
-    _socket?.on('register_status', (user) => {
-        console.log('UserInfo: ', user);
-    })
+    // _socket?.on(CONSTANTS.SOCKET_EVENTS.AUTH_TYPE.REGISTER, (userInfo) => {
+    //     const { message = '', userExists = false } = userInfo || {};
+    //     setUser({ ...user, message: message, isFailed: userExists, isLoading: false })
+    //     if (!userExists) {
+    //         return dispatch(userAuthSuccess(userInfo))
+    //     }
+    // })
 
     return (
         <div className='__PowerUpPage'>
@@ -64,11 +87,21 @@ const PowerUpPage = props => {
             </div>
             <div className='__sign-in-section __form-section'>
                 <div className='__form-wrapper __sign-in-container'>
-                    {
-                        user.isFailed &&
-                        <Alert renderMsg={() => <p>{ user?.errorMsg }</p>} danger />
-                    }
                     <form className='__sign-in-form __container' onSubmit={onSubmit}>
+                        {
+                            user.isFailed && isEmpty(user.message) &&
+                            <Alert renderMsg={() => <p>{ user.errorMsg }</p>} danger />
+                        }
+                        {
+                            user.isFailed && !isEmpty(user.message) &&
+                            <Alert renderMsg={() => <p>{ user.message }</p>} danger />
+                        }
+
+                        {
+                            success && !isEmpty(user.message) &&
+                            <Alert renderMsg={() => <p>{ user.message }</p>} success />
+                        }
+                        
                         <Input type='text' title='Username' id='username' value={user.username} onChange={(e) => {
                             setUser({ ...user, username: e?.target?.value })
                         }} />

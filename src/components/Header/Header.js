@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import './Header.scss';
 import logo from '../../assets/logo.png';
 import { resetAuth } from '../../actions/authActions';
+import { getLocalStorage, removeLocalStorage } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
 
 const Header = props => {
     const { isStick = false, btnBorderStyle = false, hasMenu = true } = props || {}
@@ -13,6 +15,7 @@ const Header = props => {
     const dispatch = useDispatch();
 
     const onLogout = () => {
+        removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
         return dispatch(resetAuth())
     }
     
@@ -32,7 +35,7 @@ const Header = props => {
                             <li><NavLink to='/power-center'>Power Center</NavLink></li>
                                 <li><NavLink to='/power-picks'>Powerpicks</NavLink></li>
                                 {
-                                    token ? 
+                                    token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? 
                                     <>
                                         <li><NavLink to='/power-picks'>My Game Center</NavLink></li> 
                                         <li><NavLink to='/power-picks'>My Account</NavLink></li> 

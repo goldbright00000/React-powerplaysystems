@@ -3,11 +3,12 @@ import { Redirect, Route } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 import { isEmpty } from 'lodash';
-import {  getToken } from '../../utility/shared';
+import {  getLocalStorage } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
 
 function ProtectedRoute({ component: Component, ...rest }) {
     const { use: { token = '' } = {} } = useSelector((state) => state?.auth);
-    let isAuthenticated = !isEmpty(token) || getToken()
+    let isAuthenticated = !isEmpty(token) || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
     
     return <Route {...rest} render={(props) => {
         return (
