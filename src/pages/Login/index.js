@@ -12,7 +12,7 @@ import { CONSTANTS } from '../../utility/constants'
 import { userAuthLoading, userAuthSuccess, userAuthFailed } from '../../actions/authActions';
 import Alert from '../../components/Alert';
 import { isEmpty } from 'lodash';
-import { getLocalStorage, setLocalStorage } from '../../utility/shared';
+import { getLocalStorage, redirectTo, setLocalStorage } from '../../utility/shared';
 import http from '../../config/http';
 
 let _socket = null;
@@ -30,14 +30,14 @@ function LoginPage(props) {
     
     const onLoginSubmit = async (e) => {
         e?.preventDefault();
-        const data = {
-            // type: CONSTANTS.SOCKET_EVENTS.AUTH_TYPE.LOGIN,
-            ...user
-        }
-        // _socket.emit(CONSTANTS.SOCKET_EVENTS.AUTH, data)
         
+        if (isEmpty(user.email) || isEmpty(user.password)) {
+            //error message
+            return;
+        }
+
         dispatch(userAuthLoading());
-        const response = await http.post('/users/login', data);
+        const response = await http.post('/users/login', user);
         let responseData = response.data;
         if (responseData.status === false) {
             setAuth(responseData)
@@ -45,28 +45,9 @@ function LoginPage(props) {
         }
         
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, JSON.stringify(responseData.user))
-        return dispatch(userAuthSuccess(responseData))
+        dispatch(userAuthSuccess(responseData))
+        return redirectTo(props, {path: '/my-game-center'})
     }
-
-    // _socket?.on(CONSTANTS.SOCKET_EVENTS.AUTH_STATUS, (user) => {
-    //     const { status = false, message = '' } = user || {}
-    //     switch (status) {
-    //         case true:
-    //             dispatch(userAuthSuccess(user))
-    //             setUser({ email: '', password: '' })
-    //             return;
-            
-    //         case false:
-    //             setAuth(user)
-    //             dispatch(userAuthFailed())
-    //             setUser({ email: '', password: '' })
-    //             return;
-        
-    //         default:
-    //             break;
-    //     }
-    // })
-
     
     const redirect = () => {
         if (!isEmpty(token) || !isEmpty(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))) {
@@ -116,7 +97,7 @@ function LoginPage(props) {
                             <Input type="password" block rounded label="Password" required value={user.password} onChange={(e) => {
                                 setUser({...user, password: e?.target?.value})
                             }} />
-                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading}>
+                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading || (isEmpty(user.email) || isEmpty(user.password))}>
                                 {
                                     loading ?
                                         'Loading...'

@@ -26,6 +26,7 @@ import PowerPoker from './pages/PowerPoker';
 import LandingPage from './pages/LandingPage';
 import AccountPage from './pages/AccountPage';
 import ProtectedRoute from './components/ProtectedRoute';
+import MyGameCenter from './pages/MyGameCenter/MyGameCenter';
 
 
 const App = props => {
@@ -51,12 +52,14 @@ const App = props => {
                 <Route path='/terms' component={TermsOfUse} />
                 <Route path='/power-up' component={PowerUpPage} />
                 <ProtectedRoute path='/user-profile-info' component={GetUserInfoPage} />
+                <ProtectedRoute path='/my-game-center' component={MyGameCenter} />
                 <Route path='/bingo-in-progress' component={BingoInProgressGame} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/power-royals" component={RoyalGame} />
                 <Route path="/power-poker" component={PowerPoker} />
                 <Route path="/landing-page" component={LandingPage} />
-                <Route path="/my-account" component={AccountPage} />
+                <ProtectedRoute path="/my-account" component={AccountPage} />
+                <Route component={HomePage} />
             </Switch>
         </Fragment>
     )

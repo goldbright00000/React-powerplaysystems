@@ -37,8 +37,8 @@ const Header = props => {
                                 {
                                     token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? 
                                     <>
-                                        <li><NavLink to='/power-picks'>My Game Center</NavLink></li> 
-                                        <li><NavLink to='/power-picks'>My Account</NavLink></li> 
+                                        <li><NavLink to='/my-game-center'>My Game Center</NavLink></li> 
+                                        <li><NavLink to='/my-account'>My Account</NavLink></li> 
                                         <li><NavLink to='#' onClick={onLogout}>Logout</NavLink></li> 
                                     </>
                                     :
