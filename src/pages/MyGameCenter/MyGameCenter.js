@@ -2,16 +2,19 @@ import React, { Fragment } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
 
 import classes from './MyGameCenter.module.scss';
+import Scoreboard from '../../assets/scoreboard.png';
+import Emblem from '../../assets/emblem.png';
 import Header from '../../components/Header/Header';
 import './MyGameCenter.scss';
 import './table.scss';
 import Footer from '../../components/Footer/Footer'
 import InteractiveContests from './InteractiveContests';
-import PowerPlayIcon from '../../assets/powerplay-icon.png';
+import Button from '../../components/Button';
 import Card from '../../components/Card';
 import PIcon from '../../icons/PIcon';
 import MyGameCenterTable from './MyGameCenterTable';
 import PointsIcon from '../../icons/PointsIcon';
+// import Scoreboard from '../../icons/Scoreboard';
 
 const MyGameCenter = props => {
     const { url } = props.match;
@@ -64,9 +67,30 @@ const MyGameCenter = props => {
                     <Route path={`${url}/contests`} component={MyGameCenterTable} />
                 </div>
             </div>
-            <div className='__container'>
-                <div className='__h3 __center __h5-on-large'>Your Cash Balance: <span className='__primary-color __h3'> $3,000</span></div>
-                <div className='__h3 __center __mt-s __mb-3 __h5-on-large'>Your Powerplay Token Balance: <span className='__primary-color __h3 __inline-flex'> 5,000 <img alt='' src={PowerPlayIcon} width='36' /></span></div>
+            <div className={classes.body_footer}>
+                <div>
+                    <Card>
+                        <div className={classes.body_footer_card_wrapper}>
+                            <div className={classes.body_footer_card}>
+                                <img src={Scoreboard} width={100} height={100} />
+                                <p>Want to explore more live Sports Games ?</p>
+                            </div>
+                            <Button isRounded block transparent title="More Live Sports Games" />
+                        </div>
+                    </Card>
+                </div>
+                
+                <div>
+                    <Card>
+                        <div className={classes.body_footer_card_wrapper}>
+                            <div className={classes.body_footer_card}>
+                                <img src={Emblem} width={100} height={100} />
+                                <p>Want to explore more Promotional Contests ?</p>
+                            </div>
+                            <Button isRounded block transparent title="More Promo Contests" />
+                        </div>
+                    </Card>
+                </div>
             </div>
             <Footer isBlack={true} />
         </Fragment>

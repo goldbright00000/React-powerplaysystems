@@ -6,44 +6,60 @@ import classes from './MyGameCenter.module.scss';
 import PowerPlayIcon from '../../assets/powerplay-icon.png';
 import SuperBall from '../../icons/SuperBall';
 import Info from '../../icons/Info';
+import { setNumberComma } from '../../utility/shared';
+
+const MAX_FILL_BAR_VALUE = 60;
 
 function MyGameCenterTableRow(props) {
     const [isActionActive, setActionState] = useState(false);
+
+    const {
+        type: { Icon = <></>, typeTitle = '', typeDateTime = '' } = {}, contest = '', entries: { entriesTitle = '', entiresValue = 0 } = {},
+        totalPrizes: { totalPrize = 0, firstPlacePrize = 0 } = {}, freePaid = 0, status: { statusTitle = '', statusTime = '' } = {}
+    } = props || {};
+
+    const _entiresValue = () => {
+        let val = entiresValue || 0;
+
+        val = Math.round(val * 60 / 100);
+
+        return val;
+    }
 
     return (
         <div className={classes.table_row}>
             <div>
                 <div className={classes.td_icon}>
-                    <SuperBall size={21} />
+                    {Icon}
                 </div>
                 <div>
-                    <p>MLB Chase The Ace</p>
+                    <p>{ typeTitle }</p>
                     <span>
-                        Oct 24, 2020 | 8:00PM ET <Info />
+                        { typeDateTime } <Info />
                     </span>
                 </div>
             </div>
-            <div><strong>CTA $15k WTA </strong></div>
+            <div><strong>{ contest }</strong></div>
             <div className={classes.row_column}>
-                <p>58,589 <span>of 200,000</span></p>
+                {entriesTitle}
                 <div className={classes.progress}>
-                    <span>29% FULL</span>
+                    <span>{entiresValue}% FULL</span>
                     <div className={classes.progress_bar_bg}>
-                        <div className={classes.progress_bar} style={{width: '40px'}}></div>
+                        <div className={classes.progress_bar} style={{width: `${_entiresValue()}px`}}></div>
                     </div>
                 </div>
             </div>
             <div className={classes.row_column}>
-                <p>58,589</p>
-                <span>1st place: $500</span>
+                <p>${ setNumberComma(totalPrize) }</p>
+                <span>1st place: ${firstPlacePrize}</span>
             </div>
             <div className={classes.row_small}>
                 <img src={PowerPlayIcon} alt='' />
-                <p className={classes.m_l_4}>1,000</p>
+                <p className={classes.m_l_4}>{ setNumberComma(freePaid) }</p>
             </div>
             <div className={`${classes.row_small} ${classes.row_column}`}>
-                <p>Starts in:</p>
-                <span>3:00:04</span>
+                <p>{ statusTitle }</p>
+                <span>{ statusTime }</span>
             </div>
             <div className={classes.row_small}>
                 <button className={isActionActive && classes.active} onClick={() => setActionState(true)}><p>...</p></button>

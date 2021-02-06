@@ -10,6 +10,7 @@ import './table.scss';
 import { Link } from 'react-router-dom';
 import Info from '../../icons/Info';
 import SuperBall from '../../icons/SuperBall';
+import Ball from '../../icons/Ball';
 import Lineprogress from '../../icons/Lineprogress';
 import MyGameCenterTableRow from './MyGameCenterTableRow';
 
@@ -62,7 +63,94 @@ const MyGameCenterTable = props => {
                         <div className={classes.row_small}>Action</div>
                     </div>
                     <div className={classes.table_body}>
-                       <MyGameCenterTableRow />
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
+
+                        <MyGameCenterTableRow
+                            type={{ typeTitle: 'MLB Chase The Ace', typeDateTime: 'Oct 24, 2020 | 8:00PM ET', Icon: <Ball /> }}
+                            contest='CTA $15k WTA '
+                            entries={{ entriesTitle: <p>58,589 <span>of 200,000</span></p>, entiresValue: 40 }}
+                            totalPrizes={{ totalPrize: 800, firstPlacePrize: 500 }}
+                            freePaid={1000}
+                            status={{statusTitle: 'Starts in:', statusTime: '3:00:04'}}
+                        />
                     </div>
                 </div>
             </div>

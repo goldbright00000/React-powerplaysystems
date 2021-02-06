@@ -46,7 +46,7 @@ function LoginPage(props) {
         
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, JSON.stringify(responseData.user))
         dispatch(userAuthSuccess(responseData))
-        return redirectTo(props, {path: '/my-game-center'})
+        return redirectTo(props, {path: '/my-game-center/contests'})
     }
     
     const redirect = () => {
