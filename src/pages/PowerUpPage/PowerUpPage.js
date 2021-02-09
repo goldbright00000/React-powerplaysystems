@@ -3,41 +3,40 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty, isEqual } from 'lodash';
 
-import { socket } from '../../config/server_connection';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './PowerUpPage.scss';
 import Input from '../../ui/Input/Input';
 import Alert from '../../components/Alert';
-import { CONSTANTS } from '../../utility/constants';
-import { userAuthSuccess, userAuthFailed } from '../../actions/authActions';
+import { redirectTo } from '../../utility/shared';
 import http from '../../config/http';
-import { setLocalStorage } from '../../utility/shared';
+import { URLS } from '../../config/urls';
 
-let _socket = null
-const INITIAL_STATE = { username: '', email: '', password: '', cPassword: '', isLoading: false, isFailed: false, errorMsg: '', message: '' }
+const INITIAL_STATE = { username: '', email: '', password: '', cPassword: '', isLoading: false, isSuccess: false, isFailed: false, errorMsg: '', message: '' }
 
 const PowerUpPage = props => {
     const [user, setUser] = useState(INITIAL_STATE);
-    const { success } = useSelector((state) => state.auth)
-    const dispatch = useDispatch();
 
     useEffect(() => { 
-        // _socket = socket();
-    }, []);
+        
+        if (user.isSuccess) {
+            redirectTo(props, {path: 'login'})
+        }
 
+    }, [user]);
 
-    const onSubmit = async e => {
+    const onSubmit = async (e) => {
         e.preventDefault();
         const { username = '', email = '', password = '', cPassword = '' } = user || {}
-        setUser({...user, isLoading: true})
+        setUser({ ...user, isLoading: true });
         
+
         if (isEmpty(username) || isEmpty(email) || isEmpty(password) || isEmpty(cPassword)) {
-            return setUser({...user, isLoading: false, isFailed: true, errorMsg: 'All fields are required'})
+            return setUser({...user, isFailed: true, errorMsg: 'All fields are required'})
         }
 
         if (!isEqual(password, cPassword)) {
-            return setUser({...user, isLoading: false, isFailed: true, errorMsg: 'Password did not match'})
+            return setUser({...user, isFailed: true, errorMsg: 'Password did not match'})
         }
 
         const data = {
@@ -49,28 +48,14 @@ const PowerUpPage = props => {
             // }
         }
 
-        const response = await http.post('/users/signup', data);
-        let responseData = response.data;
-        if (responseData.status === false) {
-            setUser({...user, isLoading: false})
-            return dispatch(userAuthFailed())
+        const response = await http.post(URLS.AUTH.REGISTER, data);
+        if (response.data.status === false) {
+            return setUser({ ...user, isLoading: false, isFailed: true, errorMsg: response.data.message });
         }
-        
-        setUser({...user, isLoading: false})
-        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, JSON.stringify(responseData.user))
-        return dispatch(userAuthSuccess(responseData))
 
-        // _socket?.emit(CONSTANTS.SOCKET_EVENTS.AUTH, data);
+        setUser({...user, isLoading: false, isSuccess: true, errorMsg: response.data.message})
         // props.history.push('/user-profile-info')
     }
-
-    // _socket?.on(CONSTANTS.SOCKET_EVENTS.AUTH_TYPE.REGISTER, (userInfo) => {
-    //     const { message = '', userExists = false } = userInfo || {};
-    //     setUser({ ...user, message: message, isFailed: userExists, isLoading: false })
-    //     if (!userExists) {
-    //         return dispatch(userAuthSuccess(userInfo))
-    //     }
-    // })
 
     return (
         <div className='__PowerUpPage'>
@@ -87,19 +72,19 @@ const PowerUpPage = props => {
             </div>
             <div className='__sign-in-section __form-section'>
                 <div className='__form-wrapper __sign-in-container'>
-                    <form className='__sign-in-form __container' onSubmit={onSubmit}>
+                    <form className='__sign-in-form __container' action={null} onSubmit={onSubmit}>
                         {
-                            user.isFailed && isEmpty(user.message) &&
+                            !user?.isFailed && !isEmpty(user.errorMsg) &&
                             <Alert renderMsg={() => <p>{ user.errorMsg }</p>} danger />
                         }
                         {
-                            user.isFailed && !isEmpty(user.message) &&
-                            <Alert renderMsg={() => <p>{ user.message }</p>} danger />
+                            user.isFailed && !isEmpty(user.errorMsg) &&
+                            <Alert renderMsg={() => <p>{ user.errorMsg }</p>} danger />
                         }
 
                         {
-                            success && !isEmpty(user.message) &&
-                            <Alert renderMsg={() => <p>{ user.message }</p>} success />
+                            user.isSuccess && !isEmpty(user.errorMsg) &&
+                            <Alert renderMsg={() => <p>{ user.errorMsg }</p>} success />
                         }
                         
                         <Input type='text' title='Username' id='username' value={user.username} onChange={(e) => {
@@ -112,9 +97,9 @@ const PowerUpPage = props => {
                             setUser({ ...user, password: e?.target?.value })
                         }} />
                         <Input type='password' title='Confirm your password' id='confirmpassword' value={user.cPassword} onChange={(e) => { setUser({ ...user, cPassword: e?.target?.value }) }} />
-                        <button className='__btn __h4 __submit-btn __uppercase __block __h5-on-small' disabled={user?.isLoading}>
+                        <button className='__btn __h4 __submit-btn __uppercase __block __h5-on-small' disabled={user.isLoading}>
                             {
-                                user?.isLoading
+                                user.isLoading
                                     ?
                                     'Loading...'
                                     :
@@ -122,7 +107,7 @@ const PowerUpPage = props => {
                             }
                         </button>
                     </form>
-                    <div className='__center __mt-4 __already-have-an-account'>Already have an account? <Link to='/' className='__login-link'>Log in!</Link></div>
+                    <div className='__center __mt-4 __already-have-an-account'>Already have an account? <Link to='/login' className='__login-link'>Log in!</Link></div>
                 </div>
             </div>
             <Footer isBlack={true} />

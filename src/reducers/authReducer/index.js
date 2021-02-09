@@ -1,40 +1,26 @@
-import { AUTH_ACTION } from '../../actions/authActions';
+import * as Actions from '../../actions/authActions';
 
 const INITIAL_STATE = {
     loading: false,
-    success: false,
-    failed: false,
     user: []
 }
 
 const authReducer = (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
-        case AUTH_ACTION.LOADING:
+        case Actions.AUTH_LOADING:
             return {
                 ...state,
                 loading: true,
-                success: false,
-                failed: false,
             };
         
-        case AUTH_ACTION.SUCCESS:
+        case Actions.GET_AUTH:
             return {
                 ...state,
                 loading: false,
-                success: true,
-                failed: false,
                 user: actions.payload
             };
         
-        case AUTH_ACTION.FAILED:
-            return {
-                ...state,
-                loading: false,
-                success: false,
-                failed: true
-            };
-        
-        case AUTH_ACTION.RESET_AUTH:
+        case Actions.RESET_AUTH:
             return {
                 ...state,
                 loading: false,

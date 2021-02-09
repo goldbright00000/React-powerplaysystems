@@ -7,26 +7,24 @@ import Footer from '../../components/Footer/Footer'
 import Header from '../../components/Header/Header'
 import SignInImage from '../../assets/signin-background.png'
 import Input from '../../components/Input'
-import { socket } from '../../config/server_connection';
 import { CONSTANTS } from '../../utility/constants'
-import { userAuthLoading, userAuthSuccess, userAuthFailed } from '../../actions/authActions';
+import { authenticate } from '../../actions/authActions';
 import Alert from '../../components/Alert';
 import { isEmpty } from 'lodash';
-import { getLocalStorage, redirectTo, setLocalStorage } from '../../utility/shared';
-import http from '../../config/http';
-
-let _socket = null;
+import { getLocalStorage, redirectTo } from '../../utility/shared';
 
 function LoginPage(props) {
     const [user, setUser] = useState({ email: '', password: '' });
-    const [auth, setAuth] = useState({});
 
     const dispatch = useDispatch();
-    const { loading, success, failed, user: { token = '' } = {} } = useSelector((state) => state.auth);
+    const { loading = false, user: authUser = {} } = useSelector((state) => state.auth);
+    const { token = '', status: loggedIn = false, message = '' } = authUser || {}
     
     useEffect(() => {
-        _socket = socket();
-    }, [])
+        if (loggedIn === true && !isEmpty(authUser)) {
+            redirectTo(props, {path: '/my-game-center/contests'})
+        }
+    }, [loggedIn, authUser])
     
     const onLoginSubmit = async (e) => {
         e?.preventDefault();
@@ -36,17 +34,7 @@ function LoginPage(props) {
             return;
         }
 
-        dispatch(userAuthLoading());
-        const response = await http.post('/users/login', user);
-        let responseData = response.data;
-        if (responseData.status === false) {
-            setAuth(responseData)
-            return dispatch(userAuthFailed())
-        }
-        
-        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, JSON.stringify(responseData.user))
-        dispatch(userAuthSuccess(responseData))
-        return redirectTo(props, {path: '/my-game-center/contests'})
+        dispatch(authenticate(user));
     }
     
     const redirect = () => {
@@ -77,14 +65,14 @@ function LoginPage(props) {
                     <div className={classes.content_top_skew} />
                     <div className={classes.content_card}>
                         {
-                            failed &&
+                            !isEmpty(authUser) && !loggedIn &&
                             <>
-                                <Alert renderMsg={() => <p>{auth?.message}</p>} danger />
+                                <Alert renderMsg={() => <p>{message}</p>} danger />
                                 <br />
                             </>
                         }
                         {
-                            success &&
+                            !isEmpty(authUser) && loggedIn &&
                             <>
                                 <Alert renderMsg={() => <p>Login Success</p>} success />
                                 <br />

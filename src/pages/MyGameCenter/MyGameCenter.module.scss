@@ -432,36 +432,34 @@
   }
 }
 
-@media (max-width: 990px) {
+@media (max-width: 1024px) {
   .table {
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    overflow: hidden scroll;
-    max-height: 600px;
+    overflow: unset;
+    // position: relative !important;
+    max-height: fit-content;
 
     &::-webkit-scrollbar {
       display: none;
     }
 
     &::-webkit-scrollbar-track {
-      background-color: $black2;
-      border-radius: 5px;
+      display: none;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: $grey5;
-      width: 7px;
-      border-radius: 5px;
+      display: none;
     }
 
     .table_main {
       display: flex;
       flex-direction: column;
-      width: 99%;
-      background-color: $black2;
+      width: 100%;
+      background-color: transparent;
 
       .row {
         display: flex;
@@ -491,10 +489,14 @@
         .table_row {
           display: flex;
           flex-direction: column;
-          padding: 12px;
+          padding: 6px 15px;
+          background-image: linear-gradient(to bottom, $black, $lightBlack4);
+          margin: 10px 0;
+          border: 2px solid $black3;
+          border-radius: 6px;
 
           &:nth-child(even) {
-            background-color: $black3;
+            background-color: none;
           }
 
           .line {
@@ -502,84 +504,174 @@
           }
 
           > div {
-            align-items: center;
+            all: unset;
 
             p {
-              padding: 0;
-              margin: 0;
-              font-size: 16px;
-
-              span {
-                color: $white;
-              }
+              all: unset;
             }
 
             span {
-              font-size: 14px;
-              color: $grey6;
+              all: unset;
             }
 
             strong {
-              font-size: 18px;
-              color: $primary;
+              all: unset;
             }
 
             .td_icon {
-              margin: 0 10px 0 -5px;
+              all: unset;
             }
 
             button {
-              background-color: transparent;
-              border: 1px solid $white;
-              outline: none;
-              margin: 0;
-              height: 22px;
-              width: 64px;
-              border-radius: 6px;
-              color: $white;
-              font-size: 30px;
+              all: unset;
 
               p {
-                padding: 0;
-                margin: 0;
-                margin-top: -17px;
-                font-size: 28px;
+                all: unset;
               }
 
               &:hover {
-                cursor: pointer;
+                all: unset;
               }
 
               &:active {
-                background-color: $lightPrimary;
+                all: unset;
               }
             }
 
             .active {
-              border: 1px solid $primary;
-              color: $primary;
+              all: unset;
             }
 
             .action {
-              background-color: $lightBlack;
-              padding: 10px 0 10px 10px;
-              display: flex;
-              flex-direction: column;
-              border-radius: 6px;
-              position: absolute;
-              transform: translate(-70px, 65px);
-              box-shadow: 6px 6px 18px 0 #000000;
-              z-index: 1;
+              all: unset;
 
               a {
-                padding: 8px 40px 8px 0;
-                margin: 1px 0;
+                all: unset;
 
                 &:hover {
-                  color: $primary;
+                  all: unset;
                 }
               }
             }
+            .progress {
+              all: unset;
+
+              .progress_bar_bg {
+                all: unset;
+
+                .progress_bar {
+                  all: unset;
+                }
+              }
+            }
+          }
+
+          .div_span {
+            color: $grey6;
+            display: flex;
+            align-items: center;
+          }
+
+          .margin_top_10 {
+            margin-top: 10px;
+          }
+
+          .table_mobile_cl {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+
+            span {
+              font-size: 12px;
+              color: $grey6;
+            }
+
+            .table_mobile_cl_p_small {
+              font-size: 12px;
+              color: $grey6;
+            }
+
+            .table_mobile_cl_l {
+              display: flex;
+              flex-direction: row;
+
+              .table_mobile_cl_l_1 {
+                display: flex;
+                flex-direction: column;
+                margin: 0 10px;
+
+                p {
+                  font-size: 16px;
+                  margin: -5px 0 0 0;
+                  padding: 0;
+                }
+
+                strong {
+                  color: $primary;
+                  font-size: 18px;
+                  font-weight: 600;
+                }
+              }
+
+              .td_icon {
+                margin: 0;
+                padding: 0;
+                width: 30px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: $primary;
+                transform: translate(0, -8px);
+                border-radius: 0 0 50px 50px;
+
+                svg {
+                  margin-top: 10px;
+                }
+              }
+            }
+
+            .table_mobile_cl_l_2 {
+              display: flex;
+              align-items: center;
+            }
+
+            .table_mobile_cl_r {
+              display: flex;
+              flex-direction: column;
+              align-items: flex-end;
+
+              .p_16 {
+                font-size: 16px;
+                color: $white;
+              }
+
+              .button {
+                background-image: linear-gradient(
+                  to bottom,
+                  $primary,
+                  $primaryLight2
+                );
+                padding: 5px 15px;
+                border-radius: 6px;
+              }
+              .arrow {
+                border: solid $white;
+                border-width: 0 3px 3px 0;
+                padding: 3px;
+                display: inline-block;
+                margin: 0 0 0 12px;
+              }
+
+              .down {
+                transform: rotate(45deg) translate(-5px, 3px);
+              }
+              .up {
+                transform: rotate(-135deg) translate(0, -5px);
+              }
+            }
+
             .progress {
               display: flex;
               align-items: center;
@@ -591,13 +683,29 @@
                 border-radius: 6px;
                 background-color: $lightBlack2;
                 overflow: hidden;
+                position: relative;
 
                 .progress_bar {
                   height: 6px;
                   background-color: $primary;
-                  width: 0;
-                  border-radius: 6px;
+                  border-radius: unset;
+                  position: absolute;
                 }
+              }
+            }
+
+            .action {
+              display: flex;
+              flex-direction: column;
+              position: absolute;
+              background-color: $lightBlack4;
+              box-shadow: 6px 6px 18px 0 #000000;
+              z-index: 1;
+              border-radius: 6px;
+              transform: translate(-2px, 32px);
+
+              a {
+                padding: 10px 50px 10px 10px;
               }
             }
           }
@@ -617,20 +725,49 @@
     margin: 0 auto;
   }
 
+  .__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    .__header_r {
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      margin: 0 20px;
+      padding: 10px 0;
+    }
+
+    a:last-child {
+      margin: 0 0 0 20px;
+    }
+    a.active {
+      border-bottom: 1px solid $primary;
+      color: $primary;
+    }
+    a:hover {
+      border-bottom: 1px solid $primary;
+      color: $primary;
+    }
+  }
+
   .body_footer {
     display: flex;
-    flex-direction: row;
-    width: 80%;
+    flex-direction: column;
+    width: 90%;
     margin: 8em auto;
     justify-content: space-evenly;
+    position: relative;
 
     > div > div {
-      margin: 0;
+      margin: 40px 0;
       padding: 0;
     }
 
     button {
-      position: absolute;
+      position: relative;
       font-size: 18px;
       transform: translate(0, 30px);
     }
@@ -747,6 +884,61 @@
           margin: 8px 0 0 0;
           padding: 0;
         }
+      }
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  .body_footer {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 8em auto;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    > div > div {
+      margin: 40px 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    button {
+      position: relative;
+      font-size: 12px;
+      transform: translate(0, 20px);
+    }
+
+    .body_footer_card_wrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+    }
+
+    .body_footer_card {
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      margin: 0;
+      padding: 0;
+      width: 95%;
+      padding: 30px 0;
+
+      img {
+        width: 100px;
+        height: 100px;
+        padding: 0;
+        margin: 0;
+      }
+
+      p {
+        width: 46%;
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
       }
     }
   }

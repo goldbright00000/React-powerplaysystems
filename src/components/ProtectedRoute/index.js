@@ -8,9 +8,10 @@ import { CONSTANTS } from '../../utility/constants';
 
 function ProtectedRoute({ component: Component, ...rest }) {
     const { use: { token = '' } = {} } = useSelector((state) => state?.auth);
-    let isAuthenticated = !isEmpty(token) || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
+    let isAuthenticated = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
     
     return <Route {...rest} render={(props) => {
+        console.log('Props: ',props)
         return (
             isAuthenticated ?
                 <Component {...props} />
@@ -23,5 +24,5 @@ function ProtectedRoute({ component: Component, ...rest }) {
         }} />
 }
 
-export default ProtectedRoute
+export default React.memo(ProtectedRoute)
 
