@@ -5,14 +5,11 @@ import classes from './index.module.scss';
 import ResultCard from './ResultCard';
 
 function Accordian(props) {
-    const { title = '', visible = true, cash = '', cashTitle = '', Icon = '', isSvg = false } = props || {}
-
-    const [isVisible, setVisibleState] = useState(visible);
-    useEffect(() => { }, [visible])
+    const { title = '', visible = false, cash = '', cashTitle = '', Icon = '', isSvg = false, onClick = () => { } } = props || {}
     
     return (
         <div className={classes.wrapper}>
-            <div className={classes.accoridan_bar}>
+            <div className={classes.accoridan_bar} onClick={onClick}>
                 <span>{title}</span>
                 <span className={classes.accoridan_bar_right}>
                     <span>
@@ -26,7 +23,7 @@ function Accordian(props) {
                             Icon &&
                             <img src={Icon} />
                     }
-                    <i className={`${classes.arrow} ${classes.down}`} />
+                    <i className={`${classes.arrow} ${visible ? classes.up : classes.down}`} />
                 </span>
             </div>
 
@@ -45,6 +42,7 @@ Accordian.propTypes = {
     cashTitle: PropTypes.string,
     Icon: PropTypes.any,
     isSvg: PropTypes.bool,
+    onClick: PropTypes.func,
 }
 
 export default Accordian
