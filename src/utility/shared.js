@@ -1,5 +1,6 @@
 import { isEmpty, isEqual } from 'lodash'
 import { CONSTANTS } from './constants'
+import moment from 'moment';
 
 
 export function redirectTo(props ,{path = '/', state = {} }) {
@@ -130,4 +131,34 @@ export function validateEmail(email) {
 
 export function setNumberComma(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+}
+
+export function getYearsList() {
+    let year = new Date().getFullYear();
+    const years = [];
+    
+    for (let i = year; i > 1920; i--) {
+        years.push({name: i, value: i})
+    }
+    
+    return years;
+}
+
+export function getDays() {
+    let weekDays = moment.weekdays();
+    const days = [];
+    for (let i = 0; i < weekDays.length; i++) {
+        days.push({ name: weekDays[i], value: weekDays[i] });
+    }
+
+    return days;
+}
+
+export function getMonthDays() {
+    const month = [];
+    for (let i = 1; i <= 31; i++) {
+        month.push({ name: i, value: i });
+    }
+
+    return month;
 }

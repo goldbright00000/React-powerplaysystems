@@ -3,8 +3,8 @@ import React from 'react'
 function Money(props) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={props?.size || "33"} height={props?.size || "33"} viewBox="0 0 33 33" style={{height: 'auto'}} {...props}>
-            <g fill="none" fill-rule="evenodd">
-            <g fill="#FB6E00" fill-rule="nonzero">
+            <g fill="none" fillRule="evenodd">
+            <g fill="#FB6E00" fillRule="nonzero">
                 <g>
                     <g>
                         <g>

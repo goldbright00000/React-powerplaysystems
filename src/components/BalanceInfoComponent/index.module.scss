@@ -1,5 +1,10 @@
 @import "../../scss/colors.scss";
 
+p {
+  margin: 0;
+  padding: 0;
+}
+
 .list_header_wrapper {
   display: flex;
   flex-direction: column;
@@ -87,5 +92,148 @@
     button.claimed {
       color: $white;
     }
+  }
+}
+
+.modal_container {
+  background-color: $white;
+  border-radius: 6px;
+  width: 1073px;
+  overflow: hidden scroll;
+  max-height: 100vh - 10vh;
+  margin-top: 15px;
+  border-radius: 6px;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: $black2;
+    border-radius: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $grey5;
+    width: 7px;
+    border-radius: 5px;
+  }
+
+  .modal_header {
+    display: flex;
+    justify-content: space-between;
+    color: $white;
+    background-color: $primary;
+    padding: 10px 30px;
+    font-size: 26px;
+    font-weight: 500;
+    border-radius: 6px 6px 0 0;
+    align-items: center;
+
+    .modal_close_icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.5;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      &:before,
+      &:after {
+        position: absolute;
+        content: " ";
+        width: 2px;
+        height: 20px;
+        background-color: $white;
+      }
+
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
+      }
+
+      &:hover {
+        opacity: 1;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .modal_body {
+    color: $black;
+    padding: 10px 30px;
+
+    .body_header {
+      font-size: 14px;
+      font-weight: bold;
+      color: $grey9;
+    }
+
+    .body_header_primary {
+      color: $primary;
+    }
+
+    .margin_l_40 {
+      margin-left: 40px;
+    }
+
+    .margin_t_10 {
+      margin-top: 10px;
+    }
+
+    label {
+      font-weight: 14px;
+      color: $darkblack;
+
+      span {
+        font-style: italic;
+        font-weight: bold;
+      }
+    }
+
+    .form_amountInput {
+      > div {
+        width: 220px;
+      }
+    }
+
+    .form_Input_50 {
+      display: inline-flex;
+      flex-direction: column;
+      width: 50%;
+    }
+
+    .form_control_center {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .form_control {
+      display: flex;
+      margin: 10px 0;
+
+      .form_dropdown_main {
+        display: flex;
+        flex-direction: column;
+      }
+      .form_dropdown {
+        border: 2px solid $offwhite;
+        padding: 18px 20px;
+        background-color: $white;
+        border-radius: 6px;
+        appearance: none;
+        background: url("../../assets/down-arrow.png") $white no-repeat 95.5%;
+        background-size: 17px;
+        min-width: 340px;
+        max-width: 340px;
+        outline: none;
+      }
+    }
+  }
+  .select {
+    background-color: $white !important;
   }
 }

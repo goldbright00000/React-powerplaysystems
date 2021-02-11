@@ -11,7 +11,6 @@ function ProtectedRoute({ component: Component, ...rest }) {
     let isAuthenticated = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
     
     return <Route {...rest} render={(props) => {
-        console.log('Props: ',props)
         return (
             isAuthenticated ?
                 <Component {...props} />

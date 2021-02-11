@@ -81,10 +81,10 @@ function LoginPage(props) {
                         <form onSubmit={onLoginSubmit}>
                             <Input type="text" block rounded label="E-mail" required value={user.email} onChange={(e) => {
                                 setUser({...user, email: e?.target?.value})
-                            }} />
+                            }} bordered />
                             <Input type="password" block rounded label="Password" required value={user.password} onChange={(e) => {
                                 setUser({...user, password: e?.target?.value})
-                            }} />
+                            }} bordered />
                             <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading || (isEmpty(user.email) || isEmpty(user.password))}>
                                 {
                                     loading ?
