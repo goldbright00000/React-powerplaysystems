@@ -51,7 +51,6 @@
   margin: 30px 0;
   border-radius: 6px;
   pointer-events: none;
-  background-color: turquoise;
 
   .row {
     display: flex;
@@ -110,5 +109,65 @@
   .table_body {
     background-color: $black;
     border-radius: 0 0 6px 6px;
+  }
+}
+
+@media (max-width: 540px) {
+  .table_wrapper {
+    width: 100%;
+    transform: none;
+    margin: 30px 0;
+    border-radius: 6px;
+    pointer-events: none;
+
+    .table_header {
+      display: none;
+
+      > div {
+        color: $white;
+      }
+    }
+
+    .row {
+      flex-direction: column;
+      color: $white;
+      margin: 10px 0;
+      width: 100%;
+      background-color: $black;
+      border-bottom: none;
+      padding: 0;
+
+      .row_m_footer {
+        width: 100%;
+        padding: 30px 0;
+
+        button {
+          width: 90%;
+          box-shadow: 0 4px 14px 0 rgba(0, 0, 0, 0.28);
+        }
+      }
+    }
+
+    .row_m {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+
+      .row_m1 {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        padding: 20px;
+
+        &:nth-child(even) {
+          background-color: $black2;
+        }
+      }
+    }
+
+    .table_body {
+      background-color: transparent;
+      border-radius: none;
+    }
   }
 }

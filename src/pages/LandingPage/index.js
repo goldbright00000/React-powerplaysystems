@@ -43,6 +43,14 @@ const LandingPage = props => {
         }
     }, [])
 
+    useEffect(() => {
+        _socket?.on(CONSTANTS.SOCKET_EVENTS.LANDING_PAGE_EMAIL.EMIT, (email) => {
+            const { error = false, message = "", success = false } = email || {};
+            
+            return dispatch(landingPageDone(message));
+        });
+     }, [_socket])
+
     const onFormSubmit = (e) => {
         e.preventDefault();
 
@@ -60,19 +68,8 @@ const LandingPage = props => {
         // setModalState(false)
     }
 
-    _socket?.on(CONSTANTS.SOCKET_EVENTS.LANDING_PAGE_EMAIL.EMIT, (email) => {
-        const { error = false, message = "", success = false } = email || {};
-        
-        dispatch(landingPageDone(message));
-    });
-
-    const onScroll = () => {
-        console.log('aa',window.scrollY, scrollRef)
-    }
-
-
     return (
-        <div className={classes.wrapper} onScroll={onScroll} ref={scrollRef}>
+        <div className={classes.wrapper} ref={scrollRef}>
             <Header hasMenu={false} />
             <HomePageContentHeader
                 buttonTitle="Notify me of launch!"
@@ -183,6 +180,10 @@ const LandingPage = props => {
                             }
                         </div>
                     </form>
+
+                    {
+                        console.log(loading, ': loading')
+                    }
 
                     <button className={classes.modal_close} onClick={() => setModalState(false)} />
                 </div>

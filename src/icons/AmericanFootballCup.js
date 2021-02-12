@@ -15,8 +15,8 @@ function AmericanFootballCup(props) {
             </feMerge>
         </filter>
     </defs>
-    <g fill="none" fill-rule="evenodd">
-        <g fill="#FB6E00" fill-rule="nonzero">
+    <g fill="none" fillRule="evenodd">
+        <g fill="#FB6E00" fillRule="nonzero">
             <g>
                 <g>
                     <g>

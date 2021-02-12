@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { useMediaQuery } from 'react-responsive';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -10,6 +11,7 @@ import ResultsInforComponent from '../../components/ResultsInfoComponent';
 
 function AccountPage(props) {
     const [activeTab, setActiveTab] = useState(0)
+    const isMobile = useMediaQuery({ query: '(max-width: 540px)' });
     useEffect(() => { 
         
     }, [])
@@ -31,13 +33,13 @@ function AccountPage(props) {
 
                             <div className={classes.tab_body}>
                                 <TabPanel>
-                                    <AccountInfo />
+                                    <AccountInfo isMobile={isMobile} />
                                 </TabPanel>
                                 <TabPanel>
-                                    <BalanceInfoComponent />
+                                    <BalanceInfoComponent isMobile={isMobile} />
                                 </TabPanel>
                                 <TabPanel>
-                                    <ResultsInforComponent />
+                                    <ResultsInforComponent isMobile={isMobile} />
                                 </TabPanel>
                             </div>
                         </Tabs>

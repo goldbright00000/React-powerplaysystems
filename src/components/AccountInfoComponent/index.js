@@ -1,9 +1,11 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 import classes from './index.module.scss';
 
 function AccountInfo(props) {
+    const { isMobile = false } = props || {};
+
     const renderItem = (title, value, buttonTitle) => {
         const onButtonClick = () => {
             console.log('button clicked')
@@ -40,7 +42,7 @@ function AccountInfo(props) {
             }
 
             {
-                renderItem('Province/State/Territory', 'Islamabad')
+                renderItem(isMobile ? 'Province' : 'Province/State/Territory', 'Islamabad')
             }
 
             {
@@ -51,7 +53,7 @@ function AccountInfo(props) {
 }
 
 AccountInfo.propTypes = {
-
+    isMobile: PropTypes.bool,
 }
 
 export default AccountInfo

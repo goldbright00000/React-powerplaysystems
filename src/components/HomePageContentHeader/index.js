@@ -67,7 +67,7 @@ function HomePageContentHeader(props) {
 HomePageContentHeader.propTypes = {
     buttonTitle: PropTypes.string,
     redirectTo: PropTypes.string,
-    footerTitle: PropTypes.string,
+    footerTitle: PropTypes.any,
     showBtnBg: PropTypes.bool,
     onButtonClick: PropTypes.func
 }

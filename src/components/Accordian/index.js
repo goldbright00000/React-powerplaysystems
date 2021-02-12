@@ -5,7 +5,7 @@ import classes from './index.module.scss';
 import ResultCard from './ResultCard';
 
 function Accordian(props) {
-    const { title = '', visible = false, cash = '', cashTitle = '', Icon = '', isSvg = false, onClick = () => { } } = props || {}
+    const { title = '', visible = false, cash = '', cashTitle = '', Icon = '', isSvg = false, onClick = () => { }, isMobile = false } = props || {}
     
     return (
         <div className={classes.wrapper}>
@@ -29,7 +29,7 @@ function Accordian(props) {
 
             {
                 visible &&
-                <ResultCard />
+                <ResultCard isMobile={isMobile} />
             }
         </div>
     )
@@ -43,6 +43,7 @@ Accordian.propTypes = {
     Icon: PropTypes.any,
     isSvg: PropTypes.bool,
     onClick: PropTypes.func,
+    isMobile: PropTypes.bool
 }
 
 export default Accordian

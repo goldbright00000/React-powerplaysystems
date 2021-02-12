@@ -14,6 +14,7 @@ import Input from '../Input';
 import Checkbox from '../Checkbox';
 import Select from '../Select';
 import { getDays, getMonthDays, getYearsList } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
 
 const ListTitle = (Icon, isSvg, title) => (
     <span className={classes.list_left_side_1}>
@@ -34,7 +35,7 @@ const ListHeader = (title, balance, btnTitle, onClick, Icon, isSvg) => {
             <div className={classes.list_left_side}>
                 {ListTitle(Icon, isSvg, title)}
                 <span className={classes.span}>
-                    {balance}
+                    ${balance}
                 </span>
             </div>
 
@@ -49,7 +50,10 @@ const ListHeader = (title, balance, btnTitle, onClick, Icon, isSvg) => {
 function BalanceInfoComponent(props) {
     const [form, setForm] = useState({});
     const [showModal, setModalState] = useState(false);
+    const [activeForm, setActiveForm] = useState(0);
     
+    const { isMobile = false } = props || {};
+
     const changeInputHandler = (e) => {
         const { target: { value = '', name = '' } = {} } = e || {};
         
@@ -71,10 +75,28 @@ function BalanceInfoComponent(props) {
         setModalState(!showModal)
     }
 
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (isMobile && activeForm !== 2) {
+            let _active = activeForm;
+            setActiveForm(_active + 1);
+            return;
+        }
+
+        console.log('withdraw')
+    }
+
+    const handleBack = () => {
+        if (activeForm > 0) {
+            let _active = activeForm;
+            setActiveForm(_active - 1);
+        }
+    }
+
     return (
         <>
             <div className={classes.list_header_wrapper}>
-                {ListHeader('My Cash Balance', '$1,750', 'Withdraw', changeModalState, Money, true)}
+                {ListHeader('My Cash Balance', '1,750', 'Withdraw', changeModalState, Money, true)}
                 {ListHeader('My Token Balance', '1,750', 'Transfer to Wallet', () => { }, Token, false)}
             </div>
             <div className={classes.list_body}>
@@ -92,85 +114,95 @@ function BalanceInfoComponent(props) {
                     </div>
 
                     <div className={classes.modal_body}>
-                        <form>
-                            <p className={`${classes.body_header} ${classes.margin_t_10}`}>Withdrawal Info</p>
-                            <div className={`${classes.form_control} ${classes.margin_t_10}`}>
-                                <div className={classes.form_amountInput}>
-                                    <label>Withdrawal amount <span>(min $100)</span></label>
-                                    <Input type="number" value={form?.amount} name="amount" onChange={changeInputHandler} icon="$" white bordered required />
-                                </div>
+                        <form onSubmit={handleFormSubmit}>
+                            <div className={`${isMobile && activeForm === 0 ? '' : classes.hidden}`}>
+                                <p className={`${classes.body_header} ${classes.margin_t_10}`}>Withdrawal Info</p>
+                                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
+                                    <div className={classes.form_amountInput}>
+                                        <label>Withdrawal amount <span>(min $100)</span></label>
+                                        <Input type="number" value={form?.amount} name="amount" onChange={changeInputHandler} icon="$" white bordered required />
+                                    </div>
 
-                                <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
-                                    <label>Send funds to</label>
-                                    <Input type="email" placeholder="Enter your paypal email here" value={form?.funds} name="funds" onChange={changeInputHandler} rounded white block bordered required />
-                                </div>
-                            </div>
-
-                            <p className={`${classes.body_header} ${classes.margin_t_10}`}>Billing Info</p>
-                            <div className={`${classes.form_control} ${classes.margin_t_10}`}>
-                                <div className={classes.form_Input_50}>
-                                    <label>Address line 1</label>
-                                    <Input type="text" placeholder="Enter address here" value={form?.addr1} name="addr1" onChange={changeInputHandler} rounded white block bordered required />
-                                </div>
-
-                                <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
-                                    <label>Address line 2</label>
-                                    <Input type="text" placeholder="Enter address here" value={form?.addr2} name="addr2" onChange={changeInputHandler} rounded white block bordered required />
+                                    <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
+                                        <label>Send funds to</label>
+                                        <Input type="email" placeholder="Enter your paypal email here" value={form?.funds} name="funds" onChange={changeInputHandler} rounded white block bordered required />
+                                    </div>
                                 </div>
                             </div>
 
-                            <div className={`${classes.form_control} ${classes.margin_t_10}`}>
-                                <div>
-                                    <label>Country</label>
-                                    <CountryDropdown classes={`${classes.form_dropdown_main} ${classes.form_dropdown}`} value={form?.country} onChange={(val) => handleCountryRegion({name: 'country', value: val})} required />
+                            <div className={`${isMobile && activeForm === 1 ? '' : classes.hidden}`}>
+                                <p className={`${classes.body_header} ${classes.margin_t_10}`}>Billing Info</p>
+                                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
+                                    <div className={classes.form_Input_50}>
+                                        <label>Address line 1</label>
+                                        <Input type="text" placeholder="Enter address here" value={form?.addr1} name="addr1" onChange={changeInputHandler} rounded white block bordered required />
+                                    </div>
+
+                                    <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
+                                        <label>Address line 2</label>
+                                        <Input type="text" placeholder="Enter address here" value={form?.addr2} name="addr2" onChange={changeInputHandler} rounded white block bordered required />
+                                    </div>
                                 </div>
 
-                                <div className={`${classes.margin_l_40}`}>
-                                    <label>Provinence</label>
-                                    <RegionDropdown classes={`${classes.form_dropdown_main} ${classes.form_dropdown}`} country={form?.country} value={form?.region} onChange={(val) => handleCountryRegion({name: 'region', value: val})} required />
+                                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
+                                    <div>
+                                        <label>Country</label>
+                                        <CountryDropdown classes={`${classes.form_dropdown_main} ${classes.form_dropdown}`} value={form?.country} onChange={(val) => handleCountryRegion({name: 'country', value: val})} required name="country" valueType="short" />
+                                    </div>
+
+                                    <div className={`${classes.margin_l_40}`}>
+                                        <label>Provinence</label>
+                                        <RegionDropdown classes={`${classes.form_dropdown_main} ${classes.form_dropdown}`} country={form?.country} value={form?.region} onChange={(val) => handleCountryRegion({name: 'region', value: val})} required name="region" />
+                                    </div>
+
+                                    <div className={`${classes.margin_l_40}`}>
+                                        <label>Postal Code</label>
+                                        <Input type="number" placeholder="Postal Code" value={form?.postCode} name="postCode" onChange={changeInputHandler} rounded white block bordered required />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className={isMobile && activeForm === 2 ? '' : classes.hidden}>
+                                <p className={`${classes.body_header} ${classes.margin_t_10} ${classes.body_header_primary}`}>Personal Info</p>
+                                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
+                                    <div className={classes.form_Input_50}>
+                                        <label>First Name</label>
+                                        <Input type="text" placeholder="First Name" value={form?.fname} name="fname" onChange={changeInputHandler} rounded white block bordered required />
+                                    </div>
+
+                                    <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
+                                        <label>Last Name</label>
+                                        <Input type="text" placeholder="Last Name" value={form?.lname} name="lname" onChange={changeInputHandler} rounded white block bordered required />
+                                    </div>
                                 </div>
 
-                                <div className={`${classes.margin_l_40}`}>
-                                    <label>Postal Code</label>
-                                    <Input type="number" placeholder="Postal Code" value={form?.postCode} name="postCode" onChange={changeInputHandler} rounded white block bordered required />
+                                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
+                                    <div className={classes.form_Input_50}>
+                                        <Select data={getDays()} value={form?.day} name="day" onChange={changeInputHandler} label="Day" white required />
+                                    </div>
+
+                                    <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
+                                        <Select data={getMonthDays()} value={form?.month} name="month" onChange={changeInputHandler} label="Month" white required />
+                                    </div>
+
+                                    <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
+                                    <Select data={getYearsList()} value={form?.year} name="year" onChange={changeInputHandler} label="Year" white required />
+                                    </div>
+                                </div>
+                                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
+                                    <Checkbox checked={form?.termsAndConditions} onChange={handleCheckBox} name='termsAndConditions' label={<>I agree to PowerPlay Systems <Link to="#">Terms and Conditions</Link></>} required />
                                 </div>
                             </div>
 
-                            <div>
-
-                            </div><p className={`${classes.body_header} ${classes.margin_t_10} ${classes.body_header_primary}`}>Personal Info</p>
-                            <div className={`${classes.form_control} ${classes.margin_t_10}`}>
-                                <div className={classes.form_Input_50}>
-                                    <label>First Name</label>
-                                    <Input type="text" placeholder="First Name" value={form?.fname} name="fname" onChange={changeInputHandler} rounded white block bordered required />
-                                </div>
-
-                                <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
-                                    <label>Last Name</label>
-                                    <Input type="text" placeholder="Last Name" value={form?.lname} name="lname" onChange={changeInputHandler} rounded white block bordered required />
-                                </div>
-                            </div>
-
-                            <div className={`${classes.form_control} ${classes.margin_t_10}`}>
-                                <div className={classes.form_Input_50}>
-                                    <Select data={getDays()} value={form?.day} name="day" onChange={changeInputHandler} label="Day" white required />
-                                </div>
-
-                                <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
-                                    <Select data={getMonthDays()} value={form?.month} name="month" onChange={changeInputHandler} label="Month" white required />
-                                </div>
-
-                                <div className={`${classes.form_Input_50} ${classes.margin_l_40}`}>
-                                <Select data={getYearsList()} value={form?.year} name="year" onChange={changeInputHandler} label="Year" white required />
-                                </div>
-                            </div>
-
-                            <div className={`${classes.form_control} ${classes.margin_t_10}`}>
-                                <Checkbox checked={form?.termsAndConditions} onChange={handleCheckBox} name='termsAndConditions' label={<>I agree to PowerPlay Systems <Link to="#">Terms and Conditions</Link></>} required />
-                            </div>
 
                             <div className={`${classes.form_control} ${classes.margin_t_10} ${classes.form_control_center}`}>
-                                <Button title="Withdraw Cash" block />
+                                {
+                                    isMobile && activeForm !== 0 &&
+                                    <Button title="Back" block onClick={handleBack} bordered />
+                                }
+                                <div className={classes.button}>
+                                    <Button title={isMobile && activeForm !== 2 ? 'Next' : "Withdraw Cash"} block type={CONSTANTS.BUTTON_TYPE.SUBMIT} onClick={handleFormSubmit} />
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -181,7 +213,7 @@ function BalanceInfoComponent(props) {
 }
 
 BalanceInfoComponent.propTypes = {
-
+    isMobile: PropTypes.bool,
 }
 
 export default BalanceInfoComponent

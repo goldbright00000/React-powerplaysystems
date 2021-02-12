@@ -9,6 +9,8 @@ const data = [
 function ResultsInforComponent(props) {
     const [activeTab, setActiveTab] = useState();
 
+    const { isMobile = false } = props || {};
+
     const onClickAccordian = (index) => {
         setActiveTab(activeTab === null ? index : null)
     }
@@ -17,7 +19,7 @@ function ResultsInforComponent(props) {
         <>
             {
                 data.map((v, ind) => (
-                    <Accordian title="Cash Prizes" visible={ ind === activeTab } onClick={() => onClickAccordian(ind)} cashTitle={v.cashTitle} cash={v.cash} key={ind.toString()} />
+                    <Accordian title="Cash Prizes" visible={ ind === activeTab } onClick={() => onClickAccordian(ind)} cashTitle={v.cashTitle} cash={v.cash} key={ind.toString()} isMobile={isMobile} />
                 ))
             }
         </>
@@ -25,7 +27,7 @@ function ResultsInforComponent(props) {
 }
 
 ResultsInforComponent.propTypes = {
-
+    isMobile: PropTypes.bool,
 }
 
 export default ResultsInforComponent

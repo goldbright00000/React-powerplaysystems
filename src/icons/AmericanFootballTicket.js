@@ -15,8 +15,8 @@ function AmericanFootballTicket(props) {
             </feMerge>
         </filter>
     </defs>
-    <g fill="none" fill-rule="evenodd">
-        <g fill="#FB6E00" fill-rule="nonzero">
+    <g fill="none" fillRule="evenodd">
+        <g fill="#FB6E00" fillRule="nonzero">
             <g>
                 <g>
                     <g filter="url(#289sl43zca)" transform="translate(-290 -940) translate(250 829) translate(40 112) translate(32 31)">
