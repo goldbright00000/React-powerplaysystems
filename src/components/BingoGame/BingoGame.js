@@ -1,8 +1,16 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import BingoGameBall from '..//BingoGameBall/BingoGameBall';
 import './BingoGame.scss';
 
+/**
+ * 
+ * @param {numbers} props,
+ * numbers = [[], [], [], [], []] 
+ */
 const BingoGame = props => {
+    const { targetNumbers = [], drawnNumbers = [] } = props || {};
     return (
         <div className='__bingo-game-1 __center'>
             <div className='__game-wrapper'>
@@ -11,7 +19,18 @@ const BingoGame = props => {
                 <div>N</div>
                 <div>G</div>
                 <div>O</div>
-                <BingoGameBall>2</BingoGameBall>
+                {
+                    targetNumbers && targetNumbers?.map((numbers, index) => {
+                        return numbers?.map((number, key) => {
+                            console.log(key, index);
+                            
+                            return (
+                                key === 2 && index === 2 ? <BingoGameBall key={key + " - " + index} active>Free</BingoGameBall> : <BingoGameBall key={key + " - " + index}>{number}</BingoGameBall>
+                            )
+                        })
+                    })
+                }
+                {/* <BingoGameBall>2</BingoGameBall>
                 <BingoGameBall>17</BingoGameBall>
                 <BingoGameBall>43</BingoGameBall>
                 <BingoGameBall>46</BingoGameBall>
@@ -35,10 +54,15 @@ const BingoGame = props => {
                 <BingoGameBall>33</BingoGameBall>
                 <BingoGameBall>53</BingoGameBall>
                 <BingoGameBall>72</BingoGameBall>
-                <BingoGameBall>66</BingoGameBall>
+                <BingoGameBall>66</BingoGameBall> */}
             </div>
         </div>
     )
 }
 
-export default BingoGame;
+BingoGame.propTypes = {
+    targetNumbers: PropTypes.array,
+    drawnNumbers: PropTypes.object,
+}
+
+export default React.memo(BingoGame);

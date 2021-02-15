@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
 import './BingoInProgressGame.scss';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
@@ -9,8 +11,116 @@ import ReverseTimer from '../../components/ReverseTimer/ReverseTimer';
 import BingoGame2 from '../../components/BingoGame2/BingoGame2';
 import BingoGame from '../../components/BingoGame/BingoGame';
 import PowerPlays from '../../components/PowerPlays/PowerPlays';
+import ProgressBar from '../../components/Progress';
+import { checkRange, getRandomNumberBetween } from '../../utility/shared';
+import * as Actions from '../../actions/bingoActions';
+
+const BINGO = { b: [], n: [], i: [], g: [], o: [] };
+const TARGET_NUMBERS = [
+    [1, 2, 3, 4, 5], [16,17,18,19,20], [31,32,33,34,35], [46,47,48,49,50], [61,62,63,64,65]
+];
+const MAX_PROGRESS = 5;
+const MAX_LEVELS = 25;
 
 const BingoInProgressGame = props => {
+    // const [bingo, setBingo] = useState(INITIAL_STATE);
+    const [currentNumber, setCurrentNumber] = useState(0);
+    const [progressCount, setProgressCount] = useState(5);
+
+    const dispatch = useDispatch();
+    const { bingoGame } = useSelector((state) => state);
+
+    useEffect(() => { }, [currentNumber]);
+
+    useEffect(() => {
+        let progress = null;
+        
+        progress = gameStart();
+
+        return function cleanup() {
+            if(progress)
+                clearInterval(progress);
+        }
+     }, []);
+
+    const gameStart = () => {
+        let progress = MAX_PROGRESS; //progress bar max value
+        let timeInterval = null;
+        let _levelCount = 1; //initial level will be 1
+        timeInterval = setInterval(() => { 
+            if (progress > 0) {
+                progress--;
+                setProgressCount(progress);
+            } else {
+                //generate random number
+                let number = generateAndSetNumber();
+
+                let B = checkRange(number, 1, 15);
+                let I = checkRange(number, 16, 30);
+                let N = checkRange(number, 31, 45);
+                let G = checkRange(number, 46, 60);
+                let O = checkRange(number, 61, 75);
+
+                const b = [], i = [], n = [], g = [], o = [];
+                if (B !== 0) {
+                    b.push(number);
+                    let _b = [...BINGO.b, ...b];
+                    BINGO.b = _b;
+                }
+
+                if (I !== 0) {
+                    i.push(number);
+                    let _i = [...BINGO.i, ...i];
+                    BINGO.i = _i;
+                }
+
+                if (N !== 0) {
+                    n.push(number);
+                    let _n = [...BINGO.n, ...n];
+                    BINGO.n = _n;
+                }
+
+                if (G !== 0) {
+                    g.push(number);
+                    let _g = [...BINGO.g, ...g];
+                    BINGO.g = _g;
+                }
+
+                if (O !== 0) {
+                    o.push(number);
+                    let _o = [...BINGO.o, ...o];
+                    BINGO.o = _o;
+                }
+                _levelCount++;
+
+                //reset progress bar
+                progress = 5;
+                setProgressCount(progress);
+                dispatch(Actions.bingoInProgress(BINGO));
+                
+                if (_levelCount > MAX_LEVELS) {
+                    clearInterval(timeInterval);
+                    console.log('game over');
+                }
+            }
+        }, 1000);
+        
+        
+        return timeInterval;
+    }
+
+    const generateAndSetNumber = () => {
+        let number = getRandomNumberBetween(1, 75);
+        if (BINGO.b.includes(number) || BINGO.i.includes(number) || BINGO.n.includes(number) || BINGO.g.
+        includes(number) || BINGO.o.includes(number)) {
+            return generateAndSetNumber();
+        }
+
+        setCurrentNumber(number);
+
+        return number;
+    }
+
     return (
         <div className='__BingoInProgressGame __BingoGame'>
             <Header isStick={true} />
@@ -26,10 +136,24 @@ const BingoInProgressGame = props => {
                     <div className='__timer-section __relative __center'>
                         <div className='__absolute __center'>
                             <div className='__mt-2'>Next number drawn in</div>
-                            <ReverseTimer className='__ml-a __mr-a __mt-1' />
+                            {/* <ReverseTimer className='__ml-a __mr-a __mt-1' /> */}
+                            <ProgressBar
+                            progress={progressCount}
+                            maxProgress={MAX_PROGRESS}
+                            size={62}
+                            strokeWidth={4}
+                            circleOneStroke='grey'
+                            circleTwoStroke='#fff' />
                             <div className='__ball __h3 __primary-color __column __ai __flex-center __m-a __mb-1 __mt-1'>
-                                <div>G</div>
-                                <div>59</div>
+                                {
+                                    currentNumber !== 0 ?
+                                        <>
+                                            <div>G</div>
+                                            <div>{ currentNumber }</div>
+                                        </>
+                                        :
+                                        <div>-</div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -54,7 +178,7 @@ const BingoInProgressGame = props => {
                         </div>
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image __hide-on-large' />
                     </div>
-                    <BingoGame />
+                    <BingoGame targetNumbers={TARGET_NUMBERS} />
                 </div>
                 <PowerPlays />
             </div>

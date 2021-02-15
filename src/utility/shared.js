@@ -30,6 +30,20 @@ export function getRandomCard () {
     return card
 }
 
+export function getRandomNumberBetween(minRange, maxRange) {
+    let number = Math.floor(Math.random() * maxRange) + minRange;
+
+    return number;
+}
+
+export function checkRange (number, minRange, maxRange) {
+    if (number >= minRange && number <= maxRange) {
+        return number;
+    }
+
+    return 0;
+}
+
 export function hasMaxAceCards(aceCards) {
     return aceCards === CONSTANTS.MAX_ACE_PER_CARD
 }
