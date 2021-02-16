@@ -1,80 +1,43 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+
 import './BingoGame2.scss';
+import { isEmpty } from 'lodash';
 
 const BingoGame2 = props => {
+    const { bingo: { b = [], i = [], n = [], g = [], o = [] } = {} } = props || {};
+    
+    const renderTableRow = (list) => {
+        return (
+            list && list?.length && list?.map((value, index) =>
+                <div key={index + ' ' + value}>{ value }</div>
+            )
+        )
+    }
+    
     return (
         <div className='__bingo-game-2 __primary-color __h2 __mediam-on-small'>
             <div className='__bold'>B</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
+            {renderTableRow(b)}
 
             <div className='__bold'>I</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
+            {renderTableRow(i)}
 
             <div className='__bold'>N</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
+            {renderTableRow(n)}
 
             <div className='__bold'>G</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
+            {renderTableRow(g)}
 
             <div className='__bold'>O</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
-            <div>-</div>
+            {renderTableRow(o)}
         </div>
     )
 }
 
-export default BingoGame2;
+BingoGame2.propTypes = {
+    bingo: PropTypes.object
+}
+
+export default React.memo(BingoGame2);

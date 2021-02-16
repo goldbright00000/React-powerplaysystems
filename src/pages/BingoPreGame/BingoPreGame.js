@@ -10,8 +10,15 @@ import lotteryImage from '../../assets/lotteryImg@2x.png';
 import PowerPlays from '../../components/PowerPlays/PowerPlays';
 import BingoGame from '../../components/BingoGame/BingoGame';
 import BingoGame2 from '../../components/BingoGame2/BingoGame2';
+import { useSelector } from 'react-redux';
+
+const BINGO_INDEXES = { b: 0, i: 0, n: 0, g: 0, o: 0 };
+const TARGET_NUMBERS = [
+    [1, 2, 3, 4, 5], [16,17,18,19,20], [31,32,33,34,35], [46,47,48,49,50], [61,62,63,64,65]
+];
 
 const BingoPreGame = props => {
+    const { bingo_game: bingoGame = {} } = useSelector((state) => state.bingoGame);
     return (
         <div className='__BingoGame __BingoPreGame'>
             <Header isStick={true} />
@@ -52,12 +59,12 @@ const BingoPreGame = props => {
                         </div>
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image __hide-on-large' />
                     </div>
-                    <BingoGame />
+                    <BingoGame targetNumbers={TARGET_NUMBERS} />
                 </div>
                 <PowerPlays />
             </div>
             <div className='__container __bing-2-game-wrapper'>
-                <BingoGame2 />
+                <BingoGame2 bingo={bingoGame} />
             </div>
             <div className='__hide-on-large'>
                 <Footer isBlack={true} />

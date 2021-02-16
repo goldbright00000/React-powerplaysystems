@@ -62,9 +62,9 @@ const App = props => {
                 <Route path="/power-poker" component={PowerPoker} />
                 <Route path="/landing-page" component={LandingPage} />
                 <ProtectedRoute path="/my-account" component={AccountPage} />
+                <Route exact path='/elite8' component={Elite8} />
+                <Route exact path='/elite8-draw' component={Elite8Draw} />
                 <Route component={HomePage} />
-                <Route path='/elite8' component={Elite8} />
-                <Route path='/elite8-draw' component={Elite8Draw} />
             </Switch>
         </Fragment>
     )
