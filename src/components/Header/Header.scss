@@ -1,93 +1,113 @@
-@import '../../scss/colors.scss';
+@import "../../scss/colors.scss";
 
-.__Header{
-    background: $black;
-    top: 0;
-    left: 0;
-    z-index: 2;
-    width: 100%;
-    .__brand-logo > img{
-        width: 7.142em;
-    }
-    .__navlinks{
-        list-style-type: none;
-        margin: 0.66em 0;
-        >li{
-            margin: 0 1.5em;
-            text-transform: uppercase;
-            &:last-child{
-                margin-right: 0;
-            }
-            a:not(.__header-btn){
-                &:hover, &.active{
-                    color: $primary;
-                }
-            }
+.__Header {
+  background: $black;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  width: 100%;
+  .__brand-logo > img {
+    width: 7.142em;
+  }
+  .__navlinks {
+    list-style-type: none;
+    margin: 0.66em 0;
+    > li {
+      margin: 0 1.5em;
+      text-transform: uppercase;
+      &:last-child {
+        margin-right: 0;
+      }
+      a:not(.__header-btn) {
+        &:hover,
+        &.active {
+          color: $primary;
         }
+      }
     }
-    .__header-btn{
-        padding: 0.329em;
-        min-width: 122px;
-        a.active, a:hover{
-            color: #fff;
-        }
+  }
+  .__landing-page_title {
+    height: 100%;
+    margin: 6px 0;
+    justify-content: center;
+
+    strong {
+      font-size: 22px;
     }
-    @media (max-width: 1200px) {
-        padding: 1em 0;
-        .__menu-icon{
-            background: transparent;
-            outline: none;
-            border: none;
-            padding: 0;
-            >span{
-                width: 24px;
-                height: 4px;
-                background: $primary;
-                border-radius: 2px;
-                display: block;
-                &:nth-child(2){
-                    margin: 2px 0;
-                }
-            }
-            &:focus ~ .__navlinks{
-                max-height: 1000px;
-            }
-        }
-        .__navlinks{
-            position: absolute;
-            display: block;
-            width: 100%;
-            left: 0;
-            top: 100%;
-            text-align: center;
-            background-color: #17181a;
-            margin: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: linear 0.3s max-height;
-            li{
-                margin: 1em 0;
-                font-size: 1.15em;
-                &:first-child{
-                    margin-top: 4em;
-                }
-                &:last-child{
-                    margin-bottom: 4em;
-                }
-                .__header-btn{
-                    background: transparent;
-                    border: none;
-                    margin: 0;
-                }
-                &:not(:last-child)::after{
-                    content: '';
-                    border-bottom: 1px solid rgba(242, 242, 242, 0.2);
-                    display: block;
-                    width: 5em;
-                    margin: 1.5em auto;
-                }
-            }
-            
-        }
+  }
+  .__header-btn {
+    padding: 0.329em;
+    min-width: 122px;
+    a.active,
+    a:hover {
+      color: #fff;
     }
+  }
+  @media (max-width: 1200px) {
+    padding: 1em 0;
+    .__menu-icon {
+      background: transparent;
+      outline: none;
+      border: none;
+      padding: 0;
+      > span {
+        width: 24px;
+        height: 4px;
+        background: $primary;
+        border-radius: 2px;
+        display: block;
+        &:nth-child(2) {
+          margin: 2px 0;
+        }
+      }
+      &:focus ~ .__navlinks {
+        max-height: 1000px;
+      }
+    }
+    .__navlinks {
+      position: absolute;
+      display: block;
+      width: 100%;
+      left: 0;
+      top: 100%;
+      text-align: center;
+      background-color: #17181a;
+      margin: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: linear 0.3s max-height;
+      li {
+        margin: 1em 0;
+        font-size: 1.15em;
+        &:first-child {
+          margin-top: 4em;
+        }
+        &:last-child {
+          margin-bottom: 4em;
+        }
+        .__header-btn {
+          background: transparent;
+          border: none;
+          margin: 0;
+        }
+        &:not(:last-child)::after {
+          content: "";
+          border-bottom: 1px solid rgba(242, 242, 242, 0.2);
+          display: block;
+          width: 5em;
+          margin: 1.5em auto;
+        }
+      }
+    }
+
+    .__landing-page_title {
+      height: 100%;
+      margin: 6px 0;
+      justify-content: flex-end;
+
+      strong {
+        font-size: 16px;
+      }
+    }
+  }
 }

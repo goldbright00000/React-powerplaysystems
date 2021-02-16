@@ -4,6 +4,8 @@
   overflow-y: hidden;
   .__viewport-1 {
     background: url("../../assets/HomePageViewPortImage.jpg") top center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
   .__viewport-subtitle {
     max-width: 28em;

@@ -23,10 +23,19 @@
     grid-row-end: 3;
     width: 9.3em;
   }
+  .__logo_center {
+    width: 65%;
+    margin: 0 auto;
+  }
   .__mediam {
     letter-spacing: 2px;
   }
   @media (max-width: 600px) {
+    .__logo_center {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
     .__footer-links {
       grid-template-columns: auto;
       grid-gap: initial;

@@ -195,15 +195,18 @@ function ChaseACard(props) {
                                     )
                                 }
                             </div>
-                            <div className={classes.card_footer}>
-                                <button className={`${'__btn'}`} onClick={() => {
-                                    return redirectTo(props, {
-                                        path: '/card-game'
-                                    })
-                                }}>
-                                    Try again
-                                </button>
-                            </div>
+                            {
+                                hasCardSelected && !hasWon &&
+                                <div className={classes.card_footer}>
+                                    <button className={`${'__btn'}`} onClick={() => {
+                                        return redirectTo(props, {
+                                            path: '/card-game'
+                                        })
+                                    }}>
+                                        Try again
+                                    </button>
+                                </div>
+                            }
                         </Card>
                     </div>                
                 </div>  

@@ -1,10 +1,12 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import classes from "./pageHeaderCard.module.scss"
 import Card from '../Card'
 import Time from '../../icons/Time'
 
 function PageHeaderCard(props) {
+    const { seconds = 12 } = props || {}
     return (
         <Card>
             <div className={classes.__card_header}>
@@ -27,13 +29,17 @@ function PageHeaderCard(props) {
                         <Time size={25} style={{height: 'auto', marginRight: 10}} />
                         <p>
                         Pay attention, you will have <br />
-                        12 seconds to match each card.
+                        {seconds} seconds to match each card.
                         </p>
                     </div>
                 </div>
             </div>
         </Card>
     )
+}
+
+PageHeaderCard.propTypes = {
+    seconds: PropTypes.number
 }
 
 export default PageHeaderCard

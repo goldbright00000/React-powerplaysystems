@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import "./index.module.scss"
+import { CONSTANTS } from '../../utility/constants'
 
 function Button(props) {
     const { title = '', icon = '', isRounded = false, styles = {}, iconOnly = false,
-            onClick = () => { }, block = false, shadow = false, transparent = false } = props || {}
+            onClick = () => { }, block = false, shadow = false, transparent = false, type = CONSTANTS.BUTTON_TYPE.SUBMIT, bordered = false } = props || {}
     return (
-        <button className={`${!iconOnly && '__btn'} ${block && '__large-btn'} ${shadow && '__shadow-2'} ${transparent && '__style-2'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'}`} onClick={onClick} style={styles}>
+        <button className={`${!iconOnly && '__btn'} ${block && '__large-btn'} ${shadow && '__shadow-2'} ${transparent && '__style-2'} ${isRounded && '__btn __btn__rounded'} ${iconOnly && '__btn__icon_only'} ${bordered && '__btn_borderd_only'}`} onClick={onClick} style={styles} type={type}>
             {
                 !iconOnly
                     ?
@@ -31,7 +32,9 @@ Button.propTypes = {
     onClick: PropTypes.func,
     block: PropTypes.bool,
     shadow: PropTypes.bool,
-    transparent: PropTypes.bool
+    transparent: PropTypes.bool,
+    type: PropTypes.string,
+    bordered: PropTypes.bool,
 }
 
 export default Button

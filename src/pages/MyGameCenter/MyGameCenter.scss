@@ -1,0 +1,78 @@
+@import "../../scss/colors.scss";
+
+.__PowerCenter {
+  .__viewport-large-title {
+    padding: 0.2em;
+    background-image: url("../../assets/PowerContest.jpg");
+    background-size: 100% auto;
+    background-position: center;
+  }
+}
+
+@media (min-width: 900px) {
+  .__PowerCenter {
+    .__power-center-links {
+      overflow: hidden;
+      background-color: rgba(17, 17, 17, 0.3);
+      a {
+        padding: 1em 7em;
+        transform: skew(-45deg);
+        border: 2px solid transparent;
+        span {
+          transform: skew(45deg);
+        }
+        &.active {
+          color: $primary;
+          border-color: currentColor;
+          background-color: rgba(99, 99, 99, 0.24);
+        }
+        &:first-child {
+          margin-left: -4em;
+          &.active {
+            border-top-right-radius: 1em;
+            border-bottom-right-radius: 0.4em;
+          }
+        }
+        &:last-child {
+          margin-right: -4em;
+          &.active {
+            border-top-left-radius: 0.4em;
+            border-bottom-left-radius: 1em;
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 899px) {
+  .__PowerCenter {
+    .__power-center-links {
+      margin: 5em 1em;
+      justify-content: space-around;
+      a {
+        font-size: 20px;
+        text-align: initial;
+        flex: initial;
+      }
+      a.active {
+        color: $primary;
+        border: 2px solid transparent;
+        border-bottom-color: $primary;
+      }
+      a:first-child {
+        margin-right: 1em;
+      }
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .__PowerCenter {
+    .__power-center-links {
+      margin: 3em 1em;
+      a {
+        font-size: 16px;
+      }
+    }
+  }
+}
