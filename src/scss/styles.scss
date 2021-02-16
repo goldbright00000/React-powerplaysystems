@@ -7,6 +7,9 @@
 svg {
   height: 1.3em;
 }
+.__text-color-primary {
+  color: $primary;
+}
 .__btn {
   padding: 0.5em 1em;
   @extend .__primary;

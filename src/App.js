@@ -20,6 +20,8 @@ import TermsOfUse from './pages/TermsOfUse';
 import PowerUpPage from './pages/PowerUpPage/PowerUpPage';
 import GetUserInfoPage from './pages/GetUserInfoPage/GetUserInfoPage';
 import BingoInProgressGame from './pages/BingoInProgressGame/BingoInProgressGame';
+import Elite8 from './pages/Elite8';
+import Elite8Draw from './pages/Elite8Draw';
 import LoginPage from './pages/Login';
 import RoyalGame from './pages/RoyalGame';
 import PowerPoker from './pages/PowerPoker';
@@ -27,6 +29,7 @@ import LandingPage from './pages/LandingPage';
 import AccountPage from './pages/AccountPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import MyGameCenter from './pages/MyGameCenter/MyGameCenter';
+
 
 
 const App = props => {
@@ -60,6 +63,8 @@ const App = props => {
                 <Route path="/landing-page" component={LandingPage} />
                 <ProtectedRoute path="/my-account" component={AccountPage} />
                 <Route component={HomePage} />
+                <Route path='/elite8' component={Elite8} />
+                <Route path='/elite8-draw' component={Elite8Draw} />
             </Switch>
         </Fragment>
     )
