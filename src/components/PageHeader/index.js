@@ -14,11 +14,17 @@ function PageHeader(props) {
                     <p>
                         Win <span>${reward}</span> <small>CAD</small>
                     </p>
-                    <button className={`__btn ${classes.__page_header_btn}`}>See Contest Rules</button>
+                    {
+                        title == "Chase The Ace"
+                        ?
+                        <button className={classes.__page_header_btn_new}>See Contest Rules</button>
+                        :
+                        <button className={`__btn ${classes.__page_header_btn}`}>See Contest Rules</button>
+                    }
                 </div>
             </div>
             <div className={classes.__page_header_rightside}>
-                <PageHeaderCard seconds={seconds} />
+                <PageHeaderCard title="Chase The Ace" />
             </div>
         </div>
     )
