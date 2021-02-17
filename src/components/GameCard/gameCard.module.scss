@@ -12,14 +12,49 @@
   }
 
   .__game_card_container {
-    display: flex;
     flex: 1;
     border-radius: 12px;
     border: dashed 1px $grey;
     justify-content: center;
-    align-items: center;
   }
 
+  .__start_button_outer {
+    width: 68px;
+    opacity: 0.9;
+    border-style: solid;
+    border-width: 4px;
+    border-image-slice: 1;
+    border-radius: 50%;
+    border-color: $primary;
+    margin: 0 auto;
+
+    .__start_button {
+      width: 60px;
+      height: 60px;
+      opacity: 0.9;
+      border-style: solid;
+      border-width: 4px;
+      border-image-slice: 1;
+      background-color: $white;
+      border-radius: 50%;
+      cursor: pointer;
+  
+      .__start_button_text {
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+        font-family: Poppins;
+        font-size: 15px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $primary;
+        text-transform: uppercase;
+      }
+    }
+  }
+  
   .__game_card_selected {
     // display: flex;
     // flex: 1;
@@ -80,6 +115,28 @@
     position: absolute;
     align-self: center;
     transform: translate(25%, -25%);
+  }
+
+  .__card_game_Next_card_drawn_in {
+    width: 68px;
+    margin: 20px auto;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: $white;
+  }
+
+  .__question_mark {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    height: 187px;
   }
 }
 

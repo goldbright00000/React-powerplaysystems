@@ -12,14 +12,27 @@ import Footer from '../../components/Footer/Footer'
 import Alert from '../../components/Alert'
 import Reload from '../../icons/Reload'
 import BoltIcon from '../../assets/bolt.png'
+import PointsCollectedIcon from '../../assets/points-collected.png'
+import PowerPlaySideBarIcon from '../../assets/power-play-sidebar-icon.png'
 import CardsSvg from '../../icons/Cards'
 import Sidebar from '../../components/Sidebar'
 import SidebarButton from '../../components/SidebarButton'
+import SidebarLockItem from '../../components/SidebarLockItem'
 import Replace from '../../icons/Replace'
 import PlusMinus from '../../icons/PlusAndMinus'
+import NewCardLiteIcon from '../../assets/new_card_lite.png'
+import BoltLiteIcon from '../../assets/bolt_lite.png'
+import PlusMinusLiteIcon from '../../assets/plus_minus_lite.png'
+import LockIcon from '../../assets/lock.png'
+import FaceBookIcon from '../../assets/facebook_icon.png'
+import TwitterIcon from '../../assets/twitter_icon.png'
 import { CONSTANTS } from '../../utility/constants'
 import { IsAceCard, getRandomCard } from '../../utility/shared'
 import { setCardState, resetCardState, cardGameInventory } from '../../actions/cardGameAction'
+import Button from '../../components/Button'
+import Link from '../../components/Link'
+import ShareButton from '../../components/ShareButton'
+import PinnacleIcon from '../../assets/pinnacle.png'
 import classes from './cardGamePage.module.scss'
 
 const TOTAL_ROUNDS = 5;
@@ -42,6 +55,10 @@ function CardGame(props) {
     const [resetBtnCountDown, setResetBtnCountDown] = useState(MAX_RESET_BTN_COUNT_DOWN)
     const [showResetTimer, setResetTimerState] = useState(false)
     const [isReplaceAll, setIsReplaceAllState] = useState(false)
+    const [myPowers, setMyPowers] = useState(false);
+    const [shareOptions, setShareOptions] = useState(true);
+    const [unLockOptions, setUnlockOptions] = useState(false);
+    const [start, setStart] = useState(false);
 
     const dispatch = useDispatch();
     const { collectedAceCards = [],
@@ -58,13 +75,15 @@ function CardGame(props) {
     }, [])
 
     useEffect(() => {
-        let timeOut = gameStart();
-        gameCompleted(timeOut);
-        
-        return function clearnup() {
-            return clearInterval(timeOut)
+        if (start) {
+            let timeOut = gameStart();
+            gameCompleted(timeOut);
+            
+            return function clearnup() {
+                return clearInterval(timeOut)
+            }
         }
-    }, [currentCard, currentRound])
+    }, [currentCard, currentRound, start])
 
     const gameStart = () => {
         let timeOut = null
@@ -278,6 +297,151 @@ function CardGame(props) {
         time = REPLACE_ALL_SPEED_TIME
     }
 
+    // Hide/Show Sidebar Options
+    const hideShowSideBarOptions = (myPower, shareOption, unLockOption) => {
+        setMyPowers(myPower);
+        setShareOptions(shareOption);
+        setUnlockOptions(unLockOption);
+    }
+
+    const renderSideBarMyPowersSection = () => {
+        return (
+            <>
+            <span className={classes.__sidebar_my_powers_title}>My Powers</span>
+                <SidebarButton
+                    success={replace > 0 ? true : false}
+                    primary={replace <= 0 ? true : false}
+                    title="New Card"
+                    toolText={`${replace} left`}
+                    icon={<Replace style={{ height: 'auto' }} />}
+                />
+                <SidebarButton
+                    success={powerMatch > 0 ? true : false}
+                    primary={powerMatch <= 0 ? true : false}
+                    title="Power Match"
+                    toolText={`${powerMatch} left`}
+                    icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarButton
+                    success={increaseOrDecrease > 0 ? true : false}
+                    primary={increaseOrDecrease <= 0 ? true : false}
+                    title="Increase/Decrease"
+                    toolText={`${increaseOrDecrease} left`}
+                    icon={<PlusMinus style={{height: 'auto'}}/>}
+                />
+            </>
+        );
+    }
+
+    const renderSideBarShareSection = () => {
+        return (
+            <>
+                <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
+                <p className={classes.__sidebar_unlock_power_text}>
+                    To unlock your Powers for this game, please select one of the following options:
+                </p>
+                <ShareButton 
+                    title="Share on Facebook"
+                    icon={<img src={FaceBookIcon} width={50} height={51} alt="" />}
+                    styles={{"backgroundImage":"linear-gradient(to bottom, #4e70a9, #4a6da5)"}}
+                    onClick={() => hideShowSideBarOptions(true, false, false)}
+                />
+                <ShareButton 
+                    title="Share on Twitter"
+                    icon={<img src={TwitterIcon} width={50} height={51} alt="" />}
+                    styles={{"backgroundImage":"linear-gradient(to bottom, #2cc3e6, #25bde6)"}}
+                    onClick={() => hideShowSideBarOptions(true, false, false)}
+                />
+                <Button 
+                    title="x10" 
+                    icon={<img src={PowerPlaySideBarIcon} width="20" height="20" alt="" />}
+                    onClick={() => console.log('hi')} 
+                    styles={{"width":"100%","height":"51px","borderRadius":"12px","backgroundImage":"linear-gradient(to bottom, #ffffff, #ababab)", "color": "#17181a" }} 
+                    onClick={() => hideShowSideBarOptions(true, false, false)}
+                />
+                <Button 
+                    title="$1 • Purchase Now" 
+                    onClick={() => console.log('hi')} 
+                    styles={{"width":"100%","height":"51px","margin-top":"20px", "borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)", "color":"#111", "font-size": "14"}} 
+                    onClick={() => hideShowSideBarOptions(true, false, false)}
+                />
+                <Link 
+                    title="Go Powerless" 
+                    onClick={() => hideShowSideBarOptions(false, false, true)} 
+                    styles={{"margin-top":"10px"}}     
+                />
+            </>               
+        );
+    }
+
+    const renderSideBarPurchaseSection = () => {
+        return (
+            <>
+                <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
+                <SidebarLockItem
+                    title="x2"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={NewCardLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarLockItem
+                    title="x1"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={BoltLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarLockItem
+                    title="x4"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={PlusMinusLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <p className={classes.__sidebar_purchase_powers_text}>Purchase Powers</p>
+                <p className={classes.__sidebar_to_power_up}>to Power-up</p>
+                <p className={classes.__sidebar_purchase_powers_text}>your game!</p>
+                <Button 
+                    title="$1 • Purchase Now" 
+                    onClick={() => hideShowSideBarOptions(true, false, false)} 
+                    styles={{"width":"190px","height":"51px","margin":"20px 0 20px","borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)","fontFamily":"Poppins","fontSize":"16px","fontWeight":"500","fontStretch":"normal","fontStyle":"normal","lineHeight":"normal","letterSpacing":"normal","textAlign":"center","color":"#111111"}} 
+                />
+                <Link 
+                    title="Other Unlock Options" 
+                    onClick={() => hideShowSideBarOptions(false, true, false)} 
+                />
+            </>
+        );
+    }
+
+    const renderSideBarPinnacleSection = () => {
+        return (
+            <>
+                <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
+                <SidebarLockItem
+                    title="x2"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={NewCardLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarLockItem
+                    title="x1"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={BoltLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarLockItem
+                    title="x4"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={PlusMinusLiteIcon} width={53} height={53} alt={''}/>}
+                />   
+
+                <span className={classes.__sidebar_power_up_your_game}>Power - Up <span className={classes.__sidebar_power_up_your_game_with}>Your Game with</span></span>
+                <img src={PinnacleIcon} width="100" height="50" alt="" />
+                <p className={classes.__sidebar_open_an_account}>Open an account to unlock your Powers</p>
+                <Button 
+                    title="Open Your Account" 
+                    onClick={() => console.log('hi')} 
+                    styles={{"width":"100%","height":"51px", "margin-bottom":"5px", "borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)", "color":"#111", "font-size": "14"}} 
+                />
+                <Link title="Other Unlock Options" onClick={() => console.log('hi')} />
+            </>
+        );
+    }
+
     return (
         <>
             <Header/>
@@ -285,29 +449,20 @@ function CardGame(props) {
                 <div className={classes.__card_game_content_left}>
                     <PageHeader title="Chase The Ace"/>
                     <div className={classes._card_game_content_top}>
-                        <div className={classes._card_game_content_header_text}>
-                            <p>
-                                Welcome to <span>Chase the Ace!</span> Your goal is to obtain 5 Aces in order to advance
-                                to the next round! Find the Ace of Spades and win! User your <span>Powers</span> wisely!
-                            </p>
-                        </div>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
                         <p className={classes.__card_game_card_counter}>Card <span>{currentCard}</span> of {TOTAL_CARDS}
                         </p>
-                        <p className={classes.__card_game_round_counter}>Hand <span>{currentRound}</span> of { TOTAL_ROUNDS }</p>
                         <span className={classes.__card_divider} />
-                        <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
-                        <ProgressBar
-                            progress={count}
-                            maxProgress={5}
-                            size={62}
-                            strokeWidth={4}
-                            circleOneStroke='grey'
-                            circleTwoStroke='#fff'/>
                     </div>
 
                     <div className={classes.__card_game_content_body}>
-                        <Card>
+                        <div className={classes.__card_game_content_btns}>
+                            <button className={classes.__card_game_content_practice_btn}>Try a Practice game</button>
+                            <button className={classes.__card_game_content_live_btn}>Live Draw in Progress</button>
+                        </div>
+
+  
+                        <Card styles={{boxShadow: "inset 0 1px 24px 0 rgba(0, 0, 0, 0.5)"}}>
                             <div className={classes.__card_game_content_cards}>
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -321,6 +476,9 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
+                                    currentCard={currentCard}
+                                    onStart={() => setStart(true)}
+                                    start={start}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -334,6 +492,8 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
+                                    currentCard={currentCard}
+                                    start={start}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -347,6 +507,8 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
+                                    currentCard={currentCard}
+                                    start={start}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -360,6 +522,8 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
+                                    currentCard={currentCard}
+                                    start={start}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -373,6 +537,8 @@ function CardGame(props) {
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
+                                    currentCard={currentCard}
+                                    start={start}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -392,7 +558,7 @@ function CardGame(props) {
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
                                 <>
-                                    <Alert success renderMsg={() => (<p>Congratulations on <strong>{ getAceCards() || 0 }</strong> Aces!</p>)} />
+                                    <Alert success renderMsg={() => (<p>WOW! You have 5 of 5 Aces</p>)} />
                                     <button className={`__btn ${classes.__card_game_footer_btn}`}
                                         onClick={() => _redirectTo('/chase-a-card')}>
                                         Chase The Ace!
@@ -401,7 +567,7 @@ function CardGame(props) {
                                 :
                                 currentRound === TOTAL_ROUNDS && time <= 0 && cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
                                     ?
-                                    <Alert danger renderMsg={() => (<p>Sorry, you did not get 5 Aces. The next draw will be tomorrow at 8:00PM</p>)} />
+                                    <Alert danger renderMsg={() => (<p>You have only { getAceCards() || 0 } of { CONSTANTS.MAX_ACE_CARDS} Aces</p>)} />
                                     :
                                     <Alert primary renderMsg={() => (<p>Round { currentRound } in Progress: Aces = <strong>{getAceCards() || 0}</strong></p>)} />
                         }
@@ -409,56 +575,47 @@ function CardGame(props) {
                 </div>
 
                 <Sidebar>
-                    <div className={classes.__sidebar_header}>
-                        <span className={classes.__sidebar_header_title}>My Powers</span>
-                        <div className={classes.__sidebar_header_balance}>
-                            <span>My Balance</span>
-                            <span className={classes.__sidebar_balance_text}>$0.00</span>
+                    <div className={classes.__sidebar_cash_power_balance}>
+                        <div className={classes.__sidebar_cash_power_balance_wrapper}>
+                            <div className={classes.__sidebar_cash_balance_wrapper}>
+                                <img src={PointsCollectedIcon} width="40" height="30" />
+                                <div className={classes.__sidebar_text_wrapper}>
+                                    <h1 className={classes.__sidebar_cash}>$36</h1>
+                                    <span className={classes.__sidebar_cash_balance_title}>Cash Balance</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div className={classes.__sidebar_cash_power_balance_wrapper}>
+                            <div className={classes.__sidebar_cash_balance_wrapper}>
+                                <img src={PowerPlaySideBarIcon} width="40" height="30" />
+                                <div className={classes.__sidebar_text_wrapper}>
+                                    <h1 className={classes.__sidebar_cash}>15,000</h1>
+                                    <span className={classes.__sidebar_cash_balance_title}>Power Balance</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <div className={classes.__sidebar_my_powers_wrapper}>
+                        <div className={classes.__sidebar_button_wrapper}>
+                            {
+                                myPowers
+                                &&
+                                renderSideBarMyPowersSection()
+                            }
+                            {
+                                shareOptions
+                                &&
+                                renderSideBarShareSection()
+                            }
+                            {
+                                unLockOptions
+                                &&
+                                renderSideBarPurchaseSection()
+                            }
 
-                    <div className={classes.__sidebar_button_wrapper}>
-                        <SidebarButton
-                            success={replace > 0 ? true : false}
-                            primary={replace <= 0 ? true : false}
-                            title="New Card"
-                            toolText={`${replace} left`}
-                            icon={<Replace style={{ height: 'auto' }} />}
-                        />
-
-                        {/* <SidebarButton
-                            success={replaceAll > 0 ? true : false}
-                            primary={replaceAll <= 0 ? true : false}
-                            title="Replace All"
-                            toolText={`${replaceAll} left`}
-                            icon={<div
-                                className={classes.__sidebar_reload_btn}>
-                                <Reload bgColor={"#0ff"} style={{height: 'auto'}}/>
-                            </div>}
-                        /> */}
-
-                        <SidebarButton
-                            success={powerMatch > 0 ? true : false}
-                            primary={powerMatch <= 0 ? true : false}
-                            title="Power Match"
-                            toolText={`${powerMatch} left`}
-                            icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
-                        />
-
-                        <SidebarButton
-                            success={increaseOrDecrease > 0 ? true : false}
-                            primary={increaseOrDecrease <= 0 ? true : false}
-                            title="Increase/Decrease"
-                            toolText={`${increaseOrDecrease} left`}
-                            icon={<PlusMinus style={{height: 'auto'}}/>}
-                        />
-
-                        {/* <SidebarButton
-                            primary
-                            title="Decrease"
-                            toolText="$.25"
-                            icon={<ArrowDown style={{height: 'auto'}}/>}
-                        /> */}
+                            {/* {renderSideBarPinnacleSection()} */}
+                            
+                        </div>
                     </div>
                 </Sidebar>
             </div>
