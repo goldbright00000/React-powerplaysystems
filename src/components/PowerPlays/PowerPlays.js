@@ -5,6 +5,9 @@ import ReplaceAllIcon from '../../assets/ReplaceAllIcon.png';
 import PowerMatchIcon from '../../assets/PowerMatchIcon.png';
 import IncreaseIcon from '../../assets/IncreaseIcon.png';
 import DecreaseIcon from '../../assets/DecreaseIcon.png';
+import PlusMinus from '../../icons/PlusAndMinus';
+import BoltIcon from '../../assets/bolt.png';
+import Replace from '../../icons/Replace';
 
 const PowerPlays = props => {
     const [isActive, setIsActive] = useState(false);
@@ -17,38 +20,40 @@ const PowerPlays = props => {
                     <div className='__m-3 __my-powerplay'>
                         <div className='__relative __mediam __default-size-on-mediam'>
                             <div className='__absolute __bingo-badge'>1 Left</div>
-                            <img alt='' src={ShuffleIcon} />
+                            {/* <img alt='' src={ShuffleIcon} /> */}
+                            <Replace style={{height: 'auto'}} />
                             <div className='__bold'>Replace</div>
                         </div>
                     </div>
-                    <div className='__m-3 __my-powerplay'>
+                    {/* <div className='__m-3 __my-powerplay'>
                         <div className='__relative __mediam __default-size-on-mediam'>
                             <div className='__absolute __primary-color __bingo-badge'>$.25</div>
                             <img src={ReplaceAllIcon} alt='' />
                             <div className='__bold'>Replace All</div>
                         </div>
-                    </div>
+                    </div> */}
                     <div className='__m-3 __my-powerplay'>
                         <div className='__relative __mediam __default-size-on-mediam'>
                             <div className='__absolute __primary-color __bingo-badge'>$.25</div>
-                            <img src={PowerMatchIcon} alt='' />
+                            <img src={BoltIcon} alt='' width={55} height={55} />
                             <div className='__bold'>Power Match</div>
                         </div>
                     </div>
                     <div className='__m-3 __my-powerplay'>
                         <div className='__relative __mediam __default-size-on-mediam'>
                             <div className='__absolute __primary-color __bingo-badge'>$.25</div>
-                            <img src={IncreaseIcon} alt='' />
+                            {/* <img src={IncreaseIcon} alt='' /> */}
+                            <PlusMinus style={{height: 'auto'}} />
                             <div className='__bold'>Increase</div>
                         </div>
                     </div>
-                    <div className='__m-3 __my-powerplay'>
+                    {/* <div className='__m-3 __my-powerplay'>
                         <div className='__relative __mediam __default-size-on-mediam'>
                             <div className='__absolute __primary-color __bingo-badge'>$.25</div>
                             <img src={DecreaseIcon} alt='' />
                             <div className='__bold'>Decrease</div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

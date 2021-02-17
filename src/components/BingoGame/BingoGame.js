@@ -1,20 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 
+import * as Actions from '../../actions/bingoActions';
 import BingoGameBall from '..//BingoGameBall/BingoGameBall';
 import './BingoGame.scss';
 
 /**
  * 
  * @param {numbers} props,
- * numbers = [[], [], [], [], []] 
+ * numbers = { [], [], ...}
  */
+
+const matchNumbers = [];
+
 const BingoGame = props => {
     const { targetNumbers = [], currentNumber = 0 } = props || {};
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log(currentNumber);
-     }, [currentNumber]);
+        // console.log(currentNumber);
+    }, [currentNumber]);
+
+    const hasFound = useCallback((number, currentNumber) => { 
+        let isAvaiable = matchNumbers.includes(number)
+        if (!isAvaiable && currentNumber === number) {
+            matchNumbers.push(number)
+        }
+
+        dispatch(Actions.setMatchedNumbers(matchNumbers));
+
+        return matchNumbers.includes(number);
+    }, [currentNumber]);
 
     return (
         <div className='__bingo-game-1 __center'>
@@ -30,9 +47,8 @@ const BingoGame = props => {
                                 <div>
                                     {
                                         numbers?.map((number, column) => {
-                                            // console.log(number === currentNumber)
                                             return (
-                                                column === 2 && index === 2 ? <BingoGameBall key={column + " - " + index} active>Free</BingoGameBall> : <BingoGameBall key={column + " - " + index} active={number === currentNumber ? true : false}>{number}</BingoGameBall>
+                                                 <BingoGameBall keyVal={'column-' + column + " - " + index} active={hasFound(number,  currentNumber) || (column == 2 && index == 2) } number={column == 2 && index == 2 ? 'Free' : number} />
                                             )
                                         })
                                     }
