@@ -68,13 +68,6 @@
       border-radius: 10px;
       margin: 14px 0;
     }
-
-    .__card_game_Next_card_drawn_in {
-      height: 20px;
-      margin: 0 0 4px;
-      font-family: Poppins;
-      font-size: 14px;
-    }
   }
 
   .__card_game_content_cards {
@@ -91,7 +84,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
+    
     .__reload_svg_icon {
       display: flex;
       height: auto;
@@ -119,14 +112,14 @@
 
   .__card_game_content_footer {
     margin: 38.6px 0;
+    text-align: center;
 
     .__card_game_footer_btn {
-      border-radius: 34px;
+      border-radius: 12px;
+      width: 368px;
       height: 56px;
       font-size: 18px;
-      text-transform: uppercase;
       margin: 24px 0;
-      width: 368px;
     }
   }
 
@@ -159,8 +152,69 @@
     }
   }
 
+  .__sidebar_cash_power_balance {
+    width: 226px;
+    height: 152px;
+    margin: 0 0 47px;
+    padding: 20px 34px 8px 16px;
+    border-radius: 12px;
+    background-color: #17181a;
+
+    .__sidebar_cash_power_balance_wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .__sidebar_cash_balance_wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .__sidebar_text_wrapper {
+          display: flex;
+          flex-direction: column;
+          margin-left: 20px;
+          margin-bottom: 10px;
+
+          .__sidebar_cash {
+            width: 44px;
+            height: 31px;
+            margin: 0;
+            font-family: Teko;
+            font-size: 30px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $primary;
+          }
+
+          .__sidebar_cash_balance_title {
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+
+  .__sidebar_my_powers_wrapper {
+    width: 226px;
+    height: 600px;
+    margin: 47px 0 0;
+    padding: 25px 23px 80px;
+    border-radius: 14px;
+    box-shadow: inset 0 1px 24px 0 rgba(0, 0, 0, 0.5);
+    background-color: #17181a;
+  }
+
   .__sidebar_button_wrapper {
-    margin: 30px 0 0 0;
     display: flex;
     flex: 0.85;
     flex-direction: column;
@@ -168,11 +222,190 @@
     align-items: center;
     padding: 5px 0;
 
+    .__sidebar_unlock_power_text {
+      width: 179px;
+      height: 51px;
+      font-family: Poppins;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $grey2;
+      margin-bottom: 30px;
+    }
+
     .__sidebar_reload_btn {
       display: "flex";
       height: 48px;
       background-color: $primary;
       border-radius: 80px;
     }
+
+    .__sidebar_my_powers_title {
+      width: 162px;
+      height: 39px;
+      margin: 0 9px 40px;
+      font-family: Teko;
+      font-size: 38px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $primary;
+    }
+
+    .__sidebar_power_title {
+      font-family: Teko;
+      font-size: 35px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $primary;
+    }
+
+    .__sidebar_up_title {
+      font-family: Teko;
+      font-size: 35px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $white;
+    }
+
+    .__sidebar_purchase_powers_text {
+      font-family: Poppins;
+      font-size: 16px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $white;
+      margin: 0;
+    }
+
+    .__sidebar_to_power_up {
+      font-family: Poppins;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      font-family: Teko;
+      font-size: 32px;
+      font-weight: 600;
+      color: $primary;
+      margin: 0;
+    }
+
+    .__sidebar_power_up_your_game {
+      width: 158px;
+      height: 40px;
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $primary;
+    }
+
+    .__sidebar_power_up_your_game_with {
+      width: 158px;
+      height: 40px;
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $white;
+    }
+
+    .__sidebar_open_an_account {
+      width: 179px;
+      font-family: Poppins;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $grey2;
+    }
+  }
+
+  .__card_game_content_btns {
+    width: 76%;
+    margin-bottom: 20px;
+  }
+
+  .__card_game_content_practice_btn {
+    width: 196px;
+    height: 39px;
+    margin: 0 1rem;
+    border-radius: 8px;
+    background-color: rgba(251, 110, 0, 0.15);
+    text-transform: uppercase;
+    border-width: 0px;
+    color: $primary;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    float: left;
+  }
+
+  .__card_game_content_live_btn {
+    width: 196px;
+    height: 39px;
+    margin: 0 1rem;
+    border-radius: 8px;
+    background-color: rgba(27, 188, 134, 0.2);;
+    border-width: 0px;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    justify-content: flex-end;
+    color: $white;
+    float: right;
+  }
+
+  .__card_game_content_practice_div {
+    flex: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+
+  .__card_game_content_live_div {
+    flex: 1;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
 }

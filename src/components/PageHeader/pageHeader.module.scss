@@ -48,5 +48,24 @@
       text-transform: uppercase;
       margin: 0 1rem;
     }
+
+    .__page_header_btn_new {
+      width: 196px;
+      height: 39px;
+      margin: 0 1rem;
+      border-radius: 8px;
+      background-color: rgba(251, 110, 0, 0.15);
+      text-transform: uppercase;
+      border-width: 0px;
+      color: $primary;
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+    }
   }
 }

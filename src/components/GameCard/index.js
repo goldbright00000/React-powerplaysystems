@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import PropTypes from 'prop-types'
+import ReactTooltip from 'react-tooltip';
 
 import Replace from '../../icons/Replace'
 import Plus from '../../icons/Plus'
@@ -10,6 +11,8 @@ import Cards from '../../icons/Cards/index'
 import { CONSTANTS } from '../../utility/constants'
 import { GetAceCardIndex, getRandomCard, hasMaxAceCards } from '../../utility/shared'
 import classes from "./gameCard.module.scss"
+import ProgressBar from '../../components/Progress';
+import { render } from '@testing-library/react';
 
 function GameCard(props) {
 
@@ -33,7 +36,10 @@ function GameCard(props) {
         updateInventory = () => { },
         width = 0,
         height = 0,
-        hoverShadow = false
+        hoverShadow = false,
+        currentCard = 0,
+        start = false,
+        onStart = () => {}
     } = props || {}
 
     const { suit = 0, rank = 0 } = card || {}
@@ -47,6 +53,14 @@ function GameCard(props) {
             setPopupState(false)
         }
     }, [time])
+
+    const toolTip = (id, tip) => {
+        return (
+            <ReactTooltip id={id} place="top" textColor="#fff" effect="solid">
+                {tip}
+            </ReactTooltip>
+        );
+    }
 
     const onIncrease = () => {
         if (aceCards && aceCards && hasMaxAceCards(aceCards) || increaseOrDecrease <= 0 || activeCard !== card) {
@@ -124,7 +138,22 @@ function GameCard(props) {
         updateCards(cardIndex, _card)
         updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
     }
-    
+    console.log(props.currentCard);
+
+    // Start Button
+    const renderStartButton = () => {
+        return (
+            <>
+                <p className={classes.__card_game_Next_card_drawn_in} style={{ width: 76}}>Click Start to Begin</p>
+                <div className={classes.__start_button_outer}>
+                    <div className={classes.__start_button} onClick={() => onStart()}>
+                        <p className={classes.__start_button_text}>Start</p>
+                    </div>
+                </div>
+            </>
+        );
+    };
+
     return (
         <div className={`${classes.__game_card_wrapper} ${hoverShadow && classes.shadow}`} style={styles}>
             {
@@ -159,7 +188,36 @@ function GameCard(props) {
                     </div>
                     :
                     <div className={classes.__game_card_container}>
-                        <span>?</span>
+                        
+                        {
+                            start
+                            ?
+                                cardIndex !== currentCard
+                                ?
+                                    <div className={classes.__question_mark}>
+                                        <span>?</span>                                
+                                    </div>
+                                :
+                                <>
+                                    <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
+                                    <ProgressBar
+                                        progress={time}
+                                        maxProgress={5}
+                                        size={62}
+                                        strokeWidth={4}
+                                        circleOneStroke='grey'
+                                        circleTwoStroke='#fff'
+                                    />
+                                </>
+                            :
+                            cardIndex == 0
+                            ?
+                            renderStartButton()
+                            :
+                            <div className={classes.__question_mark}>
+                                <span>?</span>                                
+                            </div>
+                        }
                     </div>
             }
             {
@@ -175,16 +233,17 @@ function GameCard(props) {
                                         replace > 0 || powerMatch > 0 || increaseOrDecrease > 0 
                                             ?
                                             <>
+                                                {toolTip("newCard", "New Card")}
                                                 {
                                                     replace > 0 && !hasReplaced &&
-                                                    <button className={classes.__btn__} onClick={onReplace}>
+                                                    <button className={classes.__btn__} onClick={onReplace} data-tip data-for="newCard">
                                                         <Replace style={{height: 'auto'}} size={39}/>
                                                     </button>
                                                 }    
-
+                                                    {toolTip("powerMatch", "Power Match")}
                                                 {
                                                     powerMatch > 0 && !hasMaxAceCards(aceCards) &&
-                                                    <button className={classes.__btn__} onClick={onPowerMatch}>
+                                                    <button className={classes.__btn__} onClick={onPowerMatch} data-tip data-for="powerMatch">
                                                         <img src={boltIcon} width={40} height={40}/>
                                                     </button>
                                                 }
@@ -192,15 +251,18 @@ function GameCard(props) {
                                                 {
                                                     increaseOrDecrease > 0 &&
                                                     <>
-                                                        <button className={classes.__btn__}>
+                                                        {toolTip("powerUp", "Power Up")}
+                                                        <button className={classes.__btn__} data-tip data-for="powerUp">
                                                             <Plus style={{height: 'auto'}} size={39} onClick={onIncrease}/>
                                                         </button>
 
-                                                        <button className={classes.__btn__}>
+                                                        {toolTip("powerDown", "Power Down")}
+                                                        <button className={classes.__btn__} data-tip data-for="powerDown">
                                                             <Minus style={{height: 'auto'}} size={39} onClick={onDecrease}/>
-                                                        </button>
+                                                        </button>                                                        
                                                     </>
                                                 }
+                                                
                                             </>
                                             :
                                             <span>All your Powers have been used</span>
