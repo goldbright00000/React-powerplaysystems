@@ -31,6 +31,7 @@ const ProgressBar = props => {
                 className={classes.__svg}
                 width={size}
                 height={size}
+                style={{height: 'auto'}}
             >
                 <circle
                     className={classes.__svg_circle_bg}

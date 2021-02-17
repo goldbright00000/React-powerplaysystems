@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {redirectTo} from '../../utility/shared'
+import {GetAceCardIndex, hasMaxAceCards, redirectTo} from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -441,6 +441,99 @@ function CardGame(props) {
             </>
         );
     }
+    
+    const onIncrease = (cardIndex, card) => {
+        const { suit = 0, rank = 0 } = card || {}
+        let _rank = rank
+        if (getMaxAceCardsForCardSuit(card) || increaseOrDecrease <= 0 || cardsState?.activeCard !== card) {
+            return;
+        }
+
+        if (_rank !== GetAceCardIndex()) {
+            _rank += 1;
+        }
+        
+        const _card = {
+            suit: suit,
+            rank: _rank,
+        }
+
+        let _increase = increaseOrDecrease;
+        _increase -= 1;
+
+        //update the cards array in parent component
+        updateCards(cardIndex, _card)
+        updateInventory(_increase, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
+    }
+
+    const onReplace = (cardIndex, card) => {
+        const { rank = 0 } = card || {}
+        if (replace <= 0 || cardsState?.activeCard !== card)
+        return;
+
+        let _replace = replace;
+        _replace -= 1;
+
+        let newCard = getRandomCard();
+        if (newCard?.rank === rank) {
+            newCard = getRandomCard();
+        }
+        updateCards(cardIndex, newCard)
+        updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
+    }
+
+    const onPowerMatch = (cardIndex, card) => {
+        const { suit = 0 } = card || {}
+        if (powerMatch <= 0 || getMaxAceCardsForCardSuit(card) || cardsState?.activeCard !== card) return
+
+        let _powerMatch = powerMatch;
+        _powerMatch -= 1;
+
+        const _aceCard = {
+            suit: suit,
+            rank: GetAceCardIndex(),
+        }
+
+        updateCards(cardIndex, _aceCard)
+        updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
+    }
+
+    const onDecrease = (cardIndex, card) => {
+        const { suit = 0, rank = 0 } = card || {}
+        let _rank = rank
+        if (getMaxAceCardsForCardSuit(card) || increaseOrDecrease <= 0 || cardsState?.activeCard !== card) {
+            return;
+        }
+
+        if (_rank > 0) {
+            _rank -= 1;
+        } else {
+            _rank = GetAceCardIndex()
+        }
+        
+        const _card = {
+            suit: suit,
+            rank: _rank,
+        }
+
+        let _decrease = increaseOrDecrease;
+        _decrease -= 1;
+
+        //update the cards array in parent component
+        updateCards(cardIndex, _card)
+        updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
+    }
+
+    const getMaxAceCardsForCardSuit = (card) => {
+        const { suit = 0 } = card || {}
+        const aceCard = collectedAceCards?.filter(_card => _card?.suit === suit)[0];
+        const { aceCards = 0 } = aceCard || {}
+        if (aceCards && hasMaxAceCards(aceCards)) {
+            return true
+        }
+
+        return false
+    }
 
     return (
         <>
@@ -468,77 +561,107 @@ function CardGame(props) {
                                     showCardPopup={!isReplaceAll && true}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[0]?.rank] === "A"}
                                     card={cardsState?.collectedCards?.[0]}
-                                    isSelected={cardsArr[0] && true}
+                                    isSelected={cardsState?.collectedCards?.[0] && true}
                                     activeCard={cardsState?.activeCard}
-                                    cardIndex={0}
-                                    collectedAceCards={collectedAceCards}
+                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsState?.collectedCards?.[0]) && powerMatch > 0}
+                                    showReplacePower={replace > 0}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
                                     currentCard={currentCard}
+                                    cardIndex={0}
                                     onStart={() => setStart(true)}
                                     start={start}
+                                    onIncrease={() => onIncrease(0, cardsState?.collectedCards?.[0])}
+                                    onDecrease={() => onDecrease(0, cardsState?.collectedCards?.[0])}
+                                    onPowerMatch={() => onPowerMatch(0, cardsState?.collectedCards?.[0])}
+                                    onReplace={() => onReplace(0, cardsState?.collectedCards?.[0])}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[1]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[1]?.rank] === "A"}
-                                    isSelected={cardsArr[1] && true}
-                                    cardIndex={1}
+                                    isSelected={cardsState?.collectedCards?.[1] && true}
                                     activeCard={cardsState?.activeCard}
-                                    collectedAceCards={collectedAceCards}
+                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsArr[1]) && powerMatch > 0}
+                                    showReplacePower={replace > 0}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
                                     currentCard={currentCard}
+                                    cardIndex={1}
                                     start={start}
+                                    onIncrease={() => onIncrease(1, cardsState?.collectedCards?.[1])}
+                                    onDecrease={() => onDecrease(1, cardsState?.collectedCards?.[1])}
+                                    onPowerMatch={() => onPowerMatch(1, cardsState?.collectedCards?.[1])}
+                                    onReplace={() => onReplace(1, cardsState?.collectedCards?.[1])}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[2]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[2]?.rank] === "A"}
-                                    isSelected={cardsArr[2] && true}
-                                    cardIndex={2}activeCard={cardsState?.activeCard}
+                                    isSelected={cardsState?.collectedCards?.[2] && true}
                                     activeCard={cardsState?.activeCard}
-                                    collectedAceCards={collectedAceCards}
+                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsArr[2]) && powerMatch > 0}
+                                    showReplacePower={replace > 0}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
                                     currentCard={currentCard}
+                                    cardIndex={2}
                                     start={start}
+                                    onIncrease={() => onIncrease(2, cardsState?.collectedCards?.[2])}
+                                    onDecrease={() => onDecrease(2, cardsState?.collectedCards?.[2])}
+                                    onPowerMatch={() => onPowerMatch(2, cardsState?.collectedCards?.[2])}
+                                    onReplace={() => onReplace(2, cardsState?.collectedCards?.[2])}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[3]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[3]?.rank] === "A"}
-                                    isSelected={cardsArr[3] && true}
-                                    cardIndex={3}
+                                    isSelected={cardsState?.collectedCards?.[3] && true}
                                     activeCard={cardsState?.activeCard}
-                                    collectedAceCards={collectedAceCards}
+                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsArr[3]) && powerMatch > 0}
+                                    showReplacePower={replace > 0}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
                                     currentCard={currentCard}
+                                    cardIndex={3}
                                     start={start}
+                                    onIncrease={() => onIncrease(3, cardsState?.collectedCards?.[3])}
+                                    onDecrease={() => onDecrease(3, cardsState?.collectedCards?.[3])}
+                                    onPowerMatch={() => onPowerMatch(3, cardsState?.collectedCards?.[3])}
+                                    onReplace={() => onReplace(3, cardsState?.collectedCards?.[3])}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
                                     card={cardsState?.collectedCards?.[4]}
                                     isCompleted={CONSTANTS.CARD_RANKS[cardsArr[4]?.rank] === "A"}
-                                    isSelected={cardsArr[4] && true}
-                                    cardIndex={4}
+                                    isSelected={cardsState?.collectedCards?.[4] && true}
                                     activeCard={cardsState?.activeCard}
-                                    collectedAceCards={collectedAceCards}
+                                    showPowerMatchPower={!getMaxAceCardsForCardSuit(cardsState?.activeCard) && powerMatch > 0}
+                                    showReplacePower={replace > 0}
+                                    showIncrementOrDecrementPower={increaseOrDecrease > 0}
                                     time={time}
                                     inventory={inventory}
                                     updateCards={updateCards}
                                     updateInventory={updateInventory}
                                     currentCard={currentCard}
+                                    cardIndex={4}
                                     start={start}
+                                    onIncrease={() => onIncrease(4, cardsState?.collectedCards?.[4])}
+                                    onDecrease={() => onDecrease(4, cardsState?.collectedCards?.[4])}
+                                    onPowerMatch={() => onPowerMatch(4, cardsState?.collectedCards?.[4])}
+                                    onReplace={() => onReplace(4, cardsState?.collectedCards?.[4])}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -555,6 +678,12 @@ function CardGame(props) {
                     </div>
 
                     <div className={classes.__card_game_content_footer}>
+                        {
+                            currentRound === 1 && currentCard === 0 && time > 0 &&
+                                <>
+                                    <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
+                                </>
+                        }
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
                                 <>

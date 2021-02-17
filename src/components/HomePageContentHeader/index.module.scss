@@ -1,0 +1,592 @@
+@import "../../scss/colors.scss";
+
+.header_wrapper {
+  background-image: url("../../assets/HomePageViewPortImage.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .header_main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .header_title {
+      background-color: $primary;
+      padding: 8px 22px;
+      font-size: 42px;
+      font-weight: bold;
+      border-radius: 6px;
+      letter-spacing: -0.5px;
+      text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+      margin: 9em 0 10px 0;
+
+      sup {
+        font-size: 18px;
+        margin-left: 0.3em;
+        position: relative;
+        top: -0.4em;
+        text-transform: uppercase;
+      }
+    }
+
+    p {
+      text-align: center;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .header_body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 18px;
+
+      .p1 {
+        width: 57%;
+      }
+
+      .p2 {
+        width: 35%;
+      }
+
+      .header_btn {
+        padding: 13px 19px;
+        border: 2px solid $primary;
+        border-radius: 6px;
+        text-transform: uppercase;
+        font-size: 16px;
+        font-weight: 600;
+        color: $primary;
+        margin: 3em 0 0 0;
+      }
+
+      .header_btn_bg {
+        background-color: $lightPrimary;
+      }
+    }
+
+    .p3 {
+      display: flex;
+      font-size: 14px;
+      width: 90%;
+      justify-content: flex-end;
+      font-style: italic;
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .header_wrapper {
+    background-image: url("../../assets/HomePageViewPortImage.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: $primary;
+        padding: 6px 18px;
+        font-size: 34px;
+        font-weight: bold;
+        border-radius: 6px;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+        margin: 9em 0 10px 0;
+
+        sup {
+          font-size: 14px;
+          margin-left: 0.3em;
+          position: relative;
+          top: -0.4em;
+          text-transform: uppercase;
+        }
+      }
+
+      p {
+        text-align: center;
+        font-size: 16px;
+        font-weight: 500;
+      }
+
+      .header_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+
+        .p1 {
+          width: 57%;
+        }
+
+        .p2 {
+          width: 35%;
+        }
+
+        .header_btn {
+          padding: 13px 19px;
+          border: 2px solid $primary;
+          border-radius: 6px;
+          text-transform: uppercase;
+          font-size: 14px;
+          font-weight: 600;
+          color: $primary;
+          margin: 3em 0 0 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1124px) {
+  .header_wrapper {
+    background-image: url("../../assets/HomePageViewPortImage.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: $primary;
+        padding: 6px 18px;
+        font-size: 30px;
+        font-weight: bold;
+        border-radius: 6px;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+        margin: 9em 0 10px 0;
+
+        sup {
+          font-size: 12px;
+          margin-left: 0.3em;
+          position: relative;
+          top: -0.4em;
+          text-transform: uppercase;
+        }
+      }
+
+      p {
+        text-align: center;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .header_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 12px;
+
+        .p1 {
+          width: 57%;
+        }
+
+        .p2 {
+          width: 35%;
+        }
+
+        .header_btn {
+          padding: 9px 14px;
+          border: 2px solid $primary;
+          border-radius: 6px;
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: 600;
+          color: $primary;
+          margin: 3em 0 0 0;
+        }
+      }
+
+      .p3 {
+        display: flex;
+        font-size: 10px;
+        width: 90%;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .header_wrapper {
+    background-image: url("../../assets/HomePageViewPortImage.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: $primary;
+        padding: 4px 14px;
+        font-size: 28px;
+        font-weight: 600;
+        border-radius: 6px;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+        margin: 9em 0 10px 0;
+
+        sup {
+          font-size: 12px;
+          margin-left: 0.3em;
+          position: relative;
+          top: -0.4em;
+          text-transform: uppercase;
+        }
+      }
+
+      p {
+        text-align: center;
+        font-size: 12px;
+        font-weight: 500;
+      }
+
+      .header_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+
+        .p1 {
+          width: 57%;
+        }
+
+        .p2 {
+          width: 35%;
+        }
+
+        .header_btn {
+          padding: 11px 14px;
+          border: 2px solid $primary;
+          border-radius: 6px;
+          text-transform: uppercase;
+          font-size: 12px;
+          font-weight: 600;
+          color: $primary;
+          margin: 3em 0 0 0;
+        }
+
+        .header_btn_bg {
+          background-color: $lightPrimary;
+        }
+      }
+
+      .p3 {
+        display: flex;
+        font-size: 10px;
+        width: 90%;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header_wrapper {
+    background-image: url("../../assets/HomePageViewPortImage.jpg");
+    background-repeat: no-repeat;
+    background-size: 100%;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: $primary;
+        padding: 4px 14px;
+        font-size: 21px;
+        font-weight: 400;
+        border-radius: 6px;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+        margin: 9em 0 10px 0;
+
+        sup {
+          font-size: 9px;
+          margin-left: 0.3em;
+          position: relative;
+          top: -0.4em;
+          text-transform: uppercase;
+        }
+      }
+
+      p {
+        text-align: center;
+        font-size: 11px;
+        font-weight: 500;
+      }
+
+      .header_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+
+        .p1 {
+          width: 57%;
+        }
+
+        .p2 {
+          width: 35%;
+        }
+
+        .header_btn {
+          padding: 9px 12px;
+          border: 2px solid $primary;
+          border-radius: 6px;
+          text-transform: uppercase;
+          font-size: 11px;
+          font-weight: 600;
+          color: $primary;
+          margin: 1em 0 0 0;
+        }
+
+        .header_btn_bg {
+          background-color: $lightPrimary;
+        }
+      }
+
+      .p3 {
+        display: flex;
+        font-size: 8px;
+        width: 90%;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
+
+@media (max-width: 540px) {
+  .header_wrapper {
+    background-image: url("../../assets/HomePageViewPortImage.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 4em 0 0 0;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: transparent;
+        font-size: 36px;
+        font-weight: bold;
+        border-radius: 0;
+        letter-spacing: -0.5px;
+        height: 80px;
+        line-height: 35px;
+        text-shadow: none;
+        margin: 7em 0 0 0;
+        width: 50%;
+        padding: 0;
+        text-align: center;
+
+        sup {
+          font-size: 14px;
+          margin-left: 0.3em;
+          position: relative;
+          top: -0.4em;
+          text-transform: uppercase;
+        }
+      }
+
+      p {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .header_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+
+        .p1 {
+          width: 57%;
+        }
+
+        .p2 {
+          width: 35%;
+
+          span {
+            color: $primary;
+          }
+        }
+
+        .header_btn {
+          padding: 12px 13px;
+          border: 2px solid $primary;
+          border-radius: 6px;
+          text-transform: uppercase;
+          font-size: 16px;
+          font-weight: 600;
+          color: $primary;
+          margin: 1em 0 0 0;
+        }
+
+        .header_btn_bg {
+          background-color: $lightPrimary;
+        }
+      }
+
+      .p3 {
+        display: flex;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+        color: grey;
+      }
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  .header_wrapper {
+    background-image: url("../../assets/viewport_mobile.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 4.5em 0 0 0;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: transparent;
+        font-size: 36px;
+        font-weight: bold;
+        border-radius: 0;
+        letter-spacing: -0.5px;
+        height: 80px;
+        line-height: 35px;
+        text-shadow: none;
+        margin: 5em 0 0px 0;
+        width: 70%;
+        padding: 0;
+        text-align: center;
+
+        sup {
+          font-size: 14px;
+          margin-left: 0.3em;
+          position: relative;
+          top: -0.4em;
+          text-transform: uppercase;
+        }
+      }
+
+      p {
+        text-align: center;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .header_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 14px;
+
+        .p1 {
+          width: 85%;
+        }
+
+        .p2 {
+          width: 50%;
+
+          span {
+            color: $primary;
+          }
+        }
+
+        .header_btn {
+          padding: 12px 13px;
+          border: 2px solid $primary;
+          border-radius: 6px;
+          text-transform: uppercase;
+          font-size: 16px;
+          font-weight: 600;
+          color: $primary;
+          margin: 1em 0 0 0;
+        }
+
+        .header_btn_bg {
+          background-color: $lightPrimary;
+        }
+      }
+
+      .p3 {
+        display: flex;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+        color: grey;
+      }
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  .header_wrapper {
+    background-image: url("../../assets/viewport_mobile.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    margin: 4.5em 0 0 0;
+
+    .header_main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .header_title {
+        background-color: transparent;
+        font-size: 36px;
+        font-weight: bold;
+        border-radius: 0;
+        letter-spacing: -0.5px;
+        height: 80px;
+        line-height: 35px;
+        text-shadow: none;
+        margin: 4.5em 0 0px 0;
+        width: 80%;
+        padding: 0;
+        text-align: center;
+      }
+
+      .header_body {
+        .p1 {
+          width: 95%;
+        }
+
+        .p2 {
+          width: 65%;
+        }
+      }
+    }
+  }
+}

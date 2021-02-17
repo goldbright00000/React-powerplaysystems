@@ -17,3 +17,10 @@
   background: none;
   border: none;
 }
+
+.__btn_borderd_only {
+  background-color: $white !important;
+  border: 2px solid $primary !important;
+  color: $primary !important;
+  display: none;
+}

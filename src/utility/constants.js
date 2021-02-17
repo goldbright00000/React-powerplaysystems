@@ -9,8 +9,47 @@ export const CONSTANTS = {
         DECREASE: 'DECREASE',
         REPLACE: 'REPLACE',
         POWER_MATCH: 'POWER_MATCH',
-        REPLACE_ALL: 'REPLACE_ALL'
+        REPLACE_ALL: 'REPLACE_ALL',
+        NEW_HAND: 'NEW_HAND'
     },
     MAX_ACE_PER_CARD: 2,
     MAX_ACE_CARDS: 5,
+    POWER_ROYALS: {
+        TENS: '10',
+        JACK: 'J',
+        QUEEN: 'Q',
+        KING: 'K',
+        ACE: 'A'
+    },
+    CARD_RANKS_INDEXES: {
+        TENS: 8,
+        JACK: 9,
+        QUEEN: 10,
+        KING: 11,
+        ACE: 12
+    },
+    
+    SOCKET_EVENTS: {
+        AUTH: 'auth',
+        AUTH_STATUS: 'auth_status',
+        AUTH_TYPE: {
+            LOGIN: 'login',
+            REGISTER: 'register',
+            RESET_PASSWORD: 'reset_password'
+        },
+        LANDING_PAGE_EMAIL: {
+            ON: 'on_landing_page_email',
+            EMIT: 'emit_landing_page_email'
+        }
+    },
+
+    LOCAL_STORAGE_KEYS: {
+        USER: 'q3245fas45fa4w5#$rfa345__123@#42fadsfaw3424',
+    },
+
+    BUTTON_TYPE: {
+        SUBMIT: 'submit',
+        BUTTON: 'button',
+        RESET: 'reset',
+    }
 }
