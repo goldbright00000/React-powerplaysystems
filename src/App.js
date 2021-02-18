@@ -44,8 +44,8 @@ const App = props => {
                 <Route path='/select-teams' component={SelectTeams} />
                 <Route path='/powerbet-live' component={PowerBetLive} />
                 <Route path='/bingo-pre-game' component={BingoPreGame} />
-                {/* <Route path='/card-game' component={CardGame} /> */}
-                <ProtectedRoute path='/card-game' component={CardGame} />
+                <Route path='/card-game' component={CardGame} />
+                {/* <ProtectedRoute path='/card-game' component={CardGame} /> */}
                 <Route path='/power-picks' component={PowerPicks} />
                 <Route path='/chase-a-card' component={ChaseACard} />
                 <Route path='/faqs' component={FAQ} />

@@ -73,6 +73,7 @@ const LivePowerPlay = (props) => {
             totalEntries="19161"
             prize="$1K in Bonus Cash"
             isMobileDevice={isMobileDevice}
+            link="/power-poker"
           />
           <PowerPlayGridRow
             type="Bingo"
@@ -85,6 +86,7 @@ const LivePowerPlay = (props) => {
             prize="3000"
             entryFee="10,000"
             isMobileDevice={isMobileDevice}
+            link="/bingo-pre-game"
           />
           <PowerPlayGridRow
             type="21’s"
@@ -133,7 +135,7 @@ const LivePowerPlay = (props) => {
             link="/elite8"
           />
           <PowerPlayGridRow
-            type="21’s"
+            type="Power Royals"
             Icon={CasinoChips}
             date="Oct 24, 2020"
             time="8:00PM ET"
@@ -142,6 +144,7 @@ const LivePowerPlay = (props) => {
             totalEntries="71856"
             prize="$3K in Bonus Cash"
             isMobileDevice={isMobileDevice}
+            link="/power-royals"
           />
           <PowerPlayGridRow
             type="747"
@@ -155,7 +158,7 @@ const LivePowerPlay = (props) => {
             isMobileDevice={isMobileDevice}
           />
           <PowerPlayGridRow
-            type="Elite 8"
+            type="Power Royals"
             Icon={CasinoChips}
             date="Oct 24, 2020"
             time="8:00PM ET"
@@ -164,6 +167,7 @@ const LivePowerPlay = (props) => {
             totalEntries="247904"
             prize="10,0000"
             isMobileDevice={isMobileDevice}
+            link="/power-royals"
           />
           <PowerPlayGridRow
             type="Elite 8"
