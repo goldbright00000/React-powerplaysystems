@@ -108,6 +108,24 @@
         cursor: pointer;
       }
     }
+
+    .__powers_not_active {
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $white;
+      margin-top: 15px;
+    }
+
+    .__power_up {
+      font-weight: 500;
+      color: $primary;
+    }
   }
 
   .__card_game_content_footer {

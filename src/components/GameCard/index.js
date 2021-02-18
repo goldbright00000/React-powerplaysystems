@@ -42,13 +42,17 @@ function GameCard(props) {
         onIncrease = () => { },
         onDecrease = () => { },
         onPowerMatch = () => { },
-        onReplace = () => { }
+        onReplace = () => { },
+        myPowers = false,
+        showTimer = false
     } = props || {}
 
     useEffect(() => {
         if (time <= 0) {
             setHasReplacedState(false)
             setPopupState(false)
+        } else if (!isCompleted && myPowers) {
+            setPopupState(true);
         }
     }, [time])
 
@@ -94,7 +98,7 @@ function GameCard(props) {
                 isSelected
                     ?
                     <div className={classes.__game_card_selected} onClick={() => {
-                        if (showCardPopup) {
+                        if (showCardPopup && myPowers) {
                             setPopupState(!showPopup)
                         }
                         onClick()
@@ -111,32 +115,37 @@ function GameCard(props) {
                         }
                     </div>
                     :
-                    <div className={classes.__game_card_container}>
-                        
+                    <div className={classes.__game_card_container}>    
                         {
-                            start
+                            showTimer
                             ?
-                                cardIndex !== currentCard
+                                start
                                 ?
-                                    <div className={classes.__question_mark}>
-                                        <span>?</span>                                
-                                    </div>
+                                    cardIndex !== currentCard
+                                    ?
+                                        <div className={classes.__question_mark}>
+                                            <span>?</span>                                
+                                        </div>
+                                    :
+                                    <>
+                                        <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
+                                        <ProgressBar
+                                            progress={time}
+                                            maxProgress={5}
+                                            size={62}
+                                            strokeWidth={4}
+                                            circleOneStroke='grey'
+                                            circleTwoStroke='#fff'
+                                        />
+                                    </>
                                 :
-                                <>
-                                    <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
-                                    <ProgressBar
-                                        progress={time}
-                                        maxProgress={5}
-                                        size={62}
-                                        strokeWidth={4}
-                                        circleOneStroke='grey'
-                                        circleTwoStroke='#fff'
-                                    />
-                                </>
-                            :
-                            cardIndex == 0
-                            ?
-                            renderStartButton()
+                                cardIndex == 0
+                                ?
+                                renderStartButton()
+                                :
+                                <div className={classes.__question_mark}>
+                                    <span>?</span>                                
+                                </div>
                             :
                             <div className={classes.__question_mark}>
                                 <span>?</span>                                

@@ -13,7 +13,7 @@ import Alert from '../../components/Alert'
 import Reload from '../../icons/Reload'
 import BoltIcon from '../../assets/bolt.png'
 import PointsCollectedIcon from '../../assets/points-collected.png'
-import PowerPlaySideBarIcon from '../../assets/power-play-sidebar-icon.png'
+import PowerPlaySideBarIcon from '../../assets/token.png'
 import CardsSvg from '../../icons/Cards'
 import Sidebar from '../../components/Sidebar'
 import SidebarButton from '../../components/SidebarButton'
@@ -56,8 +56,8 @@ function CardGame(props) {
     const [showResetTimer, setResetTimerState] = useState(false)
     const [isReplaceAll, setIsReplaceAllState] = useState(false)
     const [myPowers, setMyPowers] = useState(false);
-    const [shareOptions, setShareOptions] = useState(true);
-    const [unLockOptions, setUnlockOptions] = useState(false);
+    const [shareOptions, setShareOptions] = useState(false);
+    const [unLockOptions, setUnlockOptions] = useState(true);
     const [start, setStart] = useState(false);
 
     const dispatch = useDispatch();
@@ -578,6 +578,8 @@ function CardGame(props) {
                                     onDecrease={() => onDecrease(0, cardsState?.collectedCards?.[0])}
                                     onPowerMatch={() => onPowerMatch(0, cardsState?.collectedCards?.[0])}
                                     onReplace={() => onReplace(0, cardsState?.collectedCards?.[0])}
+                                    myPowers={myPowers}
+                                    showTimer={true}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -599,6 +601,8 @@ function CardGame(props) {
                                     onDecrease={() => onDecrease(1, cardsState?.collectedCards?.[1])}
                                     onPowerMatch={() => onPowerMatch(1, cardsState?.collectedCards?.[1])}
                                     onReplace={() => onReplace(1, cardsState?.collectedCards?.[1])}
+                                    myPowers={myPowers}
+                                    showTimer={true}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -620,6 +624,8 @@ function CardGame(props) {
                                     onDecrease={() => onDecrease(2, cardsState?.collectedCards?.[2])}
                                     onPowerMatch={() => onPowerMatch(2, cardsState?.collectedCards?.[2])}
                                     onReplace={() => onReplace(2, cardsState?.collectedCards?.[2])}
+                                    myPowers={myPowers}
+                                    showTimer={true}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -641,6 +647,8 @@ function CardGame(props) {
                                     onDecrease={() => onDecrease(3, cardsState?.collectedCards?.[3])}
                                     onPowerMatch={() => onPowerMatch(3, cardsState?.collectedCards?.[3])}
                                     onReplace={() => onReplace(3, cardsState?.collectedCards?.[3])}
+                                    myPowers={myPowers}
+                                    showTimer={true}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -662,6 +670,8 @@ function CardGame(props) {
                                     onDecrease={() => onDecrease(4, cardsState?.collectedCards?.[4])}
                                     onPowerMatch={() => onPowerMatch(4, cardsState?.collectedCards?.[4])}
                                     onReplace={() => onReplace(4, cardsState?.collectedCards?.[4])}
+                                    myPowers={myPowers}
+                                    showTimer={true}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -674,6 +684,7 @@ function CardGame(props) {
                                 }
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
                             </button> */}
+                            <p className={classes.__powers_not_active}>Powers not active. <span className={classes.__powers_not_active + ' ' + classes.__power_up}>Power-Up</span> before you start!</p>
                         </Card>
                     </div>
 
