@@ -1,8 +1,7 @@
 import * as Actions from '../../actions/bingoActions';
 
 const INITIAL_STATE = {
-    bingo_game: Actions.DEFAULT_STATE.gameInitialValues,
-    matchedNumbers: Actions.DEFAULT_STATE.matchedNumbers
+    ...Actions.DEFAULT_STATE,
 }
 
 const bingo = (state = INITIAL_STATE, actions) => {
@@ -23,6 +22,12 @@ const bingo = (state = INITIAL_STATE, actions) => {
             return {
                 ...state,
                 matchedNumbers: actions.payload,
+            }
+        
+        case Actions.BINGO_GAME_INVENTORY:
+            return {
+                ...state,
+                inventory: actions.payload
             }
         
         default:

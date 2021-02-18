@@ -14,6 +14,7 @@ import PowerPlays from '../../components/PowerPlays/PowerPlays';
 import ProgressBar from '../../components/Progress';
 import { checkRange, getEmptyStringArray, getRandomNumberBetween } from '../../utility/shared';
 import * as Actions from '../../actions/bingoActions';
+import { CONSTANTS } from '../../utility/constants';
 
 const BINGO = { b: getEmptyStringArray(12), n: getEmptyStringArray(12), i: getEmptyStringArray(12), g: getEmptyStringArray(12), o: getEmptyStringArray(12) };
 const BINGO_INDEXES = { b: 0, i: 0, n: 0, g: 0, o: 0 };
@@ -30,11 +31,13 @@ const BingoInProgressGame = props => {
     const [currentBingoText, setBingoText] = useState('');
 
     const dispatch = useDispatch();
-    const { bingo_game: bingoGame = {} } = useSelector((state) => state.bingoGame);
+    const { bingo_game: bingoGame = {}, inventory: bingoInventory = {} } = useSelector((state) => state.bingoGame);
+    const { replaceAll = 0, replace = 0, powerMatch = 0, increaseDecrease } = bingoInventory || {};
 
     useEffect(() => { }, [currentNumber]);
 
     useEffect(() => {
+        dispatch(Actions.resetBingo());
         let progress = null;
         
         progress = gameStart();
@@ -179,9 +182,9 @@ const BingoInProgressGame = props => {
                         </div>
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image __hide-on-large' />
                     </div>
-                    <BingoGame targetNumbers={TARGET_NUMBERS} currentNumber={currentNumber} />
+                    <BingoGame targetNumbers={TARGET_NUMBERS} currentNumber={currentNumber} onPower={() => { console.log('On Power -----------') }} />
                 </div>
-                <PowerPlays />
+                <PowerPlays inventory={bingoInventory} />
             </div>
             <div className='__container'>
                 <BingoGame2 bingo={{ ...bingoGame }} />

@@ -10,31 +10,32 @@ import IncreaseIcon from '../../assets/IncreaseIcon.png';
 import DecreaseIcon from '../../assets/DecreaseIcon.png';
 
 const BingoGameBall = props => {
-    const { active = false, number = 0, keyVal = '' } = props || {};
-    const [isActive, setActive] = useState(active || false);
+    const { active = false, number = 0, keyVal = '', row = 0, column = 0, onPowerMatch = () => { }, onIncrease = () => { }, onDecrease = () => { }, onReplace = () => { }} = props || {};
+    // const [isActive, setActive] = useState(active || false);
 
-    useEffect(() => {
-        setActive(active);
-    }, [active]);
+    // useEffect(() => {
+    //     setActive(active);
+    // }, [active]);
 
-    const toggleActiveState = () => {
-        if (isActive) return;
+    // const toggleActiveState = () => {
+    //     if (isActive) return;
 
-        setActive(old => !old)
-    }
+    //     setActive(old => !old)
+    // }
 
+    
     return (
-        <div className={`__BingoGameBall __relative __flex __flex-center __h5 __mediam-on-mediam ${isActive ? 'active' : ''}`} key={keyVal}>
-            <div className='__ball-number __flex __flex-center __absolute' onClick={toggleActiveState}>{number}</div>
+        <div className={`__BingoGameBall __relative __flex __flex-center __h5 __mediam-on-mediam ${active ? 'active' : ''}`} key={keyVal}>
+            <div className='__ball-number __flex __flex-center __absolute'>{number}</div>
             {
-                !isActive &&
+                !active &&
                 <>
                     <div className={`__triangle __absolute __primary-color`}></div>
                     <div className={`__flex __ball-actions __absolute __primary-color`}>
-                        <Replace size={45} style={{height: 'auto'}} onClick={() => { console.log('clicked: ', number) }} />
-                        <img alt='' src={BoltIcon} onClick={() => { console.log('clicked: ', number) }} />
-                        <Plus size={45} style={{ height: 'auto' }} onClick={() => { console.log('clicked: ', number) }} />
-                        <Minus size={45} style={{height: 'auto'}} onClick={() => { console.log('clicked: ', number) }} />
+                        <Replace size={45} style={{height: 'auto'}} onClick={() => onReplace(row, column)} />
+                        <img alt='' src={BoltIcon} onClick={() => onPowerMatch(row, column)} />
+                        <Plus size={45} style={{ height: 'auto' }} onClick={() => onIncrease(row, column)} />
+                        <Minus size={45} style={{height: 'auto'}} onClick={() => onDecrease(row, column)} />
                         {/* <img alt='' src={DecreaseIcon} onClick={() => { console.log('clicked: ', number) }} /> */}
                     </div>
                 </>
@@ -46,7 +47,13 @@ const BingoGameBall = props => {
 BingoGameBall.propTypes = {
     active: PropTypes.bool,
     number: PropTypes.any,
-    keyVal: PropTypes.string
+    keyVal: PropTypes.string,
+    column: PropTypes.number,
+    row: PropTypes.number,
+    onPowerMatch: PropTypes.func,
+    onIncrease: PropTypes.func,
+    onDecrease: PropTypes.func,
+    onReplace: PropTypes.func
 }
 
 export default BingoGameBall;
