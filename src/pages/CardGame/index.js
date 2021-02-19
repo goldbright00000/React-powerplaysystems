@@ -120,26 +120,11 @@ function CardGame(props) {
                     time--;
                     setCount(time)
                 } else {
-                    if (currentRound < TOTAL_ROUNDS) {
-                        setResetTimerState(true)
-                        if (resetAllBtnTime !== 0) {
-                            resetAllBtnTime--;
-                            setResetBtnCountDown(resetAllBtnTime)
-                        } else {
-                            _round += 1;
-                            setCurrentRound(_round)
-                            setCurrentCard(0)
-                            resetGameState()
-                            resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
-                            setResetBtnCountDown(resetAllBtnTime)
-                            setResetTimerState(false)
-                            resetList(aceCardsArr)
-                        }
-                    } else {
                         setResetTimerState(false)
                         setIsReplaceAllState(false)
                         clearInterval(timeOut)
-                    }
+                        setStart(false);
+                        resetGameState()
                 }
             }, 1000)
         }
@@ -312,21 +297,21 @@ function CardGame(props) {
                     success={replace > 0 ? true : false}
                     primary={replace <= 0 ? true : false}
                     title="New Card"
-                    toolText={`${replace} left`}
+                    toolText={`5 left`}
                     icon={<Replace style={{ height: 'auto' }} />}
                 />
                 <SidebarButton
                     success={powerMatch > 0 ? true : false}
                     primary={powerMatch <= 0 ? true : false}
                     title="Power Match"
-                    toolText={`${powerMatch} left`}
+                    toolText={`5 left`}
                     icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
                 />
                 <SidebarButton
                     success={increaseOrDecrease > 0 ? true : false}
                     primary={increaseOrDecrease <= 0 ? true : false}
                     title="Increase/Decrease"
-                    toolText={`${increaseOrDecrease} left`}
+                    toolText={`5 left`}
                     icon={<PlusMinus style={{height: 'auto'}}/>}
                 />
             </>
@@ -551,7 +536,6 @@ function CardGame(props) {
                     <div className={classes.__card_game_content_body}>
                         <div className={classes.__card_game_content_btns}>
                             <button className={classes.__card_game_content_practice_btn}>Try a Practice game</button>
-                            <button className={classes.__card_game_content_live_btn}>Live Draw in Progress</button>
                         </div>
 
   
@@ -690,10 +674,12 @@ function CardGame(props) {
 
                     <div className={classes.__card_game_content_footer}>
                         {
-                            currentRound === 1 && currentCard === 0 && time > 0 &&
-                                <>
-                                    <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
-                                </>
+                            !start ?
+                                <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
+                                :
+                                cardsArr.length < CONSTANTS.MAX_ACE_CARDS 
+                                &&
+                                <Alert primary renderMsg={() => (<p>{CONSTANTS.MAX_ACE_CARDS - getAceCards()} {getAceCards() == 4 ? 'Ace' : 'Aces'} to go</p>)} />
                         }
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
@@ -705,11 +691,9 @@ function CardGame(props) {
                                     </button>
                                 </>
                                 :
-                                currentRound === TOTAL_ROUNDS && time <= 0 && cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
-                                    ?
-                                    <Alert danger renderMsg={() => (<p>You have only { getAceCards() || 0 } of { CONSTANTS.MAX_ACE_CARDS} Aces</p>)} />
-                                    :
-                                    <Alert primary renderMsg={() => (<p>Round { currentRound } in Progress: Aces = <strong>{getAceCards() || 0}</strong></p>)} />
+                                cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
+                                &&
+                                <Alert danger renderMsg={() => (<p>You have only { getAceCards() || 0 } of { CONSTANTS.MAX_ACE_CARDS} Aces</p>)} />   
                         }
                     </div>
                 </div>
