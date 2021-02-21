@@ -395,6 +395,22 @@
     float: right;
   }
 
+  .__card_game_content_practice_game_mode {
+    width: 230px;
+    height: 32px;
+    border-radius: 8px;
+    border-width: 0px;
+    background-color: #093d2c;
+    color: $white;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+  }
+
   .__card_game_content_live_btn {
     width: 196px;
     height: 39px;
