@@ -380,10 +380,10 @@
     height: 39px;
     margin: 0 1rem;
     border-radius: 8px;
-    background-color: rgba(251, 110, 0, 0.15);
+    background-color: rgba(251, 110, 0, 0.75);
     text-transform: uppercase;
     border-width: 0px;
-    color: $primary;
+    color: $black;
     font-family: Poppins;
     font-size: 14px;
     font-weight: 500;
@@ -392,7 +392,7 @@
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    float: left;
+    float: right;
   }
 
   .__card_game_content_live_btn {

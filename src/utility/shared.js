@@ -31,7 +31,7 @@ export function getRandomCard () {
 }
 
 export function getRandomNumberBetween(minRange, maxRange) {
-    let number = Math.floor(Math.random() * maxRange) + minRange;
+    let number = Math.floor(Math.random() * (maxRange - minRange + 1) + minRange);
 
     return number;
 }

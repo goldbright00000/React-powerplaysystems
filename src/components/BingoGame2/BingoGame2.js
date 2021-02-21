@@ -6,7 +6,7 @@ import './BingoGame2.scss';
 import { isEmpty } from 'lodash';
 
 const BingoGame2 = props => {
-    const { bingo: { b = [], i = [], n = [], g = [], o = [] } = {} } = props || {};
+    const { bingo = [] } = props || {};
     
     const renderTableRow = (list) => {
         return (
@@ -15,23 +15,48 @@ const BingoGame2 = props => {
             )
         )
     }
+
+    const renderTable = (list, column) => {
+        if (column === 0) return (<>
+            <div className='__bold' key={`B - ${column}`}>B</div>
+            {
+                renderTableRow(list)
+            }
+        </>)
+        if (column === 1) return (<>
+            <div className='__bold' key={`I - ${column}`}>I</div>
+            {
+                renderTableRow(list)
+            }
+        </>)
+        if (column === 2) return (<>
+            <div className='__bold' key={`N - ${column}`}>N</div>
+            {
+                renderTableRow(list)
+            }
+        </>)
+        if (column === 3) return (<>
+            <div className='__bold' key={`G - ${column}`}>G</div>
+            {
+                renderTableRow(list)
+            }
+        </>)
+        if (column === 4) return (<>
+            <div className='__bold' key={`O - ${column}`}>O</div>
+            {
+                renderTableRow(list)
+            }
+        </>)
+    }
     
     return (
         <div className='__bingo-game-2 __primary-color __h2 __mediam-on-small'>
-            <div className='__bold'>B</div>
-            {renderTableRow(b)}
-
-            <div className='__bold'>I</div>
-            {renderTableRow(i)}
-
-            <div className='__bold'>N</div>
-            {renderTableRow(n)}
-
-            <div className='__bold'>G</div>
-            {renderTableRow(g)}
-
-            <div className='__bold'>O</div>
-            {renderTableRow(o)}
+            {
+                bingo?.map((list, column) => {
+                    return renderTable(list, column)
+                })
+            }
+            
         </div>
     )
 }

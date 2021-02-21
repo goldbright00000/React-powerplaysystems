@@ -16,11 +16,8 @@ import { checkRange, getEmptyStringArray, getRandomNumberBetween } from '../../u
 import * as Actions from '../../actions/bingoActions';
 import { CONSTANTS } from '../../utility/constants';
 
-const BINGO = { b: getEmptyStringArray(12), n: getEmptyStringArray(12), i: getEmptyStringArray(12), g: getEmptyStringArray(12), o: getEmptyStringArray(12) };
+const BINGO = [getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12) ];
 const BINGO_INDEXES = { b: 0, i: 0, n: 0, g: 0, o: 0 };
-const TARGET_NUMBERS = [
-    [1, 2, 3, 4, 5], [16,17,18,19,20], [31,32,33,34,35], [46,47,48,49,50], [61,62,63,64,65]
-];
 const MAX_PROGRESS = 5;
 const MAX_LEVELS = 25;
 
@@ -31,13 +28,13 @@ const BingoInProgressGame = props => {
     const [currentBingoText, setBingoText] = useState('');
 
     const dispatch = useDispatch();
-    const { bingo_game: bingoGame = {}, inventory: bingoInventory = {} } = useSelector((state) => state.bingoGame);
+    const { bingo_game: bingoGame = [], inventory: bingoInventory = {}, target_numbers = [] } = useSelector((state) => state.bingoGame);
     const { replaceAll = 0, replace = 0, powerMatch = 0, increaseDecrease } = bingoInventory || {};
 
     useEffect(() => { }, [currentNumber]);
 
     useEffect(() => {
-        dispatch(Actions.resetBingo());
+        // dispatch(Actions.resetBingo());
         let progress = null;
         
         progress = gameStart();
@@ -67,31 +64,31 @@ const BingoInProgressGame = props => {
                 let O = checkRange(number, 61, 75);
 
                 if (B !== 0) {
-                    BINGO.b[BINGO_INDEXES.b] = number;
+                    BINGO[0][BINGO_INDEXES.b] = number;
                     BINGO_INDEXES.b++;
                     setBingoText('B');
                 }
 
                 if (I !== 0) {
-                    BINGO.i[BINGO_INDEXES.i] = number;
+                    BINGO[1][BINGO_INDEXES.i] = number;
                     BINGO_INDEXES.i++;
                     setBingoText('I');
                 }
 
                 if (N !== 0) {
-                    BINGO.n[BINGO_INDEXES.n] = number;
+                    BINGO[2][BINGO_INDEXES.n] = number;
                     BINGO_INDEXES.n++;
                     setBingoText('N');
                 }
 
                 if (G !== 0) {
-                    BINGO.g[BINGO_INDEXES.g] = number;
+                    BINGO[3][BINGO_INDEXES.g] = number;
                     BINGO_INDEXES.g++;
                     setBingoText('G');
                 }
 
                 if (O !== 0) {
-                    BINGO.o[BINGO_INDEXES.o] = number;
+                    BINGO[4][BINGO_INDEXES.o] = number;
                     BINGO_INDEXES.o++;
                     setBingoText('O');
                 }
@@ -115,10 +112,12 @@ const BingoInProgressGame = props => {
 
     const generateAndSetNumber = () => {
         let number = getRandomNumberBetween(1, 75);
-        if (BINGO.b.includes(number) || BINGO.i.includes(number) || BINGO.n.includes(number) || BINGO.g.
-        includes(number) || BINGO.o.includes(number)) {
-            return generateAndSetNumber();
+        
+        for (let i = 0; i < BINGO.length; i++) {
+            if(BINGO[i].includes(number))
+                return generateAndSetNumber();
         }
+        
 
         setCurrentNumber(number);
 
@@ -182,12 +181,12 @@ const BingoInProgressGame = props => {
                         </div>
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image __hide-on-large' />
                     </div>
-                    <BingoGame targetNumbers={TARGET_NUMBERS} currentNumber={currentNumber} onPower={() => { console.log('On Power -----------') }} />
+                    <BingoGame targetNumbers={target_numbers} currentNumber={currentNumber} />
                 </div>
                 <PowerPlays inventory={bingoInventory} />
             </div>
             <div className='__container'>
-                <BingoGame2 bingo={{ ...bingoGame }} />
+                <BingoGame2 bingo={bingoGame} />
             </div>
             <Footer isBlack={true} />
         </div>
