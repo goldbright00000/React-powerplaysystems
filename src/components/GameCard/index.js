@@ -44,7 +44,8 @@ function GameCard(props) {
         onPowerMatch = () => { },
         onReplace = () => { },
         myPowers = false,
-        showTimer = false
+        showTimer = false,
+        gotAceWithPower = false
     } = props || {}
 
     useEffect(() => {
@@ -154,7 +155,7 @@ function GameCard(props) {
                     </div>
             }
             {
-                showPopup && activeCard === card && time > 0 &&
+                showPopup && activeCard === card && time > 0 && !gotAceWithPower &&
                 <div className={classes.__game_card_popup_container}>
                     <div className={classes.__game_card_popup}>
                         {
