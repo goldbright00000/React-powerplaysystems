@@ -6,6 +6,8 @@ import * as Actions from '../../actions/bingoActions';
 import BingoGameBall from '..//BingoGameBall/BingoGameBall';
 import './BingoGame.scss';
 import { checkRange, getRandomNumberBetween, isExistsInList } from '../../utility/shared';
+import Button from '../Button';
+import ReplaceAllIcon from '../../assets/ReplaceAllIcon.png';
 
 /**
  * 
@@ -16,13 +18,11 @@ import { checkRange, getRandomNumberBetween, isExistsInList } from '../../utilit
 const matchNumbers = [];
 
 const BingoGame = props => {
-    const { targetNumbers = [], currentNumber = 0 } = props || {};
+    const { targetNumbers = [], currentNumber = 0, isGameOver = false, resetGameLocalStates = () => {} } = props || {};
     const dispatch = useDispatch();
     const { hasBingoUpdated = false } = useSelector((state) => state.bingoGame);
 
-    // useEffect(() => { }, [hasBingoUpdated]);
-
-    const hasFound = useCallback((number, currentNumber) => { 
+    const hasFound = useCallback((number, currentNumber) => {
         let isAvaiable = matchNumbers.includes(number)
         if (!isAvaiable && currentNumber === number) {
             matchNumbers.push(number);
@@ -31,6 +31,15 @@ const BingoGame = props => {
 
         return matchNumbers.includes(number);
     }, [currentNumber]);
+
+    const onReplaceAllPower = () => {
+        dispatch(Actions.onReplaceAllPower(() => {
+            for(let i = 0; i < matchNumbers.length; i++) {
+                matchNumbers.pop();
+            }
+            resetGameLocalStates()
+        }))
+    }
 
     const onPowerMatch = (row, column) => { 
         dispatch(Actions.onPowerMatch(() => {
@@ -79,43 +88,47 @@ const BingoGame = props => {
         return newNumber;
     }
 
+    const increaeNumber = (number, column, maxLimit) => {
+        if(number >= maxLimit) {
+            return number;
+        } else {
+            number++;
+            if(isExistsInList(targetNumbers[column], number) && number < maxLimit - 1) {
+                return increaeNumber(number, column, maxLimit);
+            } else if(isExistsInList(targetNumbers[column], number)) {
+                number--;
+            }
+        }
+
+        return number;
+    }
+
+    const decreaseNumber = (number, column, minLimit) => {
+        number--;
+        if (isExistsInList(targetNumbers[column], number) && number > minLimit) {
+            return decreaseNumber(number, column, minLimit);
+        } else if(isExistsInList(targetNumbers[column], number)) {
+            number++;
+        }
+
+        console.log(targetNumbers[column], number);
+
+        return number;
+    }
+
     const onIncrease = (number, row, column) => {
         dispatch(Actions.onIncreaseDecrease(() => {
             let _numb = number;
             if (number !== 15 && column === 0) {
-                number++;
-                if (!isExistsInList(targetNumbers[column], number)) {
-                    
-                }
-                if (isExistsInList(targetNumbers[column], number) && number !== 14) {
-                    number += 2;
-                } else {
-                    number++;
-                }
+                number = increaeNumber(number, column, 15);
             } else if (number !== 30 && column === 1) {
-                if (isExistsInList(targetNumbers[column], number) && number !== 28) {
-                    number += 2;
-                } else {
-                    number++;
-                }
+                number = increaeNumber(number, column, 30);
             } else if (number !== 45 && column === 2) {
-                if (isExistsInList(targetNumbers[column], number) && number !== 43) {
-                    number += 2;
-                } else {
-                    number++;
-                }
+                number = increaeNumber(number, column, 45);
             } else if (number !== 60 && column === 3) {
-                if (isExistsInList(targetNumbers[column], number) && number !== 58) {
-                    number += 2;
-                } else {
-                    number++;
-                }
+                number = increaeNumber(number, column, 60);
             } else if (number !== 75 && column === 4) {
-                if (isExistsInList(targetNumbers[column], number) && number !== 73) {
-                    number += 2;
-                } else {
-                    number++;
-                }
+                number = increaeNumber(number, column, 75);
             }
     
             targetNumbers[column][row] = number;
@@ -126,24 +139,16 @@ const BingoGame = props => {
     const onDecrease = (number, row, column) => {
         dispatch(Actions.onIncreaseDecrease(() => {
             let _numb = number;
-            if (number !== 1 && column === 0) {
-                number--;
-                if(!isExistsInList(targetNumbers[column], number)) {
-                    number--;
-                } else if (isExistsInList(targetNumbers[column], number) && number !== 1) {
-                    number -= 2;
-                } else {
-                    number = _numb;
-                }
-
-            } else if (number !== 16 && column === 1) {
-                number--;
-            } else if (number !== 31 && column === 2) {
-                number--;
-            } else if (number !== 46 && column === 3) {
-                number--;
-            } else if (number !== 61 && column === 4) {
-                number--;
+            if (number > 1 && column === 0) {
+                number = decreaseNumber(number, column, 0); 
+            } else if (number > 16 && column === 1) {
+                number = decreaseNumber(number, column, 15);
+            } else if (number > 31 && column === 2) {
+                number = decreaseNumber(number, column, 30);
+            } else if (number > 46 && column === 3) {
+                number = decreaseNumber(number, column, 45);
+            } else if (number > 61 && column === 4) {
+                number = decreaseNumber(number, column, 60);
             }
     
             targetNumbers[column][row] = number;
@@ -159,11 +164,11 @@ const BingoGame = props => {
         let inRangeO = checkRange(number, 61, 75);
 
         return {
-            inRangeB,
-            inRangeI,
-            inRangeN,
-            inRangeG,
-            inRangeO,
+            inRangeB: inRangeB === 0 ? false : true,
+            inRangeI: inRangeI === 0 ? false : true,
+            inRangeN: inRangeN === 0 ? false : true,
+            inRangeG: inRangeG === 0 ? false : true,
+            inRangeO: inRangeO === 0 ? false : true,
         }
     }
 
@@ -190,8 +195,13 @@ const BingoGame = props => {
                             )
                         })
                     }
-                
             </div>
+            {
+                isGameOver &&
+                <div className='__bingo_replace_all'>
+                    <img src={ReplaceAllIcon} alt="" onClick={onReplaceAllPower} />
+                </div>
+            }
         </div>
     )
 }
@@ -199,6 +209,8 @@ const BingoGame = props => {
 BingoGame.propTypes = {
     targetNumbers: PropTypes.array,
     currentNumber: PropTypes.number,
+    isGameOver: PropTypes.bool,
+    resetGameLocalStates: PropTypes.func,
 }
 
 export default React.memo(BingoGame);

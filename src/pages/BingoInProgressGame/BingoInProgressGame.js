@@ -19,22 +19,38 @@ import { CONSTANTS } from '../../utility/constants';
 const BINGO = [getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12) ];
 const BINGO_INDEXES = { b: 0, i: 0, n: 0, g: 0, o: 0 };
 const MAX_PROGRESS = 5;
-const MAX_LEVELS = 25;
+const MAX_LEVELS = 2;
 
 const BingoInProgressGame = props => {
     // const [bingo, setBingo] = useState(INITIAL_STATE);
     const [currentNumber, setCurrentNumber] = useState(0);
     const [progressCount, setProgressCount] = useState(5);
     const [currentBingoText, setBingoText] = useState('');
+    const [isGameOver, setIsGameOver] = useState(false);
 
     const dispatch = useDispatch();
     const { bingo_game: bingoGame = [], inventory: bingoInventory = {}, target_numbers = [] } = useSelector((state) => state.bingoGame);
-    const { replaceAll = 0, replace = 0, powerMatch = 0, increaseDecrease } = bingoInventory || {};
 
-    useEffect(() => { }, [currentNumber]);
+    const resetGameLocalStates = () => {
+        setCurrentNumber(0);
+        setProgressCount(5);
+        setBingoText('');
+        setIsGameOver(false);
+
+        for(let i = 0; i < BINGO.length; i ++) {
+            BINGO.pop();
+        }
+
+        BINGO_INDEXES.b = BINGO_INDEXES.i = BINGO_INDEXES.n = BINGO_INDEXES.g = BINGO_INDEXES.o = 0;
+
+        BINGO.push(getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12));
+
+        gameStart();
+    }
 
     useEffect(() => {
         // dispatch(Actions.resetBingo());
+        // resetGameLocalStates();
         let progress = null;
         
         progress = gameStart();
@@ -102,6 +118,7 @@ const BingoInProgressGame = props => {
                 if (_levelCount > MAX_LEVELS) {
                     clearInterval(timeInterval);
                     console.log('game over');
+                    setIsGameOver(true);
                 }
             }
         }, 1000);
@@ -181,7 +198,7 @@ const BingoInProgressGame = props => {
                         </div>
                         <img alt='' src={lotteryImage} className='__absolute __lottery-image __hide-on-large' />
                     </div>
-                    <BingoGame targetNumbers={target_numbers} currentNumber={currentNumber} />
+                    <BingoGame targetNumbers={target_numbers} currentNumber={currentNumber} isGameOver={isGameOver} resetGameLocalStates={resetGameLocalStates} />
                 </div>
                 <PowerPlays inventory={bingoInventory} />
             </div>

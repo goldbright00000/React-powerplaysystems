@@ -9,13 +9,13 @@ const bingo = (state = INITIAL_STATE, actions) => {
         case Actions.BINGO_GAME_IN_PROGRESS:
             return {
                 ...state,
-                bingo_game: [...actions.payload]
+                bingo_game: [...actions.payload],
             }
         
         case Actions.BINGO_GAME_RESET:
             return {
                 ...state,
-                bingo_game: actions.payload
+                ...actions.payload
             }
         
         case Actions.BINGO_MATCHED_NUMBERS:
@@ -41,7 +41,15 @@ const bingo = (state = INITIAL_STATE, actions) => {
                 ...state,
                 inventory: actions.payload
             }
-        
+        case Actions.BINGO_GAME_REPLACEALL:
+            return {
+                ...state,
+                bingo_game: actions.bingo_game,
+                target_numbers: actions.target_numbers,
+                matchNumbers: actions.matchNumbers,
+                inventory: actions.inventory,
+            }
+
         default:
             return state;
     }

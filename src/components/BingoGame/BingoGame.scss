@@ -46,6 +46,18 @@
         border: 1px solid $primary;
       }
     }
+
+  }
+  .__bingo_replace_all {
+    display: flex;
+    justify-content: flex-end;
+    transform: translate(20px, -30px);
+
+    img{
+      &:hover {
+        cursor: pointer;
+      }
+    }
   }
   @media (max-width: 600px) {
     .__game-wrapper {

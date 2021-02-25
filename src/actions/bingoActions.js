@@ -1,5 +1,5 @@
 
-import { getEmptyStringArray } from "../utility/shared";
+import { getEmptyStringArray, getRandomNumberBetween, isExistsInList } from "../utility/shared";
 
 export const BINGO_GAME_IN_PROGRESS = '[BINGO GAME] BINGO_GAME_IN_PROGRESS';
 export const BINGO_GAME_RESET = '[BINGO GAME] BINGO_GAME_RESET';
@@ -112,6 +112,95 @@ export function onIncreaseDecrease(callback = () => { }) {
         return dispatch({
             type: BINGO_GAME_INCREASE_DECREASE,
             payload: inventory,
+        })
+    }
+}
+
+export function onReplaceAllPower(callback = () => {}) {
+    return (dispatch, getState) => {
+        const { inventory = {}, target_numbers: oldTargetNumbers = [] } = getState().bingoGame;
+        const { replaceAll = 0 } = inventory || {};
+        
+        
+        if(replaceAll > 0) {
+            let _rp_all = replaceAll;
+            _rp_all -= 1;
+            inventory.replaceAll = _rp_all;
+            
+            //TODO: Generate new target numbers
+            const new_target_numbers = [];
+            for(let row = 0; row < 5; row++) {
+                const columnB = [], columnI = [], columnN = [], columnG = [], columnO = [];
+                for (let column = 0; column < 5; column++) {
+                    if(row === 0) {
+                        //generate number between 1, 15
+                        let num = getRandomNumberBetween(1, 15);
+                        if(isExistsInList(columnB, num)) {
+                            num = getRandomNumberBetween(1, 15);
+                        }
+                        columnB.push(num);
+                    }
+                    else if(row === 1) {
+                        //generate number between 16, 30
+                        let num = getRandomNumberBetween(16, 30);
+                        if(isExistsInList(columnI, num)) {
+                            num = getRandomNumberBetween(16, 30);
+                        }
+                        columnI.push(num);
+                    }
+                    else if(row === 2) {
+                        //generate number between 31, 45
+                        let num = getRandomNumberBetween(31, 45);
+                        if(isExistsInList(columnN, num)) {
+                            num = getRandomNumberBetween(31, 45);
+                        }
+                        columnN.push(num);
+                    }
+                    else if(row === 3) {
+                        //generate number between 46, 60
+                        let num = getRandomNumberBetween(46, 60);
+                        if(isExistsInList(columnG, num)) {
+                            num = getRandomNumberBetween(46, 60);
+                        }
+                        columnG.push(num);
+                    }
+
+                    else if(row === 4) {
+                        //generate number between 61, 75
+                        let num = getRandomNumberBetween(61, 75);
+                        if(isExistsInList(columnO, num)) {
+                            num = getRandomNumberBetween(61, 75);
+                        }
+                        columnO.push(num);
+                    }
+                }
+
+                if(columnB.length)
+                    new_target_numbers.push(columnB);
+                else if(columnI.length) new_target_numbers.push(columnI);
+                else if(columnN.length) new_target_numbers.push(columnN);
+                else if(columnG.length) new_target_numbers.push(columnG);
+                else if(columnO.length) new_target_numbers.push(columnO);
+            }
+
+
+            callback();
+
+            return dispatch({
+                type: BINGO_GAME_REPLACEALL,
+                inventory: inventory,
+                matchNumbers: DEFAULT_STATE.matchedNumbers,
+                target_numbers: new_target_numbers,
+                bingo_game: DEFAULT_STATE.bingo_game
+            })
+        }
+
+        return dispatch({
+            type: BINGO_GAME_REPLACEALL,
+            inventory: inventory,
+            matchNumbers: getState().matchedNumbers,
+            target_numbers: getState().target_numbers,
+            bingo_game: getState().bingo_game
         })
     }
 }
