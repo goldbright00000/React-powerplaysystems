@@ -3,10 +3,10 @@ import { CARD_GAME_ACTION_TYPES } from '../../actions/cardGameAction'
 const INITIAL_STATE = {
     collectedAceCards: [],
     inventory: {
-        replace: 2,
+        replace: 5,
         replaceAll: 2,
-        powerMatch: 255,
-        increaseOrDecrease: 4
+        powerMatch: 5,
+        increaseOrDecrease: 5
     },
 }
 

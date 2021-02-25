@@ -59,6 +59,8 @@ function CardGame(props) {
     const [shareOptions, setShareOptions] = useState(false);
     const [unLockOptions, setUnlockOptions] = useState(true);
     const [start, setStart] = useState(false);
+    const [practiceModeEnabled, setPracticeModeEnabled] = useState(false);
+    const [practiceGameBtnText, setPracticeGameBtnText] = useState('Try a Practice game');
 
     const dispatch = useDispatch();
     const { collectedAceCards = [],
@@ -66,7 +68,7 @@ function CardGame(props) {
     } = useSelector(state => state.cardGame)
 
     const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
-    
+    console.log('INVENTORY', inventory);
     useEffect(() => { 
         dispatch(resetCardState())
         resetGameState()
@@ -123,8 +125,6 @@ function CardGame(props) {
                         setResetTimerState(false)
                         setIsReplaceAllState(false)
                         clearInterval(timeOut)
-                        setStart(false);
-                        resetGameState()
                 }
             }, 1000)
         }
@@ -297,21 +297,21 @@ function CardGame(props) {
                     success={replace > 0 ? true : false}
                     primary={replace <= 0 ? true : false}
                     title="New Card"
-                    toolText={`5 left`}
+                    toolText={`${replace} left`}
                     icon={<Replace style={{ height: 'auto' }} />}
                 />
                 <SidebarButton
                     success={powerMatch > 0 ? true : false}
                     primary={powerMatch <= 0 ? true : false}
                     title="Power Match"
-                    toolText={`5 left`}
+                    toolText={`${powerMatch} left`}
                     icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
                 />
                 <SidebarButton
                     success={increaseOrDecrease > 0 ? true : false}
                     primary={increaseOrDecrease <= 0 ? true : false}
                     title="Increase/Decrease"
-                    toolText={`5 left`}
+                    toolText={`${increaseOrDecrease} left`}
                     icon={<PlusMinus style={{height: 'auto'}}/>}
                 />
             </>
@@ -444,7 +444,8 @@ function CardGame(props) {
         }
 
         let _increase = increaseOrDecrease;
-        _increase -= 1;
+
+        if (!practiceModeEnabled) _increase -= 1;
 
         //update the cards array in parent component
         updateCards(cardIndex, _card)
@@ -457,7 +458,7 @@ function CardGame(props) {
         return;
 
         let _replace = replace;
-        _replace -= 1;
+        if (!practiceModeEnabled) _replace -= 1;
 
         let newCard = getRandomCard();
         if (newCard?.rank === rank) {
@@ -472,7 +473,7 @@ function CardGame(props) {
         if (powerMatch <= 0 || getMaxAceCardsForCardSuit(card) || cardsState?.activeCard !== card) return
 
         let _powerMatch = powerMatch;
-        _powerMatch -= 1;
+        if (!practiceModeEnabled) _powerMatch -= 1;
 
         const _aceCard = {
             suit: suit,
@@ -502,7 +503,7 @@ function CardGame(props) {
         }
 
         let _decrease = increaseOrDecrease;
-        _decrease -= 1;
+        if (!practiceModeEnabled) _decrease -= 1;
 
         //update the cards array in parent component
         updateCards(cardIndex, _card)
@@ -535,11 +536,28 @@ function CardGame(props) {
 
                     <div className={classes.__card_game_content_body}>
                         <div className={classes.__card_game_content_btns}>
-                            <button className={classes.__card_game_content_practice_btn}>Try a Practice game</button>
+                            <button 
+                                className={classes.__card_game_content_practice_btn} 
+                                onClick={() => {
+                                    practiceGameBtnText == 'Try a Practice game' ? setPracticeGameBtnText('back to live-play mode') : setPracticeGameBtnText('Try a Practice game');
+                                    setPracticeModeEnabled(!practiceModeEnabled);
+                                    setMyPowers(!myPowers);
+                                    setUnlockOptions(!unLockOptions);
+                                    setStart(false);
+                                    resetGameState();
+                                }}>
+                                {practiceGameBtnText}
+                            </button>
                         </div>
-
   
                         <Card styles={{boxShadow: "inset 0 1px 24px 0 rgba(0, 0, 0, 0.5)"}}>
+                        {
+                            practiceModeEnabled
+                            &&
+                            <div style={{ position: 'relative', top: -60, alignSelf: 'center'}}>
+                                <button className={classes.__card_game_content_practice_game_mode}>Try a Practice game</button>
+                            </div>
+                        }
                             <div className={classes.__card_game_content_cards}>
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -668,14 +686,18 @@ function CardGame(props) {
                                 }
                                 <Reload size={48} className={classes.__reload_svg_icon}/>
                             </button> */}
-                            <p className={classes.__powers_not_active}>Powers not active. <span className={classes.__powers_not_active + ' ' + classes.__power_up}>Power-Up</span> before you start!</p>
+                            {
+                                !myPowers
+                                &&
+                                <p className={classes.__powers_not_active}>Powers not active. <span className={classes.__powers_not_active + ' ' + classes.__power_up}>Power-Up</span> before you start!</p>
+                            }
                         </Card>
                     </div>
 
                     <div className={classes.__card_game_content_footer}>
                         {
                             !start ?
-                                <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
+                                <Alert renderMsg={() => <p>Click Start to begin your game.</p>} primary />
                                 :
                                 cardsArr.length < CONSTANTS.MAX_ACE_CARDS 
                                 &&
@@ -693,7 +715,16 @@ function CardGame(props) {
                                 :
                                 cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
                                 &&
-                                <Alert danger renderMsg={() => (<p>You have only { getAceCards() || 0 } of { CONSTANTS.MAX_ACE_CARDS} Aces</p>)} />   
+                                <>
+                                    <Alert danger renderMsg={() => (<p>Sorry, you did not get { CONSTANTS.MAX_ACE_CARDS} aces.</p>)} />   
+                                    <button className={`__btn ${classes.__card_game_footer_btn}`}
+                                            onClick={() => {
+                                                setStart(false);
+                                                resetGameState();
+                                            }}>
+                                            Try Again?
+                                    </button>
+                                </>
                         }
                     </div>
                 </div>
