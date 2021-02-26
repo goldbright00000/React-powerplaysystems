@@ -14,6 +14,7 @@ import Reload from '../../icons/Reload'
 import BoltIcon from '../../assets/bolt.png'
 import PointsCollectedIcon from '../../assets/points-collected.png'
 import PowerPlaySideBarIcon from '../../assets/token.png'
+import PowerBalanceIcon from '../../assets/power_balance_icon.png'
 import CardsSvg from '../../icons/Cards'
 import Sidebar from '../../components/Sidebar'
 import SidebarButton from '../../components/SidebarButton'
@@ -61,6 +62,7 @@ function CardGame(props) {
     const [start, setStart] = useState(false);
     const [practiceModeEnabled, setPracticeModeEnabled] = useState(false);
     const [practiceGameBtnText, setPracticeGameBtnText] = useState('Try a Practice game');
+    const [gotAceWithPower, setGotAceWithPower] = useState(false);
 
     const dispatch = useDispatch();
     const { collectedAceCards = [],
@@ -68,7 +70,7 @@ function CardGame(props) {
     } = useSelector(state => state.cardGame)
 
     const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
-    console.log('INVENTORY', inventory);
+    
     useEffect(() => { 
         dispatch(resetCardState())
         resetGameState()
@@ -88,6 +90,8 @@ function CardGame(props) {
     }, [currentCard, currentRound, start])
 
     const gameStart = () => {
+        // Set got ace with power to false to show options
+        setGotAceWithPower(false);
         let timeOut = null
         if (_currentCard < TOTAL_CARDS) {
             if(!isReplaceAll)
@@ -114,6 +118,7 @@ function CardGame(props) {
                 }
             }, 1000)
         } else {
+            console.log('LAST ELSE');
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
                 setIsReplaceAllState(false)
@@ -296,21 +301,21 @@ function CardGame(props) {
                 <SidebarButton
                     success={replace > 0 ? true : false}
                     primary={replace <= 0 ? true : false}
-                    title="New Card"
+                    title="Power Hit"
                     toolText={`${replace} left`}
                     icon={<Replace style={{ height: 'auto' }} />}
                 />
                 <SidebarButton
                     success={powerMatch > 0 ? true : false}
                     primary={powerMatch <= 0 ? true : false}
-                    title="Power Match"
+                    title="Power Ace"
                     toolText={`${powerMatch} left`}
                     icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
                 />
                 <SidebarButton
                     success={increaseOrDecrease > 0 ? true : false}
                     primary={increaseOrDecrease <= 0 ? true : false}
-                    title="Increase/Decrease"
+                    title="Power Up/Down"
                     toolText={`${increaseOrDecrease} left`}
                     icon={<PlusMinus style={{height: 'auto'}}/>}
                 />
@@ -383,12 +388,20 @@ function CardGame(props) {
                 <p className={classes.__sidebar_purchase_powers_text}>your game!</p>
                 <Button 
                     title="$1 • Purchase Now" 
-                    onClick={() => hideShowSideBarOptions(true, false, false)} 
+                    onClick={() => {
+                        if (!start) {
+                            hideShowSideBarOptions(true, false, false)
+                        }
+                    }} 
                     styles={{"width":"190px","height":"51px","margin":"20px 0 20px","borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)","fontFamily":"Poppins","fontSize":"16px","fontWeight":"500","fontStretch":"normal","fontStyle":"normal","lineHeight":"normal","letterSpacing":"normal","textAlign":"center","color":"#111111"}} 
                 />
                 <Link 
                     title="Other Unlock Options" 
-                    onClick={() => hideShowSideBarOptions(false, true, false)} 
+                    onClick={() => {
+                        if (!start) {
+                            hideShowSideBarOptions(false, true, false)
+                        }
+                    }} 
                 />
             </>
         );
@@ -443,6 +456,9 @@ function CardGame(props) {
             rank: _rank,
         }
 
+        // Check if got ace if power
+        checkGotAceWithPower(_rank);
+
         let _increase = increaseOrDecrease;
 
         if (!practiceModeEnabled) _increase -= 1;
@@ -464,13 +480,17 @@ function CardGame(props) {
         if (newCard?.rank === rank) {
             newCard = getRandomCard();
         }
+
+        // Check if got ace if power
+        checkGotAceWithPower(newCard.rank);
+
         updateCards(cardIndex, newCard)
         updateInventory(_replace, CONSTANTS.CARD_POP_ACTIONS.REPLACE)
     }
 
     const onPowerMatch = (cardIndex, card) => {
         const { suit = 0 } = card || {}
-        if (powerMatch <= 0 || getMaxAceCardsForCardSuit(card) || cardsState?.activeCard !== card) return
+        if (getMaxAceCardsForCardSuit(card) || powerMatch <= 0 || cardsState?.activeCard !== card) return;
 
         let _powerMatch = powerMatch;
         if (!practiceModeEnabled) _powerMatch -= 1;
@@ -479,6 +499,8 @@ function CardGame(props) {
             suit: suit,
             rank: GetAceCardIndex(),
         }
+
+        checkGotAceWithPower(GetAceCardIndex());
 
         updateCards(cardIndex, _aceCard)
         updateInventory(_powerMatch, CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH)
@@ -496,11 +518,14 @@ function CardGame(props) {
         } else {
             _rank = GetAceCardIndex()
         }
-        
+
         const _card = {
             suit: suit,
             rank: _rank,
         }
+
+        // Check if got ace with power
+        checkGotAceWithPower(_rank);
 
         let _decrease = increaseOrDecrease;
         if (!practiceModeEnabled) _decrease -= 1;
@@ -508,6 +533,10 @@ function CardGame(props) {
         //update the cards array in parent component
         updateCards(cardIndex, _card)
         updateInventory(_decrease, CONSTANTS.CARD_POP_ACTIONS.INCREASE)
+    }
+
+    const checkGotAceWithPower = (rank) => {
+        rank == 12 ? setGotAceWithPower(true) : setGotAceWithPower(false);
     }
 
     const getMaxAceCardsForCardSuit = (card) => {
@@ -545,6 +574,13 @@ function CardGame(props) {
                                     setUnlockOptions(!unLockOptions);
                                     setStart(false);
                                     resetGameState();
+                                    const resetInventory = {
+                                        replace: 5,
+                                        replaceAll: 2,
+                                        powerMatch: 5,
+                                        increaseOrDecrease: 5
+                                    };
+                                    dispatch(cardGameInventory(resetInventory));
                                 }}>
                                 {practiceGameBtnText}
                             </button>
@@ -582,6 +618,7 @@ function CardGame(props) {
                                     onReplace={() => onReplace(0, cardsState?.collectedCards?.[0])}
                                     myPowers={myPowers}
                                     showTimer={true}
+                                    gotAceWithPower={gotAceWithPower}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -605,6 +642,7 @@ function CardGame(props) {
                                     onReplace={() => onReplace(1, cardsState?.collectedCards?.[1])}
                                     myPowers={myPowers}
                                     showTimer={true}
+                                    gotAceWithPower={gotAceWithPower}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -628,6 +666,7 @@ function CardGame(props) {
                                     onReplace={() => onReplace(2, cardsState?.collectedCards?.[2])}
                                     myPowers={myPowers}
                                     showTimer={true}
+                                    gotAceWithPower={gotAceWithPower}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -651,6 +690,7 @@ function CardGame(props) {
                                     onReplace={() => onReplace(3, cardsState?.collectedCards?.[3])}
                                     myPowers={myPowers}
                                     showTimer={true}
+                                    gotAceWithPower={gotAceWithPower}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -674,6 +714,7 @@ function CardGame(props) {
                                     onReplace={() => onReplace(4, cardsState?.collectedCards?.[4])}
                                     myPowers={myPowers}
                                     showTimer={true}
+                                    gotAceWithPower={gotAceWithPower}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -706,14 +747,14 @@ function CardGame(props) {
                         {
                             getAceCards() >= CONSTANTS.MAX_ACE_CARDS ?
                                 <>
-                                    <Alert success renderMsg={() => (<p>WOW! You have 5 of 5 Aces</p>)} />
+                                    <Alert success renderMsg={() => (<p>Congrats! You have 5 Aces! Click below to Chase the Ace!</p>)} />
                                     <button className={`__btn ${classes.__card_game_footer_btn}`}
                                         onClick={() => _redirectTo('/chase-a-card')}>
                                         Chase The Ace!
                                     </button>
                                 </>
                                 :
-                                cardsArr.length >= CONSTANTS.MAX_ACE_CARDS
+                                cardsArr.length >= CONSTANTS.MAX_ACE_CARDS && time <= 0
                                 &&
                                 <>
                                     <Alert danger renderMsg={() => (<p>Sorry, you did not get { CONSTANTS.MAX_ACE_CARDS} aces.</p>)} />   
@@ -721,6 +762,13 @@ function CardGame(props) {
                                             onClick={() => {
                                                 setStart(false);
                                                 resetGameState();
+                                                const resetInventory = {
+                                                    replace: 5,
+                                                    replaceAll: 2,
+                                                    powerMatch: 5,
+                                                    increaseOrDecrease: 5
+                                                };
+                                                dispatch(cardGameInventory(resetInventory));
                                             }}>
                                             Try Again?
                                     </button>
@@ -742,7 +790,7 @@ function CardGame(props) {
                         </div>
                         <div className={classes.__sidebar_cash_power_balance_wrapper}>
                             <div className={classes.__sidebar_cash_balance_wrapper}>
-                                <img src={PowerPlaySideBarIcon} width="40" height="30" />
+                                <img src={PowerBalanceIcon} width="40" height="40" />
                                 <div className={classes.__sidebar_text_wrapper}>
                                     <h1 className={classes.__sidebar_cash}>15,000</h1>
                                     <span className={classes.__sidebar_cash_balance_title}>Power Balance</span>
