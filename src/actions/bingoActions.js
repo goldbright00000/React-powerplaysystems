@@ -127,7 +127,6 @@ export function onReplaceAllPower(callback = () => {}) {
             _rp_all -= 1;
             inventory.replaceAll = _rp_all;
             
-            //TODO: Generate new target numbers
             const new_target_numbers = [];
             for(let row = 0; row < 5; row++) {
                 const columnB = [], columnI = [], columnN = [], columnG = [], columnO = [];
@@ -175,8 +174,7 @@ export function onReplaceAllPower(callback = () => {}) {
                     }
                 }
 
-                if(columnB.length)
-                    new_target_numbers.push(columnB);
+                if(columnB.length) new_target_numbers.push(columnB);
                 else if(columnI.length) new_target_numbers.push(columnI);
                 else if(columnN.length) new_target_numbers.push(columnN);
                 else if(columnG.length) new_target_numbers.push(columnG);
@@ -196,11 +194,7 @@ export function onReplaceAllPower(callback = () => {}) {
         }
 
         return dispatch({
-            type: BINGO_GAME_REPLACEALL,
-            inventory: inventory,
-            matchNumbers: getState().matchedNumbers,
-            target_numbers: getState().target_numbers,
-            bingo_game: getState().bingo_game
+            type: ''
         })
     }
 }

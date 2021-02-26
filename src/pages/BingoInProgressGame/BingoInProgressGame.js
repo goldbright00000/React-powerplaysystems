@@ -7,19 +7,17 @@ import Header from '../../components/Header/Header';
 import { Link } from 'react-router-dom';
 import clockimage from '../../assets/StopWatchIcon@2x.png';
 import lotteryImage from '../../assets/lotteryImg@2x.png';
-import ReverseTimer from '../../components/ReverseTimer/ReverseTimer';
 import BingoGame2 from '../../components/BingoGame2/BingoGame2';
 import BingoGame from '../../components/BingoGame/BingoGame';
 import PowerPlays from '../../components/PowerPlays/PowerPlays';
 import ProgressBar from '../../components/Progress';
 import { checkRange, getEmptyStringArray, getRandomNumberBetween } from '../../utility/shared';
 import * as Actions from '../../actions/bingoActions';
-import { CONSTANTS } from '../../utility/constants';
 
 const BINGO = [getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12) ];
 const BINGO_INDEXES = { b: 0, i: 0, n: 0, g: 0, o: 0 };
 const MAX_PROGRESS = 5;
-const MAX_LEVELS = 25;
+const MAX_LEVELS = 2;
 
 const BingoInProgressGame = props => {
     // const [bingo, setBingo] = useState(INITIAL_STATE);
@@ -29,7 +27,7 @@ const BingoInProgressGame = props => {
     const [isGameOver, setIsGameOver] = useState(false);
 
     const dispatch = useDispatch();
-    const { bingo_game: bingoGame = [], inventory: bingoInventory = {}, target_numbers = [] } = useSelector((state) => state.bingoGame);
+    const { inventory: bingoInventory = {}, target_numbers = [] } = useSelector((state) => state.bingoGame);
 
     const resetGameLocalStates = () => {
         setCurrentNumber(0);
@@ -38,12 +36,12 @@ const BingoInProgressGame = props => {
         setIsGameOver(false);
 
         for(let i = 0; i < BINGO.length; i ++) {
-            BINGO.pop();
+            BINGO[i] = getEmptyStringArray(12);
         }
 
-        BINGO_INDEXES.b = BINGO_INDEXES.i = BINGO_INDEXES.n = BINGO_INDEXES.g = BINGO_INDEXES.o = 0;
+        console.log(BINGO);
 
-        BINGO.push(getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12));
+        BINGO_INDEXES.b = BINGO_INDEXES.i = BINGO_INDEXES.n = BINGO_INDEXES.g = BINGO_INDEXES.o = 0;
 
         gameStart();
     }
@@ -65,64 +63,65 @@ const BingoInProgressGame = props => {
         let progress = MAX_PROGRESS; //progress bar max value
         let timeInterval = null;
         let _levelCount = 1; //initial level will be 1
-        timeInterval = setInterval(() => { 
-            if (progress > 0) {
-                progress--;
-                setProgressCount(progress);
-            } else {
-                //generate random number
-                let number = generateAndSetNumber();
-
-                let B = checkRange(number, 1, 15);
-                let I = checkRange(number, 16, 30);
-                let N = checkRange(number, 31, 45);
-                let G = checkRange(number, 46, 60);
-                let O = checkRange(number, 61, 75);
-
-                if (B !== 0) {
-                    BINGO[0][BINGO_INDEXES.b] = number;
-                    BINGO_INDEXES.b++;
-                    setBingoText('B');
+        if(timeInterval === null) {
+            timeInterval = setInterval(() => { 
+                if (progress > 0) {
+                    progress--;
+                    setProgressCount(progress);
+                } else {
+                    //generate random number
+                    let number = generateAndSetNumber();
+    
+                    let B = checkRange(number, 1, 15);
+                    let I = checkRange(number, 16, 30);
+                    let N = checkRange(number, 31, 45);
+                    let G = checkRange(number, 46, 60);
+                    let O = checkRange(number, 61, 75);
+    
+                    if (B !== 0) {
+                        BINGO[0][BINGO_INDEXES.b] = number;
+                        BINGO_INDEXES.b++;
+                        setBingoText('B');
+                    }
+    
+                    if (I !== 0) {
+                        BINGO[1][BINGO_INDEXES.i] = number;
+                        BINGO_INDEXES.i++;
+                        setBingoText('I');
+                    }
+    
+                    if (N !== 0) {
+                        BINGO[2][BINGO_INDEXES.n] = number;
+                        BINGO_INDEXES.n++;
+                        setBingoText('N');
+                    }
+    
+                    if (G !== 0) {
+                        BINGO[3][BINGO_INDEXES.g] = number;
+                        BINGO_INDEXES.g++;
+                        setBingoText('G');
+                    }
+    
+                    if (O !== 0) {
+                        BINGO[4][BINGO_INDEXES.o] = number;
+                        BINGO_INDEXES.o++;
+                        setBingoText('O');
+                    }
+                    _levelCount++;
+    
+                    //reset progress bar
+                    progress = 5;
+                    setProgressCount(progress);
+                    dispatch(Actions.bingoInProgress(BINGO));
+                    
+                    if (_levelCount > MAX_LEVELS) {
+                        clearInterval(timeInterval);
+                        console.log('game over');
+                        setIsGameOver(true);
+                    }
                 }
-
-                if (I !== 0) {
-                    BINGO[1][BINGO_INDEXES.i] = number;
-                    BINGO_INDEXES.i++;
-                    setBingoText('I');
-                }
-
-                if (N !== 0) {
-                    BINGO[2][BINGO_INDEXES.n] = number;
-                    BINGO_INDEXES.n++;
-                    setBingoText('N');
-                }
-
-                if (G !== 0) {
-                    BINGO[3][BINGO_INDEXES.g] = number;
-                    BINGO_INDEXES.g++;
-                    setBingoText('G');
-                }
-
-                if (O !== 0) {
-                    BINGO[4][BINGO_INDEXES.o] = number;
-                    BINGO_INDEXES.o++;
-                    setBingoText('O');
-                }
-                _levelCount++;
-
-                //reset progress bar
-                progress = 5;
-                setProgressCount(progress);
-                dispatch(Actions.bingoInProgress(BINGO));
-                
-                if (_levelCount > MAX_LEVELS) {
-                    clearInterval(timeInterval);
-                    console.log('game over');
-                    setIsGameOver(true);
-                }
-            }
-        }, 1000);
-        
+            }, 1000);
+        }
         
         return timeInterval;
     }
@@ -203,7 +202,7 @@ const BingoInProgressGame = props => {
                 <PowerPlays inventory={bingoInventory} />
             </div>
             <div className='__container'>
-                <BingoGame2 bingo={bingoGame} />
+                <BingoGame2 />
             </div>
             <Footer isBlack={true} />
         </div>

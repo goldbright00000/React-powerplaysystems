@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import './BingoGame2.scss';
-import { isEmpty } from 'lodash';
 
 const BingoGame2 = props => {
-    const { bingo = [] } = props || {};
+    const { bingo_game: bingoGame = [] } = useSelector((state) => state.bingoGame);
     
     const renderTableRow = (list) => {
         return (
@@ -52,17 +50,13 @@ const BingoGame2 = props => {
     return (
         <div className='__bingo-game-2 __primary-color __h2 __mediam-on-small'>
             {
-                bingo?.map((list, column) => {
+                bingoGame?.map((list, column) => {
                     return renderTable(list, column)
                 })
             }
             
         </div>
     )
-}
-
-BingoGame2.propTypes = {
-    bingo: PropTypes.object
 }
 
 export default React.memo(BingoGame2);
