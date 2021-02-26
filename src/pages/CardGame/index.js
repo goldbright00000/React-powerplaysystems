@@ -118,7 +118,6 @@ function CardGame(props) {
                 }
             }, 1000)
         } else {
-            console.log('LAST ELSE');
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
                 setIsReplaceAllState(false)
@@ -345,13 +344,11 @@ function CardGame(props) {
                 <Button 
                     title="x10" 
                     icon={<img src={PowerPlaySideBarIcon} width="20" height="20" alt="" />}
-                    onClick={() => console.log('hi')} 
                     styles={{"width":"100%","height":"51px","borderRadius":"12px","backgroundImage":"linear-gradient(to bottom, #ffffff, #ababab)", "color": "#17181a" }} 
                     onClick={() => hideShowSideBarOptions(true, false, false)}
                 />
                 <Button 
                     title="$1 • Purchase Now" 
-                    onClick={() => console.log('hi')} 
                     styles={{"width":"100%","height":"51px","margin-top":"20px", "borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)", "color":"#111", "font-size": "14"}} 
                     onClick={() => hideShowSideBarOptions(true, false, false)}
                 />
@@ -432,10 +429,10 @@ function CardGame(props) {
                 <p className={classes.__sidebar_open_an_account}>Open an account to unlock your Powers</p>
                 <Button 
                     title="Open Your Account" 
-                    onClick={() => console.log('hi')} 
+                    onClick={() => {}} 
                     styles={{"width":"100%","height":"51px", "margin-bottom":"5px", "borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)", "color":"#111", "font-size": "14"}} 
                 />
-                <Link title="Other Unlock Options" onClick={() => console.log('hi')} />
+                <Link title="Other Unlock Options" onClick={() => {}} />
             </>
         );
     }
