@@ -17,7 +17,7 @@ import * as Actions from '../../actions/bingoActions';
 const BINGO = [getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12), getEmptyStringArray(12) ];
 const BINGO_INDEXES = { b: 0, i: 0, n: 0, g: 0, o: 0 };
 const MAX_PROGRESS = 5;
-const MAX_LEVELS = 2;
+const MAX_LEVELS = 25;
 
 const BingoInProgressGame = props => {
     // const [bingo, setBingo] = useState(INITIAL_STATE);
@@ -38,8 +38,6 @@ const BingoInProgressGame = props => {
         for(let i = 0; i < BINGO.length; i ++) {
             BINGO[i] = getEmptyStringArray(12);
         }
-
-        console.log(BINGO);
 
         BINGO_INDEXES.b = BINGO_INDEXES.i = BINGO_INDEXES.n = BINGO_INDEXES.g = BINGO_INDEXES.o = 0;
 
