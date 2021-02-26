@@ -388,12 +388,20 @@ function CardGame(props) {
                 <p className={classes.__sidebar_purchase_powers_text}>your game!</p>
                 <Button 
                     title="$1 • Purchase Now" 
-                    onClick={() => hideShowSideBarOptions(true, false, false)} 
+                    onClick={() => {
+                        if (!start) {
+                            hideShowSideBarOptions(true, false, false)
+                        }
+                    }} 
                     styles={{"width":"190px","height":"51px","margin":"20px 0 20px","borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)","fontFamily":"Poppins","fontSize":"16px","fontWeight":"500","fontStretch":"normal","fontStyle":"normal","lineHeight":"normal","letterSpacing":"normal","textAlign":"center","color":"#111111"}} 
                 />
                 <Link 
                     title="Other Unlock Options" 
-                    onClick={() => hideShowSideBarOptions(false, true, false)} 
+                    onClick={() => {
+                        if (!start) {
+                            hideShowSideBarOptions(false, true, false)
+                        }
+                    }} 
                 />
             </>
         );
