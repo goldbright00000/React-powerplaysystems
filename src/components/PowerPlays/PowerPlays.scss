@@ -4,6 +4,10 @@
   box-shadow: -4px 0 38px 0 rgba(4, 4, 4, 0.58);
   background-color: $lightBlack;
   margin-bottom: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+
   .__my-balance {
     background: rgba($color: $primary, $alpha: 0.1);
     padding: 0.7em 2em;
@@ -16,6 +20,10 @@
     top: -0.9em;
     left: calc(50% + 1.8em);
     transform: translateX(-50%);
+  }
+
+  .__power-plays-main {
+    margin-bottom: 6em !important;
   }
 }
 
