@@ -35,6 +35,9 @@ import Link from '../../components/Link'
 import ShareButton from '../../components/ShareButton'
 import PinnacleIcon from '../../assets/pinnacle.png'
 import classes from './cardGamePage.module.scss'
+import MyPowers from '../../components/MyPowers'
+import LockedPowers from '../../components/LockedPowers'
+import SharePowers from '../../components/SharePowers'
 
 const TOTAL_ROUNDS = 5;
 const TOTAL_CARDS = 5;
@@ -118,7 +121,6 @@ function CardGame(props) {
                 }
             }, 1000)
         } else {
-            console.log('LAST ELSE');
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
                 setIsReplaceAllState(false)
@@ -292,152 +294,6 @@ function CardGame(props) {
         setMyPowers(myPower);
         setShareOptions(shareOption);
         setUnlockOptions(unLockOption);
-    }
-
-    const renderSideBarMyPowersSection = () => {
-        return (
-            <>
-            <span className={classes.__sidebar_my_powers_title}>My Powers</span>
-                <SidebarButton
-                    success={replace > 0 ? true : false}
-                    primary={replace <= 0 ? true : false}
-                    title="Power Hit"
-                    toolText={`${replace} left`}
-                    icon={<Replace style={{ height: 'auto' }} />}
-                />
-                <SidebarButton
-                    success={powerMatch > 0 ? true : false}
-                    primary={powerMatch <= 0 ? true : false}
-                    title="Power Ace"
-                    toolText={`${powerMatch} left`}
-                    icon={<img src={BoltIcon} width={53} height={53} alt={''}/>}
-                />
-                <SidebarButton
-                    success={increaseOrDecrease > 0 ? true : false}
-                    primary={increaseOrDecrease <= 0 ? true : false}
-                    title="Power Up/Down"
-                    toolText={`${increaseOrDecrease} left`}
-                    icon={<PlusMinus style={{height: 'auto'}}/>}
-                />
-            </>
-        );
-    }
-
-    const renderSideBarShareSection = () => {
-        return (
-            <>
-                <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
-                <p className={classes.__sidebar_unlock_power_text}>
-                    To unlock your Powers for this game, please select one of the following options:
-                </p>
-                <ShareButton 
-                    title="Share on Facebook"
-                    icon={<img src={FaceBookIcon} width={50} height={51} alt="" />}
-                    styles={{"backgroundImage":"linear-gradient(to bottom, #4e70a9, #4a6da5)"}}
-                    onClick={() => hideShowSideBarOptions(true, false, false)}
-                />
-                <ShareButton 
-                    title="Share on Twitter"
-                    icon={<img src={TwitterIcon} width={50} height={51} alt="" />}
-                    styles={{"backgroundImage":"linear-gradient(to bottom, #2cc3e6, #25bde6)"}}
-                    onClick={() => hideShowSideBarOptions(true, false, false)}
-                />
-                <Button 
-                    title="x10" 
-                    icon={<img src={PowerPlaySideBarIcon} width="20" height="20" alt="" />}
-                    onClick={() => console.log('hi')} 
-                    styles={{"width":"100%","height":"51px","borderRadius":"12px","backgroundImage":"linear-gradient(to bottom, #ffffff, #ababab)", "color": "#17181a" }} 
-                    onClick={() => hideShowSideBarOptions(true, false, false)}
-                />
-                <Button 
-                    title="$1 • Purchase Now" 
-                    onClick={() => console.log('hi')} 
-                    styles={{"width":"100%","height":"51px","margin-top":"20px", "borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)", "color":"#111", "font-size": "14"}} 
-                    onClick={() => hideShowSideBarOptions(true, false, false)}
-                />
-                <Link 
-                    title="Go Powerless" 
-                    onClick={() => hideShowSideBarOptions(false, false, true)} 
-                    styles={{"margin-top":"10px"}}     
-                />
-            </>               
-        );
-    }
-
-    const renderSideBarPurchaseSection = () => {
-        return (
-            <>
-                <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
-                <SidebarLockItem
-                    title="x2"
-                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                    icon={<img src={NewCardLiteIcon} width={53} height={53} alt={''}/>}
-                />
-                <SidebarLockItem
-                    title="x1"
-                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                    icon={<img src={BoltLiteIcon} width={53} height={53} alt={''}/>}
-                />
-                <SidebarLockItem
-                    title="x4"
-                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                    icon={<img src={PlusMinusLiteIcon} width={53} height={53} alt={''}/>}
-                />
-                <p className={classes.__sidebar_purchase_powers_text}>Purchase Powers</p>
-                <p className={classes.__sidebar_to_power_up}>to Power-up</p>
-                <p className={classes.__sidebar_purchase_powers_text}>your game!</p>
-                <Button 
-                    title="$1 • Purchase Now" 
-                    onClick={() => {
-                        if (!start) {
-                            hideShowSideBarOptions(true, false, false)
-                        }
-                    }} 
-                    styles={{"width":"190px","height":"51px","margin":"20px 0 20px","borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)","fontFamily":"Poppins","fontSize":"16px","fontWeight":"500","fontStretch":"normal","fontStyle":"normal","lineHeight":"normal","letterSpacing":"normal","textAlign":"center","color":"#111111"}} 
-                />
-                <Link 
-                    title="Other Unlock Options" 
-                    onClick={() => {
-                        if (!start) {
-                            hideShowSideBarOptions(false, true, false)
-                        }
-                    }} 
-                />
-            </>
-        );
-    }
-
-    const renderSideBarPinnacleSection = () => {
-        return (
-            <>
-                <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
-                <SidebarLockItem
-                    title="x2"
-                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                    icon={<img src={NewCardLiteIcon} width={53} height={53} alt={''}/>}
-                />
-                <SidebarLockItem
-                    title="x1"
-                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                    icon={<img src={BoltLiteIcon} width={53} height={53} alt={''}/>}
-                />
-                <SidebarLockItem
-                    title="x4"
-                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                    icon={<img src={PlusMinusLiteIcon} width={53} height={53} alt={''}/>}
-                />   
-
-                <span className={classes.__sidebar_power_up_your_game}>Power - Up <span className={classes.__sidebar_power_up_your_game_with}>Your Game with</span></span>
-                <img src={PinnacleIcon} width="100" height="50" alt="" />
-                <p className={classes.__sidebar_open_an_account}>Open an account to unlock your Powers</p>
-                <Button 
-                    title="Open Your Account" 
-                    onClick={() => console.log('hi')} 
-                    styles={{"width":"100%","height":"51px", "margin-bottom":"5px", "borderRadius":"12px","boxShadow":"0 0 34px 0 rgba(251, 110, 0, 0.2)","backgroundImage":"linear-gradient(to bottom, #fb9700, #fb6e00)", "color":"#111", "font-size": "14"}} 
-                />
-                <Link title="Other Unlock Options" onClick={() => console.log('hi')} />
-            </>
-        );
     }
     
     const onIncrease = (cardIndex, card) => {
@@ -803,21 +659,35 @@ function CardGame(props) {
                             {
                                 myPowers
                                 &&
-                                renderSideBarMyPowersSection()
+                                <MyPowers inventory={inventory} />
                             }
                             {
                                 shareOptions
                                 &&
-                                renderSideBarShareSection()
+                                <SharePowers 
+                                    onFaceBookClick={() => hideShowSideBarOptions(true, false, false)}
+                                    onTwitterClick={() => hideShowSideBarOptions(true, false, false)}
+                                    onX10Click={() => hideShowSideBarOptions(true, false, false)}
+                                    onPurchaseNowClick={() => hideShowSideBarOptions(true, false, false)}
+                                    onGoPowerLessClick={() => hideShowSideBarOptions(false, false, true)}
+                                />
                             }
                             {
                                 unLockOptions
                                 &&
-                                renderSideBarPurchaseSection()
-                            }
-
-                            {/* {renderSideBarPinnacleSection()} */}
-                            
+                                <LockedPowers 
+                                    onPurchaseNowClick={() => {
+                                        if (!start) {
+                                            hideShowSideBarOptions(true, false, false)
+                                        }
+                                    }}
+                                    onOtherUnlockOptionsClick={() => {
+                                        if (!start) {
+                                            hideShowSideBarOptions(false, true, false)
+                                        }
+                                    }} 
+                                />
+                            }                            
                         </div>
                     </div>
                 </Sidebar>
