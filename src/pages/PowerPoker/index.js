@@ -24,6 +24,10 @@ import {
 } from '../../actions/powerPokerActions'
 import { isEmpty, isEqual } from 'lodash'
 import classes from './pokerHands.module.scss'
+import CashPowerBalance from '../../components/CashPowerBalance'
+import MyPowers from '../../components/MyPowers'
+import SharePowers from '../../components/SharePowers'
+import LockedPowers from '../../components/LockedPowers'
 
 const INITIAL_STATE = {
     collectedCards: [{}, {}, {}, {}, {}],
@@ -52,6 +56,12 @@ function PowerRoyalsGame(props) {
     const [isGameCompleted, setGameCompleted] = useState(false)
     const [selectedRoundCard, setSelectedRoundCard] = useState()
     const [isCurrentFailed, setIsCurrentRoundFailed] = useState(false)
+    const [myPowers, setMyPowers] = useState(false);
+    const [shareOptions, setShareOptions] = useState(false);
+    const [unLockOptions, setUnlockOptions] = useState(true);
+    const [start, setStart] = useState(false);
+    const [practiceModeEnabled, setPracticeModeEnabled] = useState(false);
+    const [practiceGameBtnText, setPracticeGameBtnText] = useState('Try a Practice game');
 
     const dispatch = useDispatch();
     const {inventory = {}} = useSelector(state => state.powerPoker)
@@ -69,14 +79,16 @@ function PowerRoyalsGame(props) {
     }, [])
 
     useEffect(() => {
-        let timeOut = gameStart();
+        if (start) {
+            let timeOut = gameStart();
 
-        if(isGameCompleted) clearInterval(timeOut)
-        
-        return function cleanup() {
-            return clearInterval(timeOut && timeOut)
+            if(isGameCompleted) clearInterval(timeOut)
+            
+            return function cleanup() {
+                return clearInterval(timeOut && timeOut)
+            }
         }
-    }, [currentCard, currentRound, completedChallengeText, isCurrentFailed])
+    }, [currentCard, currentRound, completedChallengeText, isCurrentFailed, start])
 
     const gameStart = () => {
         let timeOut = null
@@ -273,6 +285,13 @@ function PowerRoyalsGame(props) {
         }
 
         dispatch(powerPokersGameInventory(_inventory))
+    }
+
+    // Hide/Show Sidebar Options
+    const hideShowSideBarOptions = (myPower, shareOption, unLockOption) => {
+        setMyPowers(myPower);
+        setShareOptions(shareOption);
+        setUnlockOptions(unLockOption);
     }
 
     const onReplaceAll = () => {
@@ -510,18 +529,29 @@ function PowerRoyalsGame(props) {
                             Hand <span>{currentRound}</span> of {TOTAL_ROUNDS}
                         </p>
                         <span className={classes.__card_divider} />
-                        <p className={classes.__card_game_Next_card_drawn_in}>Next card drawn in</p>
-                        <ProgressBar
-                            progress={count}
-                            maxProgress={5}
-                            size={62}
-                            strokeWidth={4}
-                            circleOneStroke='grey'
-                            circleTwoStroke='#fff'/>
                     </div>
 
                     <div className={classes.__card_game_content_body}>
+                        <div className={classes.__card_game_content_btns}>
+                            <button 
+                                className={classes.__card_game_content_practice_btn} 
+                                onClick={() => {
+                                    practiceGameBtnText == 'Try a Practice game' ? setPracticeGameBtnText('back to live-play mode') : setPracticeGameBtnText('Try a Practice game');
+                                    setPracticeModeEnabled(!practiceModeEnabled);
+                                    setStart(false);
+                                    resetGameState();
+                                }}>
+                                {practiceGameBtnText}
+                            </button>
+                        </div>
                         <Card>
+                            {
+                                practiceModeEnabled
+                                &&
+                                <div style={{ position: 'relative', top: -60, alignSelf: 'center'}}>
+                                    <button className={classes.__card_game_content_practice_game_mode}>Try a Practice game</button>
+                                </div>
+                            }
                             <div className={`${classes.__card_game_content_cards}`}>
                                 {cardsState?.collectedCards?.map((c, index) => (
                                     isEmpty(c) ?
@@ -531,7 +561,7 @@ function PowerRoyalsGame(props) {
                                             isSelected={false}
                                             activeCard={null}
                                             showCardPopup={false}
-                                            time={0}
+                                            time={time}
                                             showIncrementOrDecrementPower={false}
                                             showPowerMatchPower={false}
                                             showReplacePower={false}
@@ -539,6 +569,11 @@ function PowerRoyalsGame(props) {
                                             onReplace={() => { }}
                                             onPowerMatch={() => { }}
                                             onIncrease={() => { }}
+                                            start={start}
+                                            showTimer={true}
+                                            currentCard={currentCard}
+                                            cardIndex={index}
+                                            onStart={() => setStart(true)}
                                         />
                                         :
                                         <GameCard
@@ -557,16 +592,20 @@ function PowerRoyalsGame(props) {
                                             onReplace={() => onReplace(cardsState?.collectedCards?.[index], index)}
                                             onPowerMatch={() => { }}
                                             onIncrease={() => onIncrease(cardsState?.collectedCards?.[index], index)}
+                                            start={start}
+                                            showTimer={true}
+                                            currentCard={currentCard}
+                                            cardIndex={index}
                                         /> 
                                     ))}
                             </div> 
                         </Card>
 
                         {
-                            currentRound === 1 && currentCard === 0 && time > 0 &&
+                            currentRound === 1 && currentCard === 0 && time > 0 && !start &&
                                 <>
                                     <br />
-                                    <Alert renderMsg={() => <p>Get Ready! Your game is about start.</p>} primary />
+                                    <Alert renderMsg={() => <p>Click Start to begin your game.</p>} primary />
                                 </>
                         }
                         
@@ -589,27 +628,42 @@ function PowerRoyalsGame(props) {
                 </div>
 
                 <Sidebar>
-                    <div className={classes.__sidebar_header}>
-                        <span className={classes.__sidebar_header_title}>My Powers</span>
-                    </div>
-
-                    <div className={classes.__sidebar_button_wrapper}>
-                        <SidebarButton
-                            success={replace > 0 ? true : false}
-                            primary={replace <= 0 ? true : false}
-                            title="Power Card"
-                            toolText={`${replace} left`}
-                            icon={<Replace style={{ height: 'auto' }} />}
-                        />
-
-                        
-                        <SidebarButton
-                            success={increaseOrDecrease > 0 ? true : false}
-                            primary={increaseOrDecrease <= 0 ? true : false}
-                            title="Power Up/Down"
-                            toolText={`${increaseOrDecrease} left`}
-                            icon={<PlusMinus style={{height: 'auto'}}/>}
-                        />
+                    <CashPowerBalance />
+                    <div className={classes.__sidebar_my_powers_wrapper}>
+                        <div className={classes.__sidebar_button_wrapper}>
+                        {
+                                    myPowers
+                                    &&
+                                    <MyPowers inventory={inventory} />
+                                }
+                                {
+                                    shareOptions
+                                    &&
+                                    <SharePowers 
+                                        onFaceBookClick={() => hideShowSideBarOptions(true, false, false)}
+                                        onTwitterClick={() => hideShowSideBarOptions(true, false, false)}
+                                        onX10Click={() => hideShowSideBarOptions(true, false, false)}
+                                        onPurchaseNowClick={() => hideShowSideBarOptions(true, false, false)}
+                                        onGoPowerLessClick={() => hideShowSideBarOptions(false, false, true)}
+                                    />
+                                }
+                                {
+                                    unLockOptions
+                                    &&
+                                    <LockedPowers 
+                                        onPurchaseNowClick={() => {
+                                            if (!start) {
+                                                hideShowSideBarOptions(true, false, false)
+                                            }
+                                        }}
+                                        onOtherUnlockOptionsClick={() => {
+                                            if (!start) {
+                                                hideShowSideBarOptions(false, true, false)
+                                            }
+                                        }} 
+                                    />
+                                }        
+                        </div>
                     </div>
                 </Sidebar>
             </div>
