@@ -29,6 +29,7 @@ import LandingPage from './pages/LandingPage';
 import AccountPage from './pages/AccountPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import MyGameCenter from './pages/MyGameCenter/MyGameCenter';
+import Baseball from './pages/Baseball';
 
 
 
@@ -62,9 +63,10 @@ const App = props => {
                 <Route path="/power-poker" component={PowerPoker} />
                 <Route path="/landing-page" component={LandingPage} />
                 <ProtectedRoute path="/my-account" component={AccountPage} />
+                <Route exact path='/elite8' component={Elite8} />
+                <Route exact path='/elite8-draw' component={Elite8Draw} />
+                <Route path='/baseball' component={Baseball} />
                 <Route component={HomePage} />
-                <Route path='/elite8' component={Elite8} />
-                <Route path='/elite8-draw' component={Elite8Draw} />
             </Switch>
         </Fragment>
     )

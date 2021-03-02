@@ -51,5 +51,12 @@ export const CONSTANTS = {
         SUBMIT: 'submit',
         BUTTON: 'button',
         RESET: 'reset',
+    },
+
+    BINGO_INVENTORY_STATE: {
+        REPLACE_ALL: 'replace_all',
+        REPLACE: 'replace',
+        POWER_MATCH: 'power_match',
+        INCREASE_DECREASE: 'increase_decrease'
     }
 }

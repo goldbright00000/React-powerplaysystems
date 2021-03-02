@@ -31,7 +31,7 @@ export function getRandomCard () {
 }
 
 export function getRandomNumberBetween(minRange, maxRange) {
-    let number = Math.floor(Math.random() * maxRange) + minRange;
+    let number = Math.floor(Math.random() * (maxRange - minRange + 1) + minRange);
 
     return number;
 }
@@ -42,6 +42,14 @@ export function checkRange (number, minRange, maxRange) {
     }
 
     return 0;
+}
+
+export function getEmptyStringArray(arrayLength = 0, defautlValue) {
+    return new Array(arrayLength).fill(defautlValue || '-', 0, arrayLength);
+}
+
+export function isExistsInList(list = new Array(), value) {
+    return list.includes(value)
 }
 
 export function hasMaxAceCards(aceCards) {
