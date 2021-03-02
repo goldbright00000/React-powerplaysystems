@@ -1,0 +1,53 @@
+@import '../../scss/colors.scss';
+
+.__sidebar_cash_power_balance {
+    width: 226px;
+    height: 152px;
+    margin: 0 0 47px;
+    padding: 20px 34px 8px 16px;
+    border-radius: 12px;
+    background-color: #17181a;
+
+    .__sidebar_cash_power_balance_wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .__sidebar_cash_balance_wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .__sidebar_text_wrapper {
+          display: flex;
+          flex-direction: column;
+          margin-left: 20px;
+          margin-bottom: 10px;
+
+          .__sidebar_cash {
+            width: 44px;
+            height: 31px;
+            margin: 0;
+            font-family: Teko;
+            font-size: 30px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $primary;
+          }
+
+          .__sidebar_cash_balance_title {
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
