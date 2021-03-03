@@ -124,20 +124,10 @@ function PowerRoyalsGame(props) {
                     time--;
                     setCount(time)
                 } else {
-                    if (currentRound < TOTAL_ROUNDS) {
-                        setResetTimerState(true)
-                        if (resetAllBtnTime !== 0) {
-                            resetAllBtnTime--;
-                            setResetBtnCountDown(resetAllBtnTime)
-                        } else {
-                            _round += 1;
-                            setCurrentRound(_round)
-                            setCurrentCard(0)
-                            resetGameState()
-                            resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
-                            setResetBtnCountDown(resetAllBtnTime)
-                            setResetTimerState(false)
-                        }
+                    setResetTimerState(true)
+                    if (resetAllBtnTime !== 0) {
+                        resetAllBtnTime--;
+                        setResetBtnCountDown(resetAllBtnTime)
                     } else {
                         setResetTimerState(false)
                         setIsReplaceAllState(false)
@@ -197,64 +187,64 @@ function PowerRoyalsGame(props) {
         if (hasRoyalFlush()) {
             setIsCurrentRoundFailed(false)
             setCompletedChallengeText(<p>Royal Flush! challenge completed</p>)
-
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+     
+            return setGameCompleted(true)
         }
         else if (hasStraightFlushSameSuit()) {
             //Straight Completed
             setIsCurrentRoundFailed(false)
             setCompletedChallengeText(<p>Straight Flush! challenge completed</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasFoureOfAKindFlush()) {
             //4 of a kind completed
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Four Of A Kind! challenge completed</p>)
+            setCompletedChallengeText(<p>You have 4 of a kind.</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasFullHouseFlush()) {
             //Full House Completed
             setIsCurrentRoundFailed(false)
             setCompletedChallengeText(<p>Full House! challenge completed</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasFlush()) {
             //fluch completed
             setIsCurrentRoundFailed(false)
             setCompletedChallengeText(<p>Flush! challenge completed</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasStraightFlushDiffSuit()) {
             //straight flush diff suit completed
             setIsCurrentRoundFailed(false)
             setCompletedChallengeText(<p>Straight! challenge completed</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasThreeOfAKindFlush()) {
             //three of a kind compeleted
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Three Of A Kind! challenge completed</p>)
+            setCompletedChallengeText(<p>You have 3 of a kind.</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasTwoPairFlush()) {
             //two pair compeleted
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Two Pair! challenge completed</p>)
+            setCompletedChallengeText(<p>You have 2 Pair.</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
         else if (hasPairFlush()) {
             //Pair completed
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>1 Pair! challenge completed</p>)
+            setCompletedChallengeText(<p>You have 1 Pair.</p>)
 
-            return setGameCompleted(currentRound === TOTAL_ROUNDS ? true : false)
+            return setGameCompleted(true)
         }
 
         setIsCurrentRoundFailed(true)
@@ -538,8 +528,17 @@ function PowerRoyalsGame(props) {
                                 onClick={() => {
                                     practiceGameBtnText == 'Try a Practice game' ? setPracticeGameBtnText('back to live-play mode') : setPracticeGameBtnText('Try a Practice game');
                                     setPracticeModeEnabled(!practiceModeEnabled);
+                                    setMyPowers(!myPowers);
+                                    setUnlockOptions(!unLockOptions);
                                     setStart(false);
                                     resetGameState();
+                                    const resetInventory = {
+                                        replace: 5,
+                                        replaceAll: 2,
+                                        powerMatch: 5,
+                                        increaseOrDecrease: 5
+                                    };
+                                    dispatch(powerPokersGameInventory(resetInventory));
                                 }}>
                                 {practiceGameBtnText}
                             </button>
@@ -598,11 +597,16 @@ function PowerRoyalsGame(props) {
                                             cardIndex={index}
                                         /> 
                                     ))}
-                            </div> 
+                            </div>
+                            {
+                                !myPowers
+                                &&
+                                <p className={classes.__powers_not_active}>Powers not active. <span className={classes.__powers_not_active + ' ' + classes.__power_up}>Power-Up</span> before you start!</p>
+                            }
                         </Card>
 
                         {
-                            currentRound === 1 && currentCard === 0 && time > 0 && !start &&
+                            time > 0 && !start &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => <p>Click Start to begin your game.</p>} primary />
@@ -610,10 +614,24 @@ function PowerRoyalsGame(props) {
                         }
                         
                         {
-                            completedChallengeText &&
+                            completedChallengeText && time <= 0 &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => completedChallengeText} success={!isCurrentFailed} danger={isCurrentFailed} />
+                                    <button className={`__btn ${classes.__card_game_footer_btn}`}
+                                        onClick={() => {
+                                            setStart(false);
+                                            resetGameState();
+                                            const resetInventory = {
+                                            replace: 5,
+                                            replaceAll: 2,
+                                            powerMatch: 5,
+                                            increaseOrDecrease: 5
+                                        };
+                                        dispatch(powerPokersGameInventory(resetInventory));
+                                        }}>
+                                        Try Again?
+                                    </button>
                                 </>
                         }
 
@@ -621,9 +639,10 @@ function PowerRoyalsGame(props) {
                             isGameCompleted &&
                                 <>
                                     <br />
-                                    <Alert renderMsg={() => <p>You have won the game!</p>} success />
+                                    <Alert renderMsg={() => <p>Congrats! You won 10 Power Tokens!</p>} success />
                                 </>
                         }
+
                     </div>
                 </div>
 
