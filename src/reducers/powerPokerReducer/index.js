@@ -3,11 +3,11 @@ import { POWER_POKERS_GAME_ACTIONS } from '../../actions/powerPokerActions'
 const INITIAL_STATE = {
     collectedCards: [],
     inventory: {
-        replace: 255,
+        replace: 5,
         replaceAll: 2,
         newHands: 2,
-        powerMatch: 255,
-        increaseOrDecrease: 255
+        powerMatch: 5,
+        increaseOrDecrease: 5
     }
 }
 
