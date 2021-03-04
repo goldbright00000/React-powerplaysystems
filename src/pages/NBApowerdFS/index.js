@@ -4,26 +4,25 @@ import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Header3 from '../../components/Header3';
-import BaseballImage from '../../assets/baseball.jpg';
+import NBABg from '../../assets/nba-bg.jpg';
 import SearchIcon from '../../icons/SearchIcon';
 import Tick2 from '../../icons/Tick2';
-import ClockIcon from '../../icons/Clock2';
-import CalenderIcon from '../../icons/Calendar2';
-import StadiumIcon from '../../icons/Stadium2';
-import DeleteIcon from '../../assets/delete.png';
 import ContestRulesIcon from '../../icons/ContestRules';
 import RightArrow from '../../assets/right-arrow.png';
-import MLBFooterImage from '../../assets/MLB.png';
-import CoinsIcon from '../../assets/points-collected.png';
+import NBAFooterImage from '../../assets/nba.png';
 import PowerPlayIcon from '../../assets/token.png';
 import Card from '../../components/PowerpickCard';
 import Sidebar from '../../components/Sidebar';
-import { setNumberComma } from '../../utility/shared';
+import CashPowerBalance from '../../components/CashPowerBalance';
+import Circle from '../../icons/CircleEmpty';
+import SportsSidebarContent from '../../components/SportsSidebarContent';
+import SelectionCard from '../../components/SportsSelectionCard';
+import EmployeeIcon from '../../icons/Employee';
 
 const dummyData = [
     {
         id: 1,
-        title: 'Chris Carpenter',
+        title: 'Karl-Anthony Towns',
         avgVal: 4,
         teamA: 'Arizona Diamondbacks',
         teamB: 'Baltimore Orioles',
@@ -33,17 +32,18 @@ const dummyData = [
     },
     {
         id: 2,
-        title: 'Chris Carpenter',
+        title: 'Robert Williams lll',
         avgVal: 4,
         teamA: 'Arizona Diamondbacks',
         teamB: 'Baltimore Orioles',
         time: '01:10 PM',
         date: '2020-09-28',
         stadium: 'Empower Field',
+        isStartPower: true,
     },
     {
         id: 3,
-        title: 'Chris Carpenter',
+        title: 'Nikola Jokic',
         avgVal: 4,
         teamA: 'Arizona Diamondbacks',
         teamB: 'Baltimore Orioles',
@@ -53,7 +53,7 @@ const dummyData = [
     },
     {
         id: 4,
-        title: 'Chris Carpenter',
+        title: 'Joel Embiid',
         avgVal: 4,
         teamA: 'Arizona Diamondbacks',
         teamB: 'Baltimore Orioles',
@@ -63,36 +63,45 @@ const dummyData = [
     },
 ]
 
-function Baseball() {
+const dummySidebar = [
+    {
+        title: 'C',
+        value: 'Karl-Anthony Towns',
+    },
+    {
+        title: 'PG1',
+        value: '',
+    },
+    {
+        title: 'PG2',
+        value: '',
+    },
+    {
+        title: 'SG1',
+        value: '',
+    },
+    {
+        title: 'SG2',
+        value: '',
+    },
+    {
+        title: 'F1',
+        value: '',
+    },
+    {
+        title: 'F2',
+        value: '',
+    },
+    {
+        title: 'D',
+        value: '',
+        icon: EmployeeIcon,
+    },
+]
+
+function NBAPowerdFs() {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
-    const [selected, setSelected] = useState(new Map())
-
-    const SelectionCard = ({title, avgVal, teamA, teamB, time, date, stadium, id, isSelected, onSelectDeselect}) => (
-        <div className={classes.container_body_card}>
-            <div className={classes.container_body_card_header}>
-                <h2 className={isSelected ? classes.active : ''}>{title}</h2>
-                {
-                    !isSelected ?
-                    <button onClick={() => onSelectDeselect(id)}> + Select</button>
-                    :
-                    <div className={classes.container_selected}>
-                        <p> <Tick2 /> Selected <img src={DeleteIcon} onClick={() => onSelectDeselect(id)} /></p>
-                    </div>
-                }
-            </div>
-
-            <p className={`${classes.container_body_card_p} ${isSelected ? classes.active : ''}`}>Avg. Pts/Game <span>{avgVal}</span></p>
-
-            <p><span className={classes.teamA}>{teamA}</span> VS {teamB}</p>
-
-            <div className={classes.divider}></div>
-            <p className={classes.container_body_footer}> 
-                <span><ClockIcon /> {time}</span>
-                <span><CalenderIcon /> {date}</span>
-                <span><StadiumIcon /> {stadium}</span>
-            </p>
-        </div>
-    );
+    const [selected, setSelected] = useState(new Map());
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
@@ -105,7 +114,7 @@ function Baseball() {
         <>
         <Header />
             <div className={classes.wrapper}>
-               <Header3 titleMain1="MLB 2021" titleMain2="PowerdFS" subHeader1="Introducing Live-Play Fantasy Baseball" subHeader2="Play for your chance to win $1000!" contestBtnTitle="Contest Rules" prizeBtnTitle="Prize Grid" bgImageUri={BaseballImage} />
+               <Header3 titleMain1="NHL 2021" titleMain2="PowerdFS" subHeader1="Introducing Live-Play Fantasy Baseball" subHeader2="Play for your chance to win $1000!" contestBtnTitle="Contest Rules" prizeBtnTitle="Prize Grid" bgImageUri={NBABg} />
 
                 <div className={classes.container}>
                     <div className={classes.container_left}>
@@ -118,11 +127,10 @@ function Baseball() {
                             <p>Select Position</p>
                             <div className={classes.container_top_1}>
                                 <div className={classes.container_top_2}>
-                                    <button className={classes.active}>SP <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>IF <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>OF <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>DH <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>RP <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
+                                    <button className={classes.active}>C <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
+                                    <button>PG <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
+                                    <button>SG <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
+                                    <button>F <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
                                     <button>D <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
                                 </div>
 
@@ -151,7 +159,7 @@ function Baseball() {
                         <div className={classes.container_body}>
                             <Card>
                                 {
-                                    dummyData.map((item, index) => <SelectionCard title={item.title} avgVal={item.avgVal} teamA={item.teamA} teamB={item.teamB} time={item.time} date={item.date} stadium={item.stadium} isSelected={!!selected.get(item.id)} key={item.id} onSelectDeselect={onSelectDeselect} id={item.id} />)
+                                    dummyData.map((item, index) => <SelectionCard title={item.title} avgVal={item.avgVal} teamA={item.teamA} teamB={item.teamB} time={item.time} date={item.date} stadium={item.stadium} isSelected={!!selected.get(item.id)} key={item.id} onSelectDeselect={onSelectDeselect} id={item.id} isStartPower={item.isStartPower && item.isStartPower} />)
                                 }
                             </Card>
                         </div>
@@ -180,31 +188,29 @@ function Baseball() {
 
                                     <button>See Full Rules <img src={RightArrow} /></button>
 
-                                    <img src={MLBFooterImage} className={classes.container_body_img} />
+                                    <img src={NBAFooterImage} className={classes.container_body_img} />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div>
+                    <div className={classes.sidebar_container}>
                         <Sidebar>
+                            <CashPowerBalance />
                             <div className={classes.sidebar_header}>
-                                <div className={classes.sidebar_header_1}>
-                                    <img src={CoinsIcon} className={classes.img_small} />
-                                    <div>
-                                        <h2>$36</h2>
-                                        <span>Cash Balance</span>
-                                    </div>
-                                </div>
-
+                                <h2>My Selections</h2>
                                 <div className={classes.sidebar_header_1}>
                                     <img src={PowerPlayIcon} />
-                                    <div>
-                                        <h2>{ setNumberComma(15000) }</h2>
-                                        <span>Power Balance</span>
-                                    </div>
+                                    <p>0/3 Star Power Players Selected</p>
+                                </div>
+                                <div className={classes.sidebar_circles}>
+                                    <Circle />
+                                    <Circle />
+                                    <Circle />
                                 </div>
                             </div>
+                            <SportsSidebarContent data={dummySidebar} />
+                            <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>
                 </div>
@@ -215,4 +221,4 @@ function Baseball() {
     )
 }
 
-export default Baseball
+export default NBAPowerdFs

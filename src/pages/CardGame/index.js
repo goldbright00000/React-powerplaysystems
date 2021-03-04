@@ -38,6 +38,7 @@ import classes from './cardGamePage.module.scss'
 import MyPowers from '../../components/MyPowers'
 import LockedPowers from '../../components/LockedPowers'
 import SharePowers from '../../components/SharePowers'
+import CashPowerBalance from '../../components/CashPowerBalance'
 
 const TOTAL_ROUNDS = 5;
 const TOTAL_CARDS = 5;
@@ -634,26 +635,7 @@ function CardGame(props) {
                 </div>
 
                 <Sidebar>
-                    <div className={classes.__sidebar_cash_power_balance}>
-                        <div className={classes.__sidebar_cash_power_balance_wrapper}>
-                            <div className={classes.__sidebar_cash_balance_wrapper}>
-                                <img src={PointsCollectedIcon} width="40" height="30" />
-                                <div className={classes.__sidebar_text_wrapper}>
-                                    <h1 className={classes.__sidebar_cash}>$36</h1>
-                                    <span className={classes.__sidebar_cash_balance_title}>Cash Balance</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className={classes.__sidebar_cash_power_balance_wrapper}>
-                            <div className={classes.__sidebar_cash_balance_wrapper}>
-                                <img src={PowerBalanceIcon} width="40" height="40" />
-                                <div className={classes.__sidebar_text_wrapper}>
-                                    <h1 className={classes.__sidebar_cash}>15,000</h1>
-                                    <span className={classes.__sidebar_cash_balance_title}>Power Balance</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <CashPowerBalance />
                     <div className={classes.__sidebar_my_powers_wrapper}>
                         <div className={classes.__sidebar_button_wrapper}>
                             {

@@ -1,0 +1,147 @@
+@import '../../scss/colors.scss';
+
+.container_body_card {
+	background-color: $lightBlack;
+	border-radius: 5px;
+	padding: 17px 16px;
+	box-shadow: 0 8px 25px 0 $lightBlack7;
+	width: 463px;
+	margin: 10px 5px;
+
+	.container_body_card_header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+
+		h2 {
+			font-size: 20px;
+			padding: 0;
+			margin: 0;
+			border-bottom: 2px solid $lightBlue;
+			color: $lightBlue;
+
+			&.active {
+				color: $primary;
+				border-bottom-color: $primary;
+			}
+		}
+
+		button {
+			background-color: $lightBlack6;
+			border: none;
+			outline: none;
+			color: $grey2;
+			font-size: 12px;
+			width: 84px;
+			height: 28px;
+			border-radius: 4px;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+
+		.container_selected {
+			padding: 0;
+			margin: 0;
+
+			p {
+				display: flex;
+				flex-direction: row;
+				margin: 0;
+				padding: 0;
+				justify-content: center;
+				align-items: center;
+
+				img {
+					width: 24px;
+					height: 24px;
+					margin-left: 5px;
+
+					&:hover {
+						cursor: pointer;
+					}
+				}
+
+				svg {
+					margin-right: 5px;
+				}
+			}
+		}
+	}
+
+	p {
+		font-size: 14px;
+		margin-top: 15px;
+
+		span {
+			font-weight: 600;
+			font-size: 20px;
+		}
+
+		.teamA {
+			font-size: 14px;
+		}
+	}
+
+	.container_body_card_p {
+		border-left: 3px solid $lightBlue;
+		padding: 0 0 0 10px;
+
+		&.active {
+			border-color: $primary;
+		}
+	}
+
+	.divider {
+		border: 0.4px solid $divider;
+		opacity: 0.1;
+		padding: 0;
+		margin: 10px auto;
+		width: 95%;
+	}
+
+	.container_body_footer {
+		width: 90%;
+		align-self: center;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+		padding: 0;
+		margin: 0;
+
+		span {
+			display: flex;
+			font-size: 14px;
+			font-weight: normal;
+			color: $grey2;
+			opacity: 0.6;
+
+			svg {
+				margin-right: 5px;
+			}
+		}
+	}
+
+	.container_body_card_start_power {
+		border-radius: 6px;
+		background-image: linear-gradient(110deg, #fda700, #fb6e00 72%);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100px;
+		height: 22px;
+		padding: 5px;
+		font-size: 14px;
+		color: $darkblack;
+		position: absolute;
+		font-family: Teko;
+		transform: translate(0, -25px);
+
+		img {
+			width: 20px;
+			height: 20px;
+			margin-right: 5px;
+		}
+	}
+}
