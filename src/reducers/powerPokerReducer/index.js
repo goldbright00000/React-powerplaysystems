@@ -4,9 +4,9 @@ const INITIAL_STATE = {
     collectedCards: [],
     inventory: {
         replace: 5,
-        replaceAll: 2,
-        newHands: 2,
-        powerMatch: 5,
+        replaceAll: 1,
+        newHands: -1,
+        powerMatch: -1,
         increaseOrDecrease: 5
     }
 }
