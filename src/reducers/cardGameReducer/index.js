@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     collectedAceCards: [],
     inventory: {
         replace: 5,
-        replaceAll: 2,
+        replaceAll: -1,
         powerMatch: 5,
         increaseOrDecrease: 5
     },

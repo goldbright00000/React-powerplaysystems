@@ -6,6 +6,7 @@ import Replace from '../../icons/Replace'
 import Plus from '../../icons/Plus'
 import Minus from '../../icons/Minus'
 import boltIcon from '../../assets/bolt.png'
+import ReplaceAllIcon from '../../assets/ReplaceAllIcon.png'
 import Tick from '../../icons/Tick'
 import Cards from '../../icons/Cards/index'
 import classes from "./gameCard.module.scss"
@@ -43,9 +44,12 @@ function GameCard(props) {
         onDecrease = () => { },
         onPowerMatch = () => { },
         onReplace = () => { },
+        onReplaceAll = () => { },
         myPowers = false,
         showTimer = false,
-        gotAceWithPower = false
+        gotAceWithPower = false,
+        showReplaceAllPower = false,
+        totalCards = 5
     } = props || {}
 
     useEffect(() => {
@@ -198,6 +202,16 @@ function GameCard(props) {
                                                         <button className={classes.__btn__} data-tip data-for="powerDown">
                                                             <Minus style={{height: 'auto'}} size={39} onClick={onDecrease}/>
                                                         </button>                                                        
+                                                    </>
+                                                }
+
+                                                {
+                                                    showReplaceAllPower && currentCard == totalCards && time > 0 &&
+                                                    <>
+                                                        {toolTip("powerHand", "Power Hand")}
+                                                        <button className={classes.__btn__} data-tip data-for="powerHand" onClick={onReplaceAll}>
+                                                            <img src={ReplaceAllIcon} width={40} height={40} />
+                                                        </button>                                                     
                                                     </>
                                                 }
                                                 

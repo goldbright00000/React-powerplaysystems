@@ -28,6 +28,7 @@ import CashPowerBalance from '../../components/CashPowerBalance'
 import MyPowers from '../../components/MyPowers'
 import SharePowers from '../../components/SharePowers'
 import LockedPowers from '../../components/LockedPowers'
+import ReplaceAllIcon from '../../assets/ReplaceAllIcon.png'
 
 const INITIAL_STATE = {
     collectedCards: [{}, {}, {}, {}, {}],
@@ -37,7 +38,7 @@ const TOTAL_ROUNDS = 3;
 const TOTAL_CARDS = 5;
 const MAX_ROUND_TIME = 5;
 const MAX_RESET_BTN_COUNT_DOWN = 0;
-const REPLACE_ALL_SPEED_TIME = 1;
+const REPLACE_ALL_SPEED_TIME = 2;
 let _round = 1;
 let _currentCard = 0;
 const cardsArr = [{}, {}, {}, {}, {}]
@@ -62,6 +63,7 @@ function PowerRoyalsGame(props) {
     const [start, setStart] = useState(false);
     const [practiceModeEnabled, setPracticeModeEnabled] = useState(false);
     const [practiceGameBtnText, setPracticeGameBtnText] = useState('Try a Practice game');
+    const [showTimer, setShowTimer] = useState(true);
 
     const dispatch = useDispatch();
     const {inventory = {}} = useSelector(state => state.powerPoker)
@@ -81,14 +83,14 @@ function PowerRoyalsGame(props) {
     useEffect(() => {
         if (start) {
             let timeOut = gameStart();
-
-            if(isGameCompleted) clearInterval(timeOut)
+            
+            // if(isGameCompleted) clearInterval(timeOut)
             
             return function cleanup() {
                 return clearInterval(timeOut && timeOut)
             }
         }
-    }, [currentCard, currentRound, completedChallengeText, isCurrentFailed, start])
+    }, [currentCard, currentRound, completedChallengeText, isCurrentFailed, start, isReplaceAll])
 
     const gameStart = () => {
         let timeOut = null
@@ -136,7 +138,6 @@ function PowerRoyalsGame(props) {
                 }
             }, 1000)
         }
-
         return timeOut
     }
 
@@ -186,14 +187,14 @@ function PowerRoyalsGame(props) {
 
         if (hasRoyalFlush()) {
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Royal Flush! challenge completed</p>)
+            setCompletedChallengeText(<p>You have a Royal Flush.</p>)
      
             return setGameCompleted(true)
         }
         else if (hasStraightFlushSameSuit()) {
             //Straight Completed
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Straight Flush! challenge completed</p>)
+            setCompletedChallengeText(<p>You have a Straight Flush.</p>)
 
             return setGameCompleted(true)
         }
@@ -207,21 +208,21 @@ function PowerRoyalsGame(props) {
         else if (hasFullHouseFlush()) {
             //Full House Completed
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Full House! challenge completed</p>)
+            setCompletedChallengeText(<p>You have a Full House.</p>)
 
             return setGameCompleted(true)
         }
         else if (hasFlush()) {
             //fluch completed
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Flush! challenge completed</p>)
+            setCompletedChallengeText(<p>You have a Flush.</p>)
 
             return setGameCompleted(true)
         }
         else if (hasStraightFlushDiffSuit()) {
             //straight flush diff suit completed
             setIsCurrentRoundFailed(false)
-            setCompletedChallengeText(<p>Straight! challenge completed</p>)
+            setCompletedChallengeText(<p>You have a Straight.</p>)
 
             return setGameCompleted(true)
         }
@@ -272,6 +273,9 @@ function PowerRoyalsGame(props) {
             case CONSTANTS.CARD_POP_ACTIONS.NEW_HAND:
                 _inventory.newHands = inventoryValue
                 break;
+            case CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL:
+                _inventory.replaceAll = inventoryValue
+                break;
         }
 
         dispatch(powerPokersGameInventory(_inventory))
@@ -285,13 +289,16 @@ function PowerRoyalsGame(props) {
     }
 
     const onReplaceAll = () => {
-        let _newHands = newHands
-        if (_newHands <= 0) return
+        let _replaceAll = replaceAll
+        if (_replaceAll <= 0) return
 
-        _newHands -= 1
-        updateInventory(_newHands, CONSTANTS.CARD_POP_ACTIONS.NEW_HAND)
+        _replaceAll -= 1
+
+        updateInventory(_replaceAll, CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL)
         resetGameState()
         setIsReplaceAllState(true)
+        setShowTimer(false)
+        setGameCompleted(false)
         setCount(REPLACE_ALL_SPEED_TIME)
         time = REPLACE_ALL_SPEED_TIME
     }
@@ -534,8 +541,8 @@ function PowerRoyalsGame(props) {
                                     resetGameState();
                                     const resetInventory = {
                                         replace: 5,
-                                        replaceAll: 2,
-                                        powerMatch: 5,
+                                        replaceAll: 1,
+                                        powerMatch: -1,
                                         increaseOrDecrease: 5
                                     };
                                     dispatch(powerPokersGameInventory(resetInventory));
@@ -568,11 +575,15 @@ function PowerRoyalsGame(props) {
                                             onReplace={() => { }}
                                             onPowerMatch={() => { }}
                                             onIncrease={() => { }}
+                                            onReplaceAll={() => onReplaceAll()}
                                             start={start}
-                                            showTimer={true}
+                                            showTimer={showTimer}
                                             currentCard={currentCard}
                                             cardIndex={index}
                                             onStart={() => setStart(true)}
+                                            myPowers={myPowers}
+                                            totalCards={TOTAL_CARDS}
+                                            showReplaceAllPower={replaceAll > 0}
                                         />
                                         :
                                         <GameCard
@@ -591,13 +602,24 @@ function PowerRoyalsGame(props) {
                                             onReplace={() => onReplace(cardsState?.collectedCards?.[index], index)}
                                             onPowerMatch={() => { }}
                                             onIncrease={() => onIncrease(cardsState?.collectedCards?.[index], index)}
+                                            onReplaceAll={() => onReplaceAll()}
                                             start={start}
-                                            showTimer={true}
+                                            showTimer={showTimer}
                                             currentCard={currentCard}
                                             cardIndex={index}
+                                            myPowers={myPowers}
+                                            totalCards={TOTAL_CARDS}
+                                            showReplaceAllPower={replaceAll > 0}
                                         /> 
                                     ))}
                             </div>
+                            {/* {
+                                currentCard == TOTAL_CARDS && replaceAll > 0 && time > 0
+                                &&
+                                <div style={{ alignSelf: 'flex-end', marginTop: 10}}>
+                                    <img src={ReplaceAllIcon} width={35} height={35} onClick={() => onReplaceAll()} />
+                                </div>
+                            } */}
                             {
                                 !myPowers
                                 &&
@@ -618,25 +640,31 @@ function PowerRoyalsGame(props) {
                                 <>
                                     <br />
                                     <Alert renderMsg={() => completedChallengeText} success={!isCurrentFailed} danger={isCurrentFailed} />
-                                    <button className={`__btn ${classes.__card_game_footer_btn}`}
-                                        onClick={() => {
-                                            setStart(false);
-                                            resetGameState();
-                                            const resetInventory = {
-                                            replace: 5,
-                                            replaceAll: 2,
-                                            powerMatch: 5,
-                                            increaseOrDecrease: 5
-                                        };
-                                        dispatch(powerPokersGameInventory(resetInventory));
-                                        }}>
-                                        Try Again?
-                                    </button>
+                                    {
+                                        isCurrentFailed
+                                        &&
+                                        <button className={`__btn ${classes.__card_game_footer_btn}`}
+                                            onClick={() => {
+                                                setStart(false);
+                                                resetGameState();
+                                                setShowTimer(true);
+                                                time = MAX_ROUND_TIME;
+                                                const resetInventory = {
+                                                    replace: 5,
+                                                    replaceAll: 1,
+                                                    powerMatch: -1,
+                                                    increaseOrDecrease: 5
+                                                };
+                                            dispatch(powerPokersGameInventory(resetInventory));
+                                            }}>
+                                            Try Again?
+                                        </button>
+                                    }
                                 </>
                         }
 
                         {
-                            isGameCompleted &&
+                            isGameCompleted && time <= 0 &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => <p>Congrats! You won 10 Power Tokens!</p>} success />
