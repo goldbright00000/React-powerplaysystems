@@ -64,6 +64,7 @@ function PowerRoyalsGame(props) {
     const [practiceModeEnabled, setPracticeModeEnabled] = useState(false);
     const [practiceGameBtnText, setPracticeGameBtnText] = useState('Try a Practice game');
     const [showTimer, setShowTimer] = useState(true);
+    const [powerHandEnabled, setPowerHandEnabled] = useState(false);
 
     const dispatch = useDispatch();
     const {inventory = {}} = useSelector(state => state.powerPoker)
@@ -114,25 +115,27 @@ function PowerRoyalsGame(props) {
                     _currentCard += 1;
                     setCurrentCard(_currentCard)
                     updateCardState()
-
                     if (currentCard >= TOTAL_CARDS) setIsReplaceAllState(false)
                 }
             }, 1000)
         } else {
             resetAllBtnTime = MAX_RESET_BTN_COUNT_DOWN
             timeOut = setInterval(() => {
-                setIsReplaceAllState(false)
                 if (time !== 0) {
                     time--;
                     setCount(time)
                 } else {
+                    setPowerHandEnabled(true);
+                    if (!powerHandEnabled) {
+                        setIsReplaceAllState(true);
+                        time = MAX_ROUND_TIME;
+                    }
                     setResetTimerState(true)
                     if (resetAllBtnTime !== 0) {
                         resetAllBtnTime--;
                         setResetBtnCountDown(resetAllBtnTime)
                     } else {
                         setResetTimerState(false)
-                        setIsReplaceAllState(false)
                         clearInterval(timeOut)
                     }
                 }
@@ -298,6 +301,7 @@ function PowerRoyalsGame(props) {
         resetGameState()
         setIsReplaceAllState(true)
         setShowTimer(false)
+        setPowerHandEnabled(true)
         setGameCompleted(false)
         setCount(REPLACE_ALL_SPEED_TIME)
         time = REPLACE_ALL_SPEED_TIME
@@ -522,9 +526,9 @@ function PowerRoyalsGame(props) {
                         <p className={classes.__card_game_card_counter}>
                             Card <span>{currentCard}</span> of {TOTAL_CARDS}
                         </p>
-                        <p className={classes.__card_game_round_counter}>
+                        {/* <p className={classes.__card_game_round_counter}>
                             Hand <span>{currentRound}</span> of {TOTAL_ROUNDS}
-                        </p>
+                        </p> */}
                         <span className={classes.__card_divider} />
                     </div>
 
@@ -538,6 +542,7 @@ function PowerRoyalsGame(props) {
                                     setMyPowers(!myPowers);
                                     setUnlockOptions(!unLockOptions);
                                     setStart(false);
+                                    setPowerHandEnabled(false);
                                     resetGameState();
                                     const resetInventory = {
                                         replace: 5,
@@ -582,8 +587,7 @@ function PowerRoyalsGame(props) {
                                             cardIndex={index}
                                             onStart={() => setStart(true)}
                                             myPowers={myPowers}
-                                            totalCards={TOTAL_CARDS}
-                                            showReplaceAllPower={replaceAll > 0}
+                                            powerHandEnabled={powerHandEnabled}
                                         />
                                         :
                                         <GameCard
@@ -608,18 +612,23 @@ function PowerRoyalsGame(props) {
                                             currentCard={currentCard}
                                             cardIndex={index}
                                             myPowers={myPowers}
-                                            totalCards={TOTAL_CARDS}
-                                            showReplaceAllPower={replaceAll > 0}
+                                            powerHandEnabled={powerHandEnabled}
                                         /> 
                                     ))}
                             </div>
-                            {/* {
-                                currentCard == TOTAL_CARDS && replaceAll > 0 && time > 0
+                            {
+                                currentCard == TOTAL_CARDS && replaceAll > 0 && powerHandEnabled && time > 0
                                 &&
-                                <div style={{ alignSelf: 'flex-end', marginTop: 10}}>
-                                    <img src={ReplaceAllIcon} width={35} height={35} onClick={() => onReplaceAll()} />
+                                <div style={{ alignSelf: 'flex-end', marginTop: 20}}>
+                                <SidebarButton
+                                    success={time > 0 ? true : false}
+                                    primary={time <= 0 ? true : false}
+                                    toolText={time}
+                                    icon={<img src={ReplaceAllIcon} width={40} height={40} alt={''}/>}
+                                    onClick={() => onReplaceAll()}
+                                />
                                 </div>
-                            } */}
+                            }
                             {
                                 !myPowers
                                 &&
@@ -636,7 +645,7 @@ function PowerRoyalsGame(props) {
                         }
                         
                         {
-                            completedChallengeText && time <= 0 &&
+                            completedChallengeText && time <= 0 && powerHandEnabled &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => completedChallengeText} success={!isCurrentFailed} danger={isCurrentFailed} />
@@ -648,6 +657,7 @@ function PowerRoyalsGame(props) {
                                                 setStart(false);
                                                 resetGameState();
                                                 setShowTimer(true);
+                                                setPowerHandEnabled(false);
                                                 time = MAX_ROUND_TIME;
                                                 const resetInventory = {
                                                     replace: 5,
@@ -664,7 +674,7 @@ function PowerRoyalsGame(props) {
                         }
 
                         {
-                            isGameCompleted && time <= 0 &&
+                            isGameCompleted && time <= 0 && powerHandEnabled &&
                                 <>
                                     <br />
                                     <Alert renderMsg={() => <p>Congrats! You won 10 Power Tokens!</p>} success />

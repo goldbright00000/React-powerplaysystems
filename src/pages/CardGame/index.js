@@ -433,7 +433,7 @@ function CardGame(props) {
                                     resetGameState();
                                     const resetInventory = {
                                         replace: 5,
-                                        replaceAll: 2,
+                                        replaceAll: -1,
                                         powerMatch: 5,
                                         increaseOrDecrease: 5
                                     };
@@ -621,7 +621,7 @@ function CardGame(props) {
                                                 resetGameState();
                                                 const resetInventory = {
                                                     replace: 5,
-                                                    replaceAll: 2,
+                                                    replaceAll: -1,
                                                     powerMatch: 5,
                                                     increaseOrDecrease: 5
                                                 };

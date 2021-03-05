@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import classes from "./sidebarButton.module.scss"
 
 function SidebarButton(props) {
-    const { icon = '', title = '', toolText = '', success = false, primary = false } = props || {}
+    const { icon = '', title = '', toolText = '', success = false, primary = false, onClick = () => {} } = props || {}
     return (
-        <button className={classes.__sidebar_btn__container}>
+        <button className={classes.__sidebar_btn__container} onClick={onClick}>
             <span className={`${classes.__sidebar_span_toolText} ${success && classes.__sidebar_span_toolText_success} ${primary && classes.__sidebar_span_toolText_primary}`}>{toolText}</span>
             <div className={classes.__sidebar_btn__icon}>
                 {icon}
