@@ -1,4 +1,5 @@
 import React, {useState, useCallback} from 'react';
+import { isEmpty } from 'lodash';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -66,10 +67,10 @@ const dummyData = [
     },
 ]
 
-const dummySidebar = [
+const INITIAL_PLAYER_LIST = [
     {
         title: 'sp',
-        value: 'Chris Carpenter',
+        value: '',
     },
     {
         title: 'IF',
@@ -142,6 +143,7 @@ function MLBPowerdFs() {
     const [selected, setSelected] = useState(new Map());
     const [selectedFilter, setSelectedFilter] = useState({});
     const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
+    const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
@@ -150,17 +152,18 @@ function MLBPowerdFs() {
         //star powers
         const [starPower] = dummyData?.filter(filter => filter?.isStartPower && filter?.id === id);
         const _selectedStarPowers = [...selectedStarPowers];
-        if (starPower && !!_selected.get(id)) {
-            //add to star powers
-            _selectedStarPowers[starPowerIndex] = !!_selected.get(id);
-            if (starPowerIndex < 3) {
-                starPowerIndex++;
+        if (starPower) {
+            if (!!_selected.get(id)) {
+                _selectedStarPowers[starPowerIndex] = true;
+                if (starPowerIndex < 3) {
+                    starPowerIndex++;
+                }
+            } else {
+                if (starPowerIndex > 0) {
+                    starPowerIndex--;
+                }
+                _selectedStarPowers[starPowerIndex] = false;
             }
-        } else {
-            if (starPowerIndex > 0) {
-                starPowerIndex--;
-            }
-            _selectedStarPowers[starPowerIndex] = false;
         }
 
         setSelected(_selected);
@@ -286,7 +289,7 @@ function MLBPowerdFs() {
                                     }
                                 </div>
                             </div>
-                            <SportsSidebarContent data={dummySidebar} onDelete={() => {console.log('Delete')}} />
+                            <SportsSidebarContent data={playerList} onDelete={() => {console.log('Delete')}} />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>
