@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 function Delete2Icon(props) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={ props?.size || "12" } height={ props?.size && ( parseInt(props?.size) + 4 ) || "16" } viewBox="0 0 12 16" style={{height: 'auto'}}>
-            <g fill="none" fill-rule="evenodd" opacity=".8">
-                <g fill="#FA3800" fill-rule="nonzero">
+            <g fill="none" fillRule="evenodd" opacity=".8">
+                <g fill="#FA3800" fillRule="nonzero">
                     <g>
                         <g>
                             <g>

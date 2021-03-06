@@ -51,7 +51,7 @@ SportsSelectionCard.propTypes = {
     time: PropTypes.string,
     date: PropTypes.string,
     stadium: PropTypes.string,
-    id: PropTypes.string,
+    id: PropTypes.number,
     isSelected: PropTypes.bool,
     isStartPower: PropTypes.bool,
     onSelectDeselect: PropTypes.func,

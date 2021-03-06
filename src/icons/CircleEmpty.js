@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 function CircleEmpty(props) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" width={ props?.size || "32" } height={ props?.size || "32" } viewBox="0 0 32 32" style={{height: 'auto'}}>
-            <g fill="none" fillRule="evenodd">
-                <g fillRule="nonzero" stroke="#688FBD" strokeWidth="2">
+            <g fill={ props?.filled ? '#688FBD' : 'none' } fillRule="evenodd">
+                <g fillRule="nonezero" stroke="#688FBD" strokeWidth="2">
                     <g>
                         <g>
                             <g>
@@ -23,6 +23,7 @@ function CircleEmpty(props) {
 
 CircleEmpty.propTypes = {
     size: PropTypes.number,
+    filled: PropTypes.bool,
 }
 
 export default CircleEmpty

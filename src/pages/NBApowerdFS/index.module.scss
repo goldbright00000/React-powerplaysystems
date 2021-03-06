@@ -53,64 +53,6 @@
 					padding: 10px 0;
 					justify-content: space-between;
 
-					.container_top_2 {
-						display: flex;
-						flex-wrap: wrap;
-
-						button {
-							border: none;
-							outline: none;
-							background-color: $lightBlack5;
-							color: $white;
-							margin: 0 22px;
-							width: 47px;
-							height: 47px;
-							display: flex;
-							flex-direction: column;
-							justify-content: center;
-							align-items: center;
-							position: relative;
-							font-size: 17px;
-							border-radius: 8px;
-
-							.tick {
-								display: none;
-							}
-
-							span {
-								position: absolute;
-								transform: translate(0, 30px);
-								background-color: $darkblack;
-								width: 60px;
-								font-size: 14px;
-								border-radius: 6px;
-							}
-
-							&:nth-child(1) {
-								margin: 0 10px 0 0;
-							}
-
-							&:hover {
-								cursor: pointer;
-							}
-
-							&.active {
-								color: $primary;
-								font-weight: 600;
-
-								.tick {
-									display: unset;
-									position: absolute;
-									transform: translate(0, 27px);
-								}
-
-								span {
-									display: none;
-								}
-							}
-						}
-					}
-
 					.search_form {
 						display: flex;
 						align-items: center;

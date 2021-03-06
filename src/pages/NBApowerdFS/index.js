@@ -18,6 +18,7 @@ import Circle from '../../icons/CircleEmpty';
 import SportsSidebarContent from '../../components/SportsSidebarContent';
 import SelectionCard from '../../components/SportsSelectionCard';
 import EmployeeIcon from '../../icons/Employee';
+import SportsFilters from '../../components/SportsFilters';
 
 const dummyData = [
     {
@@ -99,22 +100,84 @@ const dummySidebar = [
     },
 ]
 
+const selectionHeader = [
+    {
+        id: 1,
+        title: 'c',
+        remaining: 2,
+    },
+    {
+        id: 2,
+        title: 'pg',
+        remaining: 2,
+    },
+    {
+        id: 3,
+        title: 'sg',
+        remaining: 2,
+    },
+    {
+        id: 4,
+        title: 'f',
+        remaining: 2,
+    },
+    {
+        id: 5,
+        title: 'd',
+        remaining: 2,
+    },
+]
+
+let starPowerIndex = 0;
+
 function NBAPowerdFs() {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
     const [selected, setSelected] = useState(new Map());
+    const [selectedFilter, setSelectedFilter] = useState({});
+    const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
         _selected.set(id, !selected.get(id));
+
+        //star powers
+        const [starPower] = dummyData?.filter(filter => filter?.isStartPower && filter?.id === id);
+        const _selectedStarPowers = [...selectedStarPowers];
+        if (starPower && !!_selected.get(id)) {
+            //add to star powers
+            _selectedStarPowers[starPowerIndex] = !!_selected.get(id);
+            if (starPowerIndex < 3) {
+                starPowerIndex++;
+            }
+        } else {
+            if (starPowerIndex > 0) {
+                starPowerIndex--;
+            }
+            _selectedStarPowers[starPowerIndex] = false;
+        }
         
         setSelected(_selected);
+        setStartPowers(_selectedStarPowers);
     }, [selected]);
+
+    const onSelectFilter = useCallback(id => { 
+        const [_selectedFilter] = selectionHeader?.filter(filter => filter.id === id);
+        setSelectedFilter(_selectedFilter);
+    }, [selectedFilter])
 
     return (
         <>
         <Header />
             <div className={classes.wrapper}>
-               <Header3 titleMain1="NHL 2021" titleMain2="PowerdFS" subHeader1="Introducing Live-Play Fantasy Baseball" subHeader2="Play for your chance to win $1000!" contestBtnTitle="Contest Rules" prizeBtnTitle="Prize Grid" bgImageUri={NBABg} />
+                <Header3
+                    titleMain1="NHL 2021"
+                    titleMain2="PowerdFS"
+                    subHeader1="Introducing Live-Play Fantasy Baseball"
+                    subHeader2="Play for your chance to win $1000!"
+                    contestBtnTitle="Contest Rules"
+                    prizeBtnTitle="Prize Grid"
+                    bgImageUri={ NBABg }
+                />
 
                 <div className={classes.container}>
                     <div className={classes.container_left}>
@@ -126,13 +189,7 @@ function NBAPowerdFs() {
                         <div className={classes.container_top}>
                             <p>Select Position</p>
                             <div className={classes.container_top_1}>
-                                <div className={classes.container_top_2}>
-                                    <button className={classes.active}>C <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>PG <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>SG <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>F <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                    <button>D <span>2 Left</span> <div className={classes.tick}><Tick2 /></div> </button>
-                                </div>
+                                <SportsFilters data={selectionHeader} onSelect={onSelectFilter} activeFilter={selectedFilter} />
 
                                 <form className={classes.search_form}>
                                     <span>
@@ -159,7 +216,20 @@ function NBAPowerdFs() {
                         <div className={classes.container_body}>
                             <Card>
                                 {
-                                    dummyData.map((item, index) => <SelectionCard title={item.title} avgVal={item.avgVal} teamA={item.teamA} teamB={item.teamB} time={item.time} date={item.date} stadium={item.stadium} isSelected={!!selected.get(item.id)} key={item.id} onSelectDeselect={onSelectDeselect} id={item.id} isStartPower={item.isStartPower && item.isStartPower} />)
+                                    dummyData.map((item, index) => <SelectionCard
+                                        title={ item.title }
+                                        avgVal={ item.avgVal }
+                                        teamA={ item.teamA }
+                                        teamB={ item.teamB }
+                                        time={ item.time }
+                                        date={ item.date }
+                                        stadium={ item.stadium }
+                                        isSelected={ !!selected.get(item.id) }
+                                        key={ item.id }
+                                        onSelectDeselect={ onSelectDeselect }
+                                        id={ item.id }
+                                        isStartPower={ item.isStartPower && item.isStartPower }
+                                    />)
                                 }
                             </Card>
                         </div>
@@ -204,9 +274,9 @@ function NBAPowerdFs() {
                                     <p>0/3 Star Power Players Selected</p>
                                 </div>
                                 <div className={classes.sidebar_circles}>
-                                    <Circle />
-                                    <Circle />
-                                    <Circle />
+                                    {
+                                        selectedStarPowers?.map((isSelected, index) => <Circle filled={isSelected} key={index.toString()} />)
+                                    }
                                 </div>
                             </div>
                             <SportsSidebarContent data={dummySidebar} />
@@ -214,9 +284,8 @@ function NBAPowerdFs() {
                         </Sidebar>
                     </div>
                 </div>
-
             </div>
-        <Footer isBlack={true} />
+            <Footer isBlack={true} />
         </>
     )
 }
