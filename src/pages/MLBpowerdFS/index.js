@@ -1,5 +1,5 @@
 import React, {useState, useCallback} from 'react';
-import { isEmpty } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -149,8 +149,10 @@ function MLBPowerdFs() {
         const _selected = new Map(selected);
         _selected.set(id, !selected.get(id));
 
+        const _data = dummyData?.filter(d => d?.id === id);
+
         //star powers
-        const [starPower] = dummyData?.filter(filter => filter?.isStartPower && filter?.id === id);
+        const [starPower] = _data?.filter(filter => filter?.isStartPower);
         const _selectedStarPowers = [...selectedStarPowers];
         if (starPower) {
             if (!!_selected.get(id)) {
@@ -166,8 +168,20 @@ function MLBPowerdFs() {
             }
         }
 
+        //selected players
+        const _playersList = [...playerList];
+        if (!!_selected.get(id)) {
+            let emptyPlayerIndex = _playersList?.findIndex(player => isEmpty(player?.value));
+            _playersList[emptyPlayerIndex].value = _data[0]?.title;
+        } else {
+            let existingPlayerIndex = _playersList?.findIndex(player => isEqual(player?.value, _data[0]?.title));
+            _playersList[existingPlayerIndex].value = '';
+        }
+
         setSelected(_selected);
         setStartPowers(_selectedStarPowers);
+        setPlayerList(_playersList);
+
     }, [selected]);
 
     const onSelectFilter = useCallback(id => {

@@ -1,4 +1,5 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
+import { isEmpty, isEqual } from 'lodash';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -64,10 +65,10 @@ const dummyData = [
     },
 ]
 
-const dummySidebar = [
+const INITIAL_PLAYER_LIST = [
     {
         title: 'C1',
-        value: 'Nathan McKinnon',
+        value: '',
     },
     {
         title: 'C2',
@@ -140,29 +141,44 @@ function NHLPowerdFs() {
     const [selected, setSelected] = useState(new Map());
     const [selectedFilter, setSelectedFilter] = useState({});
     const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
+    const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
         _selected.set(id, !selected.get(id));
 
+        const _data = dummyData?.filter(d => d?.id === id);
+
         //star powers
-        const [starPower] = dummyData?.filter(filter => filter?.isStartPower && filter?.id === id);
+        const [starPower] = _data?.filter(filter => filter?.isStartPower);
         const _selectedStarPowers = [...selectedStarPowers];
-        if (starPower && !!_selected.get(id)) {
-            //add to star powers
-            _selectedStarPowers[starPowerIndex] = !!_selected.get(id);
-            if (starPowerIndex < 3) {
-                starPowerIndex++;
+        if (starPower) {
+            if (!!_selected.get(id)) {
+                _selectedStarPowers[starPowerIndex] = true;
+                if (starPowerIndex < 3) {
+                    starPowerIndex++;
+                }
+            } else {
+                if (starPowerIndex > 0) {
+                    starPowerIndex--;
+                }
+                _selectedStarPowers[starPowerIndex] = false;
             }
+        }
+
+        //selected players
+        const _playersList = [...playerList];
+        if (!!_selected.get(id)) {
+            let emptyPlayerIndex = _playersList?.findIndex(player => isEmpty(player?.value));
+            _playersList[emptyPlayerIndex].value = _data[0]?.title;
         } else {
-            if (starPowerIndex > 0) {
-                starPowerIndex--;
-            }
-            _selectedStarPowers[starPowerIndex] = false;
+            let existingPlayerIndex = _playersList?.findIndex(player => isEqual(player?.value, _data[0]?.title));
+            _playersList[existingPlayerIndex].value = '';
         }
         
         setSelected(_selected);
         setStartPowers(_selectedStarPowers);
+        setPlayerList(_playersList);
     }, [selected]);
 
     const onSelectFilter = useCallback(id => {
@@ -284,7 +300,7 @@ function NHLPowerdFs() {
                                     }
                                 </div>
                             </div>
-                            <SportsSidebarContent data={dummySidebar} />
+                            <SportsSidebarContent data={playerList} />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>
