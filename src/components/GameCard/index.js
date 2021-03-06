@@ -43,9 +43,11 @@ function GameCard(props) {
         onDecrease = () => { },
         onPowerMatch = () => { },
         onReplace = () => { },
+        onReplaceAll = () => { },
         myPowers = false,
         showTimer = false,
-        gotAceWithPower = false
+        gotAceWithPower = false,
+        powerHandEnabled = false
     } = props || {}
 
     useEffect(() => {
@@ -166,6 +168,8 @@ function GameCard(props) {
                                     {
                                         showReplacePower || showPowerMatchPower || showIncrementOrDecrementPower
                                             ?
+                                            !powerHandEnabled
+                                            &&
                                             <>
                                                 {toolTip("newCard", "New Card")}
                                                 {
@@ -199,8 +203,7 @@ function GameCard(props) {
                                                             <Minus style={{height: 'auto'}} size={39} onClick={onDecrease}/>
                                                         </button>                                                        
                                                     </>
-                                                }
-                                                
+                                                }   
                                             </>
                                             :
                                             <span>All your Powers have been used</span>
