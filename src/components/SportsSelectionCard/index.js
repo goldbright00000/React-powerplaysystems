@@ -18,13 +18,13 @@ function SportsSelectionCard (props) {
                 <span className={classes.container_body_card_start_power}> <img src={ PowerPlayIcon } /> Star Power </span>
             }
             <div className={classes.container_body_card_header}>
-                <h2 className={isSelected ? classes.active : ''}>{title}</h2>
+                <p className={`${classes.container_selected_p} ${isSelected ? classes.active : ''}`}>{title}</p>
                 {
                     !isSelected ?
                     <button onClick={() => onSelectDeselect(id)}> + Select</button>
                     :
                     <div className={classes.container_selected}>
-                        <p> <Tick2 /> Selected <img src={DeleteIcon} onClick={() => onSelectDeselect(id)} /></p>
+                        <p className={classes.container_selected_p_1}> <Tick2 /> Selected <img src={DeleteIcon} onClick={() => onSelectDeselect(id)} /></p>
                     </div>
                 }
             </div>

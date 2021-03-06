@@ -210,7 +210,7 @@ function MLBPowerdFs() {
                                     <Circle />
                                 </div>
                             </div>
-                            <SportsSidebarContent data={dummySidebar} />
+                            <SportsSidebarContent data={dummySidebar} onDelete={() => {console.log('Delete')}} />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>

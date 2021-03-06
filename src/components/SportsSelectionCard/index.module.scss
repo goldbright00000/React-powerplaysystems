@@ -13,12 +13,14 @@
 		justify-content: space-between;
 		align-items: center;
 
-		h2 {
+		.container_selected_p {
 			font-size: 20px;
 			padding: 0;
 			margin: 0;
 			border-bottom: 2px solid $lightBlue;
 			color: $lightBlue;
+			font-family: Poppins;
+			font-weight: 600;
 
 			&.active {
 				color: $primary;
@@ -45,7 +47,7 @@
 			padding: 0;
 			margin: 0;
 
-			p {
+			.container_selected_p_1 {
 				display: flex;
 				flex-direction: row;
 				margin: 0;
