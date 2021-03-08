@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import { isEmpty, isEqual } from 'lodash';
 
 import classes from './index.module.scss';
@@ -20,6 +20,7 @@ import SportsSidebarContent from '../../components/SportsSidebarContent';
 import SelectionCard from '../../components/SportsSelectionCard';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
+import CheckIcon from '../../icons/Check'
 
 const dummyData = [
     {
@@ -191,7 +192,7 @@ function MLBPowerdFs() {
 
     return (
         <>
-        <Header />
+            <Header />
             <div className={classes.wrapper}>
                 <Header3
                     titleMain1="MLB 2021"
@@ -200,7 +201,7 @@ function MLBPowerdFs() {
                     subHeader2="Play for your chance to win $1000!"
                     contestBtnTitle="Contest Rules"
                     prizeBtnTitle="Prize Grid"
-                    bgImageUri={ BaseballImage }
+                    bgImageUri={BaseballImage}
                 />
 
                 <div className={classes.container}>
@@ -236,23 +237,23 @@ function MLBPowerdFs() {
                                 </form>
                             </div>
                         </div>
-                    
+
                         <div className={classes.container_body}>
                             <Card>
                                 {
                                     dummyData.map((item, index) => <SelectionCard
-                                        title={ item.title }
-                                        avgVal={ item.avgVal }
-                                        teamA={ item.teamA }
-                                        teamB={ item.teamB }
-                                        time={ item.time }
-                                        date={ item.date }
-                                        stadium={ item.stadium }
-                                        isSelected={ !!selected.get(item.id) }
-                                        key={ item.id }
-                                        onSelectDeselect={ onSelectDeselect }
-                                        id={ item.id }
-                                        isStartPower={ item.isStartPower && item.isStartPower }
+                                        title={item.title}
+                                        avgVal={item.avgVal}
+                                        teamA={item.teamA}
+                                        teamB={item.teamB}
+                                        time={item.time}
+                                        date={item.date}
+                                        stadium={item.stadium}
+                                        isSelected={!!selected.get(item.id)}
+                                        key={item.id}
+                                        onSelectDeselect={onSelectDeselect}
+                                        id={item.id}
+                                        isStartPower={item.isStartPower && item.isStartPower}
                                     />)
                                 }
                             </Card>
@@ -297,13 +298,13 @@ function MLBPowerdFs() {
                                     <img src={PowerPlayIcon} />
                                     <p>0/3 Star Power Players Selected</p>
                                 </div>
-                                <div className={ classes.sidebar_circles }>
+                                <div className={classes.sidebar_circles}>
                                     {
-                                        selectedStarPowers?.map((isSelected, index) => <Circle filled={isSelected} key={index.toString()} />)
+                                        selectedStarPowers?.map((isSelected, index) => isSelected ? <CheckIcon /> : <Circle key={index.toString()} />)
                                     }
                                 </div>
                             </div>
-                            <SportsSidebarContent data={playerList} onDelete={() => {console.log('Delete')}} />
+                            <SportsSidebarContent data={playerList} onDelete={() => { console.log('Delete') }} />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>

@@ -20,6 +20,7 @@ import SportsSidebarContent from '../../components/SportsSidebarContent';
 import SelectionCard from '../../components/SportsSelectionCard';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
+import CheckIcon from '../../icons/Check';
 
 const dummyData = [
     {
@@ -31,6 +32,34 @@ const dummyData = [
         time: '01:10 PM',
         date: '2020-09-28',
         stadium: 'Empower Field',
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: ''
+                }
+            }
+        ],
     },
     {
         id: 2,
@@ -42,6 +71,34 @@ const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         isStartPower: true,
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: ''
+                }
+            }
+        ],
     },
     {
         id: 3,
@@ -52,6 +109,34 @@ const dummyData = [
         time: '01:10 PM',
         date: '2020-09-28',
         stadium: 'Empower Field',
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: ''
+                }
+            }
+        ],
     },
     {
         id: 4,
@@ -175,7 +260,7 @@ function NHLPowerdFs() {
             let existingPlayerIndex = _playersList?.findIndex(player => isEqual(player?.value, _data[0]?.title));
             _playersList[existingPlayerIndex].value = '';
         }
-        
+
         setSelected(_selected);
         setStartPowers(_selectedStarPowers);
         setPlayerList(_playersList);
@@ -188,7 +273,7 @@ function NHLPowerdFs() {
 
     return (
         <>
-        <Header />
+            <Header />
             <div className={classes.wrapper}>
                 <Header3
                     titleMain1="NHL 2021"
@@ -197,7 +282,7 @@ function NHLPowerdFs() {
                     subHeader2="Play for your chance to win $1000!"
                     contestBtnTitle="Contest Rules"
                     prizeBtnTitle="Prize Grid"
-                    bgImageUri={ NHLBg }
+                    bgImageUri={NHLBg}
                 />
 
                 <div className={classes.container}>
@@ -233,23 +318,24 @@ function NHLPowerdFs() {
                                 </form>
                             </div>
                         </div>
-                    
+
                         <div className={classes.container_body}>
                             <Card>
                                 {
                                     dummyData.map((item, index) => <SelectionCard
-                                        title={ item.title }
-                                        avgVal={ item.avgVal }
-                                        teamA={ item.teamA }
-                                        teamB={ item.teamB }
-                                        time={ item.time }
-                                        date={ item.date }
-                                        stadium={ item.stadium }
-                                        isSelected={ !!selected.get(item.id) }
-                                        key={ item.id }
-                                        onSelectDeselect={ onSelectDeselect }
-                                        id={ item.id }
-                                        isStartPower={ item.isStartPower && item.isStartPower }
+                                        title={item.title}
+                                        avgVal={item.avgVal}
+                                        teamA={item.teamA}
+                                        teamB={item.teamB}
+                                        time={item.time}
+                                        date={item.date}
+                                        stadium={item.stadium}
+                                        isSelected={!!selected.get(item.id)}
+                                        key={item.id}
+                                        onSelectDeselect={onSelectDeselect}
+                                        id={item.id}
+                                        steps={item?.steps && item?.steps}
+                                        isStartPower={item.isStartPower && item.isStartPower}
                                     />)
                                 }
                             </Card>
@@ -296,7 +382,7 @@ function NHLPowerdFs() {
                                 </div>
                                 <div className={classes.sidebar_circles}>
                                     {
-                                        selectedStarPowers?.map((isSelected, index) => <Circle filled={isSelected} key={index.toString()} />)
+                                        selectedStarPowers?.map((isSelected, index) => isSelected ? <CheckIcon /> : <Circle key={index.toString()} />)
                                     }
                                 </div>
                             </div>

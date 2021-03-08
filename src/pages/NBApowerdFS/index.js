@@ -9,6 +9,7 @@ import NBABg from '../../assets/nba-bg.jpg';
 import SearchIcon from '../../icons/SearchIcon';
 import Tick2 from '../../icons/Tick2';
 import ContestRulesIcon from '../../icons/ContestRules';
+import CheckIcon from '../../icons/Check';
 import RightArrow from '../../assets/right-arrow.png';
 import NBAFooterImage from '../../assets/nba.png';
 import PowerPlayIcon from '../../assets/token.png';
@@ -170,20 +171,20 @@ function NBAPowerdFs() {
             let existingPlayerIndex = _playersList?.findIndex(player => isEqual(player?.value, _data[0]?.title));
             _playersList[existingPlayerIndex].value = '';
         }
-        
+
         setSelected(_selected);
         setStartPowers(_selectedStarPowers);
         setPlayerList(_playersList);
     }, [selected]);
 
-    const onSelectFilter = useCallback(id => { 
+    const onSelectFilter = useCallback(id => {
         const [_selectedFilter] = selectionHeader?.filter(filter => filter.id === id);
         setSelectedFilter(_selectedFilter);
     }, [selectedFilter])
 
     return (
         <>
-        <Header />
+            <Header />
             <div className={classes.wrapper}>
                 <Header3
                     titleMain1="NHL 2021"
@@ -192,7 +193,7 @@ function NBAPowerdFs() {
                     subHeader2="Play for your chance to win $1000!"
                     contestBtnTitle="Contest Rules"
                     prizeBtnTitle="Prize Grid"
-                    bgImageUri={ NBABg }
+                    bgImageUri={NBABg}
                 />
 
                 <div className={classes.container}>
@@ -228,23 +229,23 @@ function NBAPowerdFs() {
                                 </form>
                             </div>
                         </div>
-                    
+
                         <div className={classes.container_body}>
                             <Card>
                                 {
                                     dummyData.map((item, index) => <SelectionCard
-                                        title={ item.title }
-                                        avgVal={ item.avgVal }
-                                        teamA={ item.teamA }
-                                        teamB={ item.teamB }
-                                        time={ item.time }
-                                        date={ item.date }
-                                        stadium={ item.stadium }
-                                        isSelected={ !!selected.get(item.id) }
-                                        key={ item.id }
-                                        onSelectDeselect={ onSelectDeselect }
-                                        id={ item.id }
-                                        isStartPower={ item.isStartPower && item.isStartPower }
+                                        title={item.title}
+                                        avgVal={item.avgVal}
+                                        teamA={item.teamA}
+                                        teamB={item.teamB}
+                                        time={item.time}
+                                        date={item.date}
+                                        stadium={item.stadium}
+                                        isSelected={!!selected.get(item.id)}
+                                        key={item.id}
+                                        onSelectDeselect={onSelectDeselect}
+                                        id={item.id}
+                                        isStartPower={item.isStartPower && item.isStartPower}
                                     />)
                                 }
                             </Card>
@@ -291,7 +292,7 @@ function NBAPowerdFs() {
                                 </div>
                                 <div className={classes.sidebar_circles}>
                                     {
-                                        selectedStarPowers?.map((isSelected, index) => <Circle filled={isSelected} key={index.toString()} />)
+                                        selectedStarPowers?.map((isSelected, index) => isSelected ? <CheckIcon /> : <Circle key={index.toString()} />)
                                     }
                                 </div>
                             </div>
