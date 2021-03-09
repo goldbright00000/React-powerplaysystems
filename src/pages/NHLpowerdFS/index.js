@@ -21,201 +21,82 @@ import SelectionCard from '../../components/SportsSelectionCard';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
 import CheckIcon from '../../icons/Check';
-import AdImg from '../../assets/img.jpg';
-
-const dummyData = [
-    {
-        id: 1,
-        title: 'Nathan McKinnen',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-        steps: [
-            {
-                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                step: [21, 18, 13, 31, 20.0]
-            },
-            {
-                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
-                step: [
-                    {
-                        title: 'last game',
-                        values: [1, 0, 0, 0, 7, 14.8],
-                    },
-                    {
-                        title: 'last 10 games',
-                        values: [10, 8, 9, 17, 39, 18.8],
-                    },
-                    {
-                        title: '2020-2021',
-                        values: [1, 0, 0, 0, 7, 14.8],
-                    }
-                ]
-            },
-            {
-                step: {
-                    ad: AdImg
-                }
-            }
-        ],
-    },
-    {
-        id: 2,
-        title: 'Conner McDavid',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-        isStartPower: true,
-        steps: [
-            {
-                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                step: [21, 18, 13, 31, 20.0]
-            },
-            {
-                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
-                step: [
-                    {
-                        title: 'last game',
-                        values: [1, 0, 0, 0, 7, 14.8],
-                    },
-                    {
-                        title: 'last 10 games',
-                        values: [10, 8, 9, 17, 39, 18.8],
-                    },
-                    {
-                        title: '2020-2021',
-                        values: [1, 0, 0, 0, 7, 14.8],
-                    }
-                ]
-            },
-            {
-                step: {
-                    ad: AdImg
-                }
-            }
-        ],
-    },
-    {
-        id: 3,
-        title: 'Sebastian Aho',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-        steps: [
-            {
-                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                step: [21, 18, 13, 31, 20.0]
-            },
-            {
-                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
-                step: [
-                    {
-                        title: 'last game',
-                        values: [1, 0, 0, 0, 7, 14.8],
-                    },
-                    {
-                        title: 'last 10 games',
-                        values: [10, 8, 9, 17, 39, 18.8],
-                    },
-                    {
-                        title: '2020-2021',
-                        values: [1, 0, 0, 0, 7, 14.8],
-                    }
-                ]
-            },
-            {
-                step: {
-                    ad: AdImg
-                }
-            }
-        ],
-    },
-    {
-        id: 4,
-        title: 'Chris Carpenter',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-    },
-]
+import { dummyData } from './dummyData';
+import { CONSTANTS } from '../../utility/constants';
 
 const INITIAL_PLAYER_LIST = [
     {
         title: 'C1',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.CENTER
     },
     {
         title: 'C2',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.CENTER
     },
     {
         title: 'W1',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.LW
     },
     {
         title: 'W2',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.RW
     },
     {
         title: 'D1',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.D
     },
     {
         title: 'D2',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.D
     },
     {
         title: 'G',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.G
     },
     {
         title: 'TD',
         value: '',
         icon: EmployeeIcon,
+        filter: CONSTANTS.FILTERS.NHL.TD
     },
 ]
 
 const FILTERS_INITIAL_VALUES = [
     {
         id: 1,
-        title: 'c',
+        title: CONSTANTS.FILTERS.NHL.CENTER,
         remaining: 2,
     },
     {
         id: 2,
-        title: 'lw',
+        title: CONSTANTS.FILTERS.NHL.LW,
         remaining: 2,
     },
     {
         id: 3,
-        title: 'rw',
+        title: CONSTANTS.FILTERS.NHL.RW,
         remaining: 2,
     },
     {
         id: 4,
-        title: 'd',
+        title: CONSTANTS.FILTERS.NHL.D,
         remaining: 2,
     },
     {
         id: 5,
-        title: 'g',
+        title: CONSTANTS.FILTERS.NHL.G,
         remaining: 2,
     },
     {
         id: 6,
-        title: 'td',
+        title: CONSTANTS.FILTERS.NHL.TD,
         remaining: 2,
     },
 ]
@@ -229,12 +110,15 @@ function NHLPowerdFs() {
     const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
     const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
+    const [selectedData, setSelectedData] = useState(dummyData[0]);
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
         _selected.set(id, !selected.get(id));
 
-        const _data = dummyData?.filter(d => d?.id === id);
+        const _data = selectedData?.data?.filter(d => d?.id === id);
+        const [_selectedFilter] = filters?.filter(filter => filter?.title === selectedData?.cat);
+        activateFilter(_selectedFilter, _selectedFilter?.id);
 
         //star powers
         const [starPower] = _data?.filter(filter => filter?.isStartPower);
@@ -256,22 +140,41 @@ function NHLPowerdFs() {
         //selected players
         const _playersList = [...playerList];
         if (!!_selected.get(id)) {
-            let emptyPlayerIndex = _playersList?.findIndex(player => isEmpty(player?.value));
-            _playersList[emptyPlayerIndex].value = _data[0]?.title;
+            const [_player] = _playersList?.filter(
+                player => player?.filter === selectedData?.cat && isEmpty(player.value)
+            );
+            if (!isEmpty(_player) && isEmpty(_player.value)) {
+                const playerListIndex = _playersList?.findIndex(
+                    player => player?.filter === selectedData?.cat && isEmpty(player)
+                );
+                let player = _player;
+                player.value = _data[0]?.title;
+                _playersList[playerListIndex] = player;
+                setSelected(_selected);
+                setStartPowers(_selectedStarPowers);
+            }
         } else {
-            let existingPlayerIndex = _playersList?.findIndex(player => isEqual(player?.value, _data[0]?.title));
+            let existingPlayerIndex = _playersList?.findIndex(
+                player => isEqual(player?.value, _data[0]?.title)
+            );
             _playersList[existingPlayerIndex].value = '';
+            setSelected(_selected);
+            setStartPowers(_selectedStarPowers);
         }
 
-        setSelected(_selected);
-        setStartPowers(_selectedStarPowers);
         setPlayerList(_playersList);
-    }, [selected]);
+    }, [selected, selectedFilter, selectedData]);
 
     const onSelectFilter = useCallback(id => {
         const [_selectedFilter] = filters?.filter(filter => filter.id === id);
-        if (_selectedFilter?.remaining > 0) {
-            const filter = _selectedFilter;
+        const [_selectedData] = dummyData?.filter((data) => data?.cat === _selectedFilter?.title);
+
+        setSelectedData(_selectedData);
+    }, [selectedFilter]);
+
+    const activateFilter = (selectedFilter, id) => {
+        if (selectedFilter?.remaining > 0) {
+            const filter = selectedFilter;
             let _remaining = filter?.remaining;
             _remaining -= 1;
             if (_remaining <= 0) {
@@ -284,9 +187,9 @@ function NHLPowerdFs() {
             _filters[filterIndex] = filter;
             setFilters(_filters);
         } else {
-            setSelectedFilter(_selectedFilter);
+            setSelectedFilter(selectedFilter);
         }
-    }, [selectedFilter]);
+    }
 
     return (
         <>
@@ -339,7 +242,7 @@ function NHLPowerdFs() {
                         <div className={classes.container_body}>
                             <Card>
                                 {
-                                    dummyData.map((item, index) => <SelectionCard
+                                    selectedData && selectedData?.data?.length && selectedData?.data?.map((item, index) => <SelectionCard
                                         title={item.title}
                                         avgVal={item.avgVal}
                                         teamA={item.teamA}
