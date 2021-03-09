@@ -8,8 +8,6 @@ import Trophy from '../../icons/Trophy';
 function Header3(props) {
     const { onClickContest = () => {}, onClickPrize = () => {}, titleMain1 = '', titleMain2 = '', subHeader1 = '', subHeader2 = '', contestBtnTitle = '', prizeBtnTitle = '', bgImageUri } = props || {};
 
-    console.log(bgImageUri);
-
     return (
         <div className={classes.header_container} style={{backgroundImage: 'url(' + bgImageUri + ')'}}>
             {

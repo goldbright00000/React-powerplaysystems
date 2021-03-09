@@ -44,38 +44,38 @@ const InteractiveContests = props => {
                         Icon={Ball}
                         date='Oct 24, 2020'
                         time='8:00PM ET'
-                        type='Chase The Ace'
+                        type='MLB PowerdFS'
                         entries='58589'
                         totalEntries='200000'
                         prize='800'
                         pointsRequired='1000'
                         isMobileDevice={isMobileDevice}
-                        link="/"
+                        link="/mlb-powerdfs"
                     />
                     <PowerPlayGridRow
-                        contest='MLB'
+                        contest='NHL'
                         Icon={Ball}
                         date='Oct 24, 2020'
                         time='8:00PM ET'
-                        type='PowerLine'
+                        type='NHL PowerdFS'
                         entries='15385'
                         totalEntries='19161'
                         prize='$1K in Bonus Cash'
                         isMobileDevice={isMobileDevice}
-                        link="select-teams"
+                        link="/nhl-powerdfs"
                     />
                     <PowerPlayGridRow
                         contest='NBA'
                         Icon={BasketBall}
                         date='Oct 24, 2020'
                         time='8:00PM ET'
-                        type='Bingo'
+                        type='NBA PowerdFS'
                         entries='1497'
                         totalEntries='150000'
                         prize='3000'
                         pointsRequired='10000'
                         isMobileDevice={isMobileDevice}
-                        link="/bingo-game"
+                        link="/nba-powerdfs"
                     />
                     <PowerPlayGridRow
                         contest='MLB'

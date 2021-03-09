@@ -2,7 +2,7 @@ import React from 'react';
 
 const Calendar2 = props => (
     <svg xmlns="http://www.w3.org/2000/svg" width={props?.size || "17"} height={props?.size || "14"} viewBox="0 0 17 14" {...props}>
-        <g xmlns="http://www.w3.org/2000/svg" fill={props?.color} fill-opacity=".6" fillRule="evenodd">
+        <g xmlns="http://www.w3.org/2000/svg" fill={props?.color} fillOpacity=".6" fillRule="evenodd">
         <g fill="#FFF" fillRule="nonzero">
             <g>
                 <g>

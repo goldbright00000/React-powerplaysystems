@@ -17,6 +17,7 @@ export function authenticate(user) {
         })
 
         return request.then(response => {
+            console.log(response);
             if (response.data.status === true) {
                 //save in local storage.
                 setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, response.data.token)
