@@ -3,11 +3,11 @@ import { CONSTANTS } from './constants'
 import moment from 'moment';
 
 
-export function redirectTo(props ,{path = '/', state = {} }) {
+export function redirectTo(props, { path = '/', state = {} }) {
     const { history: { push = () => { } } = {} } = props || {}
-    if(!isEmpty(state))
+    if (!isEmpty(state))
         return push(path, state)
-    
+
     return push(path)
 }
 
@@ -19,11 +19,11 @@ export function GetAceCardIndex() {
     return CONSTANTS.CARD_RANKS.indexOf("A")
 }
 
-export function getRandomCard () {
+export function getRandomCard() {
     let card = {};
     let _cardSuit = Math.floor(Math.random() * (5 - 2) + 2)
     let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2)
-    
+
     card.suit = _cardSuit;
     card.rank = _cardRankIndex;
 
@@ -36,7 +36,7 @@ export function getRandomNumberBetween(minRange, maxRange) {
     return number;
 }
 
-export function checkRange (number, minRange, maxRange) {
+export function checkRange(number, minRange, maxRange) {
     if (number >= minRange && number <= maxRange) {
         return number;
     }
@@ -48,7 +48,7 @@ export function getEmptyStringArray(arrayLength = 0, defautlValue) {
     return new Array(arrayLength).fill(defautlValue || '-', 0, arrayLength);
 }
 
-export function isExistsInList(list = new Array(), value) {
+export function isExistsInList(list = [], value) {
     return list.includes(value)
 }
 
@@ -126,7 +126,7 @@ export function getCardsRankPairs(cardsArr) {
     pairs.forEach((val) => {
         counts[val] = (counts[val] || 0) + 1
     })
-    
+
     return counts;
 }
 
@@ -143,7 +143,7 @@ export function removeLocalStorage(key) {
 }
 
 export function removeToken() {
-    
+
 }
 
 export function validateEmail(email) {
@@ -158,11 +158,11 @@ export function setNumberComma(number) {
 export function getYearsList() {
     let year = new Date().getFullYear();
     const years = [];
-    
+
     for (let i = year; i > 1920; i--) {
-        years.push({name: i, value: i})
+        years.push({ name: i, value: i })
     }
-    
+
     return years;
 }
 
