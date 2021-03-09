@@ -118,7 +118,6 @@ function NHLPowerdFs() {
 
         const _data = selectedData?.data?.filter(d => d?.id === id);
         const [_selectedFilter] = filters?.filter(filter => filter?.title === selectedData?.cat);
-        activateFilter(_selectedFilter, _selectedFilter?.id);
 
         //star powers
         const [starPower] = _data?.filter(filter => filter?.isStartPower);
@@ -152,6 +151,7 @@ function NHLPowerdFs() {
                 _playersList[playerListIndex] = player;
                 setSelected(_selected);
                 setStartPowers(_selectedStarPowers);
+                activateFilter(_selectedFilter, _selectedFilter?.id, _selected, id);
             }
         } else {
             let existingPlayerIndex = _playersList?.findIndex(
@@ -160,6 +160,7 @@ function NHLPowerdFs() {
             _playersList[existingPlayerIndex].value = '';
             setSelected(_selected);
             setStartPowers(_selectedStarPowers);
+            activateFilter(_selectedFilter, _selectedFilter?.id, _selected, id);
         }
 
         setPlayerList(_playersList);
@@ -172,11 +173,14 @@ function NHLPowerdFs() {
         setSelectedData(_selectedData);
     }, [selectedFilter]);
 
-    const activateFilter = (selectedFilter, id) => {
+    const activateFilter = (selectedFilter, id, selectedPlayer, playerId) => {
         if (selectedFilter?.remaining > 0) {
             const filter = selectedFilter;
             let _remaining = filter?.remaining;
-            _remaining -= 1;
+            if (!!selectedPlayer.get(playerId))
+                _remaining -= 1;
+            else if (_remaining < 2)
+                _remaining += 1;
             if (_remaining <= 0) {
                 _remaining = 0;
                 setSelectedFilter(filter);
