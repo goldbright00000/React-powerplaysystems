@@ -63,62 +63,73 @@ function SportsSelectionCard(props) {
                 steps?.length ?
                     <div className={`${classes.card_state_main_container} ${currentStep === 1 && classes.space_evenly}`}>
                         {
-                            currentStep === 1 &&
-                            <div className={classes.card_state_left}>
-                                {
-                                    steps[currentStep]?.step?.map((val, key) => (
-                                        <strong key={key.toString()}>{val?.title}</strong>
-                                    ))
-                                }
-                            </div>
-                        }
-                        <div
-                            className={`
-                            ${classes.container_body_card_state} 
-                            ${isSelected && classes.active} 
-                            ${currentStep === 0 && classes.border}`}
-                        >
-                            {
-                                <div className={classes.card_state}>
-                                    <div className={classes.card_state_title}>
-                                        {
-                                            steps[currentStep]?.titles?.map((title, index) => (
-                                                <span
-                                                    key={index.toString()}
-                                                    className={`${currentStep === 1 && classes.state_step_1_title}`}
-                                                >
-                                                    {title}
-                                                </span>
-                                            ))
-                                        }
-                                    </div>
+                            steps[currentStep]?.step?.ad ?
+                                <img src={steps[currentStep]?.step?.ad} />
+                                :
+                                <>
 
-                                    <div className={`
-                                        ${classes.card_state_values} 
-                                        ${currentStep === 1 && classes.column}`}
+                                    {
+                                        currentStep === 1 &&
+                                        <div className={classes.card_state_left}>
+                                            {
+                                                steps[currentStep]?.step?.map((val, key) => (
+                                                    <strong key={key.toString()}>{val?.title}</strong>
+                                                ))
+                                            }
+                                        </div>
+                                    }
+                                    <div
+                                        className={`
+                                        ${classes.container_body_card_state} 
+                                        ${isSelected && classes.active} 
+                                        ${currentStep === 0 && classes.border}`}
                                     >
                                         {
-                                            steps[currentStep]?.step?.length && steps[currentStep]?.step?.map((val, key) =>
-                                                val?.title ?
-                                                    <div key={key.toString()} className={classes.card_state_title_1}>
-                                                        {
-                                                            val?.values?.map((value, index) => (
-                                                                <div key={index.toString()} className={classes.step_value}>
-                                                                    <strong className={classes.state_step_1_value}>{value}</strong>
+                                            <div className={classes.card_state}>
+                                                <div className={classes.card_state_title}>
+                                                    {
+                                                        steps[currentStep]?.titles?.map((title, index) => (
+                                                            <span
+                                                                key={index.toString()}
+                                                                className={`${currentStep === 1 && classes.state_step_1_title}`}
+                                                            >
+                                                                {title}
+                                                            </span>
+                                                        ))
+                                                    }
+                                                </div>
+
+                                                <div className={`
+                                        ${classes.card_state_values} 
+                                        ${currentStep === 1 && classes.column}`}
+                                                >
+                                                    {
+                                                        steps[currentStep]?.step?.length && steps[currentStep]?.step?.map((val, key) =>
+                                                            val?.title ?
+                                                                <div key={key.toString()} className={classes.card_state_title_1}>
+                                                                    {
+                                                                        val?.values?.map((value, index) => (
+                                                                            <div key={index.toString()} className={classes.step_value}>
+                                                                                <strong className={classes.state_step_1_value}>{value}</strong>
+                                                                            </div>
+                                                                        ))
+                                                                    }
                                                                 </div>
-                                                            ))
-                                                        }
-                                                    </div>
-                                                    :
-                                                    <div key={key.toString()} className={`${classes.step_value} ${classes.step_value_1}`}>
-                                                        <strong>{val}</strong>
-                                                    </div>
-                                            )
+                                                                :
+                                                                <div
+                                                                    key={key.toString()}
+                                                                    className={`${classes.step_value} ${classes.step_value_1}`}
+                                                                >
+                                                                    <strong>{val}</strong>
+                                                                </div>
+                                                        )
+                                                    }
+                                                </div>
+                                            </div>
                                         }
                                     </div>
-                                </div>
-                            }
-                        </div>
+                                </>
+                        }
                     </div>
                     :
                     <p className={`${classes.container_body_card_state} ${classes.card_state_no_data} ${isSelected ? classes.active : ''}`}>
@@ -143,7 +154,7 @@ function SportsSelectionCard(props) {
                 {
                     steps?.length ?
                         <div className={classes.card_footer_right} onClick={nextStep}>
-                            <ForwardArrow />
+                            <ForwardArrow color={isSelected ? "#fb6e00" : ''} />
                         </div>
                         :
                         <></>

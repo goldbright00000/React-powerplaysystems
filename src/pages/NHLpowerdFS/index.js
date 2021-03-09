@@ -21,6 +21,7 @@ import SelectionCard from '../../components/SportsSelectionCard';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
 import CheckIcon from '../../icons/Check';
+import AdImg from '../../assets/img.jpg';
 
 const dummyData = [
     {
@@ -56,7 +57,7 @@ const dummyData = [
             },
             {
                 step: {
-                    ad: ''
+                    ad: AdImg
                 }
             }
         ],
@@ -95,7 +96,7 @@ const dummyData = [
             },
             {
                 step: {
-                    ad: ''
+                    ad: AdImg
                 }
             }
         ],
@@ -133,7 +134,7 @@ const dummyData = [
             },
             {
                 step: {
-                    ad: ''
+                    ad: AdImg
                 }
             }
         ],
@@ -186,7 +187,7 @@ const INITIAL_PLAYER_LIST = [
     },
 ]
 
-const selectionHeader = [
+const FILTERS_INITIAL_VALUES = [
     {
         id: 1,
         title: 'c',
@@ -227,6 +228,7 @@ function NHLPowerdFs() {
     const [selectedFilter, setSelectedFilter] = useState({});
     const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
+    const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
@@ -267,8 +269,23 @@ function NHLPowerdFs() {
     }, [selected]);
 
     const onSelectFilter = useCallback(id => {
-        const [_selectedFilter] = selectionHeader?.filter(filter => filter.id === id);
-        setSelectedFilter(_selectedFilter);
+        const [_selectedFilter] = filters?.filter(filter => filter.id === id);
+        if (_selectedFilter?.remaining > 0) {
+            const filter = _selectedFilter;
+            let _remaining = filter?.remaining;
+            _remaining -= 1;
+            if (_remaining <= 0) {
+                _remaining = 0;
+                setSelectedFilter(filter);
+            }
+            filter.remaining = _remaining;
+            const filterIndex = filters?.findIndex((filter) => filter?.id === id);
+            const _filters = [...filters];
+            _filters[filterIndex] = filter;
+            setFilters(_filters);
+        } else {
+            setSelectedFilter(_selectedFilter);
+        }
     }, [selectedFilter]);
 
     return (
@@ -295,7 +312,7 @@ function NHLPowerdFs() {
                         <div className={classes.container_top}>
                             <p>Select Position</p>
                             <div className={classes.container_top_1}>
-                                <SportsFilters data={selectionHeader} onSelect={onSelectFilter} activeFilter={selectedFilter} />
+                                <SportsFilters data={filters} onSelect={onSelectFilter} activeFilter={selectedFilter} />
 
                                 <form className={classes.search_form}>
                                     <span>

@@ -8,8 +8,8 @@ function ForwardArrow(props) {
             viewBox="0 0 16 12"
             style={{ height: 'auto' }}
         >
-            <g fill="none" fillRule="evenodd" opacity=".4">
-                <g fill="#688FBD" fillRule="nonzero">
+            <g fill="none" fillRule="evenodd" opacity="1">
+                <g fill={props?.color || "#688FBD"} fillRule="nonzero">
                     <g>
                         <g>
                             <g>
@@ -24,7 +24,8 @@ function ForwardArrow(props) {
 }
 
 ForwardArrow.propTypes = {
-    size: PropTypes.number
+    size: PropTypes.number,
+    color: PropTypes.string,
 }
 
 export default ForwardArrow

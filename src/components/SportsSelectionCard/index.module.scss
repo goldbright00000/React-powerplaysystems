@@ -17,7 +17,7 @@
 			font-size: 20px;
 			padding: 0;
 			margin: 0;
-			border-bottom: 2px solid $lightBlue;
+			// border-bottom: 2px solid $lightBlue;
 			color: $lightBlue;
 			font-family: Poppins;
 			font-weight: 600;
@@ -110,8 +110,14 @@
 			}
 		}
 
+		img {
+			width: 93%;
+			height: 76px;
+			margin: 25px auto;
+		}
+
 		.container_body_card_state {
-			margin: 20px 0;
+			margin: 20px 0 4px 0;
 			width: 70%;
 
 			&.border {
