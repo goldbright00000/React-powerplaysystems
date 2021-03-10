@@ -4,15 +4,21 @@ import PropTypes from 'prop-types';
 import classes from './index.module.scss';
 import DeleteIcon from '../../icons/Delete2';
 
-function SportsSidebarContent (props) {
-    
+function SportsSidebarContent(props) {
+
     const { data = [], onDelete = () => { } } = props || {};
-    
-    const SideBarSection = ({ title, value, SvgIcon, svgSize, onDelete }) => (
+
+    const SideBarSection = ({ title, value, playerId, SvgIcon, svgSize, onDelete }) => (
         <div className={classes.sidebar_body_section}>
-            <span className={value ? classes.active : ''}>{ title }</span>
+            <span className={value ? classes.active : ''}>{title}</span>
             <div>
-                { SvgIcon && <SvgIcon size={ svgSize } /> } { value ? <div className={classes.sidebar_body_value}>{ value } <span onClick={onDelete}><DeleteIcon /></span></div> : <span>Not Selected</span>}
+                {SvgIcon && <SvgIcon size={svgSize} />}
+                {value ?
+                    <div className={classes.sidebar_body_value}>
+                        {value} <span onClick={() => onDelete(playerId)}><DeleteIcon /></span>
+                    </div>
+                    :
+                    <span>Not Selected</span>}
             </div>
         </div>
     );
@@ -20,10 +26,18 @@ function SportsSidebarContent (props) {
     return (
         <div className={classes.sidebar_body}>
             <p>1/8 Starting Players Selected</p>
-            <div className={ classes.sidebar_body_1 }>
+            <div className={classes.sidebar_body_1}>
                 {
                     data?.length ?
-                        data?.map((item, index) => (<SideBarSection title={ item?.title } value={ item?.value } key={ index + "" } SvgIcon={ item?.icon } onDelete={ onDelete }/>))
+                        data?.map((item, index) => (
+                            <SideBarSection
+                                title={item?.title}
+                                value={item?.value}
+                                playerId={item?.playerId}
+                                key={index + ""}
+                                SvgIcon={item?.icon}
+                                onDelete={onDelete}
+                            />))
                         :
                         <span>No data</span>
                 }

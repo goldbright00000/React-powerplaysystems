@@ -41,6 +41,11 @@
 			&:hover {
 				cursor: pointer;
 			}
+
+			&.disabled {
+				background-color: $lightGrey4;
+				cursor: not-allowed;
+			}
 		}
 
 		.container_selected {
@@ -244,7 +249,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			opacity: 0.6;
+			opacity: 1;
 		}
 	}
 	.divider {

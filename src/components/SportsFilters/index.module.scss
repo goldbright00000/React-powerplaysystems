@@ -21,6 +21,10 @@
 		border-radius: 8px;
 		text-transform: uppercase;
 
+		&.selected {
+			background-color: $primary;
+		}
+
 		.tick {
 			display: none;
 		}

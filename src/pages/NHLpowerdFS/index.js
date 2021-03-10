@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty, isEqual, find, transform } from 'lodash';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -28,43 +28,51 @@ const INITIAL_PLAYER_LIST = [
     {
         title: 'C1',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.CENTER
+        filter: CONSTANTS.FILTERS.NHL.CENTER,
+        playerId: '',
     },
     {
         title: 'C2',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.CENTER
+        filter: CONSTANTS.FILTERS.NHL.CENTER,
+        playerId: '',
     },
     {
         title: 'W1',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.LW
+        filter: CONSTANTS.FILTERS.NHL.LW,
+        playerId: '',
     },
     {
         title: 'W2',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.RW
+        filter: CONSTANTS.FILTERS.NHL.RW,
+        playerId: '',
     },
     {
         title: 'D1',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.D
+        filter: CONSTANTS.FILTERS.NHL.D,
+        playerId: '',
     },
     {
         title: 'D2',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.D
+        filter: CONSTANTS.FILTERS.NHL.D,
+        playerId: '',
     },
     {
         title: 'G',
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.G
+        filter: CONSTANTS.FILTERS.NHL.G,
+        playerId: '',
     },
     {
         title: 'TD',
         value: '',
         icon: EmployeeIcon,
-        filter: CONSTANTS.FILTERS.NHL.TD
+        filter: CONSTANTS.FILTERS.NHL.TD,
+        playerId: '',
     },
 ]
 
@@ -77,12 +85,12 @@ const FILTERS_INITIAL_VALUES = [
     {
         id: 2,
         title: CONSTANTS.FILTERS.NHL.LW,
-        remaining: 2,
+        remaining: 1,
     },
     {
         id: 3,
         title: CONSTANTS.FILTERS.NHL.RW,
-        remaining: 2,
+        remaining: 1,
     },
     {
         id: 4,
@@ -92,12 +100,12 @@ const FILTERS_INITIAL_VALUES = [
     {
         id: 5,
         title: CONSTANTS.FILTERS.NHL.G,
-        remaining: 2,
+        remaining: 1,
     },
     {
         id: 6,
         title: CONSTANTS.FILTERS.NHL.TD,
-        remaining: 2,
+        remaining: 1,
     },
 ]
 
@@ -106,26 +114,27 @@ let starPowerIndex = 0;
 function NHLPowerdFs() {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
     const [selected, setSelected] = useState(new Map());
-    const [selectedFilter, setSelectedFilter] = useState({});
+    const [selectedFilter, setSelectedFilter] = useState(FILTERS_INITIAL_VALUES[0]);
     const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
     const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
     const [selectedData, setSelectedData] = useState(dummyData[0]);
+    const [search, setSearch] = useState('');
+    const [filterdData, setFilterdData] = useState(dummyData[0]);
 
     const onSelectDeselect = useCallback((id) => {
         const _selected = new Map(selected);
         _selected.set(id, !selected.get(id));
 
         const _data = selectedData?.data?.filter(d => d?.id === id);
-        const [_selectedFilter] = filters?.filter(filter => filter?.title === selectedData?.cat);
 
         //star powers
         const [starPower] = _data?.filter(filter => filter?.isStartPower);
         const _selectedStarPowers = [...selectedStarPowers];
         if (starPower) {
             if (!!_selected.get(id)) {
-                _selectedStarPowers[starPowerIndex] = true;
                 if (starPowerIndex < 3) {
+                    _selectedStarPowers[starPowerIndex] = true;
                     starPowerIndex++;
                 }
             } else {
@@ -148,22 +157,23 @@ function NHLPowerdFs() {
                 );
                 let player = _player;
                 player.value = _data[0]?.title;
+                player.playerId = _data[0].id;
                 _playersList[playerListIndex] = player;
                 setSelected(_selected);
                 setStartPowers(_selectedStarPowers);
-                activateFilter(_selectedFilter, _selectedFilter?.id, _selected, id);
             }
         } else {
             let existingPlayerIndex = _playersList?.findIndex(
-                player => isEqual(player?.value, _data[0]?.title)
+                player => isEqual(player?.playerId, _data[0]?.id)
             );
             _playersList[existingPlayerIndex].value = '';
+            _playersList[existingPlayerIndex].playerId = '';
             setSelected(_selected);
             setStartPowers(_selectedStarPowers);
-            activateFilter(_selectedFilter, _selectedFilter?.id, _selected, id);
         }
 
         setPlayerList(_playersList);
+        activateFilter(id);
     }, [selected, selectedFilter, selectedData]);
 
     const onSelectFilter = useCallback(id => {
@@ -171,13 +181,16 @@ function NHLPowerdFs() {
         const [_selectedData] = dummyData?.filter((data) => data?.cat === _selectedFilter?.title);
 
         setSelectedData(_selectedData);
+        setSelectedFilter(_selectedFilter);
+        setFilterdData(_selectedData);
     }, [selectedFilter]);
 
-    const activateFilter = (selectedFilter, id, selectedPlayer, playerId) => {
-        if (selectedFilter?.remaining > 0) {
-            const filter = selectedFilter;
-            let _remaining = filter?.remaining;
-            if (!!selectedPlayer.get(playerId))
+    const activateFilter = (playerId) => {
+        const [_selectedFilter] = filters?.filter(filter => filter?.title === selectedData?.cat);
+        const filter = _selectedFilter;
+        let _remaining = filter?.remaining;
+        if (_remaining > 0) {
+            if (!!!selected.get(playerId))
                 _remaining -= 1;
             else if (_remaining < 2)
                 _remaining += 1;
@@ -185,14 +198,41 @@ function NHLPowerdFs() {
                 _remaining = 0;
                 setSelectedFilter(filter);
             }
-            filter.remaining = _remaining;
-            const filterIndex = filters?.findIndex((filter) => filter?.id === id);
-            const _filters = [...filters];
-            _filters[filterIndex] = filter;
-            setFilters(_filters);
+        } else if (!!selected.get(playerId) && _remaining < 2) {
+            _remaining++;
         } else {
-            setSelectedFilter(selectedFilter);
+            setSelectedFilter(_selectedFilter);
         }
+
+        filter.remaining = _remaining;
+        const filterIndex = filters?.findIndex((filter) => filter?.id === _selectedFilter?.id);
+        const _filters = [...filters];
+        _filters[filterIndex] = filter;
+        setFilters(_filters);
+    }
+
+    const onDelete = (playerId) => {
+        const [currentPlayer] = playerList?.filter(player => player?.playerId === playerId);
+        if (currentPlayer.filter === selectedFilter?.title)
+            onSelectDeselect(playerId);
+    }
+
+    const onSearch = (e) => {
+        const { value } = e.target;
+        if (!isEmpty(value)) {
+            const _filterdData = selectedData?.data?.filter(data =>
+                data?.title?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+            );
+            const _filterdDataObj = {
+                cat: selectedData?.cat,
+                data: _filterdData
+            }
+            setFilterdData(_filterdDataObj);
+        } else {
+            setFilterdData(selectedData);
+        }
+
+        setSearch(value)
     }
 
     return (
@@ -219,16 +259,26 @@ function NHLPowerdFs() {
                         <div className={classes.container_top}>
                             <p>Select Position</p>
                             <div className={classes.container_top_1}>
-                                <SportsFilters data={filters} onSelect={onSelectFilter} activeFilter={selectedFilter} />
+                                <SportsFilters
+                                    data={filters}
+                                    onSelect={onSelectFilter}
+                                    // activeFilter={selectedFilter}
+                                    selectedFilter={selectedFilter}
+                                />
 
                                 <form className={classes.search_form}>
                                     <span>
                                         <SearchIcon />
-                                        <input placeholder="Search by Player name ..." name="playerSearch" required />
+                                        <input
+                                            value={search}
+                                            onChange={onSearch}
+                                            placeholder="Search by Player name ..."
+                                            name="playerSearch" required
+                                        />
                                     </span>
 
                                     <div className={classes.search_dropdown} onClick={() => setTeamSelectionState(!showTeamSelection)}>
-                                        All Team <span className={`${classes.arrow} ${showTeamSelection ? classes.up : classes.down}`} />
+                                        All Teams <span className={`${classes.arrow} ${showTeamSelection ? classes.up : classes.down}`} />
                                         {
                                             showTeamSelection &&
                                             <div className={classes.search_dropdown_menu} onMouseLeave={() => setTeamSelectionState(false)}>
@@ -246,21 +296,25 @@ function NHLPowerdFs() {
                         <div className={classes.container_body}>
                             <Card>
                                 {
-                                    selectedData && selectedData?.data?.length && selectedData?.data?.map((item, index) => <SelectionCard
-                                        title={item.title}
-                                        avgVal={item.avgVal}
-                                        teamA={item.teamA}
-                                        teamB={item.teamB}
-                                        time={item.time}
-                                        date={item.date}
-                                        stadium={item.stadium}
-                                        isSelected={!!selected.get(item.id)}
-                                        key={item.id}
-                                        onSelectDeselect={onSelectDeselect}
-                                        id={item.id}
-                                        steps={item?.steps && item?.steps}
-                                        isStartPower={item.isStartPower && item.isStartPower}
-                                    />)
+                                    (filterdData && filterdData?.data?.length) ? filterdData?.data?.map(
+                                        (item, index) => <SelectionCard
+                                            title={item.title}
+                                            avgVal={item.avgVal}
+                                            teamA={item.teamA}
+                                            teamB={item.teamB}
+                                            time={item.time}
+                                            date={item.date}
+                                            stadium={item.stadium}
+                                            isSelected={!!selected.get(item.id)}
+                                            key={item.id}
+                                            onSelectDeselect={onSelectDeselect}
+                                            id={item.id}
+                                            steps={item?.steps && item?.steps}
+                                            isStartPower={item.isStartPower && item.isStartPower}
+                                            disabled={(item.isStartPower && item.isStartPower) && starPowerIndex >= 3}
+                                        />)
+                                        :
+                                        <>No Data</>
                                 }
                             </Card>
                         </div>
@@ -310,7 +364,7 @@ function NHLPowerdFs() {
                                     }
                                 </div>
                             </div>
-                            <SportsSidebarContent data={playerList} />
+                            <SportsSidebarContent data={playerList} onDelete={(playerId) => onDelete(playerId)} />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>
