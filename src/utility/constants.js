@@ -28,7 +28,7 @@ export const CONSTANTS = {
         KING: 11,
         ACE: 12
     },
-    
+
     SOCKET_EVENTS: {
         AUTH: 'auth',
         AUTH_STATUS: 'auth_status',
@@ -58,5 +58,16 @@ export const CONSTANTS = {
         REPLACE: 'replace',
         POWER_MATCH: 'power_match',
         INCREASE_DECREASE: 'increase_decrease'
+    },
+
+    FILTERS: {
+        NHL: {
+            CENTER: 'c',
+            LW: 'lw',
+            RW: 'rw',
+            D: 'd',
+            G: 'g',
+            TD: 'td',
+        }
     }
 }

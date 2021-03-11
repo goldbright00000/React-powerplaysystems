@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { getLocalStorage } from '../utility/shared';
 
-const apiUrl = 'http://localhost:4000/api/v1/'
+const apiUrl = 'http://api.powerplaysystems.com/api/v1'
 
 const http = axios.create({
     baseURL: apiUrl,
@@ -15,7 +15,7 @@ http.interceptors.request.use(
     config => {
         const { origin } = new URL(config.baseURL + '/' + config.url)
         const token = getLocalStorage('token');
-        const allowedOrigin = ['http://localhost:4000/api/v1/'];
+        const allowedOrigin = [apiUrl];
         if (allowedOrigin.includes(origin)) {
             config.headers.authorization = `Bearer ${token}`;
         }
