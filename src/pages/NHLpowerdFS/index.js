@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { isEmpty, isEqual, find, transform } from 'lodash';
+import { isEmpty, isEqual } from 'lodash';
 
 import classes from './index.module.scss';
 import Header from '../../components/Header/Header';
@@ -18,6 +18,7 @@ import CashPowerBalance from '../../components/CashPowerBalance';
 import Circle from '../../icons/CircleEmpty';
 import SportsSidebarContent from '../../components/SportsSidebarContent';
 import SelectionCard from '../../components/SportsSelectionCard';
+import SelectionCard2 from '../../components/SportsSelectionCard2';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
 import CheckIcon from '../../icons/Check';
@@ -214,8 +215,6 @@ function NHLPowerdFs() {
     }
 
     const onDelete = (playerId) => {
-        const [currentPlayer] = playerList?.filter(player => player?.playerId === playerId);
-        // if (currentPlayer.filter === selectedFilter?.title)
         onSelectDeselect(playerId);
     }
 
@@ -299,22 +298,44 @@ function NHLPowerdFs() {
                             <Card>
                                 {
                                     (filterdData && filterdData?.data?.length) ? filterdData?.data?.map(
-                                        (item, index) => <SelectionCard
-                                            title={item.title}
-                                            avgVal={item.avgVal}
-                                            teamA={item.teamA}
-                                            teamB={item.teamB}
-                                            time={item.time}
-                                            date={item.date}
-                                            stadium={item.stadium}
-                                            isSelected={!!selected.get(item.id)}
-                                            key={item.id}
-                                            onSelectDeselect={onSelectDeselect}
-                                            id={item.id}
-                                            steps={item?.steps && item?.steps}
-                                            isStarPower={item.isStarPower && item.isStarPower}
-                                            disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
-                                        />)
+                                        (item, index) => (
+                                            selectedFilter?.title === CONSTANTS.FILTERS.NHL.TD
+                                                ?
+                                                <SelectionCard2
+                                                    title={item.title}
+                                                    avgVal={item.avgVal}
+                                                    teamA={item.teamA}
+                                                    teamB={item.teamB}
+                                                    time={item.time}
+                                                    date={item.date}
+                                                    stadium={item.stadium}
+                                                    isSelected={!!selected.get(item.id)}
+                                                    key={item.id}
+                                                    onSelectDeselect={onSelectDeselect}
+                                                    id={item.id}
+                                                    steps={item?.steps && item?.steps}
+                                                    isStarPower={item.isStarPower && item.isStarPower}
+                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                />
+                                                :
+                                                <SelectionCard
+                                                    title={item.title}
+                                                    avgVal={item.avgVal}
+                                                    teamA={item.teamA}
+                                                    teamB={item.teamB}
+                                                    time={item.time}
+                                                    date={item.date}
+                                                    stadium={item.stadium}
+                                                    isSelected={!!selected.get(item.id)}
+                                                    key={item.id}
+                                                    onSelectDeselect={onSelectDeselect}
+                                                    id={item.id}
+                                                    steps={item?.steps && item?.steps}
+                                                    isStarPower={item.isStarPower && item.isStarPower}
+                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                />
+                                        )
+                                    )
                                         :
                                         <>No Data</>
                                 }
