@@ -123,15 +123,23 @@ function NHLPowerdFs() {
     const [filterdData, setFilterdData] = useState(dummyData[0]);
 
     const onSelectDeselect = useCallback((id) => {
-        const _selected = new Map(selected);
-        _selected.set(id, !selected.get(id));
+        const _data = dummyData?.filter(d => d?.data?.find(c => c?.id === id));
+        const { cat = '', data: _selectedData = [] } = _data?.[0] || [];
 
-        const _data = selectedData?.data?.filter(d => d?.id === id);
+        const [data] = _selectedData?.filter(d => d?.id === id);
+
+        const [filter] = filters?.filter(filter => filter?.title === cat);
+
+        const _selected = new Map(selected);
+        if (filter?.remaining > 0) {
+            _selected.set(id, !selected.get(id));
+        } else if (!!selected.get(id)) {
+            _selected.set(id, !selected.get(id));
+        }
 
         //star powers
-        const [starPower] = _data?.filter(filter => filter?.isStartPower);
         const _selectedStarPowers = [...selectedStarPowers];
-        if (starPower) {
+        if (_data && data && data?.isStartPower) {
             if (!!_selected.get(id)) {
                 if (starPowerIndex < 3) {
                     _selectedStarPowers[starPowerIndex] = true;
@@ -156,24 +164,27 @@ function NHLPowerdFs() {
                     player => player?.filter === selectedData?.cat && isEmpty(player)
                 );
                 let player = _player;
-                player.value = _data[0]?.title;
-                player.playerId = _data[0].id;
+                player.value = data?.title;
+                player.playerId = data?.id;
                 _playersList[playerListIndex] = player;
                 setSelected(_selected);
                 setStartPowers(_selectedStarPowers);
             }
         } else {
             let existingPlayerIndex = _playersList?.findIndex(
-                player => isEqual(player?.playerId, _data[0]?.id)
+                player => isEqual(player?.playerId, data?.id)
             );
-            _playersList[existingPlayerIndex].value = '';
-            _playersList[existingPlayerIndex].playerId = '';
-            setSelected(_selected);
-            setStartPowers(_selectedStarPowers);
+
+            if (existingPlayerIndex !== -1) {
+                _playersList[existingPlayerIndex].value = '';
+                _playersList[existingPlayerIndex].playerId = '';
+                setSelected(_selected);
+                setStartPowers(_selectedStarPowers);
+            }
         }
 
         setPlayerList(_playersList);
-        activateFilter(id);
+        activateFilter(data, cat);
     }, [selected, selectedFilter, selectedData]);
 
     const onSelectFilter = useCallback(id => {
@@ -185,12 +196,12 @@ function NHLPowerdFs() {
         setFilterdData(_selectedData);
     }, [selectedFilter]);
 
-    const activateFilter = (playerId) => {
-        const [_selectedFilter] = filters?.filter(filter => filter?.title === selectedData?.cat);
+    const activateFilter = (player, category) => {
+        const [_selectedFilter] = filters?.filter(filter => filter?.title === category);
         const filter = _selectedFilter;
         let _remaining = filter?.remaining;
         if (_remaining > 0) {
-            if (!!!selected.get(playerId))
+            if (!!!selected.get(player?.id))
                 _remaining -= 1;
             else if (_remaining < 2)
                 _remaining += 1;
@@ -198,7 +209,7 @@ function NHLPowerdFs() {
                 _remaining = 0;
                 setSelectedFilter(filter);
             }
-        } else if (!!selected.get(playerId) && _remaining < 2) {
+        } else if (!!selected.get(player?.id) && _remaining < 2) {
             _remaining++;
         } else {
             setSelectedFilter(_selectedFilter);
@@ -213,8 +224,8 @@ function NHLPowerdFs() {
 
     const onDelete = (playerId) => {
         const [currentPlayer] = playerList?.filter(player => player?.playerId === playerId);
-        if (currentPlayer.filter === selectedFilter?.title)
-            onSelectDeselect(playerId);
+        // if (currentPlayer.filter === selectedFilter?.title)
+        onSelectDeselect(playerId);
     }
 
     const onSearch = (e) => {
