@@ -1,0 +1,113 @@
+@import '../../scss/colors.scss';
+
+.__how_do_i_win_modal_title {
+    font-family: Poppins;
+    font-size: 30px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: $primary;
+    }
+
+.__how_do_i_win_modal_heading {
+    font-family: Poppins;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    font-size: 14px;
+    font-weight: 600;
+    color: $primary;
+    margin: 0px;
+}
+
+.__how_do_i_win_modal_text {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #17181a;
+    margin-top: 0px;
+}
+
+.__how_do_i_win_modal_powers {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.__how_do_i_win_modal_power_text {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #17181a;
+    margin-top: 0px;
+    padding-top: 8px;
+    padding-left: 8px;
+}
+
+@media (max-width: 414px) {
+    .__how_do_i_win_modal_title {
+        font-family: Poppins;
+        font-size: 30px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1;
+        letter-spacing: normal;
+        color: $primary;
+    }
+    
+    .__how_do_i_win_modal_heading {
+        font-family: Poppins;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        font-size: 14px;
+        font-weight: 600;
+        color: $primary;
+        margin: 0px;
+    }
+    
+    .__how_do_i_win_modal_text {
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #17181a;
+        margin-top: 0px;
+    }
+    
+    .__how_do_i_win_modal_powers {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+    }
+    
+    .__how_do_i_win_modal_power_text {
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #17181a;
+        margin-top: 0px;
+        padding-top: 8px;
+        padding-left: 8px;
+    }
+}

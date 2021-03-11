@@ -3,6 +3,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import classes from './progressBar.module.scss';
 
+import { useMediaQuery } from 'react-responsive';
+
 const ProgressBar = props => {
     const [offset, setOffset] = useState(0);
     const circleRef = useRef(null);
@@ -24,6 +26,9 @@ const ProgressBar = props => {
         setOffset(progressOffset);
         circleRef.current.style = 'transition: stroke-dashoffset 850ms ease-in-out;';
     }, [setOffset, circumference, progress, offset]);
+
+    const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const secY = isMobile ? 10 : 20;
 
     return (
         <>
@@ -60,11 +65,11 @@ const ProgressBar = props => {
                     transform={`rotate(-90 ${center} ${center})`}
                 />
                 <text x={center} y={center} className={classes.__svg_circle_text}>
-                            {progress}
-                    </text>
-                    <text className={classes.__svg_circle_text_2} x={center} y={center + 20}>
-                            Sec
-                    </text>
+                    {progress}
+                </text>
+                <text className={classes.__svg_circle_text_2} x={center} y={center + secY }>
+                    Sec
+                </text>
             </svg>
         </>
     )
