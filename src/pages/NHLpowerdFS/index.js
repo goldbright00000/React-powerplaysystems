@@ -38,13 +38,13 @@ const INITIAL_PLAYER_LIST = [
         playerId: '',
     },
     {
-        title: 'W1',
+        title: 'LW',
         value: '',
         filter: CONSTANTS.FILTERS.NHL.LW,
         playerId: '',
     },
     {
-        title: 'W2',
+        title: 'RW',
         value: '',
         filter: CONSTANTS.FILTERS.NHL.RW,
         playerId: '',
@@ -115,7 +115,7 @@ function NHLPowerdFs() {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
     const [selected, setSelected] = useState(new Map());
     const [selectedFilter, setSelectedFilter] = useState(FILTERS_INITIAL_VALUES[0]);
-    const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
+    const [selectedStarPowers, setStarPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
     const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
     const [selectedData, setSelectedData] = useState(dummyData[0]);
@@ -139,13 +139,17 @@ function NHLPowerdFs() {
 
         //star powers
         const _selectedStarPowers = [...selectedStarPowers];
-        if (_data && data && data?.isStartPower) {
+        if (_data && data && data?.isStarPower) {
+            console.log('star power');
             if (!!_selected.get(id)) {
+                console.log('star power 1');
                 if (starPowerIndex < 3) {
+                    console.log('star power 2');
                     _selectedStarPowers[starPowerIndex] = true;
                     starPowerIndex++;
                 }
-            } else {
+            } else if (_selectedStarPowers[starPowerIndex] === true) {
+                console.log('star power 3');
                 if (starPowerIndex > 0) {
                     starPowerIndex--;
                 }
@@ -166,9 +170,10 @@ function NHLPowerdFs() {
                 let player = _player;
                 player.value = data?.title;
                 player.playerId = data?.id;
+                player.isStarPower = data?.isStarPower;
                 _playersList[playerListIndex] = player;
                 setSelected(_selected);
-                setStartPowers(_selectedStarPowers);
+                setStarPowers(_selectedStarPowers);
             }
         } else {
             let existingPlayerIndex = _playersList?.findIndex(
@@ -178,8 +183,9 @@ function NHLPowerdFs() {
             if (existingPlayerIndex !== -1) {
                 _playersList[existingPlayerIndex].value = '';
                 _playersList[existingPlayerIndex].playerId = '';
+                _playersList[existingPlayerIndex].isStarPower = false;
                 setSelected(_selected);
-                setStartPowers(_selectedStarPowers);
+                setStarPowers(_selectedStarPowers);
             }
         }
 
@@ -321,8 +327,8 @@ function NHLPowerdFs() {
                                             onSelectDeselect={onSelectDeselect}
                                             id={item.id}
                                             steps={item?.steps && item?.steps}
-                                            isStartPower={item.isStartPower && item.isStartPower}
-                                            disabled={(item.isStartPower && item.isStartPower) && starPowerIndex >= 3}
+                                            isStarPower={item.isStarPower && item.isStarPower}
+                                            disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
                                         />)
                                         :
                                         <>No Data</>
@@ -359,7 +365,9 @@ function NHLPowerdFs() {
                             </div>
                         </div>
                     </div>
-
+                    {
+                        console.log(selectedStarPowers)
+                    }
                     <div className={classes.sidebar_container}>
                         <Sidebar>
                             <CashPowerBalance />
@@ -371,7 +379,12 @@ function NHLPowerdFs() {
                                 </div>
                                 <div className={classes.sidebar_circles}>
                                     {
-                                        selectedStarPowers?.map((isSelected, index) => isSelected ? <CheckIcon /> : <Circle key={index.toString()} />)
+                                        selectedStarPowers?.map(
+                                            (isSelected, index) =>
+                                                isSelected ?
+                                                    <CheckIcon />
+                                                    :
+                                                    <Circle key={index.toString()} />)
                                     }
                                 </div>
                             </div>

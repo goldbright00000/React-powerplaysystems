@@ -3,15 +3,20 @@ import PropTypes from 'prop-types';
 
 import classes from './index.module.scss';
 import DeleteIcon from '../../icons/Delete2';
+import PowerIcon from '../../assets/power_balance_icon.png';
 
 function SportsSidebarContent(props) {
 
     const { data = [], onDelete = () => { } } = props || {};
 
-    const SideBarSection = ({ title, value, playerId, SvgIcon, svgSize, onDelete }) => (
-        <div className={classes.sidebar_body_section}>
+    const SideBarSection = ({ title, value, playerId, isStarPower, SvgIcon, svgSize, onDelete, keyVal }) => (
+        <div className={classes.sidebar_body_section} key={playerId}>
             <span className={value ? classes.active : ''}>{title}</span>
             <div>
+                {
+                    isStarPower &&
+                    <img src={PowerIcon} />
+                }
                 {SvgIcon && <SvgIcon size={svgSize} />}
                 {value ?
                     <div className={classes.sidebar_body_value}>
@@ -34,9 +39,11 @@ function SportsSidebarContent(props) {
                                 title={item?.title}
                                 value={item?.value}
                                 playerId={item?.playerId}
-                                key={index + ""}
+                                keyVal={item?.playerId}
                                 SvgIcon={item?.icon}
                                 onDelete={onDelete}
+                                key={index.toString()}
+                                isStarPower={item?.isStarPower}
                             />))
                         :
                         <span>No data</span>

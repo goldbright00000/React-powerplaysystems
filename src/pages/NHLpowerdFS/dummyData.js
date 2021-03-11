@@ -51,7 +51,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -181,7 +181,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -311,7 +311,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -441,7 +441,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -571,7 +571,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -701,7 +701,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
