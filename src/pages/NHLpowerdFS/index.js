@@ -127,39 +127,13 @@ function NHLPowerdFs() {
         const { cat = '', data: _selectedData = [] } = _data?.[0] || [];
 
         const [data] = _selectedData?.filter(d => d?.id === id);
-
-        const [filter] = filters?.filter(filter => filter?.title === cat);
-
         const _selected = new Map(selected);
-        if (filter?.remaining > 0) {
-            _selected.set(id, !selected.get(id));
-        } else if (!!selected.get(id)) {
-            _selected.set(id, !selected.get(id));
-        }
-
-        //star powers
-        const _selectedStarPowers = [...selectedStarPowers];
-        if (_data && data && data?.isStarPower) {
-            console.log('star power');
-            if (!!_selected.get(id)) {
-                console.log('star power 1');
-                if (starPowerIndex < 3) {
-                    console.log('star power 2');
-                    _selectedStarPowers[starPowerIndex] = true;
-                    starPowerIndex++;
-                }
-            } else if (_selectedStarPowers[starPowerIndex] === true) {
-                console.log('star power 3');
-                if (starPowerIndex > 0) {
-                    starPowerIndex--;
-                }
-                _selectedStarPowers[starPowerIndex] = false;
-            }
-        }
 
         //selected players
         const _playersList = [...playerList];
-        if (!!_selected.get(id)) {
+        const _selectedStarPowers = [...selectedStarPowers]; //starPower players
+
+        if (!_selected.get(id)) {
             const [_player] = _playersList?.filter(
                 player => player?.filter === selectedData?.cat && isEmpty(player.value)
             );
@@ -172,8 +146,13 @@ function NHLPowerdFs() {
                 player.playerId = data?.id;
                 player.isStarPower = data?.isStarPower;
                 _playersList[playerListIndex] = player;
-                setSelected(_selected);
-                setStarPowers(_selectedStarPowers);
+
+                _selected.set(id, !selected.get(id));
+                //Star Power Player selection (sidebar)
+                if (starPowerIndex < 3 && data?.isStarPower) {
+                    _selectedStarPowers[starPowerIndex] = true;
+                    starPowerIndex++;
+                }
             }
         } else {
             let existingPlayerIndex = _playersList?.findIndex(
@@ -181,14 +160,20 @@ function NHLPowerdFs() {
             );
 
             if (existingPlayerIndex !== -1) {
+                _selected.set(id, !selected.get(id));
+                if (starPowerIndex > 0 && _playersList[existingPlayerIndex].isStarPower) {
+                    starPowerIndex--;
+                    _selectedStarPowers[starPowerIndex] = false;
+                }
+
                 _playersList[existingPlayerIndex].value = '';
                 _playersList[existingPlayerIndex].playerId = '';
                 _playersList[existingPlayerIndex].isStarPower = false;
-                setSelected(_selected);
-                setStarPowers(_selectedStarPowers);
             }
         }
 
+        setSelected(_selected);
+        setStarPowers(_selectedStarPowers);
         setPlayerList(_playersList);
         activateFilter(data, cat);
     }, [selected, selectedFilter, selectedData]);
@@ -365,9 +350,6 @@ function NHLPowerdFs() {
                             </div>
                         </div>
                     </div>
-                    {
-                        console.log(selectedStarPowers)
-                    }
                     <div className={classes.sidebar_container}>
                         <Sidebar>
                             <CashPowerBalance />
