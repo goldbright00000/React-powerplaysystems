@@ -7,38 +7,22 @@ import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
 import PageHeader from '../../components/PageHeader'
-import ProgressBar from '../../components/Progress'
 import Footer from '../../components/Footer/Footer'
 import Alert from '../../components/Alert'
-import Reload from '../../icons/Reload'
-import BoltIcon from '../../assets/bolt.png'
-import PointsCollectedIcon from '../../assets/points-collected.png'
-import PowerPlaySideBarIcon from '../../assets/token.png'
-import PowerBalanceIcon from '../../assets/power_balance_icon.png'
 import CardsSvg from '../../icons/Cards'
 import Sidebar from '../../components/Sidebar'
-import SidebarButton from '../../components/SidebarButton'
-import SidebarLockItem from '../../components/SidebarLockItem'
-import Replace from '../../icons/Replace'
-import PlusMinus from '../../icons/PlusAndMinus'
-import NewCardLiteIcon from '../../assets/new_card_lite.png'
-import BoltLiteIcon from '../../assets/bolt_lite.png'
-import PlusMinusLiteIcon from '../../assets/plus_minus_lite.png'
-import LockIcon from '../../assets/lock.png'
-import FaceBookIcon from '../../assets/facebook_icon.png'
-import TwitterIcon from '../../assets/twitter_icon.png'
 import { CONSTANTS } from '../../utility/constants'
 import { IsAceCard, getRandomCard } from '../../utility/shared'
 import { setCardState, resetCardState, cardGameInventory } from '../../actions/cardGameAction'
-import Button from '../../components/Button'
-import Link from '../../components/Link'
-import ShareButton from '../../components/ShareButton'
-import PinnacleIcon from '../../assets/pinnacle.png'
 import classes from './cardGamePage.module.scss'
 import MyPowers from '../../components/MyPowers'
 import LockedPowers from '../../components/LockedPowers'
 import SharePowers from '../../components/SharePowers'
 import CashPowerBalance from '../../components/CashPowerBalance'
+
+import { slide as Menu } from 'react-burger-menu';
+import { useMediaQuery } from 'react-responsive';
+import HowDoIWinModal from '../../components/HowDoIWinModal'
 
 const TOTAL_ROUNDS = 5;
 const TOTAL_CARDS = 5;
@@ -67,6 +51,11 @@ function CardGame(props) {
     const [practiceModeEnabled, setPracticeModeEnabled] = useState(false);
     const [practiceGameBtnText, setPracticeGameBtnText] = useState('Try a Practice game');
     const [gotAceWithPower, setGotAceWithPower] = useState(false);
+    const [mobileSlideMenu, setMobileSlideMenu] = useState(false);
+    const [howDoIWinModal, setHowDoIWinModal] = useState(false);
+
+    const onOpenModal = () => setHowDoIWinModal(true);
+    const onCloseModal = () => setHowDoIWinModal(false);
 
     const dispatch = useDispatch();
     const { collectedAceCards = [],
@@ -74,6 +63,8 @@ function CardGame(props) {
     } = useSelector(state => state.cardGame)
 
     const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
+
+    const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
     
     useEffect(() => { 
         dispatch(resetCardState())
@@ -407,12 +398,68 @@ function CardGame(props) {
         return false
     }
 
+    const practiceGame = () => {
+        practiceGameBtnText == 'Try a Practice game' ? setPracticeGameBtnText('back to live-play mode') : setPracticeGameBtnText('Try a Practice game');
+        setPracticeModeEnabled(!practiceModeEnabled);
+        setMyPowers(!myPowers);
+        setUnlockOptions(!unLockOptions);
+        setStart(false);
+        setMobileSlideMenu(false);
+        resetGameState();
+        const resetInventory = {
+            replace: 5,
+            replaceAll: -1,
+            powerMatch: 5,
+            increaseOrDecrease: 5
+        };
+        dispatch(cardGameInventory(resetInventory));
+    }
+
+    const renderMobileSlideMenu = () => {
+        return (
+            <Menu 
+                right 
+                width={290} 
+                styles={{bmMenu: {backgroundColor: '#000000', marginTop: 68}, bmItem: {outline: 'none'}}} 
+                customBurgerIcon={false}
+                customCrossIcon={ false }
+                isOpen={mobileSlideMenu}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%'}}>
+                    <div style={{width: '90%', height: 50}} onClick={() => setMobileSlideMenu(false)}>
+                        <p style={{ textAlign: 'right', color: '#fb6e00', paddingTop: 30}}>X</p>
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 40, marginTop: 20, fontSize: 18}}>
+                        <p style={{ padding: 10}}>See Contest Rules</p>
+                        <p style={{ padding: 10}}
+                            onClick={() => {
+                                setMobileSlideMenu(false);
+                                onOpenModal();
+                        }}>How Do I Win?</p>
+                        <p 
+                            style={{ padding: 10}} 
+                            onClick={() => practiceGame()}>
+                            {practiceGameBtnText}
+                        </p>
+                    </div>
+                    <div style={{ display: 'flex', flex: 1, alignItems: 'flex-end', marginBottom: 30}}>
+                        <CashPowerBalance />
+                    </div>
+                </div>
+            </Menu>
+        );
+    };
+
     return (
         <>
             <Header/>
+            {
+                isMobile
+                &&
+                renderMobileSlideMenu()
+            }
             <div className={classes.__card_game_content}>
                 <div className={classes.__card_game_content_left}>
-                    <PageHeader title="Chase The Ace"/>
+                    <PageHeader title="Chase The Ace" onThreeDotsClick={() => setMobileSlideMenu(!mobileSlideMenu)} />
                     <div className={classes._card_game_content_top}>
                         <CardsSvg style={{display: 'flex', height: 'auto'}}/>
                         <p className={classes.__card_game_card_counter}>Card <span>{currentCard}</span> of {TOTAL_CARDS}
@@ -424,21 +471,7 @@ function CardGame(props) {
                         <div className={classes.__card_game_content_btns}>
                             <button 
                                 className={classes.__card_game_content_practice_btn} 
-                                onClick={() => {
-                                    practiceGameBtnText == 'Try a Practice game' ? setPracticeGameBtnText('back to live-play mode') : setPracticeGameBtnText('Try a Practice game');
-                                    setPracticeModeEnabled(!practiceModeEnabled);
-                                    setMyPowers(!myPowers);
-                                    setUnlockOptions(!unLockOptions);
-                                    setStart(false);
-                                    resetGameState();
-                                    const resetInventory = {
-                                        replace: 5,
-                                        replaceAll: -1,
-                                        powerMatch: 5,
-                                        increaseOrDecrease: 5
-                                    };
-                                    dispatch(cardGameInventory(resetInventory));
-                                }}>
+                                onClick={() => practiceGame()}>
                                 {practiceGameBtnText}
                             </button>
                         </div>
@@ -476,6 +509,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
+                                    width={isMobile && 66}
+                                    height={isMobile && 100}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -500,6 +535,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
+                                    width={isMobile && 66}
+                                    height={isMobile && 100}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -524,6 +561,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
+                                    width={isMobile && 66}
+                                    height={isMobile && 100}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -548,6 +587,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
+                                    width={isMobile && 66}
+                                    height={isMobile && 100}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -572,6 +613,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
+                                    width={isMobile && 66}
+                                    height={isMobile && 100}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -619,6 +662,7 @@ function CardGame(props) {
                                             onClick={() => {
                                                 setStart(false);
                                                 resetGameState();
+                                                time = MAX_ROUND_TIME;
                                                 const resetInventory = {
                                                     replace: 5,
                                                     replaceAll: -1,
@@ -635,7 +679,11 @@ function CardGame(props) {
                 </div>
 
                 <Sidebar>
-                    <CashPowerBalance />
+                        {
+                            !isMobile
+                            &&
+                            <CashPowerBalance />
+                        }
                     <div className={classes.__sidebar_my_powers_wrapper}>
                         <div className={classes.__sidebar_button_wrapper}>
                             {
@@ -673,7 +721,12 @@ function CardGame(props) {
                         </div>
                     </div>
                 </Sidebar>
-            </div>
+                {
+                    howDoIWinModal
+                    &&
+                    <HowDoIWinModal howDoIWinModal={howDoIWinModal} onCloseModal={onCloseModal} />
+                } 
+            </div>  
             <Footer isBlack/>
         </>
     )

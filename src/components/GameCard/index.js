@@ -11,6 +11,10 @@ import Cards from '../../icons/Cards/index'
 import classes from "./gameCard.module.scss"
 import ProgressBar from '../../components/Progress';
 import { render } from '@testing-library/react';
+import StartButton from '../StartButton';
+
+import { useMediaQuery } from 'react-responsive';
+
 
 function GameCard(props) {
 
@@ -59,6 +63,8 @@ function GameCard(props) {
         }
     }, [time])
 
+    const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+
     const toolTip = (id, tip) => {
         return (
             <ReactTooltip id={id} place="top" textColor="#fff" effect="solid">
@@ -75,12 +81,8 @@ function GameCard(props) {
     const renderStartButton = () => {
         return (
             <>
-                <p className={classes.__card_game_Next_card_drawn_in} style={{ width: 76}}>Click Start to Begin</p>
-                <div className={classes.__start_button_outer}>
-                    <div className={classes.__start_button} onClick={() => onStart()}>
-                        <p className={classes.__start_button_text}>Start</p>
-                    </div>
-                </div>
+                <p className={classes.__card_game_Next_card_drawn_in}>Click Start to Begin</p>
+                <StartButton onStart={() => onStart()} />
             </>
         );
     };
@@ -135,8 +137,8 @@ function GameCard(props) {
                                         <ProgressBar
                                             progress={time}
                                             maxProgress={5}
-                                            size={62}
-                                            strokeWidth={4}
+                                            size={isMobile ? 40 : 62}
+                                            strokeWidth={isMobile ? 2 : 4}
                                             circleOneStroke='grey'
                                             circleTwoStroke='#fff'
                                         />
@@ -158,7 +160,12 @@ function GameCard(props) {
             }
             {
                 showPopup && activeCard === card && time > 0 && !gotAceWithPower &&
-                <div className={classes.__game_card_popup_container}>
+                <div className={classes.__game_card_popup_container}
+                    style={{ 
+                        marginLeft: isMobile && cardIndex == 0 ? 50 : 0,
+                        marginRight: isMobile && cardIndex == 4 ? 50 : 0
+                    }}
+                >
                     <div className={classes.__game_card_popup}>
                         {
                             isCompleted ?
@@ -171,37 +178,64 @@ function GameCard(props) {
                                             !powerHandEnabled
                                             &&
                                             <>
-                                                {toolTip("newCard", "New Card")}
+                                                {toolTip("newCard", "Power Hit")}
                                                 {
                                                     showReplacePower && !hasReplaced &&
-                                                    <button className={classes.__btn__} onClick={() => {
-                                                        onReplace()
-                                                        _onReplace()
-                                                    }}
-                                                    data-tip data-for="newCard">
-                                                        <Replace style={{height: 'auto'}} size={39}/>
-                                                    </button>
+                                                    <div>
+                                                        <button className={classes.__btn__} onClick={() => {
+                                                            onReplace()
+                                                            _onReplace()
+                                                        }}
+                                                        data-tip data-for="newCard">
+                                                            <Replace style={{height: 'auto'}} size={isMobile ? 29 : 39}/>
+                                                        </button>
+                                                        {
+                                                            isMobile
+                                                            &&
+                                                            <span className={classes.__game_card_popup_power_label}>Power Hit</span>
+                                                        }
+                                                    </div>
                                                 }    
-                                                    {toolTip("powerMatch", "Power Match")}
+                                                    {toolTip("powerMatch", "Power Ace")}
                                                 {
                                                     showPowerMatchPower &&
-                                                    <button className={classes.__btn__} onClick={onPowerMatch} data-tip data-for="powerMatch">
-                                                        <img src={boltIcon} width={40} height={40}/>
-                                                    </button>
+                                                    <div>
+                                                        <button className={classes.__btn__} onClick={onPowerMatch} data-tip data-for="powerMatch">
+                                                            <img src={boltIcon} width={isMobile ? 29 : 39} height={isMobile ? 29 : 39}/>
+                                                        </button>
+                                                        {
+                                                            isMobile
+                                                            &&
+                                                            <span className={classes.__game_card_popup_power_label}>Power Ace</span>    
+                                                        }
+                                                    </div>
                                                 }
 
                                                 {
                                                     showIncrementOrDecrementPower &&
                                                     <>
                                                         {toolTip("powerUp", "Power Up")}
-                                                        <button className={classes.__btn__} data-tip data-for="powerUp">
-                                                            <Plus style={{height: 'auto'}} size={39} onClick={onIncrease}/>
-                                                        </button>
-
+                                                        <div>
+                                                            <button className={classes.__btn__} data-tip data-for="powerUp">
+                                                                <Plus style={{height: 'auto'}} size={isMobile ? 29 : 39} onClick={onIncrease}/>
+                                                            </button>
+                                                            {
+                                                                isMobile
+                                                                &&
+                                                                <span className={classes.__game_card_popup_power_label}>Power Up</span>
+                                                            }
+                                                        </div>
                                                         {toolTip("powerDown", "Power Down")}
-                                                        <button className={classes.__btn__} data-tip data-for="powerDown">
-                                                            <Minus style={{height: 'auto'}} size={39} onClick={onDecrease}/>
-                                                        </button>                                                        
+                                                        <div>
+                                                            <button className={classes.__btn__} data-tip data-for="powerDown">
+                                                                <Minus style={{height: 'auto'}} size={isMobile ? 29 : 39} onClick={onDecrease}/>
+                                                            </button>  
+                                                            {
+                                                                isMobile
+                                                                &&
+                                                                <span className={classes.__game_card_popup_power_label}>Power Down</span>  
+                                                            } 
+                                                        </div>                                                   
                                                     </>
                                                 }   
                                             </>

@@ -13,21 +13,23 @@ const LockedPowers = (props) => {
     return (
         <>
             <span className={classes.__sidebar_power_title}>Power <span className={classes.__sidebar_up_title}>- Up!</span></span>
-            <SidebarLockItem
-                title="x2"
-                lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                icon={<img src={NewCardLiteIcon} width={53} height={53} alt={''}/>}
-            />
-            <SidebarLockItem
-                title="x1"
-                lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                icon={<img src={BoltLiteIcon} width={53} height={53} alt={''}/>}
-            />
-            <SidebarLockItem
-                title="x4"
-                lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
-                icon={<img src={PlusMinusLiteIcon} width={53} height={53} alt={''}/>}
-            />
+            <div className={classes.__sidebar_lock_item}>
+                <SidebarLockItem
+                    title="x2"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={NewCardLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarLockItem
+                    title="x1"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={BoltLiteIcon} width={53} height={53} alt={''}/>}
+                />
+                <SidebarLockItem
+                    title="x4"
+                    lockIcon={<img src={LockIcon} width={53} height={53} alt={''}/>}
+                    icon={<img src={PlusMinusLiteIcon} width={53} height={53} alt={''}/>}
+                />
+            </div>
             <p className={classes.__sidebar_purchase_powers_text}>Purchase Powers</p>
             <p className={classes.__sidebar_to_power_up}>to Power-up</p>
             <p className={classes.__sidebar_purchase_powers_text}>your game!</p>
