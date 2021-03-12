@@ -9,6 +9,7 @@ import Tick2 from '../../icons/Tick2';
 import DeleteIcon from '../../assets/delete.png';
 import PowerPlayIcon from '../../assets/token.png';
 import ForwardArrow from '../../icons/ForwardArrow';
+import AidIcon from '../../icons/AidIcon';
 
 function SportsSelectionCard(props) {
     const [currentStep, setCurrentStep] = useState(0);
@@ -27,6 +28,7 @@ function SportsSelectionCard(props) {
         steps = [],
         onSelectDeselect = () => { },
         disabled = false,
+        injured = false,
     } = props || {};
 
     const nextStep = () => {
@@ -48,6 +50,13 @@ function SportsSelectionCard(props) {
             }
             <div className={classes.container_body_card_header}>
                 <p className={`${classes.container_selected_p} ${isSelected ? classes.active : ''}`}>{title}</p>
+                {
+                    injured &&
+                    <div className={classes.injured}>
+                        <AidIcon />
+                        <span>Injured</span>
+                    </div>
+                }
                 {
                     !isSelected ?
                         <button onClick={() => onSelectDeselect(id)} className={disabled && classes.disabled} disabled={disabled}> + Select</button>
@@ -178,6 +187,7 @@ SportsSelectionCard.propTypes = {
     isStarPower: PropTypes.bool,
     disabled: PropTypes.bool,
     steps: PropTypes.array,
+    injured: PropTypes.bool,
     onSelectDeselect: PropTypes.func,
 }
 

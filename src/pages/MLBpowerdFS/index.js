@@ -20,120 +20,93 @@ import SportsSidebarContent from '../../components/SportsSidebarContent';
 import SelectionCard from '../../components/SportsSelectionCard';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
-import CheckIcon from '../../icons/Check'
-
-const dummyData = [
-    {
-        id: 1,
-        title: 'Chris Carpenter',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-        isStartPower: true,
-    },
-    {
-        id: 2,
-        title: 'Chris Carpenter',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-        isStartPower: true,
-    },
-    {
-        id: 3,
-        title: 'Chris Carpenter',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-        isStartPower: true
-    },
-    {
-        id: 4,
-        title: 'Chris Carpenter',
-        avgVal: 4,
-        teamA: 'Arizona Diamondbacks',
-        teamB: 'Baltimore Orioles',
-        time: '01:10 PM',
-        date: '2020-09-28',
-        stadium: 'Empower Field',
-    },
-]
+import CheckIcon from '../../icons/Check';
+import SelectionCard2 from '../../components/SportsSelectionCard2';
+import { dummyData } from './dummyData';
+import { CONSTANTS } from '../../utility/constants';
 
 const INITIAL_PLAYER_LIST = [
     {
-        title: 'sp',
+        title: 'C1',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.CENTER,
+        playerId: '',
     },
     {
-        title: 'IF',
+        title: 'C2',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.CENTER,
+        playerId: '',
     },
     {
-        title: 'if',
+        title: 'LW',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.LW,
+        playerId: '',
     },
     {
-        title: 'of',
+        title: 'RW',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.RW,
+        playerId: '',
     },
     {
-        title: 'of',
+        title: 'D1',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.D,
+        playerId: '',
     },
     {
-        title: 'DH',
+        title: 'D2',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.D,
+        playerId: '',
     },
     {
-        title: 'RP',
+        title: 'G',
         value: '',
+        filter: CONSTANTS.FILTERS.NHL.G,
+        playerId: '',
     },
     {
-        title: 'D',
+        title: 'TD',
         value: '',
         icon: EmployeeIcon,
+        filter: CONSTANTS.FILTERS.NHL.TD,
+        playerId: '',
     },
 ]
 
-const selectionHeader = [
+const FILTERS_INITIAL_VALUES = [
     {
         id: 1,
-        title: 'sp',
+        title: CONSTANTS.FILTERS.NHL.CENTER,
         remaining: 2,
     },
     {
         id: 2,
-        title: 'if',
-        remaining: 2,
+        title: CONSTANTS.FILTERS.NHL.LW,
+        remaining: 1,
     },
     {
         id: 3,
-        title: 'of',
-        remaining: 2,
+        title: CONSTANTS.FILTERS.NHL.RW,
+        remaining: 1,
     },
     {
         id: 4,
-        title: 'dh',
+        title: CONSTANTS.FILTERS.NHL.D,
         remaining: 2,
     },
     {
         id: 5,
-        title: 'rp',
-        remaining: 2,
+        title: CONSTANTS.FILTERS.NHL.G,
+        remaining: 1,
     },
     {
         id: 6,
-        title: 'd',
-        remaining: 2,
+        title: CONSTANTS.FILTERS.NHL.TD,
+        remaining: 1,
     },
 ]
 
@@ -142,53 +115,126 @@ let starPowerIndex = 0;
 function MLBPowerdFs() {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
     const [selected, setSelected] = useState(new Map());
-    const [selectedFilter, setSelectedFilter] = useState({});
-    const [selectedStarPowers, setStartPowers] = useState([false, false, false]);
+    const [selectedFilter, setSelectedFilter] = useState(FILTERS_INITIAL_VALUES[0]);
+    const [selectedStarPowers, setStarPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
+    const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
+    const [selectedData, setSelectedData] = useState(dummyData[0]);
+    const [search, setSearch] = useState('');
+    const [filterdData, setFilterdData] = useState(dummyData[0]);
 
     const onSelectDeselect = useCallback((id) => {
+        const _data = dummyData?.filter(d => d?.data?.find(c => c?.id === id));
+        const { cat = '', data: _selectedData = [] } = _data?.[0] || [];
+
+        const [data] = _selectedData?.filter(d => d?.id === id);
         const _selected = new Map(selected);
-        _selected.set(id, !selected.get(id));
-
-        const _data = dummyData?.filter(d => d?.id === id);
-
-        //star powers
-        const [starPower] = _data?.filter(filter => filter?.isStartPower);
-        const _selectedStarPowers = [...selectedStarPowers];
-        if (starPower) {
-            if (!!_selected.get(id)) {
-                _selectedStarPowers[starPowerIndex] = true;
-                if (starPowerIndex < 3) {
-                    starPowerIndex++;
-                }
-            } else {
-                if (starPowerIndex > 0) {
-                    starPowerIndex--;
-                }
-                _selectedStarPowers[starPowerIndex] = false;
-            }
-        }
 
         //selected players
         const _playersList = [...playerList];
-        if (!!_selected.get(id)) {
-            let emptyPlayerIndex = _playersList?.findIndex(player => isEmpty(player?.value));
-            _playersList[emptyPlayerIndex].value = _data[0]?.title;
+        const _selectedStarPowers = [...selectedStarPowers]; //starPower players
+
+        if (!_selected.get(id)) {
+            const [_player] = _playersList?.filter(
+                player => player?.filter === selectedData?.cat && isEmpty(player.value)
+            );
+            if (!isEmpty(_player) && isEmpty(_player.value)) {
+                const playerListIndex = _playersList?.findIndex(
+                    player => player?.filter === selectedData?.cat && isEmpty(player)
+                );
+                let player = _player;
+                player.value = data?.title;
+                player.playerId = data?.id;
+                player.isStarPower = data?.isStarPower;
+                _playersList[playerListIndex] = player;
+
+                _selected.set(id, !selected.get(id));
+                //Star Power Player selection (sidebar)
+                if (starPowerIndex < 3 && data?.isStarPower) {
+                    _selectedStarPowers[starPowerIndex] = true;
+                    starPowerIndex++;
+                }
+            }
         } else {
-            let existingPlayerIndex = _playersList?.findIndex(player => isEqual(player?.value, _data[0]?.title));
-            _playersList[existingPlayerIndex].value = '';
+            let existingPlayerIndex = _playersList?.findIndex(
+                player => isEqual(player?.playerId, data?.id)
+            );
+
+            if (existingPlayerIndex !== -1) {
+                _selected.set(id, !selected.get(id));
+                if (starPowerIndex > 0 && _playersList[existingPlayerIndex].isStarPower) {
+                    starPowerIndex--;
+                    _selectedStarPowers[starPowerIndex] = false;
+                }
+
+                _playersList[existingPlayerIndex].value = '';
+                _playersList[existingPlayerIndex].playerId = '';
+                _playersList[existingPlayerIndex].isStarPower = false;
+            }
         }
 
         setSelected(_selected);
-        setStartPowers(_selectedStarPowers);
+        setStarPowers(_selectedStarPowers);
         setPlayerList(_playersList);
-
-    }, [selected]);
+        activateFilter(data, cat);
+    }, [selected, selectedFilter, selectedData]);
 
     const onSelectFilter = useCallback(id => {
-        const [_selectedFilter] = selectionHeader?.filter(filter => filter.id === id);
+        const [_selectedFilter] = filters?.filter(filter => filter.id === id);
+        const [_selectedData] = dummyData?.filter((data) => data?.cat === _selectedFilter?.title);
+
+        setSelectedData(_selectedData);
         setSelectedFilter(_selectedFilter);
+        setFilterdData(_selectedData);
     }, [selectedFilter]);
+
+    const activateFilter = (player, category) => {
+        const [_selectedFilter] = filters?.filter(filter => filter?.title === category);
+        const filter = _selectedFilter;
+        let _remaining = filter?.remaining;
+        if (_remaining > 0) {
+            if (!!!selected.get(player?.id))
+                _remaining -= 1;
+            else if (_remaining < 2)
+                _remaining += 1;
+            if (_remaining <= 0) {
+                _remaining = 0;
+                setSelectedFilter(filter);
+            }
+        } else if (!!selected.get(player?.id) && _remaining < 2) {
+            _remaining++;
+        } else {
+            setSelectedFilter(_selectedFilter);
+        }
+
+        filter.remaining = _remaining;
+        const filterIndex = filters?.findIndex((filter) => filter?.id === _selectedFilter?.id);
+        const _filters = [...filters];
+        _filters[filterIndex] = filter;
+        setFilters(_filters);
+    }
+
+    const onDelete = (playerId) => {
+        onSelectDeselect(playerId);
+    }
+
+    const onSearch = (e) => {
+        const { value } = e.target;
+        if (!isEmpty(value)) {
+            const _filterdData = selectedData?.data?.filter(data =>
+                data?.title?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+            );
+            const _filterdDataObj = {
+                cat: selectedData?.cat,
+                data: _filterdData
+            }
+            setFilterdData(_filterdDataObj);
+        } else {
+            setFilterdData(selectedData);
+        }
+
+        setSearch(value)
+    }
 
     return (
         <>
@@ -214,19 +260,38 @@ function MLBPowerdFs() {
                         <div className={classes.container_top}>
                             <p>Select Position</p>
                             <div className={classes.container_top_1}>
-                                <SportsFilters data={selectionHeader} onSelect={onSelectFilter} activeFilter={selectedFilter} />
+                                <SportsFilters
+                                    data={filters}
+                                    onSelect={onSelectFilter}
+                                    // activeFilter={selectedFilter}
+                                    selectedFilter={selectedFilter}
+                                />
 
                                 <form className={classes.search_form}>
                                     <span>
                                         <SearchIcon />
-                                        <input placeholder="Search by Player name ..." name="playerSearch" required />
+                                        <input
+                                            value={search}
+                                            placeholder="Search by Player name ..."
+                                            name="playerSearch" required
+                                            onChange={onSearch}
+                                        />
                                     </span>
 
-                                    <div className={classes.search_dropdown} onClick={() => setTeamSelectionState(!showTeamSelection)}>
-                                        All Team <span className={`${classes.arrow} ${showTeamSelection ? classes.up : classes.down}`} />
+                                    <div
+                                        className={classes.search_dropdown}
+                                        onClick={() => setTeamSelectionState(!showTeamSelection)}
+                                    >
+                                        All Team <span
+                                            className={`${classes.arrow} 
+                                            ${showTeamSelection ? classes.up : classes.down}`}
+                                        />
                                         {
                                             showTeamSelection &&
-                                            <div className={classes.search_dropdown_menu} onMouseLeave={() => setTeamSelectionState(false)}>
+                                            <div
+                                                className={classes.search_dropdown_menu}
+                                                onMouseLeave={() => setTeamSelectionState(false)}
+                                            >
                                                 <span>Team A</span>
                                                 <span className={classes.active}>Team A</span>
                                                 <span>Team A</span>
@@ -241,20 +306,48 @@ function MLBPowerdFs() {
                         <div className={classes.container_body}>
                             <Card>
                                 {
-                                    dummyData.map((item, index) => <SelectionCard
-                                        title={item.title}
-                                        avgVal={item.avgVal}
-                                        teamA={item.teamA}
-                                        teamB={item.teamB}
-                                        time={item.time}
-                                        date={item.date}
-                                        stadium={item.stadium}
-                                        isSelected={!!selected.get(item.id)}
-                                        key={item.id}
-                                        onSelectDeselect={onSelectDeselect}
-                                        id={item.id}
-                                        isStartPower={item.isStartPower && item.isStartPower}
-                                    />)
+                                    (filterdData && filterdData?.data?.length) ?
+                                        filterdData?.data?.map((item, index) => (
+                                            selectedFilter?.title === CONSTANTS.FILTERS.NHL.TD
+                                                ?
+                                                <SelectionCard2
+                                                    title={item.title}
+                                                    avgVal={item.avgVal}
+                                                    teamA={item.teamA}
+                                                    teamB={item.teamB}
+                                                    time={item.time}
+                                                    date={item.date}
+                                                    stadium={item.stadium}
+                                                    isSelected={!!selected.get(item.id)}
+                                                    key={item.id}
+                                                    onSelectDeselect={onSelectDeselect}
+                                                    id={item.id}
+                                                    steps={item?.steps && item?.steps}
+                                                    isStarPower={item.isStarPower && item.isStarPower}
+                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                />
+                                                :
+                                                <SelectionCard
+                                                    title={item.title}
+                                                    avgVal={item.avgVal}
+                                                    teamA={item.teamA}
+                                                    teamB={item.teamB}
+                                                    time={item.time}
+                                                    date={item.date}
+                                                    stadium={item.stadium}
+                                                    isSelected={!!selected.get(item.id)}
+                                                    key={item.id}
+                                                    onSelectDeselect={onSelectDeselect}
+                                                    id={item.id}
+                                                    steps={item?.steps && item?.steps}
+                                                    isStarPower={item.isStarPower && item.isStarPower}
+                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                    injured={item?.injured}
+                                                />
+                                        )
+                                        )
+                                        :
+                                        <>No Data</>
                                 }
                             </Card>
                         </div>
@@ -300,11 +393,19 @@ function MLBPowerdFs() {
                                 </div>
                                 <div className={classes.sidebar_circles}>
                                     {
-                                        selectedStarPowers?.map((isSelected, index) => isSelected ? <CheckIcon /> : <Circle key={index.toString()} />)
+                                        selectedStarPowers?.map((isSelected, index) =>
+                                            isSelected ?
+                                                <CheckIcon />
+                                                :
+                                                <Circle key={index.toString()} />
+                                        )
                                     }
                                 </div>
                             </div>
-                            <SportsSidebarContent data={playerList} onDelete={() => { console.log('Delete') }} />
+                            <SportsSidebarContent
+                                data={playerList}
+                                onDelete={(playerId) => onDelete(playerId)}
+                            />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>

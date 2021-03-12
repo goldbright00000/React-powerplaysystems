@@ -278,11 +278,20 @@ function NHLPowerdFs() {
                                         />
                                     </span>
 
-                                    <div className={classes.search_dropdown} onClick={() => setTeamSelectionState(!showTeamSelection)}>
-                                        All Teams <span className={`${classes.arrow} ${showTeamSelection ? classes.up : classes.down}`} />
+                                    <div
+                                        className={classes.search_dropdown}
+                                        onClick={() => setTeamSelectionState(!showTeamSelection)}
+                                    >
+                                        All Teams <span
+                                            className={`${classes.arrow} 
+                                            ${showTeamSelection ? classes.up : classes.down}`}
+                                        />
                                         {
                                             showTeamSelection &&
-                                            <div className={classes.search_dropdown_menu} onMouseLeave={() => setTeamSelectionState(false)}>
+                                            <div
+                                                className={classes.search_dropdown_menu}
+                                                onMouseLeave={() => setTeamSelectionState(false)}
+                                            >
                                                 <span>Team A</span>
                                                 <span className={classes.active}>Team A</span>
                                                 <span>Team A</span>
@@ -333,6 +342,7 @@ function NHLPowerdFs() {
                                                     steps={item?.steps && item?.steps}
                                                     isStarPower={item.isStarPower && item.isStarPower}
                                                     disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                    injured={item?.injured}
                                                 />
                                         )
                                     )
@@ -391,7 +401,10 @@ function NHLPowerdFs() {
                                     }
                                 </div>
                             </div>
-                            <SportsSidebarContent data={playerList} onDelete={(playerId) => onDelete(playerId)} />
+                            <SportsSidebarContent
+                                data={playerList}
+                                onDelete={(playerId) => onDelete(playerId)}
+                            />
                             <button className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>

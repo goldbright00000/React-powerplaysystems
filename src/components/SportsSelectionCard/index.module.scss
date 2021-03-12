@@ -28,6 +28,20 @@
 			}
 		}
 
+		.injured {
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+			transform: translate(-25px, 0);
+
+			span {
+				color: $danger2;
+				margin: 0 5px;
+				font-size: 14px;
+				font-weight: 500;
+			}
+		}
+
 		button {
 			background-color: $lightBlack6;
 			border: none;
