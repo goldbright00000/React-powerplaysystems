@@ -64,6 +64,8 @@ function GameCard(props) {
     }, [time])
 
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
 
     const toolTip = (id, tip) => {
         return (
@@ -85,6 +87,73 @@ function GameCard(props) {
                 <StartButton onStart={() => onStart()} />
             </>
         );
+    };
+
+    // Get progress bar size on screen size
+    const getProgressBarSize = () => {
+        if (isMobile) {
+            return 40;
+        } else if (isTablet) {
+            return 55;
+        } else if (isBigScreenTablet) {
+            return 60;
+        } else {
+            return 62;
+        }
+    };
+
+    // Get progress bar stroke width
+    const getProgressBarStrokeWidth = () => {
+        if (isMobile) {
+            return 2;
+        } else if (isTablet) {
+            return 3;
+        } else {
+            return 4;
+        }
+    };
+
+    // Get powers pop up margin left
+    const getPowersPopUpMarginLeft = () => {
+        if (cardIndex == 0) {
+            if (isMobile) {
+                return 50;
+            } else if (isTablet) {
+                return 80;
+            } else if (isBigScreenTablet) { 
+                return 90;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    };
+
+    // Get powers pop up margin right
+    const getPowersPopUpMarginRight = () => {
+        if (cardIndex == 4) {
+            if (isMobile) {
+                return 50;
+            } else if (isTablet) {
+                return 80;
+            } else {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    };
+
+    // Get power icon size
+    const getPowerIconSize = () => {
+        if (isMobile) {
+            return 29;
+        } else if (isTablet) {
+            return 34;
+        } else {
+            return 39;
+        }
     };
 
     return (
@@ -137,8 +206,8 @@ function GameCard(props) {
                                         <ProgressBar
                                             progress={time}
                                             maxProgress={5}
-                                            size={isMobile ? 40 : 62}
-                                            strokeWidth={isMobile ? 2 : 4}
+                                            size={getProgressBarSize()}
+                                            strokeWidth={getProgressBarStrokeWidth()}
                                             circleOneStroke='grey'
                                             circleTwoStroke='#fff'
                                         />
@@ -162,8 +231,8 @@ function GameCard(props) {
                 showPopup && activeCard === card && time > 0 && !gotAceWithPower &&
                 <div className={classes.__game_card_popup_container}
                     style={{ 
-                        marginLeft: isMobile && cardIndex == 0 ? 50 : 0,
-                        marginRight: isMobile && cardIndex == 4 ? 50 : 0
+                        marginLeft: !isCompleted ? getPowersPopUpMarginLeft() : 0,
+                        marginRight: !isCompleted ? getPowersPopUpMarginRight() : 0
                     }}
                 >
                     <div className={classes.__game_card_popup}>
@@ -187,10 +256,10 @@ function GameCard(props) {
                                                             _onReplace()
                                                         }}
                                                         data-tip data-for="newCard">
-                                                            <Replace style={{height: 'auto'}} size={isMobile ? 29 : 39}/>
+                                                            <Replace style={{height: 'auto'}} size={getPowerIconSize()}/>
                                                         </button>
                                                         {
-                                                            isMobile
+                                                            (isMobile || isTablet)
                                                             &&
                                                             <span className={classes.__game_card_popup_power_label}>Power Hit</span>
                                                         }
@@ -201,10 +270,10 @@ function GameCard(props) {
                                                     showPowerMatchPower &&
                                                     <div>
                                                         <button className={classes.__btn__} onClick={onPowerMatch} data-tip data-for="powerMatch">
-                                                            <img src={boltIcon} width={isMobile ? 29 : 39} height={isMobile ? 29 : 39}/>
+                                                            <img src={boltIcon} width={getPowerIconSize()} height={getPowerIconSize()}/>
                                                         </button>
                                                         {
-                                                            isMobile
+                                                            (isMobile || isTablet)
                                                             &&
                                                             <span className={classes.__game_card_popup_power_label}>Power Ace</span>    
                                                         }
@@ -217,10 +286,10 @@ function GameCard(props) {
                                                         {toolTip("powerUp", "Power Up")}
                                                         <div>
                                                             <button className={classes.__btn__} data-tip data-for="powerUp">
-                                                                <Plus style={{height: 'auto'}} size={isMobile ? 29 : 39} onClick={onIncrease}/>
+                                                                <Plus style={{height: 'auto'}} size={getPowerIconSize()} onClick={onIncrease}/>
                                                             </button>
                                                             {
-                                                                isMobile
+                                                                (isMobile || isTablet)
                                                                 &&
                                                                 <span className={classes.__game_card_popup_power_label}>Power Up</span>
                                                             }
@@ -228,10 +297,10 @@ function GameCard(props) {
                                                         {toolTip("powerDown", "Power Down")}
                                                         <div>
                                                             <button className={classes.__btn__} data-tip data-for="powerDown">
-                                                                <Minus style={{height: 'auto'}} size={isMobile ? 29 : 39} onClick={onDecrease}/>
+                                                                <Minus style={{height: 'auto'}} size={getPowerIconSize()} onClick={onDecrease}/>
                                                             </button>  
                                                             {
-                                                                isMobile
+                                                                (isMobile || isTablet)
                                                                 &&
                                                                 <span className={classes.__game_card_popup_power_label}>Power Down</span>  
                                                             } 

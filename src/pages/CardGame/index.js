@@ -65,6 +65,8 @@ function CardGame(props) {
     const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
 
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
     
     useEffect(() => { 
         dispatch(resetCardState())
@@ -415,11 +417,41 @@ function CardGame(props) {
         dispatch(cardGameInventory(resetInventory));
     }
 
+    const getCardWidth = () => {
+        if (isMobile) {
+            return 66;
+        } else if (isTablet) {
+            return 100;
+        } else if (isBigScreenTablet) {
+            return 134;
+        }
+    }
+
+    const getCardHeight = () => {
+        if (isMobile) {
+            return 100;
+        } else if (isTablet) {
+            return 134;
+        } else if (isBigScreenTablet) {
+            return 168;
+        }
+    }
+
+    const getSlideMenuWidth = () => {
+        if (isMobile) {
+            return 300;
+        } else if (isTablet) {
+            return 400;
+        } else {
+            return 500;
+        }
+    };
+
     const renderMobileSlideMenu = () => {
         return (
             <Menu 
                 right 
-                width={290} 
+                width={getSlideMenuWidth()} 
                 styles={{bmMenu: {backgroundColor: '#000000', marginTop: 68}, bmItem: {outline: 'none'}}} 
                 customBurgerIcon={false}
                 customCrossIcon={ false }
@@ -453,7 +485,7 @@ function CardGame(props) {
         <>
             <Header/>
             {
-                isMobile
+                (isMobile || isTablet || isBigScreenTablet)
                 &&
                 renderMobileSlideMenu()
             }
@@ -509,8 +541,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -535,8 +567,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -561,8 +593,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -587,8 +619,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -613,8 +645,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -680,7 +712,7 @@ function CardGame(props) {
 
                 <Sidebar>
                         {
-                            !isMobile
+                            !isMobile || !isTablet || !isBigScreenTablet
                             &&
                             <CashPowerBalance />
                         }
