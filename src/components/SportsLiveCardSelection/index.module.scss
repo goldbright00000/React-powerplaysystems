@@ -1,0 +1,359 @@
+@import '../../scss/colors.scss';
+
+.container_body_card {
+	border-radius: 5px;
+	width: 236px;
+	margin: 15px 7px;
+
+	.container_card_body_top {
+		display: flex;
+		align-items: center;
+		padding: 5px 10px;
+		font-size: 12px;
+		font-weight: 600;
+		color: $grey;
+
+		svg {
+			margin-right: 8px;
+		}
+	}
+
+	.container_card_header {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		flex: 1;
+
+		.container_card_header_left {
+			display: flex;
+			flex-direction: column;
+			width: 100px;
+			font-size: 23px;
+			text-transform: capitalize;
+			font-weight: bold;
+
+			span {
+				width: 28px;
+				height: 5px;
+				background-color: $primary;
+				border-radius: 8px;
+			}
+		}
+
+		.container_card_header_right {
+			width: 160px;
+			font-weight: normal;
+			opacity: 0.6;
+			text-align: right;
+			
+			p {
+				padding: 0;
+				margin: 0;
+				font-size: 12px;
+
+				span {
+					font-weight: bold;
+					font-size: 12px;
+				}
+			}
+		}
+	}
+
+	.container_card_title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 0 0 0 10px;
+
+		.card_title_left {
+			display: flex;
+			padding: 0;
+			margin: 0;
+			
+			img {
+				width: 24px;
+				padding: 0;
+				margin: 0 6px 0 0;
+			}
+
+			.container_selected_p {
+				font-size: 16px;
+				padding: 0;
+				margin: 0;
+				color: $white;
+				font-family: Poppins;
+				font-weight: 600;
+	
+				&.active {
+					color: $primary;
+					border-bottom-color: $primary;
+				}
+			}
+		}
+
+		.card_title_right {
+			display: flex;
+			transform: translate(-10px, 0px);
+		}
+	}
+
+	.container_card_body {
+		display: flex;
+		flex-direction: column;
+		background-color: $lightBlack;
+		box-shadow: 0 2px 24px 0 $lightBlack8;
+		width: 100%;
+		height: 284px;
+		border-radius: 8px;
+		padding: 0;
+		margin: 0;
+	}
+
+	p {
+		font-size: 14px;
+		margin-top: 15px;
+
+		span {
+			font-weight: 600;
+			font-size: 20px;
+		}
+
+		.teamA {
+			font-size: 14px;
+		}
+	}
+
+	.card_state_main_container {
+		display: flex;
+		flex-direction: row;
+		font-family: Poppins;
+		padding: 0 10px;
+		flex: 1;
+		position: relative;
+
+		.states_points {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+			align-items: center;
+			justify-content: flex-start;
+			
+			&.space_between {
+				justify-content: space-between;
+				align-items: center;
+			}
+
+			svg {
+				margin: 35px 0 0 0;
+			}
+
+			.state_points_bg {
+				width: 100%;
+				background-color: $lightBlack6;
+				padding: 2px 8px;
+				border-radius: 6px;
+			}
+
+			.states_points_top {
+				display: flex;
+				flex-direction: row;
+				width: 100%;
+				align-items: center;
+				justify-content: flex-start;
+
+				.states_points_left {
+					width: 115px;
+					margin: 0 8px 0 0;
+					
+					>div {
+						@extend .state_points_bg;
+	
+						span {
+							color: $grey2;
+							opacity: 1;
+							font-size: 12px;
+							font-weight: 600;
+						}
+					}
+				}
+	
+				.states_points_right {
+					width: 50px;
+					display: flex;
+					flex-direction: column;
+					margin: 0 10px 0 0;
+					
+					>div {
+						@extend .state_points_bg;
+	
+						height: 45px;
+						display: inherit;
+						justify-content: flex-start;
+						align-items: center;
+	
+						span {
+							color: $grey2;
+							opacity: 1;
+							font-size: 16px;
+							font-weight: 600;
+						}
+					}
+				}
+			}
+
+			.states_points_center {
+				display: flex;
+				flex-direction: column;
+				flex: .95;
+				justify-content: space-between;
+				align-items: center;
+				margin: 10px 0 0 0;
+				
+				p {
+					margin: 0;
+					padding: 0;
+					text-transform: capitalize;
+					font-size: 12px;
+					font-weight: bold;
+					border-radius: 6px;
+				}
+
+				.bg_p {
+					background-color: $primaryLight5;
+				}
+
+				.bg_s {
+					display: flex;
+					flex-direction: row;
+					justify-content: center;
+					background-color: $successLight;
+				}
+
+				.bg_n {
+					background-color: $lightGrey5;
+				}
+
+				>div {
+					display: flex;
+					flex-direction: column;
+					text-align: center;
+					justify-content: center;
+
+					.p_1 {
+						padding: 3px 8px;
+					}
+
+					.p_2 {
+						font-size: 14px;
+						font-weight: normal;
+						margin: 22px 0 0 0;
+					}
+				}
+			}
+		}
+
+		.card_footer_arrow {
+			transform: translate(-10px, -7px);
+			position: absolute;
+			flex-grow: 1;
+			width: 100%;
+			height: 100%;
+			justify-content: flex-end;
+			align-items: flex-end;
+			display: flex;
+			pointer-events: none;
+			
+			.card_arrow {
+				cursor: pointer;
+				pointer-events: painted;
+				transform: translate(-10px, 4px);
+			}
+		}
+
+		.points_summary {
+			display: flex;
+			flex-direction: column;
+			flex: 1;
+			margin: 0 auto;
+			font-size: 12px;
+			font-weight: bold;
+
+			.points_summary_title{
+				margin: 0;
+				padding: 0;
+				color: $grey;
+			}
+
+			.points_summary_1 {
+				display: flex;
+				flex-direction: column;
+				margin: 14px 0 0 0;
+
+				.points_summary_h {
+					display: flex;
+					flex-direction: row;
+					justify-content: space-between;
+					font-weight: 600;
+
+					span {
+						display: flex;
+						flex: 1;
+						justify-content: center;
+						align-items: center;
+					}
+				}
+
+				.points_summary_b {
+					display: flex;
+					flex-direction: column;
+					font-weight: 600;
+					margin: 6px 0 0 0;
+
+					>div {
+						display: flex;
+						flex-direction: row;
+						justify-content: space-between;
+						color: $grey;
+
+						span {
+							display: flex;
+							flex: 1;
+							justify-content: center;
+							align-items: center;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.divider {
+		border: 0.4px solid $divider;
+		opacity: 0.1;
+		padding: 0;
+		margin: 10px auto;
+		width: 100%;
+	}
+
+	.container_body_card_start_power {
+		border-radius: 6px;
+		background-image: linear-gradient(110deg, #fda700, #fb6e00 72%);
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		width: 100px;
+		height: 22px;
+		padding: 5px;
+		font-size: 14px;
+		color: $darkblack;
+		position: absolute;
+		font-family: Teko;
+		transform: translate(0, -25px);
+
+		img {
+			width: 20px;
+			height: 20px;
+			margin-right: 5px;
+		}
+	}
+}

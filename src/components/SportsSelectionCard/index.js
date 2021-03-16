@@ -33,7 +33,7 @@ function SportsSelectionCard(props) {
 
     const nextStep = () => {
         let _currentStep = currentStep;
-        if (currentStep < 2) {
+        if (currentStep < steps?.length - 1) {
             _currentStep++;
         } else {
             _currentStep = 0;

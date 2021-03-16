@@ -68,6 +68,14 @@ export const CONSTANTS = {
             D: 'd',
             G: 'g',
             TD: 'td',
+        },
+        MLB: {
+            SP: 'sp',
+            IF: 'if',
+            OF: 'of',
+            DH: 'dh',
+            RP: 'rp',
+            D: 'd',
         }
     }
 }

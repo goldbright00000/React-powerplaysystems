@@ -1,8 +1,11 @@
 import AdImg from '../../assets/img.jpg';
+import { CONSTANTS } from '../../utility/constants';
+
+const { SP, IF, OF, D, RP, DH } = CONSTANTS.FILTERS.MLB;
 
 export const dummyData = [
     {
-        cat: 'c',
+        cat: SP,
         data: [
             {
                 id: 1,
@@ -16,23 +19,23 @@ export const dummyData = [
                 injured: true,
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [21, 18, 13, 31, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 17, 39, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             }
                         ]
                     },
@@ -55,23 +58,23 @@ export const dummyData = [
                 isStarPower: true,
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [21, 18, 13, 31, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 17, 39, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             }
                         ]
                     },
@@ -93,23 +96,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [21, 18, 13, 31, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 17, 39, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             }
                         ]
                     },
@@ -133,7 +136,7 @@ export const dummyData = [
         ]
     },
     {
-        cat: 'lw',
+        cat: IF,
         data: [
             {
                 id: 11,
@@ -146,23 +149,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -185,23 +188,23 @@ export const dummyData = [
                 isStarPower: true,
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -223,23 +226,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -263,7 +266,7 @@ export const dummyData = [
         ]
     },
     {
-        cat: 'rw',
+        cat: OF,
         data: [
             {
                 id: 55,
@@ -276,23 +279,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -315,23 +318,23 @@ export const dummyData = [
                 isStarPower: true,
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -353,23 +356,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -393,7 +396,7 @@ export const dummyData = [
         ]
     },
     {
-        cat: 'd',
+        cat: DH,
         data: [
             {
                 id: 70,
@@ -406,23 +409,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -445,23 +448,23 @@ export const dummyData = [
                 isStarPower: true,
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -483,23 +486,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
-                        step: [21, 18, 13, 31, 20.0]
+                        titles: ['avg', 'hr', 'rbi', 'fppg'],
+                        step: [21, 18, 13, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['gp', 'g', 'a', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 14.8],
                             }
                         ]
                     },
@@ -523,7 +526,7 @@ export const dummyData = [
         ]
     },
     {
-        cat: 'g',
+        cat: RP,
         data: [
             {
                 id: 74,
@@ -536,23 +539,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [21, 18, 13, 31, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 39, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             }
                         ]
                     },
@@ -575,23 +578,23 @@ export const dummyData = [
                 isStarPower: true,
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [21, 18, 13, 31, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 39, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             }
                         ]
                     },
@@ -613,23 +616,23 @@ export const dummyData = [
                 stadium: 'Empower Field',
                 steps: [
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [21, 18, 13, 31, 20.0]
                     },
                     {
-                        titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                        titles: ['ERA', 'W-L', 'k', 'whip', 'fppg'],
                         step: [
                             {
                                 title: 'last game',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             },
                             {
                                 title: 'last 10 games',
-                                values: [10, 8, 9, 17, 39, 18.8],
+                                values: [10, 8, 9, 39, 18.8],
                             },
                             {
                                 title: '2020-2021',
-                                values: [1, 0, 0, 0, 7, 14.8],
+                                values: [1, 0, 0, 7, 14.8],
                             }
                         ]
                     },
@@ -653,7 +656,7 @@ export const dummyData = [
         ]
     },
     {
-        cat: 'td',
+        cat: D,
         data: [
             {
                 id: 78,

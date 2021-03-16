@@ -25,54 +25,56 @@ import SelectionCard2 from '../../components/SportsSelectionCard2';
 import { dummyData } from './dummyData';
 import { CONSTANTS } from '../../utility/constants';
 
+const { SP, IF, OF, DH, RP, D } = CONSTANTS.FILTERS.MLB;
+
 const INITIAL_PLAYER_LIST = [
     {
-        title: 'C1',
+        title: SP,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.CENTER,
+        filter: SP,
         playerId: '',
     },
     {
-        title: 'C2',
+        title: IF,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.CENTER,
+        filter: IF,
         playerId: '',
     },
     {
-        title: 'LW',
+        title: IF,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.LW,
+        filter: IF,
         playerId: '',
     },
     {
-        title: 'RW',
+        title: OF,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.RW,
+        filter: OF,
         playerId: '',
     },
     {
-        title: 'D1',
+        title: OF,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.D,
+        filter: OF,
         playerId: '',
     },
     {
-        title: 'D2',
+        title: DH,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.D,
+        filter: DH,
         playerId: '',
     },
     {
-        title: 'G',
+        title: RP,
         value: '',
-        filter: CONSTANTS.FILTERS.NHL.G,
+        filter: RP,
         playerId: '',
     },
     {
-        title: 'TD',
+        title: D,
         value: '',
         icon: EmployeeIcon,
-        filter: CONSTANTS.FILTERS.NHL.TD,
+        filter: D,
         playerId: '',
     },
 ]
@@ -80,32 +82,32 @@ const INITIAL_PLAYER_LIST = [
 const FILTERS_INITIAL_VALUES = [
     {
         id: 1,
-        title: CONSTANTS.FILTERS.NHL.CENTER,
-        remaining: 2,
+        title: SP,
+        remaining: 1,
     },
     {
         id: 2,
-        title: CONSTANTS.FILTERS.NHL.LW,
-        remaining: 1,
-    },
-    {
-        id: 3,
-        title: CONSTANTS.FILTERS.NHL.RW,
-        remaining: 1,
-    },
-    {
-        id: 4,
-        title: CONSTANTS.FILTERS.NHL.D,
+        title: IF,
         remaining: 2,
     },
     {
+        id: 3,
+        title: OF,
+        remaining: 2,
+    },
+    {
+        id: 4,
+        title: DH,
+        remaining: 1,
+    },
+    {
         id: 5,
-        title: CONSTANTS.FILTERS.NHL.G,
+        title: RP,
         remaining: 1,
     },
     {
         id: 6,
-        title: CONSTANTS.FILTERS.NHL.TD,
+        title: D,
         remaining: 1,
     },
 ]
@@ -308,7 +310,7 @@ function MLBPowerdFs() {
                                 {
                                     (filterdData && filterdData?.data?.length) ?
                                         filterdData?.data?.map((item, index) => (
-                                            selectedFilter?.title === CONSTANTS.FILTERS.NHL.TD
+                                            selectedFilter?.title === D
                                                 ?
                                                 <SelectionCard2
                                                     title={item.title}
