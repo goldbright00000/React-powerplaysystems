@@ -9,7 +9,7 @@ import Scrollbar from '../../utility/Scrollbar';
 
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
-    const responsiveHandler = maxWidth =>  setMobileDevice(maxWidth.matches);
+    const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
         responsiveHandler(maxWidth);
@@ -63,6 +63,18 @@ const InteractiveContests = props => {
                         prize='$1K in Bonus Cash'
                         isMobileDevice={isMobileDevice}
                         link="/nhl-powerdfs"
+                    />
+                    <PowerPlayGridRow
+                        contest='NHL Live'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='NHL Live PowerdFS'
+                        entries='15385'
+                        totalEntries='19161'
+                        prize='$1K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                        link="/nhl-live-powerdfs"
                     />
                     <PowerPlayGridRow
                         contest='NBA'
