@@ -297,9 +297,14 @@
 
 					span {
 						display: flex;
-						flex: 1;
-						justify-content: center;
-						align-items: center;
+						flex: 0.7;
+						justify-content: flex-start;
+						align-items: flex-start;
+						margin: 0 5px;
+
+						&:first-child {
+							flex: 1;
+						}
 					}
 				}
 
@@ -317,9 +322,15 @@
 
 						span {
 							display: flex;
-							flex: 1;
-							justify-content: center;
-							align-items: center;
+							flex: 0.7;
+							justify-content: flex-start;
+							align-items: flex-start;
+							margin: 0 2px 0 0;
+							text-transform: capitalize;
+
+							&:first-child {
+								flex: 1;
+							}
 						}
 					}
 				}

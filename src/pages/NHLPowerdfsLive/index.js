@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import classes from './index.module.scss';
@@ -7,7 +6,6 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Header3 from '../../components/Header3';
 import HeaderBgUri from '../../assets/nhl-live.jpg';
-import BackArrow from '../../icons/BackArrow';
 import Card from '../../components/PowerpickCard';
 import SportsLiveCardSelection from '../../components/SportsLiveCardSelection';
 import Sidebar from '../../components/Sidebar';
@@ -21,6 +19,7 @@ import FacebookIcon from '../../icons/FacebookIcon';
 import ReplaceAllIcon from '../../icons/Replace';
 import ShieldIcon from '../../icons/ShieldIcon';
 import CamIcon from '../../icons/CamIcon';
+import NHLLiveSportsHeader from '../../components/NHLLiveSportsHeader';
 
 function NHLPowerdFsLive(props) {
     const [selectedData, setSelectedData] = useState(dummyData);
@@ -77,18 +76,7 @@ function NHLPowerdFsLive(props) {
 
                 <div className={classes.container}>
                     <div className={classes.container_left_side}>
-                        <div className={classes.container_header}>
-                            <button>
-                                <BackArrow /> Go to My Game center
-                            </button>
-
-                            <div className={classes.container_nav}>
-                                <ul>
-                                    <li><Link to="#" className={classes.active}>Team Manager</Link></li>
-                                    <li><Link to="#">My Score Details</Link></li>
-                                </ul>
-                            </div>
-                        </div>
+                        <NHLLiveSportsHeader />
                         <Card>
                             {
                                 selectedData && selectedData?.length &&
