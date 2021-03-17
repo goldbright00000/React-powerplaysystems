@@ -9,6 +9,7 @@ import Tick2 from '../../icons/Tick2';
 import DeleteIcon from '../../assets/delete.png';
 import PowerPlayIcon from '../../assets/token.png';
 import ForwardArrow from '../../icons/ForwardArrow';
+import AidIcon from '../../icons/AidIcon';
 
 function SportsSelectionCard(props) {
     const [currentStep, setCurrentStep] = useState(0);
@@ -23,14 +24,16 @@ function SportsSelectionCard(props) {
         stadium = '',
         id = '',
         isSelected = false,
-        isStartPower = false,
+        isStarPower = false,
         steps = [],
-        onSelectDeselect = () => { }
+        onSelectDeselect = () => { },
+        disabled = false,
+        injured = false,
     } = props || {};
 
     const nextStep = () => {
         let _currentStep = currentStep;
-        if (currentStep < 2) {
+        if (currentStep < steps?.length - 1) {
             _currentStep++;
         } else {
             _currentStep = 0;
@@ -42,14 +45,21 @@ function SportsSelectionCard(props) {
     return (
         <div className={classes.container_body_card}>
             {
-                isStartPower &&
+                isStarPower &&
                 <span className={classes.container_body_card_start_power}> <img src={PowerPlayIcon} /> Star Power </span>
             }
             <div className={classes.container_body_card_header}>
                 <p className={`${classes.container_selected_p} ${isSelected ? classes.active : ''}`}>{title}</p>
                 {
+                    injured &&
+                    <div className={classes.injured}>
+                        <AidIcon />
+                        <span>Injured</span>
+                    </div>
+                }
+                {
                     !isSelected ?
-                        <button onClick={() => onSelectDeselect(id)}> + Select</button>
+                        <button onClick={() => onSelectDeselect(id)} className={disabled && classes.disabled} disabled={disabled}> + Select</button>
                         :
                         <div className={classes.container_selected}>
                             <p className={classes.container_selected_p_1}>
@@ -154,7 +164,7 @@ function SportsSelectionCard(props) {
                 {
                     steps?.length ?
                         <div className={classes.card_footer_right} onClick={nextStep}>
-                            <ForwardArrow color={isSelected ? "#fb6e00" : ''} />
+                            <ForwardArrow color={"#fb6e00"} />
                         </div>
                         :
                         <></>
@@ -174,8 +184,10 @@ SportsSelectionCard.propTypes = {
     stadium: PropTypes.string,
     id: PropTypes.number,
     isSelected: PropTypes.bool,
-    isStartPower: PropTypes.bool,
+    isStarPower: PropTypes.bool,
+    disabled: PropTypes.bool,
     steps: PropTypes.array,
+    injured: PropTypes.bool,
     onSelectDeselect: PropTypes.func,
 }
 

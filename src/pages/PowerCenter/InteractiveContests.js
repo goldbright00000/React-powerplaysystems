@@ -287,6 +287,18 @@ const InteractiveContests = props => {
                         link="/nhl-powerdfs"
                     />
                     <PowerPlayGridRow
+                        contest='NHL Live'
+                        Icon={Ball}
+                        date='Oct 24, 2020'
+                        time='8:00PM ET'
+                        type='NHL Live PowerdFS'
+                        entries='15385'
+                        totalEntries='19161'
+                        prize='$1K in Bonus Cash'
+                        isMobileDevice={isMobileDevice}
+                        link="/nhl-live-powerdfs"
+                    />
+                    <PowerPlayGridRow
                         contest='NBA'
                         Icon={BasketBall}
                         date='Oct 24, 2020'

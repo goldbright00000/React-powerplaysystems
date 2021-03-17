@@ -1,7 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import classes from './cashPowerBalance.module.scss';
 import PointsCollectedIcon from '../../assets/points-collected.png';
 import PowerBalanceIcon from '../../assets/power_balance_icon.png';
+import { setNumberComma } from '../../utility/shared';
 
 const CashPowerBalance = (props) => {
     const {styles = {}} = props || {};
@@ -11,7 +14,7 @@ const CashPowerBalance = (props) => {
                 <div className={classes.__sidebar_cash_balance_wrapper}>
                     <img src={PointsCollectedIcon} width="40" height="30" />
                     <div className={classes.__sidebar_text_wrapper}>
-                        <h1 className={classes.__sidebar_cash}>$36</h1>
+                        <h1 className={classes.__sidebar_cash}>${props?.cashBalance || '36'}</h1>
                         <span className={classes.__sidebar_cash_balance_title}>Cash Balance</span>
                     </div>
                 </div>
@@ -20,7 +23,9 @@ const CashPowerBalance = (props) => {
                 <div className={classes.__sidebar_cash_balance_wrapper}>
                     <img src={PowerBalanceIcon} width="40" height="40" />
                     <div className={classes.__sidebar_text_wrapper}>
-                        <h1 className={classes.__sidebar_cash}>15,000</h1>
+                        <h1 className={classes.__sidebar_cash}>
+                            {props?.powerBalance && setNumberComma(props?.powerBalance) || '15,000'}
+                        </h1>
                         <span className={classes.__sidebar_cash_balance_title}>Power Balance</span>
                     </div>
                 </div>
@@ -28,5 +33,10 @@ const CashPowerBalance = (props) => {
         </div>
     );
 };
+
+CashPowerBalance.propTypes = {
+    cashBalance: PropTypes.number,
+    powerBalance: PropTypes.number
+}
 
 export default CashPowerBalance;

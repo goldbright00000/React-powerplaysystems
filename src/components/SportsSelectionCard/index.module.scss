@@ -28,6 +28,20 @@
 			}
 		}
 
+		.injured {
+			display: flex;
+			align-items: flex-start;
+			justify-content: flex-start;
+			transform: translate(-12px, 0);
+
+			span {
+				color: $danger2;
+				margin: 0 5px;
+				font-size: 14px;
+				font-weight: 500;
+			}
+		}
+
 		button {
 			background-color: $lightBlack6;
 			border: none;
@@ -40,6 +54,12 @@
 
 			&:hover {
 				cursor: pointer;
+			}
+
+			&.disabled {
+				background-color: $lightGrey4;
+				cursor: not-allowed;
+				opacity: 0.2;
 			}
 		}
 
@@ -244,7 +264,7 @@
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			opacity: 0.6;
+			opacity: 1;
 		}
 	}
 	.divider {
