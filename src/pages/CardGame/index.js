@@ -712,7 +712,7 @@ function CardGame(props) {
 
                 <Sidebar>
                         {
-                            !isMobile || !isTablet || !isBigScreenTablet
+                            (!isMobile || !isTablet || !isBigScreenTablet)
                             &&
                             <CashPowerBalance />
                         }

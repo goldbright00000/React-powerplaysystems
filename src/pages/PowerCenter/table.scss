@@ -1,6 +1,7 @@
 @import '../../scss/colors.scss';
 
 .__table-wrapper{
+    margin-top: 20px;
     .__badges-wrapper{
         display: grid;
         grid-template-columns: repeat(5, 1fr);
