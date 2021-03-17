@@ -70,3 +70,132 @@
     }
   }
 }
+
+@media (max-width: 1024px) {
+  .__footer {
+    background: linear-gradient(to bottom, $lightBlack, $black);
+    padding: 4em 0;
+    &.__style_2 {
+      background: #17181a;
+    }
+    .__footer_links {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+      justify-content: space-around;
+      grid-gap: 1em;
+      > div {
+        font-weight: 300 !important;
+      }
+      > a {
+        font-weight: 600;
+      }
+    }
+    .__logo {
+      grid-row-start: 1;
+      grid-row-end: 3;
+      width: 9.3em;
+      display: none;
+    }
+    .__logo_center {
+      width: 65%;
+      margin: 0 auto;
+    }
+    .__mediam {
+      letter-spacing: 2px;
+      width: 73%;
+      margin: 0 auto;
+    }
+    .__hr {
+      width: 10%;
+      border-top: 1px solid $lightBlack6;
+      opacity: 0.3;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .__footer {
+    background: linear-gradient(to bottom, $lightBlack, $black);
+    padding: 4em 0;
+    &.__style_2 {
+      background: #17181a;
+    }
+    .__footer_links {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+      justify-content: space-around;
+      grid-gap: 1em;
+      > div {
+        font-weight: 300 !important;
+      }
+      > a {
+        font-weight: 600;
+      }
+    }
+    .__logo {
+      grid-row-start: 1;
+      grid-row-end: 3;
+      width: 9.3em;
+      display: none;
+    }
+    .__logo_center {
+      width: 65%;
+      margin: 0 auto;
+    }
+    .__mediam {
+      letter-spacing: 2px;
+      width: 73%;
+      margin: 0 auto;
+    }
+    .__hr {
+      width: 12%;
+      border-top: 1px solid $lightBlack6;
+      opacity: 0.3;
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  .__footer {
+    background: linear-gradient(to bottom, $lightBlack, $black);
+    padding: 4em 0;
+    &.__style_2 {
+      background: #17181a;
+    }
+    .__footer_links {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+      justify-content: space-around;
+      grid-gap: 1em;
+      > div {
+        font-weight: 300 !important;
+      }
+      > a {
+        font-weight: 600;
+      }
+    }
+    .__logo {
+      grid-row-start: 1;
+      grid-row-end: 3;
+      width: 9.3em;
+      display: none;
+    }
+    .__logo_center {
+      width: 65%;
+      margin: 0 auto;
+    }
+    .__mediam {
+      letter-spacing: 2px;
+      width: 73%;
+      margin: 0 auto;
+    }
+    .__hr {
+      width: 25%;
+      border-top: 1px solid $lightBlack6;
+      opacity: 0.3;
+    }
+  }
+}

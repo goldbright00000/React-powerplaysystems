@@ -17,10 +17,12 @@ const SharePowers = (props) => {
         onPurchaseNowClick = () => {}, 
         onGoPowerLessClick = () => {}} = props || {};
 
-    const isMobile = useMediaQuery({ query: '(max-width: 414px)'});
+    const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
     
-    const purchaseNowBtnMarginTop = isMobile ? "0px" : "20px";
-    const goPowerLessBtnMarginTop = isMobile ? "50px" : "20px";
+    const purchaseNowBtnMarginTop = isMobile || isTablet || isBigScreenTablet ? "0px" : "20px";
+    const goPowerLessBtnMarginTop = isMobile || isTablet || isBigScreenTablet ? "50px" : "20px";
 
     return (
         <>

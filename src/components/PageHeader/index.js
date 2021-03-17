@@ -9,11 +9,13 @@ import {useMediaQuery} from 'react-responsive';
 function PageHeader(props) {
     const { title = '', reward = 0, seconds = 12, onThreeDotsClick = () => {} } = props || {};
     const isMobile = useMediaQuery({query: '(max-width: 414px)'});
+    const isTablet = useMediaQuery({query: '(max-width: 768px)'});
+    const isBigScreenTablet = useMediaQuery({query: '(max-width: 1024px)'});
 
     return (
         <div className={classes.__page_header}>
             {
-                !isMobile
+                !isMobile && !isTablet && !isBigScreenTablet
                 ?
                 <div className={classes.__page_header_leftside}>
                     <h1>{title}</h1>
