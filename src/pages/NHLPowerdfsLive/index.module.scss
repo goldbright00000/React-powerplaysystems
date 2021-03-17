@@ -18,6 +18,18 @@
                 flex-direction: row;
                 flex-wrap: wrap;
             }
+
+            .left_side_footer {
+                display: flex;
+                flex-grow: 1;
+                justify-content: center;
+                align-items: center;
+                margin: 80px 0;
+                
+                img {
+                    width: 95%;
+                }
+            }
         }
 
         .sidebar_container {
@@ -30,6 +42,7 @@
             }
             
             .sidebar_header {
+                width: 290px;
                 display: flex;
                 flex-direction: column;
                 background-color: $black2;
@@ -243,6 +256,29 @@
                                     &:hover {
                                         cursor: pointer;
                                     }
+                                }
+                            }
+
+                            .power_footer_count {
+                                background-color: $lightBlue;
+                                opacity: 0.6;
+                                width: 80px;
+                                height: 28px;
+                                display: flex;
+                                flex-direction: row;
+                                justify-content: center;
+                                align-items: center;
+                                font-size: 16px;
+                                font-weight: 600;
+                                font-family: Poppins;
+                                border-radius: 10px;
+
+                                span {
+                                    font-weight: normal;
+                                    font-size: 12px;
+                                    color: $white;
+                                    margin-left: 5px;
+                                    font-family: Poppins;
                                 }
                             }
                         }

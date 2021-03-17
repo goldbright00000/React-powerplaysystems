@@ -6,12 +6,15 @@
     flex-direction: column !important;
     margin: 20px 0;
 
+    .bg_transparent {
+        background-color: transparent;
+    }
+
     button {
         display: flex;
         align-items: center;
         width: 220px;
         justify-content: space-evenly;
-        background-color: transparent;
         transform: translate(-10px, 0);
         padding-left: 0;
         border: none;
@@ -62,6 +65,12 @@
                     }
                 }
             }
+        }
+
+        button {
+            background-color: $lightBlack5;
+            padding: 9px 13px;
+            border-radius: 8px;
         }
     }
 }

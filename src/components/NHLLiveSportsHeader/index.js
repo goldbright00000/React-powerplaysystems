@@ -8,7 +8,7 @@ import BackArrow from '../../icons/BackArrow';
 function NHLLiveSportsHeader(props) {
     return (
         <div className={classes.container_header}>
-            <button>
+            <button className={classes.bg_transparent}>
                 <BackArrow /> Go to My Game center
             </button>
 
@@ -17,6 +17,7 @@ function NHLLiveSportsHeader(props) {
                     <li><Link to="#" className={classes.active}>Team Manager</Link></li>
                     <li><Link to="#">My Score Details</Link></li>
                 </ul>
+                <button>Detailed Team View</button>
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ import PowerPlayIcon from '../../assets/token.png';
 import ForwardArrow from '../../icons/ForwardArrow';
 import XPIcon from '../../icons/XPIcon';
 import ReplaceAllIcon from '../../icons/Replace';
+import ToolTip from '../../components/ToolTip';
 
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
@@ -55,7 +56,7 @@ function SportsLiveCardSelection(props) {
     }
 
     return (
-        <div className={classes.container_body_card}>
+        <div className={classes.container_body_card} key={id}>
             <div className={classes.container_card_header}>
                 <div className={classes.container_card_header_left}>
                     <span className={classes.header_line_bar} />
@@ -97,7 +98,7 @@ function SportsLiveCardSelection(props) {
                                         <div className={classes.states_points}>
                                             <div className={classes.states_points_top}>
                                                 <div className={classes.states_points_left}>
-                                                    <p>States</p>
+                                                    <p>Stats</p>
                                                     <div>
                                                         <span>SOG: {steps[currentStep]?.states.sog}</span>
                                                         <div>
@@ -110,12 +111,19 @@ function SportsLiveCardSelection(props) {
 
                                                 <div className={classes.states_points_right}>
                                                     <p>Points</p>
-
                                                     <div>
                                                         <span>{steps[currentStep]?.points}</span>
                                                     </div>
                                                 </div>
-                                                <XPIcon />
+                                                <ToolTip toolTipContent={
+                                                    <div>
+                                                        Hello
+                                                    </div>
+                                                }>
+                                                    <span data-tip data-for={`${title}`}>
+                                                        <XPIcon />
+                                                    </span>
+                                                </ToolTip>
                                             </div>
 
                                             <div className={classes.states_points_center}>
@@ -175,7 +183,11 @@ function SportsLiveCardSelection(props) {
                             }
                         </div>
                         :
-                        <p className={`${classes.container_body_card_state} ${classes.card_state_no_data} ${isSelected ? classes.active : ''}`}>
+                        <p className={`
+                            ${classes.container_body_card_state} 
+                            ${classes.card_state_no_data} 
+                            ${isSelected ? classes.active : ''}`}
+                        >
                             No Data
                         </p>
                 }

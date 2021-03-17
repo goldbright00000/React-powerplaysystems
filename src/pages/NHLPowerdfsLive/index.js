@@ -20,6 +20,8 @@ import ReplaceAllIcon from '../../icons/Replace';
 import ShieldIcon from '../../icons/ShieldIcon';
 import CamIcon from '../../icons/CamIcon';
 import NHLLiveSportsHeader from '../../components/NHLLiveSportsHeader';
+import SidebarBtnIcon from '../../assets/nhl-sidebar-icon.png';
+import FooterImage from '../../assets/NHL-live-footer.png';
 
 function NHLPowerdFsLive(props) {
     const [selectedData, setSelectedData] = useState(dummyData);
@@ -54,7 +56,7 @@ function NHLPowerdFsLive(props) {
                             </div>
                         </>
                         :
-                        <p>{count} left</p>
+                        <p className={classes.power_footer_count}>{count} <span>left</span></p>
                 }
             </div>
         </div>
@@ -97,6 +99,10 @@ function NHLPowerdFsLive(props) {
                                     ))
                             }
                         </Card>
+
+                        <div className={classes.left_side_footer}>
+                            <img src={FooterImage} alt="" />
+                        </div>
                     </div>
 
                     <div className={classes.sidebar_container}>
@@ -125,16 +131,18 @@ function NHLPowerdFsLive(props) {
                                     <RankIcon />
                                 </div>
 
-                                <button>See Full Standings</button>
+                                <button>
+                                    <img src={SidebarBtnIcon} width={19} style={{ marginRight: '10px' }} /> See Full Standings
+                                </button>
                             </div>
 
                             <div className={classes.sidebar_content}>
                                 <p><span>My</span> Powers</p>
                                 <div className={classes.sidebar_content_1}>
-                                    <RenderPower title='Point Multiplier' isSvgIcon Icon={XPIcon} count={0} />
+                                    <RenderPower title='Point Multiplier' isSvgIcon Icon={XPIcon} count={1} />
                                     <RenderPower title='Swap Player' isSvgIcon Icon={ReplaceAllIcon} count={0} />
                                     <RenderPower title='D-Wall' isSvgIcon Icon={ShieldIcon} count={0} />
-                                    <RenderPower title='Video Review' isSvgIcon Icon={CamIcon} count={0} />
+                                    <RenderPower title='Video Review' isSvgIcon Icon={CamIcon} count={4} />
                                 </div>
                             </div>
                         </Sidebar>
