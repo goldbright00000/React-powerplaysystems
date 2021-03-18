@@ -32,6 +32,7 @@ import MyGameCenter from './pages/MyGameCenter/MyGameCenter';
 import MLBPowerdFs from './pages/MLBpowerdFS';
 import NHLPowerdFs from './pages/NHLpowerdFS';
 import NBAPowerdFs from './pages/NBApowerdFS';
+import NHLPowerdFsLive from './pages/NHLPowerdfsLive';
 
 
 
@@ -67,9 +68,10 @@ const App = props => {
                 <ProtectedRoute path="/my-account" component={AccountPage} />
                 <Route exact path='/elite8' component={Elite8} />
                 <Route exact path='/elite8-draw' component={Elite8Draw} />
-                <Route path='/mlb-powerdfs' component={ MLBPowerdFs } />
+                <Route path='/mlb-powerdfs' component={MLBPowerdFs} />
                 <Route path='/nhl-powerdfs' component={NHLPowerdFs} />
                 <Route path='/nba-powerdfs' component={NBAPowerdFs} />
+                <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
                 <Route component={HomePage} />
             </Switch>
         </Fragment>

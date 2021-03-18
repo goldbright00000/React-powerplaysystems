@@ -6,7 +6,16 @@ export function redirectTo(props, { path = "/", state = {} }) {
   const { history: { push = () => {} } = {} } = props || {};
   if (!isEmpty(state)) return push(path, state);
 
+<<<<<<< HEAD
   return push(path);
+=======
+export function redirectTo(props, { path = '/', state = {} }) {
+    const { history: { push = () => { } } = {} } = props || {}
+    if (!isEmpty(state))
+        return push(path, state)
+
+    return push(path)
+>>>>>>> master
 }
 
 export function IsAceCard(card) {
@@ -18,9 +27,18 @@ export function GetAceCardIndex() {
 }
 
 export function getRandomCard() {
+<<<<<<< HEAD
   let card = {};
   let _cardSuit = Math.floor(Math.random() * (5 - 2) + 2);
   let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2);
+=======
+    let card = {};
+    let _cardSuit = Math.floor(Math.random() * (5 - 2) + 2)
+    let _cardRankIndex = Math.floor(Math.random() * (13 - 2) + 2)
+
+    card.suit = _cardSuit;
+    card.rank = _cardRankIndex;
+>>>>>>> master
 
   card.suit = _cardSuit;
   card.rank = _cardRankIndex;
@@ -35,9 +53,15 @@ export function getRandomNumberBetween(minRange, maxRange) {
 }
 
 export function checkRange(number, minRange, maxRange) {
+<<<<<<< HEAD
   if (number >= minRange && number <= maxRange) {
     return number;
   }
+=======
+    if (number >= minRange && number <= maxRange) {
+        return number;
+    }
+>>>>>>> master
 
   return 0;
 }
@@ -46,8 +70,13 @@ export function getEmptyStringArray(arrayLength = 0, defautlValue) {
   return new Array(arrayLength).fill(defautlValue || "-", 0, arrayLength);
 }
 
+<<<<<<< HEAD
 export function isExistsInList(list = new Array(), value) {
   return list.includes(value);
+=======
+export function isExistsInList(list = [], value) {
+    return list.includes(value)
+>>>>>>> master
 }
 
 export function hasMaxAceCards(aceCards) {
@@ -120,7 +149,15 @@ export function getCardsRankPairs(cardsArr) {
     counts[val] = (counts[val] || 0) + 1;
   });
 
+<<<<<<< HEAD
   return counts;
+=======
+    pairs.forEach((val) => {
+        counts[val] = (counts[val] || 0) + 1
+    })
+
+    return counts;
+>>>>>>> master
 }
 
 export function setLocalStorage(key, data) {
@@ -135,7 +172,13 @@ export function removeLocalStorage(key) {
   return localStorage.removeItem(key);
 }
 
+<<<<<<< HEAD
 export function removeToken() {}
+=======
+export function removeToken() {
+
+}
+>>>>>>> master
 
 export function validateEmail(email) {
   const regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -147,6 +190,7 @@ export function setNumberComma(number) {
 }
 
 export function getYearsList() {
+<<<<<<< HEAD
   let year = new Date().getFullYear();
   const years = [];
 
@@ -155,6 +199,16 @@ export function getYearsList() {
   }
 
   return years;
+=======
+    let year = new Date().getFullYear();
+    const years = [];
+
+    for (let i = year; i > 1920; i--) {
+        years.push({ name: i, value: i })
+    }
+
+    return years;
+>>>>>>> master
 }
 
 export function getDays() {

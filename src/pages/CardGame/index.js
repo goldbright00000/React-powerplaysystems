@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { withRouter } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import {GetAceCardIndex, hasMaxAceCards, redirectTo} from '../../utility/shared'
+import { GetAceCardIndex, hasMaxAceCards, redirectTo } from '../../utility/shared'
 import Card from '../../components/Card'
 import GameCard from '../../components/GameCard'
 import Header from '../../components/Header/Header'
@@ -65,6 +65,8 @@ function CardGame(props) {
     const { replace = 0, replaceAll = 0, powerMatch = 0, increaseOrDecrease = 0 } = inventory || {}
 
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
     
     useEffect(() => { 
         dispatch(resetCardState())
@@ -77,7 +79,7 @@ function CardGame(props) {
         if (start) {
             let timeOut = gameStart();
             gameCompleted(timeOut);
-            
+
             return function clearnup() {
                 return clearInterval(timeOut)
             }
@@ -89,7 +91,7 @@ function CardGame(props) {
         setGotAceWithPower(false);
         let timeOut = null
         if (_currentCard < TOTAL_CARDS) {
-            if(!isReplaceAll)
+            if (!isReplaceAll)
                 time = MAX_ROUND_TIME;
             else
                 time = REPLACE_ALL_SPEED_TIME
@@ -100,7 +102,7 @@ function CardGame(props) {
                     time--;
                     setCount(time)
                 } else {
-                    if(!isReplaceAll)
+                    if (!isReplaceAll)
                         time = MAX_ROUND_TIME;
                     else
                         time = REPLACE_ALL_SPEED_TIME
@@ -109,7 +111,7 @@ function CardGame(props) {
                     _currentCard += 1;
                     setCurrentCard(_currentCard)
                     updateCardState()
-                    if(currentCard >= TOTAL_CARDS) setIsReplaceAllState(false)
+                    if (currentCard >= TOTAL_CARDS) setIsReplaceAllState(false)
                 }
             }, 1000)
         } else {
@@ -121,9 +123,9 @@ function CardGame(props) {
                     time--;
                     setCount(time)
                 } else {
-                        setResetTimerState(false)
-                        setIsReplaceAllState(false)
-                        clearInterval(timeOut)
+                    setResetTimerState(false)
+                    setIsReplaceAllState(false)
+                    clearInterval(timeOut)
                 }
             }, 1000)
         }
@@ -162,7 +164,7 @@ function CardGame(props) {
         }
         cardsArr.push(card)
 
-        setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
+        setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: card })
     }
 
     const updateAceCard = (card) => {
@@ -188,13 +190,13 @@ function CardGame(props) {
                     }
                     let cardIndex = _collectedAceCards?.indexOf(_aceCardInfo)
                     aceCardsArr[cardIndex] = _aceCard
-                    dispatch(setCardState(aceCardsArr))   
+                    dispatch(setCardState(aceCardsArr))
                 } else {
                     const _aceCard = {
                         suit: card.suit,
                         aceCards: 1
                     }
-    
+
                     aceCardsArr.push(_aceCard)
                     dispatch(setCardState(aceCardsArr))
                 }
@@ -218,7 +220,7 @@ function CardGame(props) {
         cardsArr[index] = card
         let isAceCompleted = updateAceCard(card)
         if (!isAceCompleted) {
-            setCardsState({...cardsState, collectedCards: cardsArr, activeCard: card})
+            setCardsState({ ...cardsState, collectedCards: cardsArr, activeCard: card })
         }
     }
 
@@ -229,7 +231,7 @@ function CardGame(props) {
     }
 
     const _redirectTo = (path = '/') => {
-        redirectTo(props, {path})
+        redirectTo(props, { path })
     }
 
     const getAceCards = () => {
@@ -250,15 +252,15 @@ function CardGame(props) {
             case CONSTANTS.CARD_POP_ACTIONS.INCREASE:
                 _inventory.increaseOrDecrease = inventoryValue
                 break
-            
+
             case CONSTANTS.CARD_POP_ACTIONS.POWER_MATCH:
                 _inventory.powerMatch = inventoryValue
                 break;
-            
+
             case CONSTANTS.CARD_POP_ACTIONS.REPLACE:
                 _inventory.replace = inventoryValue
                 break;
-            
+
             case CONSTANTS.CARD_POP_ACTIONS.REPLACE_ALL:
                 _inventory.replaceAll = inventoryValue
                 break;
@@ -267,10 +269,10 @@ function CardGame(props) {
         dispatch(cardGameInventory(_inventory))
     }
 
-    
+
     const onReplaceAll = () => {
         let _replaceAll = replaceAll
-        
+
         if (_replaceAll <= 0) return
 
         _replaceAll -= 1
@@ -287,7 +289,7 @@ function CardGame(props) {
         setShareOptions(shareOption);
         setUnlockOptions(unLockOption);
     }
-    
+
     const onIncrease = (cardIndex, card) => {
         const { suit = 0, rank = 0 } = card || {}
         let _rank = rank
@@ -298,7 +300,7 @@ function CardGame(props) {
         if (_rank !== GetAceCardIndex()) {
             _rank += 1;
         }
-        
+
         const _card = {
             suit: suit,
             rank: _rank,
@@ -319,7 +321,7 @@ function CardGame(props) {
     const onReplace = (cardIndex, card) => {
         const { rank = 0 } = card || {}
         if (replace <= 0 || cardsState?.activeCard !== card)
-        return;
+            return;
 
         let _replace = replace;
         if (!practiceModeEnabled) _replace -= 1;
@@ -415,33 +417,63 @@ function CardGame(props) {
         dispatch(cardGameInventory(resetInventory));
     }
 
+    const getCardWidth = () => {
+        if (isMobile) {
+            return 66;
+        } else if (isTablet) {
+            return 100;
+        } else if (isBigScreenTablet) {
+            return 134;
+        }
+    }
+
+    const getCardHeight = () => {
+        if (isMobile) {
+            return 100;
+        } else if (isTablet) {
+            return 134;
+        } else if (isBigScreenTablet) {
+            return 168;
+        }
+    }
+
+    const getSlideMenuWidth = () => {
+        if (isMobile) {
+            return 300;
+        } else if (isTablet) {
+            return 400;
+        } else {
+            return 500;
+        }
+    };
+
     const renderMobileSlideMenu = () => {
         return (
             <Menu 
                 right 
-                width={290} 
+                width={getSlideMenuWidth()} 
                 styles={{bmMenu: {backgroundColor: '#000000', marginTop: 68}, bmItem: {outline: 'none'}}} 
                 customBurgerIcon={false}
-                customCrossIcon={ false }
+                customCrossIcon={false}
                 isOpen={mobileSlideMenu}>
-                <div style={{ display: 'flex', flexDirection: 'column', height: '100%'}}>
-                    <div style={{width: '90%', height: 50}} onClick={() => setMobileSlideMenu(false)}>
-                        <p style={{ textAlign: 'right', color: '#fb6e00', paddingTop: 30}}>X</p>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div style={{ width: '90%', height: 50 }} onClick={() => setMobileSlideMenu(false)}>
+                        <p style={{ textAlign: 'right', color: '#fb6e00', paddingTop: 30 }}>X</p>
                     </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 40, marginTop: 20, fontSize: 18}}>
-                        <p style={{ padding: 10}}>See Contest Rules</p>
-                        <p style={{ padding: 10}}
+                    <div style={{ display: 'flex', flexDirection: 'column', marginLeft: 40, marginTop: 20, fontSize: 18 }}>
+                        <p style={{ padding: 10 }}>See Contest Rules</p>
+                        <p style={{ padding: 10 }}
                             onClick={() => {
                                 setMobileSlideMenu(false);
                                 onOpenModal();
-                        }}>How Do I Win?</p>
-                        <p 
-                            style={{ padding: 10}} 
+                            }}>How Do I Win?</p>
+                        <p
+                            style={{ padding: 10 }}
                             onClick={() => practiceGame()}>
                             {practiceGameBtnText}
                         </p>
                     </div>
-                    <div style={{ display: 'flex', flex: 1, alignItems: 'flex-end', marginBottom: 30}}>
+                    <div style={{ display: 'flex', flex: 1, alignItems: 'flex-end', marginBottom: 30 }}>
                         <CashPowerBalance />
                     </div>
                 </div>
@@ -451,9 +483,9 @@ function CardGame(props) {
 
     return (
         <>
-            <Header/>
+            <Header />
             {
-                isMobile
+                (isMobile || isTablet || isBigScreenTablet)
                 &&
                 renderMobileSlideMenu()
             }
@@ -461,7 +493,7 @@ function CardGame(props) {
                 <div className={classes.__card_game_content_left}>
                     <PageHeader title="Chase The Ace" onThreeDotsClick={() => setMobileSlideMenu(!mobileSlideMenu)} />
                     <div className={classes._card_game_content_top}>
-                        <CardsSvg style={{display: 'flex', height: 'auto'}}/>
+                        <CardsSvg style={{ display: 'flex', height: 'auto' }} />
                         <p className={classes.__card_game_card_counter}>Card <span>{currentCard}</span> of {TOTAL_CARDS}
                         </p>
                         <span className={classes.__card_divider} />
@@ -469,21 +501,21 @@ function CardGame(props) {
 
                     <div className={classes.__card_game_content_body}>
                         <div className={classes.__card_game_content_btns}>
-                            <button 
-                                className={classes.__card_game_content_practice_btn} 
+                            <button
+                                className={classes.__card_game_content_practice_btn}
                                 onClick={() => practiceGame()}>
                                 {practiceGameBtnText}
                             </button>
                         </div>
-  
-                        <Card styles={{boxShadow: "inset 0 1px 24px 0 rgba(0, 0, 0, 0.5)"}}>
-                        {
-                            practiceModeEnabled
-                            &&
-                            <div style={{ position: 'relative', top: -60, alignSelf: 'center'}}>
-                                <button className={classes.__card_game_content_practice_game_mode}>Try a Practice game</button>
-                            </div>
-                        }
+
+                        <Card styles={{ boxShadow: "inset 0 1px 24px 0 rgba(0, 0, 0, 0.5)" }}>
+                            {
+                                practiceModeEnabled
+                                &&
+                                <div style={{ position: 'relative', top: -60, alignSelf: 'center' }}>
+                                    <button className={classes.__card_game_content_practice_game_mode}>Try a Practice game</button>
+                                </div>
+                            }
                             <div className={classes.__card_game_content_cards}>
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -509,8 +541,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -535,8 +567,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -561,8 +593,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -587,8 +619,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                                 <GameCard
                                     showCardPopup={!isReplaceAll && true}
@@ -613,8 +645,8 @@ function CardGame(props) {
                                     myPowers={myPowers}
                                     showTimer={true}
                                     gotAceWithPower={gotAceWithPower}
-                                    width={isMobile && 66}
-                                    height={isMobile && 100}
+                                    width={getCardWidth()}
+                                    height={getCardHeight()}
                                 />
                             </div>
                             {/* <button className={`${classes.__reload_btn} ${showResetTimer && classes.active}`} onClick={onReplaceAll}
@@ -640,7 +672,7 @@ function CardGame(props) {
                             !start ?
                                 <Alert renderMsg={() => <p>Click Start to begin your game.</p>} primary />
                                 :
-                                cardsArr.length < CONSTANTS.MAX_ACE_CARDS 
+                                cardsArr.length < CONSTANTS.MAX_ACE_CARDS
                                 &&
                                 <Alert primary renderMsg={() => (<p>{CONSTANTS.MAX_ACE_CARDS - getAceCards()} {getAceCards() == 4 ? 'Ace' : 'Aces'} to go</p>)} />
                         }
@@ -657,21 +689,21 @@ function CardGame(props) {
                                 cardsArr.length >= CONSTANTS.MAX_ACE_CARDS && time <= 0
                                 &&
                                 <>
-                                    <Alert danger renderMsg={() => (<p>Sorry, you did not get { CONSTANTS.MAX_ACE_CARDS} aces.</p>)} />   
+                                    <Alert danger renderMsg={() => (<p>Sorry, you did not get { CONSTANTS.MAX_ACE_CARDS} aces.</p>)} />
                                     <button className={`__btn ${classes.__card_game_footer_btn}`}
-                                            onClick={() => {
-                                                setStart(false);
-                                                resetGameState();
-                                                time = MAX_ROUND_TIME;
-                                                const resetInventory = {
-                                                    replace: 5,
-                                                    replaceAll: -1,
-                                                    powerMatch: 5,
-                                                    increaseOrDecrease: 5
-                                                };
-                                                dispatch(cardGameInventory(resetInventory));
-                                            }}>
-                                            Try Again?
+                                        onClick={() => {
+                                            setStart(false);
+                                            resetGameState();
+                                            time = MAX_ROUND_TIME;
+                                            const resetInventory = {
+                                                replace: 5,
+                                                replaceAll: -1,
+                                                powerMatch: 5,
+                                                increaseOrDecrease: 5
+                                            };
+                                            dispatch(cardGameInventory(resetInventory));
+                                        }}>
+                                        Try Again?
                                     </button>
                                 </>
                         }
@@ -680,7 +712,7 @@ function CardGame(props) {
 
                 <Sidebar>
                         {
-                            !isMobile
+                            (!isMobile || !isTablet || !isBigScreenTablet)
                             &&
                             <CashPowerBalance />
                         }
@@ -694,7 +726,7 @@ function CardGame(props) {
                             {
                                 shareOptions
                                 &&
-                                <SharePowers 
+                                <SharePowers
                                     onFaceBookClick={() => hideShowSideBarOptions(true, false, false)}
                                     onTwitterClick={() => hideShowSideBarOptions(true, false, false)}
                                     onX10Click={() => hideShowSideBarOptions(true, false, false)}
@@ -705,7 +737,7 @@ function CardGame(props) {
                             {
                                 unLockOptions
                                 &&
-                                <LockedPowers 
+                                <LockedPowers
                                     onPurchaseNowClick={() => {
                                         if (!start) {
                                             hideShowSideBarOptions(true, false, false)
@@ -715,9 +747,9 @@ function CardGame(props) {
                                         if (!start) {
                                             hideShowSideBarOptions(false, true, false)
                                         }
-                                    }} 
+                                    }}
                                 />
-                            }                            
+                            }
                         </div>
                     </div>
                 </Sidebar>
@@ -725,9 +757,9 @@ function CardGame(props) {
                     howDoIWinModal
                     &&
                     <HowDoIWinModal howDoIWinModal={howDoIWinModal} onCloseModal={onCloseModal} />
-                } 
-            </div>  
-            <Footer isBlack/>
+                }
+            </div>
+            <Footer isBlack />
         </>
     )
 }

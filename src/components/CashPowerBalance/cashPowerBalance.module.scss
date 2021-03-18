@@ -6,7 +6,8 @@
     margin: 0 0 47px;
     padding: 20px 34px 8px 16px;
     border-radius: 12px;
-    background-color: #17181a;
+    background-color: $black2;
+    box-shadow: inset 0 1px 24px 0 $lightBlack8;
 
     .__sidebar_cash_power_balance_wrapper {
       display: flex;
@@ -51,6 +52,114 @@
       }
     }
   }
+
+@media (max-width: 1024px) {
+  .__sidebar_cash_power_balance {
+    width: 100%;
+    height: 152px;
+    margin: 0 0 47px;
+    padding: 0 235px 0 0;
+    border-radius: 0px;
+    background-color:$darkblack;
+
+    .__sidebar_cash_power_balance_wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .__sidebar_cash_balance_wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .__sidebar_text_wrapper {
+          display: flex;
+          flex-direction: column;
+          margin-left: 20px;
+          margin-bottom: 10px;
+
+          .__sidebar_cash {
+            width: 44px;
+            height: 31px;
+            margin: 0;
+            font-family: Teko;
+            font-size: 30px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $primary;
+          }
+
+          .__sidebar_cash_balance_title {
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .__sidebar_cash_power_balance {
+    width: 100%;
+    height: 152px;
+    margin: 0 0 47px;
+    padding: 0 55px 0 0;
+    border-radius: 0px;
+    background-color:$darkblack;
+
+    .__sidebar_cash_power_balance_wrapper {
+      display: flex;
+      flex-direction: column;
+
+      .__sidebar_cash_balance_wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .__sidebar_text_wrapper {
+          display: flex;
+          flex-direction: column;
+          margin-left: 20px;
+          margin-bottom: 10px;
+
+          .__sidebar_cash {
+            width: 44px;
+            height: 31px;
+            margin: 0;
+            font-family: Teko;
+            font-size: 30px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $primary;
+          }
+
+          .__sidebar_cash_balance_title {
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+          }
+        }
+      }
+    }
+  }
+}
 
 @media (max-width: 414px) {
   .__sidebar_cash_power_balance {

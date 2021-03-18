@@ -28,7 +28,20 @@ const ProgressBar = props => {
     }, [setOffset, circumference, progress, offset]);
 
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
-    const secY = isMobile ? 10 : 20;
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
+
+    const getSecY = () => {
+        if (isMobile) {
+            return 10;
+        } else if (isTablet) {
+            return 14;
+        } else if (isBigScreenTablet) { 
+            return 18;
+        } else {
+            return 20;
+        }
+    };
 
     return (
         <>
@@ -67,7 +80,7 @@ const ProgressBar = props => {
                 <text x={center} y={center} className={classes.__svg_circle_text}>
                     {progress}
                 </text>
-                <text className={classes.__svg_circle_text_2} x={center} y={center + secY }>
+                <text className={classes.__svg_circle_text_2} x={center} y={center + getSecY() }>
                     Sec
                 </text>
             </svg>

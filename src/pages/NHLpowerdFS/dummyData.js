@@ -13,6 +13,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                injured: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -51,7 +52,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -181,7 +182,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -311,7 +312,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -441,7 +442,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -571,7 +572,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -640,7 +641,7 @@ export const dummyData = [
                 ],
             },
             {
-                id: 77,
+                id: 799,
                 title: 'Chris Carpenter',
                 avgVal: 4,
                 teamA: 'Arizona Diamondbacks',
@@ -701,7 +702,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStartPower: true,
+                isStarPower: true,
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -733,7 +734,7 @@ export const dummyData = [
             },
             {
                 id: 80,
-                title: 'Sebastian Aho',
+                title: 'Tampa Bay Lightening',
                 avgVal: 4,
                 teamA: 'Arizona Diamondbacks',
                 teamB: 'Baltimore Orioles',
@@ -771,7 +772,7 @@ export const dummyData = [
             },
             {
                 id: 81,
-                title: 'Chris Carpenter',
+                title: 'Columbus Blue Jackets',
                 avgVal: 4,
                 teamA: 'Arizona Diamondbacks',
                 teamB: 'Baltimore Orioles',
