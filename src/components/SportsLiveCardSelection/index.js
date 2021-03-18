@@ -8,6 +8,9 @@ import ForwardArrow from '../../icons/ForwardArrow';
 import XPIcon from '../../icons/XPIcon';
 import ReplaceAllIcon from '../../icons/Replace';
 import ToolTip from '../../components/ToolTip';
+import XP1_5 from '../../icons/XP1_5';
+import XP2Icon from '../../icons/XP2';
+import XP3 from '../../icons/XP3';
 
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
@@ -69,7 +72,7 @@ function SportsLiveCardSelection(props) {
             <div className={classes.container_card_body}>
                 <div className={classes.container_card_body_top}>
                     <ClockIcon />
-                    <span> Q1 | 12:59</span>
+                    <span> P1 | 12:59</span>
                 </div>
                 <div className={classes.container_card_title}>
                     <div className={classes.card_title_left}>
@@ -116,8 +119,16 @@ function SportsLiveCardSelection(props) {
                                                     </div>
                                                 </div>
                                                 <ToolTip toolTipContent={
-                                                    <div>
-                                                        Hello
+                                                    <div className={classes.tool_tip_xp}>
+                                                        <span onClick={() => {
+                                                            console.log('A');
+                                                        }}><XP1_5 /></span>
+                                                        <span onClick={() => {
+                                                            console.log('B');
+                                                        }}><XP2Icon /></span>
+                                                        <span onClick={() => {
+                                                            console.log('C');
+                                                        }}><XP3 /></span>
                                                     </div>
                                                 }>
                                                     <span data-tip data-for={`${title}`}>

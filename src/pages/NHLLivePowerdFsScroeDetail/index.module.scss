@@ -1,0 +1,212 @@
+@import "../../scss/colors.scss";
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .container {
+        display: flex;
+        padding: 0 50px;
+        position: relative;
+        
+        .container_left_side {
+            width: 100%;
+            margin-bottom: 50px;
+
+            .container_header {
+                display: flex;
+                justify-content: space-between;
+                
+                .card_rank {
+                    flex: 0.1;
+                    transform: translate(-10px, 40px);
+                }
+            }
+            
+            .card {
+                display: flex;
+                padding: 0;
+                height: 648px;
+                justify-content: flex-start;
+                align-items: flex-start;
+                overflow: hidden scroll;
+                position: relative;
+
+                &::-webkit-scrollbar {
+                    width: 0;
+                    background: transparent;
+                }
+
+                .card_row {
+                    display: flex;
+                    width: 95%;
+                    margin: 0 auto;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0 20px;
+
+                    span {
+                        flex: 1;
+                        text-align: left;
+                        text-transform: capitalize;
+
+                        &.child_1 {
+                            flex: 0.485;
+                        }
+
+                        &.child_2 {
+                            flex: 1.4;
+                        }
+
+                        &.child_3 {
+                            flex: 0.8;
+                        }
+
+                        &.child_4 {
+                            flex: 1;
+                            text-align: center;
+                        }
+
+                        &.child_5 {
+                            flex: 1;
+                        }
+
+                        &.center {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                        }
+                    }
+                }
+
+                .card_combine_row {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1;
+                    justify-content: center;
+                    align-items: center;
+                    
+                    span {
+                        display: flex;
+                        flex: 0.31 !important;
+                        justify-content: center;
+                        align-items: center;
+                        margin: 0 5px 0 13px;
+                    }
+                }
+
+                .primary {
+                    background-color: $lightPrimary;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    font-size: 14px;
+                    width: 52px;
+                    height: 48px;
+
+                    &.border {
+                        background-color: $lightPrimary;
+                        border: 1px solid $primary;
+                        color: $grey2;
+                    }
+                }
+
+                .secondary {
+                    background-color: $lightBlack5;
+                    width: 52px;
+                    height: 48px;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .success {
+                    background-color: $successLight2;
+                    width: 52px;
+                    height: 48px;
+                    font-size: 14px;
+                    border-radius: 4px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: $green;
+                    font-weight: bold;
+                    font-size: 14px;
+                }
+
+                .danger {
+                    color: $danger5;
+                    font-weight: bold;
+                    width: 68px;
+                    text-align: center;
+                }
+
+                .card_header {
+                    width: 100%;
+                    background-color: $lightBlack;
+                    padding: 20px 0px 9px 0;
+                    border-radius: 10px 10px 0 0;
+
+                    span {
+                        color: $lightBlue;
+                    }
+                    
+                    .card_header_1 {
+                        flex: 1;
+                        transform: translate(0, -10px);
+                        text-align: center;
+                    }
+                }
+
+                .card_body {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    padding: 20px;
+                    align-items: flex-start;
+                    justify-content: flex-start;
+
+                    .card_row_1 {
+                        @extend .card_row;
+
+                        width: 98%;
+                        background-color: $lightBlack;
+                        box-shadow: 0 5px 10px 2px $lightBlack11;
+                        padding: 16px 25px;
+                        border-radius: 8px;
+                        margin-bottom: 16px;
+
+                        &:last-child {
+                            margin-bottom: 0;
+                        }
+
+                        &.primary_bg {
+                            background-color: $primaryLight6;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .footer_main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 90%;
+        margin: 0 auto;
+
+        >div {
+            flex: 1;
+        }
+
+        .gear_img {
+            width: 341px;
+            height: 381px;
+            margin: 30px 0 0 0;
+        }
+    }
+}

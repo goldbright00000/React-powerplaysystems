@@ -11,7 +11,6 @@ import SportsLiveCardSelection from '../../components/SportsLiveCardSelection';
 import Sidebar from '../../components/Sidebar';
 import CashPowerBalance from '../../components/CashPowerBalance';
 import { dummyData } from './dummyData';
-import RankIcon from '../../icons/Rank';
 import XPIcon from '../../icons/XPIcon';
 import LockIcon from '../../icons/Lock';
 import TwitterIcon from '../../icons/TwitterIcon';
@@ -20,8 +19,9 @@ import ReplaceAllIcon from '../../icons/Replace';
 import ShieldIcon from '../../icons/ShieldIcon';
 import CamIcon from '../../icons/CamIcon';
 import NHLLiveSportsHeader from '../../components/NHLLiveSportsHeader';
-import SidebarBtnIcon from '../../assets/nhl-sidebar-icon.png';
+
 import FooterImage from '../../assets/NHL-live-footer.png';
+import RankCard from '../../components/RankCard';
 
 function NHLPowerdFsLive(props) {
     const [selectedData, setSelectedData] = useState(dummyData);
@@ -99,7 +99,6 @@ function NHLPowerdFsLive(props) {
                                     ))
                             }
                         </Card>
-
                         <div className={classes.left_side_footer}>
                             <img src={FooterImage} alt="" />
                         </div>
@@ -108,33 +107,7 @@ function NHLPowerdFsLive(props) {
                     <div className={classes.sidebar_container}>
                         <Sidebar>
                             <CashPowerBalance />
-                            <div className={classes.sidebar_header}>
-                                <div className={classes.header_rank}>
-                                    <p>
-                                        <div className={classes.live_dot} /> Live Rank
-                                        <div className={classes.separater} />
-                                        <strong>23</strong>
-                                    </p>
-                                </div>
-
-                                <div className={classes.sidebar_header_content}>
-                                    <div>
-                                        <div className={classes.sidebar_header_left}>
-                                            <p>My Score:</p>
-                                            <p className={classes.sidebar_header_p1}>Leader:</p>
-                                        </div>
-                                        <div className={classes.sidebar_header_right}>
-                                            <p className={classes.sidebar_header_p2}>30</p>
-                                            <p className={classes.sidebar_header_p1}>66</p>
-                                        </div>
-                                    </div>
-                                    <RankIcon />
-                                </div>
-
-                                <button>
-                                    <img src={SidebarBtnIcon} width={19} style={{ marginRight: '10px' }} /> See Full Standings
-                                </button>
-                            </div>
+                            <RankCard />
 
                             <div className={classes.sidebar_content}>
                                 <p><span>My</span> Powers</p>

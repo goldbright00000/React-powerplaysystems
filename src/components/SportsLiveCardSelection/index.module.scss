@@ -147,6 +147,25 @@
 				margin: 35px 0 0 0;
 			}
 
+			.tool_tip_xp {
+				display: flex;
+				margin: 0;
+				padding: 0;
+
+				span {
+
+					&:hover {
+						cursor: pointer;
+					}
+
+					svg {
+						margin: 0 5px;
+						padding: 0;
+					}
+				}
+
+			}
+
 			.state_points_bg {
 				width: 100%;
 				background-color: $lightBlack6;
@@ -196,6 +215,8 @@
 							opacity: 1;
 							font-size: 16px;
 							font-weight: 600;
+							text-align: center;
+							width: 100%;
 						}
 					}
 				}
@@ -216,6 +237,7 @@
 					font-size: 12px;
 					font-weight: bold;
 					border-radius: 6px;
+					color: $grey;
 				}
 
 				.bg_p {
@@ -241,12 +263,14 @@
 
 					.p_1 {
 						padding: 3px 8px;
+						font-weight: bold;
 					}
 
 					.p_2 {
 						font-size: 14px;
 						font-weight: normal;
 						margin: 22px 0 0 0;
+						color: $grey2;
 					}
 				}
 			}

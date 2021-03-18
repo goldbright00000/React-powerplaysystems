@@ -76,6 +76,13 @@ export const CONSTANTS = {
             DH: 'dh',
             RP: 'rp',
             D: 'd',
+        },
+        NBA: {
+            C: 'c',
+            PG: 'pg',
+            SG: 'sg',
+            F: 'f',
+            D: 'd',
         }
     }
 }

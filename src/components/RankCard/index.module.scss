@@ -1,0 +1,127 @@
+@import "../../scss/colors.scss";
+
+:root {
+    --header_width: 290px;
+}
+
+.sidebar_header {
+    width: var(--header_width);
+    display: flex;
+    flex-direction: column;
+    background-color: $black2;
+    padding: 37px 20px 10px 20px;
+    border-radius: 14px;
+
+    .header_rank {
+        background-color: $danger3;
+        padding: 0px 20px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        transform: translate(calc(var(--header_width) * 0.125), -50px);
+        font-size: 16px;
+        
+        p {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .live_dot {
+                width: 10px;
+                height: 10px;
+                background-color: $white;
+                border-radius: 50%;
+                margin: 0 10px 0 0;
+            }
+
+            .separater {
+                width: 1px;
+                height: 20px;
+                margin: 0 10px;
+                background-color: $danger4;
+            }
+
+            strong {
+                font-size: 20px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .sidebar_header_content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-transform: uppercase;
+        
+        svg {
+            margin: 13px 0 0 10px;
+        }
+
+        p {
+            font-family: Teko;
+            color: $primary;
+            font-size: 20px;
+        }
+
+        >div {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            .sidebar_header_p1 {
+                color: $grey2;
+                opacity: 0.3;
+            }
+
+            .sidebar_header_p2 {
+                font-size: 30px;
+                display: flex;
+                flex: 1;
+                margin: 0;
+                padding: 0;
+            }
+            
+            .sidebar_header_left {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+
+                p{
+                    margin: 5px 0 0 0;
+                }
+            }
+
+            .sidebar_header_right {
+                display: flex;
+                flex-direction: column;
+                margin: 0;
+                padding: 0;
+                flex: 0.2;
+
+                p{
+                    display: flex;
+                    flex: 1;
+                }
+            }
+        }
+    }
+
+    button {
+        background-color: transparent;
+        outline: none;
+        color: $white;
+        border: 1px solid $grey2;
+        padding: 8px 36px;
+        border-radius: 8px;
+        margin: 25px 0 5px 0;
+        font-size: 14px;
+        opacity: 0.8;
+    }
+}

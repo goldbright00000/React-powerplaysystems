@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 import classes from './index.module.scss';
 import BackArrow from '../../icons/BackArrow';
@@ -14,17 +14,37 @@ function NHLLiveSportsHeader(props) {
 
             <div className={classes.container_nav}>
                 <ul>
-                    <li><Link to="#" className={classes.active}>Team Manager</Link></li>
-                    <li><Link to="#">My Score Details</Link></li>
+                    <li>
+                        <NavLink
+                            exact
+                            to="/nhl-live-powerdfs"
+                            activeClassName={classes.active}
+                        >
+                            Team Manager
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink
+                            exact
+                            to="/nhl-live-powerdfs/my-score-details"
+                            activeClassName={classes.active}
+                        >
+                            My Score Details
+                        </NavLink>
+                    </li>
                 </ul>
-                <button>Detailed Team View</button>
+                <button onClick={props?.onPress}>
+                    {props?.buttonIcon} {props?.buttonTitle || 'Detailed Team View'}
+                </button>
             </div>
         </div>
     )
 }
 
 NHLLiveSportsHeader.propTypes = {
-
+    buttonTitle: PropTypes.string,
+    buttonIcon: PropTypes.any,
+    onPress: PropTypes.func,
 }
 
 export default NHLLiveSportsHeader
