@@ -15,8 +15,9 @@ const PowerCenterCard = (props) => {
         total = null, 
         percent = null, 
         showDetails = false,
-        onDetailsClick = () => {} } = props || {};
-    
+        onDetailsClick = () => {},
+        onBackClick = () => {},
+        onNextClick = () => {}} = props || {};
     
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
@@ -86,7 +87,10 @@ const PowerCenterCard = (props) => {
             </div>           
         </div>
         :
-        <PowerCenterCardDetails />
+        <PowerCenterCardDetails 
+            onBackClick = {() => onBackClick()}
+            onNextClick = {() => onNextClick()}
+        />
     );
 };
 

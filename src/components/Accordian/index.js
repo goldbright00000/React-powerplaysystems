@@ -5,24 +5,24 @@ import classes from './index.module.scss';
 import ResultCard from './ResultCard';
 
 function Accordian(props) {
-    const { title = '', visible = false, cash = '', cashTitle = '', Icon = '', isSvg = false, onClick = () => { }, isMobile = false } = props || {}
+    const { title = '', visible = false, cash = '', cashTitle = '', icon = '', onClick = () => { }, isMobile = false } = props || {}
     
     return (
         <div className={classes.wrapper}>
             <div className={classes.accoridan_bar} onClick={onClick}>
-                <span>{title}</span>
+                <span className={classes.accoridan_bar_icon}>
+                    {
+                        icon
+                        &&
+                            <img src={icon} width="23" height="23" style={{paddingRight: 2}} />
+                    }
+                    {title}
+                </span>
                 <span className={classes.accoridan_bar_right}>
                     <span>
                         <span>{cashTitle}</span>
                         <span className={classes.amount}>{cash}</span>
                     </span>
-                    {
-                        Icon && isSvg ?
-                            <Icon />
-                            :
-                            Icon &&
-                            <img src={Icon} />
-                    }
                     <i className={`${classes.arrow} ${visible ? classes.up : classes.down}`} />
                 </span>
             </div>
