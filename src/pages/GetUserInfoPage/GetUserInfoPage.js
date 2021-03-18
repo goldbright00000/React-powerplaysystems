@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { redirectTo } from "../../utility/shared";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
 import {
-  getMonthDays,
-  getMonths,
-  getYearsList,
   getCountries,
   getStates,
   getProvinces,
@@ -32,17 +28,14 @@ const INITIAL_STATE = {
   //from step 1
   username: "",
   email: "",
-  passwod: "",
+  password: "",
 
   firstName: "",
   lastName: "",
 
   country: "",
   stateOrProvince: "",
-
-  day: "",
-  month: "",
-  year: "",
+  dateOfBirth: "",
 
   termsAndConditions: true,
   promotionsCheck: false,
@@ -58,14 +51,29 @@ const INITIAL_STATE = {
 };
 
 const GetUserInfoPage = (props) => {
-  const [user, setUser] = useState(INITIAL_STATE);
-
+  const [user, setUser] = useState({
+    ...INITIAL_STATE,
+    username: props.location.state.username,
+    email: props.location.state.email,
+    password: props.location.state.password,
+  });
   useEffect(() => {
-    console.log(props);
-    if (user.isSuccess) {
+    if (user.isSuccess || isEmpty(props.location.state.email)) {
       redirectTo(props, { path: "login" });
     }
   }, [user]);
+  useEffect(() => {
+    setUser({ ...user, stateOrProvince: "" });
+  }, [user.country]);
+  const getStatesOrProvinces = () => {
+    if (user.country == "USA") {
+      return getStates();
+    } else if (user.country == "Canada") {
+      return getProvinces();
+    } else {
+      return [];
+    }
+  };
   const addressChnageHandler = (e) => {
     const { target: { value = "", name = "" } = {} } = e || {};
     setUser({ ...user, [name]: value });
@@ -93,9 +101,7 @@ const GetUserInfoPage = (props) => {
       country = "",
       stateOrProvince = "",
 
-      day = "",
-      month = "",
-      year = "",
+      dateOfBirth = "",
 
       termsAndConditions = false,
       promotionsCheck = false,
@@ -108,10 +114,7 @@ const GetUserInfoPage = (props) => {
       isEmpty(firstName) ||
       isEmpty(lastName) ||
       isEmpty(country) ||
-      isEmpty(stateOrProvince) ||
-      isEmpty(day) ||
-      isEmpty(month) ||
-      isEmpty(year)
+      isEmpty(stateOrProvince)
     ) {
       return setUser({
         ...user,
@@ -135,12 +138,16 @@ const GetUserInfoPage = (props) => {
     }
 
     const data = {
+      username,
       firstName,
       lastName,
+      email,
+      passwod,
       country,
       stateOrProvince,
       dateOfBirth,
-      checks,
+      updatesCheck,
+      promotionsCheck,
     };
 
     const response = await http.post(URLS.AUTH.REGISTER, data);
@@ -242,7 +249,7 @@ const GetUserInfoPage = (props) => {
                 value={user.country}
                 onChange={addressChnageHandler}
               >
-                <option value="" selected disabled hidden>
+                <option hidden disabled value="">
                   Country
                 </option>
                 {getCountries().map((opt) => (
@@ -259,10 +266,10 @@ const GetUserInfoPage = (props) => {
                 value={user.stateOrProvince}
                 onChange={addressChnageHandler}
               >
-                <option value="" selected disabled hidden>
+                <option hidden disabled value="">
                   State/Province
                 </option>
-                {getStates().map((opt) => (
+                {getStatesOrProvinces().map((opt) => (
                   <option key={opt} value={opt}>
                     {opt}
                   </option>
@@ -274,53 +281,16 @@ const GetUserInfoPage = (props) => {
                 <span className="__mr-s">+ 5 bonus tokens</span>
                 <img src={powerplayicon} alt="" />
               </div>
-              <Select
-                id="month"
-                name="month"
+              <Input
+                type="date"
+                title="Date Of Birth"
+                id="dateOfBirth"
+                value={user.dateOfBirth}
                 className="w-100"
-                title="Date of birth"
-                value={user.month}
-                onChange={dateOfBirthChangeHandler}
-              >
-                <option value="" selected disabled hidden>
-                  Month
-                </option>
-                {getMonths().map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </Select>
-              <Select
-                id="day"
-                name="day"
-                className="w-100"
-                title=""
-                value={user.day}
-                onChange={dateOfBirthChangeHandler}
-              >
-                <option value="" selected disabled hidden>
-                  Day
-                </option>
-                {getMonthDays().map((opt) => (
-                  <option value={opt.value}>{opt.name}</option>
-                ))}
-              </Select>
-              <Select
-                id="year"
-                name="year"
-                className="w-100"
-                title=""
-                value={user.year}
-                onChange={dateOfBirthChangeHandler}
-              >
-                <option value="" selected disabled hidden>
-                  Year
-                </option>
-                {getYearsList().map((opt) => (
-                  <option value={opt.value}>{opt.name}</option>
-                ))}
-              </Select>
+                onChange={(e) => {
+                  setUser({ ...user, dateOfBirth: e?.target?.value });
+                }}
+              />
             </div>
             <label className="__flex __flex-start __checkbox-wrapper __mb-1 __mt-1">
               <CheckBox
