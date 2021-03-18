@@ -10,6 +10,7 @@ import {
   getCountries,
   getStates,
   getProvinces,
+  redirectTo,
 } from "../../utility/shared";
 //store
 import { useDispatch, useSelector } from "react-redux";
@@ -60,6 +61,7 @@ const GetUserInfoPage = (props) => {
   const [user, setUser] = useState(INITIAL_STATE);
 
   useEffect(() => {
+    console.log(props);
     if (user.isSuccess) {
       redirectTo(props, { path: "login" });
     }
@@ -81,12 +83,24 @@ const GetUserInfoPage = (props) => {
     e.preventDefault();
     console.log("User", user);
     const {
+      username = "",
+      email = "",
+      passwod = "",
+
       firstName = "",
       lastName = "",
+
       country = "",
       stateOrProvince = "",
-      dateOfBirth = {},
-      checks = {},
+
+      day = "",
+      month = "",
+      year = "",
+
+      termsAndConditions = false,
+      promotionsCheck = false,
+      updatesCheck = false,
+      ageCheck = false,
     } = user || {};
     setUser({ ...user, isLoading: true });
 
@@ -94,12 +108,29 @@ const GetUserInfoPage = (props) => {
       isEmpty(firstName) ||
       isEmpty(lastName) ||
       isEmpty(country) ||
-      isEmpty(stateOrProvince)
+      isEmpty(stateOrProvince) ||
+      isEmpty(day) ||
+      isEmpty(month) ||
+      isEmpty(year)
     ) {
       return setUser({
         ...user,
         isFailed: true,
         errorMsg: "All fields are required",
+      });
+    }
+    if (!ageCheck) {
+      return setUser({
+        ...user,
+        isFailed: true,
+        errorMsg: "Please Confirm that you are above the age of Majority",
+      });
+    }
+    if (!termsAndConditions) {
+      return setUser({
+        ...user,
+        isFailed: true,
+        errorMsg: "Please agree to terms and conditions",
       });
     }
 
@@ -112,7 +143,7 @@ const GetUserInfoPage = (props) => {
       checks,
     };
 
-    const response = await http.post(URLS.AUTH.BONUS, data);
+    const response = await http.post(URLS.AUTH.REGISTER, data);
     if (response.data.status === false) {
       return setUser({
         ...user,

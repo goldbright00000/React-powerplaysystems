@@ -57,7 +57,7 @@ const App = props => {
                 <Route path='/account-security' component={AccountSecurity} />
                 <Route path='/terms' component={TermsOfUse} />
                 <Route path='/power-up' component={PowerUpPage} />
-                <ProtectedRoute path='/user-profile-info' component={GetUserInfoPage} />
+                <Route path='/user-profile-info' component={GetUserInfoPage} />
                 <ProtectedRoute path='/my-game-center' component={MyGameCenter} />
                 <Route path='/bingo-in-progress' component={BingoInProgressGame} />
                 <Route path="/login" component={LoginPage} />
