@@ -22,6 +22,7 @@ import CheckIcon from '../../icons/Check';
 import { dummyData } from './dummyData';
 import { CONSTANTS } from '../../utility/constants';
 import SportsContestRules from '../../components/SportsContestRules';
+import { redirectTo } from '../../utility/shared';
 
 const INITIAL_PLAYER_LIST = [
     {
@@ -123,7 +124,7 @@ const detailRules = [
 
 let starPowerIndex = 0;
 
-function NHLPowerdFs() {
+function NHLPowerdFs(props) {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
     const [selected, setSelected] = useState(new Map());
     const [selectedFilter, setSelectedFilter] = useState(FILTERS_INITIAL_VALUES[0]);
@@ -393,7 +394,7 @@ function NHLPowerdFs() {
                                 data={playerList}
                                 onDelete={(playerId) => onDelete(playerId)}
                             />
-                            <button className={classes.sidebar_button}>Submit!</button>
+                            <button onClick={() => redirectTo(props, { path: '/nhl-live-powerdfs' })} className={classes.sidebar_button}>Submit!</button>
                         </Sidebar>
                     </div>
                 </div>
