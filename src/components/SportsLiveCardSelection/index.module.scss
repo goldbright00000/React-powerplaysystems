@@ -80,14 +80,9 @@
 				font-size: 16px;
 				padding: 0;
 				margin: 0;
-				color: $white;
+				color: $lightBlue2;
 				font-family: Poppins;
 				font-weight: 600;
-	
-				&.active {
-					color: $primary;
-					border-bottom-color: $primary;
-				}
 			}
 		}
 
@@ -168,7 +163,7 @@
 
 			.state_points_bg {
 				width: 100%;
-				background-color: $lightBlack6;
+				background-color: $lightBlue3;
 				padding: 2px 8px;
 				border-radius: 6px;
 			}
@@ -179,6 +174,7 @@
 				width: 100%;
 				align-items: center;
 				justify-content: flex-start;
+				color: $grey2;
 
 				.states_points_left {
 					width: 115px;
@@ -186,6 +182,8 @@
 					
 					>div {
 						@extend .state_points_bg;
+
+						height: 45px;
 	
 						span {
 							color: $grey2;
@@ -197,18 +195,24 @@
 				}
 	
 				.states_points_right {
-					width: 50px;
 					display: flex;
 					flex-direction: column;
 					margin: 0 10px 0 0;
 					
-					>div {
+					.points_right_1 {
 						@extend .state_points_bg;
-	
+
+						display: flex;
+						width: 75px;
 						height: 45px;
-						display: inherit;
-						justify-content: flex-start;
+						flex-direction: row;
+						justify-content: space-evenly;
 						align-items: center;
+
+						svg {
+							margin: 0 0 0 10px;
+							display: flex;
+						}
 	
 						span {
 							color: $grey2;
@@ -229,6 +233,7 @@
 				justify-content: space-between;
 				align-items: center;
 				margin: 10px 0 0 0;
+				width: 100%;
 				
 				p {
 					margin: 0;
@@ -238,17 +243,15 @@
 					font-weight: bold;
 					border-radius: 6px;
 					color: $grey;
+					width: 100%;
 				}
 
 				.bg_p {
-					background-color: $primaryLight5;
+					color: $danger3;
 				}
 
 				.bg_s {
-					display: flex;
-					flex-direction: row;
-					justify-content: center;
-					background-color: $successLight;
+					color: $success;
 				}
 
 				.bg_n {
@@ -260,10 +263,14 @@
 					flex-direction: column;
 					text-align: center;
 					justify-content: center;
+					width: 100%;
 
 					.p_1 {
+						@extend .bg_n;
+
 						padding: 3px 8px;
 						font-weight: bold;
+						width: 100%;
 					}
 
 					.p_2 {
@@ -277,7 +284,7 @@
 		}
 
 		.card_footer_arrow {
-			transform: translate(-10px, -7px);
+			transform: translate(-15px, -10px);
 			position: absolute;
 			flex-grow: 1;
 			width: 100%;
@@ -287,11 +294,26 @@
 			display: flex;
 			pointer-events: none;
 			
-			.card_arrow {
+			.card_details {
 				cursor: pointer;
 				pointer-events: painted;
 				transform: translate(-10px, 4px);
+				font-size: 12px;
+				color: $primary;
+				border-bottom: 1px solid $primary;
 			}
+
+			.arrow {
+				border: solid $primary;
+				border-width: 0 2px 2px 0;
+				padding: 2px;
+				display: inline-block;
+				margin: 0 0 0 0;
+			  }
+		
+			  .right {
+				transform: rotate(-45deg) translate(-5px, -5px);
+			  }
 		}
 
 		.points_summary {
@@ -358,6 +380,16 @@
 							}
 						}
 					}
+				}
+
+				.summary_total_pts {
+					background-color: $lightBlack5;
+					padding: 8px 0;
+					border-radius: 6px;
+					margin: 15px 0 5px 0;
+					display: flex;
+					justify-content: center;
+					align-items: center;
 				}
 			}
 		}

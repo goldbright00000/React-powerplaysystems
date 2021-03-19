@@ -11,6 +11,7 @@ import CashPowerBalance from '../../components/CashPowerBalance';
 import DropDownMenu from '../../components/DropDownMenu/DropDownMenu';
 import PowerCenterCard from '../../components/PowerCenterCard';
 import PowerCenterCardDetails from '../../components/PowerCenterCardDetails';
+import { redirectTo } from '../../utility/shared';
 
 const powerCenterCardData = [
     {
@@ -76,7 +77,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
-    }  
+    }
 ];
 
 const options = [
@@ -90,8 +91,8 @@ const options = [
 ];
 
 const customStyles = {
-    control: (base, state) => ({ 
-        ...base, 
+    control: (base, state) => ({
+        ...base,
         width: 150,
         backgroundColor: '#303133',
         borderWidth: 0,
@@ -130,9 +131,9 @@ const customStyles = {
 
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
-    const responsiveHandler = maxWidth =>  setMobileDevice(maxWidth.matches);
+    const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
 
-    
+
     const [selectedDate, setSelectedDate] = useState(options[0]);
     const [showCardDetails, setShowCardDetails] = useState(-1);
 
@@ -144,95 +145,96 @@ const InteractiveContests = props => {
     }, [])
 
     const powerCenterCard = (item) => {
-		return (
-			<div className={classes.__interactive_contests_power_center_card}>
-				<PowerCenterCard
+        return (
+            <div className={classes.__interactive_contests_power_center_card}>
+                <PowerCenterCard
                     id={item.id}
-					title = {item.title}
-					prize = {item.prize}
-					outOf = {item.outOf}
-					total = {item.total}
-					percent = {item.percent}
-                    showDetails = {showCardDetails == item.id}
-					onDetailsClick = {(cardId) => setShowCardDetails(cardId)}
-                    onBackClick = {() => setShowCardDetails(-1)}
-                    onNextClick = {() => setShowCardDetails(-1)}
-				/>
-			</div>
-		);
-	}
+                    title={item.title}
+                    prize={item.prize}
+                    outOf={item.outOf}
+                    total={item.total}
+                    percent={item.percent}
+                    showDetails={showCardDetails == item.id}
+                    onEnter={() => redirectTo(props, { path: '/nhl-live-powerdfs' })}
+                    onDetailsClick={(cardId) => setShowCardDetails(cardId)}
+                    onBackClick={() => setShowCardDetails(-1)}
+                    onNextClick={() => setShowCardDetails(-1)}
+                />
+            </div>
+        );
+    }
 
     return (
         <>
-        <div className='__table-wrapper __mb-6'>
-            <div className='__flex'>
-                <div style={{ flex: 1 }}>
-                    <div className='__badges-wrapper __text-in-one-line __mediam'>
-                        <NavLink to='/' className='__outline-badge __f1 __active'><SuperBall />NFL</NavLink>
-                        <NavLink to='/' className='__outline-badge __f1'><BasketBall />NBA</NavLink>
-                        <NavLink to='/' className='__outline-badge __f1'><Ball />MLB</NavLink>
-                        <NavLink to='/' className='__outline-badge __f1'><Hockeys />NHL</NavLink>
-                        <NavLink to='/' className='__outline-badge __f1'>Show All</NavLink>
+            <div className='__table-wrapper __mb-6'>
+                <div className='__flex'>
+                    <div style={{ flex: 1 }}>
+                        <div className='__badges-wrapper __text-in-one-line __mediam'>
+                            <NavLink to='/' className='__outline-badge __f1 __active'><SuperBall />NFL</NavLink>
+                            <NavLink to='/' className='__outline-badge __f1'><BasketBall />NBA</NavLink>
+                            <NavLink to='/' className='__outline-badge __f1'><Ball />MLB</NavLink>
+                            <NavLink to='/' className='__outline-badge __f1'><Hockeys />NHL</NavLink>
+                            <NavLink to='/' className='__outline-badge __f1'>Show All</NavLink>
+                        </div>
+                    </div>
+                    <div style={{ flex: 1, marginLeft: 380 }}>
+                        <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124' }} />
                     </div>
                 </div>
-                <div  style={{ flex: 1, marginLeft: 380 }}>
-                    <CashPowerBalance styles={{margin: 0, backgroundColor: '#202124'}} />
-                </div>
-            </div>
-            <div className={classes.__interactive_contests_filter}>
-                <div className={classes.__interactive_contests_most_popular}>
-                    <p>Most Popular</p>
-                </div>
-                <div className={classes.__interactive_contests_prize_total}>
-                    <p>Prize Total 
+                <div className={classes.__interactive_contests_filter}>
+                    <div className={classes.__interactive_contests_most_popular}>
+                        <p>Most Popular</p>
+                    </div>
+                    <div className={classes.__interactive_contests_prize_total}>
+                        <p>Prize Total
                         <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
-                    </p>
-                </div>
-                <div className={classes.__interactive_contests_top_prize}>
-                    <p>Top Prize
+                        </p>
+                    </div>
+                    <div className={classes.__interactive_contests_top_prize}>
+                        <p>Top Prize
                         <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
-                    </p>
+                        </p>
+                    </div>
+                    <div className={classes.__interactive_contests_min_entry}>
+                        <p>Min Entry</p>
+                    </div>
+                    <div className={classes.__interactive_contests_date}>
+                        <DropDownMenu
+                            defaultValue={options[0]}
+                            value={selectedDate}
+                            options={options}
+                            onChange={selectedOption => setSelectedDate(selectedOption)}
+                            styles={customStyles}
+                        />
+                    </div>
                 </div>
-                <div className={classes.__interactive_contests_min_entry}>
-                    <p>Min Entry</p>
-                </div>
-                <div className={classes.__interactive_contests_date}>
-                    <DropDownMenu
-                        defaultValue={options[0]}
-                        value={selectedDate}
-                        options={options} 
-                        onChange={selectedOption => setSelectedDate(selectedOption)}
-                        styles={customStyles}
-                    />
-                </div>
-            </div>
 
-            {
-                (() => {
-                            const itemsInaRow = 4;
-                            const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
-                            const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
-                                const start = ((i + 1) * itemsInaRow) - 4;
-                                const end = ((i + 1) * itemsInaRow);
-                                const items = powerCenterCardData.slice(start, end);
+                {
+                    (() => {
+                        const itemsInaRow = 4;
+                        const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
+                        const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
+                            const start = ((i + 1) * itemsInaRow) - 4;
+                            const end = ((i + 1) * itemsInaRow);
+                            const items = powerCenterCardData.slice(start, end);
 
-                                    return (
-                                        <div className={classes.__interactive_contests_power_center_card_row}>
-                                            {
-                                                items.map(power => {
-                                                    return powerCenterCard(power);
-                                                })
-                                            }
-                                        </div>
-                                    );
-                                })
-                            return powerCenterCardView;
+                            return (
+                                <div className={classes.__interactive_contests_power_center_card_row}>
+                                    {
+                                        items.map(power => {
+                                            return powerCenterCard(power);
+                                        })
+                                    }
+                                </div>
+                            );
+                        })
+                        return powerCenterCardView;
                     }
-                )()
-            }
-            
-            
-            {/* <Scrollbar className='__power-center-scrollbar'>
+                    )()
+                }
+
+
+                {/* <Scrollbar className='__power-center-scrollbar'>
                 <div className='__table __block-on-large'>
                     {!isMobileDevice && (
                         <Fragment>
@@ -429,7 +431,7 @@ const InteractiveContests = props => {
                     />
                 </div>
             </Scrollbar> */}
-        </div>
+            </div>
         </>
     )
 }

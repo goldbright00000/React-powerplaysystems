@@ -80,14 +80,12 @@ function SportsLiveCardSelection(props) {
                             isStarPower &&
                             <img src={PowerPlayIcon} />
                         }
-                        <p className={`${classes.container_selected_p} 
-                                        ${isSelected ? classes.active : ''}`}
-                        >
+                        <p className={classes.container_selected_p}>
                             {title}
                         </p>
                     </div>
                     <div className={classes.card_title_right}>
-                        <ReplaceAllIcon style={{ height: 'auto' }} size={30} />
+                        <ReplaceAllIcon style={{ height: 'auto' }} size={24} />
                     </div>
                 </div>
                 <div className={classes.divider} />
@@ -114,27 +112,27 @@ function SportsLiveCardSelection(props) {
 
                                                 <div className={classes.states_points_right}>
                                                     <p>Points</p>
-                                                    <div>
+                                                    <div className={classes.points_right_1}>
                                                         <span>{steps[currentStep]?.points}</span>
+                                                        <ToolTip toolTipContent={
+                                                            <div className={classes.tool_tip_xp}>
+                                                                <span onClick={() => {
+                                                                    console.log('A');
+                                                                }}><XP1_5 /></span>
+                                                                <span onClick={() => {
+                                                                    console.log('B');
+                                                                }}><XP2Icon /></span>
+                                                                <span onClick={() => {
+                                                                    console.log('C');
+                                                                }}><XP3 /></span>
+                                                            </div>
+                                                        }>
+                                                            <div data-tip data-for={`${title}`}>
+                                                                <XPIcon size={24} />
+                                                            </div>
+                                                        </ToolTip>
                                                     </div>
                                                 </div>
-                                                <ToolTip toolTipContent={
-                                                    <div className={classes.tool_tip_xp}>
-                                                        <span onClick={() => {
-                                                            console.log('A');
-                                                        }}><XP1_5 /></span>
-                                                        <span onClick={() => {
-                                                            console.log('B');
-                                                        }}><XP2Icon /></span>
-                                                        <span onClick={() => {
-                                                            console.log('C');
-                                                        }}><XP3 /></span>
-                                                    </div>
-                                                }>
-                                                    <span data-tip data-for={`${title}`}>
-                                                        <XPIcon />
-                                                    </span>
-                                                </ToolTip>
                                             </div>
 
                                             <div className={classes.states_points_center}>
@@ -176,6 +174,9 @@ function SportsLiveCardSelection(props) {
                                                         ))
                                                     }
                                                 </div>
+                                                <div className={classes.summary_total_pts}>
+                                                    Total Points: {steps[currentStep]?.totalPoints}
+                                                </div>
                                             </div>
                                         </div>
                                     }
@@ -185,9 +186,10 @@ function SportsLiveCardSelection(props) {
                             {
                                 steps?.length ?
                                     <div className={classes.card_footer_arrow}>
-                                        <div onClick={nextStep} className={classes.card_arrow}>
-                                            <ForwardArrow color={"#fb6e00"} />
+                                        <div onClick={nextStep} className={classes.card_details}>
+                                            Details
                                         </div>
+                                        <span className={`${classes.arrow} ${classes.right}`} />
                                     </div>
                                     :
                                     <></>
