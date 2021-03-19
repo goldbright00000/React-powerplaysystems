@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './index.module.scss';
@@ -28,6 +28,13 @@ const detailRules = [
 ]
 
 function NHLLivePowerdFsScroeDetail(props) {
+
+    let tableHeaderRef = useRef();
+
+    useEffect(() => {
+        console.log(tableHeaderRef);
+        tableHeaderRef?.current?.scrollIntoView();
+    }, [tableHeaderRef]);
 
     const Row = ({ position, name, time, plays, pts, totalPts, powers, score, runningTotal }) => (
         <div className={`${classes.card_row} ${classes.card_row_1} ${score < 0 ? classes.primary_bg : ''}`}>
@@ -73,7 +80,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                 />
 
                 <div className={classes.container}>
-                    <div className={classes.container_left_side}>
+                    <div className={classes.container_left_side} ref={tableHeaderRef}>
                         <div className={classes.container_header}>
                             <NHLLiveSportsHeader buttonTitle="Full Standings" buttonIcon={<img
                                 src={SidebarBtnIcon} width={19}

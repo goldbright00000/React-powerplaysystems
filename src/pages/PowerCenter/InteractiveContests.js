@@ -21,6 +21,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/mlb-powerdfs'
     },
     {
         id: 2,
@@ -37,6 +38,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/nba-powerdfs'
     },
     {
         id: 4,
@@ -45,6 +47,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/nhl-powerdfs'
     },
     {
         id: 5,
@@ -144,7 +147,7 @@ const InteractiveContests = props => {
         return () => maxWidth.removeEventListener('change', responsiveHandler);
     }, [])
 
-    const powerCenterCard = (item) => {
+    const powerCenterCard = (item, redirectUri) => {
         return (
             <div className={classes.__interactive_contests_power_center_card}>
                 <PowerCenterCard
@@ -155,7 +158,7 @@ const InteractiveContests = props => {
                     total={item.total}
                     percent={item.percent}
                     showDetails={showCardDetails == item.id}
-                    onEnter={() => redirectTo(props, { path: '/nhl-live-powerdfs' })}
+                    onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
                     onBackClick={() => setShowCardDetails(-1)}
                     onNextClick={() => setShowCardDetails(-1)}
@@ -222,7 +225,7 @@ const InteractiveContests = props => {
                                 <div className={classes.__interactive_contests_power_center_card_row}>
                                     {
                                         items.map(power => {
-                                            return powerCenterCard(power);
+                                            return powerCenterCard(power, power.url);
                                         })
                                     }
                                 </div>

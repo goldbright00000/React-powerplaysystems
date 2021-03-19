@@ -229,20 +229,23 @@ function SportsLiveCardSelection(props) {
                                 !compressed && steps?.length ?
                                     <div className={classes.card_footer_arrow}>
                                         {
-                                            currentStep > 0 &&
-                                            <>
-                                                <div onClick={backStep} className={classes.footer_back}>
-                                                    Back
-                                                </div>
-                                                <div className={classes.left_align}>
-                                                    <span className={`${classes.arrow} ${classes.left}`} />
-                                                </div>
-                                            </>
+                                            currentStep > 0 ?
+                                                <>
+                                                    <div onClick={backStep} className={classes.footer_back}>
+                                                        Back
+                                                    </div>
+                                                    <div className={classes.left_align}>
+                                                        <span className={`${classes.arrow} ${classes.left}`} />
+                                                    </div>
+                                                </>
+                                                :
+                                                <>
+                                                    <div onClick={nextStep} className={classes.card_details}>
+                                                        Details
+                                                    </div>
+                                                    <span className={`${classes.arrow} ${classes.right}`} />
+                                                </>
                                         }
-                                        <div onClick={nextStep} className={classes.card_details}>
-                                            Details
-                                            </div>
-                                        <span className={`${classes.arrow} ${classes.right}`} />
                                     </div>
                                     :
                                     <></>
