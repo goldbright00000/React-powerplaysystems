@@ -9,12 +9,13 @@
 
     .bg_transparent {
         background-color: transparent;
+        width: 220px
     }
 
     button {
         display: flex;
         align-items: center;
-        width: 220px;
+        min-width: 220px;
         justify-content: space-evenly;
         transform: translate(-10px, 0);
         padding-left: 0;

@@ -78,7 +78,7 @@ function NHLPowerdFsLive(props) {
 
                 <div className={classes.container}>
                     <div className={classes.container_left_side}>
-                        <NHLLiveSportsHeader />
+                        <NHLLiveSportsHeader buttonTitle="Compressed Team View" />
                         <Card>
                             {
                                 selectedData && selectedData?.length &&
