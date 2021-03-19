@@ -10,6 +10,9 @@
     position: relative;
     
     .children {
+        margin: 0;
+        padding: 0;
+
         &:hover {
             cursor: pointer;
         }
@@ -17,7 +20,7 @@
 
     .tool_tip {
         position: absolute;
-        left: 50%;
+        left: 49.5%;
         background-color: $lightBlack2;
         transform: translateX(-50%) translateY(5px);
         box-shadow: 2px 14px 59px 0 $lightBlack9;

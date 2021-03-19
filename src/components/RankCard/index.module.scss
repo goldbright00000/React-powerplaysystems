@@ -15,12 +15,13 @@
     .header_rank {
         background-color: $danger3;
         padding: 0px 20px;
+        height: 38px;
         border-radius: 8px;
         display: flex;
         justify-content: center;
         align-items: center;
         position: absolute;
-        transform: translate(calc(var(--header_width) * 0.125), -50px);
+        transform: translate(calc(var(--header_width) * 0.125), -55px);
         font-size: 16px;
         
         p {

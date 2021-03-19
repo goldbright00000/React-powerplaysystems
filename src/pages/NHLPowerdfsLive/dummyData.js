@@ -156,6 +156,7 @@ export const dummyData = [
                     { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
                     { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
                     { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                    { p1: 'OT: 04:59', type: 'goal', power: '3x', pts: 9 },
                 ],
                 totalPoints: 27,
             }

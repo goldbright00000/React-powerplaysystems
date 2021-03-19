@@ -25,6 +25,7 @@ import RankCard from '../../components/RankCard';
 
 function NHLPowerdFsLive(props) {
     const [selectedData, setSelectedData] = useState(dummyData);
+    const [compressedView, setCompressedView] = useState(false);
 
     const RenderPower = ({ title = '', Icon = '', isSvgIcon = false, count = 0 }) => (
         <div className={classes.sidebar_content_p}>
@@ -78,7 +79,10 @@ function NHLPowerdFsLive(props) {
 
                 <div className={classes.container}>
                     <div className={classes.container_left_side}>
-                        <NHLLiveSportsHeader buttonTitle="Compressed Team View" />
+                        <NHLLiveSportsHeader
+                            buttonTitle="Compressed Team View"
+                            onPress={() => setCompressedView(!compressedView)}
+                        />
                         <Card>
                             {
                                 selectedData && selectedData?.length &&
@@ -95,6 +99,7 @@ function NHLPowerdFsLive(props) {
                                             steps={item.steps}
                                             id={item.id}
                                             isStarPower={item.isStarPower}
+                                            compressed={compressedView}
                                         />
                                     ))
                             }
@@ -106,7 +111,7 @@ function NHLPowerdFsLive(props) {
 
                     <div className={classes.sidebar_container}>
                         <Sidebar>
-                            <CashPowerBalance />
+                            <CashPowerBalance styles={{ marginTop: -40, width: '100%' }} />
                             <RankCard />
 
                             <div className={classes.sidebar_content}>
