@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getLocalStorage } from "../utility/shared";
+import { CONSTANTS } from "../utility/constants";
 
 const apiUrl = "http://localhost:4000/api/v1";
 
@@ -13,12 +14,13 @@ const http = axios.create({
 http.interceptors.request.use(
   (config) => {
     const { origin } = new URL(config.baseURL + "/" + config.url);
-    const token = getLocalStorage("token");
-    const allowedOrigin = [apiUrl];
-    if (allowedOrigin.includes(origin)) {
-      config.headers.authorization = `Bearer ${token}`;
-    }
 
+    const token = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+    const allowedOrigin = [apiUrl];
+    // if (allowedOrigin.includes(origin)) {
+    //   config.headers.authorization = `Bearer ${token}`;
+    // }
+    config.headers.authorization = `${token}`;
     return config;
   },
   (err) => Promise.reject(err)

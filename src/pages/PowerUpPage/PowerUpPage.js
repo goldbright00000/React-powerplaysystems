@@ -28,7 +28,6 @@ const PowerUpPage = (props) => {
   const [user, setUser] = useState(INITIAL_STATE);
 
   useEffect(() => {
-   
     if (user.isSuccess) {
       redirectTo(props, { path: "login" });
     }

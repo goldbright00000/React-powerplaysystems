@@ -93,7 +93,7 @@ const GetUserInfoPage = (props) => {
     const {
       username = "",
       email = "",
-      passwod = "",
+      password = "",
 
       firstName = "",
       lastName = "",
@@ -142,7 +142,7 @@ const GetUserInfoPage = (props) => {
       firstName,
       lastName,
       email,
-      passwod,
+      password,
       country,
       stateOrProvince,
       dateOfBirth,
