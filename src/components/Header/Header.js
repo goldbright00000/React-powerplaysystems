@@ -33,7 +33,7 @@ const Header = props => {
                         </button>
                         <ul className='__navlinks __flex'>
                             <li><NavLink to='/power-center'>Power Center</NavLink></li>
-                                <li><NavLink to='/power-picks'>Powerpicks</NavLink></li>
+                                {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
                                 {
                                     token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? 
                                     <>
