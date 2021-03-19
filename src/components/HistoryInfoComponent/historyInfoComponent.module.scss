@@ -30,13 +30,6 @@
           flex: 0.6;
         }
   
-        &:last-child {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex: 1;
-        }
-  
         button {
           background-color: $white;
           color: $black;
