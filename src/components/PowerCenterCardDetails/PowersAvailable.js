@@ -1,33 +1,43 @@
-import React from 'react';
+import React, {useState} from 'react';
 import classes from './powersAvailable.module.scss';
 import PointMultipliers from '../../assets/point-multipliers.png';
 import PlayerSwaps from '../../assets/player-swaps.png';
 import VideoReview from '../../assets/video-review.png';
 import DWall from '../../assets/d-wall.png';
+import LearnMoreModal from './LearnMoreModal';
+
+const data = [
+    {
+        id: 1,
+        icon: PointMultipliers,
+        count: 3,
+        value: 'Point Multipliers'
+    },
+    {
+        id: 2,
+        icon: PlayerSwaps,
+        count: 2,
+        value: 'Player Swaps'
+    },
+    {
+        id: 3,
+        icon: VideoReview,
+        count: 2,
+        value: 'Video Review'
+    },
+    {
+        id: 4,
+        icon: DWall,
+        count: 2,
+        value: 'D-Wall'
+    },
+];
 
 const PowersAvailable = () => {
-    const data = [
-        {
-            icon: PointMultipliers,
-            count: 3,
-            value: 'Point Multipliers'
-        },
-        {
-            icon: PlayerSwaps,
-            count: 2,
-            value: 'Player Swaps'
-        },
-        {
-            icon: VideoReview,
-            count: 2,
-            value: 'Video Review'
-        },
-        {
-            icon: DWall,
-            count: 2,
-            value: 'D-Wall'
-        },
-    ];
+    const [learnMoreModal, setLearnMoreModal] = useState(false);
+
+    const onOpenModal = () => setLearnMoreModal(true);
+    const onCloseModal = () => setLearnMoreModal(false);
 
     return (
         <div className={classes.__powers_available}>
@@ -35,9 +45,17 @@ const PowersAvailable = () => {
                 <div className={classes.__powers_available_title_div}>
                     <p className={classes.__powers_available_title}>Powers Available</p>
                 </div>
-                <div className={classes.__powers_available_learn_more_div}>
+                <div className={classes.__powers_available_learn_more_div} onClick={() => onOpenModal()}>
                     <p className={classes.__powers_available_learn_more_text}>Learn more</p>
                 </div>
+                {
+                    learnMoreModal
+                    &&
+                    <LearnMoreModal 
+                        learnMoreModal={learnMoreModal} 
+                        onCloseModal={onCloseModal} 
+                    />
+                }
             </div>
             {
                 data.map((item, index) => {
