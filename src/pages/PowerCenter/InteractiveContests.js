@@ -76,65 +76,65 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
-    }
-    
+    }  
 ];
+
+const options = [
+    { value: 'FRI, Mar 12', label: 'FRI, Mar 12' },
+    { value: 'SAT, Mar 13', label: 'SAT, Mar 13' },
+    { value: 'SUN, Mar 14', label: 'SUN, Mar 14' },
+    { value: 'MON, Mar 15', label: 'MON, Mar 15' },
+    { value: 'TUE, Mar 16', label: 'TUE, Mar 16' },
+    { value: 'WED, Mar 17', label: 'WED, Mar 17' },
+    { value: 'THU, Mar 18', label: 'THU, Mar 18' },
+];
+
+const customStyles = {
+    control: (base, state) => ({ 
+        ...base, 
+        width: 150,
+        backgroundColor: '#303133',
+        borderWidth: 0,
+        borderRadius: 0,
+        boxShadow: 'none'
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected ? '#688fbd' : '#303133',
+        opacity: state.isSelected ? 0.5 : 1.0,
+        borderBottom: '1px solid #111111',
+        color: state.isSelected ? '#ffffff' : '#f2f2f2',
+        padding: 10,
+        width: 150,
+        height: 48,
+        fontSize: 16
+    }),
+    indicatorSeparator: (base) => ({
+        ...base,
+        width: 0
+    }),
+    dropdownIndicator: base => ({
+        ...base,
+        color: '#f2f2f2',
+    }),
+    singleValue: (provided, state) => ({
+        ...provided,
+        color: '#f2f2f2',
+        fontSize: 16
+    }),
+    menu: (base) => ({
+        ...base,
+        backgroundColor: '#303133'
+    })
+};
 
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth =>  setMobileDevice(maxWidth.matches);
 
-    const options = [
-        { value: 'FRI, Mar 12', label: 'FRI, Mar 12' },
-        { value: 'SAT, Mar 13', label: 'SAT, Mar 13' },
-        { value: 'SUN, Mar 14', label: 'SUN, Mar 14' },
-        { value: 'MON, Mar 15', label: 'MON, Mar 15' },
-        { value: 'TUE, Mar 16', label: 'TUE, Mar 16' },
-        { value: 'WED, Mar 17', label: 'WED, Mar 17' },
-        { value: 'THU, Mar 18', label: 'THU, Mar 18' },
-    ];
+    
     const [selectedDate, setSelectedDate] = useState(options[0]);
-    const [showDetails, setShowDetails] = useState(false);
     const [showCardDetails, setShowCardDetails] = useState(-1);
-
-    const customStyles = {
-        control: (base, state) => ({ 
-            ...base, 
-            width: 150,
-            backgroundColor: '#303133',
-            borderWidth: 0,
-            borderRadius: 0,
-            boxShadow: 'none'
-        }),
-        option: (provided, state) => ({
-            ...provided,
-            backgroundColor: state.isSelected ? '#688fbd' : '#303133',
-            opacity: state.isSelected ? 0.5 : 1.0,
-            borderBottom: '1px solid #111111',
-            color: state.isSelected ? '#ffffff' : '#f2f2f2',
-            padding: 10,
-            width: 150,
-            height: 48,
-            fontSize: 16
-        }),
-        indicatorSeparator: (base) => ({
-            ...base,
-            width: 0
-        }),
-        dropdownIndicator: base => ({
-            ...base,
-            color: '#f2f2f2',
-        }),
-        singleValue: (provided, state) => ({
-            ...provided,
-            color: '#f2f2f2',
-            fontSize: 16
-        }),
-        menu: (base) => ({
-            ...base,
-            backgroundColor: '#303133'
-        })
-    };
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -143,42 +143,24 @@ const InteractiveContests = props => {
         return () => maxWidth.removeEventListener('change', responsiveHandler);
     }, [])
 
-    const powerCard = (item) => {
+    const powerCenterCard = (item) => {
 		return (
 			<div className={classes.__interactive_contests_power_center_card}>
 				<PowerCenterCard
                     id={item.id}
-					title={item.title}
-					prize={item.prize}
-					outOf={item.outOf}
-					total={item.total}
-					percent={item.percent}
-                    showDetails={showCardDetails == item.id}
-					onDetailsClick={(cardId) => setShowCardDetails(cardId)}
+					title = {item.title}
+					prize = {item.prize}
+					outOf = {item.outOf}
+					total = {item.total}
+					percent = {item.percent}
+                    showDetails = {showCardDetails == item.id}
+					onDetailsClick = {(cardId) => setShowCardDetails(cardId)}
+                    onBackClick = {() => setShowCardDetails(-1)}
+                    onNextClick = {() => setShowCardDetails(-1)}
 				/>
 			</div>
 		);
 	}
-
-		// const itemsInaRow = 4;
-
-		// const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
-		// const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
-
-		// 	const start = ((i + 1) * itemsInaRow) - 4;
-		// 	const end = ((i + 1) * itemsInaRow);
-		// 	const items = powerCenterCardData.slice(start, end);
-
-		// 	return (
-		// 		<div className={classes.__interactive_contests_power_center_card_row}>
-		// 			{
-		// 				items.map(power => {
-		// 					return powerCard(power);
-		// 				})
-		// 			}
-		// 		</div>
-		// 	);
-		// })
 
     return (
         <>
@@ -225,29 +207,29 @@ const InteractiveContests = props => {
                 </div>
             </div>
 
-                {
-					(() => {
-                                const itemsInaRow = 4;
-                                const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
-                                const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
-                                    const start = ((i + 1) * itemsInaRow) - 4;
-                                    const end = ((i + 1) * itemsInaRow);
-                                    const items = powerCenterCardData.slice(start, end);
+            {
+                (() => {
+                            const itemsInaRow = 4;
+                            const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
+                            const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
+                                const start = ((i + 1) * itemsInaRow) - 4;
+                                const end = ((i + 1) * itemsInaRow);
+                                const items = powerCenterCardData.slice(start, end);
 
-                                        return (
-                                            <div className={classes.__interactive_contests_power_center_card_row}>
-                                                {
-                                                    items.map(power => {
-                                                        return powerCard(power);
-                                                    })
-                                                }
-                                            </div>
-                                        );
-                                    })
-							    return powerCenterCardView;
-						}
-					)()
-				}
+                                    return (
+                                        <div className={classes.__interactive_contests_power_center_card_row}>
+                                            {
+                                                items.map(power => {
+                                                    return powerCenterCard(power);
+                                                })
+                                            }
+                                        </div>
+                                    );
+                                })
+                            return powerCenterCardView;
+                    }
+                )()
+            }
             
             
             {/* <Scrollbar className='__power-center-scrollbar'>

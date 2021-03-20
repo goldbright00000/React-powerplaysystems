@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Accordian from "../Accordian";
@@ -18,6 +19,7 @@ const data = [
     balanceType: "token",
   },
 ];
+
 function ResultsInforComponent(props) {
   const [activeTab, setActiveTab] = useState();
   const { isMobile = false, balance = {}, transactions = {} } = props || {};
@@ -25,6 +27,7 @@ function ResultsInforComponent(props) {
     setActiveTab(activeTab === null ? index : null);
     console.log(balance);
   };
+
 
   return (
     <>
@@ -44,6 +47,7 @@ function ResultsInforComponent(props) {
       ))}
     </>
   );
+
 }
 
 ResultsInforComponent.propTypes = {

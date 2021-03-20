@@ -5,6 +5,7 @@ import classes from "./index.module.scss";
 import ResultCard from "./ResultCard";
 
 function Accordian(props) {
+
   const {
     title = "",
     visible = false,
@@ -16,6 +17,7 @@ function Accordian(props) {
     isMobile = false,
     transactions = [],
   } = props || {};
+
 
   return (
     <div className={classes.wrapper}>

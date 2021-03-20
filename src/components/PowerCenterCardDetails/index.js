@@ -7,7 +7,7 @@ import PowersAvailable from './PowersAvailable';
 import PrizePayouts from './PrizePayouts';
 
 const PowerCenterCardDetails = (props) => {
-    const {title = ''} = props || {};
+    const {title = '', onBackClick = () => {}, onNextClick = () => {}} = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
@@ -28,16 +28,19 @@ const PowerCenterCardDetails = (props) => {
                 &&
                 <PowersAvailable />
             }
-            
             <Footer 
                 onBack={() => {
                     if (currentIndex > 0) {
                         setCurrentIndex(currentIndex - 1);
+                    } else {
+                        onBackClick();
                     }
                 }}
                 onNext={() => {
                     if (currentIndex < 2) {
                         setCurrentIndex(currentIndex + 1);
+                    } else {
+                        onNextClick();
                     }
                 }}
             />

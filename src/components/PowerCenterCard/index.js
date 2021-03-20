@@ -15,8 +15,9 @@ const PowerCenterCard = (props) => {
         total = null, 
         percent = null, 
         showDetails = false,
-        onDetailsClick = () => {} } = props || {};
-    
+        onDetailsClick = () => {},
+        onBackClick = () => {},
+        onNextClick = () => {}} = props || {};
     
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
@@ -63,17 +64,11 @@ const PowerCenterCard = (props) => {
             <div className={classes.__power_center_card_enter}>
                 <button>Enter  •  $5</button>
             </div>
-            <div className={classes.__power_center_card_total}>
-                <p>
-                    {outOf} of <span>{total}</span>
-                </p>
-            </div>
             <div className={classes.__power_center_card_status_and_details}>
-                <div className={classes.__power_center_card_status_text}>
-                    <p>{percent}% FULL</p>
-                </div>
-                <div className={classes.__power_center_card_progress_bar_outer}>
-                    <div className={classes.__power_center_card_progress_bar_inner}></div>
+                <div className={classes.__power_center_card_total}>
+                    <p>
+                        {outOf} <span>of {total}</span>
+                    </p>
                 </div>
                 <div className={classes.__power_center_card_details}>
                     <div className={classes.__power_center_card_details_link} onClick={() => onDetailsClick(id)}>
@@ -86,7 +81,10 @@ const PowerCenterCard = (props) => {
             </div>           
         </div>
         :
-        <PowerCenterCardDetails />
+        <PowerCenterCardDetails 
+            onBackClick = {() => onBackClick()}
+            onNextClick = {() => onNextClick()}
+        />
     );
 };
 
