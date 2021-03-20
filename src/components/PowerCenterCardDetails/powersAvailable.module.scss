@@ -25,29 +25,6 @@
                 text-decoration: underline;
             }
         }
-
-        .__powers_available_learn_more_div {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: flex-end;
-            cursor: pointer;
-
-            .__powers_available_learn_more_text {
-                width: 68px;
-                height: 16px;
-                font-family: Poppins;
-                font-size: 12px;
-                font-weight: 300;
-                font-stretch: normal;
-                font-style: normal;
-                line-height: 1.33;
-                letter-spacing: normal;
-                text-align: right;
-                color: $lightBlue;
-                text-decoration: underline;
-            }
-        }
     }
 
     .__powers_available_data {
@@ -56,7 +33,6 @@
 
         .__powers_available_data_icon_div {
             display: flex;
-            width: 20%;
             justify-content: flex-start;
             align-items: center;
 
@@ -83,7 +59,7 @@
 
         .__powers_available_data_value_div {
             display: flex;
-            width: 80%;
+            flex: 1;
 
             .__powers_available_data_value {
                 width: 100%;
@@ -97,6 +73,29 @@
                 line-height: 1.14;
                 letter-spacing: normal;
                 color: $grey2;
+            }
+        }
+
+        .__powers_available_learn_more_div {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-right: 10px;
+            cursor: pointer;
+
+            .__powers_available_learn_more_text {
+                width: 68px;
+                height: 16px;
+                font-family: Poppins;
+                font-size: 12px;
+                font-weight: 300;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: 1.33;
+                letter-spacing: normal;
+                text-align: right;
+                color: $lightBlue;
+                text-decoration: underline;
             }
         }
     }

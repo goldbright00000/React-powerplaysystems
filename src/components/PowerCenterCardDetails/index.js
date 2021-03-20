@@ -3,8 +3,9 @@ import Footer from './Footer';
 import Header from './Header';
 import Hitters from './Hitters';
 import classes from './index.module.scss';
+import PointSystem from './PointSystem';
 import PowersAvailable from './PowersAvailable';
-import PrizePayouts from './PrizePayouts';
+import PrizeGrid from './PrizeGrid';
 
 const PowerCenterCardDetails = (props) => {
     const {title = '', onBackClick = () => {}, onNextClick = () => {}} = props || {};
@@ -16,7 +17,7 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 0
                 &&
-                <PrizePayouts />
+                <PrizeGrid />
             }
             {
                 currentIndex == 1
@@ -24,9 +25,14 @@ const PowerCenterCardDetails = (props) => {
                 <Hitters />
             }
             {
-                currentIndex == 2
+                currentIndex == 2 && title !== 'NHL'
                 &&
                 <PowersAvailable />
+            }
+            {
+                currentIndex == 2 && title === 'NHL'
+                &&
+                <PointSystem />
             }
             <Footer 
                 onBack={() => {
