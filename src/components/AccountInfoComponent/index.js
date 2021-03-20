@@ -7,7 +7,7 @@ function AccountInfo(props) {
   const { isMobile = false } = props || {};
   const { user = {} } = props || {};
   useEffect(() => {
-    console.log(props);
+    console.log(user);
   }, []);
   const renderItem = (title, value, buttonTitle) => {
     const onButtonClick = () => {};
@@ -25,18 +25,21 @@ function AccountInfo(props) {
   };
   return (
     <div className={classes.list_container}>
-      {renderItem("Full Name", user.firstName)}
+      {renderItem("Full Name", user.first_name + " " + user.last_name)}
 
-      {renderItem("Display Name", "My Full Name")}
+      {renderItem("Display Name", user.display_name)}
 
-      {renderItem("Email", "abc@email.com")}
-      {renderItem("Date of Birth", "January 1, 1990")}
+      {renderItem("Email", user.email)}
+      {renderItem(
+        "Date of Birth",
+        user?.date_of_birth ? user.date_of_birth : "--"
+      )}
 
-      {renderItem("Country", "Pakistan")}
+      {renderItem("Country", user.country)}
 
       {renderItem(
         isMobile ? "Province" : "Province/State/Territory",
-        "Islamabad"
+        user.state_or_province
       )}
 
       {renderItem("Change Password", "", "Change")}

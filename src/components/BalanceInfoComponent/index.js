@@ -27,12 +27,23 @@ const ListTitle = (Icon, isSvg, title) => (
   </span>
 );
 
-const ListHeader = (title, balance, btnTitle, onClick, Icon, isSvg) => {
+const ListHeader = (
+  title,
+  balance,
+  btnTitle,
+  onClick,
+  Icon,
+  isSvg,
+  balanceType
+) => {
   return (
     <div className={classes.list_container}>
       <div className={classes.list_left_side}>
         {ListTitle(Icon, isSvg, title)}
-        <span className={classes.span}>${balance}</span>
+        <span className={classes.span}>
+          {balanceType == "cash" ? "$" : ""}
+          {balance}
+        </span>
       </div>
 
       <div className={classes.list_right_side}>
@@ -49,10 +60,10 @@ function BalanceInfoComponent(props) {
   const [activeForm, setActiveForm] = useState(0);
 
   const { isMobile = false } = props || {};
-  const { userAccount = {} } = props || {};
+  const { balance = {} } = props || {};
 
   useEffect(() => {
-    console.log(userAccount);
+    console.log(balance);
   }, []);
   const changeInputHandler = (e) => {
     const { target: { value = "", name = "" } = {} } = e || {};
@@ -98,19 +109,21 @@ function BalanceInfoComponent(props) {
       <div className={classes.list_header_wrapper}>
         {ListHeader(
           "My Cash Balance",
-          userAccount.cashBalnce,
+          balance.cashBalance,
           "Withdraw",
           changeModalState,
           Money,
-          true
+          true,
+          "cash"
         )}
         {ListHeader(
           "My Token Balance",
-          userAccount.tokenBalance,
+          balance.tokenBalance,
           "Transfer to Wallet",
           () => {},
           Token,
-          false
+          false,
+          "token"
         )}
       </div>
       <div className={classes.list_body}>

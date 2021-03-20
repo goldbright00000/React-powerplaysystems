@@ -20,7 +20,7 @@ http.interceptors.request.use(
     // if (allowedOrigin.includes(origin)) {
     //   config.headers.authorization = `Bearer ${token}`;
     // }
-    config.headers.authorization = `${token}`;
+    config.headers.authorization = token;
     return config;
   },
   (err) => Promise.reject(err)

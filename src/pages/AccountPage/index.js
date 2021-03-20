@@ -18,14 +18,13 @@ function AccountPage(props) {
   const [activeTab, setActiveTab] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   useEffect(() => {
-    console.log(user);
     getUserAccount();
   }, []);
   const { user = "" } = useSelector((state) => state?.auth);
   const [userAccount, setUserAccount] = useState({});
 
   const getUserAccount = async () => {
-    const response = await http.get(URLS.AUTH.ACCOUNT, user.token);
+    const response = await http.get(URLS.AUTH.ACCOUNT);
     if (response.data.status === false) {
       //has error
       console.log(response.data);
@@ -66,11 +65,15 @@ function AccountPage(props) {
                 <TabPanel>
                   <BalanceInfoComponent
                     isMobile={isMobile}
-                    userAccount={userAccount}
+                    balance={userAccount.balance}
                   />
                 </TabPanel>
                 <TabPanel>
-                  <ResultsInforComponent isMobile={isMobile} />
+                  <ResultsInforComponent
+                    isMobile={isMobile}
+                    transactions={userAccount.transactions}
+                    balance={userAccount.balance}
+                  />
                 </TabPanel>
               </div>
             </Tabs>
