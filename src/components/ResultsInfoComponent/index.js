@@ -1,62 +1,57 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
-import Accordian from '../Accordian'
-import Token from "../../assets/token.png";
+
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import Accordian from "../Accordian";
 
 const data = [
-    { 
-        title: 'Cash Prizes',
-        cashTitle: 'Total:', 
-        cash: '$4500' ,
-        icon: ''
-    },
-    {
-        title: 'Collected',
-        cashTitle: 'Total Tokens:', 
-        cash: '5,000',
-        icon: Token
-    }
-    ,
-    {
-        title: 'Non-Cash Prizes',
-        cashTitle: '', 
-        cash: '',
-        icon: ''
-    }
-]
+  {
+    cashTitle: "Total: ",
+    cash: "$4500",
+    dataTitle: "Cash Prize",
+    type: "cashBalance",
+    balanceType: "cash",
+  },
+  {
+    cashTitle: "Total: ",
+    cash: "$4500",
+    dataTitle: "Collected",
+    type: "tokenBalance",
+    balanceType: "token",
+  },
+];
 
 function ResultsInforComponent(props) {
-    const [activeTab, setActiveTab] = useState();
+  const [activeTab, setActiveTab] = useState();
+  const { isMobile = false, balance = {}, transactions = {} } = props || {};
+  const onClickAccordian = (index) => {
+    setActiveTab(activeTab === null ? index : null);
+    console.log(balance);
+  };
 
-    const { isMobile = false } = props || {};
 
-    const onClickAccordian = (index) => {
-        setActiveTab(activeTab === null ? index : null)
-    }
+  return (
+    <>
+      {data.map((v, ind) => (
+        <Accordian
+          title={v.dataTitle}
+          visible={ind === activeTab}
+          onClick={() => onClickAccordian(ind)}
+          cashTitle={v.cashTitle}
+          cash={balance[v.type]}
+          key={ind.toString()}
+          isMobile={isMobile}
+          transactions={transactions?.filter(
+            (transaction) => transaction.balance_type == v.balanceType
+          )}
+        />
+      ))}
+    </>
+  );
 
-    return (
-        <>
-            {
-                data.map((v, ind) => (
-                    <Accordian 
-                        title={v.title} 
-                        icon={v.icon}
-                        visible={ ind === activeTab } 
-                        onClick={() => onClickAccordian(ind)} 
-                        cashTitle={v.cashTitle} 
-                        cash={v.cash} 
-                        key={ind.toString()} 
-                        isMobile={isMobile}     
-                    />
-                ))
-            }
-        </>
-    )
 }
 
 ResultsInforComponent.propTypes = {
-    isMobile: PropTypes.bool,
-}
+  isMobile: PropTypes.bool,
+};
 
-export default ResultsInforComponent
-
+export default ResultsInforComponent;
