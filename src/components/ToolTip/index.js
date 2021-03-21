@@ -7,10 +7,10 @@ import classes from './index.module.scss';
 function ToolTip(props) {
     const [visible, setVisibleState] = useState(false);
     return (
-        <div className={classes.wrapper}
+        <div className={`${classes.wrapper} ${props?.disabled && classes.disabled_wrapper}`}
             onClick={() => setVisibleState(!visible)}
         >
-            <div className={classes.children}>
+            <div className={`${classes.children} ${props?.disabled && classes.disabled}`}>
                 {props?.children}
             </div>
             {
@@ -24,7 +24,8 @@ function ToolTip(props) {
 }
 
 ToolTip.propTypes = {
-    toolTipContent: PropTypes.any
+    toolTipContent: PropTypes.any,
+    disabled: PropTypes.bool,
 }
 
 export default ToolTip

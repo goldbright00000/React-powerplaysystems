@@ -5,19 +5,6 @@
 	width: 236px;
 	margin: 15px 7px;
 
-	.container_card_body_top {
-		display: flex;
-		align-items: center;
-		padding: 5px 10px;
-		font-size: 12px;
-		font-weight: 600;
-		color: $grey;
-
-		svg {
-			margin-right: 8px;
-		}
-	}
-
 	.container_card_header {
 		display: flex;
 		justify-content: space-between;
@@ -54,6 +41,10 @@
 				span {
 					font-weight: bold;
 					font-size: 12px;
+				}
+
+				.teamB {
+					font-style: italic;
 				}
 			}
 		}
@@ -99,7 +90,7 @@
 		box-shadow: 0 2px 24px 0 $lightBlack8;
 		width: 100%;
 		border-radius: 8px;
-		padding: 0;
+		padding: 15px 0 0 0;
 		margin: 0;
 
 		&.height {
@@ -288,8 +279,25 @@
 					.p_2 {
 						font-size: 14px;
 						font-weight: normal;
-						margin: 22px 0 0 0;
 						color: $grey2;
+					}
+					
+					.container_card_body_top {
+						margin: 22px 0 5px 0;
+						display: flex !important;
+						flex-direction: row ;
+						justify-content: center;
+						align-items: center;
+						padding: 0px 10px;
+						font-size: 12px;
+						font-weight: 600;
+						color: $grey;
+				
+						svg {
+							margin-right: 8px;
+							margin-top: 0;
+							padding: 0;
+						}
 					}
 				}
 			}

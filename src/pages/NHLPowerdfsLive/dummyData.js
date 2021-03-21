@@ -98,7 +98,7 @@ export const dummyData = [
         ],
     },
     {
-        id: 3,
+        id: 4,
         title: 'Sebastian Aho',
         avgVal: 4,
         teamA: 'Toronto Mapple Leafs 10',
@@ -130,7 +130,7 @@ export const dummyData = [
         ],
     },
     {
-        id: 3,
+        id: 5,
         title: 'Sebastian Aho',
         avgVal: 4,
         teamA: 'Toronto Mapple Leafs 10',
@@ -163,7 +163,7 @@ export const dummyData = [
         ],
     },
     {
-        id: 3,
+        id: 6,
         title: 'Sebastian Aho',
         avgVal: 4,
         teamA: 'Toronto Mapple Leafs 10',
@@ -195,7 +195,7 @@ export const dummyData = [
         ],
     },
     {
-        id: 3,
+        id: 7,
         title: 'Sebastian Aho',
         avgVal: 4,
         teamA: 'Toronto Mapple Leafs 10',
@@ -227,7 +227,7 @@ export const dummyData = [
         ],
     },
     {
-        id: 3,
+        id: 8,
         title: 'Sebastian Aho',
         avgVal: 4,
         teamA: 'Toronto Mapple Leafs 10',

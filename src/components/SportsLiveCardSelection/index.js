@@ -12,6 +12,7 @@ import XP1_5 from '../../icons/XP1_5';
 import XP2Icon from '../../icons/XP2';
 import XP3 from '../../icons/XP3';
 import { isEmpty } from 'lodash';
+import { hasText } from '../../utility/shared';
 
 const XP = {
     xp1_5: 'xp1.5',
@@ -22,6 +23,7 @@ const XP = {
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
     const [selectedXp, setSelectedXp] = useState('');
+    const [pointsXp, setPointsXp] = useState();
 
     const {
         category = '',
@@ -64,21 +66,16 @@ function SportsLiveCardSelection(props) {
     }
 
     const getIceType = (type) => {
-        let txt = `${type}`.toLocaleLowerCase();
-        if (txt?.includes('ice')) {
-            return true;
-        }
+        return hasText(type, 'ice');
     }
 
     const getBenchType = (type) => {
-        let txt = `${type}`.toLocaleLowerCase();
-        if (txt?.includes('bench')) {
-            return true;
-        }
+        return hasText(type, 'Bench');
     }
 
-    const onSelectXP = (xp = '') => {
-        setSelectedXp(xp)
+    const onSelectXP = (xp = '', xpVal) => {
+        setPointsXp(xpVal);
+        setSelectedXp(xp);
     }
 
     const renderSelectedXp = () => {
@@ -97,14 +94,11 @@ function SportsLiveCardSelection(props) {
                     {category}
                 </div>
                 <div className={classes.container_card_header_right}>
-                    <p>{teamA} vs <span>{teamB}</span></p>
+                    <p>{teamA} vs <span className={classes.teamB}>{teamB}</span></p>
                 </div>
             </div>
-            <div className={`${classes.container_card_body} ${compressed ? classes.compressed : classes.height}`}>
-                <div className={classes.container_card_body_top}>
-                    <ClockIcon />
-                    <span> P1 | 12:59</span>
-                </div>
+            <div className={`${classes.container_card_body} 
+            ${compressed ? classes.compressed : classes.height}`}>
                 <div className={classes.container_card_title}>
                     <div className={classes.card_title_left}>
                         {
@@ -142,14 +136,14 @@ function SportsLiveCardSelection(props) {
                                                 </div>
 
                                                 <div className={classes.states_points_right}>
-                                                    <p>Points</p>
+                                                    <p>{pointsXp} Points</p>
                                                     <div className={classes.points_right_1}>
-                                                        <span>{steps[currentStep]?.points}</span>
+                                                        <span>{(pointsXp || 1) * parseInt(steps[currentStep]?.points)}</span>
                                                         <ToolTip toolTipContent={
                                                             <div className={classes.tool_tip_xp}>
-                                                                <span onClick={() => onSelectXP(XP.xp1_5)}><XP1_5 /></span>
-                                                                <span onClick={() => onSelectXP(XP.xp2)}><XP2Icon /></span>
-                                                                <span onClick={() => onSelectXP(XP.xp3)}><XP3 /></span>
+                                                                <span onClick={() => onSelectXP(XP.xp1_5, 1.5)}><XP1_5 /></span>
+                                                                <span onClick={() => onSelectXP(XP.xp2, 2)}><XP2Icon /></span>
+                                                                <span onClick={() => onSelectXP(XP.xp3, 3)}><XP3 /></span>
                                                             </div>
                                                         }>
                                                             <div data-tip data-for={`${title}`}>
@@ -179,7 +173,13 @@ function SportsLiveCardSelection(props) {
                                                         }`}>{steps[currentStep]?.type}</p>
                                                     {
                                                         !compressed &&
-                                                        <p className={classes.p_2}>{steps[currentStep]?.value}</p>
+                                                        <>
+                                                            <div className={classes.container_card_body_top}>
+                                                                <ClockIcon />
+                                                                <span> P1 | 12:59</span>
+                                                            </div>
+                                                            <p className={classes.p_2}>{steps[currentStep]?.value}</p>
+                                                        </>
                                                     }
                                                 </div>
                                                 {
@@ -285,4 +285,3 @@ SportsLiveCardSelection.propTypes = {
 }
 
 export default SportsLiveCardSelection
-

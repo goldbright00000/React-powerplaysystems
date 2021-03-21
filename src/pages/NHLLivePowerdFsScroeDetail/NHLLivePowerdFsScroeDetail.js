@@ -29,12 +29,11 @@ const detailRules = [
 
 function NHLLivePowerdFsScroeDetail(props) {
 
-    let tableHeaderRef = useRef();
+    let tableRef = useRef();
 
     useEffect(() => {
-        console.log(tableHeaderRef);
-        tableHeaderRef?.current?.scrollIntoView();
-    }, [tableHeaderRef]);
+        tableRef?.current?.scrollIntoView();
+    }, [tableRef]);
 
     const Row = ({ position, name, time, plays, pts, totalPts, powers, score, runningTotal }) => (
         <div className={`${classes.card_row} ${classes.card_row_1} ${score < 0 ? classes.primary_bg : ''}`}>
@@ -80,12 +79,15 @@ function NHLLivePowerdFsScroeDetail(props) {
                 />
 
                 <div className={classes.container}>
-                    <div className={classes.container_left_side} ref={tableHeaderRef}>
+                    <div className={classes.container_left_side} ref={tableRef}>
                         <div className={classes.container_header}>
-                            <NHLLiveSportsHeader buttonTitle="Full Standings" buttonIcon={<img
-                                src={SidebarBtnIcon} width={19}
-                                style={{ marginRight: '5px' }}
-                            />}
+                            <NHLLiveSportsHeader
+                                buttonTitle="Full Standings" buttonIcon={<img
+                                    src={SidebarBtnIcon} width={19}
+                                    style={{ marginRight: '5px' }}
+                                />
+                                }
+                                singleBtn
                             />
                             <div className={classes.card_rank}>
                                 <RankCard showButton={false} />

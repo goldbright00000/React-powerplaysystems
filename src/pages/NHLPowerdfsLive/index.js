@@ -22,10 +22,13 @@ import NHLLiveSportsHeader from '../../components/NHLLiveSportsHeader';
 
 import FooterImage from '../../assets/NHL-live-footer.png';
 import RankCard from '../../components/RankCard';
+import { CONSTANTS } from '../../utility/constants';
+import SingleView from './SingleView/SingleView';
 
 function NHLPowerdFsLive(props) {
     const [selectedData, setSelectedData] = useState(dummyData);
     const [compressedView, setCompressedView] = useState(false);
+    const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
 
     const RenderPower = ({ title = '', Icon = '', isSvgIcon = false, count = 0 }) => (
         <div className={classes.sidebar_content_p}>
@@ -63,6 +66,48 @@ function NHLPowerdFsLive(props) {
         </div>
     )
 
+    const setView = (viewType = CONSTANTS.NHL_VIEW.FV) => {
+        switch (viewType) {
+            case CONSTANTS.NHL_VIEW.FV:
+                setCompressedView(false);
+                break;
+
+            case CONSTANTS.NHL_VIEW.C:
+                setCompressedView(true);
+                break;
+
+            case CONSTANTS.NHL_VIEW.S:
+
+                break;
+        }
+        setSelectedView(viewType);
+    }
+
+    const RenderView = () => {
+        if (selectedView === CONSTANTS.NHL_VIEW.S) {
+            return <SingleView data={dummyData} />
+        } else if (selectedData && selectedData?.length) {
+            return (
+                selectedData?.map(
+                    (item, index) => (
+                        <SportsLiveCardSelection
+                            category={item.category}
+                            title={item.title}
+                            teamA={item.teamA}
+                            teamB={item.teamB}
+                            date={item.date}
+                            time={item.time}
+                            stadium={item.stadium}
+                            steps={item.steps}
+                            id={item.id}
+                            isStarPower={item.isStarPower}
+                            compressed={compressedView}
+                        />
+                    ))
+            )
+        }
+    }
+
     return (
         <>
             <Header />
@@ -80,29 +125,16 @@ function NHLPowerdFsLive(props) {
                 <div className={classes.container}>
                     <div className={classes.container_left_side}>
                         <NHLLiveSportsHeader
-                            buttonTitle="Compressed Team View"
-                            onPress={() => setCompressedView(!compressedView)}
+                            btnTitle1="Full View"
+                            btnTitle2="Compressed"
+                            btnTitle3="Single"
+                            selectedView={selectedView}
+                            onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
+                            onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
+                            onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
                         />
                         <Card>
-                            {
-                                selectedData && selectedData?.length &&
-                                selectedData?.map(
-                                    (item, index) => (
-                                        <SportsLiveCardSelection
-                                            category={item.category}
-                                            title={item.title}
-                                            teamA={item.teamA}
-                                            teamB={item.teamB}
-                                            date={item.date}
-                                            time={item.time}
-                                            stadium={item.stadium}
-                                            steps={item.steps}
-                                            id={item.id}
-                                            isStarPower={item.isStarPower}
-                                            compressed={compressedView}
-                                        />
-                                    ))
-                            }
+                            {RenderView()}
                         </Card>
                         <div className={classes.left_side_footer}>
                             <img src={FooterImage} alt="" />

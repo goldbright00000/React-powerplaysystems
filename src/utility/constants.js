@@ -84,5 +84,11 @@ export const CONSTANTS = {
             F: 'f',
             D: 'd',
         }
+    },
+
+    NHL_VIEW: {
+        FV: 'fv',
+        C: 'c',
+        S: 's',
     }
 }
