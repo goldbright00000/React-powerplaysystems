@@ -48,15 +48,19 @@ function HomePageContentHeader(props) {
         <div className={classes.header_wrapper}>
             <div className={classes.header_main}>
                 <div className={classes.header_title}>
-                    Our Contests Defy Reality <sup>TM</sup>
+                    Our Games Defy Reality <sup>TM</sup>
                 </div>
 
                 <div className={classes.header_body}>
-                    <p className={classes.p1}>Experience our ground-breaking live-play contests where you have the Power to control your destiny. *</p>
+                    <p className={classes.p1}>
+                        Experience our ground-breaking live-play games where you have the Power to control your destiny. *
+                    </p>
                     {
                         renderHeaderFooter()
                     }
                 </div>
+                
+                <button className={classes.header_main_power_up_btn}>Power Up!</button>
 
                 <p className={classes.p3}>*International Patent Pending</p>
             </div>

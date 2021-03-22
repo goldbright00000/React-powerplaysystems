@@ -2,6 +2,7 @@
 
 .__powers_available {
     margin-left: 20px;
+    margin-right: 20px;
 
     .__powers_available_title_and_learn_more_div {
         display: flex;
@@ -10,7 +11,8 @@
 
         .__powers_available_title_div {
             display: flex;
-            flex: 2;
+            flex: 1;
+            justify-content: center;
 
             .__powers_available_title {
                 height: 23px;
@@ -60,7 +62,8 @@
         .__powers_available_data_value_div {
             display: flex;
             flex: 1;
-
+            margin-left: -5px;
+            
             .__powers_available_data_value {
                 width: 100%;
                 height: 16px;
@@ -80,7 +83,6 @@
             display: flex;
             justify-content: flex-start;
             align-items: center;
-            margin-right: 10px;
             cursor: pointer;
 
             .__powers_available_learn_more_text {

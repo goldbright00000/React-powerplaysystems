@@ -1,7 +1,7 @@
-
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Accordian from "../Accordian";
+import Token from '../../assets/points-collected.png';
 
 const data = [
   {
@@ -10,13 +10,23 @@ const data = [
     dataTitle: "Cash Prize",
     type: "cashBalance",
     balanceType: "cash",
+    iconWithTitle: ''
   },
   {
-    cashTitle: "Total: ",
-    cash: "$4500",
-    dataTitle: "Collected",
+    cashTitle: "Total Tokens: ",
+    cash: "5,000",
+    dataTitle: "Power Token Prizes",
     type: "tokenBalance",
     balanceType: "token",
+    iconWithTitle: Token
+  },
+  {
+    cashTitle: "",
+    cash: "$4500",
+    dataTitle: "Non-Cash Prizes",
+    type: "tokenBalance",
+    balanceType: "token",
+    iconWithTitle: ''
   },
 ];
 
@@ -43,6 +53,7 @@ function ResultsInforComponent(props) {
           transactions={transactions?.filter(
             (transaction) => transaction.balance_type == v.balanceType
           )}
+          iconWithTitle={v.iconWithTitle}
         />
       ))}
     </>

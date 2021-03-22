@@ -14,6 +14,7 @@ import Footer from "../../components/Footer/Footer";
 import AccountInfo from "../../components/AccountInfoComponent";
 import BalanceInfoComponent from "../../components/BalanceInfoComponent";
 import ResultsInforComponent from "../../components/ResultsInfoComponent";
+import HistoryInfoComponent from "../../components/HistoryInfoComponent";
 
 function AccountPage(props) {
   const [activeTab, setActiveTab] = useState(0);
@@ -57,6 +58,9 @@ function AccountPage(props) {
                 <Tab className={`${activeTab === 2 && classes.active}`}>
                   Results <span>2</span>
                 </Tab>
+                <Tab className={`${activeTab === 3 && classes.active}`}>
+                  History
+                </Tab>
               </TabList>
 
               <div className={classes.tab_body}>
@@ -74,6 +78,11 @@ function AccountPage(props) {
                     isMobile={isMobile}
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <HistoryInfoComponent 
+                    isMobile={isMobile}
                   />
                 </TabPanel>
               </div>
