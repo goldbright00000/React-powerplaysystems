@@ -9,20 +9,22 @@ import PowerCenterCardDetails from '../PowerCenterCardDetails';
 const PowerCenterCard = (props) => {
     const {
         id = null,
-        title = '', 
-        prize = null, 
-        outOf = null, 
-        total = null, 
-        percent = null, 
+        title = '',
+        prize = null,
+        outOf = null,
+        total = null,
+        percent = null,
         showDetails = false,
-        onDetailsClick = () => {},
-        onBackClick = () => {},
-        onNextClick = () => {}} = props || {};
-    
+        onDetailsClick = () => { },
+        onBackClick = () => { },
+        onNextClick = () => { },
+        onEnter = () => { },
+    } = props || {};
+
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
-            backgroundRepeat: 'no-repeat', 
-            backgroundAttachment: 'inherit', 
+            backgroundRepeat: 'no-repeat',
+            backgroundAttachment: 'inherit',
         };
         if (title === 'MLB') {
             backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
@@ -42,53 +44,55 @@ const PowerCenterCard = (props) => {
 
     return (
         !showDetails
-        ?
-        <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
-            <div className={classes.__power_center_card_powerdfs}>
-                <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
-                <p className={classes.__power_center_card_powerdfs_title}>
-                    <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
+            ?
+            <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
+                <div className={classes.__power_center_card_powerdfs}>
+                    <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
+                    <p className={classes.__power_center_card_powerdfs_title}>
+                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
                 </p>
-                <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_right}></span>
-            </div>
-            <div className={classes.__power_center_card_prize_pool}>
-                <p 
-                    className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_price}>
-                    ${prize}
+                    <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_right}></span>
+                </div>
+                <div className={classes.__power_center_card_prize_pool}>
+                    <p
+                        className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_price}>
+                        ${prize}
+                    </p>
+                    <p
+                        className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>
+                        Prize Pool
                 </p>
-                <p 
-                    className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>
-                    Prize Pool
-                </p>
-            </div>
-            <div className={classes.__power_center_card_enter}>
-                <button>Enter  •  $5</button>
-            </div>
-            <div className={classes.__power_center_card_date_time}>
-                Oct 24, 2020  |  8:00PM ET
-            </div>
-            <div className={classes.__power_center_card_status_and_details}>
+                </div>
+                <div className={classes.__power_center_card_enter}>
+                    <button onClick={onEnter}>Enter  •  $5</button>
+                </div>
                 <div className={classes.__power_center_card_total}>
                     <p>
-                        {outOf} <span>of {total}</span>
+                        {outOf} of <span>{total}</span>
                     </p>
                 </div>
-                <div className={classes.__power_center_card_details}>
-                    <div className={classes.__power_center_card_details_link} onClick={() => onDetailsClick(id)}>
-                        Details
+                <div className={classes.__power_center_card_status_and_details}>
+                    <div className={classes.__power_center_card_status_text}>
+                        <p>{percent}% FULL</p>
                     </div>
-                    <div className={classes.__power_center_card_details_link_forward_arrow}>
-                        {">"}
+                    <div className={classes.__power_center_card_progress_bar_outer}>
+                        <div className={classes.__power_center_card_progress_bar_inner}></div>
+                    </div>
+                    <div className={classes.__power_center_card_details}>
+                        <div className={classes.__power_center_card_details_link} onClick={() => onDetailsClick(id)}>
+                            Details
+                    </div>
+                        <div className={classes.__power_center_card_details_link_forward_arrow}>
+                            {">"}
+                        </div>
                     </div>
                 </div>
-            </div>           
-        </div>
-        :
-        <PowerCenterCardDetails
-            title={title}
-            onBackClick = {() => onBackClick()}
-            onNextClick = {() => onNextClick()}
-        />
+            </div>
+            :
+            <PowerCenterCardDetails
+                onBackClick={() => onBackClick()}
+                onNextClick={() => onNextClick()}
+            />
     );
 };
 

@@ -3,9 +3,14 @@ import PropTypes from 'prop-types'
 
 function Clock3(props) {
     return (
-        <svg xmlns="http://www.w3.org/2000/svg" width={props?.size || '12'} height={props?.size + 2 || '14'} viewBox="0 0 12 14" style={{ height: 'auto' }}>
+        <svg xmlns="http://www.w3.org/2000/svg"
+            width={props?.size || '12'}
+            height={props?.size + 2 || '14'}
+            viewBox="0 0 12 14"
+            style={{ height: 'auto' }}
+        >
             <g fill="none" fillRule="evenodd">
-                <g fill="#B3B3B3" fillRule="nonzero">
+                <g fill={props?.color || "#B3B3B3"} fillRule="nonzero">
                     <g>
                         <g>
                             <g>
@@ -21,7 +26,8 @@ function Clock3(props) {
 }
 
 Clock3.propTypes = {
-    size: PropTypes.number
+    size: PropTypes.number,
+    color: PropTypes.string,
 }
 
 export default Clock3

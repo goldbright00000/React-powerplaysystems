@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './index.module.scss';
 import ClockIcon from '../../icons/Clock3';
@@ -8,27 +9,41 @@ import ForwardArrow from '../../icons/ForwardArrow';
 import XPIcon from '../../icons/XPIcon';
 import ReplaceAllIcon from '../../icons/Replace';
 import ToolTip from '../../components/ToolTip';
+import XP1_5 from '../../icons/XP1_5';
+import XP2Icon from '../../icons/XP2';
+import XP3 from '../../icons/XP3';
+import { isEmpty } from 'lodash';
+import { hasText } from '../../utility/shared';
+import * as NHLActions from '../../actions/NHLActions';
+import { CONSTANTS } from '../../utility/constants';
+
 
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
 
+    const { item = {}, compressed = false } = props || {};
+    const { data: selectedData = [] } = useSelector(state => state.nhl);
+    const dispatch = useDispatch();
+
     const {
         category = '',
         title = '',
-        avgVal = 0,
         teamA = '',
         teamB = '',
-        time = '',
-        date = '',
-        stadium = '',
         id = '',
         isSelected = false,
         isStarPower = false,
         steps = [],
-        onSelectDeselect = () => { },
-        disabled = false,
-        injured = false,
-    } = props || {};
+        xp = '',
+        xpPoints = 0,
+        xpTimes = '',
+    } = item || {};
+
+    useEffect(() => {
+        if (compressed) {
+            setCurrentStep(0);
+        }
+    }, [compressed]);
 
     const nextStep = () => {
         let _currentStep = currentStep;
@@ -41,18 +56,45 @@ function SportsLiveCardSelection(props) {
         setCurrentStep(_currentStep);
     }
 
-    const getIceType = (type) => {
-        let txt = `${type}`.toLocaleLowerCase();
-        if (txt?.includes('ice')) {
-            return true;
+    const backStep = () => {
+        let _currentStep = currentStep;
+        if (currentStep > 0) {
+            _currentStep--;
+        } else {
+            _currentStep = currentStep;
         }
+
+        setCurrentStep(_currentStep);
+    }
+
+    const getIceType = (type) => {
+        return hasText(type, 'ice');
     }
 
     const getBenchType = (type) => {
-        let txt = `${type}`.toLocaleLowerCase();
-        if (txt?.includes('bench')) {
-            return true;
-        }
+        return hasText(type, 'Bench');
+    }
+
+    const onSelectXP = (xp = '', xpVal) => {
+        let _calculatedXp = (xpVal || 1) * parseInt(steps[currentStep]?.points)
+
+        let selectedCard = dispatch(NHLActions.getSingleData({ id }));
+        const _dataList = [...selectedData];
+        let index = _dataList?.indexOf(selectedCard);
+        selectedCard.xp = xp;
+        selectedCard.xpPoints = _calculatedXp || 6;
+        selectedCard.xpTimes = xpVal;
+        _dataList[index] = selectedCard;
+
+        dispatch(NHLActions.setData(_dataList));
+    }
+
+    const renderSelectedXp = () => {
+        if (xp === CONSTANTS.XP.xp1_5) return <XP1_5 size={24} />
+        else if (xp === CONSTANTS.XP.xp2) return <XP2Icon size={24} />
+        else if (xp === CONSTANTS.XP.xp3) return <XP3 size={24} />
+
+        return <XPIcon size={24} />
     }
 
     return (
@@ -63,28 +105,23 @@ function SportsLiveCardSelection(props) {
                     {category}
                 </div>
                 <div className={classes.container_card_header_right}>
-                    <p>{teamA} vs <span>{teamB}</span></p>
+                    <p>{teamA} vs <span className={classes.teamB}>{teamB}</span></p>
                 </div>
             </div>
-            <div className={classes.container_card_body}>
-                <div className={classes.container_card_body_top}>
-                    <ClockIcon />
-                    <span> Q1 | 12:59</span>
-                </div>
+            <div className={`${classes.container_card_body} 
+            ${compressed ? classes.compressed : classes.height}`}>
                 <div className={classes.container_card_title}>
                     <div className={classes.card_title_left}>
                         {
                             isStarPower &&
                             <img src={PowerPlayIcon} />
                         }
-                        <p className={`${classes.container_selected_p} 
-                                        ${isSelected ? classes.active : ''}`}
-                        >
+                        <p className={classes.container_selected_p}>
                             {title}
                         </p>
                     </div>
                     <div className={classes.card_title_right}>
-                        <ReplaceAllIcon style={{ height: 'auto' }} size={30} />
+                        <ReplaceAllIcon style={{ height: 'auto' }} size={24} />
                     </div>
                 </div>
                 <div className={classes.divider} />
@@ -110,20 +147,30 @@ function SportsLiveCardSelection(props) {
                                                 </div>
 
                                                 <div className={classes.states_points_right}>
-                                                    <p>Points</p>
-                                                    <div>
-                                                        <span>{steps[currentStep]?.points}</span>
+                                                    <p>{xpTimes} Points</p>
+                                                    <div className={classes.points_right_1}>
+                                                        <span>{xpPoints || 6}</span>
+                                                        <ToolTip toolTipContent={
+                                                            <div className={classes.tool_tip_xp}>
+                                                                <span onClick={() => onSelectXP(CONSTANTS.XP.xp1_5, 1.5)}><XP1_5 /></span>
+                                                                <span onClick={() => onSelectXP(CONSTANTS.XP.xp2, 2)}><XP2Icon /></span>
+                                                                <span onClick={() => onSelectXP(CONSTANTS.XP.xp3, 3)}><XP3 /></span>
+                                                            </div>
+                                                        }>
+                                                            <div data-tip data-for={`${title}`}>
+                                                                <div className={classes.state_xp}>
+                                                                    {
+                                                                        isEmpty(xp)
+                                                                            ?
+                                                                            <XPIcon size={24} />
+                                                                            :
+                                                                            renderSelectedXp()
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </ToolTip>
                                                     </div>
                                                 </div>
-                                                <ToolTip toolTipContent={
-                                                    <div>
-                                                        Hello
-                                                    </div>
-                                                }>
-                                                    <span data-tip data-for={`${title}`}>
-                                                        <XPIcon />
-                                                    </span>
-                                                </ToolTip>
                                             </div>
 
                                             <div className={classes.states_points_center}>
@@ -135,14 +182,26 @@ function SportsLiveCardSelection(props) {
                                                             :
                                                             getBenchType(steps[currentStep].type) ? classes.bg_p : classes.bg_n
                                                         }`}>{steps[currentStep]?.type}</p>
-                                                    <p className={classes.p_2}>{steps[currentStep]?.value}</p>
+                                                    {
+                                                        !compressed &&
+                                                        <>
+                                                            <div className={classes.container_card_body_top}>
+                                                                <ClockIcon />
+                                                                <span> P1 | 12:59</span>
+                                                            </div>
+                                                            <p className={classes.p_2}>{steps[currentStep]?.value}</p>
+                                                        </>
+                                                    }
                                                 </div>
-                                                <p>Opp. G: P. Roy .976</p>
+                                                {
+                                                    !compressed &&
+                                                    <p>Opp. G: P. Roy .976</p>
+                                                }
                                             </div>
                                         </div>
                                     }
                                     {
-                                        currentStep === 1 &&
+                                        !compressed && currentStep === 1 &&
                                         <div className={classes.points_summary}>
                                             <p className={classes.points_summary_title}>Points Summary</p>
                                             <div className={classes.points_summary_1}>
@@ -152,7 +211,10 @@ function SportsLiveCardSelection(props) {
                                                     <span>Power</span>
                                                     <span>Pts</span>
                                                 </div>
-                                                <div className={classes.points_summary_b}>
+                                                <div className={`${classes.points_summary_b} 
+                                                        ${steps[currentStep]?.step?.length > 4 ? classes.overflow : ''}`
+                                                }
+                                                >
                                                     {
                                                         steps[currentStep]?.step && steps[currentStep]?.step?.length &&
                                                         steps[currentStep]?.step?.map((itm, indx) => (
@@ -165,6 +227,9 @@ function SportsLiveCardSelection(props) {
                                                         ))
                                                     }
                                                 </div>
+                                                <div className={classes.summary_total_pts}>
+                                                    Total Points: {steps[currentStep]?.totalPoints}
+                                                </div>
                                             </div>
                                         </div>
                                     }
@@ -172,11 +237,26 @@ function SportsLiveCardSelection(props) {
                             }
 
                             {
-                                steps?.length ?
+                                !compressed && steps?.length ?
                                     <div className={classes.card_footer_arrow}>
-                                        <div onClick={nextStep} className={classes.card_arrow}>
-                                            <ForwardArrow color={"#fb6e00"} />
-                                        </div>
+                                        {
+                                            currentStep > 0 ?
+                                                <>
+                                                    <div onClick={backStep} className={classes.footer_back}>
+                                                        Back
+                                                    </div>
+                                                    <div className={classes.left_align}>
+                                                        <span className={`${classes.arrow} ${classes.left}`} />
+                                                    </div>
+                                                </>
+                                                :
+                                                <>
+                                                    <div onClick={nextStep} className={classes.card_details}>
+                                                        Details
+                                                    </div>
+                                                    <span className={`${classes.arrow} ${classes.right}`} />
+                                                </>
+                                        }
                                     </div>
                                     :
                                     <></>
@@ -197,6 +277,7 @@ function SportsLiveCardSelection(props) {
 }
 
 SportsLiveCardSelection.propTypes = {
+    item: PropTypes.object,
     category: PropTypes.string,
     title: PropTypes.string,
     avgVal: PropTypes.number,
@@ -205,14 +286,16 @@ SportsLiveCardSelection.propTypes = {
     time: PropTypes.string,
     date: PropTypes.string,
     stadium: PropTypes.string,
+    xp: PropTypes.string,
     id: PropTypes.number,
     isSelected: PropTypes.bool,
     isStarPower: PropTypes.bool,
     disabled: PropTypes.bool,
     steps: PropTypes.array,
     injured: PropTypes.bool,
+    compressed: PropTypes.bool,
     onSelectDeselect: PropTypes.func,
+    onSelectXp: PropTypes.func,
 }
 
 export default SportsLiveCardSelection
-
