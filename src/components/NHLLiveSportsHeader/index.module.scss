@@ -3,17 +3,19 @@
 
 .container_header {
     display: flex;
+    flex: 0.88;
     flex-direction: column !important;
     margin: 20px 0;
 
     .bg_transparent {
         background-color: transparent;
+        width: 220px
     }
 
-    button {
+    .button_back {
         display: flex;
         align-items: center;
-        width: 220px;
+        min-width: 220px;
         justify-content: space-evenly;
         transform: translate(-10px, 0);
         padding-left: 0;
@@ -67,10 +69,47 @@
             }
         }
 
-        button {
+        .right_menu {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 390px;
             background-color: $lightBlack5;
-            padding: 9px 13px;
-            border-radius: 8px;
+            border-radius: 12px;
+            height: 38px;
+            opacity: 0.8;
+            padding: 0 !important;
+            margin: 0;
+            
+            .button {
+                background-color: transparent;
+                border: none;
+                outline: none;
+                padding: 7px 15px;
+                color: $white;
+                border-radius: 12px;
+                font-size: 14px;
+
+                &:hover {
+                    cursor: pointer;
+                    color: $primary;
+                }
+
+                &.active {
+                    background-color: $lightBlue;
+                    pointer-events: none;
+                }
+            }
+
         }
+        .btn_single {
+            @extend .button_back;
+
+            min-width: 160px;
+            background-color: $lightBlack5;
+            border-radius: 8px;
+            padding: 8px 0;
+        }
+
     }
 }

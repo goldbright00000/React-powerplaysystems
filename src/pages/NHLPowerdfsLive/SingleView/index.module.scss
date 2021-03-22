@@ -1,0 +1,134 @@
+@import "../../../scss/colors.scss";
+
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    justify-content: flex-start;
+    align-items: center;
+    position: relative;
+
+    .left_side {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        flex: 0.6;
+        align-items: center;
+
+        .card {
+            display: flex;
+            flex-direction: column;
+            width: 236px;
+            background-color: $lightBlack;
+            margin: 0px 30px 25px 30px;
+            padding: 9px 16px;
+            border-radius: 8px;
+            border: 1px solid $lightBlack;
+
+            &.active {
+                border: 1px solid $primary;
+                box-shadow: 0 2px 24px 0 $primaryLight7;
+
+                .card_header {
+                    color: $primary;
+                }
+            }
+
+            &:hover {
+                box-shadow: 0 0 8px 0 $primaryLight7;
+                border: solid 1px $primaryLight5;
+            }
+
+            .card_header {
+                display: flex;
+                justify-content: space-between;
+
+                svg {
+                    margin: 0;
+                    padding: 0;
+                }
+            }
+
+            .card_body {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 1px;
+                font-size: 12px;
+                text-transform: capitalize;
+                border-left: 3px solid $lightBlue;
+                margin: 5px 0;
+
+                .card_cat {
+                    text-transform: uppercase;
+                }
+                
+                .card_xp_points {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                        margin: 0 0 0 5px;
+                    }
+                }
+            }
+
+            .card_type {
+                background-color: $lightBlack5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 12px;
+                padding: 3px 0;
+                border-radius: 6px;
+                font-weight: bold;
+                opacity: 0.7;
+                color: $grey;
+
+                &.danger {
+                    color: $danger3;
+                }
+
+                &.success {
+                    color: $success;
+                }
+            }
+        }
+    }
+
+    .right_side {
+        display: flex;
+        flex-direction: row;
+        width: 38%;
+        height: 100%;
+        position: absolute;
+        right: 0;
+        justify-content: center;
+        align-items: center;
+
+        .arrow {
+            display: inline-block;
+            border: solid $lightBlue;
+            border-width: 0 7px 7px 0;
+            margin: 0;
+            width: 35px;
+            height: 35px;
+            opacity: 0.25;
+
+            &:hover {
+                opacity: 0.5;
+                cursor: pointer;
+            }
+        }
+
+        .left {
+            transform: rotate(135deg);
+        }
+
+        .right {
+            transform: rotate(-45deg);
+        }
+    }
+}

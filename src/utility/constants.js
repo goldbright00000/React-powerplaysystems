@@ -76,6 +76,25 @@ export const CONSTANTS = {
             DH: 'dh',
             RP: 'rp',
             D: 'd',
+        },
+        NBA: {
+            C: 'c',
+            PG: 'pg',
+            SG: 'sg',
+            F: 'f',
+            D: 'd',
         }
+    },
+
+    NHL_VIEW: {
+        FV: 'fv',
+        C: 'c',
+        S: 's',
+    },
+
+    XP: {
+        xp1_5: 'xp1.5',
+        xp2: 'xp2',
+        xp3: 'xp3',
     }
 }

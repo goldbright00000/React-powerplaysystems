@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './index.module.scss';
+import * as NHLActions from '../../actions/NHLActions';
+
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Header3 from '../../components/Header3';
@@ -11,7 +14,6 @@ import SportsLiveCardSelection from '../../components/SportsLiveCardSelection';
 import Sidebar from '../../components/Sidebar';
 import CashPowerBalance from '../../components/CashPowerBalance';
 import { dummyData } from './dummyData';
-import RankIcon from '../../icons/Rank';
 import XPIcon from '../../icons/XPIcon';
 import LockIcon from '../../icons/Lock';
 import TwitterIcon from '../../icons/TwitterIcon';
@@ -20,11 +22,26 @@ import ReplaceAllIcon from '../../icons/Replace';
 import ShieldIcon from '../../icons/ShieldIcon';
 import CamIcon from '../../icons/CamIcon';
 import NHLLiveSportsHeader from '../../components/NHLLiveSportsHeader';
-import SidebarBtnIcon from '../../assets/nhl-sidebar-icon.png';
 import FooterImage from '../../assets/NHL-live-footer.png';
+import RankCard from '../../components/RankCard';
+import { CONSTANTS } from '../../utility/constants';
+import SingleView from './SingleView/SingleView';
 
 function NHLPowerdFsLive(props) {
-    const [selectedData, setSelectedData] = useState(dummyData);
+    const _data = dummyData;
+    const [compressedView, setCompressedView] = useState(false);
+    const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
+
+    const { data: selectedData = [] } = useSelector(state => state.nhl);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setData();
+    }, []);
+
+    const setData = () => {
+        dispatch(NHLActions.setData(_data));
+    }
 
     const RenderPower = ({ title = '', Icon = '', isSvgIcon = false, count = 0 }) => (
         <div className={classes.sidebar_content_p}>
@@ -62,6 +79,40 @@ function NHLPowerdFsLive(props) {
         </div>
     )
 
+    const setView = (viewType = CONSTANTS.NHL_VIEW.FV) => {
+        switch (viewType) {
+            case CONSTANTS.NHL_VIEW.FV:
+                setCompressedView(false);
+                break;
+
+            case CONSTANTS.NHL_VIEW.C:
+                setCompressedView(true);
+                break;
+
+            case CONSTANTS.NHL_VIEW.S:
+
+                break;
+        }
+        setSelectedView(viewType);
+    }
+
+    const RenderView = () => {
+        if (selectedView === CONSTANTS.NHL_VIEW.S) {
+            return <SingleView data={selectedData} />
+        } else if (selectedData && selectedData?.length) {
+            return (
+                selectedData?.map(
+                    (item, index) => (
+                        <SportsLiveCardSelection
+                            item={item}
+                            compressed={compressedView}
+                            key={index + ''}
+                        />
+                    ))
+            )
+        }
+    }
+
     return (
         <>
             <Header />
@@ -78,28 +129,18 @@ function NHLPowerdFsLive(props) {
 
                 <div className={classes.container}>
                     <div className={classes.container_left_side}>
-                        <NHLLiveSportsHeader />
+                        <NHLLiveSportsHeader
+                            btnTitle1="Full View"
+                            btnTitle2="Compressed"
+                            btnTitle3="Single"
+                            selectedView={selectedView}
+                            onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
+                            onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
+                            onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
+                        />
                         <Card>
-                            {
-                                selectedData && selectedData?.length &&
-                                selectedData?.map(
-                                    (item, index) => (
-                                        <SportsLiveCardSelection
-                                            category={item.category}
-                                            title={item.title}
-                                            teamA={item.teamA}
-                                            teamB={item.teamB}
-                                            date={item.date}
-                                            time={item.time}
-                                            stadium={item.stadium}
-                                            steps={item.steps}
-                                            id={item.id}
-                                            isStarPower={item.isStarPower}
-                                        />
-                                    ))
-                            }
+                            {RenderView()}
                         </Card>
-
                         <div className={classes.left_side_footer}>
                             <img src={FooterImage} alt="" />
                         </div>
@@ -107,34 +148,8 @@ function NHLPowerdFsLive(props) {
 
                     <div className={classes.sidebar_container}>
                         <Sidebar>
-                            <CashPowerBalance />
-                            <div className={classes.sidebar_header}>
-                                <div className={classes.header_rank}>
-                                    <p>
-                                        <div className={classes.live_dot} /> Live Rank
-                                        <div className={classes.separater} />
-                                        <strong>23</strong>
-                                    </p>
-                                </div>
-
-                                <div className={classes.sidebar_header_content}>
-                                    <div>
-                                        <div className={classes.sidebar_header_left}>
-                                            <p>My Score:</p>
-                                            <p className={classes.sidebar_header_p1}>Leader:</p>
-                                        </div>
-                                        <div className={classes.sidebar_header_right}>
-                                            <p className={classes.sidebar_header_p2}>30</p>
-                                            <p className={classes.sidebar_header_p1}>66</p>
-                                        </div>
-                                    </div>
-                                    <RankIcon />
-                                </div>
-
-                                <button>
-                                    <img src={SidebarBtnIcon} width={19} style={{ marginRight: '10px' }} /> See Full Standings
-                                </button>
-                            </div>
+                            <CashPowerBalance styles={{ marginTop: -40, width: '100%' }} />
+                            <RankCard />
 
                             <div className={classes.sidebar_content}>
                                 <p><span>My</span> Powers</p>
@@ -159,4 +174,3 @@ NHLPowerdFsLive.propTypes = {
 }
 
 export default NHLPowerdFsLive
-
