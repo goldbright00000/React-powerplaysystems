@@ -18,7 +18,7 @@ function SingleView(props) {
 
     const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
-    const RenderCard = ({ item, selected = false }) => {
+    const RenderCard = ({ item, selected = false, onSelectCard = (item) => { } }) => {
         const {
             category = '',
             title = '',
@@ -31,7 +31,10 @@ function SingleView(props) {
         } = item || {};
 
         return (
-            <div className={`${classes.card} ${selected && classes.active}`}>
+            <div
+                onClick={() => onSelectCard(item)}
+                className={`${classes.card} ${selected && classes.active}`}
+            >
                 <div className={classes.card_header}>
                     <p>{title}</p>
                     <ReplaceIcon size={22} />
@@ -65,6 +68,13 @@ function SingleView(props) {
         )
     }
 
+    const onSelectCard = (item) => {
+        let index = data?.length && data?.indexOf(item);
+        currentCard = index;
+
+        setSelectedCard(item);
+    }
+
     const renderXp = (xp) => {
         if (xp === CONSTANTS.XP.xp1_5) return <XP1_5 size={20} />
         else if (xp === CONSTANTS.XP.xp2) return <XP2Icon size={20} />
@@ -92,6 +102,7 @@ function SingleView(props) {
                         key={ind + '-'}
                         item={item}
                         selected={selectedCard?.id === item?.id}
+                        onSelectCard={onSelectCard}
                     />)
                 }
             </div>
