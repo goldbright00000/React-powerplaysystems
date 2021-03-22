@@ -16,13 +16,22 @@ function Accordian(props) {
     onClick = () => {},
     isMobile = false,
     transactions = [],
+    iconWithTitle = '',
   } = props || {};
-
 
   return (
     <div className={classes.wrapper}>
       <div className={classes.accoridan_bar} onClick={onClick}>
-        <span>{title}</span>
+        <span className={classes.accoridan_bar_icon_with_title_span}>
+          {
+            iconWithTitle
+            &&
+            <span className={classes.accoridan_bar_icon}>
+              <img src={iconWithTitle} width="23" height="23" />
+            </span>
+          }
+          {title}
+        </span>
         <span className={classes.accoridan_bar_right}>
           <span>
             <span>{cashTitle}</span>

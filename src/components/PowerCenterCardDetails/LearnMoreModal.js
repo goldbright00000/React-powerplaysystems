@@ -3,6 +3,7 @@ import classes from './learnMoreModal.module.scss';
 import { Modal } from 'react-responsive-modal';
 import CloseIcon from '../../assets/close-white-icon.png';
 import PointMultipliersMain from '../../assets/point-multipliers-main.png';
+import PlayerSwapsMain from '../../assets/player-swaps-main.png';
 import VideoReviewMain from '../../assets/video-review-main.png';
 import DWallMain from '../../assets/d-wall-main.png';
 import PointMultipliersLight from '../../assets/point-multipliers-light.png';
@@ -30,7 +31,7 @@ const LearnMoreModal = (props) => {
         if (pointMultiplier) {
             return PointMultipliersMain;
         } else if (playerSwap) {
-            return PointMultipliersMain;
+            return PlayerSwapsMain;
         } else if (videoReview) {
             return VideoReviewMain;
         } else {

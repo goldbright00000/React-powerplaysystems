@@ -1,7 +1,7 @@
 import React from 'react';
-import classes from './prizePayouts.module.scss';
+import classes from './prizeGrid.module.scss';
 
-const PrizePayouts = () => {
+const PrizeGrid = () => {
     const data = [
         {
             title: '1st',
@@ -46,17 +46,17 @@ const PrizePayouts = () => {
     ];
 
     return (
-        <div className={classes.__prize_payouts}>
-            <p className={classes.__prize_payouts_title}>Prize Payouts</p>
+        <div className={classes.__prize_grid}>
+            <p className={classes.__prize_grid_title}>Prize Grid</p>
             {
                 data.map((item, index) => {
                     return (
-                        <div className={classes.__prize_payouts_data}>
-                            <div className={classes.__prize_payouts_data_title_div}>
-                                <p className={classes.__prize_payouts_data_title}>{item.title}</p>
+                        <div className={classes.__prize_grid_data}>
+                            <div className={classes.__prize_grid_data_title_div}>
+                                <p className={classes.__prize_grid_data_title}>{item.title}</p>
                             </div>
-                            <div className={classes.__prize_payouts_data_value_div}>
-                                <p className={classes.__prize_payouts_data_value}>{item.value}</p>
+                            <div className={classes.__prize_grid_data_value_div}>
+                                <p className={classes.__prize_grid_data_value}>{item.value}</p>
                             </div>
                         </div>
                     )
@@ -66,4 +66,4 @@ const PrizePayouts = () => {
     );
 };
 
-export default PrizePayouts;
+export default PrizeGrid;

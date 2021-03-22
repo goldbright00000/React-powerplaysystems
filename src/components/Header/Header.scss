@@ -38,6 +38,8 @@
   .__header-btn {
     padding: 0.329em;
     min-width: 122px;
+    background-color: $black;
+    border: 1px solid $white;
     a.active,
     a:hover {
       color: #fff;
