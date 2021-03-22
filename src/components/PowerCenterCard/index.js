@@ -64,6 +64,9 @@ const PowerCenterCard = (props) => {
             <div className={classes.__power_center_card_enter}>
                 <button>Enter  •  $5</button>
             </div>
+            <div className={classes.__power_center_card_date_time}>
+                Oct 24, 2020  |  8:00PM ET
+            </div>
             <div className={classes.__power_center_card_status_and_details}>
                 <div className={classes.__power_center_card_total}>
                     <p>
@@ -81,7 +84,8 @@ const PowerCenterCard = (props) => {
             </div>           
         </div>
         :
-        <PowerCenterCardDetails 
+        <PowerCenterCardDetails
+            title={title}
             onBackClick = {() => onBackClick()}
             onNextClick = {() => onNextClick()}
         />

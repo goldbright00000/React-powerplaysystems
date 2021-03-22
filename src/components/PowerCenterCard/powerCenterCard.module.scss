@@ -78,7 +78,7 @@
         button {
             width: 166px;
             height: 38px;
-            margin: 100px 43px 50px 57px;
+            margin: 100px 43px 10px 57px;
             padding: 7px 41px 8px;
             border-radius: 6px;
             border: solid 1px $primary;
@@ -94,6 +94,22 @@
             color: $primary;
             outline: none;
         }
+    }
+
+    .__power_center_card_date_time {
+        width: 100%;
+        height: 17px;
+        margin-bottom: 25px;
+        text-shadow: 0 2px 4px $black5;
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $grey11;
     }
 
     .__power_center_card_total {

@@ -45,9 +45,6 @@ const PowersAvailable = () => {
                 <div className={classes.__powers_available_title_div}>
                     <p className={classes.__powers_available_title}>Powers Available</p>
                 </div>
-                <div className={classes.__powers_available_learn_more_div} onClick={() => onOpenModal()}>
-                    <p className={classes.__powers_available_learn_more_text}>Learn more</p>
-                </div>
                 {
                     learnMoreModal
                     &&
@@ -70,6 +67,13 @@ const PowersAvailable = () => {
                             <div className={classes.__powers_available_data_value_div}>
                                 <p className={classes.__powers_available_data_value}>{item.value}</p>
                             </div>
+                            {
+                                data.length == index + 1
+                                &&
+                                <div className={classes.__powers_available_learn_more_div} onClick={() => onOpenModal()}>
+                                    <p className={classes.__powers_available_learn_more_text}>Learn more</p>
+                                </div>
+                            }
                         </div>
                     )
                 })

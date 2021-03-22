@@ -46,6 +46,15 @@
         transform: rotate(-135deg) translate(0, -5px);
       }
     }
+
+    .accoridan_bar_icon_with_title_span {
+      display: flex;
+      align-items: center;
+
+      .accoridan_bar_icon {
+        padding-right: 10px;
+      }
+    }
   }
 }
 
