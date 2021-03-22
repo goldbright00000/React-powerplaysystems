@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './index.module.scss';
+import * as NHLActions from '../../actions/NHLActions';
+
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Header3 from '../../components/Header3';
@@ -19,16 +22,26 @@ import ReplaceAllIcon from '../../icons/Replace';
 import ShieldIcon from '../../icons/ShieldIcon';
 import CamIcon from '../../icons/CamIcon';
 import NHLLiveSportsHeader from '../../components/NHLLiveSportsHeader';
-
 import FooterImage from '../../assets/NHL-live-footer.png';
 import RankCard from '../../components/RankCard';
 import { CONSTANTS } from '../../utility/constants';
 import SingleView from './SingleView/SingleView';
 
 function NHLPowerdFsLive(props) {
-    const [selectedData, setSelectedData] = useState(dummyData);
+    const _data = dummyData;
     const [compressedView, setCompressedView] = useState(false);
     const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
+
+    const { data: selectedData = [] } = useSelector(state => state.nhl);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        setData();
+    }, []);
+
+    const setData = () => {
+        dispatch(NHLActions.setData(_data));
+    }
 
     const RenderPower = ({ title = '', Icon = '', isSvgIcon = false, count = 0 }) => (
         <div className={classes.sidebar_content_p}>
@@ -85,23 +98,15 @@ function NHLPowerdFsLive(props) {
 
     const RenderView = () => {
         if (selectedView === CONSTANTS.NHL_VIEW.S) {
-            return <SingleView data={dummyData} />
+            return <SingleView data={selectedData} />
         } else if (selectedData && selectedData?.length) {
             return (
                 selectedData?.map(
                     (item, index) => (
                         <SportsLiveCardSelection
-                            category={item.category}
-                            title={item.title}
-                            teamA={item.teamA}
-                            teamB={item.teamB}
-                            date={item.date}
-                            time={item.time}
-                            stadium={item.stadium}
-                            steps={item.steps}
-                            id={item.id}
-                            isStarPower={item.isStarPower}
+                            item={item}
                             compressed={compressedView}
+                            key={index + ''}
                         />
                     ))
             )
@@ -169,4 +174,3 @@ NHLPowerdFsLive.propTypes = {
 }
 
 export default NHLPowerdFsLive
-

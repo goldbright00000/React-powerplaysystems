@@ -90,5 +90,11 @@ export const CONSTANTS = {
         FV: 'fv',
         C: 'c',
         S: 's',
+    },
+
+    XP: {
+        xp1_5: 'xp1.5',
+        xp2: 'xp2',
+        xp3: 'xp3',
     }
 }

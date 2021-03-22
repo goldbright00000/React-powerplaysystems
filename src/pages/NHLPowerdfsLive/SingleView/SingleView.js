@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import classes from './index.module.scss';
 import ReplaceIcon from '../../../icons/Replace';
 import ClockIcon from '../../../icons/Clock3';
+import XP1_5 from '../../../icons/XP1_5';
+import XP2Icon from '../../../icons/XP2';
+import XP3 from '../../../icons/XP3';
 import { hasText } from '../../../utility/shared';
 import SportsLiveCardSelection from '../../../components/SportsLiveCardSelection';
+import { CONSTANTS } from '../../../utility/constants';
 
 let currentCard = 0;
 
@@ -21,6 +25,9 @@ function SingleView(props) {
             time = '',
             id = '',
             steps = [],
+            xp = '',
+            xpPoints = 0,
+            xpTimes = '',
         } = item || {};
 
         return (
@@ -32,7 +39,12 @@ function SingleView(props) {
 
                 <div className={classes.card_body}>
                     <div className={classes.card_cat}>{category}</div>
-                    <div>Points: {steps[1]?.totalPoints}</div>
+                    <div className={classes.card_xp_points}>
+                        Points: {steps[1]?.totalPoints}
+                        {
+                            renderXp(xp)
+                        }
+                    </div>
                     <div>
                         <ClockIcon color="#688fbd" />
                         <span> P1 | {time.replace('PM', '')}</span>
@@ -51,6 +63,12 @@ function SingleView(props) {
                 </div>
             </div>
         )
+    }
+
+    const renderXp = (xp) => {
+        if (xp === CONSTANTS.XP.xp1_5) return <XP1_5 size={20} />
+        else if (xp === CONSTANTS.XP.xp2) return <XP2Icon size={20} />
+        else if (xp === CONSTANTS.XP.xp3) return <XP3 size={20} />
     }
 
     const onNext = () => {
@@ -80,18 +98,7 @@ function SingleView(props) {
 
             <div className={classes.right_side}>
                 <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-                <SportsLiveCardSelection
-                    category={selectedCard.category}
-                    title={selectedCard.title}
-                    teamA={selectedCard.teamA}
-                    teamB={selectedCard.teamB}
-                    date={selectedCard.date}
-                    time={selectedCard.time}
-                    stadium={selectedCard.stadium}
-                    steps={selectedCard.steps}
-                    id={selectedCard.id}
-                    isStarPower={selectedCard.isStarPower}
-                />
+                <SportsLiveCardSelection item={selectedCard} />
                 <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
             </div>
         </div>

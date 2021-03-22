@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import classes from './index.module.scss';
 import ClockIcon from '../../icons/Clock3';
@@ -13,17 +14,16 @@ import XP2Icon from '../../icons/XP2';
 import XP3 from '../../icons/XP3';
 import { isEmpty } from 'lodash';
 import { hasText } from '../../utility/shared';
+import * as NHLActions from '../../actions/NHLActions';
+import { CONSTANTS } from '../../utility/constants';
 
-const XP = {
-    xp1_5: 'xp1.5',
-    xp2: 'xp2',
-    xp3: 'xp3',
-}
 
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
-    const [selectedXp, setSelectedXp] = useState('');
-    const [pointsXp, setPointsXp] = useState();
+
+    const { item = {}, compressed = false } = props || {};
+    const { data: selectedData = [] } = useSelector(state => state.nhl);
+    const dispatch = useDispatch();
 
     const {
         category = '',
@@ -34,8 +34,10 @@ function SportsLiveCardSelection(props) {
         isSelected = false,
         isStarPower = false,
         steps = [],
-        compressed = false,
-    } = props || {};
+        xp = '',
+        xpPoints = 0,
+        xpTimes = '',
+    } = item || {};
 
     useEffect(() => {
         if (compressed) {
@@ -74,14 +76,23 @@ function SportsLiveCardSelection(props) {
     }
 
     const onSelectXP = (xp = '', xpVal) => {
-        setPointsXp(xpVal);
-        setSelectedXp(xp);
+        let _calculatedXp = (xpVal || 1) * parseInt(steps[currentStep]?.points)
+
+        let selectedCard = dispatch(NHLActions.getSingleData({ id }));
+        const _dataList = [...selectedData];
+        let index = _dataList?.indexOf(selectedCard);
+        selectedCard.xp = xp;
+        selectedCard.xpPoints = _calculatedXp || 6;
+        selectedCard.xpTimes = xpVal;
+        _dataList[index] = selectedCard;
+
+        dispatch(NHLActions.setData(_dataList));
     }
 
     const renderSelectedXp = () => {
-        if (selectedXp === XP.xp1_5) return <XP1_5 size={24} />
-        else if (selectedXp === XP.xp2) return <XP2Icon size={24} />
-        else if (selectedXp === XP.xp3) return <XP3 size={24} />
+        if (xp === CONSTANTS.XP.xp1_5) return <XP1_5 size={24} />
+        else if (xp === CONSTANTS.XP.xp2) return <XP2Icon size={24} />
+        else if (xp === CONSTANTS.XP.xp3) return <XP3 size={24} />
 
         return <XPIcon size={24} />
     }
@@ -136,20 +147,20 @@ function SportsLiveCardSelection(props) {
                                                 </div>
 
                                                 <div className={classes.states_points_right}>
-                                                    <p>{pointsXp} Points</p>
+                                                    <p>{xpTimes} Points</p>
                                                     <div className={classes.points_right_1}>
-                                                        <span>{(pointsXp || 1) * parseInt(steps[currentStep]?.points)}</span>
+                                                        <span>{xpPoints || 6}</span>
                                                         <ToolTip toolTipContent={
                                                             <div className={classes.tool_tip_xp}>
-                                                                <span onClick={() => onSelectXP(XP.xp1_5, 1.5)}><XP1_5 /></span>
-                                                                <span onClick={() => onSelectXP(XP.xp2, 2)}><XP2Icon /></span>
-                                                                <span onClick={() => onSelectXP(XP.xp3, 3)}><XP3 /></span>
+                                                                <span onClick={() => onSelectXP(CONSTANTS.XP.xp1_5, 1.5)}><XP1_5 /></span>
+                                                                <span onClick={() => onSelectXP(CONSTANTS.XP.xp2, 2)}><XP2Icon /></span>
+                                                                <span onClick={() => onSelectXP(CONSTANTS.XP.xp3, 3)}><XP3 /></span>
                                                             </div>
                                                         }>
                                                             <div data-tip data-for={`${title}`}>
                                                                 <div className={classes.state_xp}>
                                                                     {
-                                                                        isEmpty(selectedXp)
+                                                                        isEmpty(xp)
                                                                             ?
                                                                             <XPIcon size={24} />
                                                                             :
@@ -266,6 +277,7 @@ function SportsLiveCardSelection(props) {
 }
 
 SportsLiveCardSelection.propTypes = {
+    item: PropTypes.object,
     category: PropTypes.string,
     title: PropTypes.string,
     avgVal: PropTypes.number,
@@ -274,6 +286,7 @@ SportsLiveCardSelection.propTypes = {
     time: PropTypes.string,
     date: PropTypes.string,
     stadium: PropTypes.string,
+    xp: PropTypes.string,
     id: PropTypes.number,
     isSelected: PropTypes.bool,
     isStarPower: PropTypes.bool,
@@ -282,6 +295,7 @@ SportsLiveCardSelection.propTypes = {
     injured: PropTypes.bool,
     compressed: PropTypes.bool,
     onSelectDeselect: PropTypes.func,
+    onSelectXp: PropTypes.func,
 }
 
 export default SportsLiveCardSelection
