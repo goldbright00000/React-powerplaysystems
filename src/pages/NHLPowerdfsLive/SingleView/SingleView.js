@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './index.module.scss';
@@ -18,13 +18,17 @@ function SingleView(props) {
 
     const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
+    useEffect(() => {
+        setSelectedCard(data[currentCard]);
+    }, [data]);
+
     const RenderCard = ({ item, selected = false, onSelectCard = (item) => { } }) => {
         const {
             category = '',
             title = '',
             time = '',
             id = '',
-            steps = [],
+            live_data_steps = [],
             xp = '',
             xpPoints = 0,
             xpTimes = '',
@@ -43,7 +47,7 @@ function SingleView(props) {
                 <div className={classes.card_body}>
                     <div className={classes.card_cat}>{category}</div>
                     <div className={classes.card_xp_points}>
-                        Points: {steps[1]?.totalPoints}
+                        Points: {live_data_steps[1]?.totalPoints}
                         {
                             renderXp(xp)
                         }
@@ -56,13 +60,13 @@ function SingleView(props) {
 
                 <div
                     className={`${classes.card_type} 
-                    ${hasText(steps[0]?.type, 'ice')
+                    ${hasText(live_data_steps[0]?.type, 'ice')
                             ?
                             classes.success
                             :
-                            hasText(steps[0]?.type, 'bench') && classes.danger}`}
+                            hasText(live_data_steps[0]?.type, 'bench') && classes.danger}`}
                 >
-                    {steps[0]?.type}
+                    {live_data_steps[0]?.type}
                 </div>
             </div>
         )

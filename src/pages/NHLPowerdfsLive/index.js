@@ -13,7 +13,6 @@ import Card from '../../components/PowerpickCard';
 import SportsLiveCardSelection from '../../components/SportsLiveCardSelection';
 import Sidebar from '../../components/Sidebar';
 import CashPowerBalance from '../../components/CashPowerBalance';
-import { dummyData } from './dummyData';
 import XPIcon from '../../icons/XPIcon';
 import LockIcon from '../../icons/Lock';
 import TwitterIcon from '../../icons/TwitterIcon';
@@ -27,12 +26,14 @@ import RankCard from '../../components/RankCard';
 import { CONSTANTS } from '../../utility/constants';
 import SingleView from './SingleView/SingleView';
 
+import { dummyData } from './dummyData';
+
 function NHLPowerdFsLive(props) {
     const _data = dummyData;
     const [compressedView, setCompressedView] = useState(false);
     const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
 
-    const { data: selectedData = [] } = useSelector(state => state.nhl);
+    const { live_data: selectedData = [] } = useSelector(state => state.nhl);
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -40,7 +41,7 @@ function NHLPowerdFsLive(props) {
     }, []);
 
     const setData = () => {
-        dispatch(NHLActions.setData(_data));
+        dispatch(NHLActions.setLiveNhlData(_data));
     }
 
     const RenderPower = ({ title = '', Icon = '', isSvgIcon = false, count = 0 }) => (

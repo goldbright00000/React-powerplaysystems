@@ -15,6 +15,15 @@ function SportsSelectionCard(props) {
     const [currentStep, setCurrentStep] = useState(0);
 
     const {
+        item = {},
+        onSelectDeselect = (id) => { },
+        disabled = false,
+        isSelected = false,
+        btnTitle = 'Select',
+        btnIcon = '',
+    } = props || {};
+
+    const {
         title = '',
         avgVal = 0,
         teamA = '',
@@ -23,13 +32,10 @@ function SportsSelectionCard(props) {
         date = '',
         stadium = '',
         id = '',
-        isSelected = false,
         isStarPower = false,
         steps = [],
-        onSelectDeselect = () => { },
-        disabled = false,
         injured = false,
-    } = props || {};
+    } = item || {};
 
     const nextStep = () => {
         let _currentStep = currentStep;
@@ -59,7 +65,13 @@ function SportsSelectionCard(props) {
                 }
                 {
                     !isSelected ?
-                        <button onClick={() => onSelectDeselect(id)} className={disabled && classes.disabled} disabled={disabled}> + Select</button>
+                        <button
+                            onClick={() => onSelectDeselect(id)}
+                            className={disabled && classes.disabled}
+                            disabled={disabled}
+                        >
+                            {btnIcon && btnIcon} {btnTitle || '+ Select'}
+                        </button>
                         :
                         <div className={classes.container_selected}>
                             <p className={classes.container_selected_p_1}>
@@ -175,19 +187,10 @@ function SportsSelectionCard(props) {
 }
 
 SportsSelectionCard.propTypes = {
-    title: PropTypes.string,
-    avgVal: PropTypes.number,
-    teamA: PropTypes.string,
-    teamB: PropTypes.string,
-    time: PropTypes.string,
-    date: PropTypes.string,
-    stadium: PropTypes.string,
-    id: PropTypes.number,
+    item: PropTypes.object,
     isSelected: PropTypes.bool,
-    isStarPower: PropTypes.bool,
-    disabled: PropTypes.bool,
-    steps: PropTypes.array,
-    injured: PropTypes.bool,
+    btnTitle: PropTypes.string,
+    btnIcon: PropTypes.element,
     onSelectDeselect: PropTypes.func,
 }
 
