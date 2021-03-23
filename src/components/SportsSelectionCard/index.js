@@ -16,10 +16,11 @@ function SportsSelectionCard(props) {
 
     const {
         item = {},
-        onSelectDeselect = () => { },
+        onSelectDeselect = (id) => { },
         disabled = false,
         isSelected = false,
-        btnTitle = 'Select'
+        btnTitle = 'Select',
+        btnIcon = '',
     } = props || {};
 
     const {
@@ -64,7 +65,13 @@ function SportsSelectionCard(props) {
                 }
                 {
                     !isSelected ?
-                        <button onClick={() => onSelectDeselect(id)} className={disabled && classes.disabled} disabled={disabled}>{btnTitle || '+ Select'}</button>
+                        <button
+                            onClick={() => onSelectDeselect(id)}
+                            className={disabled && classes.disabled}
+                            disabled={disabled}
+                        >
+                            {btnIcon && btnIcon} {btnTitle || '+ Select'}
+                        </button>
                         :
                         <div className={classes.container_selected}>
                             <p className={classes.container_selected_p_1}>
@@ -183,6 +190,7 @@ SportsSelectionCard.propTypes = {
     item: PropTypes.object,
     isSelected: PropTypes.bool,
     btnTitle: PropTypes.string,
+    btnIcon: PropTypes.element,
     onSelectDeselect: PropTypes.func,
 }
 

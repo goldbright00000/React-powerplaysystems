@@ -1,3 +1,5 @@
+import AdImg from '../../assets/img.jpg';
+
 export const dummyData = [
     {
         id: 1,
@@ -10,7 +12,7 @@ export const dummyData = [
         stadium: 'Empower Field',
         injured: true,
         category: 'c1',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -31,6 +33,34 @@ export const dummyData = [
                 totalPoints: 27,
             }
         ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
+            }
+        ],
     },
     {
         id: 2,
@@ -43,7 +73,7 @@ export const dummyData = [
         stadium: 'Empower Field',
         isStarPower: true,
         category: 'c2',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -64,6 +94,34 @@ export const dummyData = [
                 totalPoints: 27,
             }
         ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
+            }
+        ],
     },
     {
         id: 3,
@@ -75,7 +133,7 @@ export const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         category: 'lw',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -94,6 +152,34 @@ export const dummyData = [
                     { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
                 ],
                 totalPoints: 27,
+            }
+        ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
             }
         ],
     },
@@ -107,7 +193,7 @@ export const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         category: 'rw',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -128,6 +214,34 @@ export const dummyData = [
                 totalPoints: 27,
             }
         ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
+            }
+        ],
     },
     {
         id: 5,
@@ -139,7 +253,7 @@ export const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         category: 'd1',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -161,6 +275,34 @@ export const dummyData = [
                 totalPoints: 27,
             }
         ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
+            }
+        ],
     },
     {
         id: 6,
@@ -172,7 +314,7 @@ export const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         category: 'd2',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -191,6 +333,34 @@ export const dummyData = [
                     { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
                 ],
                 totalPoints: 27,
+            }
+        ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
             }
         ],
     },
@@ -204,7 +374,7 @@ export const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         category: 'g',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -225,6 +395,34 @@ export const dummyData = [
                 totalPoints: 27,
             }
         ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
+            }
+        ],
     },
     {
         id: 8,
@@ -236,7 +434,7 @@ export const dummyData = [
         date: '2020-09-28',
         stadium: 'Empower Field',
         category: 'team d',
-        steps: [
+        live_data_steps: [
             {
                 states: {
                     sog: 5,
@@ -255,6 +453,34 @@ export const dummyData = [
                     { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
                 ],
                 totalPoints: 27,
+            }
+        ],
+        steps: [
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'fppg'],
+                step: [21, 18, 13, 31, 20.0]
+            },
+            {
+                titles: ['gp', 'g', 'a', 'pts', 'sog', 'fppg'],
+                step: [
+                    {
+                        title: 'last game',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    },
+                    {
+                        title: 'last 10 games',
+                        values: [10, 8, 9, 17, 39, 18.8],
+                    },
+                    {
+                        title: '2020-2021',
+                        values: [1, 0, 0, 0, 7, 14.8],
+                    }
+                ]
+            },
+            {
+                step: {
+                    ad: AdImg
+                }
             }
         ],
     }

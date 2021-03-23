@@ -20,6 +20,7 @@ import Modal from '../Modal';
 import Card from '../Card';
 import CloseIcon from '../../icons/Close';
 import SportCardSelection from '../SportsSelectionCard';
+import SwapIcon from '../../icons/Swap';
 
 import { dummyData } from '../../pages/NHLpowerdFS/dummyData';
 
@@ -28,7 +29,7 @@ function SportsLiveCardSelection(props) {
     const [showReplaceModal, setReplaceModalState] = useState(false);
     const [selectedReplaceData, setReplaceData] = useState();
 
-    const { item = {}, compressed = false } = props || {};
+    const { item: currentPlayer = {}, compressed = false } = props || {};
     const { live_data: selectedData = [] } = useSelector(state => state.nhl);
     const dispatch = useDispatch();
 
@@ -40,11 +41,11 @@ function SportsLiveCardSelection(props) {
         id = '',
         isSelected = false,
         isStarPower = false,
-        steps = [],
+        live_data_steps = [],
         xp = '',
         xpPoints = 0,
         xpTimes = '',
-    } = item || {};
+    } = currentPlayer || {};
 
     useEffect(() => {
         if (compressed) {
@@ -54,7 +55,7 @@ function SportsLiveCardSelection(props) {
 
     const nextStep = () => {
         let _currentStep = currentStep;
-        if (currentStep < steps?.length - 1) {
+        if (currentStep < live_data_steps?.length - 1) {
             _currentStep++;
         } else {
             _currentStep = 0;
@@ -83,15 +84,14 @@ function SportsLiveCardSelection(props) {
     }
 
     const onSelectXP = (xp = '', xpVal) => {
-        let _calculatedXp = (xpVal || 1) * parseInt(steps[currentStep]?.points)
+        let _calculatedXp = (xpVal || 1) * parseInt(live_data_steps[currentStep]?.points)
 
-        let selectedCard = dispatch(NHLActions.getSingleData({ id }));
         const _dataList = [...selectedData];
-        let index = _dataList?.indexOf(selectedCard);
-        selectedCard.xp = xp;
-        selectedCard.xpPoints = _calculatedXp || 6;
-        selectedCard.xpTimes = xpVal;
-        _dataList[index] = selectedCard;
+        let index = _dataList?.indexOf(currentPlayer);
+        currentPlayer.xp = xp;
+        currentPlayer.xpPoints = _calculatedXp || 6;
+        currentPlayer.xpTimes = xpVal;
+        _dataList[index] = currentPlayer;
 
         dispatch(NHLActions.setLiveNhlData(_dataList));
     }
@@ -112,8 +112,21 @@ function SportsLiveCardSelection(props) {
         setReplaceModalState(!showReplaceModal);
     }
 
-    const onReplacePlayer = () => {
+    const onReplacePlayer = (id) => {
+        const _dataList = [...selectedData];
+        let targetPlayerIndex = _dataList?.indexOf(currentPlayer);
 
+        if (targetPlayerIndex !== -1 && selectedReplaceData) {
+            const [selectedPlayer] = selectedReplaceData?.data?.filter(player => player?.id === id);
+
+            if (selectedPlayer) {
+                selectedPlayer.category = category;
+                _dataList[targetPlayerIndex] = selectedPlayer;
+
+                dispatch(NHLActions.setLiveNhlData(_dataList));
+                setReplaceModalState(false);
+            }
+        }
     }
 
     return (
@@ -150,7 +163,7 @@ function SportsLiveCardSelection(props) {
                     </div>
                     <div className={classes.divider} />
                     {
-                        steps?.length ?
+                        live_data_steps?.length ?
                             <div className={classes.card_state_main_container}>
                                 {
                                     <>
@@ -161,11 +174,11 @@ function SportsLiveCardSelection(props) {
                                                     <div className={classes.states_points_left}>
                                                         <p>Stats</p>
                                                         <div>
-                                                            <span>SOG: {steps[currentStep]?.states.sog}</span>
+                                                            <span>SOG: {live_data_steps[currentStep]?.states.sog}</span>
                                                             <div>
-                                                                <span>G: {steps[currentStep]?.states.g}</span>
+                                                                <span>G: {live_data_steps[currentStep]?.states.g}</span>
                                                                 <span className={classes.separater} />
-                                                                <span>A: {steps[currentStep]?.states.a}</span>
+                                                                <span>A: {live_data_steps[currentStep]?.states.a}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -200,12 +213,12 @@ function SportsLiveCardSelection(props) {
                                                 <div className={classes.states_points_center}>
                                                     <div>
                                                         <p className={`${classes.p_1} 
-                                                    ${getIceType(steps[currentStep].type)
+                                                    ${getIceType(live_data_steps[currentStep].type)
                                                                 ?
                                                                 classes.bg_s
                                                                 :
-                                                                getBenchType(steps[currentStep].type) ? classes.bg_p : classes.bg_n
-                                                            }`}>{steps[currentStep]?.type}</p>
+                                                                getBenchType(live_data_steps[currentStep].type) ? classes.bg_p : classes.bg_n
+                                                            }`}>{live_data_steps[currentStep]?.type}</p>
                                                         {
                                                             !compressed &&
                                                             <>
@@ -213,7 +226,7 @@ function SportsLiveCardSelection(props) {
                                                                     <ClockIcon />
                                                                     <span> P1 | 12:59</span>
                                                                 </div>
-                                                                <p className={classes.p_2}>{steps[currentStep]?.value}</p>
+                                                                <p className={classes.p_2}>{live_data_steps[currentStep]?.value}</p>
                                                             </>
                                                         }
                                                     </div>
@@ -236,12 +249,12 @@ function SportsLiveCardSelection(props) {
                                                         <span>Pts</span>
                                                     </div>
                                                     <div className={`${classes.points_summary_b} 
-                                                        ${steps[currentStep]?.step?.length > 4 ? classes.overflow : ''}`
+                                                        ${live_data_steps[currentStep]?.step?.length > 4 ? classes.overflow : ''}`
                                                     }
                                                     >
                                                         {
-                                                            steps[currentStep]?.step && steps[currentStep]?.step?.length &&
-                                                            steps[currentStep]?.step?.map((itm, indx) => (
+                                                            live_data_steps[currentStep]?.step && live_data_steps[currentStep]?.step?.length &&
+                                                            live_data_steps[currentStep]?.step?.map((itm, indx) => (
                                                                 <div>
                                                                     <span>{itm?.p1}</span>
                                                                     <span>{itm?.type}</span>
@@ -252,7 +265,7 @@ function SportsLiveCardSelection(props) {
                                                         }
                                                     </div>
                                                     <div className={classes.summary_total_pts}>
-                                                        Total Points: {steps[currentStep]?.totalPoints}
+                                                        Total Points: {live_data_steps[currentStep]?.totalPoints}
                                                     </div>
                                                 </div>
                                             </div>
@@ -261,7 +274,7 @@ function SportsLiveCardSelection(props) {
                                 }
 
                                 {
-                                    !compressed && steps?.length ?
+                                    !compressed && live_data_steps?.length ?
                                         <div className={classes.card_footer_arrow}>
                                             {
                                                 currentStep > 0 ?
@@ -317,6 +330,8 @@ function SportsLiveCardSelection(props) {
                                                 item={item}
                                                 key={ind + '-'}
                                                 btnTitle="Swap"
+                                                btnIcon={<SwapIcon />}
+                                                onSelectDeselect={onReplacePlayer}
                                             />
                                     )
                                 }
@@ -331,24 +346,10 @@ function SportsLiveCardSelection(props) {
 
 SportsLiveCardSelection.propTypes = {
     item: PropTypes.object,
-    category: PropTypes.string,
-    title: PropTypes.string,
-    avgVal: PropTypes.number,
-    teamA: PropTypes.string,
-    teamB: PropTypes.string,
-    time: PropTypes.string,
-    date: PropTypes.string,
-    stadium: PropTypes.string,
-    xp: PropTypes.string,
-    id: PropTypes.number,
     isSelected: PropTypes.bool,
-    isStarPower: PropTypes.bool,
     disabled: PropTypes.bool,
-    steps: PropTypes.array,
-    injured: PropTypes.bool,
     compressed: PropTypes.bool,
     onSelectDeselect: PropTypes.func,
-    onSelectXp: PropTypes.func,
 }
 
 export default SportsLiveCardSelection
