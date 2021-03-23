@@ -8,10 +8,9 @@ import SuperBall from '../../icons/SuperBall';
 import PowerPlayGridRow from './PowerPlayGridRow';
 import Scrollbar from '../../utility/Scrollbar';
 import CashPowerBalance from '../../components/CashPowerBalance';
-import DropDownMenu from '../../components/DropDownMenu/DropDownMenu';
 import PowerCenterCard from '../../components/PowerCenterCard';
-import PowerCenterCardDetails from '../../components/PowerCenterCardDetails';
 import { redirectTo } from '../../utility/shared';
+import CustomDropDown from '../../components/CustomDropDown';
 
 const powerCenterCardData = [
     {
@@ -93,51 +92,11 @@ const options = [
     { value: 'THU, Mar 18', label: 'THU, Mar 18' },
 ];
 
-const customStyles = {
-    control: (base, state) => ({
-        ...base,
-        width: 150,
-        backgroundColor: '#303133',
-        borderWidth: 0,
-        borderRadius: 0,
-        boxShadow: 'none'
-    }),
-    option: (provided, state) => ({
-        ...provided,
-        backgroundColor: state.isSelected ? '#688fbd' : '#303133',
-        opacity: state.isSelected ? 0.5 : 1.0,
-        borderBottom: '1px solid #111111',
-        color: state.isSelected ? '#ffffff' : '#f2f2f2',
-        padding: 10,
-        width: 150,
-        height: 48,
-        fontSize: 16
-    }),
-    indicatorSeparator: (base) => ({
-        ...base,
-        width: 0
-    }),
-    dropdownIndicator: base => ({
-        ...base,
-        color: '#f2f2f2',
-    }),
-    singleValue: (provided, state) => ({
-        ...provided,
-        color: '#f2f2f2',
-        fontSize: 16
-    }),
-    menu: (base) => ({
-        ...base,
-        backgroundColor: '#303133'
-    })
-};
-
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
 
-
-    const [selectedDate, setSelectedDate] = useState(options[0]);
+    const [selectedDate, setSelectedDate] = useState(options[0].value);
     const [showCardDetails, setShowCardDetails] = useState(-1);
 
     useEffect(() => {
@@ -202,12 +161,10 @@ const InteractiveContests = props => {
                         <p>Min Entry</p>
                     </div>
                     <div className={classes.__interactive_contests_date}>
-                        <DropDownMenu
-                            defaultValue={options[0]}
+                        <CustomDropDown 
                             value={selectedDate}
                             options={options}
                             onChange={selectedOption => setSelectedDate(selectedOption)}
-                            styles={customStyles}
                         />
                     </div>
                 </div>
