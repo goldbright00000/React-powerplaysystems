@@ -1,16 +1,23 @@
 import * as Actions from '../../actions/NHLActions';
 
 const INITIAL_STATE = {
+    live_data: [],
     data: [],
 };
 
 const nhlReducer = (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
-        case Actions.SET_DATA:
+        case Actions.NHL_LIVE_DATA:
             return {
                 ...state,
-                data: [...actions.payload]
-            }
+                live_data: [...actions.payload]
+            };
+
+        case Actions.NHL_DATA:
+            return {
+                ...state,
+                data: [...actions.payload],
+            };
 
         default:
             return state;
