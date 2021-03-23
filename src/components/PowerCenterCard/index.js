@@ -66,17 +66,14 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_enter}>
                     <button onClick={onEnter}>Enter  •  $5</button>
                 </div>
-                <div className={classes.__power_center_card_total}>
-                    <p>
-                        {outOf} of <span>{total}</span>
-                    </p>
+                <div className={classes.__power_center_card_date_time}>
+                    Oct 24, 2020  |  8:00PM ET
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
-                    <div className={classes.__power_center_card_status_text}>
-                        <p>{percent}% FULL</p>
-                    </div>
-                    <div className={classes.__power_center_card_progress_bar_outer}>
-                        <div className={classes.__power_center_card_progress_bar_inner}></div>
+                    <div className={classes.__power_center_card_total}>
+                        <p>
+                            {outOf} of <span>{total}</span>
+                        </p>
                     </div>
                     <div className={classes.__power_center_card_details}>
                         <div className={classes.__power_center_card_details_link} onClick={() => onDetailsClick(id)}>
@@ -90,6 +87,7 @@ const PowerCenterCard = (props) => {
             </div>
             :
             <PowerCenterCardDetails
+                title={title}
                 onBackClick={() => onBackClick()}
                 onNextClick={() => onNextClick()}
             />
