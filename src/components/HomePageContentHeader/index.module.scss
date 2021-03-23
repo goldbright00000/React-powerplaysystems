@@ -3,7 +3,8 @@
 .header_wrapper {
   background-image: url("../../assets/home_page_header_background.png");
   background-repeat: no-repeat;
-
+  background-size: 100%;
+  
   .header_main {
     display: flex;
     flex-direction: column;
@@ -119,6 +120,7 @@
   .header_wrapper {
     background-image: url("../../assets/home_page_header_background.png");
     background-repeat: no-repeat;
+    background-size: 100%;
 
     .header_main {
       display: flex;
@@ -217,7 +219,7 @@
     background-image: url("../../assets/home_page_header_background.png");
     background-repeat: no-repeat;
     background-size: 100%;
-
+    
     .header_main {
       display: flex;
       flex-direction: column;

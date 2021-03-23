@@ -6,7 +6,7 @@ import classes from './index.module.scss'
 const PowerPickCard = props => {
     const { styles = {} } = props
     return (
-        <div className={`${classes.card_wrapper} ${props?.shadow && classes.card_shadow}`} style={styles}>
+        <div className={`${classes.card_wrapper} ${props?.shadow && classes.card_shadow} ${props?.className}`} style={styles}>
             {props?.children}
         </div>
     )
@@ -14,7 +14,8 @@ const PowerPickCard = props => {
 
 PowerPickCard.propTypes = {
     shadow: PropTypes.bool,
-    styles: PropTypes.object
+    styles: PropTypes.object,
+    className: PropTypes.any,
 }
 
 export default PowerPickCard

@@ -33,6 +33,7 @@ import MLBPowerdFs from './pages/MLBpowerdFS';
 import NHLPowerdFs from './pages/NHLpowerdFS';
 import NBAPowerdFs from './pages/NBApowerdFS';
 import NHLPowerdFsLive from './pages/NHLPowerdfsLive';
+import NHLLivePowerdFsScroeDetail from './pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail';
 
 
 
@@ -41,9 +42,10 @@ const App = props => {
         <Fragment>
             <ScrollToTop />
             <Switch>
-                <Route exact path='/power-play-sponsors' component={PowerPlaySponsorsPage} />
-                <Route path='/power-play-sponsors/sponsor-a-contest' component={SponserAContestPage} />
                 <Route exact path='/' component={HomePage} />
+                <Route exact path='/power-play-sponsors' component={PowerPlaySponsorsPage} />
+                <Route exact path="/nhl-live-powerdfs/my-score-details" component={NHLLivePowerdFsScroeDetail} />
+                <Route path='/power-play-sponsors/sponsor-a-contest' component={SponserAContestPage} />
                 <Route path='/power-center' component={PowerCenter} />
                 <Route path='/select-teams' component={SelectTeams} />
                 <Route path='/powerbet-live' component={PowerBetLive} />
