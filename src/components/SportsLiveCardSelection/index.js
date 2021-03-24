@@ -24,13 +24,20 @@ import SwapIcon from '../../icons/Swap';
 import SearchIcon from '../../icons/Search';
 
 import { dummyData } from '../../pages/NHLpowerdFS/dummyData';
+import SimpleCardView from './SimpleCardView';
 
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
     const [showReplaceModal, setReplaceModalState] = useState(false);
     const [selectedReplaceData, setReplaceData] = useState();
 
-    const { item: currentPlayer = {}, compressed = false } = props || {};
+    const {
+        item: currentPlayer = {},
+        compressed = false,
+        simpleView = false,
+        selected = false,
+        onSelectCard = (item) => { }
+    } = props || {};
     const { live_data: selectedData = [], starPlayerCount = 0 } = useSelector(state => state.nhl);
     const dispatch = useDispatch();
 
@@ -148,185 +155,199 @@ function SportsLiveCardSelection(props) {
 
     return (
         <>
-            <div className={classes.container_body_card} key={id}>
-                <div className={classes.container_card_header}>
-                    <div className={`
+            {
+                !simpleView
+                    ?
+                    <div className={classes.container_body_card} key={id}>
+                        <div className={classes.container_card_header}>
+                            <div className={`
                     ${classes.container_card_header_left} 
                     ${hasText(category, 'Team') && classes.teamD}
                     `}
-                    >
-                        <span className={classes.header_line_bar} />
-                        {category}
-                    </div>
-                    <div className={classes.container_card_header_right}>
-                        <p>{teamA} vs <span className={classes.teamB}>{teamB}</span></p>
-                    </div>
-                </div>
-                <div className={`${classes.container_card_body} 
+                            >
+                                <span className={classes.header_line_bar} />
+                                {category}
+                            </div>
+                            <div className={classes.container_card_header_right}>
+                                <p>{teamA} vs <span className={classes.teamB}>{teamB}</span></p>
+                            </div>
+                        </div>
+                        <div className={`${classes.container_card_body} 
             ${compressed ? classes.compressed : classes.height}`}>
-                    <div className={classes.container_card_title}>
-                        <div className={classes.card_title_left}>
+                            <div className={classes.container_card_title}>
+                                <div className={classes.card_title_left}>
+                                    {
+                                        isStarPlayer &&
+                                        <img src={PowerPlayIcon} />
+                                    }
+                                    <p className={classes.container_selected_p}>
+                                        {title}
+                                    </p>
+                                </div>
+                                <div className={classes.card_title_right}>
+                                    <ReplaceAllIcon style={{ height: 'auto' }} size={24} onClick={toggleReplaceModal} />
+                                </div>
+                            </div>
+                            <div className={classes.divider} />
                             {
-                                isStarPlayer &&
-                                <img src={PowerPlayIcon} />
-                            }
-                            <p className={classes.container_selected_p}>
-                                {title}
-                            </p>
-                        </div>
-                        <div className={classes.card_title_right}>
-                            <ReplaceAllIcon style={{ height: 'auto' }} size={24} onClick={toggleReplaceModal} />
-                        </div>
-                    </div>
-                    <div className={classes.divider} />
-                    {
-                        live_data_steps?.length ?
-                            <div className={classes.card_state_main_container}>
-                                {
-                                    <>
+                                live_data_steps?.length ?
+                                    <div className={classes.card_state_main_container}>
                                         {
-                                            currentStep === 0 &&
-                                            <div className={classes.states_points}>
-                                                <div className={classes.states_points_top}>
-                                                    <div className={classes.states_points_left}>
-                                                        <p>Stats</p>
-                                                        <div>
-                                                            <span>SOG: {live_data_steps[currentStep]?.states.sog}</span>
+                                            <>
+                                                {
+                                                    currentStep === 0 &&
+                                                    <div className={classes.states_points}>
+                                                        <div className={classes.states_points_top}>
+                                                            <div className={classes.states_points_left}>
+                                                                <p>Stats</p>
+                                                                <div>
+                                                                    <span>SOG: {live_data_steps[currentStep]?.states.sog}</span>
+                                                                    <div>
+                                                                        <span>G: {live_data_steps[currentStep]?.states.g}</span>
+                                                                        <span className={classes.separater} />
+                                                                        <span>A: {live_data_steps[currentStep]?.states.a}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className={classes.states_points_right}>
+                                                                <p className={classes.states_xp_times}>
+                                                                    {xpTimes && `${xpTimes}x`} Points
+                                                            <span>01:30</span>
+                                                                </p>
+                                                                <div className={classes.points_right_1}>
+                                                                    <span>{xpPoints || 6}</span>
+                                                                    <ToolTip toolTipContent={
+                                                                        <div className={classes.tool_tip_xp}>
+                                                                            <span onClick={() => onSelectXP(CONSTANTS.XP.xp1_5, 1.5)}><XP1_5 /></span>
+                                                                            <span onClick={() => onSelectXP(CONSTANTS.XP.xp2, 2)}><XP2Icon /></span>
+                                                                            <span onClick={() => onSelectXP(CONSTANTS.XP.xp3, 3)}><XP3 /></span>
+                                                                        </div>
+                                                                    }>
+                                                                        <div data-tip data-for={`${title}`}>
+                                                                            <div className={classes.state_xp}>
+                                                                                {
+                                                                                    isEmpty(xp)
+                                                                                        ?
+                                                                                        <XPIcon size={24} />
+                                                                                        :
+                                                                                        renderSelectedXp()
+                                                                                }
+                                                                            </div>
+                                                                        </div>
+                                                                    </ToolTip>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div className={classes.states_points_center}>
                                                             <div>
-                                                                <span>G: {live_data_steps[currentStep]?.states.g}</span>
-                                                                <span className={classes.separater} />
-                                                                <span>A: {live_data_steps[currentStep]?.states.a}</span>
+                                                                <p className={`${classes.p_1} 
+                                                    ${getIceType(live_data_steps[currentStep].type)
+                                                                        ?
+                                                                        classes.bg_s
+                                                                        :
+                                                                        getBenchType(live_data_steps[currentStep].type) ? classes.bg_p : classes.bg_n
+                                                                    }`}>{live_data_steps[currentStep]?.type}</p>
+                                                                {
+                                                                    !compressed &&
+                                                                    <>
+                                                                        <div className={classes.container_card_body_top}>
+                                                                            <ClockIcon />
+                                                                            <span> P1 | 12:59</span>
+                                                                        </div>
+                                                                        <p className={classes.p_2}>{live_data_steps[currentStep]?.value}</p>
+                                                                    </>
+                                                                }
+                                                            </div>
+                                                            {
+                                                                !compressed &&
+                                                                <p>Opp. G: P. Roy .976</p>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                }
+                                                {
+                                                    !compressed && currentStep === 1 &&
+                                                    <div className={classes.points_summary}>
+                                                        <p className={classes.points_summary_title}>Points Summary</p>
+                                                        <div className={classes.points_summary_1}>
+                                                            <div className={classes.points_summary_h}>
+                                                                <span>Time</span>
+                                                                <span>Type</span>
+                                                                <span>Power</span>
+                                                                <span>Pts</span>
+                                                            </div>
+                                                            <div className={`${classes.points_summary_b} 
+                                                        ${live_data_steps[currentStep]?.step?.length > 4 ? classes.overflow : ''}`
+                                                            }
+                                                            >
+                                                                {
+                                                                    live_data_steps[currentStep]?.step && live_data_steps[currentStep]?.step?.length &&
+                                                                    live_data_steps[currentStep]?.step?.map((itm, indx) => (
+                                                                        <div>
+                                                                            <span>{itm?.p1}</span>
+                                                                            <span>{itm?.type}</span>
+                                                                            <span>{itm?.power === '' ? '-' : itm?.power}</span>
+                                                                            <span>{itm?.pts}</span>
+                                                                        </div>
+                                                                    ))
+                                                                }
+                                                            </div>
+                                                            <div className={classes.summary_total_pts}>
+                                                                Total Points: {live_data_steps[currentStep]?.totalPoints}
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    <div className={classes.states_points_right}>
-                                                        <p>{xpTimes} Points</p>
-                                                        <div className={classes.points_right_1}>
-                                                            <span>{xpPoints || 6}</span>
-                                                            <ToolTip toolTipContent={
-                                                                <div className={classes.tool_tip_xp}>
-                                                                    <span onClick={() => onSelectXP(CONSTANTS.XP.xp1_5, 1.5)}><XP1_5 /></span>
-                                                                    <span onClick={() => onSelectXP(CONSTANTS.XP.xp2, 2)}><XP2Icon /></span>
-                                                                    <span onClick={() => onSelectXP(CONSTANTS.XP.xp3, 3)}><XP3 /></span>
-                                                                </div>
-                                                            }>
-                                                                <div data-tip data-for={`${title}`}>
-                                                                    <div className={classes.state_xp}>
-                                                                        {
-                                                                            isEmpty(xp)
-                                                                                ?
-                                                                                <XPIcon size={24} />
-                                                                                :
-                                                                                renderSelectedXp()
-                                                                        }
-                                                                    </div>
-                                                                </div>
-                                                            </ToolTip>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div className={classes.states_points_center}>
-                                                    <div>
-                                                        <p className={`${classes.p_1} 
-                                                    ${getIceType(live_data_steps[currentStep].type)
-                                                                ?
-                                                                classes.bg_s
-                                                                :
-                                                                getBenchType(live_data_steps[currentStep].type) ? classes.bg_p : classes.bg_n
-                                                            }`}>{live_data_steps[currentStep]?.type}</p>
-                                                        {
-                                                            !compressed &&
-                                                            <>
-                                                                <div className={classes.container_card_body_top}>
-                                                                    <ClockIcon />
-                                                                    <span> P1 | 12:59</span>
-                                                                </div>
-                                                                <p className={classes.p_2}>{live_data_steps[currentStep]?.value}</p>
-                                                            </>
-                                                        }
-                                                    </div>
-                                                    {
-                                                        !compressed &&
-                                                        <p>Opp. G: P. Roy .976</p>
-                                                    }
-                                                </div>
-                                            </div>
+                                                }
+                                            </>
                                         }
+
                                         {
-                                            !compressed && currentStep === 1 &&
-                                            <div className={classes.points_summary}>
-                                                <p className={classes.points_summary_title}>Points Summary</p>
-                                                <div className={classes.points_summary_1}>
-                                                    <div className={classes.points_summary_h}>
-                                                        <span>Time</span>
-                                                        <span>Type</span>
-                                                        <span>Power</span>
-                                                        <span>Pts</span>
+                                            !compressed && live_data_steps?.length ?
+                                                <div className={classes.card_footer_arrow}>
+                                                    {
+                                                        currentStep > 0 ?
+                                                            <>
+                                                                <div onClick={backStep} className={classes.footer_back}>
+                                                                    Back
                                                     </div>
-                                                    <div className={`${classes.points_summary_b} 
-                                                        ${live_data_steps[currentStep]?.step?.length > 4 ? classes.overflow : ''}`
-                                                    }
-                                                    >
-                                                        {
-                                                            live_data_steps[currentStep]?.step && live_data_steps[currentStep]?.step?.length &&
-                                                            live_data_steps[currentStep]?.step?.map((itm, indx) => (
-                                                                <div>
-                                                                    <span>{itm?.p1}</span>
-                                                                    <span>{itm?.type}</span>
-                                                                    <span>{itm?.power === '' ? '-' : itm?.power}</span>
-                                                                    <span>{itm?.pts}</span>
+                                                                <div className={classes.left_align}>
+                                                                    <span className={`${classes.arrow} ${classes.left}`} />
                                                                 </div>
-                                                            ))
-                                                        }
+                                                            </>
+                                                            :
+                                                            <>
+                                                                <div onClick={nextStep} className={classes.card_details}>
+                                                                    Details
                                                     </div>
-                                                    <div className={classes.summary_total_pts}>
-                                                        Total Points: {live_data_steps[currentStep]?.totalPoints}
-                                                    </div>
+                                                                <span className={`${classes.arrow} ${classes.right}`} />
+                                                            </>
+                                                    }
                                                 </div>
-                                            </div>
+                                                :
+                                                <></>
                                         }
-                                    </>
-                                }
-
-                                {
-                                    !compressed && live_data_steps?.length ?
-                                        <div className={classes.card_footer_arrow}>
-                                            {
-                                                currentStep > 0 ?
-                                                    <>
-                                                        <div onClick={backStep} className={classes.footer_back}>
-                                                            Back
-                                                    </div>
-                                                        <div className={classes.left_align}>
-                                                            <span className={`${classes.arrow} ${classes.left}`} />
-                                                        </div>
-                                                    </>
-                                                    :
-                                                    <>
-                                                        <div onClick={nextStep} className={classes.card_details}>
-                                                            Details
-                                                    </div>
-                                                        <span className={`${classes.arrow} ${classes.right}`} />
-                                                    </>
-                                            }
-                                        </div>
-                                        :
-                                        <></>
-                                }
-                            </div>
-                            :
-                            <p className={`
+                                    </div>
+                                    :
+                                    <p className={`
                             ${classes.container_body_card_state} 
                             ${classes.card_state_no_data} 
                             ${isSelected ? classes.active : ''}`}
-                            >
-                                No Data
+                                    >
+                                        No Data
                         </p>
-                    }
-                </div>
-            </div>
+                            }
+                        </div>
+                    </div>
+                    :
+                    <SimpleCardView
+                        item={currentPlayer}
+                        selected={selected}
+                        onSelectCard={onSelectCard}
+                        onClickReplace={toggleReplaceModal}
+                    />
+            }
 
             <Modal visible={showReplaceModal}>
                 <div className={classes.modal_container}>
@@ -355,14 +376,16 @@ function SportsLiveCardSelection(props) {
                                 {
                                     selectedReplaceData && selectedReplaceData?.data?.map(
                                         (item, ind) =>
-                                            <SportCardSelection
-                                                item={item}
-                                                key={ind + '-'}
-                                                btnTitle="Swap"
-                                                btnIcon={<SwapIcon />}
-                                                onSelectDeselect={onPlayerSwap}
-                                                disabled={starPlayerCount === 3 && !isStarPlayer}
-                                            />
+                                            starPlayerCount === 3 && !isStarPlayer && item?.isStarPlayer ?
+                                                <></>
+                                                :
+                                                <SportCardSelection
+                                                    item={item}
+                                                    key={ind + '-'}
+                                                    btnTitle="Swap"
+                                                    btnIcon={<SwapIcon />}
+                                                    onSelectDeselect={onPlayerSwap}
+                                                />
                                     )
                                 }
                             </div>
@@ -379,6 +402,9 @@ SportsLiveCardSelection.propTypes = {
     isSelected: PropTypes.bool,
     disabled: PropTypes.bool,
     compressed: PropTypes.bool,
+    simpleView: PropTypes.bool,
+    selected: PropTypes.bool,
+    onSelectCard: PropTypes.func,
     onSelectDeselect: PropTypes.func,
 }
 
