@@ -2,6 +2,7 @@
 export const NHL_LIVE_DATA = '[NHL] NHL_LIVE_DATA';
 export const NHL_DATA = '[NHL] NHL_DATA';
 export const SINGLE_DATA = '[NHL] NHL_SINGLE_DATA';
+export const STAR_PLAYER_COUNT = '[NHL] NHL_STAR_PLAYER_COUNT';
 
 export function setLiveNhlData(payload) {
     return dispatch => dispatch({ type: NHL_LIVE_DATA, payload });
@@ -21,4 +22,8 @@ export function getSingleData(payload) {
             return selectedData;
         }
     }
+}
+
+export function starPlayerCount(payload) {
+    return dispatch => dispatch({ type: STAR_PLAYER_COUNT, payload });
 }

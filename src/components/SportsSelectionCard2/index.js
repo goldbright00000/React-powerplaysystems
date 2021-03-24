@@ -24,7 +24,7 @@ function SportsSelectionCard2(props) {
         stadium = '',
         id = '',
         isSelected = false,
-        isStarPower = false,
+        isStarPlayer = false,
         steps = [],
         onSelectDeselect = () => { },
         disabled = false,
@@ -36,7 +36,7 @@ function SportsSelectionCard2(props) {
                 <div className={classes.container_body_left}>
                     <div className={classes.container_body_left_h}>
                         {
-                            isStarPower &&
+                            isStarPlayer &&
                             <span className={classes.container_body_card_start_power}> <img src={PowerPlayIcon} /> Star Power </span>
                         }
                         <div className={classes.container_body_card_header}>
@@ -122,7 +122,7 @@ SportsSelectionCard2.propTypes = {
     stadium: PropTypes.string,
     id: PropTypes.number,
     isSelected: PropTypes.bool,
-    isStarPower: PropTypes.bool,
+    isStarPlayer: PropTypes.bool,
     disabled: PropTypes.bool,
     steps: PropTypes.array,
     onSelectDeselect: PropTypes.func,

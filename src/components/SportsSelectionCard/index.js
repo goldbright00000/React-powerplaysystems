@@ -32,7 +32,7 @@ function SportsSelectionCard(props) {
         date = '',
         stadium = '',
         id = '',
-        isStarPower = false,
+        isStarPlayer = false,
         steps = [],
         injured = false,
     } = item || {};
@@ -51,7 +51,7 @@ function SportsSelectionCard(props) {
     return (
         <div className={classes.container_body_card}>
             {
-                isStarPower &&
+                isStarPlayer &&
                 <span className={classes.container_body_card_start_power}> <img src={PowerPlayIcon} /> Star Power </span>
             }
             <div className={classes.container_body_card_header}>
@@ -189,6 +189,7 @@ function SportsSelectionCard(props) {
 SportsSelectionCard.propTypes = {
     item: PropTypes.object,
     isSelected: PropTypes.bool,
+    disabled: PropTypes.bool,
     btnTitle: PropTypes.string,
     btnIcon: PropTypes.element,
     onSelectDeselect: PropTypes.func,

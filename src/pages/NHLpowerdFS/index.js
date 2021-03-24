@@ -126,7 +126,7 @@ const detailRules = [
     'Mathematical skill testing question must be correctly answered to win.',
 ]
 
-let starPowerIndex = 0;
+let starPlayerCount = 0;
 
 function NHLPowerdFs(props) {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
@@ -175,14 +175,16 @@ function NHLPowerdFs(props) {
                 let player = _player;
                 player.value = data?.title;
                 player.playerId = data?.id;
-                player.isStarPower = data?.isStarPower;
+                player.isStarPlayer = data?.isStarPlayer;
                 _playersList[playerListIndex] = player;
 
                 _selected.set(id, !selected.get(id));
                 //Star Power Player selection (sidebar)
-                if (starPowerIndex < 3 && data?.isStarPower) {
-                    _selectedStarPowers[starPowerIndex] = true;
-                    starPowerIndex++;
+                if (starPlayerCount < 3 && data?.isStarPlayer) {
+                    _selectedStarPowers[starPlayerCount] = true;
+                    starPlayerCount++;
+
+                    dispatch(NHLActions.starPlayerCount(starPlayerCount));
                 }
             }
         } else {
@@ -192,14 +194,14 @@ function NHLPowerdFs(props) {
 
             if (existingPlayerIndex !== -1) {
                 _selected.set(id, !selected.get(id));
-                if (starPowerIndex > 0 && _playersList[existingPlayerIndex].isStarPower) {
-                    starPowerIndex--;
-                    _selectedStarPowers[starPowerIndex] = false;
+                if (starPlayerCount > 0 && _playersList[existingPlayerIndex].isStarPlayer) {
+                    starPlayerCount--;
+                    _selectedStarPowers[starPlayerCount] = false;
                 }
 
                 _playersList[existingPlayerIndex].value = '';
                 _playersList[existingPlayerIndex].playerId = '';
-                _playersList[existingPlayerIndex].isStarPower = false;
+                _playersList[existingPlayerIndex].isStarPlayer = false;
             }
         }
 
@@ -353,8 +355,8 @@ function NHLPowerdFs(props) {
                                                     onSelectDeselect={onSelectDeselect}
                                                     id={item.id}
                                                     steps={item?.steps && item?.steps}
-                                                    isStarPower={item.isStarPower && item.isStarPower}
-                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                    isStarPlayer={item.isStarPlayer && item.isStarPlayer}
+                                                    disabled={(item.isStarPlayer && item.isStarPlayer) && starPlayerCount >= 3}
                                                 />
                                                 :
                                                 <SelectionCard
@@ -362,7 +364,7 @@ function NHLPowerdFs(props) {
                                                     isSelected={!!selected.get(item.id)}
                                                     key={item.id}
                                                     onSelectDeselect={onSelectDeselect}
-                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                    disabled={(item.isStarPlayer && item.isStarPlayer) && starPlayerCount >= 3}
                                                 />
                                         )
                                     )

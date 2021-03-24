@@ -9,12 +9,12 @@ function SportsSidebarContent(props) {
 
     const { data = [], onDelete = () => { } } = props || {};
 
-    const SideBarSection = ({ title, value, playerId, isStarPower, SvgIcon, svgSize, onDelete, keyVal }) => (
+    const SideBarSection = ({ title, value, playerId, isStarPlayer, SvgIcon, svgSize, onDelete, keyVal }) => (
         <div className={classes.sidebar_body_section} key={playerId}>
             <span className={value ? classes.active : ''}>{title}</span>
             <div>
                 {
-                    isStarPower &&
+                    isStarPlayer &&
                     <img src={PowerIcon} />
                 }
                 {SvgIcon && <SvgIcon size={svgSize} />}
@@ -43,7 +43,7 @@ function SportsSidebarContent(props) {
                                 SvgIcon={item?.icon}
                                 onDelete={onDelete}
                                 key={index.toString()}
-                                isStarPower={item?.isStarPower}
+                                isStarPlayer={item?.isStarPlayer}
                             />))
                         :
                         <span>No data</span>

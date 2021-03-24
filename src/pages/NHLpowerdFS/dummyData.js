@@ -73,7 +73,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
                 live_data_steps: [
                     {
                         states: {
@@ -266,7 +266,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
                 live_data_steps: [
                     {
                         states: {
@@ -459,7 +459,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
                 live_data_steps: [
                     {
                         states: {
@@ -652,7 +652,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
                 live_data_steps: [
                     {
                         states: {
@@ -845,7 +845,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
                 live_data_steps: [
                     {
                         states: {
@@ -1038,7 +1038,7 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
                 live_data_steps: [
                     {
                         states: {
