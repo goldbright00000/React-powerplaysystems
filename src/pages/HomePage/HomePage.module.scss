@@ -24,6 +24,7 @@
 
   .__home_page_first_section_bg {
     background: url('../../assets/home_page_section_1_background.png');
+    background-size: 100%;
 
     .__home_page_first_section {
       width: 100%;
@@ -146,6 +147,7 @@
 
   .__home_page_second_section_bg {
     background: url('../../assets/home_page_section_1_background.png');
+    background-size: 100%;
 
     .__home_page_second_section {
       width: 100%;
@@ -262,6 +264,7 @@
   .__home_page_third_section_bg {
     background: url('../../assets/home_page_section_3_background.png');
     background-repeat: no-repeat;
+    background-size: 100%;
 
     .__home_page_third_section {
       width: 100%;
@@ -354,6 +357,7 @@
       justify-content: center;
       position: relative;
       bottom: 30px;
+
       .__home_page_third_section_power_up_btn {
         width: 180px;
         height: 48px;

@@ -7,7 +7,9 @@ const CustomDropDown = (props) => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        document.addEventListener('mousedown', handleOutSideClick);
+        if (!wrapperRef) {
+            document.addEventListener('mousedown', handleOutSideClick);
+        }
     }, [wrapperRef]);
 
     const handleOutSideClick = (e) => {

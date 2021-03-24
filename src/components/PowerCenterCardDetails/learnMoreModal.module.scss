@@ -64,4 +64,43 @@
             }
         }
     }
+
+    .__learn_more_modal_footer {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        .__learn_more_modal_footer_block {
+            display: flex;
+            flex-direction: column;
+            width: 181px;
+            height: 138px;
+            margin: 12px 0 0 5px;
+            padding: 10px 16px 18px 4px;
+            border-radius: 8px;
+            background-color: #202124;
+            
+            .__learn_more_modal_footer_block_img {
+                width: 43px;
+                height: 43px;
+                margin: 6px 0 0 8px;
+                padding: 2px 1px 1px 2px;
+                object-fit: contain;
+            }
+
+            .__learn_more_modal_footer_block_text {
+                width: 149px;
+                height: 51px;
+                margin: 10px 0 0 12px;
+                font-family: Poppins;
+                font-size: 12px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                color: #f2f2f2;
+            }
+        }
+    }
 }
