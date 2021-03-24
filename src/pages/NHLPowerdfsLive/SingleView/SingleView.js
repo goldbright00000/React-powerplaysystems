@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './index.module.scss';
@@ -7,6 +7,7 @@ import ClockIcon from '../../../icons/Clock3';
 import XP1_5 from '../../../icons/XP1_5';
 import XP2Icon from '../../../icons/XP2';
 import XP3 from '../../../icons/XP3';
+import PowerPlayIcon from '../../../assets/token.png';
 import { hasText } from '../../../utility/shared';
 import SportsLiveCardSelection from '../../../components/SportsLiveCardSelection';
 import { CONSTANTS } from '../../../utility/constants';
@@ -18,16 +19,21 @@ function SingleView(props) {
 
     const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
+    useEffect(() => {
+        setSelectedCard(data[currentCard]);
+    }, [data]);
+
     const RenderCard = ({ item, selected = false, onSelectCard = (item) => { } }) => {
         const {
             category = '',
             title = '',
             time = '',
             id = '',
-            steps = [],
+            live_data_steps = [],
             xp = '',
             xpPoints = 0,
             xpTimes = '',
+            isStarPlayer = false,
         } = item || {};
 
         return (
@@ -36,19 +42,25 @@ function SingleView(props) {
                 className={`${classes.card} ${selected && classes.active}`}
             >
                 <div className={classes.card_header}>
-                    <p>{title}</p>
+                    <div>
+                        {
+                            isStarPlayer &&
+                            <img src={PowerPlayIcon} />
+                        }
+                        <p>{title}</p>
+                    </div>
                     <ReplaceIcon size={22} />
                 </div>
 
                 <div className={classes.card_body}>
                     <div className={classes.card_cat}>{category}</div>
                     <div className={classes.card_xp_points}>
-                        Points: {steps[1]?.totalPoints}
+                        Points: {live_data_steps[1]?.totalPoints}
                         {
                             renderXp(xp)
                         }
                     </div>
-                    <div>
+                    <div className={classes.card_clock}>
                         <ClockIcon color="#688fbd" />
                         <span> P1 | {time.replace('PM', '')}</span>
                     </div>
@@ -56,13 +68,13 @@ function SingleView(props) {
 
                 <div
                     className={`${classes.card_type} 
-                    ${hasText(steps[0]?.type, 'ice')
+                    ${hasText(live_data_steps[0]?.type, 'ice')
                             ?
                             classes.success
                             :
-                            hasText(steps[0]?.type, 'bench') && classes.danger}`}
+                            hasText(live_data_steps[0]?.type, 'bench') && classes.danger}`}
                 >
-                    {steps[0]?.type}
+                    {live_data_steps[0]?.type}
                 </div>
             </div>
         )

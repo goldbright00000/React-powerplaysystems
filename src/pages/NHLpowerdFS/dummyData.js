@@ -14,6 +14,27 @@ export const dummyData = [
                 date: '2020-09-28',
                 stadium: 'Empower Field',
                 injured: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -52,7 +73,28 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -91,6 +133,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -144,6 +207,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -182,7 +266,28 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -221,6 +326,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -274,6 +400,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -312,7 +459,28 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -351,6 +519,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -404,6 +593,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -442,7 +652,28 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -481,6 +712,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -534,6 +786,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -572,7 +845,28 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -611,6 +905,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -664,6 +979,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -702,7 +1038,28 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
-                isStarPower: true,
+                isStarPlayer: true,
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],
@@ -741,6 +1098,27 @@ export const dummyData = [
                 time: '01:10 PM',
                 date: '2020-09-28',
                 stadium: 'Empower Field',
+                live_data_steps: [
+                    {
+                        states: {
+                            sog: 5,
+                            g: 1,
+                            a: 2,
+                        },
+                        points: 6,
+                        type: 'on Bench',
+                        value: 'TOR - Empty Net',
+                    },
+                    {
+                        step: [
+                            { p1: 'P1: 19:59', type: 'goal', power: '2x', pts: 4 },
+                            { p1: 'P2: 13:45', type: 'asset', power: '', pts: 2 },
+                            { p1: 'P3: 00:01', type: 'goal', power: '3x', pts: 8 },
+                            { p1: 'OT: 04:58', type: 'goal', power: '3x', pts: 9 },
+                        ],
+                        totalPoints: 27,
+                    }
+                ],
                 steps: [
                     {
                         titles: ['gp', 'g', 'a', 'pts', 'fppg'],

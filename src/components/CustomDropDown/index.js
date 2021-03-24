@@ -1,9 +1,9 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import classes from './customDropDown.module.scss';
 
 const CustomDropDown = (props) => {
-    const {value = '', options = [{}], onChange = () => {}} = props || {};
-    const wrapperRef = useRef(null);
+    const { value = '', options = [{}], onChange = () => { } } = props || {};
+    const wrapperRef = useRef();
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -13,7 +13,7 @@ const CustomDropDown = (props) => {
     }, [wrapperRef]);
 
     const handleOutSideClick = (e) => {
-        if (!wrapperRef.current.contains(e.target)) {
+        if (!wrapperRef.current?.contains(e?.target)) {
             setIsVisible(false);
         }
     };
@@ -32,14 +32,14 @@ const CustomDropDown = (props) => {
                     {
                         options.map((item, index) => {
                             return (
-                                <div 
+                                <div
                                     key={index}
                                     className={
                                         `${classes.__custom_drop_down_wrapper_list_item}
                                          ${item.value === value && classes.__custom_drop_down_wrapper_list_item_selected}
                                          ${index == 0 && classes.__custom_drop_down_wrapper_list_item_border_radius_top}
                                          ${options.length - 1 == index && classes.__custom_drop_down_wrapper_list_item_border_radius_bottom}
-                                        `} 
+                                        `}
                                     onClick={() => {
                                         onChange(item.value);
                                         setIsVisible(!isVisible);

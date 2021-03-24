@@ -4,9 +4,9 @@ import PropTypes from 'prop-types'
 import classes from './index.module.scss'
 
 function Modal(props) {
-    const { visible = false, } = props || {}
+    const { visible = false, style = {} } = props || {}
 
-    useEffect(() => { 
+    useEffect(() => {
         if (visible) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -16,7 +16,7 @@ function Modal(props) {
 
     return (
         visible &&
-        <div className={classes.wrapper}>
+        <div className={classes.wrapper} style={style}>
             {
                 props?.children
             }
@@ -26,6 +26,7 @@ function Modal(props) {
 
 Modal.propTypes = {
     visible: PropTypes.bool,
+    style: PropTypes.object
 }
 
 export default Modal

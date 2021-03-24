@@ -1,7 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { isEmpty, isEqual } from 'lodash';
+import { useSelector, useDispatch } from 'react-redux';
 
 import classes from './index.module.scss';
+import * as NHLActions from '../../actions/NHLActions';
+
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Header3 from '../../components/Header3';
@@ -19,10 +22,11 @@ import SelectionCard2 from '../../components/SportsSelectionCard2';
 import EmployeeIcon from '../../icons/Employee';
 import SportsFilters from '../../components/SportsFilters';
 import CheckIcon from '../../icons/Check';
-import { dummyData } from './dummyData';
 import { CONSTANTS } from '../../utility/constants';
 import SportsContestRules from '../../components/SportsContestRules';
 import { redirectTo } from '../../utility/shared';
+
+import { dummyData } from './dummyData';
 
 const INITIAL_PLAYER_LIST = [
     {
@@ -122,7 +126,7 @@ const detailRules = [
     'Mathematical skill testing question must be correctly answered to win.',
 ]
 
-let starPowerIndex = 0;
+let starPlayerCount = 0;
 
 function NHLPowerdFs(props) {
     const [showTeamSelection, setTeamSelectionState] = useState(false);
@@ -131,9 +135,23 @@ function NHLPowerdFs(props) {
     const [selectedStarPowers, setStarPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
     const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
-    const [selectedData, setSelectedData] = useState(dummyData[0]);
+    const [selectedData, setSelectedData] = useState();
     const [search, setSearch] = useState('');
-    const [filterdData, setFilterdData] = useState(dummyData[0]);
+    const [filterdData, setFilterdData] = useState();
+
+    const { data = [] } = useSelector(state => state.nhl);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(NHLActions.setNhlData(dummyData));
+    }, [])
+
+    useEffect(() => {
+        if (data?.length) {
+            setFilterdData(data[0]);
+            setSelectedData(data[0]);
+        }
+    }, [data]);
 
     const onSelectDeselect = useCallback((id) => {
         const _data = dummyData?.filter(d => d?.data?.find(c => c?.id === id));
@@ -157,14 +175,16 @@ function NHLPowerdFs(props) {
                 let player = _player;
                 player.value = data?.title;
                 player.playerId = data?.id;
-                player.isStarPower = data?.isStarPower;
+                player.isStarPlayer = data?.isStarPlayer;
                 _playersList[playerListIndex] = player;
 
                 _selected.set(id, !selected.get(id));
                 //Star Power Player selection (sidebar)
-                if (starPowerIndex < 3 && data?.isStarPower) {
-                    _selectedStarPowers[starPowerIndex] = true;
-                    starPowerIndex++;
+                if (starPlayerCount < 3 && data?.isStarPlayer) {
+                    _selectedStarPowers[starPlayerCount] = true;
+                    starPlayerCount++;
+
+                    dispatch(NHLActions.starPlayerCount(starPlayerCount));
                 }
             }
         } else {
@@ -174,14 +194,14 @@ function NHLPowerdFs(props) {
 
             if (existingPlayerIndex !== -1) {
                 _selected.set(id, !selected.get(id));
-                if (starPowerIndex > 0 && _playersList[existingPlayerIndex].isStarPower) {
-                    starPowerIndex--;
-                    _selectedStarPowers[starPowerIndex] = false;
+                if (starPlayerCount > 0 && _playersList[existingPlayerIndex].isStarPlayer) {
+                    starPlayerCount--;
+                    _selectedStarPowers[starPlayerCount] = false;
                 }
 
                 _playersList[existingPlayerIndex].value = '';
                 _playersList[existingPlayerIndex].playerId = '';
-                _playersList[existingPlayerIndex].isStarPower = false;
+                _playersList[existingPlayerIndex].isStarPlayer = false;
             }
         }
 
@@ -335,26 +355,16 @@ function NHLPowerdFs(props) {
                                                     onSelectDeselect={onSelectDeselect}
                                                     id={item.id}
                                                     steps={item?.steps && item?.steps}
-                                                    isStarPower={item.isStarPower && item.isStarPower}
-                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
+                                                    isStarPlayer={item.isStarPlayer && item.isStarPlayer}
+                                                    disabled={(item.isStarPlayer && item.isStarPlayer) && starPlayerCount >= 3}
                                                 />
                                                 :
                                                 <SelectionCard
-                                                    title={item.title}
-                                                    avgVal={item.avgVal}
-                                                    teamA={item.teamA}
-                                                    teamB={item.teamB}
-                                                    time={item.time}
-                                                    date={item.date}
-                                                    stadium={item.stadium}
+                                                    item={item}
                                                     isSelected={!!selected.get(item.id)}
                                                     key={item.id}
                                                     onSelectDeselect={onSelectDeselect}
-                                                    id={item.id}
-                                                    steps={item?.steps && item?.steps}
-                                                    isStarPower={item.isStarPower && item.isStarPower}
-                                                    disabled={(item.isStarPower && item.isStarPower) && starPowerIndex >= 3}
-                                                    injured={item?.injured}
+                                                    disabled={(item.isStarPlayer && item.isStarPlayer) && starPlayerCount >= 3}
                                                 />
                                         )
                                     )

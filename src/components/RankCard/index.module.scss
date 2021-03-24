@@ -58,10 +58,6 @@
         flex-direction: row;
         justify-content: space-between;
         text-transform: uppercase;
-        
-        svg {
-            margin: 13px 0 0 10px;
-        }
 
         p {
             font-family: Teko;
@@ -79,32 +75,68 @@
             .sidebar_header_p1 {
                 color: $grey2;
                 opacity: 0.3;
+                text-align: left;
             }
 
             .sidebar_header_p2 {
                 font-size: 30px;
                 display: flex;
-                flex: 1;
                 margin: 0;
                 padding: 0;
+                font-size: 22px;
             }
             
             .sidebar_header_left {
                 display: flex;
                 flex-direction: column;
                 flex: 1;
+                width: 100%;
 
-                p{
-                    margin: 5px 0 0 0;
+                .sidebar_header_1 {
+                    display: flex;
+                    align-items: flex-end;
+                    width: 100%;
+                    
+                    .sidebar_header_p2_1 {
+                        margin-left: 12px;
+                    }
                 }
+
+                .sidebar_header_2 {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .sidebar_left {
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1;
+                        
+                        >div {
+                            display: flex;
+                            width: 70%;
+                            align-items: flex-end;
+                            justify-content: space-between;
+
+                            .sidebar_header_p1_1 {
+                                display: flex;
+                                flex: 0.37;
+                            }
+                        }
+                    }
+
+                    svg {
+                        padding: 0;
+                        margin: -10px 0 0 0;
+                    }
+                }
+
             }
 
             .sidebar_header_right {
                 display: flex;
                 flex-direction: column;
-                margin: 0;
-                padding: 0;
-                flex: 0.2;
+                flex: 0.1;
 
                 p{
                     display: flex;
