@@ -25,12 +25,12 @@ const PowerCenterCardDetails = (props) => {
                 <Hitters />
             }
             {
-                currentIndex == 2 && title !== 'NHL'
+                currentIndex == 2
                 &&
-                <PowersAvailable />
+                <PowersAvailable title={title} />
             }
             {
-                currentIndex == 2 && title === 'NHL'
+                currentIndex == 3 && title === 'NHL'
                 &&
                 <PointSystem />
             }
@@ -43,7 +43,9 @@ const PowerCenterCardDetails = (props) => {
                     }
                 }}
                 onNext={() => {
-                    if (currentIndex < 2) {
+                    if (currentIndex < 2 && title !== 'NHL') {
+                        setCurrentIndex(currentIndex + 1);
+                    } else if (currentIndex < 3 && title === 'NHL') {
                         setCurrentIndex(currentIndex + 1);
                     } else {
                         onNextClick();

@@ -1,12 +1,9 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
 import classes from './interactiveContests.module.scss';
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
 import SuperBall from '../../icons/SuperBall';
-import PowerPlayGridRow from './PowerPlayGridRow';
-import Scrollbar from '../../utility/Scrollbar';
 import CashPowerBalance from '../../components/CashPowerBalance';
 import PowerCenterCard from '../../components/PowerCenterCard';
 import { redirectTo } from '../../utility/shared';
@@ -92,19 +89,54 @@ const options = [
     { value: 'THU, Mar 18', label: 'THU, Mar 18' },
 ];
 
+const filters = [
+    {
+        id: 1,
+        title: 'NFL',
+        icon: <SuperBall />
+    },
+    {
+        id: 2,
+        title: 'NBA',
+        icon: <BasketBall />
+    },
+    {
+        id: 3,
+        title: 'MLB',
+        icon: <Ball />
+    },
+    {
+        id: 4,
+        title: 'NHL',
+        icon: <Hockeys />
+    },
+    {
+        id: 5,
+        title: 'SHOW ALL',
+        icon: ''
+    },
+];
+
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
 
     const [selectedDate, setSelectedDate] = useState(options[0].value);
     const [showCardDetails, setShowCardDetails] = useState(-1);
+    const [selectedFilter, setSelectedFilter] = useState(1);
+    const [filteredData, setFilteredData] = useState([]);
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
         responsiveHandler(maxWidth);
         maxWidth.addEventListener('change', responsiveHandler);
         return () => maxWidth.removeEventListener('change', responsiveHandler);
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        const filteredData = powerCenterCardData.filter(item => item.title === 'NFL');
+        setFilteredData(filteredData);
+    }, []);
 
     const powerCenterCard = (item, redirectUri) => {
         return (
@@ -132,15 +164,30 @@ const InteractiveContests = props => {
                 <div className='__flex'>
                     <div style={{ flex: 1 }}>
                         <div className='__badges-wrapper __text-in-one-line __mediam'>
-                            <NavLink to='/' className='__outline-badge __f1 __active'><SuperBall />NFL</NavLink>
-                            <NavLink to='/' className='__outline-badge __f1'><BasketBall />NBA</NavLink>
-                            <NavLink to='/' className='__outline-badge __f1'><Ball />MLB</NavLink>
-                            <NavLink to='/' className='__outline-badge __f1'><Hockeys />NHL</NavLink>
-                            <NavLink to='/' className='__outline-badge __f1'>Show All</NavLink>
+                            {
+                                filters.map((item, index) => {
+                                    return (
+                                        <div 
+                                        className={'__outline-badge __f1 ' + (selectedFilter == item.id && '__active')}
+                                        onClick={() => {
+                                            setSelectedFilter(item.id);
+                                            const filteredData = item.id === 5 
+                                                ? 
+                                                powerCenterCardData 
+                                                : 
+                                                powerCenterCardData.filter(cardItem => cardItem.title === item.title);
+                                            setFilteredData(filteredData);
+                                                
+                                        }}>
+                                            {item.icon}{item.title}
+                                        </div>
+                                    );
+                                })
+                            }
                         </div>
                     </div>
                     <div style={{ flex: 1, marginLeft: 380 }}>
-                        <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124' }} />
+                        <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} />
                     </div>
                 </div>
                 <div className={classes.__interactive_contests_filter}>
@@ -176,7 +223,7 @@ const InteractiveContests = props => {
                         const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
                             const start = ((i + 1) * itemsInaRow) - 4;
                             const end = ((i + 1) * itemsInaRow);
-                            const items = powerCenterCardData.slice(start, end);
+                            const items = filteredData.slice(start, end);
 
                             return (
                                 <div className={classes.__interactive_contests_power_center_card_row}>
@@ -192,205 +239,6 @@ const InteractiveContests = props => {
                     }
                     )()
                 }
-
-
-                {/* <Scrollbar className='__power-center-scrollbar'>
-                <div className='__table __block-on-large'>
-                    {!isMobileDevice && (
-                        <Fragment>
-                            <div className='__h6'>Sport</div>
-                            <div className='__h6'>Contest</div>
-                            <div className='__h6'>Entries (min)</div>
-                            <div className='__h6'>Total Prize</div>
-                            <div className='__h6'></div>
-                        </Fragment>
-                    )}
-                    <PowerPlayGridRow
-                        contest='MLB'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='MLB PowerdFS'
-                        entries='58589'
-                        totalEntries='200000'
-                        prize='800'
-                        pointsRequired='1000'
-                        isMobileDevice={isMobileDevice}
-                        link="/mlb-powerdfs"
-                    />
-                    <PowerPlayGridRow
-                        contest='NHL'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='NHL PowerdFS'
-                        entries='15385'
-                        totalEntries='19161'
-                        prize='$1K in Bonus Cash'
-                        isMobileDevice={isMobileDevice}
-                        link="/nhl-powerdfs"
-                    />
-                    <PowerPlayGridRow
-                        contest='NHL Live'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='NHL Live PowerdFS'
-                        entries='15385'
-                        totalEntries='19161'
-                        prize='$1K in Bonus Cash'
-                        isMobileDevice={isMobileDevice}
-                        link="/nhl-live-powerdfs"
-                    />
-                    <PowerPlayGridRow
-                        contest='NBA'
-                        Icon={BasketBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='NBA PowerdFS'
-                        entries='1497'
-                        totalEntries='150000'
-                        prize='3000'
-                        pointsRequired='10000'
-                        isMobileDevice={isMobileDevice}
-                        link="/nba-powerdfs"
-                    />
-                    <PowerPlayGridRow
-                        contest='MLB'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='PowerLine'
-                        entries='27433'
-                        totalEntries='71856'
-                        prize='$3K in Bonus Cash'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NFL'
-                        Icon={SuperBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='Power DFS'
-                        entries='32975'
-                        totalEntries='250000'
-                        prize='3000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NBA'
-                        Icon={BasketBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='Power Draft'
-                        entries='18699'
-                        totalEntries='247904'
-                        prize='3000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='MLB'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='PowerLine'
-                        entries='15385'
-                        totalEntries='19161'
-                        prize='$1K in Bonus Cash'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NBA'
-                        Icon={BasketBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='21’s'
-                        entries='1497'
-                        totalEntries='150000'
-                        prize='3000'
-                        pointsRequired='10000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='MLB'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='PowerLine'
-                        entries='27433'
-                        totalEntries='71856'
-                        prize='$3K in Bonus Cash'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NFL'
-                        Icon={SuperBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='Power DFS'
-                        entries='32975'
-                        totalEntries='250000'
-                        prize='3000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NBA'
-                        Icon={BasketBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='Power Draft'
-                        entries='18699'
-                        totalEntries='247904'
-                        prize='3000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NBA'
-                        Icon={BasketBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='21’s'
-                        entries='1497'
-                        totalEntries='150000'
-                        prize='3000'
-                        pointsRequired='10000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='MLB'
-                        Icon={Ball}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='PowerLine'
-                        entries='27433'
-                        totalEntries='71856'
-                        prize='$3K in Bonus Cash'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NFL'
-                        Icon={SuperBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='Power DFS'
-                        entries='32975'
-                        totalEntries='250000'
-                        prize='3000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                    <PowerPlayGridRow
-                        contest='NBA'
-                        Icon={BasketBall}
-                        date='Oct 24, 2020'
-                        time='8:00PM ET'
-                        type='Power Draft'
-                        entries='18699'
-                        totalEntries='247904'
-                        prize='3000'
-                        isMobileDevice={isMobileDevice}
-                    />
-                </div>
-            </Scrollbar> */}
             </div>
         </>
     )

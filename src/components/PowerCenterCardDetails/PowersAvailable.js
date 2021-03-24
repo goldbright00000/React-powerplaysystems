@@ -33,7 +33,9 @@ const data = [
     },
 ];
 
-const PowersAvailable = () => {
+const PowersAvailable = (props) => {
+    const {title = ''} = props || {};
+
     const [learnMoreModal, setLearnMoreModal] = useState(false);
 
     const onOpenModal = () => setLearnMoreModal(true);
@@ -49,6 +51,7 @@ const PowersAvailable = () => {
                     learnMoreModal
                     &&
                     <LearnMoreModal 
+                        title={title}
                         learnMoreModal={learnMoreModal} 
                         onCloseModal={onCloseModal} 
                     />

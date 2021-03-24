@@ -10,19 +10,22 @@ import PointMultipliersLight from '../../assets/point-multipliers-light.png';
 import PlayerSwapsLight from '../../assets/player-swaps-light.png';
 import VideoReviewLight from '../../assets/video-review-light.png';
 import DWallLight from '../../assets/d-wall-light.png';
+import X3 from '../../assets/x_3.png';
+import X2 from '../../assets/x_2.png';
+import X_1_5 from '../../assets/x_1.5.png';
 
 const mainIconWidthAndHeight = 85;
 const lightIconWidthAndHeight = 64;
 
 const LearnMoreModal = (props) => {
-    const {learnMoreModal = false, onCloseModal = () => { }} = props || {};
-    const [title, setTitle] = useState('Point Multiplier');
+    const {title = '', learnMoreModal = false, onCloseModal = () => { }} = props || {};
+    const [modalTitle, setModalTitle] = useState('Point Multiplier');
     const [pointMultiplier, setPointMultiplier] = useState(true);
     const [playerSwap, setPlayerSwap] = useState(false);
     const [videoReview, setVideoReview] = useState(false);
     const [dWall, setDwall] = useState(false);
     const [lightIcons, setLightIcons] = useState([PlayerSwapsLight, VideoReviewLight, DWallLight]);
-
+    
     const closeIcon = (
         <img src={CloseIcon} width="20" height="20" />
     );
@@ -40,12 +43,18 @@ const LearnMoreModal = (props) => {
     };
 
     const getDescription = () => {
-        if (pointMultiplier) {
+        if (pointMultiplier && title !== 'NFL') {
             return (
                 <p className={classes.__learn_more_modal_body_description}>
                     Power-up your points with the Point Multiplier. You chose when to activate. Maybe 3x at the start of a Power Play?
                     <br/><br/>
                     3X, 2X and 1.5X points when activated,  lasts for 2 mins of game time.
+                </p>
+            );
+        }  else if (pointMultiplier && title === 'NFL') {
+            return (
+                <p className={classes.__learn_more_modal_body_description}>
+                    Boost your points based on field position. Activate this booster and your players points will be boosted:
                 </p>
             );
         } else if (playerSwap) {
@@ -81,57 +90,57 @@ const LearnMoreModal = (props) => {
         if (pointMultiplier) {
             if (power == 'first') {
                 setPowers(false, true, false, false);
-                setTitle('Player Swaps');
+                setModalTitle('Player Swaps');
                 setLightIcons([PointMultipliersLight, VideoReviewLight, DWallLight]);
             } else if (power == 'second') {
                 setPowers(false, false, true, false);
-                setTitle('Video Review');
+                setModalTitle('Video Review');
                 setLightIcons([PointMultipliersLight, PlayerSwapsLight, DWallLight]);
             } else {
                 setPowers(false, false, false, true);
-                setTitle('D-Wall');
+                setModalTitle('D-Wall');
                 setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
             }
         } else if (playerSwap) {
             if (power == 'first') {
                 setPowers(true, false, false, false);
-                setTitle('Point Multiplier');
+                setModalTitle('Point Multiplier');
                 setLightIcons([PlayerSwapsLight, VideoReviewLight, DWallLight]);
             } else if (power == 'second') {
                 setPowers(false, false, true, false);
-                setTitle('Video Review');
+                setModalTitle('Video Review');
                 setLightIcons([PointMultipliersLight, PlayerSwapsLight, DWallLight]);
             } else {
                 setPowers(false, false, false, true);
-                setTitle('D-Wall');
+                setModalTitle('D-Wall');
                 setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
             }
         } else if (videoReview) {
             if (power == 'first') {
                 setPowers(true, false, false, false);
-                setTitle('Point Multiplier');
+                setModalTitle('Point Multiplier');
                 setLightIcons([PlayerSwapsLight, VideoReviewLight, DWallLight]);
             } else if (power == 'second') {
                 setPowers(false, true, false, false);
-                setTitle('Player Swaps');
+                setModalTitle('Player Swaps');
                 setLightIcons([PointMultipliersLight, VideoReviewLight, DWallLight]);
             } else {
                 setPowers(false, false, false, true);
-                setTitle('D-Wall');
+                setModalTitle('D-Wall');
                 setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
             }
         } else {
             if (power == 'first') {
                 setPowers(true, false, false, false);
-                setTitle('Point Multiplier');
+                setModalTitle('Point Multiplier');
                 setLightIcons([PlayerSwapsLight, VideoReviewLight, DWallLight]);
             } else if (power == 'second') {
                 setPowers(false, true, false, false);
-                setTitle('Player Swaps');
+                setModalTitle('Player Swaps');
                 setLightIcons([PointMultipliersLight, VideoReviewLight, DWallLight]);
             } else {
                 setPowers(false, false, true, false);
-                setTitle('Video Review');
+                setModalTitle('Video Review');
                 setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
             }
         }
@@ -145,10 +154,12 @@ const LearnMoreModal = (props) => {
             focusTrapped={false}
             closeIcon={closeIcon}
             styles={{modal: {backgroundColor: 'transparent' }, closeButton: {top: 50, right: 40}}}>
-            <div className={classes.__learn_more_modal}>
+            <div 
+                className={classes.__learn_more_modal} 
+                style={{height: pointMultiplier && title === 'NFL' ? 446 : 376}}>
                 <div className={classes.__learn_more_modal_header}>
                     <div className={classes.__learn_more_modal_header_title}>
-                        {title}
+                        {modalTitle}
                     </div>
                 </div>
                 <div className={classes.__learn_more_modal_body}>
@@ -190,6 +201,36 @@ const LearnMoreModal = (props) => {
                         {getDescription()}
                     </div>
                 </div>
+                    {
+                        pointMultiplier && title === 'NFL'
+                        &&
+                        <div className={classes.__learn_more_modal_footer}>
+                            <div className={classes.__learn_more_modal_footer_block}>
+                                <div className={classes.__learn_more_modal_footer_block_img}>
+                                    <img src={X3} />
+                                </div>
+                                <div className={classes.__learn_more_modal_footer_block_text}>
+                                    <p>3X points when your player is {">"} 50 yards from the End Zone (EZ).</p>
+                                </div>
+                            </div>
+                            <div className={classes.__learn_more_modal_footer_block}>
+                                <div className={classes.__learn_more_modal_footer_block_img}>
+                                    <img src={X2} />
+                                </div>
+                                <div className={classes.__learn_more_modal_footer_block_text}>
+                                    <p>3X points when your player is {">"} 50 yards from the End Zone (EZ).</p>
+                                </div>
+                            </div>
+                            <div className={classes.__learn_more_modal_footer_block}>
+                                <div className={classes.__learn_more_modal_footer_block_img}>
+                                    <img src={X_1_5} />
+                                </div>
+                                <div className={classes.__learn_more_modal_footer_block_text}>
+                                    <p>3X points when your player is {">"} 50 yards from the End Zone (EZ).</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
             </div>
         </Modal>
     );

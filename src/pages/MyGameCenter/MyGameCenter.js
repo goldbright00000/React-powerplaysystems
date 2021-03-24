@@ -23,7 +23,7 @@ const MyGameCenter = props => {
             <Header isStick={true} />
             <div className='__PowerCenter'>
                 <div className='__viewport-large-title __center __pt-1'>My Game Center</div>
-                <div className={classes.header2_container}>
+                {/* <div className={classes.header2_container}>
                     <div className={classes.header2_card}>
                         <Card>
                             <div className={classes.header2_card_1}>
@@ -53,21 +53,21 @@ const MyGameCenter = props => {
                             </div>
                         </Card>
                     </div>
-                </div>
-                <div className='__flex __power-center-links __mb-5'>
+                </div> */}
+                {/* <div className='__flex __power-center-links __mb-5'>
                     <NavLink exact to={`${url}`} className='__f1 __block __right __relative'>
                         <span className='__block'>Live-Play Fantasy Sports</span>
                     </NavLink>
                     <NavLink to={`${url}/contests`} className='__f1 __block __relative'>
                         <span className='__block'>Interactive Promo<span className='__hide-on-small'>tional</span> Contests</span>
                     </NavLink>
-                </div>
+                </div> */}
                 <div className={classes.container}>
                     <Route exact path={url} component={InteractiveContests} />
                     <Route path={`${url}/contests`} component={MyGameCenterTable} />
                 </div>
             </div>
-            <div className={classes.body_footer}>
+            {/* <div className={classes.body_footer}>
                 <div>
                     <Card>
                         <div className={classes.body_footer_card_wrapper}>
@@ -91,7 +91,7 @@ const MyGameCenter = props => {
                         </div>
                     </Card>
                 </div>
-            </div>
+            </div> */}
             <Footer isBlack={true} />
         </Fragment>
     )
