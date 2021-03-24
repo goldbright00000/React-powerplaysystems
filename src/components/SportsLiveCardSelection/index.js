@@ -31,7 +31,7 @@ function SportsLiveCardSelection(props) {
     const [selectedReplaceData, setReplaceData] = useState();
 
     const { item: currentPlayer = {}, compressed = false } = props || {};
-    const { live_data: selectedData = [] } = useSelector(state => state.nhl);
+    const { live_data: selectedData = [], starPlayerCount = 0 } = useSelector(state => state.nhl);
     const dispatch = useDispatch();
 
     const {
@@ -41,7 +41,7 @@ function SportsLiveCardSelection(props) {
         teamB = '',
         id = '',
         isSelected = false,
-        isStarPower = false,
+        isStarPlayer = false,
         live_data_steps = [],
         xp = '',
         xpPoints = 0,
@@ -117,7 +117,7 @@ function SportsLiveCardSelection(props) {
         setReplaceModalState(!showReplaceModal);
     }
 
-    const onReplacePlayer = (id) => {
+    const onPlayerSwap = (id) => {
         const _dataList = [...selectedData];
         let targetPlayerIndex = _dataList?.indexOf(currentPlayer);
 
@@ -126,10 +126,22 @@ function SportsLiveCardSelection(props) {
 
             if (selectedPlayer) {
                 selectedPlayer.category = category;
-                _dataList[targetPlayerIndex] = selectedPlayer;
 
-                dispatch(NHLActions.setLiveNhlData(_dataList));
-                setReplaceModalState(false);
+                if (isStarPlayer && starPlayerCount === 3 && selectedPlayer?.isStarPlayer) {
+                    _dataList[targetPlayerIndex] = selectedPlayer;
+                    dispatch(NHLActions.setLiveNhlData(_dataList));
+                    setReplaceModalState(false);
+                } else if (isStarPlayer && starPlayerCount < 3) {
+                    _dataList[targetPlayerIndex] = selectedPlayer;
+                    _dataList[targetPlayerIndex] = selectedPlayer;
+                    dispatch(NHLActions.setLiveNhlData(_dataList));
+                    setReplaceModalState(false);
+                } else if (!isStarPlayer && !selectedPlayer?.isStarPlayer) {
+                    _dataList[targetPlayerIndex] = selectedPlayer;
+                    _dataList[targetPlayerIndex] = selectedPlayer;
+                    dispatch(NHLActions.setLiveNhlData(_dataList));
+                    setReplaceModalState(false);
+                }
             }
         }
     }
@@ -155,7 +167,7 @@ function SportsLiveCardSelection(props) {
                     <div className={classes.container_card_title}>
                         <div className={classes.card_title_left}>
                             {
-                                isStarPower &&
+                                isStarPlayer &&
                                 <img src={PowerPlayIcon} />
                             }
                             <p className={classes.container_selected_p}>
@@ -348,7 +360,8 @@ function SportsLiveCardSelection(props) {
                                                 key={ind + '-'}
                                                 btnTitle="Swap"
                                                 btnIcon={<SwapIcon />}
-                                                onSelectDeselect={onReplacePlayer}
+                                                onSelectDeselect={onPlayerSwap}
+                                                disabled={starPlayerCount === 3 && !isStarPlayer}
                                             />
                                     )
                                 }

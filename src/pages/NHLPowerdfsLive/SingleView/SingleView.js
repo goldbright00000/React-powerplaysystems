@@ -33,7 +33,7 @@ function SingleView(props) {
             xp = '',
             xpPoints = 0,
             xpTimes = '',
-            isStarPower = false,
+            isStarPlayer = false,
         } = item || {};
 
         return (
@@ -44,7 +44,7 @@ function SingleView(props) {
                 <div className={classes.card_header}>
                     <div>
                         {
-                            isStarPower &&
+                            isStarPlayer &&
                             <img src={PowerPlayIcon} />
                         }
                         <p>{title}</p>
