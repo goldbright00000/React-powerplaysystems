@@ -42,10 +42,23 @@
             .card_header {
                 display: flex;
                 justify-content: space-between;
+                color: $lightBlue;
+                font-size: 16px;
+                font-weight: 600;
 
                 svg {
                     margin: 0;
                     padding: 0;
+                }
+
+                >div {
+                    display: flex;
+                }
+
+                img {
+                    width: 20px;
+                    height: 19px;
+                    margin-right: 3px;
                 }
             }
 
@@ -73,6 +86,20 @@
                         margin: 0 0 0 5px;
                     }
                 }
+
+                .card_clock {
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        padding: 0;
+                        margin: -3px 3px 0 0;
+                    }
+
+                    span {
+                        font-size: 12px;
+                    }
+                }
             }
 
             .card_type {
@@ -86,6 +113,7 @@
                 font-weight: bold;
                 opacity: 0.7;
                 color: $grey;
+                text-transform: capitalize;
 
                 &.danger {
                     color: $danger3;

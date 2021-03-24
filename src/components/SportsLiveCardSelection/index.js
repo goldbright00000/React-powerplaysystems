@@ -21,6 +21,7 @@ import Card from '../Card';
 import CloseIcon from '../../icons/Close';
 import SportCardSelection from '../SportsSelectionCard';
 import SwapIcon from '../../icons/Swap';
+import SearchIcon from '../../icons/Search';
 
 import { dummyData } from '../../pages/NHLpowerdFS/dummyData';
 
@@ -46,6 +47,10 @@ function SportsLiveCardSelection(props) {
         xpPoints = 0,
         xpTimes = '',
     } = currentPlayer || {};
+
+    useEffect(() => {
+        setCurrentStep(0);
+    }, [currentPlayer]);
 
     useEffect(() => {
         if (compressed) {
@@ -84,12 +89,12 @@ function SportsLiveCardSelection(props) {
     }
 
     const onSelectXP = (xp = '', xpVal) => {
-        let _calculatedXp = (xpVal || 1) * parseInt(live_data_steps[currentStep]?.points)
+        // let _calculatedXp = (xpVal || 1) * parseInt(live_data_steps[currentStep]?.points)
 
         const _dataList = [...selectedData];
         let index = _dataList?.indexOf(currentPlayer);
         currentPlayer.xp = xp;
-        currentPlayer.xpPoints = _calculatedXp || 6;
+        currentPlayer.xpPoints = 6;
         currentPlayer.xpTimes = xpVal;
         _dataList[index] = currentPlayer;
 
@@ -320,7 +325,19 @@ function SportsLiveCardSelection(props) {
                         </div>
 
                         <div className={classes.modal_body}>
-                            <div className={classes.modal_body_header}>Body Header</div>
+                            <div className={classes.modal_body_header}>
+                                <div className={classes.modal_header_left}>
+                                    <p>Choose QB player to replace</p>
+                                    <p className={classes.modal_player_name}>{title}</p>
+                                </div>
+
+                                <div className={classes.modal_header_right}>
+                                    <span>
+                                        <SearchIcon />
+                                        <input placeholder="Search By Player name ..." />
+                                    </span>
+                                </div>
+                            </div>
 
                             <div className={classes.modal_body_content}>
                                 {

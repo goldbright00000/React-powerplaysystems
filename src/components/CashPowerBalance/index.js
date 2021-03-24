@@ -7,7 +7,7 @@ import PowerBalanceIcon from '../../assets/power_balance_icon.png';
 import { setNumberComma } from '../../utility/shared';
 
 const CashPowerBalance = (props) => {
-    const {styles = {}} = props || {};
+    const { styles = {} } = props || {};
     return (
         <div className={classes.__sidebar_cash_power_balance} style={styles}>
             <div className={classes.__sidebar_cash_power_balance_wrapper}>

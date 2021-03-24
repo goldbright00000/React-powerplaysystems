@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classes from './index.module.scss';
 import SidebarBtnIcon from '../../assets/nhl-sidebar-icon.png';
 import RankIcon from '../../icons/Rank';
+import { setNumberComma } from '../../utility/shared';
 
 function RankCard(props) {
     const { showButton = true } = props || {};
@@ -21,15 +22,28 @@ function RankCard(props) {
             <div className={classes.sidebar_header_content}>
                 <div>
                     <div className={classes.sidebar_header_left}>
-                        <p>My Score:</p>
-                        <p className={classes.sidebar_header_p1}>Leader:</p>
-                    </div>
-                    <div className={classes.sidebar_header_right}>
-                        <p className={classes.sidebar_header_p2}>30</p>
-                        <p className={classes.sidebar_header_p1}>66</p>
+                        {
+                            props?.currentWin &&
+                            <div className={classes.sidebar_header_1}>
+                                <p>Currently Winning:</p>
+                                <p className={`${classes.sidebar_header_p2} ${classes.sidebar_header_p2_1}`}>${setNumberComma(props?.currentWin)}</p>
+                            </div>
+                        }
+                        <div className={classes.sidebar_header_2}>
+                            <div className={classes.sidebar_left}>
+                                <div>
+                                    <p>My Score:</p>
+                                    <p className={classes.sidebar_header_p2}>30</p>
+                                </div>
+                                <div>
+                                    <p className={classes.sidebar_header_p1}>Leader:</p>
+                                    <p className={`${classes.sidebar_header_p1} ${classes.sidebar_header_p1_1}`}>66</p>
+                                </div>
+                            </div>
+                            <RankIcon />
+                        </div>
                     </div>
                 </div>
-                <RankIcon />
             </div>
 
             {
@@ -46,7 +60,8 @@ function RankCard(props) {
 }
 
 RankCard.propTypes = {
-    showButton: PropTypes.bool
+    showButton: PropTypes.bool,
+    currentWin: PropTypes.number,
 }
 
 export default RankCard
