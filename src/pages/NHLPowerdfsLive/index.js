@@ -150,7 +150,7 @@ function NHLPowerdFsLive(props) {
                     <div className={classes.sidebar_container}>
                         <Sidebar>
                             <CashPowerBalance styles={{ marginTop: -40, width: '100%' }} />
-                            <RankCard />
+                            <RankCard currentWin={100000} />
 
                             <div className={classes.sidebar_content}>
                                 <p><span>My</span> Powers</p>
