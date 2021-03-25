@@ -541,9 +541,10 @@
 		flex-direction: column;
 		background-color: $black;
 		border-radius: 11px;
-		justify-content: center;
+		justify-content: flex-start;
 		align-items: center;
 		overflow: hidden scroll;
+		height: 542px;
 
 		&::-webkit-scrollbar {
 			width: 0;
@@ -551,7 +552,8 @@
 
 		.modal_body_header {
 			display: flex;
-			width: 87%;
+			width: 100%;
+			padding: 25px;
 			justify-content: space-between;
 
 			.modal_header_left {

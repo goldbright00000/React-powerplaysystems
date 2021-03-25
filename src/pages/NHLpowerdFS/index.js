@@ -9,7 +9,6 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Header3 from '../../components/Header3';
 import NHLBg from '../../assets/NHLBG.jpg';
-import SearchIcon from '../../icons/SearchIcon';
 import MLBFooterImage from '../../assets/NHL.png';
 import PowerPlayIcon from '../../assets/token.png';
 import Card from '../../components/PowerpickCard';
@@ -27,6 +26,7 @@ import SportsContestRules from '../../components/SportsContestRules';
 import { redirectTo } from '../../utility/shared';
 
 import { dummyData } from './dummyData';
+import SearchInput from '../../components/SearchInput';
 
 const INITIAL_PLAYER_LIST = [
     {
@@ -127,17 +127,22 @@ const detailRules = [
 ]
 
 let starPlayerCount = 0;
+const dropDown = [
+    { title: 'Team A' },
+    { title: 'Team B' },
+    { title: 'Team C' },
+    { title: 'Team D' },
+]
 
 function NHLPowerdFs(props) {
-    const [showTeamSelection, setTeamSelectionState] = useState(false);
     const [selected, setSelected] = useState(new Map());
     const [selectedFilter, setSelectedFilter] = useState(FILTERS_INITIAL_VALUES[0]);
     const [selectedStarPowers, setStarPowers] = useState([false, false, false]);
     const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST)
     const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
     const [selectedData, setSelectedData] = useState();
-    const [search, setSearch] = useState('');
     const [filterdData, setFilterdData] = useState();
+    const [selectedDropDown, setSelectedDropDown] = useState();
 
     const { data = [] } = useSelector(state => state.nhl);
     const dispatch = useDispatch();
@@ -264,8 +269,12 @@ function NHLPowerdFs(props) {
         } else {
             setFilterdData(selectedData);
         }
+    }
 
-        setSearch(value)
+    const onSelectSearchDropDown = (item) => {
+        if (item === selectedDropDown) return setSelectedDropDown(null);
+
+        setSelectedDropDown(item);
     }
 
     return (
@@ -299,39 +308,12 @@ function NHLPowerdFs(props) {
                                     selectedFilter={selectedFilter}
                                 />
 
-                                <form className={classes.search_form}>
-                                    <span>
-                                        <SearchIcon />
-                                        <input
-                                            value={search}
-                                            onChange={onSearch}
-                                            placeholder="Search by Player name ..."
-                                            name="playerSearch" required
-                                        />
-                                    </span>
-
-                                    <div
-                                        className={classes.search_dropdown}
-                                        onClick={() => setTeamSelectionState(!showTeamSelection)}
-                                    >
-                                        All Teams <span
-                                            className={`${classes.arrow} 
-                                            ${showTeamSelection ? classes.up : classes.down}`}
-                                        />
-                                        {
-                                            showTeamSelection &&
-                                            <div
-                                                className={classes.search_dropdown_menu}
-                                                onMouseLeave={() => setTeamSelectionState(false)}
-                                            >
-                                                <span>Team A</span>
-                                                <span className={classes.active}>Team A</span>
-                                                <span>Team A</span>
-                                                <span>Team A</span>
-                                            </div>
-                                        }
-                                    </div>
-                                </form>
+                                <SearchInput
+                                    onSearch={onSearch}
+                                    onSelect={onSelectSearchDropDown}
+                                    dropDown={dropDown}
+                                    selected={selectedDropDown}
+                                />
                             </div>
                         </div>
 

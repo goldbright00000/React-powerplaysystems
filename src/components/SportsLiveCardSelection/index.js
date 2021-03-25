@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import classes from './index.module.scss';
 import ClockIcon from '../../icons/Clock3';
 import PowerPlayIcon from '../../assets/token.png';
-import ForwardArrow from '../../icons/ForwardArrow';
 import XPIcon from '../../icons/XPIcon';
 import ReplaceAllIcon from '../../icons/Replace';
 import ToolTip from '../../components/ToolTip';
@@ -21,15 +20,24 @@ import Card from '../Card';
 import CloseIcon from '../../icons/Close';
 import SportCardSelection from '../SportsSelectionCard';
 import SwapIcon from '../../icons/Swap';
-import SearchIcon from '../../icons/Search';
 
 import { dummyData } from '../../pages/NHLpowerdFS/dummyData';
 import SimpleCardView from './SimpleCardView';
+import SearchInput from '../SearchInput';
+
+const dropDown = [
+    { title: 'Team A' },
+    { title: 'Team B' },
+    { title: 'Team C' },
+    { title: 'Team D' },
+]
 
 function SportsLiveCardSelection(props) {
     const [currentStep, setCurrentStep] = useState(0);
     const [showReplaceModal, setReplaceModalState] = useState(false);
-    const [selectedReplaceData, setReplaceData] = useState();
+    const [selectedDropDown, setSelectedDropDown] = useState();
+    const [filterdData, setFilterdData] = useState();
+    const [selectedModalData, setSelectedModalData] = useState();
 
     const {
         item: currentPlayer = {},
@@ -120,16 +128,17 @@ function SportsLiveCardSelection(props) {
         let _cat = hasText(category, 'team') ? 'td' : `${category}`?.replace(/1|2/g, '');
         const [replaceData] = dummyData?.filter(_data => _data?.cat === _cat);
 
-        setReplaceData(replaceData);
         setReplaceModalState(!showReplaceModal);
+        setSelectedModalData(replaceData);
+        setFilterdData(replaceData);
     }
 
     const onPlayerSwap = (id) => {
         const _dataList = [...selectedData];
         let targetPlayerIndex = _dataList?.indexOf(currentPlayer);
 
-        if (targetPlayerIndex !== -1 && selectedReplaceData) {
-            const [selectedPlayer] = selectedReplaceData?.data?.filter(player => player?.id === id);
+        if (targetPlayerIndex !== -1 && filterdData) {
+            const [selectedPlayer] = filterdData?.data?.filter(player => player?.id === id);
 
             if (selectedPlayer) {
                 selectedPlayer.category = category;
@@ -151,6 +160,29 @@ function SportsLiveCardSelection(props) {
                 }
             }
         }
+    }
+
+    const onSearch = (e) => {
+        const { value } = e.target;
+        if (!isEmpty(value)) {
+            const _filterdData = selectedModalData?.data?.filter(data =>
+                data?.title?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+            );
+            const _filterdDataObj = {
+                cat: selectedModalData?.cat,
+                data: _filterdData
+            }
+            setFilterdData(_filterdDataObj);
+        } else {
+            setFilterdData(selectedModalData);
+        }
+    }
+
+
+    const onSelectSearchDropDown = (item) => {
+        if (item === selectedDropDown) return setSelectedDropDown(null);
+
+        setSelectedDropDown(item);
     }
 
     return (
@@ -365,16 +397,18 @@ function SportsLiveCardSelection(props) {
                                 </div>
 
                                 <div className={classes.modal_header_right}>
-                                    <span>
-                                        <SearchIcon />
-                                        <input placeholder="Search By Player name ..." />
-                                    </span>
+                                    <SearchInput
+                                        onSelect={onSelectSearchDropDown}
+                                        onSearch={onSearch}
+                                        selected={selectedDropDown}
+                                        dropDown={dropDown}
+                                    />
                                 </div>
                             </div>
 
                             <div className={classes.modal_body_content}>
                                 {
-                                    selectedReplaceData && selectedReplaceData?.data?.map(
+                                    filterdData && filterdData?.data?.map(
                                         (item, ind) =>
                                             starPlayerCount === 3 && !isStarPlayer && item?.isStarPlayer ?
                                                 <></>
