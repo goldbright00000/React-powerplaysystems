@@ -20,6 +20,7 @@
     text-align: center;
     color: $black2;
     outline: none;
+    cursor: pointer;
   }
 
   .__home_page_first_section_bg {
@@ -131,7 +132,8 @@
               line-height: normal;
               letter-spacing: normal;
               color: $grey2;
-              text-decoration: underline;              
+              text-decoration: underline; 
+              cursor: pointer;             
             }
 
             .__home_page_first_section_body_explore_games_arrow_forward {
@@ -374,6 +376,7 @@
         text-align: center;
         color: $primary;
         outline: none;
+        cursor: pointer;
       }
     }
   }

@@ -55,7 +55,7 @@ function AccountPage(props) {
                   Balance
                 </Tab>
                 <Tab className={`${activeTab === 2 && classes.active}`}>
-                  Results <span>2</span>
+                  Results
                 </Tab>
                 <Tab className={`${activeTab === 3 && classes.active}`}>
                   History

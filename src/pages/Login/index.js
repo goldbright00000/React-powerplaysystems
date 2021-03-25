@@ -22,7 +22,7 @@ function LoginPage(props) {
     
     useEffect(() => {
         if (loggedIn === true && !isEmpty(authUser)) {
-            redirectTo(props, {path: '/my-game-center/contests'})
+            redirectTo(props, {path: '/my-game-center'})
         }
     }, [loggedIn, authUser])
     

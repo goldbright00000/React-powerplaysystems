@@ -8,10 +8,37 @@
     display: flex;
     flex-direction: column;
 
+    .__my_game_center_card_in_progress {
+        width: 100%;
+        height: 20px;
+        padding-top: 1px;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+        background-color: $successLight3;
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #ffffff;
+        text-align: center;
+
+        span {
+            width: 5px;
+            height: 5px;
+            margin: 0 4px 1px 0;
+            border-radius: 50%;
+            background-color: #f2f2f2;
+            display: inline-block;
+        }
+    }
+
     .__my_game_center_card_powerdfs {
         display: flex;
         justify-content: center;
-        margin-top: 10px;
+        margin-top: 18px;
 
         .__my_game_center_card_powerdfs_hr {
             width: 30px;
@@ -80,6 +107,60 @@
         flex-direction: column;
         justify-content: flex-end;
         align-items: center;
+
+        .__my_game_center_card_buttons_your_current_rank {
+            width: 232px;
+            height: 38px;
+            margin-bottom: 10px;
+            padding-top: 6px;
+            border-radius: 6px;
+            background-color: $successLight4;
+            font-family: Poppins;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: $white;
+        }
+
+        .__my_game_center_card_buttons_completed {
+            width: 232px;
+            height: 38px;
+            padding: 5px 75px 7px;
+            opacity: 0.8;
+            border-radius: 6px;
+            background-color: $lightBlue;
+            font-family: Teko;
+            font-size: 22px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: $white;
+        }
+
+        .__my_game_center_card_buttons_time_to_start {
+            width: 232px;
+            height: 38px;
+            margin-bottom: 25px;
+            padding: 5px 60px 7px 61px;
+            border-radius: 6px;
+            background-color: rgba(33, 79, 36, 0.3);
+            font-family: Teko;
+            font-size: 22px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: #85d68a;
+        }
     }
 
     .__my_game_center_card_date_time {
@@ -96,6 +177,33 @@
         letter-spacing: normal;
         text-align: center;
         color: $grey11;
+    }
+
+    .__my_game_center_card_full {
+        display: flex;
+        flex: 1;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        
+        .__my_game_center_card_full_img {
+            margin-left: 20px;
+            margin-top: 4px;
+        }
+
+        .__my_game_center_card_full_text {
+            width: 100%;
+            height: 17px;
+            margin: 1px 0 0 8px;
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $lightBlue;
+        }
     }
 
     .__my_game_center_card_total {

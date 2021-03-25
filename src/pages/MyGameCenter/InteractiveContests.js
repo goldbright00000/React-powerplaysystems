@@ -13,11 +13,17 @@ const myGameCenterCardData = [
     {
         id: 1,
         title: "MLB",
-        prize: "10,000",
+        prize: "5,000",
         outOf: "58,589",
         total: "200,000",
         percent: "29",
-        url: '/mlb-powerdfs'
+        url: '/mlb-powerdfs',
+        inProgress: true,
+        completed: false,
+        teamManager: true,
+        editPicks: false,
+        makePicks: false,
+        timeToStart: ''
     },
     {
         id: 2,
@@ -26,6 +32,12 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        inProgress: false,
+        completed: false,
+        teamManager: false,
+        editPicks: false,
+        makePicks: true,
+        timeToStart: ''
     },
     {
         id: 3,
@@ -34,7 +46,13 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
-        url: '/nba-powerdfs'
+        url: '/nba-powerdfs',
+        inProgress: false,
+        completed: false,
+        teamManager: true,
+        editPicks: true,
+        makePicks: false,
+        timeToStart: ''
     },
     {
         id: 4,
@@ -43,7 +61,13 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
-        url: '/nhl-powerdfs'
+        url: '/nhl-powerdfs',
+        inProgress: false,
+        completed: false,
+        teamManager: true,
+        editPicks: true,
+        makePicks: false,
+        timeToStart: ''
     },
     {
         id: 5,
@@ -52,6 +76,12 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        inProgress: false,
+        completed: false,
+        teamManager: true,
+        editPicks: true,
+        makePicks: false,
+        timeToStart: ''
     },
     {
         id: 6,
@@ -60,6 +90,12 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        inProgress: false,
+        completed: true,
+        teamManager: false,
+        editPicks: false,
+        makePicks: false,
+        timeToStart: ''
     },
     {
         id: 7,
@@ -68,6 +104,12 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        inProgress: false,
+        completed: false,
+        teamManager: true,
+        editPicks: true,
+        makePicks: false,
+        timeToStart: '58 mins to start'
     },
     {
         id: 8,
@@ -76,6 +118,12 @@ const myGameCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        inProgress: false,
+        completed: false,
+        teamManager: true,
+        editPicks: true,
+        makePicks: false,
+        timeToStart: ''
     }
 ];
 
@@ -92,28 +140,28 @@ const options = [
 const filters = [
     {
         id: 1,
+        title: 'SHOW ALL',
+        icon: ''
+    },
+    {
+        id: 2,
         title: 'NFL',
         icon: <SuperBall />
     },
     {
-        id: 2,
+        id: 3,
         title: 'NBA',
         icon: <BasketBall />
     },
     {
-        id: 3,
+        id: 4,
         title: 'MLB',
         icon: <Ball />
     },
     {
-        id: 4,
+        id: 5,
         title: 'NHL',
         icon: <Hockeys />
-    },
-    {
-        id: 5,
-        title: 'SHOW ALL',
-        icon: ''
     },
 ];
 
@@ -134,8 +182,7 @@ const InteractiveContests = props => {
     }, []);
 
     useEffect(() => {
-        const filteredData = myGameCenterCardData.filter(item => item.title === 'NFL');
-        setFilteredData(filteredData);
+        setFilteredData(myGameCenterCardData);
     }, []);
 
     const myGameCenterCard = (item, redirectUri) => {
@@ -148,6 +195,12 @@ const InteractiveContests = props => {
                     outOf={item.outOf}
                     total={item.total}
                     percent={item.percent}
+                    inProgress={item.inProgress}
+                    completed={item.completed}
+                    teamManager={item.teamManager}
+                    editPicks={item.editPicks}
+                    makePicks={item.makePicks}
+                    timeToStart={item.timeToStart}
                     showDetails={showCardDetails == item.id}
                     onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
@@ -171,7 +224,7 @@ const InteractiveContests = props => {
                                         className={'__outline-badge __f1 ' + (selectedFilter == item.id && '__active')}
                                         onClick={() => {
                                             setSelectedFilter(item.id);
-                                            const filteredData = item.id === 5 
+                                            const filteredData = item.id === 1 
                                                 ? 
                                                 myGameCenterCardData 
                                                 : 
@@ -187,7 +240,10 @@ const InteractiveContests = props => {
                         </div>
                     </div>
                     <div style={{ flex: 1, marginLeft: 380 }}>
-                        <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} />
+                        <CashPowerBalance 
+                            cashBalance="0"
+                            styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} 
+                        />
                     </div>
                 </div>
                 <div className={classes.__interactive_contests_filter}>

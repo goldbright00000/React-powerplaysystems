@@ -60,7 +60,9 @@ function HomePageContentHeader(props) {
                     }
                 </div>
                 
-                <button className={classes.header_main_power_up_btn}>Power Up!</button>
+                <Link className={classes.header_main_power_up_btn} to={redirectTo}>
+                    Power Up!
+                </Link>
 
                 <p className={classes.p3}>*International Patent Pending</p>
             </div>
