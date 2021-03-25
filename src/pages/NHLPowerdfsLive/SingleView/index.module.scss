@@ -28,10 +28,6 @@
             &.active {
                 border: 1px solid $primary;
                 box-shadow: 0 2px 24px 0 $primaryLight7;
-
-                .card_header {
-                    color: $primary;
-                }
             }
 
             &:hover {
@@ -53,6 +49,12 @@
 
                 >div {
                     display: flex;
+                    
+                    p {
+                        &.active {
+                            color: $primary;
+                        }
+                    }
                 }
 
                 img {
@@ -60,6 +62,7 @@
                     height: 19px;
                     margin-right: 3px;
                 }
+
             }
 
             .card_body {

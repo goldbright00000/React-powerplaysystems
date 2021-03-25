@@ -23,63 +23,6 @@ function SingleView(props) {
         setSelectedCard(data[currentCard]);
     }, [data]);
 
-    const RenderCard = ({ item, selected = false, onSelectCard = (item) => { } }) => {
-        const {
-            category = '',
-            title = '',
-            time = '',
-            id = '',
-            live_data_steps = [],
-            xp = '',
-            xpPoints = 0,
-            xpTimes = '',
-            isStarPlayer = false,
-        } = item || {};
-
-        return (
-            <div
-                onClick={() => onSelectCard(item)}
-                className={`${classes.card} ${selected && classes.active}`}
-            >
-                <div className={classes.card_header}>
-                    <div>
-                        {
-                            isStarPlayer &&
-                            <img src={PowerPlayIcon} />
-                        }
-                        <p>{title}</p>
-                    </div>
-                    <ReplaceIcon size={22} />
-                </div>
-
-                <div className={classes.card_body}>
-                    <div className={classes.card_cat}>{category}</div>
-                    <div className={classes.card_xp_points}>
-                        Points: {live_data_steps[1]?.totalPoints}
-                        {
-                            renderXp(xp)
-                        }
-                    </div>
-                    <div className={classes.card_clock}>
-                        <ClockIcon color="#688fbd" />
-                        <span> P1 | {time.replace('PM', '')}</span>
-                    </div>
-                </div>
-
-                <div
-                    className={`${classes.card_type} 
-                    ${hasText(live_data_steps[0]?.type, 'ice')
-                            ?
-                            classes.success
-                            :
-                            hasText(live_data_steps[0]?.type, 'bench') && classes.danger}`}
-                >
-                    {live_data_steps[0]?.type}
-                </div>
-            </div>
-        )
-    }
-
     const onSelectCard = (item) => {
         let index = data?.length && data?.indexOf(item);
         currentCard = index;
@@ -110,11 +53,12 @@ function SingleView(props) {
             <div className={classes.left_side}>
                 {
                     data && data?.length &&
-                    data?.map((item, ind) => <RenderCard
+                    data?.map((item, ind) => <SportsLiveCardSelection
                         key={ind + '-'}
                         item={item}
                         selected={selectedCard?.id === item?.id}
                         onSelectCard={onSelectCard}
+                        simpleView
                     />)
                 }
             </div>
