@@ -147,7 +147,7 @@ function SportsLiveCardSelection(props) {
                     _dataList[targetPlayerIndex] = selectedPlayer;
                     dispatch(NHLActions.setLiveNhlData(_dataList));
                     setReplaceModalState(false);
-                } else if (isStarPlayer && starPlayerCount < 3) {
+                } else if (starPlayerCount < 3) {
                     _dataList[targetPlayerIndex] = selectedPlayer;
                     _dataList[targetPlayerIndex] = selectedPlayer;
                     dispatch(NHLActions.setLiveNhlData(_dataList));
@@ -419,6 +419,7 @@ function SportsLiveCardSelection(props) {
                                                     btnTitle="Swap"
                                                     btnIcon={<SwapIcon />}
                                                     onSelectDeselect={onPlayerSwap}
+                                                    disabled={starPlayerCount === 3 && isStarPlayer && !item?.isStarPlayer}
                                                 />
                                     )
                                 }
