@@ -7,14 +7,25 @@ import PowerBalanceIcon from '../../assets/power_balance_icon.png';
 import { setNumberComma } from '../../utility/shared';
 
 const CashPowerBalance = (props) => {
-    const { styles = {} } = props || {};
+    const { cashBalance = '', powerBalance = '', styles = {} } = props || {};
     return (
         <div className={classes.__sidebar_cash_power_balance} style={styles}>
             <div className={classes.__sidebar_cash_power_balance_wrapper}>
                 <div className={classes.__sidebar_cash_balance_wrapper}>
                     <img src={PointsCollectedIcon} width="40" height="30" />
                     <div className={classes.__sidebar_text_wrapper}>
-                        <h1 className={classes.__sidebar_cash}>${props?.cashBalance || '36'}</h1>
+                        <div className={classes.__sidebar_cash_and_deposit_wrapper}>
+                            <div>
+                                <h1 className={classes.__sidebar_cash}>${cashBalance || '36'}</h1>
+                            </div>
+                            {
+                                cashBalance == '0'
+                                &&
+                                <div className={classes.__sidebar_deposit_wrapper}>
+                                    <button>Deposit</button>
+                                </div>
+                            }
+                        </div>
                         <span className={classes.__sidebar_cash_balance_title}>Cash Balance</span>
                     </div>
                 </div>
@@ -24,7 +35,7 @@ const CashPowerBalance = (props) => {
                     <img src={PowerBalanceIcon} width="40" height="40" />
                     <div className={classes.__sidebar_text_wrapper}>
                         <h1 className={classes.__sidebar_cash}>
-                            {props?.powerBalance && setNumberComma(props?.powerBalance) || '15,000'}
+                            {powerBalance && setNumberComma(powerBalance) || '15,000'}
                         </h1>
                         <span className={classes.__sidebar_cash_balance_title}>Power Balance</span>
                     </div>

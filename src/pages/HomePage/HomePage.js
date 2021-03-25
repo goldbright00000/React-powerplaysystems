@@ -10,6 +10,7 @@ import CellPhones from '../../assets/home_page_cell_phones.png';
 import Tick from '../../assets/home_page_tick.png';
 import NFL from '../../assets/home_page_nfl.png';
 import PowerPlay from '../../assets/home_page_power_play.png';
+import { redirectTo } from '../../utility/shared';
 
 const HomePage = props => {
 
@@ -98,7 +99,9 @@ const HomePage = props => {
                                 </div>
                             </div>
                             <div className={classes.__home_page_first_section_body_explore_games}>
-                                <div className={classes.__home_page_first_section_body_explore_games_text}>
+                                <div 
+                                    className={classes.__home_page_first_section_body_explore_games_text}
+                                    onClick={() => redirectTo(props, {path: '/power-center'})}>
                                     Explore Games
                                 </div>
                                 <div className={classes.__home_page_first_section_body_explore_games_arrow_forward}>
@@ -107,7 +110,11 @@ const HomePage = props => {
                             </div>
                         </div>
                     </div>
-                    <button className={classes.__home_page_common_power_up_btn}>Power Up!</button>
+                    <button 
+                        className={classes.__home_page_common_power_up_btn} 
+                        onClick={() => redirectTo(props, {path: '/power-up'})}>
+                        Power Up!
+                    </button>
                 </div>
             </div>
             <div className={classes.__home_page_second_section_bg}>
@@ -159,7 +166,11 @@ const HomePage = props => {
                             <img src={NFL} />
                         </div>
                     </div> 
-                    <button className={classes.__home_page_common_power_up_btn}>Power Up!</button>           
+                    <button 
+                        className={classes.__home_page_common_power_up_btn}
+                        onClick={() => redirectTo(props, {path: '/power-up'})}>
+                        Power Up!
+                    </button>           
                 </div>
             </div>
             <div className={classes.__home_page_third_section_bg}>
@@ -192,7 +203,11 @@ const HomePage = props => {
                         </div>
                     </div>  
                     <div className={classes.__home_page_third_section_power_up}>
-                        <button className={classes.__home_page_third_section_power_up_btn}>Power Up!</button>
+                        <button 
+                            className={classes.__home_page_third_section_power_up_btn}
+                            onClick={() => redirectTo(props, {path: '/power-up'})}>
+                            Power Up!
+                        </button>
                     </div>        
                 </div>
             </div>

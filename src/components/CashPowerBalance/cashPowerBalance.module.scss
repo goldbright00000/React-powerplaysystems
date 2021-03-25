@@ -24,8 +24,36 @@
           margin-left: 20px;
           margin-bottom: 10px;
 
+          .__sidebar_cash_and_deposit_wrapper {
+            display: flex;
+            flex-direction: row;
+            align-items: flex-end;
+
+            .__sidebar_deposit_wrapper {
+              button {
+                width: 62px;
+                height: 24px;
+                padding: 1px 3px 3px 4px;
+                border-radius: 6px;
+                background-color: $primary;
+                border: none;
+                font-family: Poppins;
+                font-size: 14px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $grey2;
+                outline: none;
+                cursor: pointer;
+              }
+            }
+          }
+
           .__sidebar_cash {
-            width: 44px;
+            width: 100%;
             height: 31px;
             margin: 0;
             font-family: Teko;

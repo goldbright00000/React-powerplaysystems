@@ -92,28 +92,28 @@ const options = [
 const filters = [
     {
         id: 1,
+        title: 'SHOW ALL',
+        icon: ''
+    },
+    {
+        id: 2,
         title: 'NFL',
         icon: <SuperBall />
     },
     {
-        id: 2,
+        id: 3,
         title: 'NBA',
         icon: <BasketBall />
     },
     {
-        id: 3,
+        id: 4,
         title: 'MLB',
         icon: <Ball />
     },
     {
-        id: 4,
+        id: 5,
         title: 'NHL',
         icon: <Hockeys />
-    },
-    {
-        id: 5,
-        title: 'SHOW ALL',
-        icon: ''
     },
 ];
 
@@ -134,8 +134,7 @@ const InteractiveContests = props => {
     }, []);
 
     useEffect(() => {
-        const filteredData = powerCenterCardData.filter(item => item.title === 'NFL');
-        setFilteredData(filteredData);
+        setFilteredData(powerCenterCardData);
     }, []);
 
     const powerCenterCard = (item, redirectUri) => {
@@ -171,13 +170,12 @@ const InteractiveContests = props => {
                                         className={'__outline-badge __f1 ' + (selectedFilter == item.id && '__active')}
                                         onClick={() => {
                                             setSelectedFilter(item.id);
-                                            const filteredData = item.id === 5 
+                                            const filteredData = item.id === 1
                                                 ? 
                                                 powerCenterCardData 
                                                 : 
                                                 powerCenterCardData.filter(cardItem => cardItem.title === item.title);
-                                            setFilteredData(filteredData);
-                                                
+                                            setFilteredData(filteredData);           
                                         }}>
                                             {item.icon}{item.title}
                                         </div>

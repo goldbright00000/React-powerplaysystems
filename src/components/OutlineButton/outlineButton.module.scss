@@ -1,14 +1,14 @@
 @import '../../scss/colors.scss';
 
 .__outline_button {
-    width: 166px;
+    width: 232px;
     height: 38px;
     border-radius: 6px;
     border: solid 1px $primary;
     background-color: $black3;
     font-family: Poppins;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: normal;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -16,4 +16,9 @@
     text-align: center;
     color: $primary;
     outline: none;
+    cursor: pointer;
+
+    .__outline_button_icon {
+        margin-right: 10px;
+    }
 }
