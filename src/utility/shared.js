@@ -3,7 +3,7 @@ import { CONSTANTS } from "./constants";
 import moment from "moment";
 
 export function redirectTo(props, { path = "/", state = {} }) {
-  const { history: { push = () => { } } = {} } = props || {};
+  const { history: { push = () => {} } = {} } = props || {};
   if (!isEmpty(state)) return push(path, state);
 
   return push(path);
@@ -142,7 +142,7 @@ export function removeLocalStorage(key) {
   return localStorage.removeItem(key);
 }
 
-export function removeToken() { }
+export function removeToken() {}
 
 export function validateEmail(email) {
   const regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -278,8 +278,8 @@ export function getYears() {
 }
 
 /**
- * @param {Text} text 
- * @param {*} value find in Text  
+ * @param {Text} text
+ * @param {*} value find in Text
  */
 export function hasText(text, value) {
   let txt = `${text}`.toLocaleLowerCase();

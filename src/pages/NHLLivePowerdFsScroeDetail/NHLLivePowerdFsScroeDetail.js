@@ -48,7 +48,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                     <p className={classes.secondary}> {pts}</p>
                 </span>
             </div>
-            <span className={`${classes.child_4} ${classes.center}`}><p className={classes.secondary}>{totalPts}</p></span>
+            {/* <span className={`${classes.child_4} ${classes.center}`}><p className={classes.secondary}>{totalPts}</p></span> */}
             <span className={classes.center}>{powers}</span>
             <span className={classes.center}>
                 <p className={score < 0 ? classes.danger : classes.success}>
@@ -60,7 +60,11 @@ function NHLLivePowerdFsScroeDetail(props) {
                     }
                 </p>
             </span>
-            <span className={classes.center}><p className={`${classes.primary} ${classes.border}`}>{runningTotal}</p></span>
+            <span className={classes.center}>
+                <p className={`${classes.primary} ${classes.border}`}>
+                    {runningTotal}
+                </p>
+            </span>
         </div>
     );
 
@@ -106,7 +110,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                                             <span>Pts</span>
                                         </div>
                                     </div>
-                                    <span className={classes.child_4}>Total Pts</span>
+                                    {/* <span className={classes.child_4}>Total Pts</span> */}
                                     <span className={classes.center}>Powers</span>
                                     <span className={classes.center}>My Score</span>
                                     <span className={classes.center}>Running Total</span>

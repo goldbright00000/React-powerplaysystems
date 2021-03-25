@@ -13,7 +13,13 @@ function SearchInput(props) {
     const [search, setSearch] = useState('');
     const [showTeamSelection, setTeamSelectionState] = useState(false);
 
-    const { onSearch = (event) => { }, onSelect = (item) => { }, dropDown = [], selected = '' } = props || {};
+    const {
+        onSearch = (event) => { },
+        onSelect = (item) => { },
+        dropDown = [],
+        selected = '',
+        placeholder = '',
+    } = props || {};
 
     const onChange = (e) => {
         const { value } = e.target;
@@ -32,7 +38,7 @@ function SearchInput(props) {
                 <input
                     value={search}
                     onChange={onChange}
-                    placeholder="Search by Player name ..."
+                    placeholder={placeholder || "Search by Player name ..."}
                     name="playerSearch" required
                 />
             </span>
@@ -94,6 +100,7 @@ function SearchInput(props) {
 SearchInput.propTypes = {
     dropDown: PropTypes.array,
     selected: PropTypes.string,
+    placeholder: PropTypes.string,
     onSelect: PropTypes.func,
     onSearch: PropTypes.func,
 }
