@@ -3,10 +3,9 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
 import classes from "./index.module.scss";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import Modal from "../Modal";
 import { setNumberComma } from "../../utility/shared";
-import SearchInput from "../../components/SearchInput";
+import SearchInput from "../SearchInput";
 
 const dummyData = [
   {
@@ -64,6 +63,8 @@ const dummyData = [
 function LiveStandings(props) {
   const [filteredData, setFilteredData] = useState(dummyData);
 
+  const { visible = false, onClose = () => {} } = props || {};
+
   const onSearch = (e) => {
     const { value } = e?.target || {};
     if (!isEmpty(value)) {
@@ -90,12 +91,11 @@ function LiveStandings(props) {
   );
 
   return (
-    <div className={classes.wrapper}>
-      <Header />
+    <Modal visible={visible} onClose={onClose}>
       <div className={classes.container}>
         <div className={classes.header}>
           <div>
-            <p className={classes.header_p}>Page Title</p>
+            <p className={classes.header_p}>Live Standigns</p>
             <span>Oct 24, 2020 | 8:00PM ET</span>
           </div>
 
@@ -118,7 +118,7 @@ function LiveStandings(props) {
             <div className={classes.table_header}>
               <span>Place</span>
               <span>Display name</span>
-              <span>Amount won</span>
+              <span>Winnings</span>
               <span>Action</span>
             </div>
 
@@ -136,11 +136,13 @@ function LiveStandings(props) {
           </div>
         </div>
       </div>
-      <Footer isBlack={true} />
-    </div>
+    </Modal>
   );
 }
 
-LiveStandings.propTypes = {};
+LiveStandings.propTypes = {
+  visible: PropTypes.bool,
+  onClose: PropTypes.func,
+};
 
 export default LiveStandings;

@@ -25,6 +25,7 @@ import FooterImage from "../../assets/NHL-live-footer.png";
 import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
+import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 
 import { dummyData } from "./dummyData";
 
@@ -32,9 +33,12 @@ function NHLPowerdFsLive(props) {
   const _data = dummyData;
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
+  const [learnMoreModal, setLearnMoreModal] = useState(false);
 
   const { live_data: selectedData = [] } = useSelector((state) => state.nhl);
   const dispatch = useDispatch();
+
+  const onCloseModal = () => setLearnMoreModal(false);
 
   useEffect(() => {
     setData();
@@ -180,12 +184,20 @@ function NHLPowerdFsLive(props) {
                     count={4}
                   />
                 </div>
+                <button onClick={() => setLearnMoreModal(true)}>
+                  Learn more
+                </button>
               </div>
             </Sidebar>
           </div>
         </div>
       </div>
       <Footer isBlack={true} />
+      <LearnMoreModal
+        title="Point Multipler"
+        learnMoreModal={learnMoreModal}
+        onCloseModal={onCloseModal}
+      />
     </>
   );
 }
