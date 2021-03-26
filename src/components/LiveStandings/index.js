@@ -118,7 +118,7 @@ function LiveStandings(props) {
             <div className={classes.table_header}>
               <span>Place</span>
               <span>Display name</span>
-              <span>Winnings</span>
+              <span>Currently Winning</span>
               <span>Action</span>
             </div>
 

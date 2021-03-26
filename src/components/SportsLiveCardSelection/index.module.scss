@@ -308,6 +308,14 @@
           background-color: $lightGrey5;
         }
 
+        .bg_b {
+          color: $lightBlue;
+          font-weight: bold;
+          font-family: Teko;
+          font-size: 14px;
+          padding: 1px 0;
+        }
+
         > div {
           display: flex;
           flex-direction: column;
@@ -322,6 +330,12 @@
             font-weight: bold;
             width: 100%;
             opacity: 0.8;
+
+            &.d_wall {
+              @extend .bg_b;
+
+              background-color: $lightBlue5;
+            }
           }
 
           .p_2 {
@@ -344,6 +358,11 @@
             svg {
               margin-right: 8px;
               margin-top: 0;
+              padding: 0;
+            }
+
+            &.zero_margin {
+              margin: 0;
               padding: 0;
             }
           }

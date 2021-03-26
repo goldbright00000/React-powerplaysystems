@@ -250,13 +250,15 @@ function SportsLiveCardSelection(props) {
                 {isStarPlayer && <img src={PowerPlayIcon} />}
                 <p className={classes.container_selected_p}>{title}</p>
               </div>
-              <div className={classes.card_title_right}>
-                <ReplaceAllIcon
-                  style={{ height: "auto" }}
-                  size={24}
-                  onClick={toggleReplaceModal}
-                />
-              </div>
+              {!hasText(category, "team d") && (
+                <div className={classes.card_title_right}>
+                  <ReplaceAllIcon
+                    style={{ height: "auto" }}
+                    size={24}
+                    onClick={toggleReplaceModal}
+                  />
+                </div>
+              )}
             </div>
             <div className={classes.divider} />
             {live_data_steps?.length ? (
@@ -305,20 +307,34 @@ function SportsLiveCardSelection(props) {
                         <div className={classes.states_points_center}>
                           <div>
                             <p
-                              className={`${classes.p_1} 
+                              className={`${classes.p_1} ${
+                                hasText(
+                                  live_data_steps[currentStep].type,
+                                  "D-Wall"
+                                ) && classes.d_wall
+                              } 
                                                     ${
-                                                      getIceType(
+                                                      hasText(
                                                         live_data_steps[
                                                           currentStep
-                                                        ].type
+                                                        ].type,
+                                                        "ice"
                                                       )
                                                         ? classes.bg_s
-                                                        : getBenchType(
+                                                        : hasText(
                                                             live_data_steps[
                                                               currentStep
-                                                            ].type
+                                                            ].type,
+                                                            "bench"
                                                           )
                                                         ? classes.bg_p
+                                                        : hasText(
+                                                            live_data_steps[
+                                                              currentStep
+                                                            ].type,
+                                                            "D-Wall"
+                                                          )
+                                                        ? classes.bg_b
                                                         : classes.bg_n
                                                     }`}
                             >
@@ -332,6 +348,13 @@ function SportsLiveCardSelection(props) {
                                   <ClockIcon />
                                   <span> P1 | 12:59</span>
                                 </div>
+                                {hasText(category, "team d") && (
+                                  <p
+                                    className={`${classes.container_card_body_top} ${classes.zero_margin}`}
+                                  >
+                                    G: F. Anderson | .920
+                                  </p>
+                                )}
                                 <p className={classes.p_2}>
                                   {live_data_steps[currentStep]?.value}
                                 </p>

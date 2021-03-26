@@ -3,7 +3,7 @@
 .container {
   margin: 5em auto;
   width: 100%;
-  padding: 5px 20px 20px 20px;
+  padding: 0 20px;
   background-color: $lightBlack;
   border-radius: 16px;
 
@@ -12,7 +12,7 @@
     width: 100%;
     justify-content: space-between;
     font-family: Poppins;
-    margin: 2em 0 3em 0;
+    margin: 1em 0 2em 0;
 
     .header_p {
       font-size: 24px;
@@ -127,6 +127,7 @@
               background-color: $lightBlue;
               border: none;
               outline: none;
+              min-width: 143px;
               height: 43px;
               border-radius: 8px;
               color: $black;

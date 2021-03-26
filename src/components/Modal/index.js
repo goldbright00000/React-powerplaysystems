@@ -26,6 +26,7 @@ function Modal(props) {
   return (
     visible && (
       <div className={classes.wrapper} style={style}>
+        <div className={classes.back_drop} onClick={onClose} />
         <div className={classes.modal}>
           <div className={classes.header}>
             {title && <p style={titleStyle}>{title}</p>}
