@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classes from './interactiveContests.module.scss';
+import {useDispatch} from 'react-redux';
+import {setUserBalance} from '../../actions/userActions';
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
@@ -8,6 +10,8 @@ import CashPowerBalance from '../../components/CashPowerBalance';
 import { redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
 import MyGameCenterCard from '../../components/MyGameCenterCard';
+import { URLS } from '../../config/urls';
+import http from '../../config/http';
 
 const myGameCenterCardData = [
     {
@@ -166,6 +170,7 @@ const filters = [
 ];
 
 const InteractiveContests = props => {
+    const dispatch = useDispatch();
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
 
@@ -173,6 +178,8 @@ const InteractiveContests = props => {
     const [showCardDetails, setShowCardDetails] = useState(-1);
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
+    const [viewResults, setViewResults] = useState(-1);
+    const [balance, setBalance] = useState({});
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -183,7 +190,14 @@ const InteractiveContests = props => {
 
     useEffect(() => {
         setFilteredData(myGameCenterCardData);
+        getUserBalance();
     }, []);
+
+    const getUserBalance = async () => {
+        const response = await http.get(URLS.USER.BALANCE);
+        dispatch(setUserBalance(response.data));
+        setBalance(response.data);
+    };
 
     const myGameCenterCard = (item, redirectUri) => {
         return (
@@ -202,10 +216,13 @@ const InteractiveContests = props => {
                     makePicks={item.makePicks}
                     timeToStart={item.timeToStart}
                     showDetails={showCardDetails == item.id}
+                    viewResults={viewResults == item.id}
                     onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
                     onBackClick={() => setShowCardDetails(-1)}
                     onNextClick={() => setShowCardDetails(-1)}
+                    onViewResults={(cardId) => setViewResults(cardId)}
+                    onViewResultsBack={() => setViewResults(-1)}
                 />
             </div>
         );
@@ -241,7 +258,8 @@ const InteractiveContests = props => {
                     </div>
                     <div style={{ flex: 1, marginLeft: 380 }}>
                         <CashPowerBalance 
-                            cashBalance="0"
+                            cashBalance={balance.cashBalance}
+                            powerBalance={balance.tokenBalance}
                             styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} 
                         />
                     </div>

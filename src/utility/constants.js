@@ -45,6 +45,7 @@ export const CONSTANTS = {
 
     LOCAL_STORAGE_KEYS: {
         USER: 'q3245fas45fa4w5#$rfa345__123@#42fadsfaw3424',
+        USER_BALANCE: 'user_balance',
     },
 
     BUTTON_TYPE: {

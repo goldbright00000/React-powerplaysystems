@@ -4,4 +4,7 @@ export const URLS = {
     REGISTER: "/users/signup",
     ACCOUNT: "/users/account",
   },
+  USER: {
+    BALANCE: "/users/account/balance",
+  }
 };
