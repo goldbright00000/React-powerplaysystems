@@ -8,7 +8,7 @@ import PowersAvailable from './PowersAvailable';
 import PrizeGrid from './PrizeGrid';
 
 const PowerCenterCardDetails = (props) => {
-    const {title = '', onBackClick = () => {}, onNextClick = () => {}} = props || {};
+    const {title = '', onBackClick = () => {}, onNextClick = () => {}, myGameCenter = false} = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
@@ -51,6 +51,7 @@ const PowerCenterCardDetails = (props) => {
                         onNextClick();
                     }
                 }}
+                myGameCenter={myGameCenter}
             />
         </div>
     );

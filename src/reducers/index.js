@@ -5,6 +5,7 @@ import powerPokerReducer from './powerPokerReducer';
 import powerRoyalsReducer from './powerRoyalsGameReducer';
 import bingoReducer from './bingoReducer';
 import nhlReducer from './nhlReducer';
+import userReducer from './userReducer';
 
 export const reducers = {
     cardGame: CardGameReducer,
@@ -14,4 +15,5 @@ export const reducers = {
     landingPage: landingPageReducer,
     bingoGame: bingoReducer,
     nhl: nhlReducer,
+    user: userReducer
 }

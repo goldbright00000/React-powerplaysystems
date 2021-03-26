@@ -7,7 +7,7 @@ import PowerBalanceIcon from '../../assets/power_balance_icon.png';
 import { setNumberComma } from '../../utility/shared';
 
 const CashPowerBalance = (props) => {
-    const { cashBalance = '', powerBalance = '', styles = {} } = props || {};
+    const { cashBalance = 0, powerBalance = 0, styles = {} } = props || {};
     return (
         <div className={classes.__sidebar_cash_power_balance} style={styles}>
             <div className={classes.__sidebar_cash_power_balance_wrapper}>
@@ -16,10 +16,10 @@ const CashPowerBalance = (props) => {
                     <div className={classes.__sidebar_text_wrapper}>
                         <div className={classes.__sidebar_cash_and_deposit_wrapper}>
                             <div>
-                                <h1 className={classes.__sidebar_cash}>${cashBalance || '36'}</h1>
+                                <h1 className={classes.__sidebar_cash}>${cashBalance}</h1>
                             </div>
                             {
-                                cashBalance == '0'
+                                cashBalance == 0
                                 &&
                                 <div className={classes.__sidebar_deposit_wrapper}>
                                     <button>Deposit</button>
@@ -35,7 +35,7 @@ const CashPowerBalance = (props) => {
                     <img src={PowerBalanceIcon} width="40" height="40" />
                     <div className={classes.__sidebar_text_wrapper}>
                         <h1 className={classes.__sidebar_cash}>
-                            {powerBalance && setNumberComma(powerBalance) || '15,000'}
+                            {powerBalance && setNumberComma(powerBalance)}
                         </h1>
                         <span className={classes.__sidebar_cash_balance_title}>Power Balance</span>
                     </div>
