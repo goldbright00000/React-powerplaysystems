@@ -3,7 +3,7 @@
 .container {
   margin: 5em auto;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 30px;
   background-color: $lightBlack;
   border-radius: 16px;
 
@@ -42,7 +42,7 @@
   }
 
   .body {
-    margin: 20px 0;
+    margin: 20px 0 0 0;
 
     .body_header {
       margin: 0 0 20px 0;
@@ -51,7 +51,7 @@
     .body_table {
       display: flex;
       flex-direction: column;
-      height: 500px;
+      height: 45vh;
       overflow: hidden scroll;
 
       &::-webkit-scrollbar {
@@ -99,7 +99,6 @@
 
         .table_row {
           display: flex;
-          display: flex;
           width: 100%;
           justify-content: space-around;
           align-items: center;
@@ -123,7 +122,7 @@
               text-align: left;
             }
 
-            button {
+            .button_btn {
               background-color: $lightBlue;
               border: none;
               outline: none;
@@ -134,6 +133,7 @@
               font-size: 14px !important;
               font-family: Poppins !important;
               font-weight: 600;
+              margin: 0;
 
               &:hover {
                 cursor: pointer;

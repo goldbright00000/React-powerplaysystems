@@ -29,6 +29,7 @@
     border-radius: 16px;
     z-index: 1000;
     max-height: 80vh;
+    padding: 0 25px;
   }
 
   .header {
@@ -39,7 +40,7 @@
     p {
       font-size: 25px;
       margin: 0;
-      padding: 20px;
+      padding: 20px auto;
     }
 
     .close_icon {

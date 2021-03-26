@@ -85,7 +85,7 @@ function LiveStandings(props) {
       <span>{title}</span>
       <span>${setNumberComma(winings)}</span>
       <span>
-        <button>View Team</button>
+        <button className={classes.button_btn}>View Team</button>
       </span>
     </div>
   );
