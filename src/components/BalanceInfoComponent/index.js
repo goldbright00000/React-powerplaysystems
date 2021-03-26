@@ -133,7 +133,7 @@ function BalanceInfoComponent(props) {
         <ListItem title="3 nights stay at Fairmont Banff Springs" />
       </div>
 
-      <Modal visible={showModal}>
+      <Modal visible={showModal} iconStyle={{ display: "none" }}>
         <div className={classes.modal_container}>
           <div className={classes.modal_header}>
             <p>Withdraw Cash</p>
