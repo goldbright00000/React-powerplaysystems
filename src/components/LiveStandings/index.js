@@ -6,11 +6,12 @@ import classes from "./index.module.scss";
 import Modal from "../Modal";
 import { setNumberComma } from "../../utility/shared";
 import SearchInput from "../SearchInput";
+import CloseIcon from "../../icons/Close";
 
 const dummyData = [
   {
     id: 1,
-    title: "john_house",
+    title: "john house",
     winnings: 20000,
   },
   {
@@ -68,11 +69,14 @@ function LiveStandings(props) {
   const onSearch = (e) => {
     const { value } = e?.target || {};
     if (!isEmpty(value)) {
-      const result = dummyData?.filter((data) =>
-        data?.title
-          ?.toLocaleLowerCase()
-          ?.includes(`${value}`?.toLocaleLowerCase())
-      );
+      const result = dummyData?.filter((data) => {
+        const [firstName, lastName] = `${data?.title}`.split(" ");
+        if (firstName && lastName) {
+          return firstName?.startsWith(value) || lastName?.startsWith(value);
+        }
+
+        return `${data?.title}`?.startsWith(value);
+      });
       setFilteredData(result);
     } else {
       setFilteredData(dummyData);
@@ -91,8 +95,9 @@ function LiveStandings(props) {
   );
 
   return (
-    <Modal visible={visible} onClose={onClose}>
+    <Modal visible={visible} onClose={onClose} iconStyle={{ display: "none" }}>
       <div className={classes.container}>
+        <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div>
             <p className={classes.header_p}>Live Standigns</p>
