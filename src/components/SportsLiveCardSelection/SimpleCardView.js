@@ -46,13 +46,7 @@ function SimpleCardView(props) {
       <div className={classes.card_header}>
         <div>
           {isStarPlayer && <img src={PowerPlayIcon} />}
-          <p
-            className={`${selected && classes.active} ${
-              isStarPlayer && classes.active
-            }`}
-          >
-            {title}
-          </p>
+          <p className={`${isStarPlayer && classes.active}`}>{title}</p>
         </div>
         <ReplaceIcon size={22} onClick={onClickReplace} />
       </div>

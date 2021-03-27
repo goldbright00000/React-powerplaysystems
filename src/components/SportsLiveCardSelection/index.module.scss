@@ -308,11 +308,18 @@
           background-color: $lightGrey5;
         }
 
+        .bg_b {
+          color: $lightBlue;
+          font-weight: bold;
+          font-family: Teko;
+          font-size: 14px;
+          padding: 1px 0;
+        }
+
         > div {
           display: flex;
           flex-direction: column;
           text-align: center;
-          justify-content: center;
           width: 100%;
 
           .p_1 {
@@ -322,6 +329,12 @@
             font-weight: bold;
             width: 100%;
             opacity: 0.8;
+
+            &.d_wall {
+              @extend .bg_b;
+
+              background-color: $lightBlue5;
+            }
           }
 
           .p_2 {
@@ -331,7 +344,7 @@
           }
 
           .container_card_body_top {
-            margin: 22px 0 5px 0;
+            margin: 10px 0 5px 0;
             display: flex !important;
             flex-direction: row;
             justify-content: center;
@@ -344,6 +357,11 @@
             svg {
               margin-right: 8px;
               margin-top: 0;
+              padding: 0;
+            }
+
+            &.zero_margin {
+              margin: 0;
               padding: 0;
             }
           }
@@ -532,6 +550,45 @@
 .modal_container {
   display: flex;
   width: 100%;
+
+  .modal_star_player {
+    display: flex;
+    background-color: $black2;
+    justify-content: center;
+    align-items: center;
+    min-width: 25%;
+    border-radius: 40px 40px 0 0;
+    align-self: flex-end;
+    transform: translateX(-10px);
+    padding: 20px 0;
+    box-shadow: inset 0 0px 14px 13px $lightBlack8;
+
+    img {
+      width: 68px;
+      height: 68px;
+      margin: 0 15px 0 5px;
+    }
+
+    > div {
+      display: flex;
+      flex-direction: column;
+
+      p {
+        font-size: 16px;
+        font-weight: 600;
+        font-family: Poppins;
+        margin: 3px 0;
+      }
+
+      svg {
+        margin: 5px 6px 0 6px;
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
+    }
+  }
 
   .modal_header {
     display: flex;
