@@ -1,11 +1,22 @@
 @import "../../scss/colors.scss";
 
 .container {
-  margin: 5em auto;
-  width: 100%;
+  margin: 2em auto;
+  width: 97%;
   padding: 0 30px;
   background-color: $lightBlack;
   border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+
+  .svg {
+    display: flex;
+    align-self: flex-end;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
 
   .header {
     display: flex;
@@ -51,7 +62,7 @@
     .body_table {
       display: flex;
       flex-direction: column;
-      height: 60vh;
+      height: 55vh;
       overflow: hidden scroll;
 
       &::-webkit-scrollbar {

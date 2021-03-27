@@ -10,6 +10,7 @@ function CloseIcon(props) {
       viewBox="0 0 20 20"
       style={{ height: "auto" }}
       onClick={props?.onClick}
+      {...props}
     >
       <g fill="none" fillRule="evenodd">
         <g fill={props?.color || "#F2F2F2"} fillRule="nonzero">

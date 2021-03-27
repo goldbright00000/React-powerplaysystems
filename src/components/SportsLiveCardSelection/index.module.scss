@@ -15,9 +15,10 @@
       display: flex;
       flex-direction: column;
       width: 100px;
-      font-size: 23px;
+      font-size: 24px;
       text-transform: uppercase;
       font-weight: bold;
+      font-style: italic;
 
       span {
         width: 28px;
@@ -28,6 +29,9 @@
 
       &.teamD {
         text-transform: capitalize;
+        font-family: Poppins;
+        font-size: 18px;
+        font-style: italic;
       }
     }
 
@@ -181,16 +185,16 @@
         padding: 0;
         margin: 0;
         align-items: center;
-        justify-content: flex-start;
+        justify-content: space-between;
         color: $grey2;
 
         .team_d {
           display: flex;
           flex-direction: column;
-          flex: 1;
           height: 100%;
           align-self: flex-end;
           justify-content: flex-end;
+          transform: translateX(-6px);
 
           svg {
             margin: 3px 0;
@@ -221,7 +225,7 @@
 
         .states_points_right {
           margin: 4px 10px 0 0;
-          width: 50%;
+          // min-width: 30%;
 
           .states_xp_times {
             font-family: Poppins;
@@ -246,6 +250,7 @@
             flex-direction: row;
             justify-content: space-evenly;
             align-items: center;
+            flex: 1;
 
             &.width {
               width: 45px;
@@ -268,7 +273,7 @@
               display: flex;
 
               svg {
-                margin: 0 5px 0 20px;
+                margin: 0 5px 0 32px;
                 padding: 0;
               }
             }
@@ -343,26 +348,37 @@
             color: $grey2;
           }
 
-          .container_card_body_top {
-            margin: 10px 0 5px 0;
-            display: flex !important;
-            flex-direction: row;
+          .container_card_body_top_main {
+            display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 0px 10px;
-            font-size: 12px;
-            font-weight: 600;
-            color: $grey;
+            min-height: 65px;
 
-            svg {
-              margin-right: 8px;
-              margin-top: 0;
-              padding: 0;
-            }
+            .container_card_body_top {
+              margin: 10px 0 5px 0;
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              align-items: center;
+              padding: 0px 10px;
+              font-size: 12px;
+              font-weight: 600;
+              color: $grey;
 
-            &.zero_margin {
-              margin: 0;
-              padding: 0;
+              > div {
+                display: flex;
+
+                svg {
+                  margin: 0 4px 2px 0;
+                  padding: 0;
+                }
+              }
+
+              &.zero_margin {
+                margin: 0;
+                padding: 0;
+              }
             }
           }
         }

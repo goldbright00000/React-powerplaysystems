@@ -21,6 +21,7 @@ import CloseIcon from "../../icons/Close";
 import SportCardSelection from "../SportsSelectionCard";
 import SwapIcon from "../../icons/Swap";
 import ShieldIcon from "../../icons/ShieldIcon";
+import VideoIcon from "../../icons/VideoIcon";
 
 import { dummyData } from "../../pages/NHLpowerdFS/dummyData";
 import SimpleCardView from "./SimpleCardView";
@@ -296,14 +297,18 @@ function SportsLiveCardSelection(props) {
                               {xpTimes && `${xpTimes}x`} Points
                               {xpTimes && <span>01:30</span>}
                             </p>
-                            <div className={`${classes.points_right_1}`}>
+                            <div
+                              className={`${classes.points_right_1} ${
+                                hasText(category, "team d") && classes.width
+                              }`}
+                            >
                               <span>{xpPoints || 6}</span>
                               {renderXp()}
                             </div>
                           </div>
                           {hasText(category, "team d") && (
                             <div className={classes.team_d}>
-                              <ShieldIcon size={24} />
+                              <VideoIcon />
                               <ShieldIcon size={24} />
                             </div>
                           )}
@@ -346,24 +351,28 @@ function SportsLiveCardSelection(props) {
                               {live_data_steps[currentStep]?.type}
                             </p>
                             {!compressed && (
-                              <>
+                              <div
+                                className={classes.container_card_body_top_main}
+                              >
                                 <div
                                   className={classes.container_card_body_top}
                                 >
-                                  <ClockIcon />
-                                  <span> P1 | 12:59</span>
+                                  <div>
+                                    <ClockIcon />
+                                    <span> P1 | 12:59</span>
+                                  </div>
+                                  {hasText(category, "team d") && (
+                                    <p
+                                      className={`${classes.container_card_body_top} ${classes.zero_margin}`}
+                                    >
+                                      G: F. Anderson | .920
+                                    </p>
+                                  )}
                                 </div>
-                                {hasText(category, "team d") && (
-                                  <p
-                                    className={`${classes.container_card_body_top} ${classes.zero_margin}`}
-                                  >
-                                    G: F. Anderson | .920
-                                  </p>
-                                )}
                                 <p className={classes.p_2}>
                                   {live_data_steps[currentStep]?.value}
                                 </p>
-                              </>
+                              </div>
                             )}
                           </div>
                           {!compressed && <p>Opp. G: P. Roy .976</p>}
@@ -467,7 +476,11 @@ function SportsLiveCardSelection(props) {
         />
       )}
 
-      <Modal visible={showReplaceModal} iconStyle={{ display: "none" }}>
+      <Modal
+        style={{ width: "70%", margin: "0 auto" }}
+        visible={showReplaceModal}
+        iconStyle={{ display: "none" }}
+      >
         <div className={classes.modal_container}>
           <Card>
             <div className={classes.modal_header}>
