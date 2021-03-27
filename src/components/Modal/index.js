@@ -13,6 +13,7 @@ function Modal(props) {
     title = "",
     closeIcon = null,
     onClose = () => {},
+    bodyStyle = {},
   } = props || {};
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function Modal(props) {
     visible && (
       <div className={classes.wrapper} style={style}>
         <div className={classes.back_drop} onClick={onClose} />
-        <div className={classes.modal}>
+        <div className={classes.modal} style={bodyStyle}>
           <div className={classes.header}>
             {title && <p style={titleStyle}>{title}</p>}
             <div
@@ -53,6 +54,7 @@ Modal.propTypes = {
   style: PropTypes.object,
   iconStyle: PropTypes.object,
   titleStyle: PropTypes.object,
+  bodyStyle: PropTypes.object,
 };
 
 export default Modal;

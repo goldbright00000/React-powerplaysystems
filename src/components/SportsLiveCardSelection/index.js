@@ -25,6 +25,7 @@ import ShieldIcon from "../../icons/ShieldIcon";
 import { dummyData } from "../../pages/NHLpowerdFS/dummyData";
 import SimpleCardView from "./SimpleCardView";
 import SearchInput from "../SearchInput";
+import StarPlayersCheck from "../StarPlayersCheck";
 
 const dropDown = [
   { title: "Team A" },
@@ -142,6 +143,7 @@ function SportsLiveCardSelection(props) {
   const onPlayerSwap = (id) => {
     const _dataList = [...selectedData];
     let targetPlayerIndex = _dataList?.indexOf(currentPlayer);
+    let _starPlayerCount = starPlayerCount;
 
     if (targetPlayerIndex !== -1 && filterdData) {
       const [selectedPlayer] = filterdData?.data?.filter(
@@ -157,19 +159,22 @@ function SportsLiveCardSelection(props) {
           selectedPlayer?.isStarPlayer
         ) {
           _dataList[targetPlayerIndex] = selectedPlayer;
-          dispatch(NHLActions.setLiveNhlData(_dataList));
-          setReplaceModalState(false);
         } else if (starPlayerCount < 3) {
           _dataList[targetPlayerIndex] = selectedPlayer;
           _dataList[targetPlayerIndex] = selectedPlayer;
-          dispatch(NHLActions.setLiveNhlData(_dataList));
-          setReplaceModalState(false);
+          if (starPlayerCount !== 3 && selectedPlayer?.isStarPlayer) {
+            _starPlayerCount++;
+          } else if (_starPlayerCount > 0) {
+            _starPlayerCount--;
+          }
         } else if (!isStarPlayer && !selectedPlayer?.isStarPlayer) {
           _dataList[targetPlayerIndex] = selectedPlayer;
           _dataList[targetPlayerIndex] = selectedPlayer;
-          dispatch(NHLActions.setLiveNhlData(_dataList));
-          setReplaceModalState(false);
         }
+
+        dispatch(NHLActions.starPlayerCount(_starPlayerCount));
+        dispatch(NHLActions.setLiveNhlData(_dataList));
+        setReplaceModalState(false);
       }
     }
   };
@@ -468,6 +473,14 @@ function SportsLiveCardSelection(props) {
             <div className={classes.modal_header}>
               <p className={classes.title}>Swap Your Starter</p>
               <CloseIcon onClick={toggleReplaceModal} />
+            </div>
+
+            <div className={classes.modal_star_player}>
+              <img src={PowerPlayIcon} width={68} height={68} />
+              <div>
+                <p>My Star Players</p>
+                <StarPlayersCheck totalStarPlayers={3} />
+              </div>
             </div>
 
             <div className={classes.modal_body}>
