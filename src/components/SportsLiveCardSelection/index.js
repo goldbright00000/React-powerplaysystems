@@ -297,7 +297,11 @@ function SportsLiveCardSelection(props) {
                               {xpTimes && `${xpTimes}x`} Points
                               {xpTimes && <span>01:30</span>}
                             </p>
-                            <div className={`${classes.points_right_1}`}>
+                            <div
+                              className={`${classes.points_right_1} ${
+                                hasText(category, "team d") && classes.width
+                              }`}
+                            >
                               <span>{xpPoints || 6}</span>
                               {renderXp()}
                             </div>
