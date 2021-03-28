@@ -100,7 +100,7 @@ function LiveStandings(props) {
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div>
-            <p className={classes.header_p}>Live Standigns</p>
+            <p className={classes.header_p}>Live Standings</p>
             <span>Oct 24, 2020 | 8:00PM ET</span>
           </div>
 

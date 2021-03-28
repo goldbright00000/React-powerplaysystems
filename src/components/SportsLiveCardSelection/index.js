@@ -355,7 +355,12 @@ function SportsLiveCardSelection(props) {
                                 className={classes.container_card_body_top_main}
                               >
                                 <div
-                                  className={classes.container_card_body_top}
+                                  className={`${
+                                    classes.container_card_body_top
+                                  } ${
+                                    hasText(category, "team d") &&
+                                    classes.margin_bottom
+                                  }`}
                                 >
                                   <div>
                                     <ClockIcon />
@@ -482,17 +487,20 @@ function SportsLiveCardSelection(props) {
         iconStyle={{ display: "none" }}
       >
         <div className={classes.modal_container}>
-          <Card>
+          <Card styles={{ background: "#202124" }}>
             <div className={classes.modal_header}>
-              <p className={classes.title}>Swap Your Starter</p>
               <CloseIcon onClick={toggleReplaceModal} />
-            </div>
-
-            <div className={classes.modal_star_player}>
-              <img src={PowerPlayIcon} width={68} height={68} />
-              <div>
-                <p>My Star Players</p>
-                <StarPlayersCheck totalStarPlayers={3} />
+              <div className={classes.modal_header_1}>
+                <p className={classes.title}>
+                  Swap Your <span>{category}</span>
+                </p>
+                <div className={classes.modal_star_player}>
+                  <img src={PowerPlayIcon} width={68} height={68} />
+                  <div>
+                    <p>My Star Players</p>
+                    <StarPlayersCheck totalStarPlayers={3} />
+                  </div>
+                </div>
               </div>
             </div>
 
