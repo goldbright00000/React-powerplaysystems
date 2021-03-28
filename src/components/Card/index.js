@@ -1,20 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types'
+import React from "react";
+import PropTypes from "prop-types";
 
-import classes from './card.module.scss'
+import classes from "./card.module.scss";
 
 function Card(props) {
-    const { styles = {} } = props || {}
-    return (
-        <div className={classes.__card} style={styles}>
-            {props.children}
-        </div>
-    )
+  const { styles = {} } = props || {};
+  return (
+    <div className={classes.__card} style={styles}>
+      {props.children}
+    </div>
+  );
 }
 
 Card.propTypes = {
-    style: PropTypes.any
-}
+  styles: PropTypes.any,
+};
 
-export default Card
-
+export default Card;
