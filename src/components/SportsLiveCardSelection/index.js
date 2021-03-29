@@ -9,8 +9,11 @@ import XPIcon from "../../icons/XPIcon";
 import ReplaceAllIcon from "../../icons/Replace";
 import ToolTip from "../../components/ToolTip";
 import XP1_5 from "../../icons/XP1_5";
+import XP1_5_1 from "../../icons/XP1_5_1";
 import XP2Icon from "../../icons/XP2";
+import XP2Icon_1 from "../../icons/XP2_1";
 import XP3 from "../../icons/XP3";
+import XP3_1 from "../../icons/XP3_1";
 import { isEmpty } from "lodash";
 import { hasText } from "../../utility/shared";
 import * as NHLActions from "../../actions/NHLActions";
@@ -123,9 +126,9 @@ function SportsLiveCardSelection(props) {
   };
 
   const renderSelectedXp = () => {
-    if (xp === CONSTANTS.XP.xp1_5) return <XP1_5 size={24} />;
-    else if (xp === CONSTANTS.XP.xp2) return <XP2Icon size={24} />;
-    else if (xp === CONSTANTS.XP.xp3) return <XP3 size={24} />;
+    if (xp === CONSTANTS.XP.xp1_5) return <XP1_5_1 />;
+    else if (xp === CONSTANTS.XP.xp2) return <XP2Icon_1 />;
+    else if (xp === CONSTANTS.XP.xp3) return <XP3_1 />;
 
     return <XPIcon size={24} />;
   };
@@ -219,11 +222,7 @@ function SportsLiveCardSelection(props) {
           </div>
         }
       >
-        <div data-tip data-for={`${title}`}>
-          <div className={classes.state_xp}>
-            {isEmpty(xp) ? <XPIcon size={24} /> : renderSelectedXp()}
-          </div>
-        </div>
+        <div className={classes.state_xp}>{renderSelectedXp()}</div>
       </ToolTip>
     );
 
@@ -292,16 +291,16 @@ function SportsLiveCardSelection(props) {
                             </div>
                           </div>
 
-                          <div className={classes.states_points_right}>
+                          <div
+                            className={`${classes.states_points_right} ${
+                              hasText(category, "team d") && classes.width
+                            }`}
+                          >
                             <p className={classes.states_xp_times}>
                               {xpTimes && `${xpTimes}x`} Points
                               {xpTimes && <span>01:30</span>}
                             </p>
-                            <div
-                              className={`${classes.points_right_1} ${
-                                hasText(category, "team d") && classes.width
-                              }`}
-                            >
+                            <div className={`${classes.points_right_1}`}>
                               <span>{xpPoints || 6}</span>
                               {renderXp()}
                             </div>
@@ -507,7 +506,7 @@ function SportsLiveCardSelection(props) {
             <div className={classes.modal_body}>
               <div className={classes.modal_body_header}>
                 <div className={classes.modal_header_left}>
-                  <p>Choose QB player to replace</p>
+                  <p>Choose player to replace</p>
                   <p className={classes.modal_player_name}>{title}</p>
                 </div>
 

@@ -197,9 +197,9 @@
           display: flex;
           flex-direction: column;
           height: 100%;
-          align-self: flex-end;
+          // align-self: flex-end;
           justify-content: flex-end;
-          transform: translateX(-6px);
+          // transform: translateX(-6px);
 
           svg {
             margin: 3px 0;
@@ -230,7 +230,11 @@
 
         .states_points_right {
           margin: 4px 10px 0 0;
-          // min-width: 30%;
+          width: 110px;
+
+          &.width {
+            width: 45px;
+          }
 
           .states_xp_times {
             font-family: Poppins;
@@ -257,10 +261,6 @@
             align-items: center;
             flex: 1;
 
-            &.width {
-              width: 45px;
-            }
-
             span {
               color: $grey2;
               opacity: 1;
@@ -276,9 +276,10 @@
               margin: 0;
               padding: 0;
               display: flex;
+              flex-direction: row;
 
               svg {
-                margin: 0 5px 0 32px;
+                margin: 0;
                 padding: 0;
               }
             }
@@ -508,6 +509,7 @@
             display: flex;
             flex-direction: row;
             color: $grey;
+            background-color: chocolate;
 
             span {
               display: flex;

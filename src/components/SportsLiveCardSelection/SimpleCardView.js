@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import classes from "./SimpleCard.module.scss";
 import ReplaceIcon from "../../icons/Replace";
 import ClockIcon from "../../icons/Clock3";
-import XP1_5 from "../../icons/XP1_5";
-import XP2Icon from "../../icons/XP2";
-import XP3 from "../../icons/XP3";
+import XP1_5_1 from "../../icons/XP1_5_1";
+import XP2Icon_1 from "../../icons/XP2_1";
+import XP3_1 from "../../icons/XP3_1";
 import PowerPlayIcon from "../../assets/token.png";
 import { hasText } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
@@ -32,9 +32,9 @@ function SimpleCardView(props) {
   } = item || {};
 
   const renderXp = (xp) => {
-    if (xp === CONSTANTS.XP.xp1_5) return <XP1_5 size={20} />;
-    else if (xp === CONSTANTS.XP.xp2) return <XP2Icon size={20} />;
-    else if (xp === CONSTANTS.XP.xp3) return <XP3 size={20} />;
+    if (xp === CONSTANTS.XP.xp1_5) return <XP1_5_1 size={20} />;
+    else if (xp === CONSTANTS.XP.xp2) return <XP2Icon_1 size={20} />;
+    else if (xp === CONSTANTS.XP.xp3) return <XP3_1 size={20} />;
   };
 
   return (
