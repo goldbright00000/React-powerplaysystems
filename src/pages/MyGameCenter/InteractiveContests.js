@@ -180,6 +180,7 @@ const InteractiveContests = props => {
     const [filteredData, setFilteredData] = useState([]);
     const [viewResults, setViewResults] = useState(-1);
     const [balance, setBalance] = useState({});
+    const [finalStandingsModal, setFinalStandingsModal] = useState(-1);
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -217,12 +218,14 @@ const InteractiveContests = props => {
                     timeToStart={item.timeToStart}
                     showDetails={showCardDetails == item.id}
                     viewResults={viewResults == item.id}
+                    finalStandingsModal={finalStandingsModal == item.id}
                     onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
                     onBackClick={() => setShowCardDetails(-1)}
                     onNextClick={() => setShowCardDetails(-1)}
                     onViewResults={(cardId) => setViewResults(cardId)}
                     onViewResultsBack={() => setViewResults(-1)}
+                    onFinalStandings={(cardId) => setFinalStandingsModal(cardId)}
                 />
             </div>
         );
@@ -256,7 +259,7 @@ const InteractiveContests = props => {
                             }
                         </div>
                     </div>
-                    <div style={{ flex: 1, marginLeft: 380 }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
                         <CashPowerBalance 
                             cashBalance={balance.cashBalance}
                             powerBalance={balance.tokenBalance}

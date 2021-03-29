@@ -198,6 +198,7 @@
           flex: 1;
           flex-direction: column;
           align-items: flex-end;
+          margin-top: 30px;
 
           .__home_page_second_section_body_data {
             display: flex;
@@ -257,7 +258,9 @@
         }
 
         .__home_page_second_section_body_img {
-          margin-right: 50px;
+          display: flex;
+          flex: 1;
+          justify-content: center;
         }
       }
     }

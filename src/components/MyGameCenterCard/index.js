@@ -9,6 +9,8 @@ import PencilIcon from '../../assets/pencil_icon.png';
 import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
 import ViewResults from '../../pages/MyGameCenter/ViewResults';
+import Modal from '../../components/Modal';
+import FinalStandingsModal from './FinalStandingsModal';
 
 const MyGameCenterCard = (props) => {
     const {
@@ -26,12 +28,14 @@ const MyGameCenterCard = (props) => {
         makePicks = false,
         timeToStart = '',
         viewResults = false,
+        finalStandingsModal = false,
         onDetailsClick = () => { },
         onBackClick = () => { },
         onNextClick = () => { },
         onEnter = () => { },
         onViewResults = () => { },
-        onViewResultsBack = () => { }
+        onViewResultsBack = () => { },
+        onFinalStandings = () => { }
     } = props || {};
 
     const getBackgroundImageWithStyle = () => {
@@ -149,8 +153,8 @@ const MyGameCenterCard = (props) => {
                                     completed
                                     &&
                                     <OutlineButton
-                                        title="View Results"
-                                        onClick={() => onViewResults(id)}
+                                        title="Final Standings"
+                                        onClick={() => onFinalStandings(id)}
                                         styles={{marginTop: 14}}
                                     />
                                 }
@@ -176,14 +180,30 @@ const MyGameCenterCard = (props) => {
                                 }
                                 
                                 <div className={classes.__my_game_center_card_details}>
-                                    <div className={classes.__my_game_center_card_details_link} onClick={() => onDetailsClick(id)}>
-                                        Details
-                                </div>
+                                    {
+                                        completed
+                                        ?
+                                        <div className={classes.__my_game_center_card_details_link} onClick={() => onViewResults(id)}>
+                                            Winners
+                                        </div>
+                                        :
+                                        <div className={classes.__my_game_center_card_details_link} onClick={() => onDetailsClick(id)}>
+                                            Details
+                                        </div>
+                                    }  
                                     <div className={classes.__my_game_center_card_details_link_forward_arrow}>
                                         {">"}
                                     </div>
                                 </div>
                             </div>
+                            {
+                                finalStandingsModal
+                                &&
+                                <FinalStandingsModal 
+                                    isVisible={finalStandingsModal}
+                                    onClose={() => onFinalStandings(-1)}
+                                />
+                            }
                         </div>
                     :
                 <ViewResults 
