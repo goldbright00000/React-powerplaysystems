@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import './Header.scss';
 import logo from '../../assets/logo.png';
 import { resetAuth } from '../../actions/authActions';
+import {setUserBalance} from '../../actions/userActions';
 import { getLocalStorage, removeLocalStorage } from '../../utility/shared';
 import { CONSTANTS } from '../../utility/constants';
 
@@ -16,6 +17,7 @@ const Header = props => {
 
     const onLogout = () => {
         removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+        dispatch(setUserBalance({}));
         return dispatch(resetAuth())
     }
     

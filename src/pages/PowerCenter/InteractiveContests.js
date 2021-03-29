@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import classes from './interactiveContests.module.scss';
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
@@ -126,6 +127,9 @@ const InteractiveContests = props => {
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
 
+    const {userBalance} = useSelector((state) => state.user);
+
+    console.log(userBalance);
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
         responsiveHandler(maxWidth);
@@ -184,8 +188,14 @@ const InteractiveContests = props => {
                             }
                         </div>
                     </div>
-                    <div style={{ flex: 1, marginLeft: 380 }}>
-                        <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} />
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
+                        {
+                            Object.keys(userBalance).length
+                            ?
+                            <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} />
+                            :
+                            ''
+                        }
                     </div>
                 </div>
                 <div className={classes.__interactive_contests_filter}>

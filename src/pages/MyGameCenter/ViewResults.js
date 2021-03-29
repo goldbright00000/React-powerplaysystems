@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import TeamPointsModal from './TeamPointsModal';
 import classes from './viewResults.module.scss';
 
 const data = [
@@ -57,6 +58,7 @@ const data = [
 const ViewResults = (props) => {
     const {title = '', onViewResultsBack = () => {}} = props || {};
     const [isSelected, setIsSelected] = useState(-1);
+    const [teamPointsModal, setTeamPointsModal] = useState(false);
 
     const getSelectedColor = (id) => {
         return isSelected == id && '#fb6e00';
@@ -72,7 +74,7 @@ const ViewResults = (props) => {
                 <span className={classes.__view_results_header_hr + ' ' + classes.__view_results_header_hr_right}></span>
             </div>
             <div className={classes.__view_results_main_title}>
-                RESULTS
+                Final Standings
             </div>
             <p className={classes.__view_results_sub_title}>Prize Payouts</p>
             {
@@ -80,7 +82,10 @@ const ViewResults = (props) => {
                     return (
                         <div 
                             className={classes.__view_results_data}
-                            onClick={() => setIsSelected(item.id)}>
+                            onClick={() => {
+                                setIsSelected(item.id);
+                                setTeamPointsModal(!teamPointsModal);
+                            }}>
                             <div 
                                 className={classes.__view_results_data_number_div}>
                                 <p style={{color: getSelectedColor(item.id)}}>{item.id}</p>
@@ -106,6 +111,14 @@ const ViewResults = (props) => {
                     Back
                 </div>
             </div>
+            {
+                teamPointsModal
+                &&
+                <TeamPointsModal 
+                    isVisible={teamPointsModal}
+                    onClose={() => setTeamPointsModal(false)}
+                />
+            }
         </div>
     );
 };
