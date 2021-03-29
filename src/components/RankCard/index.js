@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./index.module.scss";
 import SidebarBtnIcon from "../../assets/nhl-sidebar-icon.png";
 import RankIcon from "../../icons/Rank";
 import { redirectTo, setNumberComma } from "../../utility/shared";
+import LiveStandings from "../LiveStandings";
 
 function RankCard(props) {
+  const [showModal, setModalState] = useState(false);
   const { showButton = true } = props || {};
+
+  const toggleLiveStandingModal = useCallback(() => {
+    setModalState(!showModal);
+  }, [showModal]);
 
   return (
     <div className={classes.sidebar_header}>
@@ -54,7 +60,7 @@ function RankCard(props) {
       </div>
 
       {showButton && (
-        <button onClick={() => redirectTo(props, { path: "/live-standings" })}>
+        <button onClick={toggleLiveStandingModal}>
           <img
             src={SidebarBtnIcon}
             width={19}
@@ -63,6 +69,8 @@ function RankCard(props) {
           See Full Standings
         </button>
       )}
+
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
     </div>
   );
 }

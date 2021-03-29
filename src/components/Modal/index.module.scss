@@ -6,9 +6,55 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 998;
+
+  .back_drop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 999;
+  }
+
+  .modal {
+    display: flex;
+    flex-direction: column;
+    min-width: 65%;
+    background-color: $lightBlack;
+    border-radius: 16px;
+    z-index: 1000;
+    max-height: 90vh;
+    // padding: 0 25px;
+  }
+
+  .header {
+    display: flex;
+    flex: 1;
+    position: relative;
+
+    p {
+      font-size: 25px;
+      margin: 0;
+      padding: 20px auto;
+    }
+
+    .close_icon {
+      display: flex;
+      margin: 0;
+      padding: 10px;
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      align-self: flex-end;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
 }

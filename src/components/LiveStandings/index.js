@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
 import classes from "./index.module.scss";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import Modal from "../Modal";
 import { setNumberComma } from "../../utility/shared";
-import SearchInput from "../../components/SearchInput";
+import SearchInput from "../SearchInput";
+import CloseIcon from "../../icons/Close";
 
 const dummyData = [
   {
     id: 1,
-    title: "john_house",
+    title: "john house",
     winnings: 20000,
   },
   {
@@ -64,14 +64,19 @@ const dummyData = [
 function LiveStandings(props) {
   const [filteredData, setFilteredData] = useState(dummyData);
 
+  const { visible = false, onClose = () => {} } = props || {};
+
   const onSearch = (e) => {
     const { value } = e?.target || {};
     if (!isEmpty(value)) {
-      const result = dummyData?.filter((data) =>
-        data?.title
-          ?.toLocaleLowerCase()
-          ?.includes(`${value}`?.toLocaleLowerCase())
-      );
+      const result = dummyData?.filter((data) => {
+        const [firstName, lastName] = `${data?.title}`.split(" ");
+        if (firstName && lastName) {
+          return firstName?.startsWith(value) || lastName?.startsWith(value);
+        }
+
+        return `${data?.title}`?.startsWith(value);
+      });
       setFilteredData(result);
     } else {
       setFilteredData(dummyData);
@@ -84,18 +89,18 @@ function LiveStandings(props) {
       <span>{title}</span>
       <span>${setNumberComma(winings)}</span>
       <span>
-        <button>View Team</button>
+        <button className={classes.button_btn}>View Team</button>
       </span>
     </div>
   );
 
   return (
-    <div className={classes.wrapper}>
-      <Header />
+    <Modal visible={visible} onClose={onClose} iconStyle={{ display: "none" }}>
       <div className={classes.container}>
+        <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div>
-            <p className={classes.header_p}>Page Title</p>
+            <p className={classes.header_p}>Live Standings</p>
             <span>Oct 24, 2020 | 8:00PM ET</span>
           </div>
 
@@ -118,7 +123,7 @@ function LiveStandings(props) {
             <div className={classes.table_header}>
               <span>Place</span>
               <span>Display name</span>
-              <span>Amount won</span>
+              <span>Currently Winning</span>
               <span>Action</span>
             </div>
 
@@ -136,11 +141,13 @@ function LiveStandings(props) {
           </div>
         </div>
       </div>
-      <Footer isBlack={true} />
-    </div>
+    </Modal>
   );
 }
 
-LiveStandings.propTypes = {};
+LiveStandings.propTypes = {
+  visible: PropTypes.bool,
+  onClose: PropTypes.func,
+};
 
 export default LiveStandings;
