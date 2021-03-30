@@ -150,6 +150,13 @@
         align-items: center;
       }
 
+      .states_text {
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: bold;
+        color: $grey;
+      }
+
       svg {
         margin: 35px 0 0 0;
       }
@@ -214,6 +221,11 @@
           width: 115px;
           margin: 0 8px 0 0;
 
+          > p {
+            @extend .states_text;
+            margin-top: 3px;
+          }
+
           > div {
             @extend .state_points_bg;
 
@@ -237,10 +249,8 @@
           }
 
           .states_xp_times {
-            font-family: Poppins;
-            font-size: 12px;
-            font-weight: bold;
-            color: $grey;
+            @extend .states_text;
+
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -509,7 +519,6 @@
             display: flex;
             flex-direction: row;
             color: $grey;
-            background-color: chocolate;
 
             span {
               display: flex;
