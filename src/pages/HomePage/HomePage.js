@@ -110,11 +110,13 @@ const HomePage = props => {
                             </div>
                         </div>
                     </div>
-                    <button 
-                        className={classes.__home_page_common_power_up_btn} 
-                        onClick={() => redirectTo(props, {path: '/power-up'})}>
-                        Power Up!
-                    </button>
+                    <div className={classes.__home_page_common_power_up_btn_div}>
+                        <button 
+                            className={classes.__home_page_common_power_up_btn} 
+                            onClick={() => redirectTo(props, {path: '/power-up'})}>
+                            Power Up!
+                        </button>
+                    </div>
                 </div>
             </div>
             <div className={classes.__home_page_second_section_bg}>
@@ -166,11 +168,13 @@ const HomePage = props => {
                             <img src={NFL} />
                         </div>
                     </div> 
-                    <button 
-                        className={classes.__home_page_common_power_up_btn}
-                        onClick={() => redirectTo(props, {path: '/power-up'})}>
-                        Power Up!
-                    </button>           
+                    <div className={classes.__home_page_common_power_up_btn_div}>
+                        <button 
+                            className={classes.__home_page_common_power_up_btn} 
+                            onClick={() => redirectTo(props, {path: '/power-up'})}>
+                            Power Up!
+                        </button>
+                    </div>          
                 </div>
             </div>
             <div className={classes.__home_page_third_section_bg}>

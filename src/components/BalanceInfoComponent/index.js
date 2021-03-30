@@ -30,11 +30,14 @@ const ListTitle = (Icon, isSvg, title) => (
 const ListHeader = (
   title,
   balance,
+  firstBtnTitle,
+  firstBtnOnClick,
   btnTitle,
   onClick,
   Icon,
   isSvg,
-  balanceType
+  balanceType,
+  minAmount
 ) => {
   return (
     <div className={classes.list_container}>
@@ -47,8 +50,13 @@ const ListHeader = (
       </div>
 
       <div className={classes.list_right_side}>
-        <Button title={btnTitle} onClick={onClick} />
-        <span>Min. Amount: $100</span>
+        <div className={classes.list_right_side_btns}>
+          <Button title={firstBtnTitle} onClick={firstBtnOnClick} />
+          <Button title={btnTitle} onClick={balance != 0 && onClick} styles={{opacity: 0 == 0 ? 0.5 : 1.0}}/>
+        </div>
+        <div className={classes.list_right_side_text}>
+          <span>{minAmount}</span>
+        </div>
       </div>
     </div>
   );
@@ -110,20 +118,26 @@ function BalanceInfoComponent(props) {
         {ListHeader(
           "My Cash Balance",
           balance.cashBalance,
+          "Deposit",
+          () => {},
           "Withdraw",
           changeModalState,
           Money,
           true,
-          "cash"
+          "cash",
+          "Min. Amount: $100"
         )}
         {ListHeader(
           "My Token Balance",
           balance.tokenBalance,
+          "Deposit",
+          () => {},
           "Transfer to Wallet",
           () => {},
           Token,
           false,
-          "token"
+          "token",
+          ""
         )}
       </div>
       <div className={classes.list_body}>
