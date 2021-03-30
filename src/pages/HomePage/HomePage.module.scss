@@ -3,24 +3,29 @@
 .__home_page {
   overflow-y: hidden;
 
-  .__home_page_common_power_up_btn {
-    width: 180px;
-    height: 48px;
-    margin: 10px 380px 10px 625.4px;
-    border-radius: 6px;
-    border-width: 0px;
-    background-color: $primary;
-    font-family: Teko;
-    font-size: 26px;
-    font-weight: 500;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: $black2;
-    outline: none;
-    cursor: pointer;
+  .__home_page_common_power_up_btn_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .__home_page_common_power_up_btn {
+      width: 180px;
+      height: 48px;
+      border-radius: 6px;
+      border-width: 0px;
+      background-color: $primary;
+      font-family: Teko;
+      font-size: 26px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: $black2;
+      outline: none;
+      cursor: pointer;
+    }
   }
 
   .__home_page_first_section_bg {
@@ -28,7 +33,8 @@
     background-size: 100%;
 
     .__home_page_first_section {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
       padding-top: 54px;
 
       .__home_page_first_section_main_heading {
@@ -152,7 +158,8 @@
     background-size: 100%;
 
     .__home_page_second_section {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
       padding-top: 143px;
 
       .__home_page_second_section_main_heading {
@@ -272,7 +279,8 @@
     background-size: 100%;
 
     .__home_page_third_section {
-      width: 100%;
+      display: flex;
+      flex-direction: column;
       padding-top: 143px;
 
       .__home_page_third_section_main_heading_div {
