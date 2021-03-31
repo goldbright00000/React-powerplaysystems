@@ -1,0 +1,139 @@
+@import "../../scss/colors.scss";
+
+:root {
+  --transition-speed: 200ms;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px auto;
+  background-color: $black2;
+  width: 290px;
+  padding: 15px 24px;
+  border-radius: 14px;
+
+  .header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin: 10px 20px 0 0;
+    position: relative;
+
+    p {
+      margin: 0;
+      padding: 0;
+      font-family: Teko;
+      font-size: 30px;
+      font-weight: 600;
+      color: $grey2;
+
+      span {
+        font-family: Teko;
+        font-size: 30px;
+        font-weight: 600;
+        color: $primary;
+        margin: 0 5px;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    .arrow {
+      display: inline-block;
+      border: solid $grey;
+      border-width: 0px 4px 4px 0px;
+      width: 15px;
+      height: 15px;
+      transform: rotate(45deg);
+      margin: 0 10px;
+      transition: all ease-in-out var(--transition-speed);
+      position: absolute;
+      right: 0;
+      bottom: 18px;
+
+      &.up {
+        transform: rotate(225deg);
+        margin: 0 10px;
+        transition: all ease-in-out var(--transition-speed);
+        position: absolute;
+        bottom: 12px;
+      }
+    }
+  }
+
+  .body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 5px 0;
+    height: 300px;
+    transition: all ease-in-out var(--transition-speed);
+    width: 100%;
+
+    svg {
+      margin: 0;
+      padding: 0;
+    }
+
+    &.collapse {
+      height: 0;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      transition: all ease-in-out var(--transition-speed);
+    }
+
+    .body_card {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 105px;
+      margin: 20px 0;
+      opacity: 1;
+      font-family: Teko;
+      font-size: 15px;
+      font-weight: 500;
+
+      span {
+        display: flex;
+        justify-content: center;
+        background-color: $lightBlue4;
+        min-width: 40px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 10px;
+        transform: translate(30px, 15px);
+      }
+
+      p {
+        margin: 4px 0 0 0;
+        padding: 0;
+      }
+    }
+
+    button {
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 10px auto;
+      line-height: 10px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+      color: $lightBlue;
+      border-bottom: 1px solid $lightBlue;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
