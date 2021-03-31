@@ -421,7 +421,7 @@ function MLBPowerdFs() {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar>
+            <Sidebar styles={{ width: "357px" }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
