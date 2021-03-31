@@ -17,6 +17,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         injured: true,
+        position: "sp",
         steps: [
           {
             titles: ["ERA", "W-L", "k", "whip", "fppg"],
@@ -56,6 +57,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         isStarPlayer: true,
+        position: "if",
         steps: [
           {
             titles: ["ERA", "W-L", "k", "whip", "fppg"],
@@ -94,6 +96,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "if",
         steps: [
           {
             titles: ["ERA", "W-L", "k", "whip", "fppg"],
@@ -132,6 +135,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "of",
       },
     ],
   },
@@ -147,6 +151,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "sp",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -186,6 +191,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         isStarPlayer: true,
+        position: "if",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -224,6 +230,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "of",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -262,6 +269,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "c",
       },
     ],
   },
@@ -277,25 +285,26 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "sp",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
             step: [21, 18, 13, 20.0],
           },
           {
-            titles: ["gp", "g", "a", "fppg"],
+            titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
             step: [
               {
                 title: "last game",
-                values: [1, 0, 0, 14.8],
+                values: [1, 0, 0, 3, 1.4, 14.8],
               },
               {
                 title: "last 10 games",
-                values: [10, 8, 9, 18.8],
+                values: [10, 8, 0.9, 1, 9, 18.8],
               },
               {
                 title: "2020-2021",
-                values: [1, 0, 0, 14.8],
+                values: [1, 0, 1, 2, 0, 14.8],
               },
             ],
           },
@@ -316,25 +325,26 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         isStarPlayer: true,
+        position: "ss",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
             step: [21, 18, 13, 20.0],
           },
           {
-            titles: ["gp", "g", "a", "fppg"],
+            titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
             step: [
               {
                 title: "last game",
-                values: [1, 0, 0, 14.8],
+                values: [1, 0, 0, 3, 1.4, 14.8],
               },
               {
                 title: "last 10 games",
-                values: [10, 8, 9, 18.8],
+                values: [10, 8, 0.9, 1, 9, 18.8],
               },
               {
                 title: "2020-2021",
-                values: [1, 0, 0, 14.8],
+                values: [1, 0, 1, 2, 0, 14.8],
               },
             ],
           },
@@ -354,6 +364,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "if",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -392,6 +403,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "of",
       },
     ],
   },
@@ -407,6 +419,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "sp",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -446,6 +459,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         isStarPlayer: true,
+        position: "of",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -484,6 +498,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "if",
         steps: [
           {
             titles: ["avg", "hr", "rbi", "fppg"],
@@ -522,6 +537,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "of",
       },
     ],
   },
@@ -537,10 +553,11 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "d",
         steps: [
           {
-            titles: ["ERA", "W-L", "k", "whip", "fppg"],
-            step: [21, 18, 13, 31, 20.0],
+            titles: ["avg", "hr", "rbi", "fppg"],
+            step: [21, 18, 13, 20.0],
           },
           {
             titles: ["ERA", "W-L", "k", "whip", "fppg"],
@@ -576,6 +593,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         isStarPlayer: true,
+        position: "sp",
         steps: [
           {
             titles: ["ERA", "W-L", "k", "whip", "fppg"],
@@ -614,6 +632,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "if",
         steps: [
           {
             titles: ["ERA", "W-L", "k", "whip", "fppg"],
@@ -652,6 +671,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "of",
       },
     ],
   },
@@ -667,6 +687,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "sp",
         steps: [
           {
             titles: ["gp", "g", "a", "pts", "fppg"],
@@ -706,6 +727,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Empower Field",
         isStarPlayer: true,
+        position: "if",
         steps: [
           {
             titles: ["gp", "g", "a", "pts", "fppg"],
@@ -744,6 +766,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "of",
         steps: [
           {
             titles: ["gp", "g", "a", "pts", "fppg"],
@@ -782,6 +805,7 @@ export const dummyData = [
         time: "01:10 PM",
         date: "2020-09-28",
         stadium: "Empower Field",
+        position: "d",
       },
     ],
   },
