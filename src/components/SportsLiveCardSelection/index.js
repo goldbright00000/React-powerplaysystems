@@ -480,11 +480,7 @@ function SportsLiveCardSelection(props) {
         />
       )}
 
-      <Modal
-        style={{ width: "70%", margin: "0 auto" }}
-        visible={showReplaceModal}
-        iconStyle={{ display: "none" }}
-      >
+      <Modal visible={showReplaceModal}>
         <div className={classes.modal_container}>
           <Card styles={{ background: "#202124" }}>
             <div className={classes.modal_header}>
