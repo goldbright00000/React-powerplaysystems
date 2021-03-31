@@ -294,16 +294,23 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 125px;
-    height: 22px;
-    font-size: 13px;
-    text-transform: uppercase;
-    font-weight: 550;
-    color: $darkblack;
+    width: 130px;
+    height: 16px;
+    line-height: 16px;
     position: absolute;
-    font-family: Teko;
     transform: translate(-18px, -18px);
     box-shadow: 0 0px 8px 4px $black;
+
+    p {
+      font-size: 13px;
+      text-align: center;
+      text-transform: uppercase;
+      font-weight: 550;
+      color: $darkblack;
+      font-family: Teko;
+      margin: 3px 0 0 0;
+      padding: 0;
+    }
 
     img {
       width: 15px;

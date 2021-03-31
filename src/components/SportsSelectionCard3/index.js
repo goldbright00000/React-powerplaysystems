@@ -54,7 +54,7 @@ function SportsSelectionCard3(props) {
       {isStarPlayer && (
         <span className={classes.container_body_card_start_power}>
           {" "}
-          <img src={PowerPlayIcon} /> Star Power{" "}
+          <img src={PowerPlayIcon} /> <p>Star Power</p>
         </span>
       )}
       <div className={classes.container_body_card_header}>
