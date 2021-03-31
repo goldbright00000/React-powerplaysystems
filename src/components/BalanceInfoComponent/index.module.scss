@@ -36,14 +36,29 @@ p {
       justify-content: center;
       align-items: center;
 
-      span {
-        font-size: 14px;
+      .list_right_side_btns {
+        > :first-child {
+          width: 134px;
+          height: 48px;
+          margin: 0 10px 0 0;
+        }
+      }
+
+      .list_right_side_text {
+        display: flex;
+        width: 85%;
+        justify-content: flex-end;
+
+        span {
+          font-size: 14px;
+        }
       }
 
       button {
         width: 190px;
         height: 48px;
         box-shadow: 0 3px 27px -2px $primaryLight3;
+        border-radius: 12px;
       }
     }
   }
