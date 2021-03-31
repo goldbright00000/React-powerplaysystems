@@ -53,7 +53,7 @@ function SportsSelectionCard3(props) {
     <div className={classes.container_body_card}>
       {isStarPlayer && (
         <span className={classes.container_body_card_start_power}>
-          <StarIcon solidColor="#000" /> <p>Star Power</p>
+          <StarIcon solidcolor="#000" /> <p>Star Power</p>
         </span>
       )}
       <div className={classes.container_body_card_header}>
@@ -182,7 +182,8 @@ function SportsSelectionCard3(props) {
         {currentStep === 0 && (
           <div className={classes.card_footer_left}>
             <p>
-              <span className={classes.teamA}>{teamA}</span> VS {teamB}
+              <span className={classes.teamA}>{teamA}</span> VS{" "}
+              <span className={classes.teamB}>{teamB}</span>
             </p>
 
             <div className={classes.divider}></div>

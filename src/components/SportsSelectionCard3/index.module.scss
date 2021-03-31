@@ -117,6 +117,13 @@
     .teamA {
       font-size: 14px;
     }
+
+    .teamB {
+      color: $grey2;
+      font-size: 14px;
+      font-weight: normal;
+      opacity: 0.8;
+    }
   }
 
   .card_state_main_container {
@@ -150,8 +157,7 @@
     }
 
     .container_body_card_state {
-      margin: 20px 0 4px 0;
-      width: 70%;
+      margin: 8px 0 0 0;
 
       &.border {
         border-left: 3px solid $lightBlue;
@@ -168,7 +174,7 @@
       .card_state {
         display: flex;
         flex-direction: column;
-        justify-content: space-evenly;
+        // justify-content: space-evenly;
 
         .card_state_title {
           display: flex;
@@ -181,7 +187,7 @@
             text-transform: uppercase;
             opacity: 0.6;
             text-align: center;
-            flex: 1;
+            width: 45px;
           }
 
           .state_step_1_title {
@@ -206,7 +212,6 @@
 
           .step_value_1 {
             flex: 1;
-            margin: 0 10px;
             display: flex;
             flex-direction: row;
 
@@ -221,9 +226,9 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            flex: 1;
+            // flex: 1;
             text-align: center;
-            margin: 0 10px;
+            width: 45px;
 
             .state_step_1_value {
               font-weight: normal;

@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function StarIcon(props) {
+  console.log(props?.solidcolor);
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +10,6 @@ function StarIcon(props) {
       height={props?.size - 1 || "13"}
       viewBox="0 0 14 13"
       style={{ height: "auto" }}
-      {...props}
     >
       <defs>
         <linearGradient
@@ -19,8 +19,8 @@ function StarIcon(props) {
           y1="39.758%"
           y2="84.553%"
         >
-          <stop offset="0%" stopColor={props?.solidColor || "#FA3800"} />
-          <stop offset="100%" stopColor={props?.solidColor || "#FB6E00"} />
+          <stop offset="0%" stopColor={props?.solidcolor || "#FA3800"} />
+          <stop offset="100%" stopColor={props?.solidcolor || "#FB6E00"} />
         </linearGradient>
       </defs>
       <g fill="none" fillRule="evenodd">
@@ -45,7 +45,7 @@ function StarIcon(props) {
 
 StarIcon.propTypes = {
   size: PropTypes.number,
-  solidColor: PropTypes.string,
+  solidcolor: PropTypes.string,
 };
 
 export default StarIcon;
