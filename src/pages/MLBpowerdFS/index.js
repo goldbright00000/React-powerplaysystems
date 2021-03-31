@@ -4,9 +4,8 @@ import { isEmpty, isEqual } from "lodash";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Header3 from "../../components/Header3";
+import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/baseball.jpg";
-import SearchIcon from "../../icons/SearchIcon";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -17,13 +16,16 @@ import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
 import Circle from "../../icons/CircleEmpty";
 import SportsSidebarContent from "../../components/SportsSidebarContent";
-import SelectionCard from "../../components/SportsSelectionCard";
+import SelectionCard3 from "../../components/SportsSelectionCard3";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
 import CheckIcon from "../../icons/Check";
 import SelectionCard2 from "../../components/SportsSelectionCard2";
+import Search from "../../components/SearchInput";
+import PowerCollapesible from "../../components/PowerCollapesible";
 import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
+import StarIcon from "../../icons/Star";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -114,8 +116,14 @@ const FILTERS_INITIAL_VALUES = [
 
 let starPowerIndex = 0;
 
+const dropDown = [
+  { title: "Team A" },
+  { title: "Team B" },
+  { title: "Team C" },
+  { title: "Team D" },
+];
+
 function MLBPowerdFs() {
-  const [showTeamSelection, setTeamSelectionState] = useState(false);
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -124,8 +132,8 @@ function MLBPowerdFs() {
   const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST);
   const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
   const [selectedData, setSelectedData] = useState(dummyData[0]);
-  const [search, setSearch] = useState("");
   const [filterdData, setFilterdData] = useState(dummyData[0]);
+  const [selectedDropDown, setSelectedDropDown] = useState();
 
   const onSelectDeselect = useCallback(
     (id) => {
@@ -252,19 +260,28 @@ function MLBPowerdFs() {
     } else {
       setFilterdData(selectedData);
     }
+  };
 
-    setSearch(value);
+  const onSelectSearchDropDown = (item) => {
+    if (item === selectedDropDown) return setSelectedDropDown(null);
+
+    setSelectedDropDown(item);
   };
 
   return (
     <>
       <Header />
       <div className={classes.wrapper}>
-        <Header3
+        <Header4
           titleMain1="MLB 2021"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
-          subHeader2="Play for your chance to win $1000!"
+          subHeader2={
+            <>
+              Use your <span>Powers</span> during the live game to drive your
+              team up the standings
+            </>
+          }
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={BaseballImage}
@@ -287,89 +304,66 @@ function MLBPowerdFs() {
                   selectedFilter={selectedFilter}
                 />
 
-                <form className={classes.search_form}>
-                  <span>
-                    <SearchIcon />
-                    <input
-                      value={search}
-                      placeholder="Search by Player name ..."
-                      name="playerSearch"
-                      required
-                      onChange={onSearch}
-                    />
-                  </span>
-
-                  <div
-                    className={classes.search_dropdown}
-                    onClick={() => setTeamSelectionState(!showTeamSelection)}
-                  >
-                    All Team{" "}
-                    <span
-                      className={`${classes.arrow} 
-                                            ${
-                                              showTeamSelection
-                                                ? classes.up
-                                                : classes.down
-                                            }`}
-                    />
-                    {showTeamSelection && (
-                      <div
-                        className={classes.search_dropdown_menu}
-                        onMouseLeave={() => setTeamSelectionState(false)}
-                      >
-                        <span>Team A</span>
-                        <span className={classes.active}>Team A</span>
-                        <span>Team A</span>
-                        <span>Team A</span>
-                      </div>
-                    )}
-                  </div>
-                </form>
+                <Search
+                  onSearch={onSearch}
+                  onSelect={onSelectSearchDropDown}
+                  dropDown={dropDown}
+                  selected={selectedDropDown}
+                />
               </div>
             </div>
 
             <div className={classes.container_body}>
               <Card>
-                {filterdData && filterdData?.data?.length ? (
-                  filterdData?.data?.map((item, index) =>
-                    selectedFilter?.title === D ? (
-                      <SelectionCard2
-                        title={item.title}
-                        avgVal={item.avgVal}
-                        teamA={item.teamA}
-                        teamB={item.teamB}
-                        time={item.time}
-                        date={item.date}
-                        stadium={item.stadium}
-                        isSelected={!!selected.get(item.id)}
-                        key={item.id}
-                        onSelectDeselect={onSelectDeselect}
-                        id={item.id}
-                        steps={item?.steps && item?.steps}
-                        isStarPlayer={item.isStarPlayer && item.isStarPlayer}
-                        disabled={
-                          item.isStarPlayer &&
-                          item.isStarPlayer &&
-                          starPowerIndex >= 3
-                        }
-                      />
-                    ) : (
-                      <SelectionCard
-                        item={item}
-                        isSelected={!!selected.get(item.id)}
-                        key={item.id}
-                        onSelectDeselect={onSelectDeselect}
-                        // disabled={
-                        //   item.isStarPlayer &&
-                        //   item.isStarPlayer &&
-                        //   starPlayerCount >= 3
-                        // }
-                      />
+                <div className={classes.card_header}>
+                  <p>
+                    Select 1 Team Defense, Goals against result in negative
+                    points for your team.
+                  </p>
+                </div>
+
+                <div className={classes.card_body}>
+                  {filterdData && filterdData?.data?.length ? (
+                    filterdData?.data?.map((item, index) =>
+                      selectedFilter?.title === D ? (
+                        <SelectionCard2
+                          title={item.title}
+                          avgVal={item.avgVal}
+                          teamA={item.teamA}
+                          teamB={item.teamB}
+                          time={item.time}
+                          date={item.date}
+                          stadium={item.stadium}
+                          isSelected={!!selected.get(item.id)}
+                          key={item.id}
+                          onSelectDeselect={onSelectDeselect}
+                          id={item.id}
+                          steps={item?.steps && item?.steps}
+                          isStarPlayer={item.isStarPlayer && item.isStarPlayer}
+                          disabled={
+                            item.isStarPlayer &&
+                            item.isStarPlayer &&
+                            starPowerIndex >= 3
+                          }
+                        />
+                      ) : (
+                        <SelectionCard3
+                          item={item}
+                          isSelected={!!selected.get(item.id)}
+                          key={item.id}
+                          onSelectDeselect={onSelectDeselect}
+                          // disabled={
+                          //   item.isStarPlayer &&
+                          //   item.isStarPlayer &&
+                          //   starPlayerCount >= 3
+                          // }
+                        />
+                      )
                     )
-                  )
-                ) : (
-                  <>No Data</>
-                )}
+                  ) : (
+                    <p>No Data</p>
+                  )}
+                </div>
               </Card>
             </div>
 
@@ -426,12 +420,28 @@ function MLBPowerdFs() {
 
           <div className={classes.sidebar_container}>
             <Sidebar>
-              <CashPowerBalance />
+              <CashPowerBalance
+                showIcons={false}
+                powerBalance={50000}
+                cashBalance={200000}
+                styles={{
+                  width: "100%",
+                }}
+                cashTitle="Prize Pool"
+                powerTitle="Top Prize"
+                centered
+              />
+              <PowerCollapesible />
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>
                 <div className={classes.sidebar_header_1}>
-                  <img src={PowerPlayIcon} />
-                  <p>0/3 Star Power Players Selected</p>
+                  <p>
+                    <span>
+                      <StarIcon size={16} />
+                      Star Power
+                    </span>{" "}
+                    players selected
+                  </p>
                 </div>
                 <div className={classes.sidebar_circles}>
                   {selectedStarPowers?.map((isSelected, index) =>
