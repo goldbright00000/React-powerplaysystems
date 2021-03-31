@@ -15,6 +15,7 @@
 
         .__learn_more_modal_header_title {
             display: flex;
+            flex: 1;
             align-items: center;
             margin-left: 30px;
             font-family: Teko;
@@ -25,6 +26,14 @@
             line-height: normal;
             letter-spacing: 0.12px;
             color: $grey2;
+        }
+
+        .__learn_more_modal_close_icon {
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+            align-items: center;
+            margin-right: 30px;
         }
     }
 

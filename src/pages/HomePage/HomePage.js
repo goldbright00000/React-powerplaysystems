@@ -58,9 +58,11 @@ const HomePage = props => {
                         <span>PowerdFS </span>
                         Live-Play Fantasy Sports Platform
                     </div>
-                    <p className={classes.__home_page_first_section_sub_heading}>
-                        We are disrupting the ‘Pick and Wait’ Fantasy format with our patent pending live sports platform
-                    </p>
+                    <div className={classes.__home_page_first_section_sub_heading_div}>
+                        <p className={classes.__home_page_first_section_sub_heading}>
+                            We are disrupting the ‘Pick and Wait’ Fantasy format with our patent pending live sports platform
+                        </p>
+                    </div>
                     <div className={classes.__home_page_first_section_main}>
                         <div className={classes.__home_page_first_section_cell_phones}>
                             <img src={CellPhones} />

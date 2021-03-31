@@ -55,19 +55,24 @@
         }
       }
 
-      .__home_page_first_section_sub_heading {
-        width: 430px;
-        height: 44px;
-        margin: 26px 255px 0 500.4px;
-        font-family: Poppins;
-        font-size: 14px;
-        font-weight: 300;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.57;
-        letter-spacing: 0.5px;
-        text-align: center;
-        color: $grey2;
+      .__home_page_first_section_sub_heading_div {
+        display: flex;
+        justify-content: center;
+        margin-top: 26px;
+
+        .__home_page_first_section_sub_heading {
+          width: 430px;
+          height: 44px;
+          font-family: Poppins;
+          font-size: 14px;
+          font-weight: 300;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.57;
+          letter-spacing: 0.5px;
+          text-align: center;
+          color: $grey2;
+        }
       }
 
       .__home_page_first_section_main {

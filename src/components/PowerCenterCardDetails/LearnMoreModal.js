@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import classes from './learnMoreModal.module.scss';
-import { Modal } from 'react-responsive-modal';
+import Modal from '../../components/Modal';
 import CloseIcon from '../../assets/close-white-icon.png';
 import PointMultipliersMain from '../../assets/point-multipliers-main.png';
 import PlayerSwapsMain from '../../assets/player-swaps-main.png';
@@ -25,10 +25,6 @@ const LearnMoreModal = (props) => {
     const [videoReview, setVideoReview] = useState(false);
     const [dWall, setDwall] = useState(false);
     const [lightIcons, setLightIcons] = useState([PlayerSwapsLight, VideoReviewLight, DWallLight]);
-    
-    const closeIcon = (
-        <img src={CloseIcon} width="20" height="20" />
-    );
 
     const getMainIcon = () => {
         if (pointMultiplier) {
@@ -147,19 +143,22 @@ const LearnMoreModal = (props) => {
     };
 
     return (
-        <Modal 
-            open={learnMoreModal} 
-            onClose={onCloseModal} 
-            center 
-            focusTrapped={false}
-            closeIcon={closeIcon}
-            styles={{modal: {backgroundColor: 'transparent' }, closeButton: {top: 50, right: 40}}}>
+        <Modal visible={learnMoreModal}>
             <div 
                 className={classes.__learn_more_modal} 
                 style={{height: pointMultiplier && title === 'NFL' ? 446 : 376}}>
                 <div className={classes.__learn_more_modal_header}>
                     <div className={classes.__learn_more_modal_header_title}>
                         {modalTitle}
+                    </div>
+                    <div className={classes.__learn_more_modal_close_icon}>
+                        <img 
+                            src={CloseIcon}
+                            width="20" 
+                            height="20" 
+                            onClick={() => onCloseModal()} 
+                            style={{cursor: 'pointer'}} 
+                        />
                     </div>
                 </div>
                 <div className={classes.__learn_more_modal_body}>
