@@ -7,7 +7,7 @@ import CalenderIcon from "../../icons/Calendar2";
 import StadiumIcon from "../../icons/Stadium2";
 import Tick2 from "../../icons/Tick2";
 import DeleteIcon from "../../assets/delete.png";
-import PowerPlayIcon from "../../assets/token.png";
+import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
 
@@ -53,8 +53,7 @@ function SportsSelectionCard3(props) {
     <div className={classes.container_body_card}>
       {isStarPlayer && (
         <span className={classes.container_body_card_start_power}>
-          {" "}
-          <img src={PowerPlayIcon} /> <p>Star Power</p>
+          <StarIcon solidColor="#000" /> <p>Star Power</p>
         </span>
       )}
       <div className={classes.container_body_card_header}>

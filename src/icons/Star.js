@@ -19,11 +19,11 @@ function StarIcon(props) {
           y1="39.758%"
           y2="84.553%"
         >
-          <stop offset="0%" stop-color="#FA3800" />
-          <stop offset="100%" stop-color="#FB6E00" />
+          <stop offset="0%" stopColor={props?.solidColor || "#FA3800"} />
+          <stop offset="100%" stopColor={props?.solidColor || "#FB6E00"} />
         </linearGradient>
       </defs>
-      <g fill="none" fill-rule="evenodd">
+      <g fill="none" fillRule="evenodd">
         <g fill="url(#y7hhh09t3a)" transform="translate(-1139 -1258)">
           <g>
             <g>
@@ -45,6 +45,7 @@ function StarIcon(props) {
 
 StarIcon.propTypes = {
   size: PropTypes.number,
+  solidColor: PropTypes.string,
 };
 
 export default StarIcon;
