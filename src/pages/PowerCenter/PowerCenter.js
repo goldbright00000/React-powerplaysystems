@@ -7,14 +7,63 @@ import './table.scss';
 import Footer from '../../components/Footer/Footer'
 import InteractiveContests from './InteractiveContests';
 import PowerPlayIcon from '../../assets/powerplay-icon.png';
+import PowerCenterBannerTitleIcon from '../../assets/power-center-banner-title-icon.png';
+import PowerBalanceGrey from '../../assets/power-balance-grey.png';
+import CashBalanceGrey from '../../assets/cash-balance-grey.png';
 
 const PowerCenter = props => {
     const { url } = props.match;
     return (
         <Fragment>
             <Header isStick={true} />
-            <div className='__PowerCenter'>
-                <div className='__viewport-large-title __center __pt-1'>Power Center</div>
+            <div className='__power_center'>
+                <div className='__power_center_banner'>
+                    <div className='__power_center_banner_left __container'>
+                        <div className='__power_center_banner_left_icon'>
+                            <img src={PowerCenterBannerTitleIcon} />
+                        </div>
+                        <div className='__power_center_banner_left_title'>
+                            <div className='__power_center_banner_left_title_main'>
+                                Power Center
+                            </div>
+                            <div className='__power_center_banner_left_title_sub'>
+                                Welcome to the worlds first Live-Play Fantasy Sports platform
+                            </div>
+                        </div>
+                    </div>
+                    <div className='__power_center_banner_footer'>
+                        <div className='__power_center_banner_footer_deposit'>
+                            Deposit
+                        </div>
+                        <div className='__power_center_banner_footer_cash_and_balance_outer border_right'>
+                            <div className='__power_center_banner_footer_cash_and_balance_icon'>
+                                <img src={PowerBalanceGrey} />
+                            </div>
+                            <div className='__power_center_banner_footer_cash_and_balance_inner'>
+                                <div className='__power_center_banner_footer_power_and_cash_balance'>
+                                    15,000
+                                </div>
+                                <div className='__power_center_banner_footer_power_and_cash_balance_title'>
+                                    Power Balance
+                                </div>
+                            </div>
+                        </div>
+                        <div className='__power_center_banner_footer_cash_and_balance_outer'>
+                            <div className='__power_center_banner_footer_cash_and_balance_icon'>
+                                <img src={CashBalanceGrey} />
+                            </div>
+                            <div className='__power_center_banner_footer_cash_and_balance_inner'>
+                                <div className='__power_center_banner_footer_power_and_cash_balance'>
+                                    $36
+                                </div>
+                                <div className='__power_center_banner_footer_power_and_cash_balance_title'>
+                                    Cash Balance
+                                </div>
+                            </div>
+                        </div>
+                        <div style={{width: 80}} />
+                    </div>
+                </div>
                 {/* <div className='__flex __power-center-links __mb-5'>
                     <NavLink exact to={`${url}`} className='__f1 __block __right __relative'>
                         <span className='__block'>Live-Play Fantasy Sports</span>
