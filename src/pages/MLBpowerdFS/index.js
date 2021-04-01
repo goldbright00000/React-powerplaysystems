@@ -26,6 +26,7 @@ import PowerCollapesible from "../../components/PowerCollapesible";
 import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import StarIcon from "../../icons/Star";
+import AcceleRadar from "../../assets/partners/acceleradar.png";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -365,6 +366,7 @@ function MLBPowerdFs() {
                   )}
                 </div>
               </Card>
+              <img src={AcceleRadar} className={classes.partner_logo} />
             </div>
 
             <div className={classes.container_footer}>
@@ -419,7 +421,7 @@ function MLBPowerdFs() {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar>
+            <Sidebar styles={{ width: "357px" }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
