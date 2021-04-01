@@ -11,6 +11,8 @@
     grid-template-columns: auto auto auto;
     justify-content: space-around;
     grid-gap: 1em;
+    width: 60%;
+    margin: auto;
     > div {
       font-weight: 300 !important;
     }

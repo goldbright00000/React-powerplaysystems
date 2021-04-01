@@ -7,7 +7,7 @@ import CalenderIcon from "../../icons/Calendar2";
 import StadiumIcon from "../../icons/Stadium2";
 import Tick2 from "../../icons/Tick2";
 import DeleteIcon from "../../assets/delete.png";
-import PowerPlayIcon from "../../assets/token.png";
+import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
 
@@ -53,8 +53,7 @@ function SportsSelectionCard3(props) {
     <div className={classes.container_body_card}>
       {isStarPlayer && (
         <span className={classes.container_body_card_start_power}>
-          {" "}
-          <img src={PowerPlayIcon} /> Star Power{" "}
+          <StarIcon solidcolor="#000" /> <p>Star Power</p>
         </span>
       )}
       <div className={classes.container_body_card_header}>
@@ -183,7 +182,8 @@ function SportsSelectionCard3(props) {
         {currentStep === 0 && (
           <div className={classes.card_footer_left}>
             <p>
-              <span className={classes.teamA}>{teamA}</span> VS {teamB}
+              <span className={classes.teamA}>{teamA}</span> VS{" "}
+              <span className={classes.teamB}>{teamB}</span>
             </p>
 
             <div className={classes.divider}></div>

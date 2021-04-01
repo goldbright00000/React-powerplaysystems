@@ -8,7 +8,7 @@ import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
 
 function PowerCollapesible(props) {
-  const [collapsed, setCollapseState] = useState(false);
+  const [collapsed, setCollapseState] = useState(true);
 
   const { styles = {} } = props || {};
 
