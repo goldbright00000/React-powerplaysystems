@@ -3,9 +3,10 @@
 .container_body_card {
   background-color: $lightBlack;
   border-radius: 5px;
-  padding: 17px 16px;
+  padding: 6px 16px;
   box-shadow: 0 8px 25px 0 $lightBlack7;
   width: 463px;
+  height: 172px;
   margin: 10px 0px;
   position: relative;
   overflow: hidden;
@@ -281,7 +282,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      align-self: flex-end;
+      bottom: 15px;
+      right: 12px;
       opacity: 1;
+      position: absolute;
     }
   }
   .divider {
