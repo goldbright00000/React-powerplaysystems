@@ -1,6 +1,6 @@
 @import "../../scss/colors.scss";
 
-.__PowerCenter {
+.__MyGameCenter {
   .__viewport-large-title {
     padding: 0.2em;
     background-image: url("../../assets/PowerContest.jpg");
@@ -10,7 +10,7 @@
 }
 
 @media (min-width: 900px) {
-  .__PowerCenter {
+  .__MyGameCenter {
     .__power-center-links {
       overflow: hidden;
       background-color: rgba(17, 17, 17, 0.3);
@@ -45,7 +45,7 @@
   }
 }
 @media (max-width: 899px) {
-  .__PowerCenter {
+  .__MyGameCenter {
     .__power-center-links {
       margin: 5em 1em;
       justify-content: space-around;
@@ -67,7 +67,7 @@
 }
 
 @media (max-width: 540px) {
-  .__PowerCenter {
+  .__MyGameCenter {
     .__power-center-links {
       margin: 3em 1em;
       a {

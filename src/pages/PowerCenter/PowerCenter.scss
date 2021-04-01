@@ -1,11 +1,125 @@
 @import '../../scss/colors.scss';
 
-.__PowerCenter{
-    .__viewport-large-title{
-        padding: 0.2em;
-        background-image: url('../../assets/PowerContest.jpg');
+.__power_center {
+    .__power_center_banner {
+        background-image: url('../../assets/power-center-banner.png');
         background-size: 100% auto;
         background-position: center;
+
+        .__power_center_banner_left {
+            display: flex;
+            flex-direction: row;
+
+            .__power_center_banner_left_icon {
+                display: inherit;
+                align-items: flex-end;
+            }
+
+            .__power_center_banner_left_title {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+
+                .__power_center_banner_left_title_main {
+                    width: 502px;
+                    height: 96px;
+                    font-family: Teko;
+                    font-size: 96px;
+                    font-weight: bold;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    text-align: center;
+                    color: $grey2;
+                }
+
+                .__power_center_banner_left_title_sub {
+                    height: 23px;
+                    font-family: Poppins;
+                    font-size: 16px;
+                    font-weight: 500;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: 0.2px;
+                    color: $primary;
+                }
+            }
+        }
+
+        .__power_center_banner_footer {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            height: 50px;
+            margin-top: 60px;
+            background-color: $black5;
+
+            .__power_center_banner_footer_deposit {
+                display: flex;
+                width: 10%;
+                justify-content: center;
+                align-items: center;
+                font-family: Teko;
+                font-size: 22px;
+                font-weight: 600;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $grey2;
+                border-right: 1px solid $grey;
+            }
+
+            .__power_center_banner_footer_cash_and_balance_outer {
+                display: flex;
+                width: 12%;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .border_right {
+                border-right: 1px solid $grey;
+
+            }
+
+            .__power_center_banner_footer_cash_and_balance_icon {
+                margin-top: 4px;
+            }
+
+            .__power_center_banner_footer_cash_and_balance_inner {
+                margin-left: 7px;
+
+                .__power_center_banner_footer_power_and_cash_balance {
+                    width: 52px;
+                    height: 23px;
+                    font-family: Teko;
+                    font-size: 22px;
+                    font-weight: 600;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
+                }
+    
+                .__power_center_banner_footer_power_and_cash_balance_title {
+                    width: 89px;
+                    height: 17px;
+                    opacity: 0.6;
+                    font-family: Poppins;
+                    font-size: 12px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    color: $white;
+                }
+            }
+        }
     }
 }
 
