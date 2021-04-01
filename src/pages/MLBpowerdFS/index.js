@@ -27,6 +27,7 @@ import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import StarIcon from "../../icons/Star";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
+import StarImg from "../../assets/star.png";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -44,31 +45,37 @@ const INITIAL_PLAYER_LIST = [
     playerId: "",
   },
   {
-    title: C,
-    value: "",
-    filter: C,
-    playerId: "",
-  },
-  {
     title: SS,
     value: "",
     filter: SS,
     playerId: "",
   },
   {
-    title: SS,
-    value: "",
-    filter: SS,
-    playerId: "",
-  },
-  {
-    title: XB,
+    title: `${XB}1`,
     value: "",
     filter: XB,
     playerId: "",
   },
   {
-    title: OF,
+    title: `${XB}2`,
+    value: "",
+    filter: XB,
+    playerId: "",
+  },
+  {
+    title: `${XB}3`,
+    value: "",
+    filter: XB,
+    playerId: "",
+  },
+  {
+    title: `${OF}1`,
+    value: "",
+    filter: OF,
+    playerId: "",
+  },
+  {
+    title: `${OF}2`,
     value: "",
     filter: OF,
     playerId: "",
@@ -101,7 +108,7 @@ const FILTERS_INITIAL_VALUES = [
   {
     id: 4,
     title: XB,
-    remaining: 2,
+    remaining: 3,
   },
   {
     id: 5,
@@ -439,7 +446,7 @@ function MLBPowerdFs() {
                 <div className={classes.sidebar_header_1}>
                   <p>
                     <span>
-                      <StarIcon size={16} />
+                      <img src={StarImg} className={classes.smallImg} />
                       Star Power
                     </span>{" "}
                     players selected

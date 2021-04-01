@@ -284,9 +284,10 @@
           align-items: center;
 
           img {
-            width: 25px;
-            height: 25px;
-            margin-right: 6px;
+            width: 14px;
+            height: 14px;
+            margin: 0 4px 0 0;
+            transform: translateY(1px);
           }
 
           p {

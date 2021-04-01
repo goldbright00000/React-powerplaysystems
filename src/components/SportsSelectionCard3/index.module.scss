@@ -3,10 +3,10 @@
 .container_body_card {
   background-color: $lightBlack;
   border-radius: 5px;
-  padding: 6px 16px;
+  padding: 14px 16px;
   box-shadow: 0 8px 25px 0 $lightBlack7;
   width: 463px;
-  height: 172px;
+  height: 182px;
   margin: 10px 0px;
   position: relative;
   overflow: hidden;
@@ -308,7 +308,7 @@
     height: 16px;
     line-height: 16px;
     position: absolute;
-    transform: translate(-18px, -18px);
+    transform: translate(-17px, -14px);
     box-shadow: 0 0px 8px 4px $black;
 
     p {
