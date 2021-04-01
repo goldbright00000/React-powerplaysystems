@@ -61,13 +61,17 @@ const PowerUpPage = (props) => {
     }
 
     const data = {
-      // type: 'register',
-      // user: {
-      username,
       email,
-      password,
-      // }
     };
+    const response = await http.post(URLS.AUTH.VERIFY_EMAIL, data);
+    if (response.data.status === false) {
+      return setUser({
+        ...user,
+        isLoading: false,
+        isFailed: true,
+        errorMsg: response.data.message,
+      });
+    }
 
     redirectTo(props, { path: "user-profile-info", state: data });
   };
