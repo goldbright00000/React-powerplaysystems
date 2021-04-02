@@ -451,7 +451,7 @@ export const dummyData = [
       },
       {
         id: 71,
-        title: "Conner McDavid",
+        title: "Tampa Bay Lightening",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -491,7 +491,7 @@ export const dummyData = [
       },
       {
         id: 72,
-        title: "Sebastian Aho",
+        title: "Columbus Blue Jackets",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -759,7 +759,7 @@ export const dummyData = [
       },
       {
         id: 80,
-        title: "Tampa Bay Lightening",
+        title: "Conner McDavid",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -798,7 +798,7 @@ export const dummyData = [
       },
       {
         id: 81,
-        title: "Columbus Blue Jackets",
+        title: "Sebastian Aho",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",

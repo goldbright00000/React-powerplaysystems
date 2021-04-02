@@ -141,6 +141,8 @@ const contestScoring = {
   ],
 };
 
+let selectedPlayerCount = 0;
+
 function MLBPowerdFs() {
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
@@ -188,6 +190,7 @@ function MLBPowerdFs() {
             _selectedStarPowers[starPowerIndex] = true;
             starPowerIndex++;
           }
+          selectedPlayerCount++;
         }
       } else {
         let existingPlayerIndex = _playersList?.findIndex((player) =>
@@ -208,6 +211,7 @@ function MLBPowerdFs() {
           _playersList[existingPlayerIndex].playerId = "";
           _playersList[existingPlayerIndex].isStarPlayer = false;
         }
+        selectedPlayerCount--;
       }
 
       setSelected(_selected);
@@ -503,13 +507,19 @@ function MLBPowerdFs() {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar styles={{ width: "357px" }}>
+            <Sidebar
+              styles={{
+                width: "357px",
+                padding: "0px",
+              }}
+            >
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
                   width: "100%",
+                  marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"
                 powerTitle="Top Prize"
@@ -540,6 +550,8 @@ function MLBPowerdFs() {
               <SportsSidebarContent
                 data={playerList}
                 onDelete={(playerId) => onDelete(playerId)}
+                starIcon={StarImg}
+                selectedPlayerCount={selectedPlayerCount}
               />
               <button className={classes.sidebar_button}>Submit!</button>
             </Sidebar>
