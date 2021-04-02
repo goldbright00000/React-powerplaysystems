@@ -93,7 +93,12 @@ export const CONSTANTS = {
       C: "c",
       SS: "ss",
       XB: "xb",
+      XB1: "xb1",
+      XB2: "xb2",
+      XB3: "xb3",
       OF: "OF",
+      OF1: "of1",
+      OF2: "of2",
       D: "d",
     },
     NBA: {

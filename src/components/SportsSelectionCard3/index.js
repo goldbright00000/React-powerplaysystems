@@ -108,9 +108,9 @@ function SportsSelectionCard3(props) {
               )}
               <div
                 className={`
-                                        ${classes.container_body_card_state} 
-                                        ${isSelected && classes.active} 
-                                        ${currentStep === 0 && classes.border}`}
+                  ${classes.container_body_card_state} 
+                  ${isSelected && classes.active} 
+                  ${currentStep === 0 && classes.border}`}
               >
                 {
                   <div className={classes.card_state}>
@@ -129,8 +129,8 @@ function SportsSelectionCard3(props) {
 
                     <div
                       className={`
-                                        ${classes.card_state_values} 
-                                        ${currentStep === 1 && classes.column}`}
+                        ${classes.card_state_values} 
+                        ${currentStep === 1 && classes.column}`}
                     >
                       {steps[currentStep]?.step?.length &&
                         steps[currentStep]?.step?.map((val, key) =>
@@ -142,7 +142,9 @@ function SportsSelectionCard3(props) {
                               {val?.values?.map((value, index) => (
                                 <div
                                   key={index.toString()}
-                                  className={classes.step_value}
+                                  className={`${classes.step_value} ${
+                                    currentStep === 1 && classes.margin_4
+                                  }`}
                                 >
                                   <strong
                                     className={classes.state_step_1_value}
