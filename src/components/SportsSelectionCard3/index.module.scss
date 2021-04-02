@@ -133,14 +133,14 @@
     font-family: Poppins;
 
     &.space_evenly {
-      justify-content: space-evenly;
+      // justify-content: space-evenly;
       align-items: center;
     }
 
     .card_state_left {
       display: flex;
       flex-direction: column;
-      padding-top: 20px;
+      padding-top: 30px;
       font-size: 14px;
 
       strong {
@@ -148,6 +148,7 @@
         flex: 1;
         font-weight: normal;
         text-transform: capitalize;
+        margin: 5.5px 0;
       }
     }
 
@@ -203,6 +204,7 @@
 
           &.column {
             flex-direction: column;
+            width: 290px;
           }
 
           .card_state_title_1 {
@@ -230,6 +232,11 @@
             // flex: 1;
             text-align: center;
             width: 45px;
+            // margin: 4px 0;
+
+            &.margin_4 {
+              margin: 6px 0;
+            }
 
             .state_step_1_value {
               font-weight: normal;
