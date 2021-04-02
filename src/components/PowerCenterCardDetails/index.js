@@ -6,6 +6,7 @@ import classes from './index.module.scss';
 import PointSystem from './PointSystem';
 import PowersAvailable from './PowersAvailable';
 import PrizeGrid from './PrizeGrid';
+import TeamRoster from './TeamRoster';
 
 const PowerCenterCardDetails = (props) => {
     const {title = '', onBackClick = () => {}, onNextClick = () => {}, myGameCenter = false} = props || {};
@@ -34,6 +35,11 @@ const PowerCenterCardDetails = (props) => {
                 &&
                 <PowersAvailable title={title} />
             }
+            {
+                currentIndex == 3 && title === 'MLB'
+                &&
+                <TeamRoster />
+            }
             <Footer 
                 onBack={() => {
                     if (currentIndex > 0) {
@@ -44,6 +50,8 @@ const PowerCenterCardDetails = (props) => {
                 }}
                 onNext={() => {
                     if (currentIndex < 2) {
+                        setCurrentIndex(currentIndex + 1);
+                    } else if (currentIndex < 3 && title === 'MLB') {
                         setCurrentIndex(currentIndex + 1);
                     } else {
                         onNextClick();

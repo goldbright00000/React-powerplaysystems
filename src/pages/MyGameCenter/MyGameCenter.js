@@ -21,7 +21,7 @@ const MyGameCenter = props => {
     return (
         <Fragment>
             <Header isStick={true} />
-            <div className='__PowerCenter'>
+            <div className='__MyGameCenter'>
                 <div className='__viewport-large-title __center __pt-1'>My Game Center</div>
                 {/* <div className={classes.header2_container}>
                     <div className={classes.header2_card}>

@@ -20,7 +20,7 @@ const Footer = props => {
                     </div>
                     :
                     <>
-                        <div className={`${classes.__footer_links} __center`}>
+                        <div className={`${classes.__footer_links} `}>
                             <img src={logo} alt='' className={`${classes.__logo} __center`} />
                             {/* <img src={logo} alt='' className={`${classes.__logo} __hide-on-small`} /> */}
                             {
