@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import classes from './interactiveContests.module.scss';
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
 import SuperBall from '../../icons/SuperBall';
-import CashPowerBalance from '../../components/CashPowerBalance';
 import PowerCenterCard from '../../components/PowerCenterCard';
 import { redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
@@ -127,9 +125,6 @@ const InteractiveContests = props => {
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
 
-    const {userBalance} = useSelector((state) => state.user);
-
-    console.log(userBalance);
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
         responsiveHandler(maxWidth);
@@ -189,13 +184,7 @@ const InteractiveContests = props => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-                        {
-                            Object.keys(userBalance).length
-                            ?
-                            <CashPowerBalance styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} />
-                            :
-                            ''
-                        }
+                        
                     </div>
                 </div>
                 <div className={classes.__interactive_contests_filter}>
