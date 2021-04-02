@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { isEmpty, isEqual } from "lodash";
 
 import classes from "./index.module.scss";
@@ -10,7 +11,6 @@ import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
 import MLBFooterImage from "../../assets/MLB.png";
-import PowerPlayIcon from "../../assets/token.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
@@ -25,8 +25,8 @@ import Search from "../../components/SearchInput";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
-import StarIcon from "../../icons/Star";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
+import StarImg from "../../assets/star.png";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -44,31 +44,31 @@ const INITIAL_PLAYER_LIST = [
     playerId: "",
   },
   {
-    title: C,
-    value: "",
-    filter: C,
-    playerId: "",
-  },
-  {
     title: SS,
     value: "",
     filter: SS,
     playerId: "",
   },
   {
-    title: SS,
-    value: "",
-    filter: SS,
-    playerId: "",
-  },
-  {
-    title: XB,
+    title: `${XB}1`,
     value: "",
     filter: XB,
     playerId: "",
   },
   {
-    title: OF,
+    title: `${XB}2`,
+    value: "",
+    filter: XB,
+    playerId: "",
+  },
+  {
+    title: `${OF}1`,
+    value: "",
+    filter: OF,
+    playerId: "",
+  },
+  {
+    title: `${OF}2`,
     value: "",
     filter: OF,
     playerId: "",
@@ -123,6 +123,23 @@ const dropDown = [
   { title: "Team C" },
   { title: "Team D" },
 ];
+
+const contestScoring = {
+  data1: [
+    { title: "Single", points: "+3 pts" },
+    { title: "Double", points: "+5 pts" },
+    { title: "Triple", points: "+8 pts" },
+    { title: "Home Run", points: "+10 pts" },
+    { title: "Run Batted in", points: "+2 pts" },
+    { title: "Run", points: "+2 pts" },
+    { title: "Base on Balls", points: "+1 pts" },
+    { title: "Stolen Base", points: "+5 pts" },
+  ],
+  data2: [
+    { title: "Outs", points: "+1 Pt per Out" },
+    { title: "Strikeout", points: "+2 pts" },
+  ],
+};
 
 function MLBPowerdFs() {
   const [selected, setSelected] = useState(new Map());
@@ -269,6 +286,56 @@ function MLBPowerdFs() {
     setSelectedDropDown(item);
   };
 
+  const ContestScoringRow = ({ item = {}, width = {} }) => (
+    <div className={classes.scoring_row}>
+      <p>{item?.title}</p>{" "}
+      <span className={width && width}>{item?.points}</span>
+    </div>
+  );
+
+  const ContestScoringColumn = ({ title = "", data = [], styles = {} }) => (
+    <div className={classes.scoring_column} style={styles}>
+      <div className={classes.scoring_title}>
+        <p>{title}</p>
+      </div>
+      <div className={classes.scoring_body}>
+        {data &&
+          data?.length &&
+          data?.map((item, ind) => (
+            <ContestScoringRow
+              item={item}
+              key={ind + "-"}
+              width={title == "Pitchers" && classes.width_140}
+            />
+          ))}
+      </div>
+    </div>
+  );
+
+  const ContestSummaryRow = ({ text = <></> }) => (
+    <div className={classes.column_row}>
+      <Tick2 size={17} />
+      {text}
+    </div>
+  );
+
+  const ContestColumn = ({
+    title = "",
+    widthClass = {},
+    styles = {},
+    children = <></>,
+  }) => (
+    <div
+      className={`${classes.footer_column} ${widthClass && widthClass}`}
+      style={styles}
+    >
+      <div className={classes.column_title}>
+        <p>{title}</p>
+      </div>
+      {children}
+    </div>
+  );
+
   return (
     <>
       <Header />
@@ -378,45 +445,60 @@ function MLBPowerdFs() {
                 </div>
               </div>
               <div className={classes.container_footer_1}>
-                <div className={classes.container_footer_header_1}>
-                  <p>
-                    <Tick2 size={25} /> No purchase necessary.
-                  </p>
-                  <p>
-                    <Tick2 size={25} /> Open to residents of United States who
-                    are over the age of majority.
-                  </p>
-                  <p>
-                    <Tick2 size={25} /> Contest closes at 11:59pm ET - April 22,
-                    2020.
-                  </p>
-                </div>
-                <div className={classes.container_footer_body}>
-                  <p>
-                    <span /> Five (5) prizes to be won. See full rules for
-                    complete details of all prizes.
-                  </p>
-                  <p>
-                    <span /> One entry per person.
-                  </p>
-                  <p>
-                    <span /> Odds of winning depend on player knowledge.
-                  </p>
-                  <p>
-                    <span /> Mathematical skill testing question must be
-                    correctly answered to win.
-                  </p>
+                <div className={classes.container_footer_2}>
+                  <ContestColumn title="Summary" widthClass={classes.width_200}>
+                    <div className={classes.column_body}>
+                      <ContestSummaryRow
+                        text={
+                          <p>
+                            <span>$100,000</span> Prize Pool
+                          </p>
+                        }
+                      />
+                      <ContestSummaryRow
+                        text={
+                          <p>
+                            Live-play <span>Powers</span> included with entry
+                            fee
+                          </p>
+                        }
+                      />
+                      <ContestSummaryRow
+                        text={
+                          <p>
+                            Pick players from any teams scheduled to play on{" "}
+                            <span>July 19, 2021</span>
+                          </p>
+                        }
+                      />
+                    </div>
+                  </ContestColumn>
 
-                  <button>
-                    See Full Rules <img src={RightArrow} />
-                  </button>
-
-                  <img
-                    src={MLBFooterImage}
-                    className={classes.container_body_img}
-                  />
+                  <ContestColumn
+                    title="Scoring"
+                    styles={{ marginLeft: "116px" }}
+                  >
+                    <div className={classes.contest_scoring_wrapper}>
+                      <ContestScoringColumn
+                        title="Hitters"
+                        data={contestScoring.data1}
+                      />
+                      <ContestScoringColumn
+                        title="Pitchers"
+                        data={contestScoring.data2}
+                        styles={{ width: "160px" }}
+                      />
+                    </div>
+                  </ContestColumn>
                 </div>
+                <Link className={classes.footer_full_rules} href="#">
+                  See Full Rules <img src={RightArrow} />
+                </Link>
               </div>
+              <img
+                src={MLBFooterImage}
+                className={classes.container_body_img}
+              />
             </div>
           </div>
 
@@ -439,7 +521,7 @@ function MLBPowerdFs() {
                 <div className={classes.sidebar_header_1}>
                   <p>
                     <span>
-                      <StarIcon size={16} />
+                      <img src={StarImg} className={classes.smallImg} />
                       Star Power
                     </span>{" "}
                     players selected
