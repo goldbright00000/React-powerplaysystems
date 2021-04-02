@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { isEmpty, isEqual } from "lodash";
 
 import classes from "./index.module.scss";
@@ -10,7 +11,6 @@ import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
 import MLBFooterImage from "../../assets/MLB.png";
-import PowerPlayIcon from "../../assets/token.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
@@ -25,7 +25,6 @@ import Search from "../../components/SearchInput";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
-import StarIcon from "../../icons/Star";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
 
@@ -446,46 +445,55 @@ function MLBPowerdFs() {
                 </div>
               </div>
               <div className={classes.container_footer_1}>
-                <ContestColumn title="Summary" widthClass={classes.width_200}>
-                  <div className={classes.column_body}>
-                    <ContestSummaryRow
-                      text={
-                        <p>
-                          <span>$100,000</span> Prize Pool
-                        </p>
-                      }
-                    />
-                    <ContestSummaryRow
-                      text={
-                        <p>
-                          Live-play <span>Powers</span> included with entry fee
-                        </p>
-                      }
-                    />
-                    <ContestSummaryRow
-                      text={
-                        <p>
-                          Pick players from any teams scheduled to play on{" "}
-                          <span>July 19, 2021</span>
-                        </p>
-                      }
-                    />
-                  </div>
-                </ContestColumn>
+                <div className={classes.container_footer_2}>
+                  <ContestColumn title="Summary" widthClass={classes.width_200}>
+                    <div className={classes.column_body}>
+                      <ContestSummaryRow
+                        text={
+                          <p>
+                            <span>$100,000</span> Prize Pool
+                          </p>
+                        }
+                      />
+                      <ContestSummaryRow
+                        text={
+                          <p>
+                            Live-play <span>Powers</span> included with entry
+                            fee
+                          </p>
+                        }
+                      />
+                      <ContestSummaryRow
+                        text={
+                          <p>
+                            Pick players from any teams scheduled to play on{" "}
+                            <span>July 19, 2021</span>
+                          </p>
+                        }
+                      />
+                    </div>
+                  </ContestColumn>
 
-                <ContestColumn title="Scoring" styles={{ marginLeft: "116px" }}>
-                  <div className={classes.contest_scoring_wrapper}>
-                    <ContestScoringColumn
-                      title="Hitters"
-                      data={contestScoring.data1}
-                    />
-                    <ContestScoringColumn
-                      title="Pitchers"
-                      data={contestScoring.data2}
-                      styles={{ width: "160px" }}
-                    />
-                  </div>
-                </ContestColumn>
+                  <ContestColumn
+                    title="Scoring"
+                    styles={{ marginLeft: "116px" }}
+                  >
+                    <div className={classes.contest_scoring_wrapper}>
+                      <ContestScoringColumn
+                        title="Hitters"
+                        data={contestScoring.data1}
+                      />
+                      <ContestScoringColumn
+                        title="Pitchers"
+                        data={contestScoring.data2}
+                        styles={{ width: "160px" }}
+                      />
+                    </div>
+                  </ContestColumn>
+                </div>
+                <Link className={classes.footer_full_rules} href="#">
+                  See Full Rules <img src={RightArrow} />
+                </Link>
               </div>
               <img
                 src={MLBFooterImage}

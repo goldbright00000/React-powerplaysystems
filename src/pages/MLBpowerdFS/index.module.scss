@@ -146,130 +146,156 @@
 
         .container_footer_1 {
           display: flex;
+          flex-direction: column;
           width: 100%;
           background-color: $black2;
           padding: 40px 42px;
           border-radius: 9px;
           align-items: flex-start;
-          width: 100%;
           height: 406px;
 
-          .footer_column {
+          .container_footer_2 {
             display: flex;
-            flex-direction: column;
+            width: 100%;
+            align-items: flex-start;
 
-            &.width_200 {
-              width: 180px;
-            }
-
-            p {
-              margin: 0;
-              padding: 0;
-            }
-
-            .column_title {
-              display: flex;
-              width: 100%;
-              margin-bottom: 8px;
-
-              p {
-                font-family: Teko;
-                font-size: 28px;
-                font-weight: 600;
-                color: $primary;
-              }
-            }
-
-            .column_body {
+            .footer_column {
               display: flex;
               flex-direction: column;
 
-              .column_row {
-                display: flex;
-                width: 100%;
-                font-family: Poppins;
-                font-size: 16px;
-                font-weight: 500;
-                margin: 0 0 16px 0;
-                position: relative;
-
-                svg {
-                  margin: 0;
-                  padding: 0;
-                  width: 17px !important;
-                  height: 17px !important;
-                  position: absolute;
-                  top: 3px;
-                }
-
-                p {
-                  transform: translateX(24px);
-                  font-size: 16px;
-                  font-weight: 500;
-                  span {
-                    color: $primary;
-                    font-size: 16px;
-                    font-weight: 500;
-                  }
-                }
+              &.width_200 {
+                width: 180px;
               }
-            }
-          }
-
-          .contest_scoring_wrapper {
-            display: flex;
-            flex-direction: row;
-          }
-
-          .scoring_column {
-            display: flex;
-            flex-direction: column;
-            margin: 0 46px 0 0;
-
-            .scoring_title {
-              display: flex;
-              margin-bottom: 4px;
 
               p {
                 margin: 0;
                 padding: 0;
-                font-size: 16px;
-                color: $grey2;
-                font-weight: 600;
-                font-family: Poppins;
-                border-bottom: 1px solid $grey2;
-                line-height: 16px;
-              }
-            }
-
-            .scoring_body {
-              display: flex;
-              flex-direction: column;
-
-              .width_140 {
-                width: 140px;
               }
 
-              p {
-                font-size: 14px;
-                width: 105px;
+              .column_title {
+                display: flex;
+                width: 100%;
+                margin-bottom: 8px;
 
-                &.flex_0_85 {
-                  flex: 0.85;
+                p {
+                  font-family: Teko;
+                  font-size: 28px;
+                  font-weight: 600;
+                  color: $primary;
                 }
               }
 
-              span {
-                font-size: 14px;
-                font-weight: 600;
-                color: $primary;
+              .column_body {
+                display: flex;
+                flex-direction: column;
+
+                .column_row {
+                  display: flex;
+                  width: 100%;
+                  font-family: Poppins;
+                  font-size: 16px;
+                  font-weight: 500;
+                  margin: 0 0 16px 0;
+                  position: relative;
+
+                  svg {
+                    margin: 0;
+                    padding: 0;
+                    width: 17px !important;
+                    height: 17px !important;
+                    position: absolute;
+                    top: 3px;
+                  }
+
+                  p {
+                    transform: translateX(24px);
+                    font-size: 16px;
+                    font-weight: 500;
+                    span {
+                      color: $primary;
+                      font-size: 16px;
+                      font-weight: 500;
+                    }
+                  }
+                }
+              }
+            }
+
+            .contest_scoring_wrapper {
+              display: flex;
+              flex-direction: row;
+            }
+
+            .scoring_column {
+              display: flex;
+              flex-direction: column;
+              margin: 0 46px 0 0;
+
+              .scoring_title {
+                display: flex;
+                margin-bottom: 4px;
+
+                p {
+                  margin: 0;
+                  padding: 0;
+                  font-size: 16px;
+                  color: $grey2;
+                  font-weight: 600;
+                  font-family: Poppins;
+                  border-bottom: 1px solid $grey2;
+                  line-height: 16px;
+                }
               }
 
-              .scoring_row {
+              .scoring_body {
                 display: flex;
-                width: 100%;
-                text-align: left;
+                flex-direction: column;
+
+                .width_140 {
+                  width: 140px;
+                }
+
+                p {
+                  font-size: 14px;
+                  width: 105px;
+
+                  &.flex_0_85 {
+                    flex: 0.85;
+                  }
+                }
+
+                span {
+                  font-size: 14px;
+                  font-weight: 600;
+                  color: $primary;
+                }
+
+                .scoring_row {
+                  display: flex;
+                  width: 100%;
+                  text-align: left;
+                }
               }
+            }
+          }
+
+          .footer_full_rules {
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            width: 187px;
+            padding: 13px 0;
+            background-color: $primary;
+            color: $darkblack;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 12px;
+            margin: 40px 0;
+
+            img {
+              width: 26px;
+              height: 18px;
+              margin-left: 8px;
             }
           }
         }
