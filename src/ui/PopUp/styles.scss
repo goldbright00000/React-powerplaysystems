@@ -1,0 +1,30 @@
+.popup-wrapper{
+    animation: forwards 0.3s PopUp;
+    .main-title{
+        margin-top: -3rem;
+    }
+    @media (max-width: 997px) {
+        .main-title{
+            margin-top: -1rem;
+            font-size: 3rem;
+        }
+    }
+}
+.popup-with-fixed{
+    position: fixed !important;
+    top: 50% !important;
+    transform: translateY(-50%);
+    left: 0 !important;
+    right: 0 !important;
+}   
+
+@keyframes PopUp {
+    0%{
+        transform: scale(0);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
