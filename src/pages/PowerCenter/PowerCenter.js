@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink, Route } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import LivePowerPlay from './LivePowerPlay';
@@ -10,9 +11,13 @@ import PowerPlayIcon from '../../assets/powerplay-icon.png';
 import PowerCenterBannerTitleIcon from '../../assets/power-center-banner-title-icon.png';
 import PowerBalanceGrey from '../../assets/power-balance-grey.png';
 import CashBalanceGrey from '../../assets/cash-balance-grey.png';
+import { getLocalStorage, redirectTo } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
 
 const PowerCenter = props => {
     const { url } = props.match;
+    const { auth: { user: { token = '' } }, user: {userBalance = {}} = {} } = useSelector((state) => state);
+
     return (
         <Fragment>
             <Header isStick={true} />
@@ -31,8 +36,11 @@ const PowerCenter = props => {
                             </div>
                         </div>
                     </div>
-                    <div className='__power_center_banner_footer'>
-                        <div className='__power_center_banner_footer_deposit'>
+                    {
+                        token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
+                        ?
+                        <div className='__power_center_banner_footer'>
+                        <div className='__power_center_banner_footer_deposit' onClick={() => redirectTo(props, { path: "/my-account" })}>
                             Deposit
                         </div>
                         <div className='__power_center_banner_footer_cash_and_balance_outer border_right'>
@@ -41,7 +49,7 @@ const PowerCenter = props => {
                             </div>
                             <div className='__power_center_banner_footer_cash_and_balance_inner'>
                                 <div className='__power_center_banner_footer_power_and_cash_balance'>
-                                    15,000
+                                    {userBalance.tokenBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)}
                                 </div>
                                 <div className='__power_center_banner_footer_power_and_cash_balance_title'>
                                     Power Balance
@@ -54,7 +62,7 @@ const PowerCenter = props => {
                             </div>
                             <div className='__power_center_banner_footer_cash_and_balance_inner'>
                                 <div className='__power_center_banner_footer_power_and_cash_balance'>
-                                    $36
+                                    ${userBalance.cashBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)}
                                 </div>
                                 <div className='__power_center_banner_footer_power_and_cash_balance_title'>
                                     Cash Balance
@@ -63,6 +71,9 @@ const PowerCenter = props => {
                         </div>
                         <div style={{width: 80}} />
                     </div>
+                    :
+                    <div style={{ height: 50}}></div>
+                    }
                 </div>
                 {/* <div className='__flex __power-center-links __mb-5'>
                     <NavLink exact to={`${url}`} className='__f1 __block __right __relative'>
