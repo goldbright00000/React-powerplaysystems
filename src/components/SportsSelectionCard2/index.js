@@ -38,13 +38,13 @@ function SportsSelectionCard2(props) {
       className={`${classes.card_state_mlb} ${isSelected && classes.active}`}
     >
       <div>
-        <span>Home Starter</span>
+        <span>Toronto SP</span>
         <p>N. Eovaldi</p>
         <span>(1-2, 3.00 ERA)</span>
       </div>
 
       <div>
-        <span>Away Starter</span>
+        <span>Baltimore SP</span>
         <p>J. Means</p>
         <span>(3-1, 2.89 ERA)</span>
       </div>
