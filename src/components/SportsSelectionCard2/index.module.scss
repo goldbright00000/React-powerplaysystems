@@ -6,9 +6,13 @@
   padding: 17px 16px;
   box-shadow: 0 8px 25px 0 $lightBlack7;
   width: 463px;
-  height: 182px;
+  height: 185px;
   margin: 10px 0px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  // align-items: flex-start;
 
   &.inset {
     overflow: hidden;
@@ -20,28 +24,46 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
+    position: relative;
 
     .container_body_left {
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      min-height: 100%;
+      width: 100%;
+      position: relative;
+
+      .card_mlb_vs {
+        margin: 0;
+        padding: 0;
+
+        p {
+          margin: 0;
+          padding: 0;
+        }
+      }
+
+      .team_vs {
+        margin-bottom: 18px;
+      }
 
       .container_body_card_header {
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        height: 30px;
 
         .container_selected_p {
           font-size: 18px;
           padding: 0;
           margin: 0;
-          // border-bottom: 2px solid $lightBlue;
           color: $lightBlue;
           font-family: Poppins;
           font-weight: 600;
 
           &.active {
             color: $primary;
-            border-bottom-color: $primary;
           }
         }
 
@@ -72,7 +94,7 @@
 
         .container_selected {
           padding: 0;
-          margin: 0 0 0 15px;
+          margin: 0 0 0 6px;
 
           .container_selected_p_1 {
             display: flex;
@@ -113,6 +135,37 @@
 
         &.card_state_no_data {
           padding-left: 10px;
+        }
+
+        .card_state_mlb {
+          display: flex;
+          margin: 2px 0 15px 0;
+          padding: 0;
+          border-left: 3px solid $lightBlue;
+
+          &.active {
+            border-color: $primary;
+          }
+
+          > div {
+            display: flex;
+            flex-direction: column;
+            margin: 0 14px 0 16px;
+
+            span {
+              font-size: 10px;
+              opacity: 0.6;
+              color: $grey2;
+            }
+
+            p {
+              padding: 0;
+              margin: 0 0 2px 0;
+              font-size: 16px;
+              font-weight: 600;
+              color: $grey2;
+            }
+          }
         }
 
         .card_state {
@@ -271,8 +324,10 @@
     opacity: 0.1;
     padding: 0;
     margin: 5px 0;
+    bottom: 0;
     width: 220px;
     transform: translate(100px, 0);
+    position: absolute;
   }
 
   .container_body_card_start_power {

@@ -27,87 +27,112 @@ function SportsSelectionCard2(props) {
     steps = [],
     onSelectDeselect = () => {},
     disabled = false,
-    inset = false,
+    mlbCard = false,
   } = props || {};
 
+  const RenderMLBState = () => (
+    <div
+      className={`${classes.card_state_mlb} ${isSelected && classes.active}`}
+    >
+      <div>
+        <span>Home Starter</span>
+        <p>N. Eovaldi</p>
+        <span>(1-2, 3.00 ERA)</span>
+      </div>
+
+      <div>
+        <span>Away Starter</span>
+        <p>J. Means</p>
+        <span>(3-1, 2.89 ERA)</span>
+      </div>
+    </div>
+  );
+
+  const RenderOtherState = () => (
+    <div className={classes.card_state}>
+      <div className={classes.card_state_title}>
+        {steps?.[0]?.titles?.map((title, ind) => (
+          <span key={ind.toString()}>{title}</span>
+        ))}
+      </div>
+      <div className={classes.card_state_values}>
+        {steps?.[0]?.step?.map((val, ind) => (
+          <span key={ind.toString()}>{val}</span>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
-    <div className={`${classes.container_body_card} ${inset && classes.inset}`}>
+    <div
+      className={`${classes.container_body_card} ${mlbCard && classes.inset}`}
+    >
       <div className={classes.container_body_card_1}>
         <div className={classes.container_body_left}>
-          <div className={classes.container_body_left_h}>
-            {isStarPlayer && (
-              <span
-                className={`${classes.container_body_card_start_power} ${
-                  inset && classes.inset
-                }`}
+          {isStarPlayer && (
+            <span
+              className={`${classes.container_body_card_start_power} ${
+                mlbCard && classes.inset
+              }`}
+            >
+              {" "}
+              {mlbCard ? (
+                <StarIcon solidcolor="#000" />
+              ) : (
+                <img src={PowerPlayIcon} />
+              )}{" "}
+              Star Power{" "}
+            </span>
+          )}
+          <div className={classes.container_body_card_header}>
+            <p
+              className={`${classes.container_selected_p} ${
+                isSelected ? classes.active : ""
+              }`}
+            >
+              {title}
+            </p>
+            {!isSelected ? (
+              <button
+                onClick={() => onSelectDeselect(id)}
+                className={disabled && classes.disabled}
+                disabled={disabled}
               >
                 {" "}
-                {inset ? (
-                  <StarIcon solidcolor="#000" />
-                ) : (
-                  <img src={PowerPlayIcon} />
-                )}{" "}
-                Star Power{" "}
-              </span>
+                + Select
+              </button>
+            ) : (
+              <div className={classes.container_selected}>
+                <p className={classes.container_selected_p_1}>
+                  <Tick2 /> Selected{" "}
+                  <img src={DeleteIcon} onClick={() => onSelectDeselect(id)} />
+                </p>
+              </div>
             )}
-            <div className={classes.container_body_card_header}>
-              <p
-                className={`${classes.container_selected_p} ${
-                  isSelected ? classes.active : ""
-                }`}
-              >
-                {title}
-              </p>
-              {!isSelected ? (
-                <button
-                  onClick={() => onSelectDeselect(id)}
-                  className={disabled && classes.disabled}
-                  disabled={disabled}
-                >
-                  {" "}
-                  + Select
-                </button>
-              ) : (
-                <div className={classes.container_selected}>
-                  <p className={classes.container_selected_p_1}>
-                    <Tick2 /> Selected{" "}
-                    <img
-                      src={DeleteIcon}
-                      onClick={() => onSelectDeselect(id)}
-                    />
-                  </p>
-                </div>
-              )}
-            </div>
           </div>
+          {mlbCard && (
+            <div className={classes.card_mlb_vs}>
+              <p>VS {teamB}</p>
+            </div>
+          )}
 
           {steps?.[0] ? (
             <div
               className={`
-                            ${classes.container_body_card_state} 
-                            ${isSelected && classes.active} 
-                            ${classes.border}`}
+                ${classes.container_body_card_state} 
+                ${isSelected && classes.active} ${!mlbCard && classes.border}`}
             >
-              <div className={classes.card_state}>
-                <div className={classes.card_state_title}>
-                  {steps?.[0]?.titles?.map((title, ind) => (
-                    <span key={ind.toString()}>{title}</span>
-                  ))}
-                </div>
-                <div className={classes.card_state_values}>
-                  {steps?.[0]?.step?.map((val, ind) => (
-                    <span key={ind.toString()}>{val}</span>
-                  ))}
-                </div>
-              </div>
+              {mlbCard ? <RenderMLBState /> : <RenderOtherState />}
             </div>
           ) : (
             <p>No Data</p>
           )}
 
-          <div>
-            <p>VS {teamB}</p>
-          </div>
+          {!mlbCard && (
+            <div className={classes.team_vs}>
+              <p>VS {teamB}</p>
+            </div>
+          )}
           <div className={classes.divider}></div>
         </div>
 
@@ -151,7 +176,7 @@ SportsSelectionCard2.propTypes = {
   isSelected: PropTypes.bool,
   isStarPlayer: PropTypes.bool,
   disabled: PropTypes.bool,
-  inset: PropTypes.bool,
+  mlbCard: PropTypes.bool,
   steps: PropTypes.array,
   onSelectDeselect: PropTypes.func,
 };

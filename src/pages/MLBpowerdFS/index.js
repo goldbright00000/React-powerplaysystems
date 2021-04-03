@@ -148,11 +148,11 @@ const headerText = [
   },
   {
     id: 2,
-    text: `Select 1 Catcher, Goals against result in negative points for your team.`,
+    text: `Select 1 Catcher.`,
   },
   {
     id: 3,
-    text: `Select 1 Shortstop, Goals against result in negative points for your team.`,
+    text: `Select 1 Shortstop.`,
   },
   {
     id: 4,
@@ -389,6 +389,11 @@ function MLBPowerdFs() {
 
         <div className={classes.container}>
           <div className={classes.container_left}>
+            <Full_FC
+              width={200}
+              height={25}
+              className={classes.partner_logo_2}
+            />
             <h2>Select your team</h2>
             <div className={classes.container_left_header_2}>
               <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -400,7 +405,6 @@ function MLBPowerdFs() {
                 <SportsFilters
                   data={filters}
                   onSelect={onSelectFilter}
-                  // activeFilter={selectedFilter}
                   selectedFilter={selectedFilter}
                 />
 
@@ -442,7 +446,7 @@ function MLBPowerdFs() {
                             item.isStarPlayer &&
                             starPowerIndex >= 3
                           }
-                          inset
+                          mlbCard
                         />
                       ) : (
                         <SelectionCard3
@@ -463,12 +467,7 @@ function MLBPowerdFs() {
                   )}
                 </div>
               </Card>
-              {/* <img src={AcceleRadar} className={classes.partner_logo} /> */}
-              <Full_FC
-                width={200}
-                height={25}
-                className={classes.partner_logo_2}
-              />
+              <img src={AcceleRadar} className={classes.partner_logo} />
             </div>
 
             <div className={classes.container_footer}>
