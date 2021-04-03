@@ -4,8 +4,9 @@
     background: #1e1e1e;
 }
 form{
-    width: 60rem;
+    max-width: 60rem;
     margin: auto;
+    width: 90%;
 }
 a{
     text-decoration: underline;
@@ -15,19 +16,17 @@ a{
 }
 .formWrapper{
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 25.714rem 26.143rem;
     justify-content: space-between;
 }
-.textArea{
+.textAreaWrapper{
     grid-column: span 2;
 }
 .additionWaysToContactSection{
-    max-width: 26.143rem;
     grid-column: 2/3;
     grid-row: 1/2;
 }
 .inputField{
-    min-width: 25.714rem;
     margin-bottom: 2.857rem;
     position: relative;
     label{
@@ -99,5 +98,16 @@ a{
     &:active::after{
         background: rgba($color: $primary, $alpha: 0.1);
         transform: translateY(-50%) scale(1);
+    }
+}
+
+@media (max-width: 900px) {
+    .formWrapper{
+        grid-template-columns: 1fr;
+    }
+    .additionWaysToContactSection{
+        grid-column: initial;
+        grid-row: initial;
+        margin-top: 7rem;
     }
 }

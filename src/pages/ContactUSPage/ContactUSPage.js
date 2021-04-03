@@ -40,10 +40,13 @@ const ContactUSPage = props => {
                                 <input type='subject' id='subject' placeholder='Subject for your message' />
                             </div>
                         </section>
-                        <div className={`${styles.inputField} ${styles.textArea}`}>
-                            <label htmlFor='message'>* Message:</label>
-                            <textarea id='message' placeholder='Enter message'></textarea>
-                            <span>2000 characters max</span>
+                        <div className={styles.textAreaWrapper}>
+                            <div className={`${styles.inputField} `}>
+                                <label htmlFor='message'>* Message:</label>
+                                <textarea id='message' placeholder='Enter message'></textarea>
+                                <span>2000 characters max</span>
+                            </div>
+                            <button className={styles.btn}>Submit</button>
                         </div>
                         <section className={styles.additionWaysToContactSection}>
                             <div>
@@ -65,7 +68,6 @@ const ContactUSPage = props => {
                             </div>
                         </section>
                     </div>
-                    <button className={styles.btn}>Submit</button>
                 </form>
             </main>
             <Footer isBlack={true} />
