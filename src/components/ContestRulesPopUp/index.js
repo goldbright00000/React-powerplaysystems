@@ -7,7 +7,7 @@ import SwapIcon from '../../assets/player-swaps-main.png';
 import VideoReviewIcon from '../../assets/video-review-main.png';
 
 const ContestRulesPopUp = props => {
-    const h3Class = '__title-3 __primary-text __bold __m-0  __font-family-teko __line-height-1'
+    const h3Class = 'title-2 __primary-text __bold __m-0  __font-family-teko __line-height-1'
     return (
         <PopUp className='__title-6' {...props}>
             <h1 className='__m-0 main-title __center'>PowerdFS - <span className='__primary-text'>MLB</span></h1>
@@ -19,7 +19,7 @@ const ContestRulesPopUp = props => {
                 <p>Participation in each contest must be made only as specified in the Terms of Use. Failure to comply with these Terms of Use will result in disqualification and, if applicable, prize forfeiture.</p>
             </section>
             <section className='__mb-3 __mt-3'>
-                <h3 className='__title-3 __primary-text __bold __m-0  __font-family-teko'>Scoring</h3>
+                <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko'>Scoring</h3>
                 <div className={styles.cardWrapper}>
                     <div className={styles.card}>
                         <h5 className='__title-5 __mt-0 __mb-s'>Hitters</h5>
