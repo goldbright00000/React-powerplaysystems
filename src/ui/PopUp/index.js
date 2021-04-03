@@ -14,7 +14,7 @@ const PopUpWrapper = ({ children, className, onClose }) => {
     return (
         <>
             <div className={styles.root} ref={popupRef}>
-                <div className={styles.blur} onClick={onClose}></div>
+                <div className='blur' onClick={onClose}></div>
                 <div className={`${styles.popup} ${className} popup-wrapper`}>
                     <div className={styles.crossicon} onClick={onClose}><span></span></div>
                     {children}

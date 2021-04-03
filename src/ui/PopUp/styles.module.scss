@@ -73,20 +73,3 @@
         }
     }
 }
-
-@keyframes PopUp {
-    0%{
-        transform: translate(-50%, -50%) scale(0);
-    }
-    100%{
-        transform: translate(-50%, -50%) scale(1);
-    }
-}
-.blur{
-    position: fixed;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    background: rgba($color: #000000, $alpha: 0.5);
-}
