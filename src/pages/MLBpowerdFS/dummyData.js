@@ -412,7 +412,7 @@ export const dummyData = [
     data: [
       {
         id: 70,
-        title: "Nathan McKinnen",
+        title: "Toronto Blue Jays",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -441,11 +441,6 @@ export const dummyData = [
                 values: [1, 0, 0, 2, 1, 14.8],
               },
             ],
-          },
-          {
-            step: {
-              ad: AdImg,
-            },
           },
         ],
       },
@@ -482,11 +477,6 @@ export const dummyData = [
               },
             ],
           },
-          {
-            step: {
-              ad: AdImg,
-            },
-          },
         ],
       },
       {
@@ -520,11 +510,6 @@ export const dummyData = [
                 values: [1, 0, 0, 2, 1, 14.8],
               },
             ],
-          },
-          {
-            step: {
-              ad: AdImg,
-            },
           },
         ],
       },

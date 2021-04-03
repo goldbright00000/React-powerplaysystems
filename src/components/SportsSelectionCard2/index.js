@@ -11,8 +11,11 @@ import PowerPlayIcon from "../../assets/token.png";
 import StarIcon from "../../icons/Star";
 import TDShirtImage from "../../assets/td.png";
 import TDBadge from "../../assets/tdBadge.png";
+import ForwardArrow from "../../icons/ForwardArrow";
 
 function SportsSelectionCard2(props) {
+  const [currentStep, setCurrentStep] = useState(0);
+
   const {
     title = "",
     avgVal = 0,
@@ -49,7 +52,7 @@ function SportsSelectionCard2(props) {
   );
 
   const RenderOtherState = () => (
-    <div className={classes.card_state}>
+    <div className={`${classes.card_state} ${isSelected && classes.active}`}>
       <div className={classes.card_state_title}>
         {steps?.[0]?.titles?.map((title, ind) => (
           <span key={ind.toString()}>{title}</span>
@@ -62,6 +65,17 @@ function SportsSelectionCard2(props) {
       </div>
     </div>
   );
+
+  const nextStep = () => {
+    let _currentStep = currentStep;
+    if (currentStep < steps?.length - 1) {
+      _currentStep++;
+    } else {
+      _currentStep = 0;
+    }
+
+    setCurrentStep(_currentStep);
+  };
 
   return (
     <div
@@ -110,7 +124,7 @@ function SportsSelectionCard2(props) {
               </div>
             )}
           </div>
-          {mlbCard && (
+          {mlbCard && currentStep === 1 && (
             <div className={classes.card_mlb_vs}>
               <p>VS {teamB}</p>
             </div>
@@ -120,15 +134,19 @@ function SportsSelectionCard2(props) {
             <div
               className={`
                 ${classes.container_body_card_state} 
-                ${isSelected && classes.active} ${!mlbCard && classes.border}`}
+                ${isSelected && classes.active}`}
             >
-              {mlbCard ? <RenderMLBState /> : <RenderOtherState />}
+              {mlbCard && currentStep === 1 ? (
+                <RenderMLBState />
+              ) : (
+                <RenderOtherState />
+              )}
             </div>
           ) : (
             <p>No Data</p>
           )}
 
-          {!mlbCard && (
+          {currentStep === 0 && (
             <div className={classes.team_vs}>
               <p>VS {teamB}</p>
             </div>
@@ -159,6 +177,12 @@ function SportsSelectionCard2(props) {
             </span>
           </p>
         </div>
+
+        {mlbCard && (
+          <div className={classes.forwardArrow} onClick={nextStep}>
+            <ForwardArrow color="#fb6e00" />
+          </div>
+        )}
       </div>
     </div>
   );
