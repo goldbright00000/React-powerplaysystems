@@ -27,6 +27,7 @@ import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
+import Full_FC from "../../icons/Full_FC";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -115,8 +116,6 @@ const FILTERS_INITIAL_VALUES = [
   },
 ];
 
-let starPowerIndex = 0;
-
 const dropDown = [
   { title: "Team A" },
   { title: "Team B" },
@@ -137,10 +136,39 @@ const contestScoring = {
   ],
   data2: [
     { title: "Outs", points: "+1 Pt per Out" },
-    { title: "Strikeout", points: "+2 pts" },
+    { title: "Inning 1-6 K's", points: "+2 pts" },
+    { title: "Innings 7+ K's", points: "+3 pts" },
   ],
 };
 
+const headerText = [
+  {
+    id: 1,
+    text: `Select 1 Pitcher, you can use your Swap Power to swap your SP for a RP during the game.`,
+  },
+  {
+    id: 2,
+    text: `Select 1 Catcher, Goals against result in negative points for your team.`,
+  },
+  {
+    id: 3,
+    text: `Select 1 Shortstop, Goals against result in negative points for your team.`,
+  },
+  {
+    id: 4,
+    text: `Select 2 players from the pool of players at First Base (1B), Second Base (2B), and Third Base (3B). You may only select one Star player from the XB pool.`,
+  },
+  {
+    id: 5,
+    text: `Select 2 Outfielders (OF) from the pool of players at Left Field (LF), Center Field (CF), and Right Field (RF). You may select only one Star player from the OF pool.`,
+  },
+  {
+    id: 6,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team. You can see the Average Runs Against (ARA) for each team below. Click the Arrow icon to see starting Pitchers.`,
+  },
+];
+
+let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
 function MLBPowerdFs() {
@@ -388,10 +416,7 @@ function MLBPowerdFs() {
             <div className={classes.container_body}>
               <Card>
                 <div className={classes.card_header}>
-                  <p>
-                    Select 1 Team Defense, Goals against result in negative
-                    points for your team.
-                  </p>
+                  <p>{headerText[selectedFilter?.id - 1]?.text}</p>
                 </div>
 
                 <div className={classes.card_body}>
@@ -417,6 +442,7 @@ function MLBPowerdFs() {
                             item.isStarPlayer &&
                             starPowerIndex >= 3
                           }
+                          inset
                         />
                       ) : (
                         <SelectionCard3
@@ -437,7 +463,12 @@ function MLBPowerdFs() {
                   )}
                 </div>
               </Card>
-              <img src={AcceleRadar} className={classes.partner_logo} />
+              {/* <img src={AcceleRadar} className={classes.partner_logo} /> */}
+              <Full_FC
+                width={200}
+                height={25}
+                className={classes.partner_logo_2}
+              />
             </div>
 
             <div className={classes.container_footer}>
@@ -490,7 +521,7 @@ function MLBPowerdFs() {
                       <ContestScoringColumn
                         title="Pitchers"
                         data={contestScoring.data2}
-                        styles={{ width: "160px" }}
+                        styles={{ width: "235px" }}
                       />
                     </div>
                   </ContestColumn>

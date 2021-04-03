@@ -9,7 +9,7 @@ export const dummyData = [
     data: [
       {
         id: 1,
-        title: "Nathan McKinnen C",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -144,7 +144,7 @@ export const dummyData = [
     data: [
       {
         id: 11,
-        title: "Nathan McKinnen LW",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -278,7 +278,7 @@ export const dummyData = [
     data: [
       {
         id: 55,
-        title: "Nathan McKinnen RW",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -412,7 +412,7 @@ export const dummyData = [
     data: [
       {
         id: 70,
-        title: "Nathan McKinnen D",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -422,8 +422,8 @@ export const dummyData = [
         position: "sp",
         steps: [
           {
-            titles: ["avg", "hr", "rbi", "fppg"],
-            step: [21, 18, 13, 20.0],
+            titles: ["w", "l", "ara", "fppg"],
+            step: [21, 18, 13, -20],
           },
           {
             titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
@@ -462,8 +462,8 @@ export const dummyData = [
         position: "of",
         steps: [
           {
-            titles: ["avg", "hr", "rbi", "fppg"],
-            step: [21, 18, 13, 20.0],
+            titles: ["w", "l", "ara", "fppg"],
+            step: [21, 18, 13, -20],
           },
           {
             titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
@@ -501,8 +501,8 @@ export const dummyData = [
         position: "if",
         steps: [
           {
-            titles: ["avg", "hr", "rbi", "fppg"],
-            step: [21, 18, 13, 20.0],
+            titles: ["w", "l", "ara", "fppg"],
+            step: [21, 18, 13, -20],
           },
           {
             titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
@@ -546,7 +546,7 @@ export const dummyData = [
     data: [
       {
         id: 74,
-        title: "Nathan McKinnen G",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -680,7 +680,7 @@ export const dummyData = [
     data: [
       {
         id: 78,
-        title: "Nathan McKinnen TD",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
