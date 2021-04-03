@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.scss';
 import './styles.scss';
 import ReactDOM from 'react-dom';
@@ -28,7 +28,7 @@ const PopUp = props => {
     const [showPopUp, setShowPopUp] = useState(false)
     return (
         <>
-            {props.component && props.component({ showPopUp: () => setShowPopUp(true) })}
+            { useMemo(() => props.component && props.component({ showPopUp: () => setShowPopUp(true) }), [props])}
             {showPopUp && ReactDOM.createPortal(<PopUpWrapper {...props} onClose={() => setShowPopUp(false)} />, document.getElementById('popup'))}
         </>
     )
