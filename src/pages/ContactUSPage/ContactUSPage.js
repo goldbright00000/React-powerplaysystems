@@ -20,10 +20,11 @@ const ContactUSPage = props => {
                         <section>
                             <div className={styles.inputField}>
                                 <label htmlFor='topic'>* Please choose a topic:</label>
-                                <select id='topic'>
-                                    <option disabled selected></option>
-                                    <option>Option 1</option>
-                                    <option>Option 2</option>
+                                <select id='topic' defaultValue=''>
+                                    <option disabled value=''></option>
+                                    <option value='Technical Support'>Technical Support</option>
+                                    <option value='General Enquiry'>General Enquiry</option>
+                                    <option value='Payment Related'>Payment Related</option>
                                 </select>
                             </div>
                             <div className={styles.inputField}>
