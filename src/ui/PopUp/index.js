@@ -8,15 +8,13 @@ const PopUpWrapper = ({ children, className, onClose }) => {
     useEffect(() => {
         if (!popupRef) return;
         const { offsetHeight, classList } = popupRef.current;
-        console.log(offsetHeight < window.innerHeight)
-        classList.add(offsetHeight < window.innerHeight ? 'popup-with-fixed' : 'popup-with-absolute');
+        offsetHeight < window.innerHeight && classList.add('popup-with-fixed');
     }, [])
     return (
         <>
             <div className={styles.root} ref={popupRef}>
                 <div className='blur' onClick={onClose}></div>
                 <div className={`${styles.popup} ${className} popup-wrapper`}>
-                    <div className={styles.crossicon} onClick={onClose}><span></span></div>
                     {children}
                 </div>
             </div>
@@ -24,13 +22,5 @@ const PopUpWrapper = ({ children, className, onClose }) => {
     )
 }
 
-const PopUp = props => {
-    const [showPopUp, setShowPopUp] = useState(false)
-    return (
-        <>
-            { useMemo(() => props.component && props.component({ showPopUp: () => setShowPopUp(true) }), [props])}
-            {showPopUp && ReactDOM.createPortal(<PopUpWrapper {...props} onClose={() => setShowPopUp(false)} />, document.getElementById('popup'))}
-        </>
-    )
-}
+const PopUp = props => ReactDOM.createPortal(<PopUpWrapper {...props} />, document.getElementById('popup'))
 export default PopUp;

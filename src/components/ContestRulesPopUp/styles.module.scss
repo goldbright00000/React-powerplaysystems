@@ -69,7 +69,79 @@
         font-style: italic;
     }
 }
+.crossicon{
+    font-size: 1rem;
+    position: absolute;
+    right: 1.071em;
+    top: 1.071em;
+    cursor: pointer;
+    padding: 1em;
+    border-radius: 50%;
+    transition: 0.2s all;
+    &:hover{
+        background: $lightBlack11;
+    }
+    &:active{
+        background: $lightGrey6;
+    }
+    span{
+        line-height: 1em;
+        width: 1em;
+        height: 1em;
+        display: block;
+        position: relative;
+        &::after, &::before{
+            content: '';
+            height: 100%;
+            position: absolute;
+            width: 0.072em;
+            background: $grey2;
+            left: 50%;
+            top: 0;
+        }
+        &::after{
+            transform: rotate(45deg);
+        }
+        &::before{
+            transform: rotate(135deg);
+        }
+    }
+}
+.popup{
+    padding: 7.142rem;
+    border-radius: 0.8571rem;
+    background: $lightBlack;
+    box-shadow: 0 2px 44px 0 rgba(0, 0, 0, 0.5);
+    max-width: 72.36%;
+    position: relative;
+    z-index: 1;
+    top: 0 !important;
+    margin: 5.5rem 0 8rem 0;
+}
 
+.title{
+    margin-top: -3rem;
+}
+
+@media (max-width: 1300px) {
+    .popup{
+        max-width: 80%;
+    }
+}
+@media (max-width: 1100px) {
+    .popup{
+        max-width: 90%;
+    }
+}
+@media (max-width: 997px) {
+    .popup{
+        padding: 3rem;   
+    }
+    .title{
+        margin-top: -1rem;
+        font-size: 3rem;
+    }
+}
 
 @media (max-width: 700px) {
     .cardWrapper{
