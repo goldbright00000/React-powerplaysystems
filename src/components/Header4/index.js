@@ -7,7 +7,7 @@ import Trophy from "../../icons/Trophy";
 import PowerBW from "../../assets/power_bw.png";
 import { setNumberComma } from "../../utility/shared";
 import Points from "../../icons/Points";
-
+import ContestRulesPopUp from "../ContestRulesPopUp";
 function Header3(props) {
   const {
     onClickContest = () => {},
@@ -49,9 +49,13 @@ function Header3(props) {
 
         <div className={classes.header_buttons}>
           {contestBtnTitle && (
-            <button onClick={onClickContest}>
-              <DocIcon /> Contest Rules
-            </button>
+            <ContestRulesPopUp
+              component={({ showPopUp }) => (
+                <button onClick={showPopUp}>
+                  <DocIcon /> Contest Rules
+                </button>
+              )}
+            />
           )}
           {prizeBtnTitle && (
             <button onClick={onClickPrize}>
