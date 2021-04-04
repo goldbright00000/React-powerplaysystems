@@ -114,3 +114,16 @@ body{
 .__title-6{
     font-size: 1.143rem;
 }
+.modal-animation{
+    animation: 0.3s Modal forwards;
+}
+@keyframes Modal {
+    0%{
+        transform: scale(0);
+        opacity: 0;
+    }
+    100%{
+        transform: scale(1);
+        opacity: 1;
+    }
+}
