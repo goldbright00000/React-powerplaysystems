@@ -12,7 +12,7 @@ const ChooseItem = props => {
         <label className={styles.root}>
             <span className={styles.title}>{title}</span>
             {helperText && <span className={styles.helperText}>{helperText}</span>}
-            <input type='radio' {...newProps} checked={selectedValue == value} />
+            <input type='radio' {...newProps} />
             <span className={styles.underLine}></span>
         </label>
     )

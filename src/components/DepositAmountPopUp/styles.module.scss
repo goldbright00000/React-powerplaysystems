@@ -1,6 +1,6 @@
 @import '../../scss/colors.scss';
 
-.blur, .root{
+.blur{
     position: fixed;
     left: 0;
     top: 0;
@@ -9,16 +9,28 @@
     background: rgba($color: #000000, $alpha: 0.5);
     z-index: 9;
 }
+body{
+    position: relative;
+}
 .root{
     z-index: 10;
     display: flex;
+    color: #0000;
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 100%;
 }
 .contentWrapper{
+    position: sticky;
+    position: -webkit-sticky;
+    bottom: 0;
     background-color: #ffffff;
     border-radius: 0.43rem;
-    margin: auto;
     width: 76.643rem;
     overflow: hidden;
+    margin: auto;
 }
 .header{
     padding: 1rem 2.85rem;
@@ -26,9 +38,13 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    color: #fff;
 }
 .main{
     padding: 2.85rem;
+    display: flex;
+    justify-content: space-between;
+    color: #000;
 }
 
 .mainTitle{
@@ -37,10 +53,17 @@
     line-height: 1em;
     font-weight: 500;
 }
-.formSection h6, .title{
+.formSection h6, .title, .title2{
     color: $grey9;
     font-size: 1.143rem;
     margin: 0 0 0.9rem 0;
+}
+.title2{
+    color: $primary;
+}
+.cardSectionn{
+    margin-bottom: 2.857rem;
+    color: #000;
 }
 .crossicon{
     font-size: 1rem;
@@ -80,15 +103,135 @@
     }
 }
 .form{
-    width: 100%;
+    width: initial;
     max-width: initial;
+    margin: 0;
 }
 .formSection{
     margin-bottom: 2.857rem;
+    color: #000;
     >div{
         display: flex;
         >*{
             margin-right: 0.7143rem;
         }
+    }
+}
+.creditdebitcardImg{
+    width: 2.857rem;
+}
+.PayPal, .ECheck, .cvvImage, .cvvInput{
+    max-width: 5.714rem;
+}
+.BitCoin{
+    width: 3.428rem;
+}
+.Coingate{
+    width: 4.285rem;
+}
+.Ethereum{
+    width: 2.142rem;
+}
+.cardDetails{
+    display: block;
+    div{
+        justify-content: space-between;
+        display: flex;
+        margin-bottom: 0.3rem;
+    }
+    input{
+        border: solid 0.0714rem $lightGrey2;
+        border-radius: 0.142rem;
+        outline: none;
+        background: #fff;
+        display: block;
+        width: 100%;
+        padding: 0.7142rem 0 0.7142rem 5rem;
+        background: url('../../assets/visa.png') no-repeat 0.857rem center;
+        background-size: auto 0.929rem;
+        color: $lightBlack;
+    }
+    a{
+        color: $primary;
+    }
+}
+.submitbtn{
+    height: 3.6rem;
+    border: none;
+    width: 23.14rem;
+    border-radius: 0.571rem;
+    background: $primary;
+    font-weight: 600;
+    color: #fff;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    &::after, &::before{
+        content: '';
+        position: absolute;
+        width: 100%;
+        left: 0;
+        padding-top: 100%;
+        top: 50%;
+        transition: 0.2s all;
+        transform: translateY(-50%) scale(0);
+    }
+    &:hover::before{
+        background: rgba($color: #fff, $alpha: 0.05);
+        transform: translateY(-50%) scale(1);
+    }
+    &:active::after{
+        background: rgba($color: $primary, $alpha: 0.1);
+        transform: translateY(-50%) scale(1);
+    }
+}
+
+.inputField{
+    label{
+        margin-bottom: 0.3rem;
+        display: block;
+    }
+    input{
+        border: solid 0.0714rem $lightGrey2;
+        border-radius: 0.142rem;
+        outline: none;
+        background: #fff;
+        display: block;
+        width: 100%;
+        padding: 0.7142rem 1rem;
+        background-size: auto 0.929rem;
+        color: $lightBlack;
+        &:focus{
+            border-color: $primary;
+        }
+    }
+}
+.leftSection{
+    width: 18.27rem;
+    margin-right: 4rem;
+}
+.cvvImage{
+    margin-left: 1rem;
+}
+.currentBalanceTitle{
+    font-size: 2.571rem;
+    color: $primary;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1em;
+}
+
+.creditCardDetails{
+    margin: 5.3rem 0 2.857rem 0;
+}
+@media (max-height: 800px) {
+    .root{
+        position: absolute;
+        margin: 3rem 0;
+    }
+    .contentWrapper{
+        margin: auto auto 0 auto;
+        bottom: 3rem;
     }
 }

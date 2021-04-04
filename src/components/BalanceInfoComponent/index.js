@@ -15,6 +15,7 @@ import Checkbox from "../Checkbox";
 import Select from "../Select";
 import { getDays, getMonthDays, getYearsList } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
+import DepositAmountPopUp from '../DepositAmountPopUp/DepositAmountPopUp';
 
 const ListTitle = (Icon, isSvg, title) => (
   <span className={classes.list_left_side_1}>
@@ -66,7 +67,8 @@ function BalanceInfoComponent(props) {
   const [form, setForm] = useState({});
   const [showModal, setModalState] = useState(false);
   const [activeForm, setActiveForm] = useState(0);
-
+  const [showDepositModal, setShowDepositModal] = useState(false)
+  
   const { isMobile = false } = props || {};
   const { balance = {} } = props || {};
 
@@ -114,12 +116,13 @@ function BalanceInfoComponent(props) {
 
   return (
     <>
+      {showDepositModal && <DepositAmountPopUp onClose={() => setShowDepositModal(false)} />}
       <div className={classes.list_header_wrapper}>
         {ListHeader(
           "My Cash Balance",
           balance.cashBalance,
           "Deposit",
-          () => {},
+          () => setShowDepositModal(true),
           "Withdraw",
           changeModalState,
           Money,

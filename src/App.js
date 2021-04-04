@@ -35,12 +35,10 @@ import NBAPowerdFs from "./pages/NBApowerdFS";
 import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
-import DepositAmountPopUp from "./components/DepositAmountPopUp/DepositAmountPopUp";
 
 const App = (props) => {
   return (
     <Fragment>
-      <DepositAmountPopUp />
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />

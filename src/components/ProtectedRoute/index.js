@@ -12,13 +12,13 @@ function ProtectedRoute({ component: Component, ...rest }) {
     
     return <Route {...rest} render={(props) => {
         return (
-            isAuthenticated ?
-                <Component {...props} />
-                :
-                <Redirect to={{
-                    pathname: '/login',
-                    state: {from: props?.location}
-                }} />
+            <Component {...props} />
+            // isAuthenticated ?
+            //     :
+            //     <Redirect to={{
+            //         pathname: '/login',
+            //         state: {from: props?.location}
+            //     }} />
             )
         }} />
 }
