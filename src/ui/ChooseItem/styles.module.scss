@@ -1,0 +1,42 @@
+@import '../../scss/colors.scss';
+.root{
+    display: block;
+    width: 7.143rem;
+    height: 5.143rem;
+    border: solid 0.0715rem $lightGrey2;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+    border-radius: 0.143rem;
+    cursor: pointer;
+    position: relative;
+    input{
+        display: none;
+        &:checked ~ .underLine{
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+    color: #1e1e1e;
+}
+.title{
+    font-size: 1.428rem;
+    font-weight: 600;
+}
+.underLine{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    border-radius: 0.143rem;
+    width: calc(100% + 0.0715rem);
+    height: 0.2857rem;
+    background: $primary;
+    transform: scale(0);
+    opacity: 0;
+    transition: 0.15s all linear;
+}
+.helperText{
+    color: rgba($color: #000000, $alpha: 0.5);
+    line-height: 1.2em;
+}

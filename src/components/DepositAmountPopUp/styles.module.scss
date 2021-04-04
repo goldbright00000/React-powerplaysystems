@@ -1,0 +1,94 @@
+@import '../../scss/colors.scss';
+
+.blur, .root{
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 9;
+}
+.root{
+    z-index: 10;
+    display: flex;
+}
+.contentWrapper{
+    background-color: #ffffff;
+    border-radius: 0.43rem;
+    margin: auto;
+    width: 76.643rem;
+    overflow: hidden;
+}
+.header{
+    padding: 1rem 2.85rem;
+    background: $primary;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.main{
+    padding: 2.85rem;
+}
+
+.mainTitle{
+    font-size: 1.857rem;
+    margin: 0;
+    line-height: 1em;
+    font-weight: 500;
+}
+.formSection h6, .title{
+    color: $grey9;
+    font-size: 1.143rem;
+    margin: 0 0 0.9rem 0;
+}
+.crossicon{
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 1em;
+    border-radius: 50%;
+    transition: 0.2s all;
+    position: relative;
+    right: -1em;
+    &:hover{
+        background: rgba($color: $lightGrey6, $alpha: 0.2);
+    }
+    &:active{
+        background: $lightGrey6;
+    }
+    span{
+        line-height: 1em;
+        width: 1em;
+        height: 1em;
+        display: block;
+        position: relative;
+        &::after, &::before{
+            content: '';
+            height: 100%;
+            position: absolute;
+            width: 0.072em;
+            background: #fff;
+            left: 50%;
+            top: 0;
+        }
+        &::after{
+            transform: rotate(45deg);
+        }
+        &::before{
+            transform: rotate(135deg);
+        }
+    }
+}
+.form{
+    width: 100%;
+    max-width: initial;
+}
+.formSection{
+    margin-bottom: 2.857rem;
+    >div{
+        display: flex;
+        >*{
+            margin-right: 0.7143rem;
+        }
+    }
+}
