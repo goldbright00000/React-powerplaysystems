@@ -19,6 +19,9 @@
 .__italic{
     font-style: italic;
 }
+.__line-height-1{
+    line-height: 1em;
+}
 .__background{
     background-size: cover;
     background-repeat: no-repeat;
@@ -250,4 +253,7 @@
 }
 .__mb-1s{
     margin-bottom: 1.5em;
+}
+.__mb-sm{
+    margin-bottom: 0.3rem !important;
 }

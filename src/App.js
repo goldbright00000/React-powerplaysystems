@@ -34,6 +34,7 @@ import NHLPowerdFs from "./pages/NHLpowerdFS";
 import NBAPowerdFs from "./pages/NBApowerdFS";
 import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail";
+import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 
 const App = (props) => {
   return (
@@ -83,7 +84,9 @@ const App = (props) => {
         <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
         <Route path="/nba-powerdfs" component={NBAPowerdFs} />
         <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
+        <Route path='/contact-us' component={ContactUSPage} />
         <Route component={HomePage} />
+
       </Switch>
     </Fragment>
   );
