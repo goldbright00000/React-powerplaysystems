@@ -27,7 +27,7 @@ import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
-import Full_FC from "../../icons/Full_FC";
+import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -520,9 +520,18 @@ function MLBPowerdFs() {
                     </div>
                   </ContestColumn>
                 </div>
-                <Link className={classes.footer_full_rules} href="#">
-                  See Full Rules <img src={RightArrow} />
-                </Link>
+
+                <ContestRulesPopUp
+                  component={({ showPopUp }) => (
+                    <Link
+                      onClick={showPopUp}
+                      className={classes.footer_full_rules}
+                      href="#"
+                    >
+                      See Full Rules <img src={RightArrow} />
+                    </Link>
+                  )}
+                />
               </div>
               <img
                 src={MLBFooterImage}
