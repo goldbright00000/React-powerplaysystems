@@ -62,6 +62,7 @@ const PowerUpPage = (props) => {
 
     const data = {
       email,
+      password,
     };
     const response = await http.post(URLS.AUTH.VERIFY_EMAIL, data);
     if (response.data.status === false) {

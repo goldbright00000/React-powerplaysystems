@@ -7,7 +7,7 @@ import Trophy from "../../icons/Trophy";
 import PowerBW from "../../assets/power_bw.png";
 import { setNumberComma } from "../../utility/shared";
 import Points from "../../icons/Points";
-
+import ContestRulesPopUp from "../ContestRulesPopUp";
 function Header3(props) {
   const {
     onClickContest = () => {},
@@ -19,6 +19,8 @@ function Header3(props) {
     contestBtnTitle = "",
     prizeBtnTitle = "",
     bgImageUri,
+    compressedView = false,
+    currentState = <></>,
   } = props || {};
 
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
@@ -31,30 +33,45 @@ function Header3(props) {
     </div>
   );
 
-  return (
+  const RenderHeader = () => (
     <div
-      className={classes.header_container}
+      className={`${classes.header_container} ${
+        compressedView && classes.compressedView
+      }`}
       style={{ backgroundImage: "url(" + bgImageUri + ")" }}
     >
       <div className={classes.header_top}>
         {titleMain1 && (
           <div className={classes.header_title}>
-            <h2>
+            <h2 className={compressedView && classes.compressedView}>
               {titleMain1} <span>{titleMain2}</span>
             </h2>
           </div>
         )}
-        {subHeader1 && <p>{subHeader1}</p>}
-        {subHeader2 && <p className={classes.p2}>{subHeader2}</p>}
+        {!compressedView && subHeader1 && <p>{subHeader1}</p>}
+        {!compressedView && subHeader2 && (
+          <p className={classes.p2}>{subHeader2}</p>
+        )}
 
-        <div className={classes.header_buttons}>
+        <div
+          className={`${classes.header_buttons} ${
+            compressedView && classes.compressedView
+          }`}
+        >
           {contestBtnTitle && (
-            <button onClick={onClickContest}>
-              <DocIcon /> Contest Rules
-            </button>
+            <ContestRulesPopUp
+              component={({ showPopUp }) => (
+                <button onClick={showPopUp}>
+                  <DocIcon /> {contestBtnTitle}
+                </button>
+              )}
+            />
           )}
           {prizeBtnTitle && (
-            <button onClick={onClickPrize}>
+            <button
+              className={compressedView && classes.compressedView}
+              onClick={onClickPrize}
+            >
               <Trophy /> Prize Grid
             </button>
           )}
@@ -70,6 +87,7 @@ function Header3(props) {
         </div>
 
         <div className={classes.header_bottom_r}>
+          {currentState && currentState}
           <div className={classes.divider} />
           <FooterSection
             title="15,000"
@@ -89,6 +107,8 @@ function Header3(props) {
       </div>
     </div>
   );
+
+  return <RenderHeader />;
 }
 
 Header3.propTypes = {
@@ -101,6 +121,8 @@ Header3.propTypes = {
   contestBtnTitle: PropTypes.string,
   prizeBtnTitle: PropTypes.string,
   bgImageUri: PropTypes.string,
+  compressedView: PropTypes.bool,
+  currentState: PropTypes.element,
 };
 
 export default Header3;
