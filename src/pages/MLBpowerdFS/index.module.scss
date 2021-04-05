@@ -88,6 +88,11 @@
 
           p {
             font-size: 16px;
+            width: 80%;
+            text-align: center;
+            color: $grey2;
+            font-family: Poppins;
+            opacity: 0.95;
           }
         }
 
@@ -312,6 +317,12 @@
       .partner_logo {
         width: 250px;
         height: 40px;
+        display: flex;
+        align-self: flex-end;
+        margin: 20px 0;
+      }
+
+      .partner_logo_2 {
         display: flex;
         align-self: flex-end;
         margin: 20px 0;

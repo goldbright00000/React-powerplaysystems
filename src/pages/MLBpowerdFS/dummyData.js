@@ -9,7 +9,7 @@ export const dummyData = [
     data: [
       {
         id: 1,
-        title: "Nathan McKinnen C",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -144,7 +144,7 @@ export const dummyData = [
     data: [
       {
         id: 11,
-        title: "Nathan McKinnen LW",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -278,7 +278,7 @@ export const dummyData = [
     data: [
       {
         id: 55,
-        title: "Nathan McKinnen RW",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -412,7 +412,7 @@ export const dummyData = [
     data: [
       {
         id: 70,
-        title: "Nathan McKinnen D",
+        title: "Toronto Blue Jays",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -422,8 +422,8 @@ export const dummyData = [
         position: "sp",
         steps: [
           {
-            titles: ["avg", "hr", "rbi", "fppg"],
-            step: [21, 18, 13, 20.0],
+            titles: ["w", "l", "ara", "fppg"],
+            step: [21, 18, 13, -20],
           },
           {
             titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
@@ -442,16 +442,11 @@ export const dummyData = [
               },
             ],
           },
-          {
-            step: {
-              ad: AdImg,
-            },
-          },
         ],
       },
       {
         id: 71,
-        title: "Conner McDavid",
+        title: "Tampa Bay Lightening",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -462,8 +457,8 @@ export const dummyData = [
         position: "of",
         steps: [
           {
-            titles: ["avg", "hr", "rbi", "fppg"],
-            step: [21, 18, 13, 20.0],
+            titles: ["w", "l", "ara", "fppg"],
+            step: [21, 18, 13, -20],
           },
           {
             titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
@@ -482,16 +477,11 @@ export const dummyData = [
               },
             ],
           },
-          {
-            step: {
-              ad: AdImg,
-            },
-          },
         ],
       },
       {
         id: 72,
-        title: "Sebastian Aho",
+        title: "Columbus Blue Jackets",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -501,8 +491,8 @@ export const dummyData = [
         position: "if",
         steps: [
           {
-            titles: ["avg", "hr", "rbi", "fppg"],
-            step: [21, 18, 13, 20.0],
+            titles: ["w", "l", "ara", "fppg"],
+            step: [21, 18, 13, -20],
           },
           {
             titles: ["h", "2b", "hr", "rbi", "avg", "fppg"],
@@ -520,11 +510,6 @@ export const dummyData = [
                 values: [1, 0, 0, 2, 1, 14.8],
               },
             ],
-          },
-          {
-            step: {
-              ad: AdImg,
-            },
           },
         ],
       },
@@ -546,7 +531,7 @@ export const dummyData = [
     data: [
       {
         id: 74,
-        title: "Nathan McKinnen G",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -680,7 +665,7 @@ export const dummyData = [
     data: [
       {
         id: 78,
-        title: "Nathan McKinnen TD",
+        title: "Nathan McKinnen",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -759,7 +744,7 @@ export const dummyData = [
       },
       {
         id: 80,
-        title: "Tampa Bay Lightening",
+        title: "Conner McDavid",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",
@@ -798,7 +783,7 @@ export const dummyData = [
       },
       {
         id: 81,
-        title: "Columbus Blue Jackets",
+        title: "Sebastian Aho",
         avgVal: 4,
         teamA: "Arizona Diamondbacks",
         teamB: "Baltimore Orioles",

@@ -3,6 +3,9 @@
 .search_form {
   display: flex;
   align-items: center;
+  width: 45%;
+  margin: 0;
+  padding: 0;
 
   span {
     background-color: $lightBlack5;
@@ -12,7 +15,7 @@
     width: 318px;
 
     svg {
-      transform: translate(0, 6px);
+      transform: translate(0, 10px);
       margin: 0 10px;
     }
 

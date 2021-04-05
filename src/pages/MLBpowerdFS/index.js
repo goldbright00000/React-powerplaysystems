@@ -27,6 +27,7 @@ import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
+import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -115,8 +116,6 @@ const FILTERS_INITIAL_VALUES = [
   },
 ];
 
-let starPowerIndex = 0;
-
 const dropDown = [
   { title: "Team A" },
   { title: "Team B" },
@@ -137,9 +136,40 @@ const contestScoring = {
   ],
   data2: [
     { title: "Outs", points: "+1 Pt per Out" },
-    { title: "Strikeout", points: "+2 pts" },
+    { title: "Inning 1-6 K's", points: "+2 pts" },
+    { title: "Innings 7+ K's", points: "+3 pts" },
   ],
 };
+
+const headerText = [
+  {
+    id: 1,
+    text: `Select 1 Pitcher, you can use your Swap Power to swap your SP for a RP during the game.`,
+  },
+  {
+    id: 2,
+    text: `Select 1 Catcher.`,
+  },
+  {
+    id: 3,
+    text: `Select 1 Shortstop.`,
+  },
+  {
+    id: 4,
+    text: `Select 2 players from the pool of players at First Base (1B), Second Base (2B), and Third Base (3B). You may only select one Star player from the XB pool.`,
+  },
+  {
+    id: 5,
+    text: `Select 2 Outfielders (OF) from the pool of players at Left Field (LF), Center Field (CF), and Right Field (RF). You may select only one Star player from the OF pool.`,
+  },
+  {
+    id: 6,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team. You can see the Average Runs Against (ARA) for each team below. Click the Arrow icon to see starting Pitchers.`,
+  },
+];
+
+let starPowerIndex = 0;
+let selectedPlayerCount = 0;
 
 function MLBPowerdFs() {
   const [selected, setSelected] = useState(new Map());
@@ -188,6 +218,7 @@ function MLBPowerdFs() {
             _selectedStarPowers[starPowerIndex] = true;
             starPowerIndex++;
           }
+          selectedPlayerCount++;
         }
       } else {
         let existingPlayerIndex = _playersList?.findIndex((player) =>
@@ -208,6 +239,7 @@ function MLBPowerdFs() {
           _playersList[existingPlayerIndex].playerId = "";
           _playersList[existingPlayerIndex].isStarPlayer = false;
         }
+        selectedPlayerCount--;
       }
 
       setSelected(_selected);
@@ -368,7 +400,6 @@ function MLBPowerdFs() {
                 <SportsFilters
                   data={filters}
                   onSelect={onSelectFilter}
-                  // activeFilter={selectedFilter}
                   selectedFilter={selectedFilter}
                 />
 
@@ -384,10 +415,7 @@ function MLBPowerdFs() {
             <div className={classes.container_body}>
               <Card>
                 <div className={classes.card_header}>
-                  <p>
-                    Select 1 Team Defense, Goals against result in negative
-                    points for your team.
-                  </p>
+                  <p>{headerText[selectedFilter?.id - 1]?.text}</p>
                 </div>
 
                 <div className={classes.card_body}>
@@ -413,6 +441,7 @@ function MLBPowerdFs() {
                             item.isStarPlayer &&
                             starPowerIndex >= 3
                           }
+                          mlbCard
                         />
                       ) : (
                         <SelectionCard3
@@ -486,14 +515,23 @@ function MLBPowerdFs() {
                       <ContestScoringColumn
                         title="Pitchers"
                         data={contestScoring.data2}
-                        styles={{ width: "160px" }}
+                        styles={{ width: "235px" }}
                       />
                     </div>
                   </ContestColumn>
                 </div>
-                <Link className={classes.footer_full_rules} href="#">
-                  See Full Rules <img src={RightArrow} />
-                </Link>
+
+                <ContestRulesPopUp
+                  component={({ showPopUp }) => (
+                    <Link
+                      onClick={showPopUp}
+                      className={classes.footer_full_rules}
+                      href="#"
+                    >
+                      See Full Rules <img src={RightArrow} />
+                    </Link>
+                  )}
+                />
               </div>
               <img
                 src={MLBFooterImage}
@@ -503,13 +541,19 @@ function MLBPowerdFs() {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar styles={{ width: "357px" }}>
+            <Sidebar
+              styles={{
+                width: "357px",
+                padding: "0px",
+              }}
+            >
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
                   width: "100%",
+                  marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"
                 powerTitle="Top Prize"
@@ -540,6 +584,8 @@ function MLBPowerdFs() {
               <SportsSidebarContent
                 data={playerList}
                 onDelete={(playerId) => onDelete(playerId)}
+                starIcon={StarImg}
+                selectedPlayerCount={selectedPlayerCount}
               />
               <button className={classes.sidebar_button}>Submit!</button>
             </Sidebar>
