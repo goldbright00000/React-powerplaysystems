@@ -18,12 +18,12 @@ function SportsFilters(props) {
         data?.map((item) => (
           <button
             className={`
-                        ${item.remaining <= 0 ? classes.active : ""} 
-                        ${
-                          selectedFilter?.id === item?.id && item.remaining > 0
-                            ? classes.selected
-                            : selectedFilter?.id === item?.id && classes.border
-                        }`}
+              ${item.remaining <= 0 ? classes.active : ""} 
+              ${
+                selectedFilter?.id === item?.id && item.remaining > 0
+                  ? classes.selected
+                  : selectedFilter?.id === item?.id && classes.border
+              }`}
             onClick={() => onSelect(item.id)}
             key={item?.id.toString()}
           >
