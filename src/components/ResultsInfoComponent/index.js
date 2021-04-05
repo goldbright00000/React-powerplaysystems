@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Accordian from "../Accordian";
 import Token from '../../assets/points-collected.png';
+import Bitcoin from '../../assets/bitcoin.png';
+import Ethereum from '../../assets/ethereum.png';
 
 const data = [
   {
     cashTitle: "Total: ",
     cash: "$4500",
-    dataTitle: "Cash Prize",
+    dataTitle: "USD Cash Prizes",
     type: "cashBalance",
     balanceType: "cash",
     iconWithTitle: ''
@@ -23,10 +25,18 @@ const data = [
   {
     cashTitle: "",
     cash: "$4500",
-    dataTitle: "Non-Cash Prizes",
+    dataTitle: "Bitcoin Prizes",
     type: "tokenBalance",
     balanceType: "token",
-    iconWithTitle: ''
+    iconWithTitle: Bitcoin
+  },
+  {
+    cashTitle: "",
+    cash: "$4500",
+    dataTitle: "Ethereum Prizes",
+    type: "tokenBalance",
+    balanceType: "token",
+    iconWithTitle: Ethereum
   },
 ];
 
