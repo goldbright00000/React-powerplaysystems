@@ -6,7 +6,12 @@ import DeleteIcon from "../../icons/Delete2";
 import PowerIcon from "../../assets/power_balance_icon.png";
 
 function SportsSidebarContent(props) {
-  const { data = [], onDelete = () => {} } = props || {};
+  const {
+    data = [],
+    onDelete = () => {},
+    starIcon = "",
+    selectedPlayerCount = 0,
+  } = props || {};
 
   const SideBarSection = ({
     title,
@@ -21,7 +26,7 @@ function SportsSidebarContent(props) {
     <div className={classes.sidebar_body_section} key={playerId}>
       <span className={value ? classes.active : ""}>{title}</span>
       <div>
-        {isStarPlayer && <img src={PowerIcon} />}
+        {isStarPlayer && <img src={starIcon ? starIcon : PowerIcon} />}
         {SvgIcon && <SvgIcon size={svgSize} />}
         {value ? (
           <div className={classes.sidebar_body_value}>
@@ -39,7 +44,9 @@ function SportsSidebarContent(props) {
 
   return (
     <div className={classes.sidebar_body}>
-      <p>1/8 Starting Players Selected</p>
+      <p>
+        {selectedPlayerCount}/{data?.length} Starting Players Selected
+      </p>
       <div className={classes.sidebar_body_1}>
         {data?.length ? (
           data?.map((item, index) => (
@@ -68,6 +75,8 @@ function SportsSidebarContent(props) {
 SportsSidebarContent.propTypes = {
   data: PropTypes.array,
   onDelete: PropTypes.func,
+  starIcon: PropTypes.string,
+  selectedPlayerCount: PropTypes.number,
 };
 
 export default SportsSidebarContent;
