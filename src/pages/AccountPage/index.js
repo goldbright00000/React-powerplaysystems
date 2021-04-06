@@ -14,13 +14,16 @@ import AccountInfo from "../../components/AccountInfoComponent";
 import BalanceInfoComponent from "../../components/BalanceInfoComponent";
 import ResultsInforComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
+import AccountLimits from "../../components/AccountLimits";
 
 function AccountPage(props) {
   const [activeTab, setActiveTab] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
+
   useEffect(() => {
     getUserAccount();
   }, []);
+
   const { user = "" } = useSelector((state) => state?.auth);
   const [userAccount, setUserAccount] = useState({});
 
@@ -60,6 +63,9 @@ function AccountPage(props) {
                 <Tab className={`${activeTab === 3 && classes.active}`}>
                   History
                 </Tab>
+                <Tab className={`${activeTab === 4 && classes.active}`}>
+                  Account Limits
+                </Tab>
               </TabList>
 
               <div className={classes.tab_body}>
@@ -85,6 +91,9 @@ function AccountPage(props) {
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}
                   />
+                </TabPanel>
+                <TabPanel>
+                  <AccountLimits />
                 </TabPanel>
               </div>
             </Tabs>
