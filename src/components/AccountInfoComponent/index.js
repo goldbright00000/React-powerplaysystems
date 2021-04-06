@@ -26,22 +26,14 @@ function AccountInfo(props) {
   return (
     <div className={classes.list_container}>
       {renderItem("Full Name", user.first_name + " " + user.last_name)}
-
       {renderItem("Display Name", user.display_name)}
-
       {renderItem("Email", user.email)}
-      {renderItem(
-        "Date of Birth",
-        user?.date_of_birth ? user.date_of_birth : "--"
-      )}
-
+      {renderItem("Date of Birth", user.date_of_birth)}
       {renderItem("Country", user.country)}
-
       {renderItem(
         isMobile ? "Province" : "Province/State/Territory",
         user.state_or_province
       )}
-
       {renderItem("Change Password", "", "Change")}
     </div>
   );
