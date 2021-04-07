@@ -35,6 +35,7 @@ function AccountInfo(props) {
         user.state_or_province
       )}
       {renderItem("Change Password", "", "Change")}
+      {renderItem("Delete Account", "", "Delete")}
     </div>
   );
 }

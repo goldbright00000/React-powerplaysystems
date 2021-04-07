@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
-
+import { useSelector } from 'react-redux';
 import classes from './MyGameCenter.module.scss';
 import Scoreboard from '../../assets/scoreboard.png';
 import Emblem from '../../assets/emblem.png';
@@ -14,15 +14,161 @@ import Card from '../../components/Card';
 import PIcon from '../../icons/PIcon';
 import MyGameCenterTable from './MyGameCenterTable';
 import PointsIcon from '../../icons/PointsIcon';
+import PowerBalanceGrey from '../../assets/power-balance-grey.png';
+import CashBalanceGrey from '../../assets/cash-balance-grey.png';
+import BitcoinGrey from '../../assets/bitcoin-grey.png';
+import EthereumGrey from '../../assets/ethereum-grey.png';
+import { getLocalStorage, redirectTo } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
 // import Scoreboard from '../../icons/Scoreboard';
+
+const CURRENCY_DATA = [
+    {
+        label: 'Cash Balance',
+        value: 'cash'
+    },
+    {
+        label: 'Bitcoin Balance',
+        value: 'bitcoin'
+    },
+    {
+        label: 'Ethereum Balance',
+        value: 'ethereum'
+    },
+];
 
 const MyGameCenter = props => {
     const { url } = props.match;
+    const { auth: { user: { token = '' } }, user: {userBalance = {}} = {} } = useSelector((state) => state);
+    const [currencyMenu, setCurrencyMenu] = useState(false);
+    const [displayCurrency, setDisplayCurrency] = useState(['cash', 'bitcoin', 'ethereum']);
+
     return (
         <Fragment>
             <Header isStick={true} />
-            <div className='__MyGameCenter'>
-                <div className='__viewport-large-title __center __pt-1'>My Game Center</div>
+            <div className='__my_game_center'>
+                <div className='__my_game_center_banner'>
+                    <div className='__my_game_center_banner_left __container'>
+                        <div className='__my_game_center_banner_left_title_main'>
+                            My Game Center
+                        </div>
+                    </div>
+                    {
+                        token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
+                        ?
+                        <div className='__my_game_center_banner_footer'>
+                            <div className='__my_game_center_banner_footer_deposit' onClick={() => redirectTo(props, { path: "/my-account" })}>
+                                Deposit
+                            </div>
+                            <div className={`${'__my_game_center_banner_footer_cash_and_balance_outer'} ${displayCurrency.length > 0 && 'border_right'}`}>
+                                <div className='__my_game_center_banner_footer_cash_and_balance_icon'>
+                                    <img src={PowerBalanceGrey} />
+                                </div>
+                                <div className='__my_game_center_banner_footer_cash_and_balance_inner'>
+                                    <div className='__my_game_center_banner_footer_power_and_cash_balance'>
+                                        {userBalance.tokenBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)}
+                                    </div>
+                                    <div className='__my_game_center_banner_footer_power_and_cash_balance_title'>
+                                        Power Balance
+                                    </div>
+                                </div>
+                            </div>
+                            {
+                                (displayCurrency.includes('cash'))
+                                &&
+                                <div className={`${'__my_game_center_banner_footer_cash_and_balance_outer'} ${(displayCurrency.includes('bitcoin') || displayCurrency.includes('ethereum')) && 'border_right'}`}>
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_icon'>
+                                        <img src={CashBalanceGrey} />
+                                    </div>
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_inner'>
+                                        <div className='__my_game_center_banner_footer_power_and_cash_balance'>
+                                            ${userBalance.cashBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)}
+                                        </div>
+                                        <div className='__my_game_center_banner_footer_power_and_cash_balance_title'>
+                                            Cash Balance
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            {
+                                (displayCurrency.includes('bitcoin'))
+                                &&
+                                <div className={`${'__my_game_center_banner_footer_cash_and_balance_outer'} ${(displayCurrency.includes('cash') || displayCurrency.includes('ethereum')) && 'border_right'}`}>
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_icon'>
+                                        <img src={BitcoinGrey} />
+                                    </div>
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_inner'>
+                                        <div className='__my_game_center_banner_footer_power_and_cash_balance'>
+                                            .00241
+                                        </div>
+                                        <div className='__my_game_center_banner_footer_power_and_cash_balance_title'>
+                                            Bitcoin 
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            {
+                                (displayCurrency.includes('ethereum'))
+                                &&
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_outer'>
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_icon'>
+                                        <img src={EthereumGrey} />
+                                    </div>
+                                    <div className='__my_game_center_banner_footer_cash_and_balance_inner'>
+                                        <div className='__my_game_center_banner_footer_power_and_cash_balance'>
+                                            .007
+                                        </div>
+                                        <div className='__my_game_center_banner_footer_power_and_cash_balance_title'>
+                                            Ethereum
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            {
+                                currencyMenu
+                                &&
+                                <div className='__currency_menu'>
+                                    <div>
+                                        Display:
+                                    </div>
+                                    {
+                                        CURRENCY_DATA.map((item, index) => {
+                                            return (
+                                                <div 
+                                                    className={
+                                                        `${'__currency_menu_item'} 
+                                                        ${displayCurrency.includes(item.value) && '__currency_menu_selected'}`
+                                                    }
+                                                    onClick={() => {
+                                                        // Check if currency exist in array
+                                                        const i = displayCurrency.indexOf(item.value);
+                                                        if (i > -1) {
+                                                            displayCurrency.splice(i, 1);
+                                                        } else {
+                                                            displayCurrency.push(item.value);
+                                                        }
+                                                        setDisplayCurrency(displayCurrency);
+                                                        setCurrencyMenu(false);
+                                                    }}>
+                                                    {item.label}
+                                                </div>
+                                            );
+                                        })
+                                    }
+                                </div>
+                            }
+                            <div className='__three_dots_div'>
+                                <button className='__three_dots' onClick={() => setCurrencyMenu(!currencyMenu)}>
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                    :
+                    <div style={{ height: 50}}></div>
+                    }
+                </div>
                 {/* <div className={classes.header2_container}>
                     <div className={classes.header2_card}>
                         <Card>

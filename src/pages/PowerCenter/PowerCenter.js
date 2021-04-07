@@ -35,7 +35,7 @@ const PowerCenter = props => {
     const { url } = props.match;
     const { auth: { user: { token = '' } }, user: {userBalance = {}} = {} } = useSelector((state) => state);
     const [currencyMenu, setCurrencyMenu] = useState(false);
-    const [displayCurrency, setDisplayCurrency] = useState('default');
+    const [displayCurrency, setDisplayCurrency] = useState(['cash', 'bitcoin', 'ethereum']);
 
     return (
         <Fragment>
@@ -62,7 +62,7 @@ const PowerCenter = props => {
                             <div className='__power_center_banner_footer_deposit' onClick={() => redirectTo(props, { path: "/my-account" })}>
                                 Deposit
                             </div>
-                            <div className='__power_center_banner_footer_cash_and_balance_outer border_right'>
+                            <div className={`${'__power_center_banner_footer_cash_and_balance_outer'} ${displayCurrency.length > 0 && 'border_right'}`}>
                                 <div className='__power_center_banner_footer_cash_and_balance_icon'>
                                     <img src={PowerBalanceGrey} />
                                 </div>
@@ -76,9 +76,9 @@ const PowerCenter = props => {
                                 </div>
                             </div>
                             {
-                                (displayCurrency == 'default' || displayCurrency == 'cash')
+                                (displayCurrency.includes('cash'))
                                 &&
-                                <div className={`${'__power_center_banner_footer_cash_and_balance_outer'} ${displayCurrency == 'default' && 'border_right'}`}>
+                                <div className={`${'__power_center_banner_footer_cash_and_balance_outer'} ${(displayCurrency.includes('bitcoin') || displayCurrency.includes('ethereum')) && 'border_right'}`}>
                                     <div className='__power_center_banner_footer_cash_and_balance_icon'>
                                         <img src={CashBalanceGrey} />
                                     </div>
@@ -93,9 +93,9 @@ const PowerCenter = props => {
                                 </div>
                             }
                             {
-                                (displayCurrency == 'default' || displayCurrency == 'bitcoin')
+                                (displayCurrency.includes('bitcoin'))
                                 &&
-                                <div className={`${'__power_center_banner_footer_cash_and_balance_outer'} ${displayCurrency == 'default' && 'border_right'}`}>
+                                <div className={`${'__power_center_banner_footer_cash_and_balance_outer'} ${(displayCurrency.includes('cash') || displayCurrency.includes('ethereum')) && 'border_right'}`}>
                                     <div className='__power_center_banner_footer_cash_and_balance_icon'>
                                         <img src={BitcoinGrey} />
                                     </div>
@@ -110,7 +110,7 @@ const PowerCenter = props => {
                                 </div>
                             }
                             {
-                                (displayCurrency == 'default' || displayCurrency == 'ethereum')
+                                (displayCurrency.includes('ethereum'))
                                 &&
                                     <div className='__power_center_banner_footer_cash_and_balance_outer'>
                                     <div className='__power_center_banner_footer_cash_and_balance_icon'>
@@ -137,12 +137,20 @@ const PowerCenter = props => {
                                         CURRENCY_DATA.map((item, index) => {
                                             return (
                                                 <div 
+                                                    key={index}
                                                     className={
                                                         `${'__currency_menu_item'} 
-                                                        ${displayCurrency == item.value && '__currency_menu_selected'}`
+                                                        ${displayCurrency.includes(item.value) && '__currency_menu_selected'}`
                                                     }
                                                     onClick={() => {
-                                                        setDisplayCurrency(item.value);
+                                                        // Check if currency exist in array
+                                                        const i = displayCurrency.indexOf(item.value);
+                                                        if (i > -1) {
+                                                            displayCurrency.splice(i, 1);
+                                                        } else {
+                                                            displayCurrency.push(item.value);
+                                                        }
+                                                        setDisplayCurrency(displayCurrency);
                                                         setCurrencyMenu(false);
                                                     }}>
                                                     {item.label}
