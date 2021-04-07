@@ -15,6 +15,8 @@ function NHLLiveSportsHeader(props) {
     buttonTitle = "",
     singleBtn = false,
     buttonIcon = "",
+    teamManagerLink = "",
+    scoreDetailLink = "",
     onPress = () => {},
     onFullView = () => {},
     onCompressedView = () => {},
@@ -61,7 +63,7 @@ function NHLLiveSportsHeader(props) {
           <li>
             <NavLink
               exact
-              to="/nhl-live-powerdfs"
+              to={teamManagerLink || "/nhl-live-powerdfs"}
               activeClassName={classes.active}
             >
               Team Manager
@@ -70,7 +72,7 @@ function NHLLiveSportsHeader(props) {
           <li>
             <NavLink
               exact
-              to="/nhl-live-powerdfs/my-score-details"
+              to={scoreDetailLink || "/nhl-live-powerdfs/my-score-details"}
               activeClassName={classes.active}
             >
               My Score Details
@@ -98,6 +100,8 @@ NHLLiveSportsHeader.propTypes = {
   singleBtn: PropTypes.bool,
   buttonIcon: PropTypes.any,
   className: PropTypes.object,
+  teamManagerLink: PropTypes.string,
+  scoreDetailLink: PropTypes.string,
   onPress: PropTypes.func,
   onFullView: PropTypes.func,
   onCompressedView: PropTypes.func,

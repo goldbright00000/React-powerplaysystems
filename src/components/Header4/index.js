@@ -27,7 +27,7 @@ function Header3(props) {
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
       <div className={classes.footer_section_r}>
-        <p>{title}</p>
+        <p className={footerText && classes.margin}>{title}</p>
         {footerText && <span>{footerText}</span>}
       </div>
     </div>

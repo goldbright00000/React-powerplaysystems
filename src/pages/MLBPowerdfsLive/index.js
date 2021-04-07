@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./index.module.scss";
-import * as NHLActions from "../../actions/NHLActions";
+import * as MLBActions from "../../actions/MLBActions";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/mlb_compress_header.jpg";
 import Card from "../../components/PowerpickCard";
-import SportsLiveCardSelection from "../../components/SportsLiveCardSelection";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
 import XPIcon from "../../icons/XPIcon";
@@ -28,6 +27,7 @@ import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 
 import { dummyData } from "./dummyData";
+import SportsLiveCard from "../../components/SportsLiveCard";
 
 function MLBPowerdFsLive(props) {
   const _data = dummyData;
@@ -35,7 +35,7 @@ function MLBPowerdFsLive(props) {
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
-  const { live_data: selectedData = [] } = useSelector((state) => state.nhl);
+  const { live_data: selectedData = [] } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
@@ -45,7 +45,7 @@ function MLBPowerdFsLive(props) {
   }, []);
 
   const setData = () => {
-    dispatch(NHLActions.setLiveNhlData(_data));
+    dispatch(MLBActions.mlbLiveData(_data));
   };
 
   const RenderPower = ({
@@ -109,14 +109,26 @@ function MLBPowerdFsLive(props) {
       return <SingleView data={selectedData} />;
     } else if (selectedData && selectedData?.length) {
       return selectedData?.map((item, index) => (
-        <SportsLiveCardSelection
-          item={item}
-          compressed={compressedView}
+        <SportsLiveCard
+          player={item}
+          compressedView={compressedView}
           key={index + ""}
         />
       ));
     }
   };
+
+  const RenderLiveState = ({ isLive = false }) =>
+    isLive ? (
+      <p className={classes.currentState}>
+        <span className={classes.orb} /> Live Game In Progress
+      </p>
+    ) : (
+      <p className={`${classes.currentState} ${classes.column}`}>
+        5d 4h 15min
+        <span className={classes.span_text}>Live Game Stars in</span>
+      </p>
+    );
 
   return (
     <>
@@ -136,7 +148,7 @@ function MLBPowerdFsLive(props) {
           prizeBtnTitle="Prize Grid"
           bgImageUri={BaseballImage}
           compressedView
-          currentState={<p>Live Game In Progress</p>}
+          currentState={<RenderLiveState />}
         />
 
         <div className={classes.container}>
@@ -149,6 +161,8 @@ function MLBPowerdFsLive(props) {
               onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
               onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
               onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
+              teamManagerLink="/mlb-live-powerdfs"
+              scoreDetailLink="/mlb-live-powerdfs/my-score-details"
             />
             <Card>{RenderView()}</Card>
             <div className={classes.left_side_footer}>

@@ -296,6 +296,12 @@
             font-weight: 500;
             border-radius: 12px;
             margin: 40px 0;
+            border: none;
+            outline: none;
+
+            &:hover {
+              cursor: pointer;
+            }
 
             img {
               width: 26px;

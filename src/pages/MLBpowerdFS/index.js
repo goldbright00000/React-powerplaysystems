@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { isEmpty, isEqual } from "lodash";
+import React, { useState, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { isEmpty, isEqual, cloneDeep } from "lodash";
+
+import * as MLBActions from "../../actions/MLBActions";
 
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -28,6 +30,8 @@ import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
+import StarPlayersCheck from "../../components/StarPlayersCheck";
+import { redirectTo } from "../../utility/shared";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -170,18 +174,41 @@ const headerText = [
 
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
+let starPlayerCount = 0;
 
-function MLBPowerdFs() {
+function MLBPowerdFs(props) {
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
   );
-  const [selectedStarPowers, setStarPowers] = useState([false, false, false]);
   const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST);
   const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
   const [selectedData, setSelectedData] = useState(dummyData[0]);
   const [filterdData, setFilterdData] = useState(dummyData[0]);
   const [selectedDropDown, setSelectedDropDown] = useState();
+
+  const { data = [] } = useSelector((state) => state.mlb);
+  const dispatch = useDispatch();
+
+  //reset the states
+  useEffect(() => {
+    starPlayerCount = 0;
+    dispatch(MLBActions.mlbData(dummyData));
+    dispatch(MLBActions.setStarPlayerCount(starPlayerCount));
+    setPlayerList(cloneDeep(INITIAL_PLAYER_LIST));
+    setSelected(new Map());
+    setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
+    setFilters(cloneDeep(FILTERS_INITIAL_VALUES));
+    setFilterdData(null);
+    setSelectedData(null);
+  }, []);
+
+  useEffect(() => {
+    if (data?.length) {
+      setFilterdData(data[0]);
+      setSelectedData(data[0]);
+    }
+  }, [data]);
 
   const onSelectDeselect = useCallback(
     (id) => {
@@ -195,7 +222,6 @@ function MLBPowerdFs() {
 
       //selected players
       const _playersList = [...playerList];
-      const _selectedStarPowers = [...selectedStarPowers]; //starPower players
 
       if (!_selected.get(id)) {
         const [_player] = _playersList?.filter(
@@ -215,8 +241,7 @@ function MLBPowerdFs() {
           _selected.set(id, !selected.get(id));
           //Star Power Player selection (sidebar)
           if (starPowerIndex < 3 && data?.isStarPlayer) {
-            _selectedStarPowers[starPowerIndex] = true;
-            starPowerIndex++;
+            starPlayerCount++;
           }
           selectedPlayerCount++;
         }
@@ -231,8 +256,7 @@ function MLBPowerdFs() {
             starPowerIndex > 0 &&
             _playersList[existingPlayerIndex].isStarPlayer
           ) {
-            starPowerIndex--;
-            _selectedStarPowers[starPowerIndex] = false;
+            starPlayerCount--;
           }
 
           _playersList[existingPlayerIndex].value = "";
@@ -242,8 +266,8 @@ function MLBPowerdFs() {
         selectedPlayerCount--;
       }
 
+      dispatch(MLBActions.setStarPlayerCount(starPlayerCount));
       setSelected(_selected);
-      setStarPowers(_selectedStarPowers);
       setPlayerList(_playersList);
       activateFilter(data, cat);
     },
@@ -523,13 +547,13 @@ function MLBPowerdFs() {
 
                 <ContestRulesPopUp
                   component={({ showPopUp }) => (
-                    <Link
+                    <button
                       onClick={showPopUp}
                       className={classes.footer_full_rules}
                       href="#"
                     >
                       See Full Rules <img src={RightArrow} />
-                    </Link>
+                    </button>
                   )}
                 />
               </div>
@@ -572,13 +596,10 @@ function MLBPowerdFs() {
                   </p>
                 </div>
                 <div className={classes.sidebar_circles}>
-                  {selectedStarPowers?.map((isSelected, index) =>
-                    isSelected ? (
-                      <CheckIcon />
-                    ) : (
-                      <Circle key={index.toString()} />
-                    )
-                  )}
+                  <StarPlayersCheck
+                    totalStarPlayers={3}
+                    selectedCount={starPlayerCount}
+                  />
                 </div>
               </div>
               <SportsSidebarContent
@@ -587,7 +608,14 @@ function MLBPowerdFs() {
                 starIcon={StarImg}
                 selectedPlayerCount={selectedPlayerCount}
               />
-              <button className={classes.sidebar_button}>Submit!</button>
+              <button
+                className={classes.sidebar_button}
+                onClick={() =>
+                  redirectTo(props, { path: "/mlb-live-powerdfs" })
+                }
+              >
+                Submit!
+              </button>
             </Sidebar>
           </div>
         </div>

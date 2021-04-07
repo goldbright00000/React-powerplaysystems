@@ -1,0 +1,538 @@
+@import "../../scss/colors.scss";
+
+.card_wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 236px;
+  margin: 10px;
+
+  .card_header {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    .card_header_title {
+      display: flex;
+      flex-direction: column;
+      text-transform: uppercase;
+      font-family: Poppins;
+      font-size: 24px;
+      font-weight: bold;
+      font-style: italic;
+
+      .border {
+        border-top: 5px solid $primary;
+        width: 28px;
+        height: 1px;
+        border-radius: 4px;
+      }
+    }
+
+    .header_teams {
+      color: $grey;
+      text-align: right;
+
+      p {
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: normal;
+      }
+
+      span {
+        font-weight: bold;
+        font-style: italic;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .divider {
+    border-bottom: 2px solid $grey12;
+    opacity: 0.14;
+    width: 100%;
+    height: 1px;
+  }
+
+  .card_container {
+    width: 100%;
+    padding: 19px 0 10px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 24px 0 $lightBlack8;
+    background-color: $lightBlack;
+    position: relative;
+    min-height: 96px;
+    border: 1px solid $lightBlack;
+
+    &.height_284 {
+      min-height: 284px;
+    }
+
+    &.height_340 {
+      min-height: 340px;
+      width: 280px;
+    }
+
+    &.single_view_hover {
+      &:hover {
+        box-shadow: 0 0 8px 0 $primaryLight7;
+        border: solid 1px $primaryLight5;
+      }
+    }
+
+    &.active {
+      box-shadow: 0 2px 24px 0 $primaryLight;
+      border: solid 1px $primary;
+    }
+
+    .star_power {
+      width: 125px;
+      height: 36px;
+      position: absolute;
+      object-fit: cover;
+      left: 0;
+      top: 0;
+      transform: translate(-3px, -7px);
+
+      &.mini_star {
+        width: 36px;
+        height: 36px;
+        transform: translate(-7.2px, -7.2px);
+      }
+    }
+
+    .container_header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      padding: 0 16px;
+
+      .container_title {
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 0;
+        margin: 0;
+        color: $lightBlue2;
+
+        &.large_view {
+          font-size: 18px;
+        }
+      }
+
+      svg {
+        &.disabled {
+          opacity: 0.2;
+          pointer-events: none;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    .container_body {
+      margin: 5px 0 0 0;
+      width: 100%;
+      padding: 0 16px;
+
+      .single_view_state {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        font-size: 12px;
+        font-weight: 500;
+        border-left: 3px solid $lightBlue;
+        height: 14px;
+        line-height: 14px;
+        padding-left: 2px;
+        color: $grey2;
+
+        .divider_1 {
+          max-height: 8px;
+          color: $lightBlue4;
+          margin: 0 2px 0 4px;
+        }
+
+        .single_view_cat {
+          text-transform: uppercase;
+        }
+      }
+
+      .stat_points {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+
+        .stat_points_container {
+          display: flex;
+          flex-direction: column;
+
+          .stat_points_title {
+            color: $grey;
+            font-weight: bold;
+            font-family: Poppins;
+            padding: 0;
+            margin: 0;
+
+            &.large_view {
+              font-size: 14px;
+            }
+          }
+
+          .stat {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 113px;
+            background-color: $lightBlue3;
+            height: 40px;
+            padding: 3px 11px 0 11px;
+            text-transform: uppercase;
+            border-radius: 6px;
+
+            &.large_view {
+              width: 120px;
+              height: 50px;
+            }
+
+            .p {
+              font-family: Poppins;
+              font-size: 12px;
+              font-weight: 600;
+              color: $grey2;
+
+              &.large_view {
+                font-size: 14px;
+              }
+            }
+          }
+
+          .points {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            width: 75px;
+            height: 40px;
+            background-color: $lightBlue3;
+            padding: 0 8px;
+            text-transform: uppercase;
+            border-radius: 6px;
+
+            &.large_view {
+              width: 120px;
+              height: 50px;
+            }
+
+            .p {
+              font-family: Poppins;
+              font-size: 16px;
+              font-weight: 600;
+              color: $grey2;
+
+              &.large_view {
+                font-size: 18px;
+              }
+            }
+
+            .stat_xp {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              margin: 0;
+              padding: 0;
+
+              .xp_icons {
+                display: flex;
+                flex-direction: row;
+
+                svg {
+                  margin: -5px 5px 5px 5px;
+                  padding: 0 !important;
+
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .container_status {
+        width: 100%;
+        height: 24px;
+        line-height: 24px;
+        text-transform: capitalize;
+        border-radius: 6px;
+        background-color: $lightGrey5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        &.margin_top_bottom_16 {
+          margin: 16px 0;
+        }
+
+        &.margin_top_bottom_8 {
+          margin: 5px 0 7px 0;
+        }
+
+        &.large_view {
+          height: 34px;
+          line-height: 34px;
+        }
+
+        span {
+          font-family: Poppins;
+          font-size: 12px;
+          font-weight: bold;
+          color: $grey13;
+          opacity: 0.6;
+
+          &.large_view {
+            font-size: 14px;
+          }
+
+          &.success {
+            color: $green2;
+            opacity: 1;
+          }
+
+          &.danger {
+            color: $danger3;
+            opacity: 1;
+          }
+        }
+      }
+
+      .mlbPlayerStats {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+
+        .mlbPlayerStats_left {
+          display: flex;
+          flex-direction: column;
+
+          .mlbPlayerStats_left_1 {
+            display: flex;
+            flex-direction: column;
+            text-transform: capitalize;
+            font-family: Poppins;
+            font-size: 14px;
+
+            > div {
+              display: flex;
+
+              p {
+                margin: 0;
+                padding: 0;
+                margin-left: 6px;
+
+                &.large_view {
+                  font-size: 14px;
+                }
+              }
+            }
+
+            span {
+              text-transform: uppercase;
+              font-size: 12px;
+              color: $grey;
+            }
+          }
+        }
+      }
+
+      .points_summary_container {
+        display: flex;
+        flex-direction: column;
+
+        .container_title {
+          padding: 0;
+          margin: 6px 0 0 0;
+          font-family: Poppins;
+          font-size: 12px;
+          font-weight: bold;
+          color: $grey;
+        }
+
+        .summary_header {
+          display: flex;
+          width: 97%;
+          justify-content: space-between;
+          margin-top: 13px;
+
+          span {
+            text-align: left;
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: 600;
+
+            &:first-child {
+              flex: 1;
+            }
+
+            &:nth-child(2) {
+              flex: 0.7;
+            }
+
+            &:nth-child(3) {
+              flex: 0.7;
+            }
+
+            &:last-child {
+              flex: 0.2;
+              text-align: right;
+            }
+          }
+        }
+
+        .summary_body {
+          max-height: 80px;
+          display: flex;
+          flex-direction: column;
+          overflow-y: scroll;
+
+          &::-webkit-scrollbar {
+            width: 5px;
+            background-color: $lightBlack2;
+            border-radius: 6px;
+          }
+
+          &::-webkit-scrollbar-thumb {
+            width: 100%;
+            background-color: $black2;
+            border-radius: 6px;
+          }
+          .summary_body_1 {
+            width: 98%;
+
+            .row {
+              display: flex;
+              text-align: left;
+              text-transform: capitalize;
+              margin: 2px 0;
+
+              span {
+                text-align: left;
+                // font-family: "Poppins";
+                font-size: 12px;
+                color: $grey;
+
+                &:first-child {
+                  flex: 1;
+                  text-transform: uppercase;
+                }
+
+                &:nth-child(2) {
+                  flex: 0.7;
+                }
+
+                &:nth-child(3) {
+                  flex: 0.7;
+                }
+
+                &:last-child {
+                  flex: 0.2;
+                  text-align: left;
+                }
+              }
+            }
+          }
+        }
+
+        .summary_total_pts {
+          height: 30px;
+          line-height: 30px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          background-color: $lightGrey6;
+          margin-top: 14px;
+          border-radius: 6px;
+
+          p {
+            margin: 0;
+            padding: 0;
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: capitalize;
+          }
+        }
+      }
+    }
+    .footer {
+      display: flex;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 16px;
+
+      .mlb_text {
+        font-family: Poppins;
+        font-size: 12px;
+        color: $grey;
+        text-transform: capitalize;
+      }
+
+      button {
+        border: none;
+        outline: none;
+        background-color: transparent;
+        color: $primary;
+        border-bottom: 1px solid $primary;
+        font-size: 12px;
+        font-family: Poppins;
+        padding: 0;
+        margin: 0 0 2px 0;
+        line-height: 13px;
+        position: relative;
+
+        &.large_view {
+          font-size: 14px;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        &.margin_right_9 {
+          margin-right: 9px;
+        }
+
+        &.margin_left_9 {
+          margin-left: 9px;
+        }
+
+        .arrow {
+          width: 5px;
+          height: 5px;
+          position: absolute;
+          border: solid $primary;
+          border-width: 0 1.25px 1.25px 0;
+          top: 4px;
+          right: -8px;
+
+          &.right {
+            transform: rotate(-45deg);
+          }
+
+          &.left {
+            transform: rotate(135deg);
+            left: -8px;
+          }
+        }
+      }
+    }
+  }
+}
