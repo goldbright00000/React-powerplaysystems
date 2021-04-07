@@ -1,0 +1,130 @@
+@import '../../scss/colors.scss';
+
+.__account_limits {
+    .__main_description {
+        p {
+            margin-bottom: 20px;
+            opacity: 0.6;
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+        }
+    }
+
+    .__main_title {
+        width: 489px;
+        height: 23px;
+        margin-top: 40px;
+        margin-bottom: 20px;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: $primary;
+    }
+
+    .__input {
+        width: 144px;
+        height: 40px;
+        margin: 3px 0 0;
+        padding: 10px 11px 10px 11px;
+        border-radius: 8px;
+        background-color: $lightGrey7;
+        border: none;
+        color: $white;
+        outline: none;
+    }
+
+    .__apply_btn_div {
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-start;
+
+        button {
+            width: 144px;
+            height: 40px;
+            border-radius: 8px;
+            box-shadow: 0 3px 27px -2px $lightGrey8;
+            background-color: $primary;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-family: Poppins;
+            font-size: 16px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: $black;
+        }
+    }
+    
+    .__deposit_limits_and_alerts_content {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+
+        .__info {
+            width: 428px;
+            height: 60px;
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+
+            span {
+                font-weight: 600;
+                color: $primary;
+            }
+        }
+
+        .__input_field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: -20px;
+        }
+    }
+
+    .__entry_fee_limit {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+
+        .__info {
+            width: 592px;
+            height: 60px;
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+        }
+
+        .__input_field {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: -20px;
+        }
+    }
+}
