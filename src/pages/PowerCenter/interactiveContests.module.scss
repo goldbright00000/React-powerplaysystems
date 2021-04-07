@@ -77,17 +77,46 @@
         justify-content: flex-end;
     }
 
-    .__interactive_contests_arrow {
-        margin: 50px;
-        display: inline-block;
-        vertical-align: middle;
+    .__drop_down_menu {
+        cursor: pointer;
     }
 
-    .__interactive_contests_down {
-        margin: 4px 0 4px 2px;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid $grey2;
+    .__currency_menu {
+        width: 150px;
+        height: 150px;
+        border-radius: 8px;
+        box-shadow: 0 2px 14px 0 $black5;
+        border: solid 1px $black;
+        background-color: $lightGrey;
+        z-index: 1;
+        position: absolute;
+        margin-top: 10px;
+
+        div {
+            display: flex;
+            align-items: center;
+            padding-left: 20px;
+            width: 100%;
+            height: 46px;
+            font-family: Poppins;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $grey2;
+            cursor: pointer;
+            margin-bottom: 2px;
+        }
+
+        .__currency_menu_item:hover {
+            background-color: $lightBlue6;
+        }
+
+        .__currency_menu_selected {
+            background-color: $lightBlue6;
+        }
     }
 }
 
