@@ -15,17 +15,22 @@ import XP2Icon from "../../icons/XP2";
 import XP2Icon_1 from "../../icons/XP2_1";
 import XP3 from "../../icons/XP3";
 import XP3_1 from "../../icons/XP3_1";
+import VideoIcon from "../../icons/VideoIcon";
+import ShieldIcon from "../../icons/ShieldIcon";
 import MiniStar from "../../assets/mini_star.png";
 import Tooltip from "../ToolTip";
 import { isEmpty } from "lodash";
 import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
+import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
 function SportsLiveCard(props) {
   const [xp, setXp] = useState({});
   const [showSummary, setSummaryState] = useState(false);
+
+  const { live_data = [] } = useSelector((state) => state?.mlb);
 
   const {
     player = {},
@@ -49,6 +54,8 @@ function SportsLiveCard(props) {
     totalPts = 0,
     isStarPlayer = false,
     team = "",
+    range = "",
+    id = "",
   } = player || {};
 
   useEffect(() => {
@@ -62,6 +69,9 @@ function SportsLiveCard(props) {
     if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
+
+    const indexOfPlayer = live_data?.indexOf((player) => player?.id === id);
+    console.log(indexOfPlayer);
 
     setXp(_selectedXp);
   };
@@ -103,26 +113,44 @@ function SportsLiveCard(props) {
       </div>
 
       <div className={classes.stat_points_container}>
-        <p className={classes.stat_points_title}>{xp?.xpVal} Points</p>
-        <div className={`${classes.points} ${largeView && classes.large_view}`}>
+        <p
+          className={`${classes.stat_points_title} ${
+            largeView && classes.large_view
+          }`}
+        >
+          {xp?.xpVal} Points
+        </p>
+        <div
+          className={`${classes.points} ${
+            isTeamD() && !largeView && classes.team_d_width
+          } ${largeView && classes.large_view}`}
+        >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {points}
           </p>
-          <div className={classes.stat_xp}>
-            <Tooltip
-              toolTipContent={
-                <div className={classes.xp_icons}>
-                  <XP1_5 onClick={() => onSelectXp(CONSTANTS.XP.xp1_5)} />
-                  <XP2Icon onClick={() => onSelectXp(CONSTANTS.XP.xp2)} />
-                  <XP3 onClick={() => onSelectXp(CONSTANTS.XP.xp3)} />
-                </div>
-              }
-            >
-              {renderSelectedXp()}
-            </Tooltip>
-          </div>
+          {!isTeamD() && (
+            <div className={classes.stat_xp}>
+              <Tooltip
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    <XP1_5 onClick={() => onSelectXp(CONSTANTS.XP.xp1_5)} />
+                    <XP2Icon onClick={() => onSelectXp(CONSTANTS.XP.xp2)} />
+                    <XP3 onClick={() => onSelectXp(CONSTANTS.XP.xp3)} />
+                  </div>
+                }
+              >
+                {renderSelectedXp()}
+              </Tooltip>
+            </div>
+          )}
         </div>
       </div>
+      {isTeamD() && (
+        <div className={classes.team_d_icons}>
+          <VideoIcon size={24} />
+          <ShieldIcon size={24} />
+        </div>
+      )}
     </div>
   );
 
@@ -190,7 +218,8 @@ function SportsLiveCard(props) {
               largeView && classes.large_view
             }`}
           >
-            {playerName}
+            {playerName}{" "}
+            {isTeamD() && <span className={classes.teamd_range}>{range}</span>}
           </p>
           {!isTeamD() && <Replace size={22} />}
         </div>
@@ -240,6 +269,11 @@ function SportsLiveCard(props) {
             title="Bot 1st | 2 Out"
           />
         )}
+
+        <SportsLiveCardOverlay
+          text="Video review is available now"
+          visible={isTeamD()}
+        />
       </div>
     </div>
   );

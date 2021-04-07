@@ -35,7 +35,7 @@ function RenderMLBPlayerStats(props) {
           </div>
         )}
       </div>
-      <MLBLiveIcon size={largeView && 79} />
+      <MLBLiveIcon size={largeView && 79} className={classes.svg_icon} />
     </div>
   );
 }

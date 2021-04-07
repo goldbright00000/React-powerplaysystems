@@ -92,7 +92,7 @@
       object-fit: cover;
       left: 0;
       top: 0;
-      transform: translate(-3px, -7px);
+      transform: translate(-4.5px, -7.5px);
 
       &.mini_star {
         width: 36px;
@@ -114,6 +114,13 @@
         padding: 0;
         margin: 0;
         color: $lightBlue2;
+
+        .teamd_range {
+          font-family: Poppins;
+          font-size: 12px;
+          font-weight: 600;
+          color: $grey;
+        }
 
         &.large_view {
           font-size: 18px;
@@ -175,6 +182,7 @@
             font-family: Poppins;
             padding: 0;
             margin: 0;
+            font-size: 12px;
 
             &.large_view {
               font-size: 14px;
@@ -221,6 +229,10 @@
             text-transform: uppercase;
             border-radius: 6px;
 
+            &.team_d_width {
+              width: 45px;
+            }
+
             &.large_view {
               width: 120px;
               height: 50px;
@@ -259,6 +271,12 @@
               }
             }
           }
+        }
+
+        .team_d_icons {
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
         }
       }
 
@@ -313,7 +331,11 @@
         display: flex;
         width: 100%;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
+
+        .svg_icon {
+          margin-top: 0;
+        }
 
         .mlbPlayerStats_left {
           display: flex;
@@ -324,7 +346,8 @@
             flex-direction: column;
             text-transform: capitalize;
             font-family: Poppins;
-            font-size: 14px;
+            font-size: 12px;
+            align-self: flex-start;
 
             > div {
               display: flex;
@@ -333,6 +356,7 @@
                 margin: 0;
                 padding: 0;
                 margin-left: 6px;
+                font-size: 12px;
 
                 &.large_view {
                   font-size: 14px;
@@ -531,6 +555,45 @@
             transform: rotate(135deg);
             left: -8px;
           }
+        }
+      }
+    }
+
+    .overlay_container {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: 74px;
+      background-color: $black2;
+      border-radius: 0 0 6px 6px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .overlay_text {
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 0;
+        margin-top: 0;
+        margin-bottom: 7px;
+      }
+
+      .overlay_btn {
+        width: 90px;
+        height: 32px;
+        background-color: $primary;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: 600;
+        color: $black;
+
+        &:hover {
+          cursor: pointer;
         }
       }
     }
