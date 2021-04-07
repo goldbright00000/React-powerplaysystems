@@ -172,7 +172,17 @@ function MLBPowerdFsLive(props) {
 
           <div className={classes.sidebar_container}>
             <Sidebar>
-              <CashPowerBalance styles={{ marginTop: -40, width: "100%" }} />
+              <CashPowerBalance
+                powerBalance={50000}
+                cashBalance={200000}
+                styles={{
+                  width: "100%",
+                  marginTop: "-40px",
+                }}
+                cashTitle="Prize Pool"
+                powerTitle="Top Prize"
+                centered
+              />
               <RankCard currentWin={100000} {...props} />
 
               <div className={classes.sidebar_content}>
