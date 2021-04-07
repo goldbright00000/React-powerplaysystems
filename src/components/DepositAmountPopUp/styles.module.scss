@@ -205,9 +205,8 @@ body{
         }
     }
 }
-.EthereumImage{
-}
 .inputField{
+    position: relative;
     label{
         line-height: 1em;
         margin-bottom: 0.4em;
@@ -227,6 +226,14 @@ body{
             border-color: $primary;
         }
     }
+}
+.copyImage{
+    position: absolute;
+    z-index: 1;
+    top: 2.16rem;
+    right: 0.7142rem;
+    width: 1.428rem;
+    cursor: pointer;
 }
 .leftSection{
     width: 18.27rem;
