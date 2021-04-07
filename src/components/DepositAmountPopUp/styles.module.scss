@@ -53,10 +53,10 @@ body{
     line-height: 1em;
     font-weight: 500;
 }
-.formSection h6, .title, .title2{
+.formSection h6, .QRCodeWrapper h6, .title, .title2{
     color: $grey9;
     font-size: 1.143rem;
-    margin: 0 0 0.9rem 0;
+    margin: 0 0 1.2rem 0;
 }
 .title2{
     color: $primary;
@@ -108,13 +108,17 @@ body{
     margin: 0;
 }
 .formSection{
-    margin-bottom: 2.857rem;
+    margin-bottom: 4.285rem;
     color: #000;
     >div{
         display: flex;
         >*{
             margin-right: 0.7143rem;
         }
+    }
+    .Coingate{
+        width: 4.285rem;
+        margin: auto 2.142rem;
     }
 }
 .creditdebitcardImg{
@@ -125,12 +129,6 @@ body{
 }
 .BitCoin{
     width: 3.428rem;
-}
-.Coingate{
-    width: 4.285rem;
-}
-.Ethereum{
-    width: 2.142rem;
 }
 .cardDetails{
     display: block;
@@ -155,18 +153,16 @@ body{
         color: $primary;
     }
 }
-.submitbtn{
+.buyCoinBtn, .submitbtn{
     height: 3.6rem;
-    border: none;
-    width: 23.14rem;
     border-radius: 0.571rem;
-    background: $primary;
     font-weight: 600;
-    color: #fff;
     position: relative;
+    color: #fff;
     cursor: pointer;
     overflow: hidden;
     outline: none;
+    margin-top: auto;
     &::after, &::before{
         content: '';
         position: absolute;
@@ -186,10 +182,35 @@ body{
         transform: translateY(-50%) scale(1);
     }
 }
-
+.submitbtn{
+    width: 22.14rem;
+    background: $primary;
+    border: 1px solid $primary;
+}
+.buyCoinBtn{
+    border: 1px solid;
+    color: #688fbd;
+    min-width: 16.43rem;
+    margin-right: auto;
+    background: transparent;
+}
+.QRCodeWrapper{
+    >div{
+        display: grid;
+        grid-template-columns: 10.857rem 1fr;
+        grid-gap: 2rem;
+        .qrImage{
+            grid-row: span 2;
+            width: 100%;
+        }
+    }
+}
+.EthereumImage{
+}
 .inputField{
     label{
-        margin-bottom: 0.3rem;
+        line-height: 1em;
+        margin-bottom: 0.4em;
         display: block;
     }
     input{
