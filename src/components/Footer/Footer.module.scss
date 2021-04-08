@@ -8,11 +8,14 @@
   }
   .__footer_content {
     display: flex;
-    align-items: center;
-    width: 67%;
+    width: 70%;
     margin: auto;
   }
   .__footer_logo {
+    width: 25%;
+    @media (max-width: 1024px) {
+      display: none;
+    }
     img {
       width: 160px;
     }
@@ -22,7 +25,7 @@
     grid-template-columns: auto auto auto;
     margin-left: 10%;
     grid-gap: 1em;
-    width: 68%;
+    width: 75%;
 
     > div {
       font-weight: 300 !important;
@@ -41,7 +44,10 @@
     margin: 0 auto;
   }
   .__mediam {
-    letter-spacing: 2px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-align: center;
+    color: #ffffff;
   }
 
   @media (max-width: 600px) {

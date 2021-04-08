@@ -21,7 +21,7 @@ const Footer = (props) => {
         ) : (
           <>
             <div className={`${classes.__footer_content}`}>
-              <div className={`${classes.__footer_logo}`}>
+              <div className={["__hide-on-small",`${classes.__footer_logo}`]}>
                 <img src={logo} alt="" />
               </div>
               <div className={`${classes.__footer_links} `}>
