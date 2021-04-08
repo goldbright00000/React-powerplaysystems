@@ -78,7 +78,7 @@ function LoginPage(props) {
                                 <br />
                             </>
                         }
-                        <form onSubmit={onLoginSubmit} className={`${classes.form} mx-50 mt-50 m-sm-30`}>
+                        <form onSubmit={onLoginSubmit} className={`${classes.form} mx-50 m-sm-30`}>
                             <Input type="text" block rounded label="E-mail" required value={user.email} onChange={(e) => {
                                 setUser({...user, email: e?.target?.value})
                             }} bordered />
