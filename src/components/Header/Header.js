@@ -31,7 +31,7 @@ const Header = (props) => {
       className="__Header"
       style={{ position: isStick ? "sticky" : "fixed" }}
     >
-      <div className="__container __flex __sb __f1 __light-bold">
+      <div className="__container __flex __sb __f1 __light-bold __header-content">
         <Link to="/" className="__brand-logo">
           {headerLogo ? headerLogo : <img src={logo} alt="" />}
         </Link>
