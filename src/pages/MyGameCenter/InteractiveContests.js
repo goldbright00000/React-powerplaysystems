@@ -260,12 +260,6 @@ const InteractiveContests = props => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-                        <CashPowerBalance 
-                            cashBalance={balance.cashBalance}
-                            powerBalance={balance.tokenBalance}
-                            styles={{ margin: 0, backgroundColor: '#202124', boxShadow: 'none' }} 
-                            onDepositClick={() => redirectTo(props, {path: '/my-account'})}
-                        />
                     </div>
                 </div>
                 <div className={classes.__interactive_contests_filter}>
