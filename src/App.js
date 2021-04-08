@@ -36,7 +36,7 @@ import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import MLBPowerdFsLive from "./pages/MLBPowerdfsLive";
 import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
-
+import ResponsibleGaming from "./pages/ResponsibleGaming";
 const App = (props) => {
   return (
     <Fragment>
@@ -86,6 +86,7 @@ const App = (props) => {
         <Route path="/nba-powerdfs" component={NBAPowerdFs} />
         <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
         <Route path="/contact-us" component={ContactUSPage} />
+        <Route path="/responsible-gaming" component={ResponsibleGaming} />
         {/* <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} /> */}
         <Route component={HomePage} />
       </Switch>
