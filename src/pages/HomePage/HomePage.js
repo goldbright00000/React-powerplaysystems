@@ -156,7 +156,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_common_power_up_btn_div}>
             <button
               className={classes.__home_page_common_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/power-up" })}
+              onClick={() => redirectTo(props, { path: "/" })}
             >
               Power Up!
             </button>
@@ -252,7 +252,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_common_power_up_btn_div}>
             <button
               className={classes.__home_page_common_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/power-up" })}
+              onClick={() => redirectTo(props, { path: "/" })}
             >
               Power Up!
             </button>
@@ -301,7 +301,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_third_section_power_up}>
             <button
               className={classes.__home_page_third_section_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/power-up" })}
+              onClick={() => redirectTo(props, { path: "/" })}
             >
               Power Up!
             </button>
