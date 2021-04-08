@@ -6,13 +6,24 @@
   &.__style_2 {
     background: #17181a;
   }
+  .__footer_content {
+    display: flex;
+    align-items: center;
+    width: 67%;
+    margin: auto;
+  }
+  .__footer_logo {
+    img {
+      width: 160px;
+    }
+  }
   .__footer_links {
     display: grid;
     grid-template-columns: auto auto auto;
-    justify-content: space-around;
+    margin-left: 10%;
     grid-gap: 1em;
-    width: 60%;
-    margin: auto;
+    width: 68%;
+
     > div {
       font-weight: 300 !important;
     }
@@ -32,6 +43,7 @@
   .__mediam {
     letter-spacing: 2px;
   }
+
   @media (max-width: 600px) {
     .__logo_center {
       width: 100%;
