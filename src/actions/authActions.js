@@ -1,12 +1,13 @@
 import http from "../config/http";
 import { URLS } from "../config/urls";
 import { CONSTANTS } from "../utility/constants";
-import { setLocalStorage } from "../utility/shared";
+import { getLocalStorage, setLocalStorage } from "../utility/shared";
+import jwtDecode from 'jwt-decode'
 
 export const AUTH_LOADING = '[AUTH] AUTH LOADING';
 export const GET_AUTH = '[AUTH] GET AUTH';
 export const RESET_AUTH = '[AUTH] RESET AUTH';
-
+export const SET_AUTH = '[AUTH] SET AUTH';
 
 export function authenticate(user) {
     const request = http.post(URLS.AUTH.LOGIN, user);
