@@ -30,14 +30,14 @@ const Footer = (props) => {
                     <div className="__hide-on-small">Esentials</div>
                     <div className="__hide-on-small">Legal Privacy</div>
                     <div className="__hide-on-small">Company</div>
-                    <Link to="/my-account" className={classes.elm_1}>
+                    <Link to="/" className={classes.elm_1}>
                       My Account
                     </Link>
                     <Link to="/terms">Terms of use</Link>
                     <Link to="/faqs" className={classes.elm_3}>
                       FAQs
                     </Link>
-                    <Link to="/power-center" className={classes.elm_3}>
+                    <Link to="/" className={classes.elm_3}>
                       Power Center
                     </Link>
                     <Link to="/privacy">Privacy</Link>
@@ -45,7 +45,7 @@ const Footer = (props) => {
                       Trust & Safety{" "}
                     </Link>
                     <Link
-                      to="/sponer-contest"
+                      to="/responsible-gaming"
                       className={[classes.elm_2, classes.__add_border]}
                     >
                       Responsible Gaming
