@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import classes from './MyGameCenter.module.scss';
@@ -18,7 +18,7 @@ import PowerBalanceGrey from '../../assets/power-balance-grey.png';
 import CashBalanceGrey from '../../assets/cash-balance-grey.png';
 import BitcoinGrey from '../../assets/bitcoin-grey.png';
 import EthereumGrey from '../../assets/ethereum-grey.png';
-import { getLocalStorage, redirectTo } from '../../utility/shared';
+import { getLocalStorage, redirectTo, setLocalStorage } from '../../utility/shared';
 import { CONSTANTS } from '../../utility/constants';
 // import Scoreboard from '../../icons/Scoreboard';
 
@@ -42,6 +42,13 @@ const MyGameCenter = props => {
     const { auth: { user: { token = '' } }, user: {userBalance = {}} = {} } = useSelector((state) => state);
     const [currencyMenu, setCurrencyMenu] = useState(false);
     const [displayCurrency, setDisplayCurrency] = useState(['cash', 'bitcoin', 'ethereum']);
+
+    useEffect(() => {
+        const displayBalance = JSON.parse(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE));
+        if (displayBalance) {
+            setDisplayCurrency(displayBalance);
+        }
+    }, []);
 
     return (
         <Fragment>
@@ -148,6 +155,7 @@ const MyGameCenter = props => {
                                                             displayCurrency.push(item.value);
                                                         }
                                                         setDisplayCurrency(displayCurrency);
+                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(displayCurrency));
                                                         setCurrencyMenu(false);
                                                     }}>
                                                     {item.label}

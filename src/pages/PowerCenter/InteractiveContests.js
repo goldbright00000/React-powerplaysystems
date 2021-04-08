@@ -223,7 +223,7 @@ const InteractiveContests = props => {
                         <p>Min Entry</p>
                     </div>
                     <div className={`${classes.__interactive_contests_top_prize} ${classes.__drop_down_menu}`}>
-                        <p onClick={() => setCurrencyMenu(!currencyMenu)}>All Currency
+                        <p onClick={() => setCurrencyMenu(!currencyMenu)}>Currency
                         {
                             currencyMenu
                             ?

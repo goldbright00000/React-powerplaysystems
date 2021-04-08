@@ -46,6 +46,7 @@ export function setupUser() {
         const user = jwtDecode(token);
         return { type: SET_AUTH, payload: user };
     }
+    return {type: 'DUMMY'};
 }
 
 export function resetAuth() {
