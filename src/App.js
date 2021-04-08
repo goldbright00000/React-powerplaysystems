@@ -1,6 +1,5 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment } from "react";
 import { Switch, Route } from "react-router-dom";
-import {useDispatch} from 'react-redux';
 
 import HomePage from "./pages/HomePage/HomePage";
 import PowerPlaySponsorsPage from "./pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage";
@@ -37,15 +36,8 @@ import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import MLBPowerdFsLive from "./pages/MLBPowerdfsLive";
 import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
-import { setupUser } from "./actions/authActions";
 
 const App = (props) => {
-  const dispatch = useDispatch();
-  
-  useEffect(() => {
-    dispatch(setupUser());
-  }, []);
-
   return (
     <Fragment>
       <ScrollToTop />
