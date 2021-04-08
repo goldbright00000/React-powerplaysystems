@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+
 import classes from './MyGameCenter.module.scss';
 import Scoreboard from '../../assets/scoreboard.png';
 import Emblem from '../../assets/emblem.png';
@@ -21,21 +21,6 @@ import EthereumGrey from '../../assets/ethereum-grey.png';
 import { getLocalStorage, redirectTo, setLocalStorage } from '../../utility/shared';
 import { CONSTANTS } from '../../utility/constants';
 // import Scoreboard from '../../icons/Scoreboard';
-
-const CURRENCY_DATA = [
-    {
-        label: 'Cash Balance',
-        value: 'cash'
-    },
-    {
-        label: 'Bitcoin Balance',
-        value: 'bitcoin'
-    },
-    {
-        label: 'Ethereum Balance',
-        value: 'ethereum'
-    },
-];
 
 const MyGameCenter = props => {
     const { url } = props.match;

@@ -54,7 +54,7 @@ function LoginPage(props) {
                     <img src={SignInImage} alt="" className={classes.header_image} />
                     
                     <div className={classes.header_content}>
-                        <p className={classes.header_title}>Get ready to Power-up!</p>
+                        <p className={`${classes.header_title} mb-30`}>Get ready to Power-up!</p>
                         <p className={classes.header_p}>
                         Let’s start your new experience our ground-breaking live-play games where you have the Power to control your destiny!
                         </p>
@@ -63,7 +63,7 @@ function LoginPage(props) {
 
                 <div className={classes.content_wrapper}>
                     <div className={classes.content_top_skew} />
-                    <div className={classes.content_card}>
+                    <div className={`${classes.content_card} p-normal`}>
                         {
                             !isEmpty(authUser) && !loggedIn &&
                             <>
@@ -78,14 +78,14 @@ function LoginPage(props) {
                                 <br />
                             </>
                         }
-                        <form onSubmit={onLoginSubmit}>
+                        <form onSubmit={onLoginSubmit} className={`${classes.form} mx-50 mt-50 m-sm-30`}>
                             <Input type="text" block rounded label="E-mail" required value={user.email} onChange={(e) => {
                                 setUser({...user, email: e?.target?.value})
                             }} bordered />
                             <Input type="password" block rounded label="Password" required value={user.password} onChange={(e) => {
                                 setUser({...user, password: e?.target?.value})
                             }} bordered />
-                            <button className={`${'__btn __large-btn'} ${classes.login_btn}`} type="submit" disabled={loading || (isEmpty(user.email) || isEmpty(user.password))}>
+                            <button className={`${'__btn __large-btn mx-auto d-block'} ${classes.login_btn}`} type="submit" disabled={loading || (isEmpty(user.email) || isEmpty(user.password))}>
                                 {
                                     loading ?
                                         'Loading...'
@@ -94,11 +94,10 @@ function LoginPage(props) {
                                 }
                             </button>
                         </form>
-                        <br />
                     </div>
 
-                    <p className={classes.content_footer_p}>
-                        Don't have an account? <Link to="/">Click here to Power-up!</Link>
+                    <p className={`${classes.content_footer_p}`}>
+                        Don't have an account? <Link to="/" className='text-decoration-underline'>Click here to Power-up!</Link>
                     </p>
                 </div>
             </div>

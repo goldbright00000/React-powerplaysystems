@@ -10,6 +10,8 @@ import Ethereum from '../../assets/ethereum.png';
 import CVVImg from '../../assets/cvv.png';
 import { Link } from 'react-router-dom';
 import QRCode from '../../assets/QRCode.png';
+import copyImage from '../../assets/copy.png';
+import copyTextToClipBoard from '../../utility/copyTextToClipBoard';
 
 const formatePrice = (price, currencyValue) => `$${(price * currencyValue).toFixed(2)}`
 
@@ -20,8 +22,10 @@ class DepositAmountForm extends Component {
         form: {
             currency: 'USD',
             price: 25,
-            paymentMetod: 'Credit or Debit Card'
-        }
+            paymentMetod: 'Credit or Debit Card',
+            walletAddress: ""
+        },
+        isOtherAmount: false,
     }
 
     onCurrencyChange = e => {
@@ -35,9 +39,10 @@ class DepositAmountForm extends Component {
     }
 
     onPriceChange = e => {
+        const { value, type } = e.target;
         const newForm = { ...this.state.form };
-        newForm.price = +e.target.value;
-        this.setState({ form: newForm });
+        newForm.price = +value;
+        this.setState({ form: newForm, isOtherAmount: type === 'number' });
     }
 
     onPaymentMethodChange = e => {
@@ -82,13 +87,18 @@ class DepositAmountForm extends Component {
             paymentMetods: []
         }
     }
+    onWalletAddressChange = e => {
+        const newForm = { ...this.state.form }; 
+        newForm.walletAddress = e.target.value;
+        this.setState({form: newForm})  
+    }
     onSubmit = e => {
         e.preventDefault();
     }
 
     render() {
-        const { currency, price, paymentMetod } = this.state.form;
-        console.log(this.prices[currency].values, currency)
+        const { currency, price, paymentMetod, walletAddress } = this.state.form;
+        const {isOtherAmount} = this.state;
         return (
             <form className={styles.form} onSubmit={this.onSubmit}>
                 <section className={styles.formSection}>
@@ -114,16 +124,16 @@ class DepositAmountForm extends Component {
                                 key={index}
                                 onChange={this.onPriceChange}
                                 {...data}
-                                checked={price === data.value}
+                                checked={!isOtherAmount && price === data.value}
                             />
                         ))}
                         <ChooseItem
                             name='price'
-                            onChange={this.onPriceChange}
-                            selectedValue={price}
                             title="Other"
                             helperText="Your Amount"
-                            value='other'
+                            type='number'
+                            onChange={this.onPriceChange}
+                            value={isOtherAmount ? price : ''}
                         />
                     </div>
                 </section>
@@ -143,7 +153,7 @@ class DepositAmountForm extends Component {
                     </section>
                 ) : (
                     <section className={styles.formSection}>
-                        <h6>Don’t own any { currency === 'BTC' ? 'Bitcoin' : 'Ethereum' }? Buy at our Payment Partner </h6>
+                        <h6>Don’t own any {currency === 'BTC' ? 'Bitcoin' : 'Ethereum'}? Buy at our Payment Partner </h6>
                         <div>
                             <img src={Coingate} alt='' className={styles.Coingate} />
                             <button className={styles.buyCoinBtn} type='button'>Buy {currency} at Coingate</button>
@@ -182,7 +192,8 @@ class DepositAmountForm extends Component {
                             <img alt='' src={QRCode} className={styles.qrImage} />
                             <div className={styles.inputField}>
                                 <label htmlFor='wallet-address'>Wallet Address</label>
-                                <input type='text' id='wallet-address' />
+                                <img src={copyImage} alt='' className={styles.copyImage} onClick={() => navigator.clipboard.writeText(walletAddress)} />
+                                <input type='text' id='wallet-address' value={walletAddress} onChange={this.onWalletAddressChange} />
                             </div>
                             <button className={styles.submitbtn}>Deposit  • {currency === '$USD' && '$'}{price} {currency.replace('$', '')}</button>
                         </div>

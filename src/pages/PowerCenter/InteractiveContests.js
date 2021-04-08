@@ -7,7 +7,6 @@ import SuperBall from '../../icons/SuperBall';
 import PowerCenterCard from '../../components/PowerCenterCard';
 import { redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
-import FilledArrows from '../../components/FilledArrows';
 
 const powerCenterCardData = [
     {
@@ -117,21 +116,6 @@ const filters = [
     },
 ];
 
-const ALL_CURRENCIES = [
-    {
-        label: 'US Dollar',
-        value: 'usd'
-    },
-    {
-        label: 'Bitcoin',
-        value: 'bitcoin'
-    },
-    {
-        label: 'Ethereum',
-        value: 'ethereum'
-    },
-];
-
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
@@ -140,8 +124,6 @@ const InteractiveContests = props => {
     const [showCardDetails, setShowCardDetails] = useState(-1);
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
-    const [currencyMenu, setCurrencyMenu] = useState(false);
-    const [selectedCurrencies, setSelectedCurrencies] = useState(['usd', 'bitcoin', 'ethereum']);
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -211,12 +193,12 @@ const InteractiveContests = props => {
                     </div>
                     <div className={classes.__interactive_contests_prize_total}>
                         <p>Prize Total
-                        <FilledArrows down={true} />
+                        <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
                         </p>
                     </div>
                     <div className={classes.__interactive_contests_top_prize}>
                         <p>Top Prize
-                        <FilledArrows down={true} />
+                        <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
                         </p>
                     </div>
                     <div className={classes.__interactive_contests_min_entry}>

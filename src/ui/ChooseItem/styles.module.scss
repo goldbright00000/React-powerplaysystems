@@ -10,11 +10,28 @@
     border-radius: 0.143rem;
     cursor: pointer;
     position: relative;
-    input{
+    input[type="radio"] {
         display: none;
         &:checked ~ .underLine{
             transform: scale(1);
             opacity: 1;
+        }
+    }
+    input[type="number"], input[type="text"]{
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: inherit;
+        font-family: inherit;
+        background: transparent;
+        text-align: center;
+        color: inherit;
+        height: 1em;
+        &:not(:placeholder-shown), &:focus{
+            ~ .underLine{
+                transform: scale(1);
+                opacity: 1;
+            }
         }
     }
     color: #1e1e1e;

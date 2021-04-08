@@ -2,10 +2,10 @@
 
 .input_container {
   width: 100%;
-  margin: 0 0 14px 0;
+  margin: 0 0 1rem 0;
 
   label {
-    font-size: 14px;
+    font-size: 1rem;
     color: $black;
     margin: 6px 0 0 0;
   }
@@ -19,8 +19,11 @@
     height: 57px;
     border: none;
     background-color: $grey2;
-    padding: 0 10px;
+    padding: 1.5rem;
     outline: none;
+    &:focus{
+      border-color: $primary;
+    }
   }
 
   .block {
