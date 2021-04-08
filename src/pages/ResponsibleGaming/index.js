@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Header from "../../components/Header/Header";
-import PageHeader from "../../components/PageHeader";
 import Footer from "../../components/Footer/Footer";
 import "./index.css";
-import * as Constants from "../../global/constants.js";
 class ResponsibleGaming extends Component {
   constructor(props) {
     super(props);
