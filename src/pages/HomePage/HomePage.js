@@ -54,7 +54,7 @@ const HomePage = (props) => {
   return (
     <div className={classes.__home_page}>
       <Header />
-      <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/power-up" />
+      <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/" />
       <div className={classes.__home_page_first_section_bg}>
         <div className={classes.__home_page_first_section}>
           <div className={classes.__home_page_first_section_main_heading}>
