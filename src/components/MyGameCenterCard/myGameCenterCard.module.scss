@@ -9,6 +9,7 @@
     flex-direction: column;
 
     .__my_game_center_card_in_progress {
+        display: flex;
         width: 100%;
         height: 20px;
         padding-top: 1px;
@@ -25,20 +26,40 @@
         color: #ffffff;
         text-align: center;
 
-        span {
-            width: 5px;
-            height: 5px;
-            margin: 0 4px 1px 0;
-            border-radius: 50%;
-            background-color: #f2f2f2;
-            display: inline-block;
+        .__in_progress {
+            flex: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            span {
+                width: 5px;
+                height: 5px;
+                margin: 0 4px 1px 0;
+                border-radius: 50%;
+                background-color: #f2f2f2;
+                display: inline-block;
+            }
         }
+        
+        .__close_icon_in_progress {
+            margin-right: 6px;
+            opacity: 0.6;
+            cursor: pointer;  
+        }
+    }
+
+    .__close_icon {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 6px;
+        opacity: 0.6;
+        cursor: pointer;
     }
 
     .__my_game_center_card_powerdfs {
         display: flex;
         justify-content: center;
-        margin-top: 18px;
 
         .__my_game_center_card_powerdfs_hr {
             width: 30px;
