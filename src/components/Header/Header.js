@@ -1,13 +1,59 @@
-import { Link, NavLink } from "react-router-dom";
+import React, {useState} from 'react';
+import { Link, NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./Header.scss";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/new-logo.png";
 import { resetAuth } from "../../actions/authActions";
 import { setUserBalance } from "../../actions/userActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
+import MyAccountMenu from "../MyAccountMenu";
+import FilledArrow from '../FilledArrow';
+
+const MY_ACCOUNT_MENU_OPTIONS = [
+  {
+    label: 'Account Info',
+    value: '/my-account'
+  },
+  {
+    label: 'Balance',
+    value: '/balance'
+  },
+  {
+    label: 'Results',
+    value: '/results'
+  },
+  {
+    label: 'History',
+    value: '/history'
+  },
+  {
+    label: 'Account Limits',
+    value: '/account-limits'
+  },
+  {
+    label: 'How to Play',
+    value: '/how-to-play'
+  },
+  {
+    label: 'Deposit',
+    value: '/deposit'
+  },
+  {
+    label: 'Contact Us',
+    value: '/contact-us'
+  },
+  {
+    label: 'FAQ',
+    value: '/faqs'
+  },
+  {
+    label: 'Log Out',
+    value: '/log-out'
+  },
+];
 
 const Header = (props) => {
   const {
@@ -19,11 +65,23 @@ const Header = (props) => {
 
   const { user: { token = "" } = {} } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
+  const history = useHistory();
+
+  const [myAccountMenu, setMyAccountMenu] = useState(false);
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
     dispatch(setUserBalance({}));
     return dispatch(resetAuth());
+  };
+
+  const onMyAccountMenuItemClick = (menuItem) => {
+    setMyAccountMenu(false);
+    if (menuItem == '/log-out') {
+      onLogout();
+    } else {
+      history.push(menuItem);
+    }
   };
 
   return (
@@ -52,13 +110,30 @@ const Header = (props) => {
                   <li>
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
-                  <li>
-                    <NavLink to="/my-account">My Account</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="#" onClick={onLogout}>
-                      Logout
+                  <li className="__my_account_li">
+                    <NavLink 
+                      to="#" 
+                      onClick={() => setMyAccountMenu(!myAccountMenu)}>
+                      My Account
+                      {
+                        !myAccountMenu
+                        ?
+                        <FilledArrow down={true} /> 
+                        :
+                        <FilledArrow up={true} />
+                      }
                     </NavLink>
+                    {
+                      myAccountMenu
+                      &&
+                      <MyAccountMenu 
+                        visible={myAccountMenu}
+                        value={window.location.pathname}
+                        options={MY_ACCOUNT_MENU_OPTIONS}
+                        onClick={(menuItem) => onMyAccountMenuItemClick(menuItem)}
+                      />
+                    }
+                    
                   </li>
                 </>
               ) : (

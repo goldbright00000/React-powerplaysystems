@@ -7,7 +7,7 @@ import SuperBall from '../../icons/SuperBall';
 import PowerCenterCard from '../../components/PowerCenterCard';
 import { redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
-import FilledArrows from '../../components/FilledArrows';
+import FilledArrow from '../../components/FilledArrow';
 
 const powerCenterCardData = [
     {
@@ -211,12 +211,12 @@ const InteractiveContests = props => {
                     </div>
                     <div className={classes.__interactive_contests_prize_total}>
                         <p>Prize Total
-                        <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
+                        <FilledArrow down={true} />
                         </p>
                     </div>
                     <div className={classes.__interactive_contests_top_prize}>
                         <p>Top Prize
-                        <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
+                        <FilledArrow down={true} />
                         </p>
                     </div>
                     <div className={classes.__interactive_contests_min_entry}>
@@ -227,9 +227,9 @@ const InteractiveContests = props => {
                         {
                             currencyMenu
                             ?
-                            <FilledArrows up={true} />
+                            <FilledArrow up={true} />
                             :
-                            <FilledArrows down={true} />
+                            <FilledArrow down={true} />
                         }
                         </p>
                         {

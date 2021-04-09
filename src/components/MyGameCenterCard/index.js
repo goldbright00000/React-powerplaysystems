@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import classes from './myGameCenterCard.module.scss';
 import MLBPlayer from '../../assets/mlb-player.png';
 import NFLPlayer from '../../assets/nfl-player.png';
@@ -9,8 +9,8 @@ import PencilIcon from '../../assets/pencil_icon.png';
 import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
 import ViewResults from '../../pages/MyGameCenter/ViewResults';
-import Modal from '../../components/Modal';
 import FinalStandingsModal from './FinalStandingsModal';
+import LeaveGameModal from './LeaveGameModal';
 
 const MyGameCenterCard = (props) => {
     const {
@@ -37,6 +37,8 @@ const MyGameCenterCard = (props) => {
         onViewResultsBack = () => { },
         onFinalStandings = () => { }
     } = props || {};
+
+    const [leaveGameModal, setLeaveGameModal] = useState(false);
 
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
@@ -72,8 +74,16 @@ const MyGameCenterCard = (props) => {
                                 inProgress
                                 &&
                                 <div className={classes.__my_game_center_card_in_progress}>
-                                    <span></span>In Progress
-                                </div>
+                                    <div className={classes.__in_progress}>
+                                        <span></span>In Progress
+                                    </div>
+                                    <div className={classes.__close_icon_in_progress} onClick={() => setLeaveGameModal(true)}>x</div>
+                                </div>      
+                            }
+                            {
+                                !inProgress
+                                &&
+                                <div className={classes.__close_icon} onClick={() => setLeaveGameModal(true)}>x</div>
                             }
                             <div className={classes.__my_game_center_card_powerdfs} style={{marginTop: inProgress && -3}}>
                                 <span className={classes.__my_game_center_card_powerdfs_hr + ' ' + classes.__my_game_center_card_powerdfs_hr_left}></span>
@@ -202,6 +212,14 @@ const MyGameCenterCard = (props) => {
                                 <FinalStandingsModal 
                                     isVisible={finalStandingsModal}
                                     onClose={() => onFinalStandings(-1)}
+                                />
+                            }
+                            {
+                                leaveGameModal
+                                &&
+                                <LeaveGameModal 
+                                    title={title} 
+                                    onCancel={() => setLeaveGameModal(false)}
                                 />
                             }
                         </div>
