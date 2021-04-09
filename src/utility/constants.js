@@ -64,6 +64,7 @@ export const CONSTANTS = {
     USER: "q3245fas45fa4w5#$rfa345__123@#42fadsfaw3424",
     CASH_BALANCE: "cash_balance",
     TOKEN_BALANCE: "token_balance",
+    DISPLAY_BALANCE: "display_balance",
   },
 
   BUTTON_TYPE: {

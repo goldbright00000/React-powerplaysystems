@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 import classes from "./index.module.scss";
 import Button from "../Button";
 import Ticket from "../../icons/Ticket";
+import CashBalance from '../../assets/points-collected.png';
 import Token from "../../assets/token.png";
+import Bitcoin from '../../assets/bitcoin.png';
+import Ethereum from '../../assets/ethereum.png';
 import Money from "../../icons/Money";
 import ListItem from "./ListItem";
 import Modal from "../Modal";
@@ -53,7 +56,7 @@ const ListHeader = (
       <div className={classes.list_right_side}>
         <div className={classes.list_right_side_btns}>
           <Button title={firstBtnTitle} onClick={firstBtnOnClick} />
-          <Button title={btnTitle} onClick={balance != 0 && onClick} styles={{opacity: 0 == 0 ? 0.5 : 1.0}}/>
+          <Button title={btnTitle} onClick={balance != 0 && onClick} styles={{opacity: balance == 0 ? 0.5 : 1.0}}/>
         </div>
         <div className={classes.list_right_side_text}>
           <span>{minAmount}</span>
@@ -125,8 +128,8 @@ function BalanceInfoComponent(props) {
           () => setShowDepositModal(true),
           "Withdraw",
           changeModalState,
-          Money,
-          true,
+          CashBalance,
+          false,
           "cash",
           "Min. Amount: $100"
         )}
@@ -135,20 +138,44 @@ function BalanceInfoComponent(props) {
           balance.tokenBalance,
           "Deposit",
           () => {},
-          "Transfer to Wallet",
+          "Transfer",
           () => {},
           Token,
           false,
           "token",
           ""
         )}
+        {ListHeader(
+          "BTC Balance",
+          balance.tokenBalance,
+          "Deposit",
+          () => {},
+          "Transfer",
+          () => {},
+          Bitcoin,
+          false,
+          "token",
+          ""
+        )}
+        {ListHeader(
+          "ETH Balance",
+          balance.tokenBalance,
+          "Deposit",
+          () => {},
+          "Transfer",
+          () => {},
+          Ethereum,
+          false,
+          "token",
+          ""
+        )}
       </div>
-      <div className={classes.list_body}>
+      {/* <div className={classes.list_body}>
         {ListTitle(Ticket, true, "My non-cash prizes")}
         <ListItem title="3 nights stay at Fairmont Banff Springs" />
         <ListItem title="10 free meals at Macdonald’s" claimed={false} />
         <ListItem title="3 nights stay at Fairmont Banff Springs" />
-      </div>
+      </div> */}
 
       <Modal visible={showModal} iconStyle={{ display: "none" }}>
         <div className={classes.modal_container}>

@@ -9,6 +9,29 @@
     justify-content: space-between;
     padding: 30px 0;
     border-bottom: 2px solid $lightBlack3;
+    
+    .edit_input {
+      display: inline-block;
+      border-radius: 4px;
+      background-color: $lightGrey7;
+      border: none;
+      outline: none;
+      padding-left: 5px;
+
+      span {
+        padding-right: 5px;
+        border-right: 1px solid $grey13;
+      }
+
+      input {
+        background-color: $grey12;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+        color: $grey13;
+        padding-left: 5px;
+      }
+    }
 
     button {
       border: none;
@@ -25,5 +48,107 @@
 
   .list_item:last-child {
     border-bottom: none;
+  }
+
+  .__delete_account_modal {
+    width: 600px;
+    height: 400px;
+    border-radius: 12px;
+    box-shadow: 0 2px 24px 0 $black5;
+    background-color: $lightBlack;
+
+    .__close_icon {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      flex: 1;
+      margin-top: 20px;
+      margin-right: 20px;
+      cursor: pointer;
+    }
+
+    .__confirmation_message_div {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+
+      .__message {
+        width: 400px;
+        font-family: Teko;
+        font-size: 42px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $white;
+      }
+    }
+
+    .__confirmation_info_div {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+
+      .__info {
+        width: 531px;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $white;
+      }
+    }
+
+    .__input_and_btn {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin-top: 54px;
+
+      .__password_input {
+        width: 280px;
+        height: 48px;
+        margin: 0 20px 0 0;
+        padding: 12px 0px 13px 12px;
+        border-radius: 8px;
+        background-color: $lightGrey7;
+        border: none;
+        outline: none;
+        opacity: 0.4;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: $grey2;
+      }
+
+      .__delete_account_btn {
+        height: 48px;
+        padding: 0px 23px 0px 24px;
+        border-radius: 8px;
+        border: solid 1px $grey2;
+        background-color: $lightBlack;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $grey2;
+        outline: none;
+        cursor: pointer;
+      }
+    }
   }
 }

@@ -7,6 +7,7 @@ import SuperBall from '../../icons/SuperBall';
 import PowerCenterCard from '../../components/PowerCenterCard';
 import { redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
+import FilledArrows from '../../components/FilledArrows';
 
 const powerCenterCardData = [
     {
@@ -116,6 +117,21 @@ const filters = [
     },
 ];
 
+const ALL_CURRENCIES = [
+    {
+        label: 'US Dollar',
+        value: 'usd'
+    },
+    {
+        label: 'Bitcoin',
+        value: 'bitcoin'
+    },
+    {
+        label: 'Ethereum',
+        value: 'ethereum'
+    }
+];
+
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
@@ -124,6 +140,8 @@ const InteractiveContests = props => {
     const [showCardDetails, setShowCardDetails] = useState(-1);
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
+    const [currencyMenu, setCurrencyMenu] = useState(false);
+    const [selectedCurrencies, setSelectedCurrencies] = useState(['usd', 'bitcoin', 'ethereum']);
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -203,6 +221,48 @@ const InteractiveContests = props => {
                     </div>
                     <div className={classes.__interactive_contests_min_entry}>
                         <p>Min Entry</p>
+                    </div>
+                    <div className={`${classes.__interactive_contests_top_prize} ${classes.__drop_down_menu}`}>
+                        <p onClick={() => setCurrencyMenu(!currencyMenu)}>Currency
+                        {
+                            currencyMenu
+                            ?
+                            <FilledArrows up={true} />
+                            :
+                            <FilledArrows down={true} />
+                        }
+                        </p>
+                        {
+                            currencyMenu
+                            &&
+                            <div className={classes.__currency_menu}>
+                            {
+                                ALL_CURRENCIES.map((item, index) => {
+                                    return (
+                                        <div 
+                                            key={index}
+                                            className={
+                                                `${classes.__currency_menu_item} 
+                                                ${selectedCurrencies.includes(item.value) && classes.__currency_menu_selected}`
+                                            }
+                                            onClick={() => {
+                                                // Check if currency exist in array
+                                                const i = selectedCurrencies.indexOf(item.value);
+                                                if (i > -1) {
+                                                    selectedCurrencies.splice(i, 1);
+                                                } else {
+                                                    selectedCurrencies.push(item.value);
+                                                }
+                                                setSelectedCurrencies(selectedCurrencies);
+                                                setCurrencyMenu(false);
+                                            }}>
+                                            {item.label}
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                        }
                     </div>
                     <div className={classes.__interactive_contests_date}>
                         <CustomDropDown 

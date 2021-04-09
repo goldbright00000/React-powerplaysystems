@@ -120,6 +120,74 @@
                     color: $white;
                 }
             }
+
+            .__three_dots_div {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                width: 40px;
+                z-index: 1;
+                .__three_dots {
+                    background: transparent;
+                    width: 20px;
+                    outline: none;
+                    border: none;
+                    padding: 0;
+                    display: block;
+                    
+                    > span {
+                    width: 4px;
+                    height: 4px;
+                    margin: 0 0 4px;
+                    border-radius: 3px;
+                    background-color: $primary;
+                    display: block;
+                    margin-left: 7px;
+                    }
+                }
+            }
+
+            .__currency_menu {
+                width: 190px;
+                height: 190px;
+                border-radius: 6px;
+                box-shadow: 0 2px 14px 0 $black5;
+                border: solid 1px $black;
+                background-color: $lightGrey;
+                z-index: 1;
+                position: absolute;
+                right: 20px;
+
+                :first-child {
+                    font-weight: 600;
+                    cursor: default;
+                }
+
+                div {
+                    display: flex;
+                    align-items: center;
+                    padding-left: 20px;
+                    width: 190px;
+                    height: 46px;
+                    font-family: Poppins;
+                    font-size: 16px;
+                    font-weight: 300;
+                    font-stretch: normal;
+                    font-style: normal;
+                    line-height: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
+                    cursor: pointer;
+                }
+
+                .__currency_menu_item:hover {
+                    background-color: $lightBlue6;
+                }
+
+                .__currency_menu_selected {
+                    background-color: $lightBlue6;
+                }
+            }
         }
     }
 }
