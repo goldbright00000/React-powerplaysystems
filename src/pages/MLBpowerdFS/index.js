@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { isEmpty, isEqual } from "lodash";
+import React, { useState, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { isEmpty, isEqual, cloneDeep } from "lodash";
+
+import * as MLBActions from "../../actions/MLBActions";
 
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -28,55 +30,57 @@ import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
+import StarPlayersCheck from "../../components/StarPlayersCheck";
+import { redirectTo } from "../../utility/shared";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
 const INITIAL_PLAYER_LIST = [
   {
     title: P,
-    value: "",
+    name: "",
     filter: P,
     playerId: "",
   },
   {
     title: C,
-    value: "",
+    name: "",
     filter: C,
     playerId: "",
   },
   {
     title: SS,
-    value: "",
+    name: "",
     filter: SS,
     playerId: "",
   },
   {
     title: `${XB}1`,
-    value: "",
+    name: "",
     filter: XB,
     playerId: "",
   },
   {
     title: `${XB}2`,
-    value: "",
+    name: "",
     filter: XB,
     playerId: "",
   },
   {
     title: `${OF}1`,
-    value: "",
+    name: "",
     filter: OF,
     playerId: "",
   },
   {
     title: `${OF}2`,
-    value: "",
+    name: "",
     filter: OF,
     playerId: "",
   },
   {
     title: D,
-    value: "",
+    name: "",
     icon: EmployeeIcon,
     filter: D,
     playerId: "",
@@ -171,17 +175,38 @@ const headerText = [
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
-function MLBPowerdFs() {
+function MLBPowerdFs(props) {
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
   );
-  const [selectedStarPowers, setStarPowers] = useState([false, false, false]);
   const [playerList, setPlayerList] = useState(INITIAL_PLAYER_LIST);
   const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
   const [selectedData, setSelectedData] = useState(dummyData[0]);
   const [filterdData, setFilterdData] = useState(dummyData[0]);
   const [selectedDropDown, setSelectedDropDown] = useState();
+
+  const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const dispatch = useDispatch();
+
+  //reset the states
+  useEffect(() => {
+    dispatch(MLBActions.mlbData(dummyData));
+    dispatch(MLBActions.setStarPlayerCount(0));
+    setPlayerList(cloneDeep(INITIAL_PLAYER_LIST));
+    setSelected(new Map());
+    setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
+    setFilters(cloneDeep(FILTERS_INITIAL_VALUES));
+    setFilterdData(null);
+    setSelectedData(null);
+  }, []);
+
+  useEffect(() => {
+    if (data?.length) {
+      setFilterdData(data[0]);
+      setSelectedData(data[0]);
+    }
+  }, [data]);
 
   const onSelectDeselect = useCallback(
     (id) => {
@@ -192,58 +217,54 @@ function MLBPowerdFs() {
 
       const [data] = _selectedData?.filter((d) => d?.id === id);
       const _selected = new Map(selected);
+      let _starPlayerCount = starPlayerCount;
 
       //selected players
       const _playersList = [...playerList];
-      const _selectedStarPowers = [...selectedStarPowers]; //starPower players
 
       if (!_selected.get(id)) {
         const [_player] = _playersList?.filter(
           (player) =>
-            player?.filter === selectedData?.cat && isEmpty(player.value)
+            player?.filter === selectedData?.cat && isEmpty(player.name)
         );
-        if (!isEmpty(_player) && isEmpty(_player.value)) {
-          const playerListIndex = _playersList?.findIndex(
-            (player) => player?.filter === selectedData?.cat && isEmpty(player)
-          );
-          let player = _player;
-          player.value = data?.title;
+        if (!isEmpty(_player) && isEmpty(_player.name)) {
+          const playerListIndex = _playersList?.indexOf(_player);
+          let player = { ..._player };
+          player.name = data?.name;
           player.playerId = data?.id;
           player.isStarPlayer = data?.isStarPlayer;
           _playersList[playerListIndex] = player;
 
           _selected.set(id, !selected.get(id));
           //Star Power Player selection (sidebar)
-          if (starPowerIndex < 3 && data?.isStarPlayer) {
-            _selectedStarPowers[starPowerIndex] = true;
-            starPowerIndex++;
+          if (starPlayerCount < 3 && data?.isStarPlayer) {
+            _starPlayerCount++;
           }
           selectedPlayerCount++;
         }
       } else {
-        let existingPlayerIndex = _playersList?.findIndex((player) =>
-          isEqual(player?.playerId, data?.id)
+        let existingPlayerIndex = _playersList?.findIndex(
+          (player) => player?.playerId === data?.id
         );
 
         if (existingPlayerIndex !== -1) {
           _selected.set(id, !selected.get(id));
           if (
-            starPowerIndex > 0 &&
+            starPlayerCount > 0 &&
             _playersList[existingPlayerIndex].isStarPlayer
           ) {
-            starPowerIndex--;
-            _selectedStarPowers[starPowerIndex] = false;
+            _starPlayerCount--;
           }
 
-          _playersList[existingPlayerIndex].value = "";
+          _playersList[existingPlayerIndex].name = "";
           _playersList[existingPlayerIndex].playerId = "";
           _playersList[existingPlayerIndex].isStarPlayer = false;
         }
         selectedPlayerCount--;
       }
 
+      dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
       setSelected(_selected);
-      setStarPowers(_selectedStarPowers);
       setPlayerList(_playersList);
       activateFilter(data, cat);
     },
@@ -423,7 +444,7 @@ function MLBPowerdFs() {
                     filterdData?.data?.map((item, index) =>
                       selectedFilter?.title === D ? (
                         <SelectionCard2
-                          title={item.title}
+                          title={item.name}
                           avgVal={item.avgVal}
                           teamA={item.teamA}
                           teamB={item.teamB}
@@ -523,13 +544,13 @@ function MLBPowerdFs() {
 
                 <ContestRulesPopUp
                   component={({ showPopUp }) => (
-                    <Link
+                    <button
                       onClick={showPopUp}
                       className={classes.footer_full_rules}
                       href="#"
                     >
                       See Full Rules <img src={RightArrow} />
-                    </Link>
+                    </button>
                   )}
                 />
               </div>
@@ -572,13 +593,10 @@ function MLBPowerdFs() {
                   </p>
                 </div>
                 <div className={classes.sidebar_circles}>
-                  {selectedStarPowers?.map((isSelected, index) =>
-                    isSelected ? (
-                      <CheckIcon />
-                    ) : (
-                      <Circle key={index.toString()} />
-                    )
-                  )}
+                  <StarPlayersCheck
+                    totalStarPlayers={3}
+                    selectedCount={starPlayerCount}
+                  />
                 </div>
               </div>
               <SportsSidebarContent
@@ -587,7 +605,14 @@ function MLBPowerdFs() {
                 starIcon={StarImg}
                 selectedPlayerCount={selectedPlayerCount}
               />
-              <button className={classes.sidebar_button}>Submit!</button>
+              <button
+                className={classes.sidebar_button}
+                onClick={() =>
+                  redirectTo(props, { path: "/mlb-live-powerdfs" })
+                }
+              >
+                Submit!
+              </button>
             </Sidebar>
           </div>
         </div>
