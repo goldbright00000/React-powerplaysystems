@@ -105,7 +105,8 @@ const Footer = (props) => {
               Copyright © 2021 PowerPlay Systems Inc. - All Rights Reserved
             </div>
             <div className={`${classes.__mediam} __center `}>
-              140 Yonge St., S.200, Toronto, ON, M5C 1X6
+              140 Yonge St., S.200, Toronto, ON, M5C 1X6 | info@defygames.io |
+              1-888-808-7697
             </div>
           </>
         )}
