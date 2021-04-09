@@ -11,8 +11,11 @@
     align-items: center;
     height: 50px;
   }
-  .__brand-logo > img {
-    width: 100px;
+  .__brand-logo {
+    height: 27px;
+    img {
+      width: 136px;
+    }
   }
   .__navlinks {
     list-style-type: none;
