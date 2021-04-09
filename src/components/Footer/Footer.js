@@ -21,7 +21,7 @@ const Footer = (props) => {
         ) : (
           <>
             <div className={`${classes.__footer_content}`}>
-              <div className={["__hide-on-small",`${classes.__footer_logo}`]}>
+              <div className={["__hide-on-small", `${classes.__footer_logo}`]}>
                 <img src={logo} alt="" />
               </div>
               <div className={`${classes.__footer_links} `}>
@@ -103,6 +103,9 @@ const Footer = (props) => {
             </div>
             <div className={`${classes.__mediam} __center __mt-3`}>
               Copyright © 2021 PowerPlay Systems Inc. - All Rights Reserved
+            </div>
+            <div className={`${classes.__mediam} __center `}>
+              140 Yonge St., S.200, Toronto, ON, M5C 1X6
             </div>
           </>
         )}
