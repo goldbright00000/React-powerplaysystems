@@ -16,7 +16,13 @@ import SportsLiveCard from "../../../components/SportsLiveCard";
 let currentCard = 0;
 
 function SingleView(props) {
-  const { data = [] } = props || {};
+  const {
+    data = [],
+    playerList = [],
+    onChangeXp = (xp, player) => {},
+    updateReduxState = () => {},
+    starPlayerCount = 0,
+  } = props || {};
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
@@ -57,13 +63,24 @@ function SingleView(props) {
               active={selectedCard?.id === item?.id}
               onSelectCard={onSelectCard}
               singleView
+              onChangeXp={onChangeXp}
+              playerList={playerList}
+              updateReduxState={updateReduxState}
+              starPlayerCount={starPlayerCount}
             />
           ))}
       </div>
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        <SportsLiveCard largeView player={selectedCard} />
+        <SportsLiveCard
+          largeView
+          player={selectedCard}
+          onChangeXp={onChangeXp}
+          playerList={playerList}
+          updateReduxState={updateReduxState}
+          starPlayerCount={starPlayerCount}
+        />
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
       </div>
     </div>
@@ -71,7 +88,11 @@ function SingleView(props) {
 }
 
 SingleView.propTypes = {
+  showModal: PropTypes.bool,
+  starPlayerCount: PropTypes.number,
   data: PropTypes.array,
+  playerList: PropTypes.array,
+  updateReduxState: PropTypes.func,
 };
 
 export default SingleView;

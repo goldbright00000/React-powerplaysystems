@@ -23,22 +23,25 @@ import { isEmpty } from "lodash";
 import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
+import RenderModal from "./RenderModal";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
 function SportsLiveCard(props) {
-  const [xp, setXp] = useState({});
   const [showSummary, setSummaryState] = useState(false);
-
-  const { live_data = [] } = useSelector((state) => state?.mlb);
+  const [showReplaceModal, setReplaceModalState] = useState(false);
 
   const {
     player = {},
+    playerList = [],
     compressedView = false,
     largeView = false,
     singleView = false,
     active = false,
+    starPlayerCount = 0,
     onSelectCard = () => {},
+    onChangeXp = (xp, player) => {},
+    updateReduxState = (currentPlayer, newPlayer) => {},
   } = props || {};
 
   const {
@@ -56,33 +59,27 @@ function SportsLiveCard(props) {
     team = "",
     range = "",
     id = "",
+    xp = {},
   } = player || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
 
-  const onSelectXp = (xp = "") => {
-    const _selectedXp = {
-      xp,
-    };
-    if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
-    else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
-    else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
+  const renderXp = () => {
+    let svgSize = singleView ? 14 : largeView ? 28 : 24;
+    if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
+      return <XP1_5_1 className={classes.xp_svg} size={svgSize} />;
+    else if (xp && xp?.xp === CONSTANTS.XP.xp2)
+      return <XP2Icon_1 className={classes.xp_svg} size={svgSize} />;
+    else if (xp && xp?.xp === CONSTANTS.XP.xp3)
+      return <XP3_1 className={classes.xp_svg} size={svgSize} />;
 
-    const indexOfPlayer = live_data?.indexOf((player) => player?.id === id);
-    console.log(indexOfPlayer);
+    if (!singleView) {
+      return <XPIcon size={svgSize} />;
+    }
 
-    setXp(_selectedXp);
-  };
-
-  const renderSelectedXp = () => {
-    let svgSize = largeView ? 28 : 24;
-    if (xp?.xp === CONSTANTS.XP.xp1_5) return <XP1_5_1 size={svgSize} />;
-    else if (xp?.xp === CONSTANTS.XP.xp2) return <XP2Icon_1 size={svgSize} />;
-    else if (xp?.xp === CONSTANTS.XP.xp3) return <XP3_1 size={svgSize} />;
-
-    return <XPIcon size={svgSize} />;
+    return null;
   };
 
   const RenderStarPower = ({}) =>
@@ -92,6 +89,23 @@ function SportsLiveCard(props) {
         src={singleView ? MiniStar : StarPower}
       />
     );
+
+  const RenderXpToolTip = () => (
+    <div className={classes.stat_xp}>
+      <Tooltip
+        toolTipContent={
+          <div className={classes.xp_icons}>
+            <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, player)} />
+            <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, player)} />
+            <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, player)} />
+          </div>
+        }
+      >
+        {renderXp()}
+      </Tooltip>
+    </div>
+  );
+
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
       <div className={classes.stat_points_container}>
@@ -122,33 +136,23 @@ function SportsLiveCard(props) {
         </p>
         <div
           className={`${classes.points} ${
-            isTeamD() && !largeView && classes.team_d_width
-          } ${largeView && classes.large_view}`}
+            isTeamD() ? classes.team_d_width : largeView && classes.large_view
+          } ${isTeamD() && largeView && classes.large_view_d}`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {points}
           </p>
-          {!isTeamD() && (
-            <div className={classes.stat_xp}>
-              <Tooltip
-                toolTipContent={
-                  <div className={classes.xp_icons}>
-                    <XP1_5 onClick={() => onSelectXp(CONSTANTS.XP.xp1_5)} />
-                    <XP2Icon onClick={() => onSelectXp(CONSTANTS.XP.xp2)} />
-                    <XP3 onClick={() => onSelectXp(CONSTANTS.XP.xp3)} />
-                  </div>
-                }
-              >
-                {renderSelectedXp()}
-              </Tooltip>
-            </div>
-          )}
+          {!isTeamD() && <RenderXpToolTip />}
         </div>
       </div>
       {isTeamD() && (
-        <div className={classes.team_d_icons}>
-          <VideoIcon size={24} />
-          <ShieldIcon size={24} />
+        <div
+          className={`${classes.team_d_icons} ${
+            largeView && classes.large_view
+          }`}
+        >
+          <VideoIcon size={largeView ? 28 : 24} />
+          <ShieldIcon size={largeView ? 28 : 24} />
         </div>
       )}
     </div>
@@ -187,7 +191,10 @@ function SportsLiveCard(props) {
     <div className={classes.single_view_state}>
       <p className={classes.single_view_cat}>{category}</p>
       <div>
-        <p>Pts: 30</p>
+        <p className={classes.single_view_pts}>
+          Pts: <span className={xp && xp?.xp && classes.active}>30</span>
+          {renderXp()}
+        </p>
       </div>
       <p>
         Bot 1st
@@ -196,86 +203,121 @@ function SportsLiveCard(props) {
     </div>
   );
 
+  const RenderTeamDHeader = () =>
+    isTeamD() &&
+    !singleView && <span className={classes.teamd_range}>{range}</span>;
+
+  const RenderHeaderIcons = () =>
+    !isTeamD() ? (
+      <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+    ) : (
+      isTeamD() && singleView && <VideoIcon size={singleView && 23} />
+    );
+
+  const toggleReplaceModal = () => {
+    setReplaceModalState(!showReplaceModal);
+  };
+
+  const onSwap = (playerId) => {
+    const [swapablePlayer] = playerList?.filter(
+      (player) => player?.id === playerId
+    );
+    if (swapablePlayer) {
+      updateReduxState(player, swapablePlayer);
+      toggleReplaceModal();
+    }
+  };
+
   const isTeamD = () => team === "d" || team === "defence";
 
   return (
-    <div className={classes.card_wrapper} onClick={() => onSelectCard(player)}>
-      {!singleView && <RenderHeader />}
+    <>
+      <div className={classes.card_wrapper}>
+        {!singleView && <RenderHeader />}
 
-      <div
-        className={`${classes.card_container} ${
-          !compressedView && !singleView && classes.height_284
-        }
+        <div
+          className={`${classes.card_container} ${
+            !compressedView && !singleView && classes.height_284
+          }
           ${largeView && !compressedView && classes.height_340}
           ${singleView && classes.single_view_hover}
           ${active && classes.active}
         `}
-      >
-        <RenderStarPower />
-        <div className={classes.container_header}>
-          <p
-            className={`${classes.container_title} ${
-              largeView && classes.large_view
-            }`}
-          >
-            {playerName}{" "}
-            {isTeamD() && <span className={classes.teamd_range}>{range}</span>}
-          </p>
-          {!isTeamD() && <Replace size={22} />}
-        </div>
-        {!singleView && <div className={classes.divider} />}
+          onClick={() => onSelectCard(player)}
+        >
+          <RenderStarPower />
+          <div className={classes.container_header}>
+            <p
+              className={`${classes.container_title} ${
+                largeView && classes.large_view
+              }`}
+            >
+              {playerName} <RenderTeamDHeader />
+            </p>
+            <RenderHeaderIcons />
+          </div>
+          {!singleView && <div className={classes.divider} />}
 
-        <div className={classes.container_body}>
-          {!showSummary ? (
-            <>
-              {!singleView && <RenderStatPoints />}
-              {!compressedView && (
-                <>
-                  {singleView && <RenderSingleViewStats />}
-                  <RenderStatus
-                    success={
-                      hasText(status, "batting") ||
-                      hasText(status, "pitching") ||
-                      hasText(status, "hitting")
-                    }
-                    danger={hasText(status, "deck")}
-                  />
-
-                  {!isEmpty(playerStats) && !singleView && (
-                    <RenderMLBPlayerStats
-                      playerStats={playerStats}
-                      {...props}
+          <div className={classes.container_body}>
+            {!showSummary ? (
+              <>
+                {!singleView && <RenderStatPoints />}
+                {!compressedView && (
+                  <>
+                    {singleView && <RenderSingleViewStats />}
+                    <RenderStatus
+                      success={
+                        hasText(status, "batting") ||
+                        hasText(status, "pitching") ||
+                        hasText(status, "hitting")
+                      }
+                      danger={hasText(status, "deck")}
                     />
-                  )}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <RenderPointsSummary
-                titleList={MLBSummaryTitles}
-                tableList={pointsSummary}
-                totalPoints={totalPts}
-              />
-            </>
+
+                    {!isEmpty(playerStats) && !singleView && (
+                      <RenderMLBPlayerStats
+                        playerStats={playerStats}
+                        {...props}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <RenderPointsSummary
+                  titleList={MLBSummaryTitles}
+                  tableList={pointsSummary}
+                  totalPoints={totalPts}
+                />
+              </>
+            )}
+          </div>
+
+          {!compressedView && !singleView && (
+            <SportsLiveCardFooter
+              showSummary={showSummary}
+              onClickBack={() => setSummaryState(false)}
+              onClickDetails={() => setSummaryState(true)}
+              title="Bot 1st | 2 Out"
+            />
           )}
-        </div>
 
-        {!compressedView && !singleView && (
-          <SportsLiveCardFooter
-            showSummary={showSummary}
-            onClickBack={() => setSummaryState(false)}
-            onClickDetails={() => setSummaryState(true)}
-            title="Bot 1st | 2 Out"
+          <SportsLiveCardOverlay
+            text="Video review is available now"
+            visible={isTeamD() && !singleView}
           />
-        )}
-
-        <SportsLiveCardOverlay
-          text="Video review is available now"
-          visible={isTeamD()}
-        />
+        </div>
       </div>
-    </div>
+      <RenderModal
+        player={player}
+        visible={showReplaceModal}
+        onClose={toggleReplaceModal}
+        onSwap={onSwap}
+        playerList={playerList}
+        starPlayerCount={starPlayerCount}
+      />
+    </>
   );
 }
 
@@ -284,8 +326,12 @@ SportsLiveCard.propTypes = {
   compressedView: PropTypes.bool,
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,
+  starPlayerCount: PropTypes.number,
+  playerList: PropTypes.array,
   active: PropTypes.bool,
   onSelectCard: PropTypes.func,
+  onChangeXp: PropTypes.func,
+  updateReduxState: PropTypes.func,
 };
 
 export default SportsLiveCard;
