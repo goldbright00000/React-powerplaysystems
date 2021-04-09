@@ -9,8 +9,7 @@ import Circle from "../../icons/CircleEmpty";
 function StarPlayersCheck(props) {
   const [starPlayers, setStarPlayers] = useState([]);
 
-  const { totalStarPlayers = 0 } = props || {};
-  const { starPlayerCount = 0 } = useSelector((state) => state.nhl);
+  const { totalStarPlayers = 0, selectedCount = 0 } = props || {};
 
   useEffect(() => {
     const _starPlayers = [];
@@ -20,13 +19,13 @@ function StarPlayersCheck(props) {
     }
 
     //set the check to true if star player exists
-    for (let i = 0; i < starPlayerCount; i++) {
-      if (_starPlayers?.length >= starPlayerCount) {
+    for (let i = 0; i < selectedCount; i++) {
+      if (_starPlayers?.length >= selectedCount) {
         _starPlayers[i] = true;
       }
     }
     setStarPlayers(_starPlayers);
-  }, [totalStarPlayers, starPlayerCount]);
+  }, [totalStarPlayers, selectedCount]);
 
   return (
     <div className={classes.wrapper}>
@@ -39,6 +38,7 @@ function StarPlayersCheck(props) {
 
 StarPlayersCheck.propTypes = {
   totalStarPlayers: PropTypes.number,
+  selectedCount: PropTypes.number,
 };
 
 export default StarPlayersCheck;

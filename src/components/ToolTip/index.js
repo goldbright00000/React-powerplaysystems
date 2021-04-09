@@ -31,7 +31,7 @@ function ToolTip(props) {
 }
 
 ToolTip.propTypes = {
-  toolTipContent: PropTypes.any,
+  toolTipContent: PropTypes.element,
   disabled: PropTypes.bool,
 };
 

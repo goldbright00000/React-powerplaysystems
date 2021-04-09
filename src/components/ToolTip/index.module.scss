@@ -16,6 +16,8 @@
   .children {
     margin: 0;
     padding: 0;
+    position: relative;
+    display: flex;
 
     &:hover {
       cursor: pointer;
@@ -31,8 +33,8 @@
     position: absolute;
     left: 49.5%;
     background-color: $lightBlack2;
-    transform: translateX(-50%) translateY(5px);
-    box-shadow: 2px 14px 59px 0 $lightBlack9;
+    transform: translateX(-50%) translateY(8px);
+    box-shadow: 0px 0px 9px 4px $lightBlack9;
     padding: 9px 9px 2px 9px;
     z-index: 100;
     border-radius: 8px;
