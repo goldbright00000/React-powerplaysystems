@@ -182,6 +182,20 @@ export function getMonthDays() {
 
   return month;
 }
+
+export function getDaysFromToday() {
+  let daysFromToday = [];
+  for (let i = 0; i < 7; i++) {
+      if (i == 0) {
+          daysFromToday.push({value: 'Today', label: 'Today'});
+      } else {
+          let day = moment().add(i, 'd').format('ddd, MMM DD');
+          daysFromToday.push({value: day, label: day});
+      }
+  }
+  return daysFromToday;
+}
+
 export function getCountries() {
   return ["USA", "Canada"];
 }

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import classes from './MyGameCenter.module.scss';
@@ -40,6 +40,7 @@ const CURRENCY_DATA = [
 const MyGameCenter = props => {
     const { url } = props.match;
     const { auth: { user: { token = '' } }, user: {userBalance = {}} = {} } = useSelector((state) => state);
+    const currencyMenuRef = useRef(null);
     const [currencyMenu, setCurrencyMenu] = useState(false);
     const [displayCurrency, setDisplayCurrency] = useState(['cash', 'bitcoin', 'ethereum']);
 
@@ -49,6 +50,21 @@ const MyGameCenter = props => {
             setDisplayCurrency(displayBalance);
         }
     }, []);
+
+    useEffect(() => {
+        // add when mounted
+        document.addEventListener("mousedown", handleClick);
+        // return function to be called when unmounted
+        return () => {
+          document.removeEventListener("mousedown", handleClick);
+        };
+      }, []);
+
+    const handleClick = e => {
+        if (currencyMenuRef.current && !currencyMenuRef.current.contains(e.target)) {
+            setCurrencyMenu(false);
+        }
+    };
 
     return (
         <Fragment>
@@ -134,7 +150,7 @@ const MyGameCenter = props => {
                             {
                                 currencyMenu
                                 &&
-                                <div className='__currency_menu'>
+                                <div className='__currency_menu' ref={currencyMenuRef}>
                                     <div>
                                         Display:
                                     </div>

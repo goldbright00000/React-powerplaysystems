@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { Link, NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,27 +11,12 @@ import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
 import FilledArrow from '../FilledArrow';
+import DepositAmountPopUp from '../DepositAmountPopUp/DepositAmountPopUp';
 
 const MY_ACCOUNT_MENU_OPTIONS = [
   {
     label: 'Account Info',
     value: '/my-account'
-  },
-  {
-    label: 'Balance',
-    value: '/balance'
-  },
-  {
-    label: 'Results',
-    value: '/results'
-  },
-  {
-    label: 'History',
-    value: '/history'
-  },
-  {
-    label: 'Account Limits',
-    value: '/account-limits'
   },
   {
     label: 'How to Play',
@@ -66,8 +51,10 @@ const Header = (props) => {
   const { user: { token = "" } = {} } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const history = useHistory();
+  const myAccountMenuRef = useRef(null);
 
   const [myAccountMenu, setMyAccountMenu] = useState(false);
+  const [showDepositModal, setShowDepositModal] = useState(false)
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
@@ -79,8 +66,25 @@ const Header = (props) => {
     setMyAccountMenu(false);
     if (menuItem == '/log-out') {
       onLogout();
+    } else if (menuItem == '/deposit') {
+      setShowDepositModal(true);
     } else {
       history.push(menuItem);
+    }
+  };
+
+  useEffect(() => {
+    // add when mounted
+    document.addEventListener("mousedown", handleClick);
+    // return function to be called when unmounted
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+    };
+  }, []);
+
+  const handleClick = e => {
+    if (myAccountMenuRef.current && !myAccountMenuRef.current.contains(e.target)) {
+      setMyAccountMenu(false);
     }
   };
 
@@ -110,7 +114,7 @@ const Header = (props) => {
                   <li>
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
-                  <li className="__my_account_li">
+                  <li className="__my_account_li" ref={myAccountMenuRef}>
                     <NavLink 
                       to="#" 
                       onClick={() => setMyAccountMenu(!myAccountMenu)}>
@@ -132,8 +136,7 @@ const Header = (props) => {
                         options={MY_ACCOUNT_MENU_OPTIONS}
                         onClick={(menuItem) => onMyAccountMenuItemClick(menuItem)}
                       />
-                    }
-                    
+                    } 
                   </li>
                 </>
               ) : (
@@ -155,6 +158,11 @@ const Header = (props) => {
                 </>
               )}
             </ul>
+            {
+              showDepositModal
+              &&
+              <DepositAmountPopUp onClose={() => setShowDepositModal(false)} />
+            }
           </>
         ) : (
           <div className="__landing-page_title __flex __f1">
