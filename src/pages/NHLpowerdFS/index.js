@@ -148,10 +148,11 @@ function NHLPowerdFs(props) {
   const { data = [] } = useSelector((state) => state.nhl);
   const dispatch = useDispatch();
 
+  //reset the states
   useEffect(() => {
     starPlayerCount = 0;
     dispatch(NHLActions.setNhlData(dummyData));
-    dispatch(NHLActions.starPlayerCount(0));
+    dispatch(NHLActions.starPlayerCount(starPlayerCount));
     setPlayerList(cloneDeep(INITIAL_PLAYER_LIST));
     setSelected(new Map());
     setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
@@ -398,7 +399,10 @@ function NHLPowerdFs(props) {
                   <p>0/3 Star Power Players Selected</p>
                 </div>
                 <div className={classes.sidebar_circles}>
-                  <StarPlayersCheck totalStarPlayers={3} />
+                  <StarPlayersCheck
+                    totalStarPlayers={3}
+                    selectedCount={starPlayerCount}
+                  />
                 </div>
               </div>
               <SportsSidebarContent

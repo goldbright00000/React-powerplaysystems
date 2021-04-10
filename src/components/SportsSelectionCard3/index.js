@@ -24,7 +24,7 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
-    title = "",
+    name = "",
     avgVal = 0,
     teamA = "",
     teamB = "",
@@ -63,7 +63,7 @@ function SportsSelectionCard3(props) {
           }`}
         >
           <span>{position}</span>
-          {title}
+          {name}
         </p>
         {injured && (
           <div className={classes.injured}>

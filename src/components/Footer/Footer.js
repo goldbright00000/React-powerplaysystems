@@ -1,5 +1,5 @@
 import classes from './Footer.module.scss';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/new-logo.png';
 import { Link } from 'react-router-dom';
 
 import {useMediaQuery} from 'react-responsive';
