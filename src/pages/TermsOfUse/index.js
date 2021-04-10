@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import Header from '../../components/Header/Header'
-import PageHeader from '../../components/PageHeader'
-import Footer from '../../components/Footer/Footer'
-import "./index.css";
+// import Footer from '../../components/Footer/Footer'
 import * as Constants from "../../global/constants.js";
+import styles from './index.module.scss';
+import TermsAndConditions from "../../components/TermsAndConditions";
+
 class TermsOfUse extends Component {
   constructor(props) {
     super(props);
@@ -36,24 +37,10 @@ class TermsOfUse extends Component {
 
   render() {
     return (
-      <div>
-        <Header />
-        <div className="container-fluid _faq_wrap">
-          <div className="container">
-            <div className="row">
-              <div className="col-md-12">
-                <h1>Terms Of Use</h1>
-              </div>
-              <div className="col-md-12">
-                <div
-                  className="_faq_cont"
-                  dangerouslySetInnerHTML={{ __html: this.state.content }}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <Footer />
+      <div className={styles.root}>
+        <Header isStick={true} />
+        <TermsAndConditions />
+        {/* <Footer isBlack={true} /> */}
       </div>
     );
   }
