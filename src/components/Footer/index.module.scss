@@ -26,3 +26,22 @@
     line-height: 1.6em;
     letter-spacing: 0.125em;
 }
+
+@media (max-width: 800px) {
+    .root{
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    .linksWrapper{
+        grid-template-columns: 1fr;
+        text-align: center;
+        margin: 0;
+    }
+    .copyWriteSection{
+        grid-column: span 1;
+        margin: 0;
+    }
+    span{
+        display: none;
+    }
+}
