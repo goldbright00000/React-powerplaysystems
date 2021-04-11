@@ -1,9 +1,9 @@
 import React from "react";
-import terms from "./Terms";
+import terms from "./terms";
 import styles from "./terms.module.scss";
 
 
-const Terms = () => {
+const TermsSection = () => {
   return (
     <section className={styles.root}>
       <h1 className={styles.title}>
@@ -33,4 +33,4 @@ const Terms = () => {
   );
 };
 
-export default Terms;
+export default TermsSection;

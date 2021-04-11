@@ -1,6 +1,6 @@
 import React from 'react';
 import './Sidebar.scss';
-import terms from './Terms';
+import terms from './terms';
 
 const SideBar = () => {
     return (

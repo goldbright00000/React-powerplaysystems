@@ -1,0 +1,28 @@
+@import '../../scss/colors.scss';
+
+.root{
+    padding: 4em 15%;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background: linear-gradient(to bottom, $lightBlack, $black);
+    &.style_2{
+        background: $black2;
+    }
+}
+.linksWrapper{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 1em;
+    margin-left: 10%;
+    a{
+        font-weight: 600;
+    }
+}
+.copyWriteSection{
+    grid-column: span 2;
+    text-align: center;
+    margin-top: 2.5rem;
+    font-size: 0.8571rem;
+    line-height: 1.6em;
+    letter-spacing: 0.125em;
+}
