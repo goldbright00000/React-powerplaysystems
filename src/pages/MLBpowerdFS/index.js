@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isEmpty, isEqual, cloneDeep } from "lodash";
+import { isEmpty, cloneDeep } from "lodash";
 
 import * as MLBActions from "../../actions/MLBActions";
 
@@ -16,12 +16,10 @@ import MLBFooterImage from "../../assets/MLB.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import Circle from "../../icons/CircleEmpty";
 import SportsSidebarContent from "../../components/SportsSidebarContent";
 import SelectionCard3 from "../../components/SportsSelectionCard3";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
-import CheckIcon from "../../icons/Check";
 import SelectionCard2 from "../../components/SportsSelectionCard2";
 import Search from "../../components/SearchInput";
 import PowerCollapesible from "../../components/PowerCollapesible";

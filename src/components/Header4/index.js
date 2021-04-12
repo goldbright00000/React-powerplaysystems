@@ -8,7 +8,7 @@ import PowerBW from "../../assets/power_bw.png";
 import { setNumberComma } from "../../utility/shared";
 import Points from "../../icons/Points";
 import ContestRulesPopUp from "../ContestRulesPopUp";
-function Header3(props) {
+function Header4(props) {
   const {
     onClickContest = () => {},
     onClickPrize = () => {},
@@ -111,7 +111,7 @@ function Header3(props) {
   return <RenderHeader />;
 }
 
-Header3.propTypes = {
+Header4.propTypes = {
   onClickContest: PropTypes.func,
   onClickPrize: PropTypes.func,
   titleMain1: PropTypes.string,
@@ -125,4 +125,4 @@ Header3.propTypes = {
   currentState: PropTypes.element,
 };
 
-export default Header3;
+export default Header4;

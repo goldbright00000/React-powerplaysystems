@@ -30,6 +30,7 @@ const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 function SportsLiveCard(props) {
   const [showSummary, setSummaryState] = useState(false);
   const [showReplaceModal, setReplaceModalState] = useState(false);
+  const [showVideoOverlay, setVideoOverlayState] = useState(true);
 
   const {
     player = {},
@@ -305,7 +306,8 @@ function SportsLiveCard(props) {
 
           <SportsLiveCardOverlay
             text="Video review is available now"
-            visible={isTeamD() && !singleView}
+            visible={isTeamD() && !singleView && showVideoOverlay}
+            onGotIt={() => setVideoOverlayState(false)}
           />
         </div>
       </div>
