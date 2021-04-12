@@ -306,7 +306,7 @@
   }
 }
 
-@media (max-width: 1326px) {
+@media (max-width: 1366px) {
   .search_form {
     width: 47%;
 
@@ -376,69 +376,67 @@
 }
 
 @media (max-width: 1024px) {
-  @media (max-width: 1326px) {
-    .search_form {
-      width: 50%;
+  .search_form {
+    width: 50%;
 
-      span {
-        padding: 1px 7px;
-        width: 70%;
+    span {
+      padding: 1px 7px;
+      width: 70%;
 
-        svg {
-          margin: 0 7px;
-          width: 12px;
-          height: 12px;
-        }
-
-        input {
-          height: 35px;
-          font-size: 12px;
-        }
+      svg {
+        margin: 0 7px;
+        width: 12px;
+        height: 12px;
       }
 
-      .search_dropdown {
-        padding: 10px 15px 10px 8px;
+      input {
+        height: 35px;
         font-size: 12px;
-        width: 35%;
+      }
+    }
 
-        .arrow {
-          right: 4.4em;
-          border-width: 0 2px 2px 0;
-          width: 2px;
-        }
+    .search_dropdown {
+      padding: 10px 15px 10px 8px;
+      font-size: 12px;
+      width: 35%;
 
-        .down {
-          transform: rotate(45deg) translate(32px, -33px);
-        }
+      .arrow {
+        right: 4.4em;
+        border-width: 0 2px 2px 0;
+        width: 2px;
+      }
 
-        .up {
-          transform: rotate(-135deg) translate(-34px, 30px);
-        }
+      .down {
+        transform: rotate(45deg) translate(32px, -33px);
+      }
 
-        .search_dropdown_menu {
-          font-size: 12px;
-          text-align: center;
-          top: 27px;
+      .up {
+        transform: rotate(-135deg) translate(-34px, 30px);
+      }
 
-          span {
-            width: 100%;
-            padding: 13px 30px;
-            border-radius: 0;
+      .search_dropdown_menu {
+        font-size: 12px;
+        text-align: center;
+        top: 27px;
 
-            &:last-child {
-              border-radius: 0 0 12px 12px;
-            }
+        span {
+          width: 100%;
+          padding: 13px 30px;
+          border-radius: 0;
 
-            &:hover {
-              cursor: pointer;
-              background-color: $darkblack;
-              transition: background-color 1s;
-            }
+          &:last-child {
+            border-radius: 0 0 12px 12px;
+          }
 
-            &.active {
-              cursor: default;
-              background-color: $darkblack;
-            }
+          &:hover {
+            cursor: pointer;
+            background-color: $darkblack;
+            transition: background-color 1s;
+          }
+
+          &.active {
+            cursor: default;
+            background-color: $darkblack;
           }
         }
       }
