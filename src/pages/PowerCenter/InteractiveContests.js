@@ -263,7 +263,6 @@ const InteractiveContests = props => {
                                                     selectedCurrencies.push(item.value);
                                                 }
                                                 setSelectedCurrencies(selectedCurrencies);
-                                                setCurrencyMenu(false);
                                             }}>
                                             {item.label}
                                         </div>

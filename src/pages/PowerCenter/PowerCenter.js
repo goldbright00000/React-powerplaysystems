@@ -174,7 +174,6 @@ const PowerCenter = props => {
                                                         }
                                                         setDisplayCurrency(displayCurrency);
                                                         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(displayCurrency));
-                                                        setCurrencyMenu(false);
                                                     }}>
                                                     {item.label}
                                                 </div>
