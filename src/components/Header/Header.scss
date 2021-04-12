@@ -12,6 +12,9 @@
   .__navlinks {
     list-style-type: none;
     margin: 0.66em 0;
+    .__my_account_li {
+      width: 150px;
+    }
     > li {
       margin: 0 1.5em;
       text-transform: uppercase;

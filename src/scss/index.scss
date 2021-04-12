@@ -8,7 +8,6 @@
 
 * {
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
 }
 a {
   color: inherit;
@@ -17,6 +16,7 @@ a {
 html,
 body {
   font-size: 14px;
+  font-family: "Poppins", sans-serif;
 }
 body {
   margin: 0;
@@ -92,6 +92,9 @@ body {
   body {
     font-size: 18px;
   }
+}
+input, button{
+  font-family: inherit;
 }
 
 .__font-family-teko {
