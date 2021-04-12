@@ -1,13 +1,13 @@
 import React from 'react';
 import styles from './index.module.scss';
 import SideBar from './SideBar';
-import Terms from './Terms';
+import TermsSection from './TermsSection.jsx';
 
 const TermsAndConditions = () => {
     return(
         <div className={`${styles.root} Terms-and-Conditions-Page`}>
             <SideBar />
-            <Terms />
+            <TermsSection />
         </div>
     )
 }

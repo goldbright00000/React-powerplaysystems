@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import HomePage from "./pages/HomePage/HomePage";
 import PowerPlaySponsorsPage from "./pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage";
