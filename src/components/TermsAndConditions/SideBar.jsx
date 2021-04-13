@@ -7,7 +7,7 @@ const SideBar = () => {
         <ul className='terms-sidebar-section'>
             {terms.map(({title, index}) => (
                 <li>
-                    <a href={`#${title.toLocaleLowerCase().replaceAll(' ', '-')}`}>{title.toLowerCase()}</a>
+                    <a href={`#${title.toLocaleLowerCase().replaceAll(' ', '-')}`} key={index}>{title.toLowerCase()}</a>
                 </li>
             ))}
         </ul>

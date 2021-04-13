@@ -39,6 +39,7 @@ import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLi
 import MLBLivePowerdFsScroeDetail from "./pages/MLBLivePowerdFsScroeDetail/MLBLivePowerdFsScroeDetail";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 import { setupUser } from "./actions/authActions";
+import ResponsibleGaming from "./pages/ResponsibleGaming";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -101,6 +102,7 @@ const App = (props) => {
         <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
         <Route path="/contact-us" component={ContactUSPage} />
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
+        <Route path='/responsible-gaming' component={ResponsibleGaming} />
         <Route component={HomePage} />
       </Switch>
     </Fragment>

@@ -90,7 +90,7 @@ const Header = (props) => {
       style={{ position: isStick ? "sticky" : "fixed" }}
     >
       <div className="__container __flex __sb __f1 __light-bold">
-        <Link to="/" className="__brand-logo">
+        <Link to="/" className="__brand-logo __flex">
           {headerLogo ? headerLogo : <img src={logo} alt="" />}
         </Link>
         {hasMenu ? (
