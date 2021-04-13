@@ -165,15 +165,16 @@ const PowerCenter = props => {
                                                         ${displayCurrency.includes(item.value) && '__currency_menu_selected'}`
                                                     }
                                                     onClick={() => {
+                                                        const newDisplayCurreny = [...displayCurrency];
                                                         // Check if currency exist in array
-                                                        const i = displayCurrency.indexOf(item.value);
+                                                        const i = newDisplayCurreny.indexOf(item.value);
                                                         if (i > -1) {
-                                                            displayCurrency.splice(i, 1);
+                                                            newDisplayCurreny.splice(i, 1);
                                                         } else {
-                                                            displayCurrency.push(item.value);
+                                                            newDisplayCurreny.push(item.value);
                                                         }
-                                                        setDisplayCurrency(displayCurrency);
-                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(displayCurrency));
+                                                        setDisplayCurrency(newDisplayCurreny);
+                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(newDisplayCurreny));
                                                     }}>
                                                     {item.label}
                                                 </div>
