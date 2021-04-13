@@ -9,7 +9,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "sp",
+    category: "p",
     stats: {
       val1: "ip:3.1 | pc:34",
       val2: "k:4 | w:3",
@@ -39,7 +39,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "if 1",
+    category: "c",
     stats: {
       val1: ".278 | 1/4",
       val2: "rbi:1 | r:0",
@@ -63,7 +63,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "if 2",
+    category: "ss",
     stats: {
       val1: ".230 | 1/4",
       val2: "rbi:3 | r:1",
@@ -97,7 +97,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "of 1",
+    category: "1b",
     stats: {
       val1: ".308 | 1/4",
       val2: "rbi:1 | r:0",
@@ -131,7 +131,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "of 2",
+    category: "2b",
     isStarPlayer: true,
     stats: {
       val1: ".278 | 1/4",
@@ -166,7 +166,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "dh",
+    category: "lf",
     stats: {
       val1: ".230 | 1/4",
       val2: "rbi:3 | r:1",
@@ -200,7 +200,7 @@ export const dummyData = [
     time: "01:10 PM",
     date: "2020-09-28",
     stadium: "Empower Field",
-    category: "rp",
+    category: "rf",
     isStarPlayer: true,
     stats: {
       val1: "ip:3.1 | pc:34",
