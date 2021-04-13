@@ -163,15 +163,16 @@ const MyGameCenter = props => {
                                                         ${displayCurrency.includes(item.value) && '__currency_menu_selected'}`
                                                     }
                                                     onClick={() => {
+                                                        const newDisplayCurrency = [...displayCurrency];
                                                         // Check if currency exist in array
-                                                        const i = displayCurrency.indexOf(item.value);
+                                                        const i = newDisplayCurrency.indexOf(item.value);
                                                         if (i > -1) {
-                                                            displayCurrency.splice(i, 1);
+                                                            newDisplayCurrency.splice(i, 1);
                                                         } else {
-                                                            displayCurrency.push(item.value);
+                                                            newDisplayCurrency.push(item.value);
                                                         }
-                                                        setDisplayCurrency(displayCurrency);
-                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(displayCurrency));
+                                                        setDisplayCurrency(newDisplayCurrency);
+                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(newDisplayCurrency));
                                                     }}>
                                                     {item.label}
                                                 </div>
