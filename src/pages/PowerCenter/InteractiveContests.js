@@ -255,14 +255,15 @@ const InteractiveContests = props => {
                                                 ${selectedCurrencies.includes(item.value) && classes.__currency_menu_selected}`
                                             }
                                             onClick={() => {
+                                                const newCurrencyData = [...selectedCurrencies];
                                                 // Check if currency exist in array
-                                                const i = selectedCurrencies.indexOf(item.value);
+                                                const i = newCurrencyData.indexOf(item.value);
                                                 if (i > -1) {
-                                                    selectedCurrencies.splice(i, 1);
+                                                    newCurrencyData.splice(i, 1);
                                                 } else {
-                                                    selectedCurrencies.push(item.value);
+                                                    newCurrencyData.push(item.value);
                                                 }
-                                                setSelectedCurrencies(selectedCurrencies);
+                                                setSelectedCurrencies(newCurrencyData);
                                             }}>
                                             {item.label}
                                         </div>
