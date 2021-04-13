@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import Header from '../../components/Header/Header'
 import SideBar from '../../components/ResponsibleGamingComponents/SideBar';
 import ResponsibleGamesInstructionsSection from '../../components/ResponsibleGamingComponents/ResponsibleGamesInstructionsSection';
+import Footer from '../../components/Footer/Footer';
 
 const ResponsibleGaming = props => {
     return (
@@ -12,6 +13,7 @@ const ResponsibleGaming = props => {
                 <SideBar />
                 <ResponsibleGamesInstructionsSection />
             </main>
+            <Footer />
         </div>
     )
 }
