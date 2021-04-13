@@ -1225,3 +1225,155 @@
     }
   }
 }
+
+@media (max-width: 1200px) {
+  .container_body_card {
+    padding: 14px 12px;
+    width: 373px !important;
+    height: 175px;
+
+    &.inset {
+      padding-top: 17px;
+    }
+
+    .container_body_card_1 {
+      .container_body_left {
+        .container_body_card_header {
+          height: 26px;
+
+          .container_selected_p {
+            font-size: 14px;
+          }
+
+          button {
+            font-size: 10px;
+            width: 66px;
+            height: 24px;
+            font-weight: 500;
+          }
+
+          .container_selected {
+            .container_selected_p_1 {
+              font-size: 12px;
+              img {
+                width: 20px;
+                height: 20px;
+                margin-left: 3px;
+              }
+
+              svg {
+                margin-right: 3px;
+                width: 14px;
+                height: 14px;
+              }
+            }
+          }
+        }
+
+        .container_body_card_state {
+          width: 220px;
+
+          .card_state_mlb {
+            > div {
+              margin: 0 12px 0 14px;
+
+              p {
+                font-size: 14px;
+              }
+            }
+          }
+
+          .card_state {
+            .card_state_values {
+              span {
+                font-weight: 500;
+                font-size: 14px;
+              }
+            }
+          }
+        }
+      }
+
+      .container_body_right {
+        .right_img {
+          width: 82px;
+          height: 82px;
+        }
+        .img_badge {
+          width: 22px;
+          height: 22px;
+          transform: translate(40px, -12px);
+        }
+
+        p {
+          font-weight: 400;
+          font-size: 14px;
+        }
+      }
+    }
+
+    p {
+      font-size: 12px;
+
+      span {
+        font-weight: 500;
+        font-size: 18px;
+      }
+    }
+
+    .container_card_footer_main {
+      margin: 5px 0 0 0;
+
+      .card_footer {
+        .container_body_footer {
+          span {
+            font-size: 12px;
+
+            svg {
+              margin: 2px 3px 0 0;
+              width: 13px;
+              height: 13px;
+              padding: 0;
+            }
+          }
+        }
+      }
+    }
+    .divider {
+      width: 210px;
+      transform: translate(85px, 0);
+    }
+
+    .container_body_card_start_power {
+      width: 80px;
+      height: 22px;
+      padding: 5px;
+      font-size: 14px;
+      color: $darkblack;
+      position: absolute;
+      font-family: Teko;
+      transform: translate(0, -25px);
+
+      &.inset {
+        width: 110px;
+        height: 15px;
+        position: absolute;
+        transform: translate(-18px, -20px);
+
+        svg {
+          padding: 0;
+          margin: 0 0 2px 0;
+          margin-right: 2px;
+          width: 12px;
+          height: 12px;
+        }
+      }
+
+      img {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+      }
+    }
+  }
+}

@@ -244,6 +244,34 @@
   }
 }
 
+@media (max-width: 1200px) {
+  .container_top_2 {
+    button {
+      margin: 0 10px;
+      width: 43px;
+      height: 43px;
+      font-size: 14px;
+
+      span {
+        position: absolute;
+        bottom: 0;
+        transform: translate(0, 14px);
+        font-size: 12px;
+      }
+
+      &.active {
+        .tick {
+          transform: translate(0, 16px);
+        }
+
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 @media (max-width: 1024px) {
   .container_top_2 {
     button {

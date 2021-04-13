@@ -562,7 +562,6 @@ function MLBPowerdFs(props) {
           <div className={classes.sidebar_container}>
             <Sidebar
               styles={{
-                width: "357px",
                 padding: "0px",
               }}
             >
