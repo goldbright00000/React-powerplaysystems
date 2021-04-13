@@ -7,7 +7,7 @@ const SideBar = () => (
         <ul className='__responsible-gaming-sidebar-section'>
         {ResponsibleGames.map(({title}, index) => (
             <li key={index}>
-                <a href={`#${title.toLocaleLowerCase().replaceAll(' ', '-')}`} key={index}>{title}</a>
+                <a onClick={() => document.getElementById(title.toLocaleLowerCase().replaceAll(' ', '-')).scrollIntoView()} key={index}>{title}</a>
             </li>
         ))}
     </ul>
