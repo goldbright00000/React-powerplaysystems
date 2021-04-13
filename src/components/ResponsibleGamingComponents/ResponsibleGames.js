@@ -51,7 +51,7 @@ const ResponsibleGames = [
         title: 'CONCERNED ABOUT A FAMILY MEMBER?',
         content: (
             <>
-                <p>If you believe that a member of your family is a problem gamer or is overspending, please contact <a href='mailto:support@powerplaysystems.com'>support@powerplaysystems.com</a> for assistance. </p>
+                <p>If you believe that a member of your family is a problem gamer or is overspending, please contact <a href='mailto:support@powerplaysystems.com'> support@powerplaysystems.com </a> for assistance. </p>
                 <p>You may be able to exclude PowerPlay Systems consumer(s) from participating in contests on the Defy Games site or to set deposit or loss limits. In order to process such requests, PowerPlay Systems will require the following proof: (1) that the requestor is jointly obligated on the credit or debit card associated with the PowerPlay Systems Consumer’s account; (2) proof of legal dependency of the PowerPlay Systems Consumer; (3) the existence of a court order requiring the PowerPlay Systems consumer to pay unmet child support obligations; and (4) any additional identifiable verification documentation validating the relationship between the requestor and PowerPlay Systems Consumer. </p>
             </>
         )
