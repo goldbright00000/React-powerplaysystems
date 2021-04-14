@@ -175,8 +175,63 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1124px) {
   .sidebar_body {
-    display: none;
+    p {
+      font-size: 12px;
+    }
+
+    .sidebar_body_1 {
+      padding: 8px;
+      margin-top: 7px;
+
+      .sidebar_body_section {
+        .sidebar_body_value {
+          span {
+            width: 16px;
+            height: 16px;
+          }
+        }
+
+        span {
+          width: 16px;
+          font-size: 12px;
+        }
+
+        > div {
+          width: 190px;
+          padding: 12px;
+          margin-left: 16px;
+          font-size: 12px;
+          font-weight: 500;
+
+          svg {
+            margin-right: 6px;
+          }
+
+          span {
+            font-size: 12px;
+          }
+
+          img {
+            transform: translate(-20px, -20px);
+            width: 16px;
+          }
+        }
+      }
+
+      .sidebar_arrow_container {
+        .arrow {
+          border-width: 0 2px 2px 0;
+          margin: 8px 0;
+        }
+      }
+    }
   }
 }
+
+// @media (max-width: 1024px) {
+//   .sidebar_body {
+//     display: none;
+//   }
+// }
