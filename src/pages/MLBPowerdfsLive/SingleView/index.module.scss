@@ -52,3 +52,20 @@
     }
   }
 }
+
+@media (max-width: 1900px) {
+  .wrapper {
+    .left_side {
+      height: 634px;
+    }
+
+    .right_side {
+      width: 40%;
+
+      .arrow {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+}
