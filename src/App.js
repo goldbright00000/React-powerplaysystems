@@ -14,7 +14,6 @@ import CardGame from "./pages/CardGame";
 import PowerPicks from "./pages/PowerPicks";
 import ChaseACard from "./pages/ChaseACard";
 import FAQ from "./pages/FAQ";
-import Privacy from "./pages/Privacy";
 import TrustAndSafety from "./pages/TrustAndSafety";
 import AccountSecurity from "./pages/AccountSecurity";
 import TermsOfUse from "./pages/TermsOfUse";
@@ -40,6 +39,7 @@ import MLBLivePowerdFsScroeDetail from "./pages/MLBLivePowerdFsScroeDetail/MLBLi
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 import { setupUser } from "./actions/authActions";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
+import PrivacyPage from "./pages/PrivacyPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -81,7 +81,7 @@ const App = (props) => {
         <Route path="/power-picks" component={PowerPicks} />
         <Route path="/chase-a-card" component={ChaseACard} />
         <Route path="/faqs" component={FAQ} />
-        <Route path="/privacy" component={Privacy} />
+        <Route path="/privacy" component={PrivacyPage} />
         <Route path="/trust-and-safety" component={TrustAndSafety} />
         <Route path="/account-security" component={AccountSecurity} />
         <Route path="/terms" component={TermsOfUse} />
