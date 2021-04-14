@@ -1,11 +1,10 @@
 import React from 'react';
-import './Sidebar.scss';
-import terms from './terms';
+import styles from './sidebar.module.scss';
 
-const SideBar = () => {
+const SideBar = ({contents}) => {
     return (
-        <ul className='terms-sidebar-section'>
-            {terms.map(({title, index}) => (
+        <ul className={styles.root}>
+            {contents.map(({title, index}) => (
                 <li>
                     <a onClick={() => document.getElementById(title.toLocaleLowerCase().replaceAll(' ', '-')).scrollIntoView()} key={index}>{title}</a>
                 </li>

@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-import Header from '../../components/Header/Header'
-// import Footer from '../../components/Footer/Footer'
 import * as Constants from "../../global/constants.js";
-import styles from './index.module.scss';
-import TermsAndConditions from "../../components/TermsAndConditions";
+import ContentWrapper from "../../components/Content";
+import terms from "../../components/TermsAndConditions/terms";
 
 class TermsOfUse extends Component {
   constructor(props) {
@@ -37,11 +35,22 @@ class TermsOfUse extends Component {
 
   render() {
     return (
-      <div className={styles.root}>
-        <Header isStick={true} />
-        <TermsAndConditions />
-        {/* <Footer isBlack={true} /> */}
-      </div>
+      <ContentWrapper contents={terms} title={<><span className="__primary-text">Defy Games</span> Terms of Use</>}>
+        <section>
+          <h2>Important Legal Notice Regarding Terms of Use of DEFY GAMES.</h2>
+          <p>
+            <b>
+              <i>
+                IMPORTANT! PLEASE CAREFULLY READ THESE TERMS OF USE BEFORE USING
+              DEFY GAMES, AS THEY AFFECT YOUR LEGAL RIGHTS AND OBLIGATIONS.{" "}
+                <br />
+              IMPORTANT NOTICE: THIS AGREEMENT IS SUBJECT TO BINDING ARBITRATION
+              AND A WAIVER OF CLASS ACTION RIGHTS AS DETAILED BELOW.
+            </i>
+            </b>
+          </p>
+        </section>
+      </ContentWrapper>
     );
   }
 }
