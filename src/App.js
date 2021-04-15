@@ -40,6 +40,7 @@ import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 import { setupUser } from "./actions/authActions";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
 import PrivacyPage from "./pages/PrivacyPage";
+import AccountSecurityPage from "./pages/AccountSecurityPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -83,7 +84,7 @@ const App = (props) => {
         <Route path="/faqs" component={FAQ} />
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/trust-and-safety" component={TrustAndSafety} />
-        <Route path="/account-security" component={AccountSecurity} />
+        <Route path="/account-security" component={AccountSecurityPage} />
         <Route path="/terms" component={TermsOfUse} />
         <Route path="/power-up" component={PowerUpPage} />
         <Route path="/user-profile-info" component={GetUserInfoPage} />

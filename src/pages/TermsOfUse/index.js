@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import * as Constants from "../../global/constants.js";
 import ContentWrapper from "../../components/Content";
-import terms from "../../components/TermsAndConditions/terms";
+import terms from './terms';
 
 class TermsOfUse extends Component {
   constructor(props) {
