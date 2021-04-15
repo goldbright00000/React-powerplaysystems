@@ -1,7 +1,6 @@
 import React from "react";
-import terms from "./terms";
+import Terms from "./Terms";
 import styles from "./terms.module.scss";
-
 
 const TermsSection = () => {
   return (
@@ -23,7 +22,7 @@ const TermsSection = () => {
           </b>
         </p>
       </section>
-      {terms.map(({title, content}, index) => (
+      {Terms.map(({title, content}, index) => (
         <section key={index} id={title.toLowerCase().replaceAll(' ', '-')}>
           <h2 id={title}>{title}</h2>
           {content}

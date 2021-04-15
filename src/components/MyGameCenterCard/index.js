@@ -77,15 +77,14 @@ const MyGameCenterCard = (props) => {
                                     <div className={classes.__in_progress}>
                                         <span></span>In Progress
                                     </div>
-                                    <div className={classes.__close_icon_in_progress} onClick={() => setLeaveGameModal(true)}>x</div>
                                 </div>      
                             }
                             {
-                                !inProgress
+                                !completed && !inProgress
                                 &&
                                 <div className={classes.__close_icon} onClick={() => setLeaveGameModal(true)}>x</div>
                             }
-                            <div className={classes.__my_game_center_card_powerdfs} style={{marginTop: inProgress && -3}}>
+                            <div className={classes.__my_game_center_card_powerdfs} style={{marginTop: inProgress || !completed ? -3 : 10,}}>
                                 <span className={classes.__my_game_center_card_powerdfs_hr + ' ' + classes.__my_game_center_card_powerdfs_hr_left}></span>
                                 <p className={classes.__my_game_center_card_powerdfs_title}>
                                     <span className={classes.__my_game_center_card_powerdfs_title_first}>{title}</span> PowerdFS

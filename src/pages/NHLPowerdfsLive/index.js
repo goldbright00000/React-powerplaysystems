@@ -7,7 +7,7 @@ import * as NHLActions from "../../actions/NHLActions";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Header3 from "../../components/Header3";
+import Header4 from "../../components/Header4";
 import HeaderBgUri from "../../assets/nhl-live.jpg";
 import Card from "../../components/PowerpickCard";
 import SportsLiveCardSelection from "../../components/SportsLiveCardSelection";
@@ -122,7 +122,7 @@ function NHLPowerdFsLive(props) {
     <>
       <Header />
       <div className={classes.wrapper}>
-        <Header3
+        <Header4
           titleMain1="NHL 2021"
           titleMain2="PowerdFS"
           contestBtnTitle="Contest Rules"

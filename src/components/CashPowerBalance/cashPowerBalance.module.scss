@@ -250,3 +250,49 @@
     }
   }
 }
+
+@media (max-width: 1326px) {
+  .__sidebar_cash_power_balance {
+    width: 200px;
+    height: 142px;
+    padding: 14px 34px 8px 14px;
+
+    .__sidebar_cash_power_balance_wrapper {
+      .__sidebar_cash_balance_wrapper {
+        .__sidebar_text_wrapper {
+          .__sidebar_cash_and_deposit_wrapper {
+            .__sidebar_deposit_wrapper {
+              button {
+                width: 62px;
+                height: 24px;
+                padding: 1px 3px 3px 4px;
+                border-radius: 6px;
+                background-color: $primary;
+                border: none;
+                font-family: Poppins;
+                font-size: 14px;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $grey2;
+                outline: none;
+                cursor: pointer;
+              }
+            }
+          }
+
+          .__sidebar_cash {
+            font-size: 26px;
+          }
+
+          .__sidebar_cash_balance_title {
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

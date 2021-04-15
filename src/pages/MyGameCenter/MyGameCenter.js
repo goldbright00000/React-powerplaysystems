@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Link, NavLink, Route } from 'react-router-dom';
 import {useSelector} from 'react-redux';
 import classes from './MyGameCenter.module.scss';
@@ -40,6 +40,7 @@ const CURRENCY_DATA = [
 const MyGameCenter = props => {
     const { url } = props.match;
     const { auth: { user: { token = '' } }, user: {userBalance = {}} = {} } = useSelector((state) => state);
+    const currencyMenuRef = useRef(null);
     const [currencyMenu, setCurrencyMenu] = useState(false);
     const [displayCurrency, setDisplayCurrency] = useState(['cash', 'bitcoin', 'ethereum']);
 
@@ -49,6 +50,21 @@ const MyGameCenter = props => {
             setDisplayCurrency(displayBalance);
         }
     }, []);
+
+    useEffect(() => {
+        // add when mounted
+        document.addEventListener("mousedown", handleClick);
+        // return function to be called when unmounted
+        return () => {
+          document.removeEventListener("mousedown", handleClick);
+        };
+      }, []);
+
+    const handleClick = e => {
+        if (currencyMenuRef.current && !currencyMenuRef.current.contains(e.target)) {
+            setCurrencyMenu(false);
+        }
+    };
 
     return (
         <Fragment>
@@ -134,7 +150,7 @@ const MyGameCenter = props => {
                             {
                                 currencyMenu
                                 &&
-                                <div className='__currency_menu'>
+                                <div className='__currency_menu' ref={currencyMenuRef}>
                                     <div>
                                         Display:
                                     </div>
@@ -147,16 +163,16 @@ const MyGameCenter = props => {
                                                         ${displayCurrency.includes(item.value) && '__currency_menu_selected'}`
                                                     }
                                                     onClick={() => {
+                                                        const newDisplayCurrency = [...displayCurrency];
                                                         // Check if currency exist in array
-                                                        const i = displayCurrency.indexOf(item.value);
+                                                        const i = newDisplayCurrency.indexOf(item.value);
                                                         if (i > -1) {
-                                                            displayCurrency.splice(i, 1);
+                                                            newDisplayCurrency.splice(i, 1);
                                                         } else {
-                                                            displayCurrency.push(item.value);
+                                                            newDisplayCurrency.push(item.value);
                                                         }
-                                                        setDisplayCurrency(displayCurrency);
-                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(displayCurrency));
-                                                        setCurrencyMenu(false);
+                                                        setDisplayCurrency(newDisplayCurrency);
+                                                        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE, JSON.stringify(newDisplayCurrency));
                                                     }}>
                                                     {item.label}
                                                 </div>

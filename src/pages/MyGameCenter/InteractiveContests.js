@@ -7,7 +7,7 @@ import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
 import SuperBall from '../../icons/SuperBall';
 import CashPowerBalance from '../../components/CashPowerBalance';
-import { redirectTo } from '../../utility/shared';
+import { redirectTo, getDaysFromToday } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
 import MyGameCenterCard from '../../components/MyGameCenterCard';
 import { URLS } from '../../config/urls';
@@ -131,16 +131,6 @@ const myGameCenterCardData = [
     }
 ];
 
-const options = [
-    { value: 'FRI, Mar 12', label: 'FRI, Mar 12' },
-    { value: 'SAT, Mar 13', label: 'SAT, Mar 13' },
-    { value: 'SUN, Mar 14', label: 'SUN, Mar 14' },
-    { value: 'MON, Mar 15', label: 'MON, Mar 15' },
-    { value: 'TUE, Mar 16', label: 'TUE, Mar 16' },
-    { value: 'WED, Mar 17', label: 'WED, Mar 17' },
-    { value: 'THU, Mar 18', label: 'THU, Mar 18' },
-];
-
 const filters = [
     {
         id: 1,
@@ -174,13 +164,14 @@ const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
 
-    const [selectedDate, setSelectedDate] = useState(options[0].value);
+    const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
     const [showCardDetails, setShowCardDetails] = useState(-1);
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
     const [viewResults, setViewResults] = useState(-1);
     const [balance, setBalance] = useState({});
     const [finalStandingsModal, setFinalStandingsModal] = useState(-1);
+    const [days, setDays] = useState([{}]);
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -191,6 +182,7 @@ const InteractiveContests = props => {
 
     useEffect(() => {
         setFilteredData(myGameCenterCardData);
+        setDays(getDaysFromToday());
         getUserBalance();
     }, []);
 
@@ -284,7 +276,7 @@ const InteractiveContests = props => {
                     <div className={classes.__interactive_contests_date}>
                         <CustomDropDown 
                             value={selectedDate}
-                            options={options}
+                            options={days}
                             onChange={selectedOption => setSelectedDate(selectedOption)}
                         />
                     </div>

@@ -1,7 +1,7 @@
 import styles from './index.module.scss';
 import { Link } from "react-router-dom";
 
-const terms = [
+const Terms = [
     {
         title: 'DEFINITIONS',
         content: (
@@ -1055,4 +1055,4 @@ const terms = [
 ]
 
 
-export default terms;
+export default Terms;
