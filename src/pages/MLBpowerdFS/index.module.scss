@@ -2187,7 +2187,215 @@
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1124px) {
+  .wrapper {
+    .container {
+      .container_left {
+        margin: 60px 0 60px 1em;
+
+        h2 {
+          font-size: 22px;
+        }
+
+        .container_left_header_2 {
+          font-size: 14px;
+
+          .line {
+            width: 23px;
+          }
+        }
+
+        .container_top {
+          font-size: 14px;
+        }
+
+        .container_body {
+          > div {
+            max-height: 500px;
+            padding: 8px;
+          }
+
+          .card_header {
+            padding: 6px 0;
+
+            p {
+              font-size: 14px;
+            }
+          }
+
+          .card_body {
+            margin-top: 20px;
+          }
+        }
+
+        .container_footer {
+          .container_footer_header {
+            .container_footer_title {
+              h2 {
+                font-size: 18px;
+              }
+
+              .separator {
+                width: 48px;
+              }
+            }
+          }
+
+          .container_footer_1 {
+            padding: 30px 32px;
+            height: 386px;
+
+            .container_footer_2 {
+              .footer_column {
+                &.width_200 {
+                  width: 180px;
+                }
+
+                .column_title {
+                  margin-bottom: 4px;
+
+                  p {
+                    font-size: 24px;
+                    font-weight: 500;
+                  }
+                }
+
+                .column_body {
+                  .column_row {
+                    svg {
+                      width: 14px !important;
+                      height: 14px !important;
+                    }
+
+                    p {
+                      font-size: 14px;
+
+                      span {
+                        font-size: 14px;
+                      }
+                    }
+                  }
+                }
+              }
+
+              .scoring_column {
+                margin: 0 34px 0 0;
+
+                .scoring_title {
+                  margin-bottom: 2px;
+
+                  p {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 14px;
+                  }
+                }
+
+                .scoring_body {
+                  .width_140 {
+                    width: 130px;
+                  }
+
+                  p {
+                    font-size: 12px;
+                    width: 100px;
+
+                    &.flex_0_85 {
+                      flex: 0.8;
+                    }
+                  }
+
+                  span {
+                    font-size: 12px;
+                    font-weight: 500;
+                  }
+                }
+              }
+            }
+
+            .footer_full_rules {
+              width: 180px;
+              padding: 10px 0;
+              font-size: 14px;
+              font-weight: 500;
+              margin: 30px 0;
+
+              img {
+                width: 20px;
+                height: 16px;
+              }
+            }
+          }
+          .container_body_img {
+            width: 391px;
+            height: 260px;
+          }
+        }
+
+        .partner_logo {
+          width: 230px;
+          height: 35px;
+          margin: 15px 0;
+        }
+
+        .partner_logo_2 {
+          margin: 15px 0;
+        }
+      }
+
+      .sidebar_container {
+        width: 180px !important;
+
+        > div {
+          padding: 15px 5px !important;
+          width: 290px !important;
+        }
+
+        .sidebar_header {
+          margin: 16px 0 0 0;
+
+          h2 {
+            font-size: 30px;
+          }
+
+          .sidebar_header_1 {
+            img {
+              width: 12px;
+              height: 12px;
+              margin: 0 3px 0 0;
+              transform: translateY(0px);
+            }
+
+            p {
+              font-size: 12px;
+
+              span {
+                font-size: 16px;
+                font-weight: 500;
+              }
+            }
+          }
+
+          .sidebar_circles {
+            margin-top: 10px;
+
+            svg {
+              margin: 0 5px;
+            }
+          }
+        }
+
+        .sidebar_button {
+          padding: 14px 0;
+          font-size: 16px;
+          margin: 18px 0 0 0;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1090px) {
   .wrapper {
     .container {
       .container_left {

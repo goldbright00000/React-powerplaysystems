@@ -216,17 +216,15 @@
     height: 680px;
 
     &.compressedView {
-      height: 346px;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin: 50px 0 0 0;
+      height: 326px;
+      margin: 65px 0 0 0;
     }
 
     .header_top {
       height: 680px;
 
       &.compressedView {
-        height: 246px;
+        height: 246px !important;
       }
 
       .header_title {
@@ -234,7 +232,7 @@
           font-size: 72px;
 
           &.compressedView {
-            margin: 0 0 0 50px;
+            margin: -60px 0 0 50px;
             padding: 0;
           }
 
@@ -340,9 +338,7 @@
     height: 620px;
 
     &.compressedView {
-      height: 246px;
-      justify-content: flex-start;
-      align-items: flex-start;
+      height: 286px;
       margin: 50px 0 0 0;
     }
 
@@ -358,7 +354,7 @@
           font-size: 62px;
 
           &.compressedView {
-            margin: 0 0 0 50px;
+            margin: -40px 0 0 50px;
             padding: 0;
           }
         }
@@ -456,8 +452,6 @@
 
     &.compressedView {
       height: 246px;
-      justify-content: flex-start;
-      align-items: flex-start;
       margin: 50px 0 0 0;
     }
 
@@ -473,7 +467,7 @@
           font-size: 52px;
 
           &.compressedView {
-            margin: 0 0 0 50px;
+            margin: -40px 0 0 50px;
             padding: 0;
           }
         }
@@ -585,7 +579,7 @@
           font-size: 52px;
 
           &.compressedView {
-            margin: 0 0 0 40px;
+            margin: -40px 0 0 40px;
           }
         }
 
@@ -691,7 +685,7 @@
     height: 460px;
 
     &.compressedView {
-      height: 226px;
+      height: 216px;
     }
 
     .header_top {
@@ -810,7 +804,7 @@
     height: 380px;
 
     &.compressedView {
-      height: 226px;
+      height: 206px;
     }
 
     .header_top {
@@ -825,7 +819,126 @@
           font-size: 42px;
 
           &.compressedView {
-            margin: 0 0 0 40px;
+            margin: -20px 0 0 40px;
+          }
+        }
+
+        .line {
+          width: 50px;
+        }
+      }
+
+      p {
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .p2 {
+        margin: 15px 0 0 0;
+        width: 345px;
+        text-align: center;
+        line-height: 25px;
+      }
+
+      .header_buttons {
+        margin: 15px 0 0 0;
+
+        &.compressedView {
+          margin: 0 0 0 100px;
+          justify-content: flex-start;
+          align-items: flex-start;
+        }
+
+        button {
+          margin: 0 15px;
+          width: 146px;
+          height: 30px;
+
+          &.compressedView {
+            margin: 0 8px 0 0;
+          }
+
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+      }
+    }
+
+    .header_bottom {
+      height: 40px;
+
+      .header_bottom_l {
+        padding: 0 40px;
+
+        p {
+          font-size: 18px;
+          font-weight: 500;
+
+          span {
+            font-size: 10px;
+          }
+        }
+      }
+
+      .header_bottom_r {
+        .divider {
+          height: 40px;
+        }
+
+        .footer_section {
+          width: 160px;
+
+          img {
+            width: 32px;
+            height: 32px;
+          }
+
+          svg {
+            width: 34px;
+            height: 34px;
+          }
+
+          .footer_section_r {
+            height: 40px;
+
+            p {
+              font-size: 18px;
+              line-height: 16px;
+            }
+
+            span {
+              font-size: 10px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1124px) {
+  .header_container {
+    height: 380px;
+
+    &.compressedView {
+      height: 186px;
+    }
+
+    .header_top {
+      height: 380px;
+
+      &.compressedView {
+        height: 226px;
+      }
+
+      .header_title {
+        h2 {
+          font-size: 42px;
+
+          &.compressedView {
+            margin: -20px 0 0 40px;
           }
         }
 
@@ -930,7 +1043,7 @@
     position: relative;
 
     &.compressedView {
-      height: 226px;
+      height: 174px;
     }
 
     .header_top {
@@ -945,7 +1058,7 @@
           font-size: 42px;
 
           &.compressedView {
-            margin: 0 0 0 40px;
+            margin: -30px 0 0 40px;
           }
         }
 

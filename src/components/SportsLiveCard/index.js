@@ -290,6 +290,7 @@ function SportsLiveCard(props) {
                   titleList={MLBSummaryTitles}
                   tableList={pointsSummary}
                   totalPoints={totalPts}
+                  largeView={largeView}
                 />
               </>
             )}
@@ -301,6 +302,7 @@ function SportsLiveCard(props) {
               onClickBack={() => setSummaryState(false)}
               onClickDetails={() => setSummaryState(true)}
               title="Bot 1st | 2 Out"
+              largeView={largeView}
             />
           )}
 
@@ -308,6 +310,7 @@ function SportsLiveCard(props) {
             text="Video review is available now"
             visible={isTeamD() && !singleView && showVideoOverlay}
             onGotIt={() => setVideoOverlayState(false)}
+            largeView={largeView}
           />
         </div>
       </div>
