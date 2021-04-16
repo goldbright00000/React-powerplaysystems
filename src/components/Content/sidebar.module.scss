@@ -6,6 +6,7 @@
         font-size: 0.8571rem;
         padding: 0.934em 1.833em;
         border-left: 0.3333em solid transparent;
+        text-transform: uppercase;
         cursor: pointer;
         &:hover, &.active{
             transition: 0.2s all;

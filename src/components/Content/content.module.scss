@@ -11,6 +11,12 @@
     section{
         margin-top: -4.4rem;
         padding-top: 7.4rem;
+        a{
+            color: $primary;
+            &:hover{
+                text-decoration: underline !important;
+            }
+        }
         &:last-child{
             margin-bottom: 0;
         }
@@ -18,6 +24,7 @@
             font-size: 1.4286rem;
             color: $primary;
             margin: 0;
+            text-transform: uppercase;
         }
         p{
             margin-top: 1.7rem;
