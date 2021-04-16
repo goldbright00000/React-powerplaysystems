@@ -80,7 +80,7 @@ const MyGameCenterCard = (props) => {
                                 </div>      
                             }
                             {
-                                !completed
+                                !completed && !inProgress
                                 &&
                                 <div className={classes.__close_icon} onClick={() => setLeaveGameModal(true)}>x</div>
                             }
