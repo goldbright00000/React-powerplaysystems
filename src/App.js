@@ -13,9 +13,7 @@ import BingoPreGame from "./pages/BingoPreGame/BingoPreGame";
 import CardGame from "./pages/CardGame";
 import PowerPicks from "./pages/PowerPicks";
 import ChaseACard from "./pages/ChaseACard";
-import FAQ from "./pages/FAQ";
 import TrustAndSafety from "./pages/TrustAndSafety";
-import AccountSecurity from "./pages/AccountSecurity";
 import TermsOfUse from "./pages/TermsOfUse";
 import PowerUpPage from "./pages/PowerUpPage/PowerUpPage";
 import GetUserInfoPage from "./pages/GetUserInfoPage/GetUserInfoPage";
@@ -41,6 +39,7 @@ import { setupUser } from "./actions/authActions";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
 import PrivacyPage from "./pages/PrivacyPage";
 import AccountSecurityPage from "./pages/AccountSecurityPage";
+import FAQsPage from "./pages/FAQsPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -81,7 +80,7 @@ const App = (props) => {
         {/* <ProtectedRoute path='/card-game' component={CardGame} /> */}
         <Route path="/power-picks" component={PowerPicks} />
         <Route path="/chase-a-card" component={ChaseACard} />
-        <Route path="/faqs" component={FAQ} />
+        <Route path="/faqs" component={FAQsPage} />
         <Route path="/privacy" component={PrivacyPage} />
         <Route path="/trust-and-safety" component={TrustAndSafety} />
         <Route path="/account-security" component={AccountSecurityPage} />
