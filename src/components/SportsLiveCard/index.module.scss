@@ -744,6 +744,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 0 15px;
+      z-index: 4;
 
       .header_left {
         display: flex;
@@ -1227,6 +1228,105 @@
       }
     }
   }
+
+  .modal_container {
+    width: 1437px;
+    height: 72%;
+    padding: 38px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(5px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 35px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 62px;
+
+          span {
+            font-size: 62px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 78px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 18px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 24px;
+              height: 24px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 1680px) {
@@ -1630,6 +1730,206 @@
       }
     }
   }
+
+  .modal_container {
+    width: 1337px;
+    height: 72%;
+    padding: 38px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(5px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 35px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 62px;
+
+          span {
+            font-size: 62px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 78px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 18px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 24px;
+              height: 24px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .modal_container {
+    width: 1237px;
+    height: 67%;
+    padding: 38px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(5px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 35px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 62px;
+
+          span {
+            font-size: 62px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 78px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 18px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 24px;
+              height: 24px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 1440px) {
@@ -2022,6 +2322,105 @@
       }
     }
   }
+
+  .modal_container {
+    width: 1137px;
+    height: 67%;
+    padding: 38px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(5px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 35px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 22px;
+          height: 22px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 62px;
+
+          span {
+            font-size: 62px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 78px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 18px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 24px;
+              height: 24px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 1366px) {
@@ -2410,6 +2809,206 @@
       }
     }
   }
+
+  .modal_container {
+    width: 1037px;
+    height: 95%;
+    padding: 28px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(2px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 25px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 52px;
+
+          span {
+            font-size: 52px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 68px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 16px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 22px;
+              height: 22px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1280px) {
+  .modal_container {
+    width: 1037px;
+    height: 72%;
+    padding: 28px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(2px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 25px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 52px;
+
+          span {
+            font-size: 52px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 68px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 16px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 22px;
+              height: 22px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 1200px) {
@@ -2794,6 +3393,206 @@
             height: 32px;
             font-size: 14px;
           }
+        }
+      }
+    }
+  }
+
+  .modal_container {
+    width: 937px;
+    height: 70%;
+    padding: 28px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(2px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 25px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 52px;
+
+          span {
+            font-size: 52px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 290px;
+          height: 91px;
+          right: 5px;
+
+          img {
+            width: 68px;
+            height: 68px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 68px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 16px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 22px;
+              height: 22px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .modal_container {
+    width: 937px;
+    height: 76%;
+    padding: 28px 39px 51px 40px;
+
+    .modal_header {
+      width: 100%;
+      transform: translateY(2px);
+
+      .modal_header_top {
+        width: 100%;
+        margin-bottom: 25px;
+        padding: 0 12px 0 0;
+
+        svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .modal_header_bottom {
+        .modal_title {
+          font-size: 52px;
+
+          span {
+            font-size: 52px;
+          }
+        }
+
+        .modal_star_player_container {
+          width: 270px;
+          height: 84px;
+          right: 5px;
+
+          img {
+            width: 58px;
+            height: 58px;
+          }
+
+          .star_player_right {
+            margin: 0 8px;
+
+            p {
+              font-size: 18px;
+              font-weight: 600;
+            }
+
+            svg {
+              width: 30px;
+              height: 30px;
+            }
+          }
+        }
+      }
+    }
+
+    .modal_body {
+      width: 100%;
+      height: 81%;
+      background-color: $black2;
+      margin-bottom: 20px;
+      border-radius: 11px;
+      position: relative;
+      padding: 0;
+
+      .modal_header {
+        width: 100%;
+        height: 68px;
+        padding: 0 15px;
+
+        .header_left {
+          p {
+            font-size: 16px;
+          }
+
+          .header_player_name {
+            padding: 7px 12px;
+            margin-left: 10px;
+
+            img {
+              width: 22px;
+              height: 22px;
+              margin-right: 3px;
+            }
+          }
+        }
+      }
+
+      .modal_list {
+        padding: 0 25px;
+        margin-top: 80px;
+
+        &::-webkit-scrollbar {
+          display: none;
         }
       }
     }
