@@ -27,7 +27,11 @@ function SportsLiveCardFooter(props) {
         </>
       ) : (
         <>
-          <span className={classes.mlb_text}>{title}</span>
+          <span
+            className={`${classes.mlb_text} ${largeView && classes.large_view}`}
+          >
+            {title}
+          </span>
           <button
             className={`${classes.margin_right_9} ${
               largeView && classes.large_view
