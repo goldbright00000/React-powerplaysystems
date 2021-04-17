@@ -30,6 +30,7 @@ import StarImg from "../../assets/star.png";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
+import PrizeModal from "../../components/PrizeModal";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -170,6 +171,19 @@ const headerText = [
   },
 ];
 
+const prizeData = [
+  { place: "1st", payout: "$2,0000.00" },
+  { place: "2nd", payout: "$750.00" },
+  { place: "3rd", payout: "$350.00" },
+  { place: "4th", payout: "$200.00" },
+  { place: "5th", payout: "$150.00" },
+  { place: "6th - 7th", payout: "$100.00" },
+  { place: "8th - 10th", payout: "$80.00" },
+  { place: "11th - 15th", payout: "$60.00" },
+  { place: "16th - 20th", payout: "$50.00" },
+  { place: "21st - 30th", payout: "$40.00" },
+];
+
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
@@ -183,6 +197,7 @@ function MLBPowerdFs(props) {
   const [selectedData, setSelectedData] = useState(dummyData[0]);
   const [filterdData, setFilterdData] = useState(dummyData[0]);
   const [selectedDropDown, setSelectedDropDown] = useState();
+  const [showPrizeModal, setPrizeModalState] = useState(false);
 
   const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
@@ -404,6 +419,7 @@ function MLBPowerdFs(props) {
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={BaseballImage}
+          onClickPrize={() => setPrizeModalState(true)}
         />
 
         <div className={classes.container}>
@@ -615,6 +631,13 @@ function MLBPowerdFs(props) {
         </div>
       </div>
       <Footer isBlack={true} />
+
+      <PrizeModal
+        visible={showPrizeModal}
+        sportsName="MLB"
+        data={prizeData}
+        onClose={() => setPrizeModalState(false)}
+      />
     </>
   );
 }
