@@ -1,13 +1,14 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import './Animate.scss';
 
-const Animate = ({ className, children, isTest }) => {
+const Animate = ({ className, children }) => {
     const elm = useRef();
     const onScroll = () => {
+        if(!elm.current) return
         const { offsetTop, offsetHeight, classList } = elm.current;
 
         const { scrollY, innerHeight } = window;
-        if (!classList.contains('active') && scrollY >= offsetTop - innerHeight && scrollY <= offsetTop + offsetHeight) {
+        if (!classList.contains('active') && scrollY >= offsetTop - innerHeight + 200 && scrollY <= offsetTop + offsetHeight) {
             classList.add('active');
         }
     }

@@ -1,10 +1,8 @@
 .__Animate{
-    height: 200px;
     position: relative;
-    background: greenyellow !important;
-    transition: linear 0.5s all;;
+    transition: linear 0.5s all;
     &:not(.active){
         opacity: 0;
-        top: 5rem;
+        transform: rotate(15deg);
     }
 }
