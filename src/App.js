@@ -40,6 +40,7 @@ import PrivacyPage from "./pages/PrivacyPage";
 import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
+import HowToPlayPage from "./pages/HowToPlayPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -103,6 +104,7 @@ const App = (props) => {
         <Route path="/contact-us" component={ContactUSPage} />
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
         <Route path='/responsible-gaming' component={ResponsibleGaming} />
+        <Route path='/how-to-play' component={HowToPlayPage} />
         <Route component={HomePage} />
       </Switch>
     </Fragment>
