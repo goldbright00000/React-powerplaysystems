@@ -201,6 +201,7 @@ function NFLPowerdFs(props) {
   const [showPrizeModal, setPrizeModalState] = useState(false);
 
   const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //reset the states
@@ -421,6 +422,7 @@ function NFLPowerdFs(props) {
           prizeBtnTitle="Prize Grid"
           bgImageUri={NFLBGImage}
           onClickPrize={() => setPrizeModalState(true)}
+          token={token}
         />
 
         <div className={classes.container}>

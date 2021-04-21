@@ -5,10 +5,11 @@ import classes from "./index.module.scss";
 import DocIcon from "../../icons/Doc";
 import Trophy from "../../icons/Trophy";
 import PowerBW from "../../assets/power_bw.png";
-import { setNumberComma } from "../../utility/shared";
+import { getLocalStorage, setNumberComma } from "../../utility/shared";
 import Points from "../../icons/Points";
 import ContestRulesPopUp from "../ContestRulesPopUp";
 import Balance from "../Balance";
+import { CONSTANTS } from "../../utility/constants";
 function Header5(props) {
   const {
     onClickContest = () => {},
@@ -22,6 +23,7 @@ function Header5(props) {
     bgImageUri,
     compressedView = false,
     currentState = <></>,
+    token = "",
   } = props || {};
 
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
@@ -78,7 +80,11 @@ function Header5(props) {
           )}
         </div>
       </div>
-      <Balance entries="10,000" totalEntries="100,000" />
+      {
+        (token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))
+        &&
+        <Balance entries="10,000" totalEntries="100,000" />
+      }
     </div>
   );
 
