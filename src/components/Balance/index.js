@@ -1,13 +1,13 @@
 import React, {useState, useRef, useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom";
+import classes from './index.module.scss';
 import { CONSTANTS } from '../../utility/constants';
 import { getLocalStorage, setLocalStorage } from '../../utility/shared';
 import PowerBalanceGrey from '../../assets/power-balance-grey.png';
 import CashBalanceGrey from '../../assets/cash-balance-grey.png';
 import BitcoinGrey from '../../assets/bitcoin-grey.png';
 import EthereumGrey from '../../assets/ethereum-grey.png';
-import './index.scss';
 
 const CURRENCY_DATA = [
     {
@@ -24,7 +24,8 @@ const CURRENCY_DATA = [
     },
 ];
 
-const Balance = () => {
+const Balance = (props) => {
+    const {entries = '', totalEntries = ''} = props || {};
     const { auth: { user: { userBalance = {} } } = {} } = useSelector((state) => state);
     const currencyMenuRef = useRef(null);
     const history = useHistory();
@@ -54,19 +55,26 @@ const Balance = () => {
     };
 
     return (
-        <div className='__balance'>
-            <div className='__balance_deposit' onClick={() => history.push("/my-account")}>
+        <div className={classes.__balance}>
+            {
+                (entries || totalEntries)
+                &&
+                <div className={classes.__entries}>
+                    Entries  {entries} <span>{" "} / {totalEntries}</span>
+                </div>
+            }
+            <div className={classes.__balance_deposit} onClick={() => history.push("/my-account")}>
                 Deposit
             </div>
-            <div className={`${'__balance_cash_and_balance_outer'} ${displayCurrency.length > 0 && 'border_right'}`}>
-                <div className='__balance_cash_and_balance_icon'>
+            <div className={`${classes.__balance_cash_and_balance_outer} ${displayCurrency.length > 0 && classes.__border_right}`}>
+                <div className={classes.__balance_cash_and_balance_icon}>
                     <img src={PowerBalanceGrey} />
                 </div>
-                <div className='__balance_cash_and_balance_inner'>
-                    <div className='__balance_power_and_cash_balance'>
+                <div className={classes.__balance_cash_and_balance_inner}>
+                    <div className={classes.__balance_power_and_cash_balance}>
                         {userBalance.tokenBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)}
                     </div>
-                    <div className='__balance_power_and_cash_balance_title'>
+                    <div className={classes.__balance_power_and_cash_balance_title}>
                         Power Balance
                     </div>
                 </div>
@@ -74,15 +82,15 @@ const Balance = () => {
             {
                 (displayCurrency.includes('cash'))
                 &&
-                <div className={`${'__balance_cash_and_balance_outer'} ${(displayCurrency.includes('bitcoin') || displayCurrency.includes('ethereum')) && 'border_right'}`}>
-                    <div className='__balance_cash_and_balance_icon'>
+                <div className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes('bitcoin') || displayCurrency.includes('ethereum')) && classes.__border_right}`}>
+                    <div className={classes.__balance_cash_and_balance_icon}>
                         <img src={CashBalanceGrey} />
                     </div>
-                    <div className='__balance_cash_and_balance_inner'>
-                        <div className='__balance_power_and_cash_balance'>
+                    <div className={classes.__balance_cash_and_balance_inner}>
+                        <div className={classes.__balance_power_and_cash_balance}>
                             ${userBalance.cashBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)}
                         </div>
-                        <div className='__balance_power_and_cash_balance_title'>
+                        <div className={classes.__balance_power_and_cash_balance_title}>
                             Cash Balance
                         </div>
                     </div>
@@ -91,15 +99,15 @@ const Balance = () => {
             {
                 (displayCurrency.includes('bitcoin'))
                 &&
-                <div className={`${'__balance_cash_and_balance_outer'} ${(displayCurrency.includes('cash') || displayCurrency.includes('ethereum')) && 'border_right'}`}>
-                    <div className='__balance_cash_and_balance_icon'>
+                <div className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes('cash') || displayCurrency.includes('ethereum')) && classes.__border_right}`}>
+                    <div className={classes.__balance_cash_and_balance_icon}>
                         <img src={BitcoinGrey} />
                     </div>
-                    <div className='__balance_cash_and_balance_inner'>
-                        <div className='__balance_power_and_cash_balance'>
+                    <div className={classes.__balance_cash_and_balance_inner}>
+                        <div className={classes.__balance_power_and_cash_balance}>
                             .00241
                         </div>
-                        <div className='__balance_power_and_cash_balance_title'>
+                        <div className={classes.__balance_power_and_cash_balance_title}>
                             Bitcoin 
                         </div>
                     </div>
@@ -108,15 +116,15 @@ const Balance = () => {
             {
                 (displayCurrency.includes('ethereum'))
                 &&
-                    <div className='__balance_cash_and_balance_outer'>
-                    <div className='__balance_cash_and_balance_icon'>
+                    <div className={classes.__balance_cash_and_balance_outer}>
+                    <div className={classes.__balance_cash_and_balance_icon}>
                         <img src={EthereumGrey} />
                     </div>
-                    <div className='__balance_cash_and_balance_inner'>
-                        <div className='__balance_power_and_cash_balance'>
+                    <div className={classes.__balance_cash_and_balance_inner}>
+                        <div className={classes.__balance_power_and_cash_balance}>
                             .007
                         </div>
-                        <div className='__balance_power_and_cash_balance_title'>
+                        <div className={classes.__balance_power_and_cash_balance_title}>
                             Ethereum
                         </div>
                     </div>
@@ -125,7 +133,7 @@ const Balance = () => {
             {
                 currencyMenu
                 &&
-                <div className='__currency_menu' ref={currencyMenuRef}>
+                <div className={classes.__currency_menu} ref={currencyMenuRef}>
                     <div>
                         Display:
                     </div>
@@ -135,8 +143,8 @@ const Balance = () => {
                                 <div 
                                     key={index}
                                     className={
-                                        `${'__currency_menu_item'} 
-                                        ${displayCurrency.includes(item.value) && '__currency_menu_selected'}`
+                                        `${classes.__currency_menu_item} 
+                                        ${displayCurrency.includes(item.value) && classes.__currency_menu_selected}`
                                     }
                                     onClick={() => {
                                         const newDisplayCurreny = [...displayCurrency];
@@ -157,8 +165,8 @@ const Balance = () => {
                     }
                 </div>
             }
-            <div className='__three_dots_div'>
-                <button className='__three_dots' onClick={() => setCurrencyMenu(!currencyMenu)}>
+            <div className={classes.__three_dots_div}>
+                <button className={classes.__three_dots} onClick={() => setCurrencyMenu(!currencyMenu)}>
                     <span></span>
                     <span></span>
                     <span></span>

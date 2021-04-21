@@ -27,6 +27,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/nfl-powerdfs'
     },
     {
         id: 3,
@@ -53,6 +54,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/nfl-powerdfs'
     },
     {
         id: 6,

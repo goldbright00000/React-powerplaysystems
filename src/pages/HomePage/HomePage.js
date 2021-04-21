@@ -264,37 +264,34 @@ const HomePage = (props) => {
           <div className={classes.__home_page_third_section_main_heading_div}>
             <div className={classes.__home_page_third_section_main_heading}>
               <div className={classes.__home_page_third_section_main_span}>
-                PowerPlay Games
+              Power your Fantasy Experience with
               </div>{" "}
-              is crypto friendly!
+              Power Tokens!
             </div>
           </div>
           <div className={classes.__home_page_third_section_main}>
             <div className={classes.__home_page_third_section_body}>
-              <div
-                className={classes.__home_page_third_section_body_text_common}
-              >
-                We accept all forms of crypto currency to enter games. Exchange
-                tokens for Power Tokens (PWRS) which can be used to enter
-                contests.
-              </div>
               <div className={classes.__home_page_third_section_body_text_1}>
                 What are Power Tokens?
               </div>
               <div
                 className={classes.__home_page_third_section_body_text_common}
               >
-                You can obtain tokens by 1. Entering contests 2. Win as prizes
-                3. Special Offers
+                Power Tokens are registered Ethereum Crypto-currency.
+                <div>
+                  You can earn Power Tokens by signing up to Defy Games, 
+                  entering certain contests, participating in contests with Power Token prizes, 
+                  and by participating in other special offers.
+                </div>
               </div>
               <div className={classes.__home_page_third_section_body_text_2}>
                 We are giving Power to the People! Sign-up today and{" "}
                 <span>get 20 tokens!</span>
               </div>
               <div
-                className={classes.__home_page_third_section_body_text_common}
+                className={`${classes.__home_page_third_section_body_text_common} ${classes.__note_style}`}
               >
-                Note - Power Tokens have no resale value at this time.
+                Note! Power Tokens have no resale value at this time.
               </div>
             </div>
           </div>
@@ -303,7 +300,7 @@ const HomePage = (props) => {
               className={classes.__home_page_third_section_power_up_btn}
               onClick={() => redirectTo(props, { path: "/power-up" })}
             >
-              Power Up!
+              WIN Powers
             </button>
           </div>
         </div>
