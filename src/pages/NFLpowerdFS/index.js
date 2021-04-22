@@ -7,7 +7,6 @@ import * as MLBActions from "../../actions/MLBActions";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Header4 from "../../components/Header4";
 import NFLBGImage from "../../assets/nfl-header-background.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";

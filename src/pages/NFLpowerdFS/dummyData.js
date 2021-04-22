@@ -24,19 +24,19 @@ export const dummyData = [
             step: [209.0, 13.2, 87, 13, 17.4],
           },
           {
-            titles: ["W", "L", "IP", "K", "ERA", "fppg"],
+            titles: ["G", "YDS", "YDS/G", "TD", "FPPG"],
             step: [
               {
-                title: "last game",
-                values: [1, 0, 0, 7, 14.8, 8.9],
+                title: "Home Games",
+                values: [35, '7,744', 221.3, 46, 14.0],
               },
               {
-                title: "last 10 games",
-                values: [10, 8, 17, 39, 18.8, 23.3],
+                title: "Away Games",
+                values: [26, '5,693', 219.0, 34, 13.8],
               },
               {
-                title: "2020-2021",
-                values: [1, 0, 0, 7, 14.8, 23.4],
+                title: "2021 Madden",
+                values: [61, '13,437', 220.3, 80, 13.9],
               },
             ],
           },
@@ -80,23 +80,23 @@ export const dummyData = [
         position: "RB",
         steps: [
           {
-            titles: ["YDS/G", "Rush TD", "Rec TD", "FPPG"],
-            step: [64.4, 65, 65, 19.6],
+            titles: ["P YDS/G", "R YDS/G", "P TD", "R TD", "FPPG"],
+            step: [209.0, 13.2, 87, 13, 17.4],
           },
           {
-            titles: ["ERA", "W-L", "k", "whip", "fppg"],
+            titles: ["G", "YDS", "YDS/G", "TD", "FPPG"],
             step: [
               {
-                title: "last game",
-                values: [1, 0, 0, 7, 14.8],
+                title: "Home Games",
+                values: [35, '7,744', 221.3, 46, 14.0],
               },
               {
-                title: "last 10 games",
-                values: [10, 8, 17, 39, 18.8],
+                title: "Away Games",
+                values: [26, '5,693', 219.0, 34, 13.8],
               },
               {
-                title: "2020-2021",
-                values: [1, 0, 0, 7, 14.8],
+                title: "2021 Madden",
+                values: [61, '13,437', 220.3, 80, 13.9],
               },
             ],
           },
@@ -139,23 +139,23 @@ export const dummyData = [
         position: "RB",
         steps: [
           {
-            titles: ["YDS/G", "Rush TD", "Rec TD", "FPPG"],
-            step: [64.4, 65, 65, 19.6],
+            titles: ["P YDS/G", "R YDS/G", "P TD", "R TD", "FPPG"],
+            step: [209.0, 13.2, 87, 13, 17.4],
           },
           {
-            titles: ["ERA", "W-L", "k", "whip", "fppg"],
+            titles: ["G", "YDS/G", "TD", "REC", "YDS/G", "TD", "FPPG"],
             step: [
               {
-                title: "last game",
-                values: [1, 0, 0, 7, 14.8],
+                title: "Home Games",
+                values: [40, 60.0, 35, 163, 32.5, 7, 19.9],
               },
               {
-                title: "last 10 games",
-                values: [10, 8, 17, 39, 18.8],
+                title: "Away Games",
+                values: [31, 52.6, 17, 113, 25.8, 3, 15.6],
               },
               {
-                title: "2020-2021",
-                values: [1, 0, 0, 7, 14.8],
+                title: "2021 Madden",
+                values: [71, 56.8, 52, 276, 29.5, 10, 18.0],
               },
             ],
           },
@@ -197,33 +197,33 @@ export const dummyData = [
         stadium: "Citizens Bank Park",
         position: "wr",
         steps: [
-            {
-              titles: ["YDS/G", "Rush TD", "Rec TD", "FPPG"],
-              step: [64.4, 65, 65, 19.6],
-            },
-            {
-              titles: ["ERA", "W-L", "k", "whip", "fppg"],
-              step: [
-                {
-                  title: "last game",
-                  values: [1, 0, 0, 7, 14.8],
-                },
-                {
-                  title: "last 10 games",
-                  values: [10, 8, 17, 39, 18.8],
-                },
-                {
-                  title: "2020-2021",
-                  values: [1, 0, 0, 7, 14.8],
-                },
-              ],
-            },
-            {
-              step: {
-                ad: AdImg,
+          {
+            titles: ["P YDS/G", "R YDS/G", "P TD", "R TD", "FPPG"],
+            step: [209.0, 13.2, 87, 13, 17.4],
+          },
+          {
+            titles: ["G", "REC", "YDS", "YDS/G", "TD", "FPPG"],
+            step: [
+              {
+                title: "Home Games",
+                values: [15, 29, 189, 12.6, 1, 1],
               },
+              {
+                title: "Away Games",
+                values: [7, 9, 102, 14.6, 1, 3.6],
+              },
+              {
+                title: "2021 Madden",
+                values: [22, 29, 291, 13.2, 2, 3.1],
+              },
+            ],
+          },
+          {
+            step: {
+              ad: AdImg,
             },
-          ],
+          },
+        ],
         stats: {
           val1: "ip:3.1 | pc:34",
           val2: "k:4 | w:3",
@@ -256,33 +256,33 @@ export const dummyData = [
         stadium: "Citizens Bank Park",
         position: "te",
         steps: [
-            {
-              titles: ["YDS/G", "Rush TD", "Rec TD", "FPPG"],
-              step: [64.4, 65, 65, 19.6],
-            },
-            {
-              titles: ["ERA", "W-L", "k", "whip", "fppg"],
-              step: [
-                {
-                  title: "last game",
-                  values: [1, 0, 0, 7, 14.8],
-                },
-                {
-                  title: "last 10 games",
-                  values: [10, 8, 17, 39, 18.8],
-                },
-                {
-                  title: "2020-2021",
-                  values: [1, 0, 0, 7, 14.8],
-                },
-              ],
-            },
-            {
-              step: {
-                ad: AdImg,
+          {
+            titles: ["P YDS/G", "R YDS/G", "P TD", "R TD", "FPPG"],
+            step: [209.0, 13.2, 87, 13, 17.4],
+          },
+          {
+            titles: ["G", "REC", "YDS", "YDS/G", "TD", "FPPG"],
+            step: [
+              {
+                title: "Home Games",
+                values: [15, 29, 189, 12.6, 1, 1],
               },
+              {
+                title: "Away Games",
+                values: [7, 9, 102, 14.6, 1, 3.6],
+              },
+              {
+                title: "2021 Madden",
+                values: [22, 29, 291, 13.2, 2, 3.1],
+              },
+            ],
+          },
+          {
+            step: {
+              ad: AdImg,
             },
-          ],
+          },
+        ],
         stats: {
           val1: "ip:3.1 | pc:34",
           val2: "k:4 | w:3",
@@ -315,33 +315,33 @@ export const dummyData = [
         stadium: "Citizens Bank Park",
         position: "k",
         steps: [
-            {
-              titles: ["YDS/G", "Rush TD", "Rec TD", "FPPG"],
-              step: [64.4, 65, 65, 19.6],
-            },
-            {
-              titles: ["ERA", "W-L", "k", "whip", "fppg"],
-              step: [
-                {
-                  title: "last game",
-                  values: [1, 0, 0, 7, 14.8],
-                },
-                {
-                  title: "last 10 games",
-                  values: [10, 8, 17, 39, 18.8],
-                },
-                {
-                  title: "2020-2021",
-                  values: [1, 0, 0, 7, 14.8],
-                },
-              ],
-            },
-            {
-              step: {
-                ad: AdImg,
+          {
+            titles: ["P YDS/G", "R YDS/G", "P TD", "R TD", "FPPG"],
+            step: [209.0, 13.2, 87, 13, 17.4],
+          },
+          {
+            titles: ["G", "FGM", "40-49 FG", "50+ FG", "XPM", "FPPG"],
+            step: [
+              {
+                title: "Home Games",
+                values: [35, 35, 10, 4, 60, 5.2],
               },
+              {
+                title: "Away Games",
+                values: [26, 24, 6, 0, 55, 5.1],
+              },
+              {
+                title: "2021 Madden",
+                values: [61, 59, 16, 4, 115, 5.2],
+              },
+            ],
+          },
+          {
+            step: {
+              ad: AdImg,
             },
-          ],
+          },
+        ],
         stats: {
           val1: "ip:3.1 | pc:34",
           val2: "k:4 | w:3",
