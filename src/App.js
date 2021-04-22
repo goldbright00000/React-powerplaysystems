@@ -13,10 +13,6 @@ import BingoPreGame from "./pages/BingoPreGame/BingoPreGame";
 import CardGame from "./pages/CardGame";
 import PowerPicks from "./pages/PowerPicks";
 import ChaseACard from "./pages/ChaseACard";
-import FAQ from "./pages/FAQ";
-import Privacy from "./pages/Privacy";
-import TrustAndSafety from "./pages/TrustAndSafety";
-import AccountSecurity from "./pages/AccountSecurity";
 import TermsOfUse from "./pages/TermsOfUse";
 import PowerUpPage from "./pages/PowerUpPage/PowerUpPage";
 import GetUserInfoPage from "./pages/GetUserInfoPage/GetUserInfoPage";
@@ -40,6 +36,12 @@ import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLi
 import MLBLivePowerdFsScroeDetail from "./pages/MLBLivePowerdFsScroeDetail/MLBLivePowerdFsScroeDetail";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 import { setupUser } from "./actions/authActions";
+import ResponsibleGaming from "./pages/ResponsibleGaming";
+import PrivacyPage from "./pages/PrivacyPage";
+import AccountSecurityPage from "./pages/AccountSecurityPage";
+import FAQsPage from "./pages/FAQsPage";
+import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
+import HowToPlayPage from "./pages/HowToPlayPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -80,10 +82,10 @@ const App = (props) => {
         {/* <ProtectedRoute path='/card-game' component={CardGame} /> */}
         <Route path="/power-picks" component={PowerPicks} />
         <Route path="/chase-a-card" component={ChaseACard} />
-        <Route path="/faqs" component={FAQ} />
-        <Route path="/privacy" component={Privacy} />
-        <Route path="/trust-and-safety" component={TrustAndSafety} />
-        <Route path="/account-security" component={AccountSecurity} />
+        <Route path="/faqs" component={FAQsPage} />
+        <Route path="/privacy" component={PrivacyPage} />
+        <Route path="/trust-and-safety" component={TrustAndSafetyPage} />
+        <Route path="/account-security" component={AccountSecurityPage} />
         <Route path="/terms" component={TermsOfUse} />
         <Route path="/power-up" component={PowerUpPage} />
         <Route path="/user-profile-info" component={GetUserInfoPage} />
@@ -103,6 +105,8 @@ const App = (props) => {
         <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
         <Route path="/contact-us" component={ContactUSPage} />
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
+        <Route path='/responsible-gaming' component={ResponsibleGaming} />
+        <Route path='/how-to-play' component={HowToPlayPage} />
         <Route component={HomePage} />
       </Switch>
     </Fragment>
