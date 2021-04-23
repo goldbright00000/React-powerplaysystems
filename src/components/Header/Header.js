@@ -1,42 +1,42 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 
 import "./Header.scss";
 import logo from "../../assets/new-logo.png";
-import { resetAuth } from "../../actions/authActions";
-import { setUserBalance } from "../../actions/userActions";
+import { resetAuth, updateUser } from "../../actions/authActions";
+import { setUserBalance, payNow } from "../../actions/userActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
-import FilledArrow from '../FilledArrow';
-import DepositAmountPopUp from '../DepositAmountPopUp/DepositAmountPopUp';
+import FilledArrow from "../FilledArrow";
+import DepositAmountPopUp from "../DepositAmountPopUp/DepositAmountPopUp";
 
 const MY_ACCOUNT_MENU_OPTIONS = [
   {
-    label: 'Account Info',
-    value: '/my-account'
+    label: "Account Info",
+    value: "/my-account",
   },
   {
-    label: 'How to Play',
-    value: '/how-to-play'
+    label: "How to Play",
+    value: "/how-to-play",
   },
   {
-    label: 'Deposit',
-    value: '/deposit'
+    label: "Deposit",
+    value: "/deposit",
   },
   {
-    label: 'Contact Us',
-    value: '/contact-us'
+    label: "Contact Us",
+    value: "/contact-us",
   },
   {
-    label: 'FAQ',
-    value: '/faqs'
+    label: "FAQ",
+    value: "/faqs",
   },
   {
-    label: 'Log Out',
-    value: '/log-out'
+    label: "Log Out",
+    value: "/log-out",
   },
 ];
 
@@ -48,13 +48,13 @@ const Header = (props) => {
     headerLogo = null,
   } = props || {};
 
-  const { user: { token = "" } = {} } = useSelector((state) => state?.auth);
+  const { user = {} } = useSelector((state) => state?.auth);
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
 
   const [myAccountMenu, setMyAccountMenu] = useState(false);
-  const [showDepositModal, setShowDepositModal] = useState(false)
+  const [showDepositModal, setShowDepositModal] = useState(false);
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
@@ -64,12 +64,30 @@ const Header = (props) => {
 
   const onMyAccountMenuItemClick = (menuItem) => {
     setMyAccountMenu(false);
-    if (menuItem == '/log-out') {
+    if (menuItem == "/log-out") {
       onLogout();
-    } else if (menuItem == '/deposit') {
+    } else if (menuItem == "/deposit") {
       setShowDepositModal(true);
     } else {
       history.push(menuItem);
+    }
+  };
+
+  const onUpdateUserDetails = (details) => {
+    if (
+      !details.currency ||
+      !details.city ||
+      !details.address ||
+      !details.zip ||
+      !details.phone_number
+    ) {
+      alert("You can't pay until required fields are filled.");
+    } else {
+      let obj = { ...user, ...details };
+      dispatch(updateUser(obj));
+
+      payNow(obj);
+      setShowDepositModal(false);
     }
   };
 
@@ -82,8 +100,11 @@ const Header = (props) => {
     };
   }, []);
 
-  const handleClick = e => {
-    if (myAccountMenuRef.current && !myAccountMenuRef.current.contains(e.target)) {
+  const handleClick = (e) => {
+    if (
+      myAccountMenuRef.current &&
+      !myAccountMenuRef.current.contains(e.target)
+    ) {
       setMyAccountMenu(false);
     }
   };
@@ -109,34 +130,34 @@ const Header = (props) => {
                 <NavLink to="/power-center">Power Center</NavLink>
               </li>
               {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
-              {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+              {user?.token ||
+              getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
                 <>
                   <li>
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
                   <li className="__my_account_li" ref={myAccountMenuRef}>
-                    <NavLink 
-                      to="#" 
-                      onClick={() => setMyAccountMenu(!myAccountMenu)}>
+                    <NavLink
+                      to="#"
+                      onClick={() => setMyAccountMenu(!myAccountMenu)}
+                    >
                       My Account
-                      {
-                        !myAccountMenu
-                        ?
-                        <FilledArrow down={true} /> 
-                        :
+                      {!myAccountMenu ? (
+                        <FilledArrow down={true} />
+                      ) : (
                         <FilledArrow up={true} />
-                      }
+                      )}
                     </NavLink>
-                    {
-                      myAccountMenu
-                      &&
-                      <MyAccountMenu 
+                    {myAccountMenu && (
+                      <MyAccountMenu
                         visible={myAccountMenu}
                         value={window.location.pathname}
                         options={MY_ACCOUNT_MENU_OPTIONS}
-                        onClick={(menuItem) => onMyAccountMenuItemClick(menuItem)}
+                        onClick={(menuItem) =>
+                          onMyAccountMenuItemClick(menuItem)
+                        }
                       />
-                    } 
+                    )}
                   </li>
                 </>
               ) : (
@@ -158,11 +179,13 @@ const Header = (props) => {
                 </>
               )}
             </ul>
-            {
-              showDepositModal
-              &&
-              <DepositAmountPopUp onClose={() => setShowDepositModal(false)} />
-            }
+            {showDepositModal && (
+              <DepositAmountPopUp
+                onClose={() => setShowDepositModal(false)}
+                user={user}
+                formSubmitted={onUpdateUserDetails}
+              />
+            )}
           </>
         ) : (
           <div className="__landing-page_title __flex __f1">
