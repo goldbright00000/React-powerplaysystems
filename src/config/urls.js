@@ -8,4 +8,7 @@ export const URLS = {
   USER: {
     BALANCE: "/users/account/balance",
   },
+  DFS: {
+    MLB: "/dfs/mlb-selection",
+  },
 };

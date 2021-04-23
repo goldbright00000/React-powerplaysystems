@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./index.module.scss";
@@ -10,13 +10,15 @@ import DeleteIcon from "../../assets/delete.png";
 import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
+import PlayerStat from "./PlayerStat";
 
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const {
-    item = {},
-    onSelectDeselect = (id) => {},
+    player = {},
+    loading = false,
+    onSelectDeselect = (playerId, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -24,19 +26,21 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
-    name = "",
+    playerName: name = "",
     avgVal = 0,
-    teamA = "",
-    teamB = "",
-    time = "",
+    homeTeam = "",
+    awayTeam = "",
     date = "",
+    time = "",
     stadium = "",
-    id = "",
+    playerId = "",
     isStarPlayer = false,
     steps = [],
+    playerStats = {},
     injured = false,
     position = "",
-  } = item || {};
+    match_id,
+  } = player || {};
 
   const nextStep = () => {
     let _currentStep = currentStep;
@@ -73,7 +77,7 @@ function SportsSelectionCard3(props) {
         )}
         {!isSelected ? (
           <button
-            onClick={() => onSelectDeselect(id)}
+            onClick={() => onSelectDeselect(playerId, match_id)}
             className={disabled && classes.disabled}
             disabled={disabled}
           >
@@ -83,109 +87,109 @@ function SportsSelectionCard3(props) {
           <div className={classes.container_selected}>
             <p className={classes.container_selected_p_1}>
               <Tick2 /> Selected{" "}
-              <img src={DeleteIcon} onClick={() => onSelectDeselect(id)} />
+              <img
+                src={DeleteIcon}
+                onClick={() => onSelectDeselect(playerId, match_id)}
+              />
             </p>
           </div>
         )}
       </div>
 
-      {steps?.length ? (
-        <div
-          className={`${classes.card_state_main_container} ${
-            currentStep === 1 && classes.space_evenly
-          }`}
-        >
-          {steps[currentStep]?.step?.ad ? (
-            <img src={steps[currentStep]?.step?.ad} />
-          ) : (
-            <>
-              {currentStep === 1 && (
-                <div className={classes.card_state_left}>
-                  {steps[currentStep]?.step?.map((val, key) => (
-                    <strong key={key.toString()}>{val?.title}</strong>
-                  ))}
-                </div>
-              )}
-              <div
-                className={`
-                  ${classes.container_body_card_state} 
-                  ${isSelected && classes.active} 
-                  ${currentStep === 0 && classes.border}`}
-              >
-                {
-                  <div className={classes.card_state}>
-                    <div className={classes.card_state_title}>
-                      {steps[currentStep]?.titles?.map((title, index) => (
-                        <span
-                          key={index.toString()}
-                          className={`${
-                            currentStep === 1 && classes.state_step_1_title
-                          }`}
-                        >
-                          {title}
-                        </span>
-                      ))}
-                    </div>
-
-                    <div
-                      className={`
-                        ${classes.card_state_values} 
-                        ${currentStep === 1 && classes.column}`}
-                    >
-                      {steps[currentStep]?.step?.length &&
-                        steps[currentStep]?.step?.map((val, key) =>
-                          val?.title ? (
-                            <div
-                              key={key.toString()}
-                              className={classes.card_state_title_1}
-                            >
-                              {val?.values?.map((value, index) => (
-                                <div
-                                  key={index.toString()}
-                                  className={`${classes.step_value} ${
-                                    currentStep === 1 && classes.margin_4
-                                  }`}
-                                >
-                                  <strong
-                                    className={classes.state_step_1_value}
-                                  >
-                                    {value}
-                                  </strong>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div
-                              key={key.toString()}
-                              className={`${classes.step_value} ${classes.step_value_1}`}
-                            >
-                              <strong>{val}</strong>
-                            </div>
-                          )
-                        )}
-                    </div>
+      {/* {steps?.length ? ( */}
+      <div className={classes.card_state_main_container}>
+        <PlayerStat playerStats={playerStats} />
+        {/* {steps[currentStep]?.step?.ad ? (
+              <img src={steps[currentStep]?.step?.ad} />
+            ) : (
+              <>
+                {currentStep === 1 && (
+                  <div className={classes.card_state_left}>
+                    {steps[currentStep]?.step?.map((val, key) => (
+                      <strong key={key.toString()}>{val?.title}</strong>
+                    ))}
                   </div>
-                }
-              </div>
-            </>
-          )}
-        </div>
-      ) : (
-        <p
-          className={`${classes.container_body_card_state} ${
-            classes.card_state_no_data
-          } ${isSelected ? classes.active : ""}`}
-        >
-          No Data
-        </p>
-      )}
+                )}
+                <div
+                  className={`
+                    ${classes.container_body_card_state} 
+                    ${isSelected && classes.active} 
+                    ${currentStep === 0 && classes.border}`}
+                >
+                  {
+                    <div className={classes.card_state}>
+                      <div className={classes.card_state_title}>
+                        {steps[currentStep]?.titles?.map((title, index) => (
+                          <span
+                            key={index.toString()}
+                            className={`${
+                              currentStep === 1 && classes.state_step_1_title
+                            }`}
+                          >
+                            {title}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div
+                        className={`
+                          ${classes.card_state_values} 
+                          ${currentStep === 1 && classes.column}`}
+                      >
+                        {steps[currentStep]?.step?.length &&
+                          steps[currentStep]?.step?.map((val, key) =>
+                            val?.title ? (
+                              <div
+                                key={key.toString()}
+                                className={classes.card_state_title_1}
+                              >
+                                {val?.values?.map((value, index) => (
+                                  <div
+                                    key={index.toString()}
+                                    className={`${classes.step_value} ${
+                                      currentStep === 1 && classes.margin_4
+                                    }`}
+                                  >
+                                    <strong
+                                      className={classes.state_step_1_value}
+                                    >
+                                      {value}
+                                    </strong>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div
+                                key={key.toString()}
+                                className={`${classes.step_value} ${classes.step_value_1}`}
+                              >
+                                <strong>{val}</strong>
+                              </div>
+                            )
+                          )}
+                      </div>
+                    </div>
+                  }
+                </div>
+              </>
+            )} */}
+      </div>
+      {/* ) : (
+          <p
+            className={`${classes.container_body_card_state} ${
+              classes.card_state_no_data
+            } ${isSelected ? classes.active : ""}`}
+          >
+            No Data
+          </p>
+        )} */}
 
       <div className={classes.container_card_footer_main}>
         {currentStep === 0 && (
           <div className={classes.card_footer_left}>
             <p>
-              <span className={classes.teamA}>{teamA}</span> VS{" "}
-              <span className={classes.teamB}>{teamB}</span>
+              <span className={classes.teamA}>{homeTeam}</span> VS{" "}
+              <span className={classes.teamB}>{awayTeam}</span>
             </p>
 
             <div className={classes.divider}></div>
@@ -221,6 +225,7 @@ SportsSelectionCard3.propTypes = {
   btnTitle: PropTypes.string,
   btnIcon: PropTypes.element,
   onSelectDeselect: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
-export default SportsSelectionCard3;
+export default React.memo(SportsSelectionCard3);

@@ -22,8 +22,12 @@ function SportsSidebarContent(props) {
     svgSize,
     onDelete,
     keyVal,
+    matchId,
   }) => (
-    <div className={classes.sidebar_body_section} key={playerId}>
+    <div
+      className={classes.sidebar_body_section}
+      key={playerId + " - " + matchId}
+    >
       <span className={name ? classes.active : ""}>{title}</span>
       <div>
         {isStarPlayer && <img src={starIcon ? starIcon : PowerIcon} />}
@@ -31,7 +35,7 @@ function SportsSidebarContent(props) {
         {name ? (
           <div className={classes.sidebar_body_value}>
             {name}{" "}
-            <span onClick={() => onDelete(playerId)}>
+            <span onClick={() => onDelete(playerId, matchId)}>
               <DeleteIcon />
             </span>
           </div>
@@ -59,6 +63,7 @@ function SportsSidebarContent(props) {
               onDelete={onDelete}
               key={index.toString()}
               isStarPlayer={item?.isStarPlayer}
+              matchId={item?.matchId}
             />
           ))
         ) : (
