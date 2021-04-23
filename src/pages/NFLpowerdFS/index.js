@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty, cloneDeep } from "lodash";
 
-import * as MLBActions from "../../actions/MLBActions";
+import * as NFLActions from "../../actions/NFLActions";
 
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -199,14 +199,14 @@ function NFLPowerdFs(props) {
   const [selectedDropDown, setSelectedDropDown] = useState();
   const [showPrizeModal, setPrizeModalState] = useState(false);
 
-  const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const { data = [], starPlayerCount = 0 } = useSelector((state) => state.nfl);
   const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //reset the states
   useEffect(() => {
-    dispatch(MLBActions.mlbData(dummyData));
-    dispatch(MLBActions.setStarPlayerCount(0));
+    dispatch(NFLActions.nflData(dummyData));
+    dispatch(NFLActions.setStarPlayerCount(0));
     setPlayerList(cloneDeep(INITIAL_PLAYER_LIST));
     setSelected(new Map());
     setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
@@ -277,7 +277,7 @@ function NFLPowerdFs(props) {
         selectedPlayerCount--;
       }
 
-      dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
+      dispatch(NFLActions.setStarPlayerCount(_starPlayerCount));
       setSelected(_selected);
       setPlayerList(_playersList);
       activateFilter(data, cat);
@@ -482,7 +482,7 @@ function NFLPowerdFs(props) {
                         />
                       ) : (
                         <SelectionCard3
-                          item={item}
+                          player={item}
                           isSelected={!!selected.get(item.id)}
                           key={item.id}
                           onSelectDeselect={onSelectDeselect}
@@ -578,17 +578,12 @@ function NFLPowerdFs(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar
-              styles={{
-                padding: "0px",
-              }}
-            >
+            <Sidebar styles={{ padding: 20}}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
-                  width: "100%",
                   marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"

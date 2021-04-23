@@ -296,7 +296,6 @@
             font-size: 16px;
             font-weight: 500;
             border-radius: 12px;
-            margin: 40px 0;
             border: none;
             outline: none;
 
@@ -353,14 +352,15 @@
         margin: 25px 0 0 0;
 
         h2 {
-          color: $primary;
           font-family: Teko;
-          font-size: 38px;
+          font-size: 48px;
           font-weight: normal;
           font-stretch: normal;
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
+          text-align: center;
+          color: $primary;
           margin: 0;
         }
 
@@ -420,7 +420,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
+        width: 290px;
+        height: 56px;
         padding: 16px 0;
         font-family: Poppins;
         font-size: 18px;
@@ -733,7 +734,6 @@
               font-size: 16px;
               font-weight: 500;
               border-radius: 12px;
-              margin: 40px 0;
               border: none;
               outline: none;
 
@@ -790,14 +790,15 @@
           margin: 25px 0 0 0;
 
           h2 {
-            color: $primary;
             font-family: Teko;
-            font-size: 38px;
+            font-size: 48px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
+            text-align: center;
+            color: $primary;
             margin: 0;
           }
 
@@ -857,7 +858,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
+          width: 290px;
+          height: 56px;
           padding: 16px 0;
           font-family: Poppins;
           font-size: 18px;
@@ -1043,14 +1045,15 @@
           margin: 25px 0 0 0;
 
           h2 {
-            color: $primary;
             font-family: Teko;
-            font-size: 38px;
+            font-size: 48px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
+            text-align: center;
+            color: $primary;
             margin: 0;
           }
 
@@ -1110,7 +1113,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
+          width: 290px;
+          height: 56px;
           padding: 16px 0;
           font-family: Poppins;
           font-size: 18px;
@@ -1412,7 +1416,6 @@
               font-size: 16px;
               font-weight: 500;
               border-radius: 12px;
-              margin: 40px 0;
               border: none;
               outline: none;
 
@@ -1469,14 +1472,15 @@
           margin: 25px 0 0 0;
 
           h2 {
-            color: $primary;
             font-family: Teko;
-            font-size: 38px;
+            font-size: 48px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
+            text-align: center;
+            color: $primary;
             margin: 0;
           }
 
@@ -1536,7 +1540,8 @@
           display: flex;
           justify-content: center;
           align-items: center;
-          width: 100%;
+          width: 290px;
+          height: 56px;
           padding: 16px 0;
           font-family: Poppins;
           font-size: 18px;
@@ -1703,7 +1708,6 @@
               padding: 10px 0;
               font-size: 14px;
               font-weight: 500;
-              margin: 30px 0;
 
               img {
                 width: 20px;
@@ -1909,7 +1913,6 @@
               padding: 10px 0;
               font-size: 14px;
               font-weight: 500;
-              margin: 30px 0;
 
               img {
                 width: 20px;
@@ -2114,7 +2117,6 @@
               padding: 10px 0;
               font-size: 14px;
               font-weight: 500;
-              margin: 30px 0;
 
               img {
                 width: 20px;
@@ -2321,7 +2323,6 @@
               padding: 10px 0;
               font-size: 14px;
               font-weight: 500;
-              margin: 30px 0;
 
               img {
                 width: 20px;
@@ -2530,7 +2531,6 @@
               padding: 10px 0;
               font-size: 14px;
               font-weight: 500;
-              margin: 30px 0;
 
               img {
                 width: 20px;
