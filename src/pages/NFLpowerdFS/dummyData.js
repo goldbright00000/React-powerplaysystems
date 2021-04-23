@@ -35,7 +35,7 @@ export const dummyData = [
                 values: [26, '5,693', 219.0, 34, 13.8],
               },
               {
-                title: "2021 Madden",
+                title: "2021 Total",
                 values: [61, '13,437', 220.3, 80, 13.9],
               },
             ],
@@ -77,7 +77,7 @@ export const dummyData = [
         date: "2020-09-28",
         stadium: "Citizens Bank Park",
         isStarPlayer: true,
-        position: "RB",
+        position: "QB",
         steps: [
           {
             titles: ["P YDS/G", "R YDS/G", "P TD", "R TD", "FPPG"],
@@ -95,7 +95,7 @@ export const dummyData = [
                 values: [26, '5,693', 219.0, 34, 13.8],
               },
               {
-                title: "2021 Madden",
+                title: "2021 Total",
                 values: [61, '13,437', 220.3, 80, 13.9],
               },
             ],
@@ -154,7 +154,7 @@ export const dummyData = [
                 values: [31, 52.6, 17, 113, 25.8, 3, 15.6],
               },
               {
-                title: "2021 Madden",
+                title: "2021 Total",
                 values: [71, 56.8, 52, 276, 29.5, 10, 18.0],
               },
             ],
@@ -213,7 +213,7 @@ export const dummyData = [
                 values: [7, 9, 102, 14.6, 1, 3.6],
               },
               {
-                title: "2021 Madden",
+                title: "2021 Total",
                 values: [22, 29, 291, 13.2, 2, 3.1],
               },
             ],
@@ -272,7 +272,7 @@ export const dummyData = [
                 values: [7, 9, 102, 14.6, 1, 3.6],
               },
               {
-                title: "2021 Madden",
+                title: "2021 Total",
                 values: [22, 29, 291, 13.2, 2, 3.1],
               },
             ],
@@ -331,7 +331,7 @@ export const dummyData = [
                 values: [26, 24, 6, 0, 55, 5.1],
               },
               {
-                title: "2021 Madden",
+                title: "2021 Total",
                 values: [61, 59, 16, 4, 115, 5.2],
               },
             ],

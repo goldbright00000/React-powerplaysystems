@@ -578,17 +578,12 @@ function NFLPowerdFs(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar
-              styles={{
-                padding: "0px",
-              }}
-            >
+            <Sidebar styles={{ padding: 20}}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
-                  width: "100%",
                   marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"

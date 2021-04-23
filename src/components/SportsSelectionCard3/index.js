@@ -89,6 +89,16 @@ function SportsSelectionCard3(props) {
         )}
       </div>
 
+      {
+        position == 'RB' && currentStep == 1
+        &&
+        <div className={classes.rushing_and_receiving}>
+          <div></div>
+          <div>Rushing</div>
+          <div>Receiving</div>
+        </div>
+      }
+
       {steps?.length ? (
         <div
           className={`${classes.card_state_main_container} ${
@@ -112,6 +122,7 @@ function SportsSelectionCard3(props) {
                   ${isSelected && classes.active} 
                   ${currentStep === 0 && classes.border}`}
               >
+                
                 {
                   <div className={classes.card_state}>
                     <div className={classes.card_state_title}>

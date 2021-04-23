@@ -1,8 +1,8 @@
 @import "../../scss/colors.scss";
 
 .__sidebar_cash_power_balance {
-  width: 226px;
-  height: 152px;
+  width: 290px;
+  height: 140px;
   margin: 0 0 47px;
   padding: 20px 34px 8px 16px;
   border-radius: 12px;
@@ -65,23 +65,26 @@
           height: 31px;
           margin: 0;
           font-family: Teko;
-          font-size: 30px;
+          font-size: 28px;
           font-weight: bold;
           font-stretch: normal;
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
+          text-align: center;
           color: $primary;
         }
 
         .__sidebar_cash_balance_title {
+          opacity: 0.6;
           font-family: Poppins;
-          font-size: 14px;
+          font-size: 12px;
           font-weight: normal;
           font-stretch: normal;
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
+          text-align: center;
           color: $white;
         }
       }

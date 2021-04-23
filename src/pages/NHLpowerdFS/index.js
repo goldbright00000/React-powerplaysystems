@@ -10,7 +10,7 @@ import * as NHLActions from "../../actions/NHLActions";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import NHLBG from "../../assets/NHLBG.jpg";
+import NHLBG from "../../assets/nhl-bg.png";
 import NHLFooterImage from "../../assets/NHL.png";
 import PowerPlayIcon from "../../assets/token.png";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
