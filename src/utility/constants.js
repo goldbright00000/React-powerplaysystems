@@ -104,6 +104,14 @@ export const CONSTANTS = {
       F: "f",
       D: "d",
     },
+    NFL: {
+      QB: 'qb',
+      RB: 'rb',
+      WR: 'wr',
+      TE: 'te',
+      K: 'k',
+      D: 'd'
+    }
   },
 
   NHL_VIEW: {

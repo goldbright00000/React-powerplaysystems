@@ -7,7 +7,7 @@ const SideBar = () => {
         <ul className='terms-sidebar-section'>
             {Terms.map(({title, index}) => (
                 <li>
-                    <a href={`#${title.toLocaleLowerCase().replaceAll(' ', '-')}`}>{title.toLowerCase()}</a>
+                    <a onClick={() => document.getElementById(title.toLocaleLowerCase().replaceAll(' ', '-')).scrollIntoView()} key={index}>{title}</a>
                 </li>
             ))}
         </ul>

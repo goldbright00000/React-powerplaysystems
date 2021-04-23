@@ -787,6 +787,39 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
+
+        .card_state {
+          .card_state_title {
+            span {
+              font-size: var(--font-size-12);
+              width: 55px;
+            }
+
+            .state_step_1_title {
+              font-size: var(--font-size-14);
+              width: 46px;
+            }
+          }
+
+          .card_state_values {
+            &.column {
+              flex-direction: column;
+              width: 320px !important;
+            }
+
+            .step_value {
+              width: 55px;
+
+              &.margin_4 {
+                margin: 6px 0;
+              }
+
+              .state_step_1_value {
+                font-size: var(--font-size-14);
+              }
+            }
+          }
+        }
       }
     }
 

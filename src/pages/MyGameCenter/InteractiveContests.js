@@ -41,7 +41,8 @@ const myGameCenterCardData = [
         teamManager: false,
         editPicks: false,
         makePicks: true,
-        timeToStart: ''
+        timeToStart: '',
+        url: '/nfl-powerdfs'
     },
     {
         id: 3,
@@ -85,7 +86,8 @@ const myGameCenterCardData = [
         teamManager: true,
         editPicks: true,
         makePicks: false,
-        timeToStart: ''
+        timeToStart: '',
+        url: '/nfl-powerdfs'
     },
     {
         id: 6,
