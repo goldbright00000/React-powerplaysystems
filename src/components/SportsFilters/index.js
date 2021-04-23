@@ -24,7 +24,7 @@ function SportsFilters(props) {
                   ? classes.selected
                   : selectedFilter?.id === item?.id && classes.border
               }`}
-            onClick={() => onSelect(item.id)}
+            onClick={() => onSelect(item.title)}
             key={item?.id.toString()}
           >
             {item.title} <span>{item.remaining} Left</span>

@@ -22,6 +22,10 @@
   position: relative;
   overflow: hidden;
 
+  &.display_none {
+    display: none;
+  }
+
   .container_body_card_header {
     display: flex;
     justify-content: space-between;
@@ -30,7 +34,7 @@
     .container_selected_p {
       font-size: var(--font-size-20);
       padding: 0;
-      margin: 0;
+      margin: 0 0 0 -10px;
       color: $lightBlue;
       font-family: Poppins;
       font-weight: 600;
@@ -213,81 +217,6 @@
 
       &.card_state_no_data {
         padding-left: 10px;
-      }
-
-      .card_state {
-        display: flex;
-        flex-direction: column;
-        // justify-content: space-evenly;
-
-        .card_state_title {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-evenly;
-
-          span {
-            color: $grey2;
-            font-size: var(--font-size-10);
-            text-transform: uppercase;
-            opacity: 0.6;
-            text-align: center;
-            width: 45px;
-          }
-
-          .state_step_1_title {
-            font-size: var(--font-size-14);
-            opacity: 1;
-          }
-        }
-
-        .card_state_values {
-          display: flex;
-          justify-content: space-evenly;
-
-          &.column {
-            flex-direction: column;
-            width: 290px;
-          }
-
-          .card_state_title_1 {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-evenly;
-          }
-
-          .step_value_1 {
-            flex: 1;
-            display: flex;
-            flex-direction: row;
-
-            strong {
-              text-align: center;
-              width: 100%;
-            }
-          }
-
-          .step_value {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            // flex: 1;
-            text-align: center;
-            width: 45px;
-            // margin: 4px 0;
-
-            &.margin_4 {
-              margin: 6px 0;
-            }
-
-            .state_step_1_value {
-              font-weight: normal;
-              font-size: var(--font-size-14);
-              color: $grey2;
-              opacity: 0.6;
-            }
-          }
-        }
       }
     }
   }
@@ -504,60 +433,6 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
-
-        .card_state {
-          .card_state_title {
-            span {
-              color: $grey2;
-              font-size: var(--font-size-14);
-              text-transform: uppercase;
-              opacity: 0.6;
-              text-align: center;
-              width: 75px;
-            }
-
-            .state_step_1_title {
-              font-size: var(--font-size-14);
-              opacity: 1;
-            }
-          }
-
-          .card_state_values {
-            &.column {
-              flex-direction: column;
-              width: 470px;
-            }
-
-            .card_state_title_1 {
-              display: flex;
-              flex-direction: row;
-              justify-content: space-evenly;
-            }
-
-            .step_value_1 {
-              flex: 1;
-              display: flex;
-              flex-direction: row;
-
-              strong {
-                text-align: center;
-                width: 100%;
-              }
-            }
-
-            .step_value {
-              width: 75px;
-
-              &.margin_4 {
-                margin: 7px 0;
-              }
-
-              .state_step_1_value {
-                font-size: var(--font-size-16);
-              }
-            }
-          }
-        }
       }
     }
 
@@ -741,39 +616,6 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
-
-        .card_state {
-          .card_state_title {
-            span {
-              font-size: var(--font-size-12);
-              width: 65px;
-            }
-
-            .state_step_1_title {
-              font-size: var(--font-size-14);
-              width: 56px;
-            }
-          }
-
-          .card_state_values {
-            &.column {
-              flex-direction: column;
-              width: 370px;
-            }
-
-            .step_value {
-              width: 55px;
-
-              &.margin_4 {
-                margin: 6px 0;
-              }
-
-              .state_step_1_value {
-                font-size: var(--font-size-14);
-              }
-            }
-          }
-        }
       }
     }
 
@@ -942,39 +784,6 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
-
-        .card_state {
-          .card_state_title {
-            span {
-              font-size: var(--font-size-12);
-              width: 65px;
-            }
-
-            .state_step_1_title {
-              font-size: var(--font-size-14);
-              width: 56px;
-            }
-          }
-
-          .card_state_values {
-            &.column {
-              flex-direction: column;
-              width: 370px !important;
-            }
-
-            .step_value {
-              width: 55px;
-
-              &.margin_4 {
-                margin: 6px 0;
-              }
-
-              .state_step_1_value {
-                font-size: var(--font-size-14);
-              }
-            }
-          }
-        }
       }
     }
 
@@ -1340,46 +1149,6 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
-
-        .card_state {
-          .card_state_title {
-            span {
-              font-size: var(--font-size-10);
-              width: 45px;
-            }
-
-            .state_step_1_title {
-              font-size: var(--font-size-12);
-              opacity: 1;
-            }
-          }
-
-          .card_state_values {
-            &.column {
-              flex-direction: column;
-              width: 270px !important;
-            }
-
-            .step_value_1 {
-              strong {
-                text-align: center;
-                width: 100%;
-              }
-            }
-
-            .step_value {
-              width: 45px;
-
-              &.margin_4 {
-                margin: 6px 0;
-              }
-
-              .state_step_1_value {
-                font-size: var(--font-size-12);
-              }
-            }
-          }
-        }
       }
     }
 
@@ -1556,47 +1325,6 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
-
-        .card_state {
-          .card_state_title {
-            span {
-              font-size: var(--font-size-10);
-              width: 45px;
-            }
-
-            .state_step_1_title {
-              font-size: var(--font-size-12);
-              opacity: 1;
-              width: 35px;
-            }
-          }
-
-          .card_state_values {
-            &.column {
-              flex-direction: column;
-              width: 230px !important;
-            }
-
-            .step_value_1 {
-              strong {
-                text-align: center;
-                width: 100%;
-              }
-            }
-
-            .step_value {
-              width: 45px;
-
-              &.margin_4 {
-                margin: 6px 0;
-              }
-
-              .state_step_1_value {
-                font-size: var(--font-size-12);
-              }
-            }
-          }
-        }
       }
     }
 
@@ -1773,47 +1501,6 @@
 
       .container_body_card_state {
         margin: 8px 0 0 0;
-
-        .card_state {
-          .card_state_title {
-            span {
-              font-size: var(--font-size-10);
-              width: 45px;
-            }
-
-            .state_step_1_title {
-              font-size: var(--font-size-12);
-              opacity: 1;
-              width: 35px;
-            }
-          }
-
-          .card_state_values {
-            &.column {
-              flex-direction: column;
-              width: 230px !important;
-            }
-
-            .step_value_1 {
-              strong {
-                text-align: center;
-                width: 100%;
-              }
-            }
-
-            .step_value {
-              width: 45px;
-
-              &.margin_4 {
-                margin: 6px 0;
-              }
-
-              .state_step_1_value {
-                font-size: var(--font-size-12);
-              }
-            }
-          }
-        }
       }
     }
 
