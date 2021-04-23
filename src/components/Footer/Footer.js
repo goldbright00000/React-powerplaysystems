@@ -12,7 +12,7 @@ const Footer = props => {
                     <span>Essentials</span>
                     <span>Legal Privacy</span>
                     <span>Company</span>
-                    <Link to='/my-account'>My Account</Link>
+                    <Link to='/'>My Account</Link>
                     <Link to='/terms'>Terms of use</Link>
                     <Link to='/faqs'>FAQs</Link>
                     <Link to='/sponer-contest'>Sponsor a contest</Link>
