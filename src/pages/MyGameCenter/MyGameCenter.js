@@ -1,28 +1,39 @@
 import React, { Fragment } from 'react';
-import { Link, NavLink, Route } from 'react-router-dom';
-
+import { Route } from 'react-router-dom';
+import {useSelector} from 'react-redux';
 import classes from './MyGameCenter.module.scss';
-import Scoreboard from '../../assets/scoreboard.png';
-import Emblem from '../../assets/emblem.png';
 import Header from '../../components/Header/Header';
 import './MyGameCenter.scss';
 import './table.scss';
 import Footer from '../../components/Footer/Footer'
 import InteractiveContests from './InteractiveContests';
-import Button from '../../components/Button';
-import Card from '../../components/Card';
-import PIcon from '../../icons/PIcon';
 import MyGameCenterTable from './MyGameCenterTable';
-import PointsIcon from '../../icons/PointsIcon';
-// import Scoreboard from '../../icons/Scoreboard';
+import { getLocalStorage } from '../../utility/shared';
+import { CONSTANTS } from '../../utility/constants';
+import Balance from '../../components/Balance';
 
 const MyGameCenter = props => {
     const { url } = props.match;
+    const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+
     return (
         <Fragment>
             <Header isStick={true} />
-            <div className='__MyGameCenter'>
-                <div className='__viewport-large-title __center __pt-1'>My Game Center</div>
+            <div className='__my_game_center'>
+                <div className='__my_game_center_banner'>
+                    <div className='__my_game_center_banner_left __container'>
+                        <div className='__my_game_center_banner_left_title_main'>
+                            My Game Center
+                        </div>
+                    </div>
+                    {
+                        token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
+                        ?
+                        <Balance />
+                    :
+                    <div style={{ height: 50}}></div>
+                    }
+                </div>
                 {/* <div className={classes.header2_container}>
                     <div className={classes.header2_card}>
                         <Card>

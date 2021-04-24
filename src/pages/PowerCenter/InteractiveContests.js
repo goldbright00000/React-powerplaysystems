@@ -1,12 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import classes from './interactiveContests.module.scss';
+import moment from "moment";
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
 import SuperBall from '../../icons/SuperBall';
 import PowerCenterCard from '../../components/PowerCenterCard';
-import { redirectTo } from '../../utility/shared';
+import { getDaysFromToday, redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
+import FilledArrow from '../../components/FilledArrow';
 
 const powerCenterCardData = [
     {
@@ -25,6 +27,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/nfl-powerdfs'
     },
     {
         id: 3,
@@ -51,6 +54,7 @@ const powerCenterCardData = [
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/nfl-powerdfs'
     },
     {
         id: 6,
@@ -76,16 +80,6 @@ const powerCenterCardData = [
         total: "200,000",
         percent: "29",
     }
-];
-
-const options = [
-    { value: 'FRI, Mar 12', label: 'FRI, Mar 12' },
-    { value: 'SAT, Mar 13', label: 'SAT, Mar 13' },
-    { value: 'SUN, Mar 14', label: 'SUN, Mar 14' },
-    { value: 'MON, Mar 15', label: 'MON, Mar 15' },
-    { value: 'TUE, Mar 16', label: 'TUE, Mar 16' },
-    { value: 'WED, Mar 17', label: 'WED, Mar 17' },
-    { value: 'THU, Mar 18', label: 'THU, Mar 18' },
 ];
 
 const filters = [
@@ -116,14 +110,33 @@ const filters = [
     },
 ];
 
+const ALL_CURRENCIES = [
+    {
+        label: 'US Dollar',
+        value: 'usd'
+    },
+    {
+        label: 'Bitcoin',
+        value: 'bitcoin'
+    },
+    {
+        label: 'Ethereum',
+        value: 'ethereum'
+    }
+];
+
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
+    const currencyMenuRef = useRef(null);
 
-    const [selectedDate, setSelectedDate] = useState(options[0].value);
+    const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
     const [showCardDetails, setShowCardDetails] = useState(-1);
     const [selectedFilter, setSelectedFilter] = useState(1);
     const [filteredData, setFilteredData] = useState([]);
+    const [currencyMenu, setCurrencyMenu] = useState(false);
+    const [selectedCurrencies, setSelectedCurrencies] = useState(['usd', 'bitcoin', 'ethereum']);
+    const [days, setDays] = useState([{}]);
 
     useEffect(() => {
         const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -134,7 +147,23 @@ const InteractiveContests = props => {
 
     useEffect(() => {
         setFilteredData(powerCenterCardData);
+        setDays(getDaysFromToday());
     }, []);
+
+    useEffect(() => {
+        // add when mounted
+        document.addEventListener("mousedown", handleClick);
+        // return function to be called when unmounted
+        return () => {
+          document.removeEventListener("mousedown", handleClick);
+        };
+      }, []);
+
+    const handleClick = e => {
+        if (currencyMenuRef.current && !currencyMenuRef.current.contains(e.target)) {
+            setCurrencyMenu(false);
+        }
+    };
 
     const powerCenterCard = (item, redirectUri) => {
         return (
@@ -193,21 +222,63 @@ const InteractiveContests = props => {
                     </div>
                     <div className={classes.__interactive_contests_prize_total}>
                         <p>Prize Total
-                        <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
+                        <FilledArrow down={true} />
                         </p>
                     </div>
                     <div className={classes.__interactive_contests_top_prize}>
                         <p>Top Prize
-                        <i className={classes.__interactive_contests_arrow + ' ' + classes.__interactive_contests_down}></i>
+                        <FilledArrow down={true} />
                         </p>
                     </div>
                     <div className={classes.__interactive_contests_min_entry}>
                         <p>Min Entry</p>
                     </div>
+                    <div className={`${classes.__interactive_contests_top_prize} ${classes.__drop_down_menu}`} ref={currencyMenuRef}>
+                        <p onClick={() => setCurrencyMenu(!currencyMenu)}>Currency
+                        {
+                            currencyMenu
+                            ?
+                            <FilledArrow up={true} />
+                            :
+                            <FilledArrow down={true} />
+                        }
+                        </p>
+                        {
+                            currencyMenu
+                            &&
+                            <div className={classes.__currency_menu}>
+                            {
+                                ALL_CURRENCIES.map((item, index) => {
+                                    return (
+                                        <div 
+                                            key={index}
+                                            className={
+                                                `${classes.__currency_menu_item} 
+                                                ${selectedCurrencies.includes(item.value) && classes.__currency_menu_selected}`
+                                            }
+                                            onClick={() => {
+                                                const newCurrencyData = [...selectedCurrencies];
+                                                // Check if currency exist in array
+                                                const i = newCurrencyData.indexOf(item.value);
+                                                if (i > -1) {
+                                                    newCurrencyData.splice(i, 1);
+                                                } else {
+                                                    newCurrencyData.push(item.value);
+                                                }
+                                                setSelectedCurrencies(newCurrencyData);
+                                            }}>
+                                            {item.label}
+                                        </div>
+                                    );
+                                })
+                            }
+                        </div>
+                        }
+                    </div>
                     <div className={classes.__interactive_contests_date}>
                         <CustomDropDown 
                             value={selectedDate}
-                            options={options}
+                            options={days}
                             onChange={selectedOption => setSelectedDate(selectedOption)}
                         />
                     </div>

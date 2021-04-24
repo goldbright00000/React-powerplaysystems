@@ -1,11 +1,29 @@
 @import "../../scss/colors.scss";
 
-.__MyGameCenter {
-  .__viewport-large-title {
-    padding: 0.2em;
-    background-image: url("../../assets/PowerContest.jpg");
-    background-size: 100% auto;
-    background-position: center;
+.__my_game_center {
+  .__my_game_center_banner {
+      background-image: url('../../assets/power-center-banner.png');
+      background-size: 100% auto;
+      background-position: center;
+
+      .__my_game_center_banner_left {
+          display: flex;
+          flex-direction: row;
+
+              .__my_game_center_banner_left_title_main {
+                  width: 602px;
+                  height: 96px;
+                  font-family: Teko;
+                  font-size: 96px;
+                  font-weight: bold;
+                  font-stretch: normal;
+                  font-style: normal;
+                  line-height: normal;
+                  letter-spacing: normal;
+                  text-align: center;
+                  color: $grey2;
+              }
+      }
   }
 }
 

@@ -15,23 +15,27 @@ function SportsSidebarContent(props) {
 
   const SideBarSection = ({
     title,
-    value,
+    name,
     playerId,
     isStarPlayer,
     SvgIcon,
     svgSize,
     onDelete,
     keyVal,
+    matchId,
   }) => (
-    <div className={classes.sidebar_body_section} key={playerId}>
-      <span className={value ? classes.active : ""}>{title}</span>
+    <div
+      className={classes.sidebar_body_section}
+      key={playerId + " - " + matchId}
+    >
+      <span className={name ? classes.active : ""}>{title}</span>
       <div>
         {isStarPlayer && <img src={starIcon ? starIcon : PowerIcon} />}
         {SvgIcon && <SvgIcon size={svgSize} />}
-        {value ? (
+        {name ? (
           <div className={classes.sidebar_body_value}>
-            {value}{" "}
-            <span onClick={() => onDelete(playerId)}>
+            {name}{" "}
+            <span onClick={() => onDelete(playerId, matchId)}>
               <DeleteIcon />
             </span>
           </div>
@@ -52,13 +56,14 @@ function SportsSidebarContent(props) {
           data?.map((item, index) => (
             <SideBarSection
               title={item?.title}
-              value={item?.value}
+              name={item?.name}
               playerId={item?.playerId}
               keyVal={item?.playerId}
               SvgIcon={item?.icon}
               onDelete={onDelete}
               key={index.toString()}
               isStarPlayer={item?.isStarPlayer}
+              matchId={item?.matchId}
             />
           ))
         ) : (
