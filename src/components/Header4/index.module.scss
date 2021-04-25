@@ -3,7 +3,6 @@
 .header_container {
   display: flex;
   flex-direction: column;
-  flex: 1;
   height: 520px;
   background-size: 100%;
   background-repeat: no-repeat;
@@ -21,7 +20,7 @@
   .header_top {
     display: flex;
     flex-direction: column;
-    flex: 1;
+
     height: 520px;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -213,7 +212,7 @@
 
 @media (max-width: 1900px) {
   .header_container {
-    height: 680px;
+    height: 610px;
 
     &.compressedView {
       height: 326px;
@@ -221,7 +220,7 @@
     }
 
     .header_top {
-      height: 680px;
+      height: 610px;
 
       &.compressedView {
         height: 246px !important;
@@ -335,7 +334,7 @@
 
 @media (max-width: 1680px) {
   .header_container {
-    height: 620px;
+    height: 528px;
 
     &.compressedView {
       height: 286px;
@@ -343,7 +342,7 @@
     }
 
     .header_top {
-      height: 620px;
+      height: 528px;
 
       &.compressedView {
         height: 246px;
