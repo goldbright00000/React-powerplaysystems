@@ -3,20 +3,23 @@ import classes from './customDropDown.module.scss';
 
 const CustomDropDown = (props) => {
     const { value = '', options = [{}], onChange = () => { } } = props || {};
-    const wrapperRef = useRef();
+    const wrapperRef = useRef(null);
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        if (!wrapperRef) {
-            document.addEventListener('mousedown', handleOutSideClick);
-        }
-    }, [wrapperRef]);
+        // add when mounted
+        document.addEventListener("mousedown", handleClick);
+        // return function to be called when unmounted
+        return () => {
+          document.removeEventListener("mousedown", handleClick);
+        };
+      }, []);
 
-    const handleOutSideClick = (e) => {
-        if (!wrapperRef.current?.contains(e?.target)) {
-            setIsVisible(false);
+      const handleClick = e => {
+        if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+          setIsVisible(false);
         }
-    };
+      };
 
     return (
         <div className={classes.__custom_drop_down_wrapper} ref={wrapperRef}>

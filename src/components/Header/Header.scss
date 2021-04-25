@@ -6,20 +6,17 @@
   left: 0;
   z-index: 2;
   width: 100%;
-
-  .__header-content {
-    align-items: center;
-    height: 50px;
-  }
-  .__brand-logo {
-    height: 27px;
-    img {
-      width: 136px;
-    }
+  .__brand-logo > img {
+    width: 7.142em;
+    position: relative;
+    top: 0.2em;
   }
   .__navlinks {
     list-style-type: none;
     margin: 0.66em 0;
+    .__my_account_li {
+      width: 150px;
+    }
     > li {
       margin: 0 1.5em;
       text-transform: uppercase;

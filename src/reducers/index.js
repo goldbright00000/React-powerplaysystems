@@ -7,6 +7,7 @@ import bingoReducer from "./bingoReducer";
 import nhlReducer from "./nhlReducer";
 import mlbReducer from "./mlbReducer";
 import userReducer from "./userReducer";
+import nflReducer from "./nflReducer";
 
 export const reducers = {
   cardGame: CardGameReducer,
@@ -17,5 +18,6 @@ export const reducers = {
   bingoGame: bingoReducer,
   nhl: nhlReducer,
   mlb: mlbReducer,
+  nfl: nflReducer,
   user: userReducer,
 };
