@@ -66,12 +66,12 @@ function HomePageContentHeader(props) {
         <section className={classes.root}>
             <div className={classes.container}>
                 <div className={classes.titlesWrapper}>
-                    <h1 className={classes.title}>Our Games</h1> <br />
-                    <h1 className={classes.title}>Defy Reality <sup>TM</sup></h1>
-                    <h4 className={classes.subtitle}>Experience our ground-breaking live-play games <br /> where you have the Power to control your destiny. *</h4>
+                    <h1 className={classes.title}>Our Games <span>Defy Reality <sup>TM</sup></span></h1>
+                    <h1 className={classes.title}></h1>
+                    <h4 className={classes.subtitle}>Experience our ground-breaking live-play games where <br /> you have the Power to control your team’s destiny. *</h4>
                     <Link className={classes.powerBtn} to={redirectTo}>Power Up!</Link>
                 </div>
-                <p className={classes.blogSection}>*International Patent Pending</p>
+                <p className={classes.blogSection}>*International Patents Pending</p>
             </div>
         </section>
     );

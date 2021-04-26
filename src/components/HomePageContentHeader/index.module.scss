@@ -19,15 +19,7 @@
   text-align: center;
 }
 .title{
-  background-image: -webkit-linear-gradient(
-    98deg,
-    $white 12%,
-    $grey16 30%,
-    $grey17 33%,
-    $grey18 74%,
-    $grey19 77%,
-    $white 89%
-  );
+  background: linear-gradient(98deg, #ffffff 12%, #b3b3b3 30%, #fefefe 33%, #f8f8f8 74%, #bdbdbd 77%, #ffffff 89%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-size: 3.4285rem;
@@ -35,18 +27,18 @@
   text-shadow: 0 0.04167em 0.29167em $black5;
   text-transform: uppercase;
   margin: 0;
-  position: relative;
   display: inline-block;
-  &:not(:first-child){
-    margin-top: 0.3em;
-  }
+  position: relative;
   span{
+    margin-top: 0.3em;
+    position: relative;
     display: block;
+    background: inherit;
   }
   sup{
     font-size: 0.375em;
     font-weight: normal;
-    bottom: 80%;
+    bottom: 70%;
     left: 100%;
     position: absolute;
     background: inherit
@@ -58,6 +50,7 @@
   text-align: center;
   font-weight: 500;
   margin: 1.333em 0 0 0;
+  letter-spacing: 0.00722rem;
 }
 .powerBtn{
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.5);
@@ -79,7 +72,7 @@
 
 @media (max-width: 767px) {
   .title{
-    font-size: 1.7143rem;
+    font-size: 1.4286rem;
   }
   .subtitle, .powerBtn{
     font-size: 1rem;
