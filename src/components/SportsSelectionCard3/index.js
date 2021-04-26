@@ -62,7 +62,13 @@ function SportsSelectionCard3(props) {
         return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
 
       case PAGE_TYPES.NFL:
-        return <NFLPlayerStat playerStats={playerStats} active={isSelected} />;
+        return (
+          <NFLPlayerStat
+            playerStats={playerStats}
+            active={isSelected}
+            position={position}
+          />
+        );
 
       default:
         return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
