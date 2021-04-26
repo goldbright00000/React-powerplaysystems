@@ -61,8 +61,8 @@
 }
 .powerBtn{
   box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.5);
-  border: solid 0.1em #fb6e00;
-  background-color: rgba(251, 110, 0, 0.6);
+  border: solid 0.1em $primary;
+  background: rgba($color: $primary, $alpha: 0.6);
   font-size: 1.429rem;
   height: 2.4em;
   width: 11.8em;
@@ -72,8 +72,9 @@
   margin: 5em auto 0 auto;
 }
 .blogSection{
-  margin-bottom: 1em;
+  margin-bottom: 1.2em;
   text-align: right;
+  font-style: italic;
 }
 
 @media (max-width: 767px) {
