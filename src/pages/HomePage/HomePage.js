@@ -249,22 +249,22 @@ const HomePage = (props) => {
               <img src={NFL} />
             </div>
           </div>
-          <div className={classes.__home_page_common_power_up_btn_div}>
-            <button
-              className={classes.__home_page_common_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/power-up" })}
-            >
-              Power Up!
-            </button>
-          </div>
         </div>
       </div>
       <div className={classes.__home_page_third_section_bg}>
+        <div className={classes.__home_page_common_power_up_btn_div}>
+          <button
+            className={classes.__home_page_common_power_up_btn}
+            onClick={() => redirectTo(props, { path: "/power-up" })}
+          >
+            Power Up!
+          </button>
+        </div>
         <div className={classes.__home_page_third_section}>
           <div className={classes.__home_page_third_section_main_heading_div}>
             <div className={classes.__home_page_third_section_main_heading}>
               <div className={classes.__home_page_third_section_main_span}>
-              Power your Fantasy Experience with
+                Power your Fantasy Experience with
               </div>{" "}
               Power Tokens!
             </div>
@@ -277,11 +277,17 @@ const HomePage = (props) => {
               <div
                 className={classes.__home_page_third_section_body_text_common}
               >
-                Power Tokens are registered Ethereum Crypto-currency.
+                <span
+                  className={classes.__home_page_third_section_power_tokens}
+                >
+                  Power Tokens
+                </span>{" "}
+                are registered Ethereum Crypto-currency.
                 <div>
-                  You can earn Power Tokens by signing up to Defy Games, 
-                  entering certain contests, participating in contests with Power Token prizes, 
-                  and by participating in other special offers.
+                  You can earn Power Tokens by signing up to Defy Games,
+                  entering certain contests, participating in contests with
+                  Power Token prizes, and by participating in other special
+                  offers.
                 </div>
               </div>
               <div className={classes.__home_page_third_section_body_text_2}>
@@ -289,7 +295,7 @@ const HomePage = (props) => {
                 <span>get 20 tokens!</span>
               </div>
               <div
-                className={`${classes.__home_page_third_section_body_text_common} ${classes.__note_style}`}
+                className={`${classes.__home_page_third_section_body_text_common} ${classes.hide} ${classes.__note_style}`}
               >
                 Note! Power Tokens have no resale value at this time.
               </div>
@@ -302,6 +308,12 @@ const HomePage = (props) => {
             >
               WIN Powers
             </button>
+
+            <div
+              className={`${classes.__home_page_third_section_body_text_common_m} ${classes.__note_style}`}
+            >
+              Note! Power Tokens have no resale value at this time.
+            </div>
           </div>
         </div>
       </div>

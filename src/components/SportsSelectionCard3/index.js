@@ -98,7 +98,7 @@ function SportsSelectionCard3(props) {
 
       {/* {steps?.length ? ( */}
       <div className={classes.card_state_main_container}>
-        <PlayerStat playerStats={playerStats} />
+        <PlayerStat playerStats={playerStats} active={isSelected} />
         {/* {steps[currentStep]?.step?.ad ? (
               <img src={steps[currentStep]?.step?.ad} />
             ) : (

@@ -1,82 +1,102 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
-import { useMediaQuery } from 'react-responsive'
+import React from "react";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { useMediaQuery } from "react-responsive";
 
-import classes from "./index.module.scss"
-import { isEmpty } from 'lodash'
+import classes from "./index.module.scss";
+import { isEmpty } from "lodash";
 
 function HomePageContentHeader(props) {
-    const { buttonTitle = '', footerTitle = '', redirectTo = '', showBtnBg = false, onButtonClick = () => { } } = props || {}
-    const isMobileOrTablet = useMediaQuery({
-        query: '(max-device-width: 540px)'
-    })
+  const {
+    buttonTitle = "",
+    footerTitle = "",
+    redirectTo = "",
+    showBtnBg = false,
+    onButtonClick = () => {},
+  } = props || {};
+  const isMobileOrTablet = useMediaQuery({
+    query: "(max-device-width: 540px)",
+  });
 
-    const renderHeaderFooter = () => {
-        if (isMobileOrTablet) {
-            return (
-                <>
-                    {
-                        footerTitle &&
-                        <p className={classes.p2}>{ footerTitle }</p>
-                    }
-                    {
-                        buttonTitle &&
-                        <Link to={redirectTo} className={`${classes.header_btn} ${showBtnBg && classes.header_btn_bg}`}>{ buttonTitle }</Link>
-                    }
-                </>
-            )
-        }
-
-        return (
-            <>
-                {
-                    buttonTitle && isEmpty(redirectTo) ?
-                    <Link className={`${classes.header_btn} ${showBtnBg && classes.header_btn_bg}`} onClick={onButtonClick} >{ buttonTitle }</Link>
-                        :
-                    buttonTitle && isEmpty(redirectTo) &&
-                    <Link to={redirectTo} className={`${classes.header_btn} ${showBtnBg && classes.header_btn_bg}`}>{ buttonTitle }</Link>
-                }
-                {
-                    footerTitle &&
-                    <p className={classes.p2}>{ footerTitle }</p>
-                }
-            </>
-        )
+  const renderHeaderFooter = () => {
+    if (isMobileOrTablet) {
+      return (
+        <>
+          {footerTitle && <p className={classes.p2}>{footerTitle}</p>}
+          {buttonTitle && (
+            <Link
+              to={redirectTo}
+              className={`${classes.header_btn} ${
+                showBtnBg && classes.header_btn_bg
+              }`}
+            >
+              {buttonTitle}
+            </Link>
+          )}
+        </>
+      );
     }
+
     return (
-        <div className={classes.header_wrapper}>
-            <div className={classes.header_main}>
-                <div className={classes.header_title}>
-                    Our Games Defy Reality <sup>TM</sup>
-                </div>
-
-                <div className={classes.header_body}>
-                    <p className={classes.p1}>
-                        Experience our ground-breaking live-play games where you have the Power to control your destiny. *
-                    </p>
-                    {
-                        renderHeaderFooter()
-                    }
-                </div>
-                
-                <Link className={classes.header_main_power_up_btn} to={redirectTo}>
-                    Power Up!
-                </Link>
-
-                <p className={classes.p3}>*International Patent Pending</p>
-            </div>
+      <>
+        {buttonTitle && isEmpty(redirectTo) ? (
+          <Link
+            className={`${classes.header_btn} ${
+              showBtnBg && classes.header_btn_bg
+            }`}
+            onClick={onButtonClick}
+          >
+            {buttonTitle}
+          </Link>
+        ) : (
+          buttonTitle &&
+          isEmpty(redirectTo) && (
+            <Link
+              to={redirectTo}
+              className={`${classes.header_btn} ${
+                showBtnBg && classes.header_btn_bg
+              }`}
+            >
+              {buttonTitle}
+            </Link>
+          )
+        )}
+        {footerTitle && <p className={classes.p2}>{footerTitle}</p>}
+      </>
+    );
+  };
+  return (
+    <div className={classes.header_wrapper}>
+      <div className={classes.header_main}>
+        <div className={classes.header_title}>
+          <p className={classes.header_title_wrapper}>Our Games Defy Reality</p>
+          <sup>TM</sup>
         </div>
-    )
+
+        <div className={classes.header_body}>
+          <p className={classes.p1}>
+            Experience our ground-breaking live-play games where you have the
+            Power to control your destiny. *
+          </p>
+          {/* {renderHeaderFooter()} */}
+        </div>
+
+        <Link className={classes.header_main_power_up_btn} to={redirectTo}>
+          Power Up!
+        </Link>
+
+        <p className={classes.p3}>*International Patent Pending</p>
+      </div>
+    </div>
+  );
 }
 
 HomePageContentHeader.propTypes = {
-    buttonTitle: PropTypes.string,
-    redirectTo: PropTypes.string,
-    footerTitle: PropTypes.any,
-    showBtnBg: PropTypes.bool,
-    onButtonClick: PropTypes.func
-}
+  buttonTitle: PropTypes.string,
+  redirectTo: PropTypes.string,
+  footerTitle: PropTypes.any,
+  showBtnBg: PropTypes.bool,
+  onButtonClick: PropTypes.func,
+};
 
-export default HomePageContentHeader
-
+export default HomePageContentHeader;
