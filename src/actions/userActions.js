@@ -1,5 +1,5 @@
 import { CONSTANTS } from "../utility/constants";
-import { setLocalStorage, getLocalStorage } from "../utility/shared";
+import { setLocalStorage } from "../utility/shared";
 import { URLS } from "../config/urls";
 
 import axios from "axios";
@@ -58,8 +58,8 @@ export async function payNow(data) {
       currency,
       amount,
       ip_address: "192.168.10.1",
-      sulte_apt_no: token,
-      webhook_url: "http://3b0641f89a88.ngrok.io/api/v1/users/account/balance",
+      sulte_apt_no: token,      
+      webhook_url: `${process.env.REACT_ENV_API}/api/v1/users/account/balance`,
     };
 
     axios
