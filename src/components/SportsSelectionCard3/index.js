@@ -10,7 +10,9 @@ import DeleteIcon from "../../assets/delete.png";
 import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
-import PlayerStat from "./PlayerStat";
+import MLBPlayerStat from "./MLBPlayerStat";
+import NFLPlayerStat from "./NLFPlayerStats";
+import { PAGE_TYPES } from "./PageTypes";
 
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -23,6 +25,7 @@ function SportsSelectionCard3(props) {
     isSelected = false,
     btnTitle = "+ Select",
     btnIcon = "",
+    pageType = PAGE_TYPES.MLB,
   } = props || {};
 
   const {
@@ -51,6 +54,19 @@ function SportsSelectionCard3(props) {
     }
 
     setCurrentStep(_currentStep);
+  };
+
+  const renderStats = () => {
+    switch (pageType) {
+      case PAGE_TYPES.MLB:
+        return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
+
+      case PAGE_TYPES.NFL:
+        return <NFLPlayerStat playerStats={playerStats} active={isSelected} />;
+
+      default:
+        return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
+    }
   };
 
   return (
@@ -98,7 +114,7 @@ function SportsSelectionCard3(props) {
 
       {/* {steps?.length ? ( */}
       <div className={classes.card_state_main_container}>
-        <PlayerStat playerStats={playerStats} active={isSelected} />
+        {renderStats()}
         {/* {steps[currentStep]?.step?.ad ? (
               <img src={steps[currentStep]?.step?.ad} />
             ) : (
@@ -226,6 +242,7 @@ SportsSelectionCard3.propTypes = {
   btnIcon: PropTypes.element,
   onSelectDeselect: PropTypes.func,
   loading: PropTypes.bool,
+  pageType: PropTypes.string,
 };
 
 export default React.memo(SportsSelectionCard3);

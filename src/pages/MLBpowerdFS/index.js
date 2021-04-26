@@ -31,6 +31,7 @@ import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -510,6 +511,7 @@ function MLBPowerdFs(props) {
                               key={player.playerId + " - " + player?.match_id}
                               loading={loading}
                               onSelectDeselect={onSelectDeselect}
+                              pageType={PAGE_TYPES.MLB}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
