@@ -6,6 +6,8 @@ import classes from "./playerStat.module.scss";
 const titles = ["ERA", "W-L", "K", "WHIP", "FFPG"];
 
 function PlayerStat(props) {
+  const { active = false, playerStats = {} } = props || {};
+
   const {
     hits = 0,
     doubles = 0,
@@ -21,7 +23,7 @@ function PlayerStat(props) {
     earned_runs_average = 0,
     base_on_balls = 0,
     walks_hits_per_innings_pitched = 0,
-  } = props?.playerStats || {};
+  } = playerStats || {};
 
   const getTwoDecimal = (value) => {
     if (value !== 0) return parseFloat(value).toFixed(2);
@@ -31,8 +33,10 @@ function PlayerStat(props) {
 
   const RenderItem = ({ value }) => <span>{value}</span>;
 
+  console.log(active);
+
   return (
-    <div className={classes.card_state}>
+    <div className={`${classes.card_state} ${active && classes.active}`}>
       <div className={classes.card_state_title}>
         {titles?.map((title, index) => (
           <span key={index.toString()} className={classes.state_step_1_title}>
@@ -54,6 +58,7 @@ function PlayerStat(props) {
 
 PlayerStat.propTypes = {
   playerStats: PropTypes.object,
+  active: PropTypes.bool,
 };
 
 export default PlayerStat;

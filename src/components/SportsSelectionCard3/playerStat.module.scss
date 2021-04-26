@@ -17,6 +17,10 @@
   border-left: 3px solid $lightBlue;
   width: 290px;
 
+  &.active {
+    border-color: $primary !important;
+  }
+
   .card_state_title {
     display: flex;
     flex-direction: row;
