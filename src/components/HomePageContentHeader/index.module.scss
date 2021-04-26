@@ -592,6 +592,7 @@
     .header_main {
       .header_title {
         margin-top: 88px;
+
         .header_title_wrapper {
           font-size: 26px;
           text-transform: uppercase;
@@ -628,6 +629,7 @@
 
       .header_body {
         font-size: 14px;
+        width: 100%;
 
         .p1 {
           width: 392px;
@@ -731,8 +733,8 @@
           margin: 0 !important;
           position: absolute !important;
           text-transform: uppercase;
-          right: 0;
-          bottom: 26px;
+          right: 10px;
+          bottom: -10px;
         }
       }
 
