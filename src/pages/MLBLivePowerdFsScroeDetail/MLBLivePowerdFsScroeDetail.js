@@ -17,6 +17,7 @@ import LiveStandings from "../../components/LiveStandings";
 import XP2Icon from "../../icons/XP2";
 import XP3Icon from "../../icons/XP3";
 import XP1_5Icon from "../../icons/XP1_5";
+import FooterImage from "../../assets/NHL-live-footer.png";
 
 const basicRules = [
   "No purchase necessary.",
@@ -318,12 +319,7 @@ function NHLLivePowerdFsScroeDetail(props) {
         </div>
 
         <div className={classes.footer_main}>
-          <SportsContestRules
-            img={MLBFooterImage}
-            basicRules={basicRules}
-            detailRules={detailRules}
-          />
-          <img src={NHLGear} className={classes.gear_img} />
+          <img src={FooterImage} className={classes.container_body_img} />
         </div>
       </div>
       <Footer isBlack={true} />
