@@ -1,0 +1,81 @@
+$formPadding: 3.571rem;
+
+.root{
+    max-width: 33.2857rem;
+    margin: auto;
+    padding: $formPadding;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 24px 18px rgba(0, 0, 0, 0.38);
+    position: relative;
+    margin-bottom: 2rem;
+}
+.button{
+    border: none;
+    outline: none;
+    font-size: 1.4286rem;
+    text-transform: uppercase;
+    font-family: Gotthard;
+    height: 3em;
+    width: 18em;
+    cursor: pointer;
+    position: relative;
+    top: calc(3.571rem + 1.5em);
+    margin: -1em auto 0 auto;
+    display: block;
+    border-radius: 0.6em;
+    background-color: #fb6e00;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+    &::before, &::after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        padding-top: 100%;
+        left: 50%;
+        right: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        transition: 0.2s transform;
+        opacity: 0;
+    }
+    &::before{
+        background: rgba(0, 0, 0, 0.1);
+    }
+    &::after{
+        background: rgba(0, 0, 0, 0.05);
+    }
+    &:hover::after{
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    &:active::before{
+        animation: buttonAnimation 0.2s forwards;
+    }
+}
+@keyframes buttonAnimation{
+    0%{
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+    90%{
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+
+@media (max-width:480px) {
+    .root{
+        padding: 1.2142rem;
+    }
+    .button{
+        font-size: 1.4285rem;
+        width: 11em;
+        height: 2.4em;
+        border-radius: 0.4285em;
+        top: calc(1.2142rem + 1.2em);
+    }
+}
