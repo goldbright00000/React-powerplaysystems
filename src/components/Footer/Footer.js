@@ -22,7 +22,7 @@ const Footer = props => {
                     <Link to='/account-security'>Account Security</Link>
                     <Link to='/about-us'>About Us</Link>
                 </div>
-                <p className={styles.copyWriteSection}>Copyright © 2021 PowerPlay Systems Inc. - All Rights Reserved</p>
+                <p className={styles.copyWriteSection}>Copyright © 2021 PowerPlay Systems Inc. - All Rights Reserved <br /> 140 Yonge St., S.200, Toronto, ON, M5C 1X6 | info@powerplaysystems.com | 1-888-808-7697</p>
             </div>
         </footer>
     );

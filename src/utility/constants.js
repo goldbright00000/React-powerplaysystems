@@ -94,12 +94,7 @@ export const CONSTANTS = {
       C: "c",
       SS: "ss",
       XB: "xb",
-      XB1: "xb1",
-      XB2: "xb2",
-      XB3: "xb3",
-      OF: "OF",
-      OF1: "of1",
-      OF2: "of2",
+      OF: "of",
       D: "d",
     },
     NBA: {
@@ -109,6 +104,14 @@ export const CONSTANTS = {
       F: "f",
       D: "d",
     },
+    NFL: {
+      QB: 'qb',
+      RB: 'rb',
+      WR: 'wr',
+      TE: 'te',
+      K: 'k',
+      D: 'd'
+    }
   },
 
   NHL_VIEW: {

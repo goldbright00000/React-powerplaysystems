@@ -10,4 +10,7 @@ export const URLS = {
     BALANCE: "/users/account/balance",
     SMALL_TOKEN: "users/account/balance/token",
   },
+  DFS: {
+    MLB: "/dfs/mlb-selection",
+  },
 };

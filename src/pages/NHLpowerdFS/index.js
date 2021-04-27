@@ -3,15 +3,17 @@ import { isEmpty, isEqual } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { cloneDeep } from "lodash";
 
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import classes from "./index.module.scss";
 import * as NHLActions from "../../actions/NHLActions";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Header3 from "../../components/Header3";
-import NHLBg from "../../assets/NHLBG.jpg";
-import MLBFooterImage from "../../assets/NHL.png";
+import NHLBG from "../../assets/nhl-bg.png";
+import NHLFooterImage from "../../assets/NHL.png";
 import PowerPlayIcon from "../../assets/token.png";
+import AcceleRadar from "../../assets/partners/acceleradar.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
@@ -27,6 +29,12 @@ import { redirectTo } from "../../utility/shared";
 import { dummyData } from "./dummyData";
 import SearchInput from "../../components/SearchInput";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
+import Header5 from "../../components/Header5";
+import PowerCollapesible from "../../components/PowerCollapesible";
+import ContestRulesIcon from "../../icons/ContestRules";
+import RightArrow from "../../assets/right-arrow.png";
+import Tick2 from "../../icons/Tick2";
+import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 
 const INITIAL_PLAYER_LIST = [
   {
@@ -144,8 +152,11 @@ function NHLPowerdFs(props) {
   const [selectedData, setSelectedData] = useState();
   const [filterdData, setFilterdData] = useState();
   const [selectedDropDown, setSelectedDropDown] = useState();
+  const [activeTab, setActiveTab] = useState(0);
 
   const { data = [] } = useSelector((state) => state.nhl);
+  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+
   const dispatch = useDispatch();
 
   //reset the states
@@ -298,18 +309,74 @@ function NHLPowerdFs(props) {
     setSelectedDropDown(item);
   };
 
+  const ContestScoringRow = ({ item = {}, width = {} }) => (
+    <div className={classes.scoring_row}>
+      <p>{item?.title}</p>{" "}
+      <span className={width && width}>{item?.points}</span>
+    </div>
+  );
+
+  const ContestScoringColumn = ({ title = "", data = [], styles = {} }) => (
+    <div className={classes.scoring_column} style={styles}>
+      <div className={classes.scoring_title}>
+        <p>{title}</p>
+      </div>
+      <div className={classes.scoring_body}>
+        {data &&
+          data?.length &&
+          data?.map((item, ind) => (
+            <ContestScoringRow
+              item={item}
+              key={ind + "-"}
+              width={title == "Pitchers" && classes.width_140}
+            />
+          ))}
+      </div>
+    </div>
+  );
+
+  const ContestSummaryRow = ({ text = <></> }) => (
+    <div className={classes.column_row}>
+      <Tick2 size={17} />
+      {text}
+    </div>
+  );
+
+  const ContestColumn = ({
+    title = "",
+    widthClass = {},
+    styles = {},
+    children = <></>,
+  }) => (
+    <div
+      className={`${classes.footer_column} ${widthClass && widthClass}`}
+      style={styles}
+    >
+      <div className={classes.column_title}>
+        <p>{title}</p>
+      </div>
+      {children}
+    </div>
+  );
+
   return (
     <>
       <Header />
       <div className={classes.wrapper}>
-        <Header3
+        <Header5
           titleMain1="NHL 2021"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
-          subHeader2="Play for your chance to win $1000!"
+          subHeader2={
+            <>
+              Use your <span>Powers</span> during the live game to drive your
+              team up the standings
+            </>
+          }
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
-          bgImageUri={NHLBg}
+          bgImageUri={NHLBG}
+          token={token}
         />
 
         <div className={classes.container}>
@@ -381,17 +448,116 @@ function NHLPowerdFs(props) {
                   <>No Data</>
                 )}
               </Card>
+              <img src={AcceleRadar} className={classes.partner_logo} />
             </div>
 
-            <SportsContestRules
-              img={MLBFooterImage}
+            {/* <SportsContestRules
+              img={NHLFooterImage}
               basicRules={basicRules}
               detailRules={detailRules}
-            />
+            /> */}
+            <div className={classes.container_footer}>
+              <div className={classes.container_footer_header}>
+                <ContestRulesIcon />
+                <div className={classes.container_footer_title}>
+                  <h2>Contest Rules</h2>
+                  <span className={classes.separator} />
+                </div>
+              </div>
+              <div className={classes.container_footer_1}>
+                <div className={classes.container_footer_2}>
+                  <div className={classes.container_tabs}>
+                    <Tabs
+                      selectedIndex={activeTab}
+                      onSelect={(tabIndex) => {
+                        setActiveTab(tabIndex);
+                      }}
+                    >
+                      <TabList className={classes.tabs_header}>
+                        <Tab className={`${activeTab === 0 && classes.active}`}>
+                          Summary
+                        </Tab>
+                        <Tab className={`${activeTab === 1 && classes.active}`}>
+                          Scoring
+                        </Tab>
+                        <Tab className={`${activeTab === 2 && classes.active}`}>
+                          Powers Available
+                        </Tab>
+                      </TabList>
+
+                      <div className={classes.tab_body}>
+                        <TabPanel>
+                        <ContestColumn title="" widthClass={classes.width_200}>
+                          <div className={classes.column_body}>
+                            <ContestSummaryRow
+                              text={
+                                <p>
+                                  <span>$100,000</span> Prize Pool
+                                </p>
+                              }
+                            />
+                            <ContestSummaryRow
+                              text={
+                                <p>
+                                  Live-play <span>Powers</span> included with entry
+                                  fee
+                                </p>
+                              }
+                            />
+                            <ContestSummaryRow
+                              text={
+                                <p>
+                                  Pick players from any teams scheduled to play on{" "}
+                                  <span>July 19, 2021</span>
+                                </p>
+                              }
+                            />
+                          </div>
+                        </ContestColumn>
+                        </TabPanel>
+                        <TabPanel>
+                        
+                        </TabPanel>
+                        <TabPanel>
+                          
+                        </TabPanel>
+                      </div>
+                    </Tabs>
+                  </div>
+                </div>
+                <ContestRulesPopUp
+                  component={({ showPopUp }) => (
+                    <button
+                      onClick={showPopUp}
+                      className={classes.footer_full_rules}
+                      href="#"
+                    >
+                      See Full Rules <img src={RightArrow} />
+                    </button>
+                  )}
+                />
+              </div>
+              <img
+                src={NHLFooterImage}
+                className={classes.container_body_img}
+              />
+            </div>
           </div>
           <div className={classes.sidebar_container}>
-            <Sidebar>
-              <CashPowerBalance />
+            <Sidebar styles={{ padding: 20}}>
+              <CashPowerBalance
+                showIcons={false}
+                powerBalance={50000}
+                cashBalance={200000}
+                styles={{
+                  width: "100%",
+                  marginTop: "-40px",
+                }}
+                cashTitle="Prize Pool"
+                powerTitle="Top Prize"
+                centered
+              />
+              <PowerCollapesible />
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>
                 <div className={classes.sidebar_header_1}>

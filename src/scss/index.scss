@@ -4,7 +4,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Teko&display=swap");
 
 @import "./colors.scss", "./flex.scss", "./layouts.scss", "./styles.scss",
-  "./stylescolors.scss" , './custom.scss';
+  "./stylescolors.scss", "./custom.scss";
+
+@font-face {
+  font-family: "Gotthard";
+  src: url("../assets/fonts/gotthard.ttf");
+}
 
 * {
   box-sizing: border-box;
@@ -17,6 +22,7 @@ html,
 body {
   font-size: 14px;
   font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
 }
 body {
   margin: 0;
@@ -93,7 +99,8 @@ body {
     font-size: 18px;
   }
 }
-input, button{
+input,
+button {
   font-family: inherit;
 }
 

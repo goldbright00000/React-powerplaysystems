@@ -8,6 +8,28 @@
     margin-top: 60px;
     background-color: $black5;
 
+    .__entries {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        font-family: Teko;
+        font-size: 22px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: $white;
+        margin-left: 50px;
+
+        span {
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: normal;
+            color: $grey;
+        }
+    }
+
     .__balance_deposit {
         display: flex;
         width: 10%;
@@ -33,7 +55,7 @@
         align-items: center;
     }
 
-    .border_right {
+    .__border_right {
         border-right: 1px solid $grey;
 
     }

@@ -2,7 +2,12 @@
 
 .Terms-and-Conditions-Page{
     .terms-sidebar-section{
-        a:hover, a.active{
+        a{
+            display: block;
+            font-size: 0.8571rem;
+            padding: 0.934em 1.833em;
+            border-left: 0.3333em solid transparent;
+            cursor: pointer;
             &:hover, &.active{
                 transition: 0.2s all;
                 color: $primary;
@@ -15,9 +20,10 @@
         border-radius: 0.5714rem;
         list-style-type: none;
         padding: 1rem 0;
-        margin: 0;
         position: sticky;
-        bottom: 0;
+        margin: 0 0 auto 0;
+        top: 7.9rem;
+        max-height: calc(100vh - 12rem);
         overflow: auto;
         &::-webkit-scrollbar {
             width: 0.572rem;
@@ -33,13 +39,6 @@
             &:hover{
                 background-color: rgba(242, 242, 242, 0.09);
             }
-        }
-        a{
-            display: block;
-            font-size: 0.8571rem;
-            padding: 0.934em 1.833em;
-            border-left: 0.3333em solid transparent;
-            text-transform: capitalize;
         }
     }
 }
