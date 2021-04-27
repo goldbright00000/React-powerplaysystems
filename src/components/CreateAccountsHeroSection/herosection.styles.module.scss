@@ -6,15 +6,18 @@
     & + *{
         position: relative;
     }
+    &.differntStyle{
+        background: #000;
+    }
 }
 .heroSectionWrapper{
     background-color: rgba(17, 17, 17, 0.6);
-    padding: 5rem 0.1px 12.87rem 0.1px;
-    margin-bottom: -10.01rem;
+    padding: 5rem 0.1px 12.37rem 0.1px;
+    margin-bottom: -9.51rem;
 }
 .triangleShape{
     border-left: 100vw solid transparent;
-    border-bottom: 6.5vw solid #202124;
+    border-bottom: 7vw solid #202124;
     position: absolute;
     bottom: 0;
     right: 0;
@@ -45,7 +48,7 @@
     }
     .heroSectionWrapper{
         padding: 2.357rem 5% 7.473rem 5%;
-        margin-bottom: -1.0444rem;
+        margin-bottom: -5.0444rem;
     }
     .title{
         font-size: 2.714rem;
@@ -56,6 +59,9 @@
         br{
             display: none;
         }
+    }
+    .triangleShape{
+        border-bottom: 10vw solid #202124;
     }
     
 }

@@ -23,7 +23,10 @@ import Alert from "../../components/Alert";
 import powerplayicon from "../../assets/powerplay-icon.png";
 import img1 from "../../assets/group-14.png";
 //css
-import "./GetUserInfoPage.scss";
+import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
+import formStyles from '../../scss/formstyles.module.scss';
+import styles from './styles.module.scss';
+
 const INITIAL_STATE = {
   //from step 1
   username: "",
@@ -51,6 +54,7 @@ const INITIAL_STATE = {
 };
 
 const GetUserInfoPage = (props) => {
+  props.location.state = {};
   const [user, setUser] = useState({
     ...INITIAL_STATE,
     username: props.location.state.username,
@@ -59,7 +63,7 @@ const GetUserInfoPage = (props) => {
   });
   useEffect(() => {
     if (user.isSuccess || isEmpty(props.location.state.email)) {
-      redirectTo(props, { path: "login" });
+      // redirectTo(props, { path: "login" });
     }
   }, [user]);
   useEffect(() => {
@@ -169,191 +173,133 @@ const GetUserInfoPage = (props) => {
     // props.history.push('/user-profile-info')
   };
   return (
-    <div className="__GetUserInfoPage">
+    <div>
       <Header isStick={true} />
-      <div className="__background-color">
-        <div className="__center __mt-7 __sign-in-container">
-          <div className="__inline-block">
-            <div className="__viewport-title __ml-1 __mb-1 __mr-1 __primary __m-a __h3 __bold __p-s __h4-on-small">
-              Get ready to Power-up!
-            </div>
-            <div className="__viewport-subtitle __h6 __mediam-on-small">
-              Complete the fields below to create your PowerPlay Account.{" "}
-              <br className="__hide-on-small" /> As a bonus you can receive up
-              to 20 <img src={powerplayicon} alt="" align="center" /> Powerplay
-              tokens!
-            </div>
-          </div>
+      <HeroSection
+        isBlack={true}
+        title={<>Get Ready <br /> to Power-Up!</>}
+        subTitle={<>Complete the fields below to create your PowerPlay Account. <br /> As a bonus you can receive up to <span>20   <img src={powerplayicon} alt="" align="center" /> Powerplay tokens!</span></>}
+      />
+      <main className={styles.root}>
+        <div className={styles.titleWrappersForMobileOnly}>
+          <h2>Receive 10 Powerplay tokens</h2>
+          <h3>just for signing up!</h3>
         </div>
-      </div>
-      <div className="__form-section __mb-5">
-        <div className="__form-wrapper __container-2 __flex __sb __block-on-mediam">
-          <div className="__center">
-            <div className="__primary-color __h3 __bolder __mt-4 __h6-on-mediam __form-title">
-              <span className="__show-on-mediam">Receive </span>10 Powerplay
-              tokens
-            </div>
-            <div className="__h5 __mt-s __mb-4 __hide-on-mediam">
-              will be added to your account!
-            </div>
-            <div className="__show-on-mediam __small __mb-3">
-              just for signing up!
-            </div>
-            <img
-              alt=""
-              src={img1}
-              className="__block __powerplay-image __hide-on-mediam"
-            />
+        <section className={styles.leftSection}>
+          <div className={styles.titleWrapper}>
+            <h3>10 Powerplay tokens</h3>
+            <h4>will be added to your account!</h4>
           </div>
-          <form className="__sign-in-form" action={null} onSubmit={onSubmit}>
-            <div className="__primary-color __center __hide-on-mediam">
-              <div className="__h4 __bold">Receive 10 Powerplay tokens</div>
-              <div className="__small __light-bold">just for signing up!</div>
-            </div>
-            {!user?.isFailed && !isEmpty(user.errorMsg) && (
-              <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
-            )}
-            {user.isFailed && !isEmpty(user.errorMsg) && (
-              <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
-            )}
+          <img alt="" src={img1}
+          />
+        </section>
 
-            {user.isSuccess && !isEmpty(user.errorMsg) && (
-              <Alert renderMsg={() => <p>{user.errorMsg}</p>} success />
-            )}
-            <div className="__flex __flex-end __inputs-wrapper __block-on-small">
-              <Input
-                type="text"
-                title="First Name"
-                id="firstName"
-                value={user.firstName}
-                onChange={(e) => {
-                  setUser({ ...user, firstName: e?.target?.value });
-                }}
-              />
-              <Input
-                type="text"
-                title="Last Name"
-                id="lastName"
-                value={user.lastName}
-                onChange={(e) => {
-                  setUser({ ...user, lastName: e?.target?.value });
-                }}
-              />
-            </div>
-            <div className="__flex __flex-end __inputs-wrapper">
-              <Select
-                id="country"
-                name="country"
-                className="w-100"
-                title="Country"
-                value={user.country}
-                onChange={addressChnageHandler}
-              >
-                <option hidden disabled value="">
-                  Country
-                </option>
-                {getCountries().map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </Select>
-              <Select
-                id="stateOrProvince"
-                name="stateOrProvince"
-                className="w-100"
-                title="State/Province"
-                value={user.stateOrProvince}
-                onChange={addressChnageHandler}
-              >
-                <option hidden disabled value="">
-                  State/Province
-                </option>
-                {getStatesOrProvinces().map((opt) => (
-                  <option key={opt} value={opt}>
-                    {opt}
-                  </option>
-                ))}
-              </Select>
-            </div>
-            <div className="__flex __flex-end __inputs-wrapper __date-fields-wrapper __relative">
-              <div className="__bonus-token __absolute __primary-color __flex">
-                <span className="__mr-s">+ 5 bonus tokens</span>
-                <img src={powerplayicon} alt="" />
-              </div>
-              <Input
-                type="date"
-                title="Date Of Birth"
-                id="dateOfBirth"
-                value={user.dateOfBirth}
-                className="w-100"
-                onChange={(e) => {
-                  setUser({ ...user, dateOfBirth: e?.target?.value });
-                }}
-              />
-            </div>
-            <label className="__flex __flex-start __checkbox-wrapper __mb-1 __mt-1">
-              <CheckBox
-                checked={user.ageCheck}
-                onChange={handleCheckBox}
-                name="ageCheck"
-              />
-              <span>
-                I am over the age of majority in the state or province where I
-                currently reside.
-              </span>
-            </label>
-            <label className="__flex __flex-start __checkbox-wrapper __mb-1">
-              <CheckBox
-                checked={user.termsAndConditions}
-                onChange={handleCheckBox}
-                name="termsAndConditions"
-              />
-              <span>
-                I have read agree to the{" "}
-                <Link to="/" className="__light-bold __terms-conditions">
-                  terms and conditions
-                </Link>{" "}
-                for using this website.
-              </span>
-            </label>
-            <label className="__flex __flex-start __checkbox-wrapper __mb-1">
-              <CheckBox
-                checked={user.updatesCheck}
-                onChange={handleCheckBox}
-                name="updatesCheck"
-              />
-              <span>
-                I agree to receive email communications regarding status of
-                games that I enter.
-              </span>
-            </label>
-            <label className="__flex __flex-start __checkbox-wrapper __mb-1 __relative">
-              <CheckBox
-                checked={user.promotionsCheck}
-                onChange={handleCheckBox}
-                name="promotionsCheck"
-              />
-              <span className="__f1">
-                I agree to receive marketing email communications from Powerplay
-                Systems and or their partners.
-                <span className="__bonus-token __absolute">
-                  <span className="__mr-s __primary-color">
-                    + 5 bonus tokens
-                  </span>
-                  <img src={powerplayicon} alt="" align="center" />
-                </span>
-              </span>
-            </label>
-            <button
-              className="__btn __h4 __submit-btn __uppercase __block __h5-on-small"
-              disabled={user.isLoading}
+        <form className={formStyles.root} action={null} onSubmit={onSubmit}>
+          <div className={formStyles.header}>
+            <h2 className={styles.formTitle}>Receive 10 Powerplay tokens</h2>
+            <h5 className={styles.formSubTitle}>just for signing up!</h5>
+          </div>
+          {!user?.isFailed && !isEmpty(user.errorMsg) && (
+            <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
+          )}
+          {user.isFailed && !isEmpty(user.errorMsg) && (
+            <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
+          )}
+
+          {user.isSuccess && !isEmpty(user.errorMsg) && (
+            <Alert renderMsg={() => <p>{user.errorMsg}</p>} success />
+          )}
+          <Input
+            type="text"
+            title="First Name"
+            id="firstName"
+            value={user.firstName}
+            onChange={(e) => {
+              setUser({ ...user, firstName: e?.target?.value });
+            }}
+          />
+          <Input
+            type="text"
+            title="Last Name"
+            id="lastName"
+            value={user.lastName}
+            onChange={(e) => {
+              setUser({ ...user, lastName: e?.target?.value });
+            }}
+          />
+          <div className={formStyles.row}>
+            <Select
+              id="country"
+              name="country"
+              className="w-100"
+              title="Country"
+              value={user.country}
+              onChange={addressChnageHandler}
             >
-              {user.isLoading ? "Loading..." : "Power Up!"}
-            </button>
-          </form>
-        </div>
-      </div>
+              <option hidden disabled value="">
+                Country
+                </option>
+              {getCountries().map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </Select>
+            <Select
+              id="stateOrProvince"
+              name="stateOrProvince"
+              className="w-100"
+              title="State/Province"
+              value={user.stateOrProvince}
+              onChange={addressChnageHandler}
+            >
+              <option hidden disabled value="">
+                State/Province
+                </option>
+              {getStatesOrProvinces().map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <Input
+            type="date"
+            title="Date Of Birth"
+            id="dateOfBirth"
+            value={user.dateOfBirth}
+            onChange={(e) => {
+              setUser({ ...user, dateOfBirth: e?.target?.value });
+            }}
+          />
+          <br />
+          <CheckBox
+            checked={user.ageCheck}
+            onChange={handleCheckBox}
+            name="ageCheck"
+            title='I am over the age of majority in the state or province where currently reside.'
+          />
+          <CheckBox
+            checked={user.termsAndConditions}
+            onChange={handleCheckBox}
+            name="termsAndConditions"
+            title={<>I have read agree to the<Link to="/"> terms and conditions </Link>for using this website.</>}
+          />
+          <CheckBox
+            checked={user.updatesCheck}
+            onChange={handleCheckBox}
+            name="updatesCheck"
+            title='I agree to receive email communications regarding status of games that I enter.'
+          />
+          <CheckBox
+            checked={user.promotionsCheck}
+            onChange={handleCheckBox}
+            name="promotionsCheck"
+            title={<>I agree to receive marketing email communications from Powerplay Systems and or their partners. <span className={styles.blogSection}>+ 5 bonus tokens <img src={powerplayicon} alt="" align="center" /></span></>}
+          />
+          <button className={formStyles.button}>NEXT</button>
+        </form>
+      </main>
       <Footer isBlack={true} />
     </div>
   );

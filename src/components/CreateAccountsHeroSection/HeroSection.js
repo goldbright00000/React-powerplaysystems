@@ -1,8 +1,8 @@
 import React from 'react';
 import styles from './herosection.styles.module.scss'
 
-const HeroSection = ({title, subTitle}) => (
-    <section className={styles.root}>
+const HeroSection = ({title, subTitle, isBlack}) => (
+    <section className={`${styles.root} ${isBlack ? styles.differntStyle : ''}`}>
         <div className={styles.heroSectionWrapper}>
             <h1 className={styles.title}>{title}</h1>
             <p className={styles.subTitle}>{subTitle}</p>

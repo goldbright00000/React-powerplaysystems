@@ -9,6 +9,14 @@ $formPadding: 3.571rem;
     box-shadow: 0 6px 24px 18px rgba(0, 0, 0, 0.38);
     position: relative;
     margin-bottom: 2rem;
+    color: #000;
+}
+.row{
+    display: flex;
+    gap: 1.428rem;
+    >*{
+        margin: 0 !important;
+    }
 }
 .button{
     border: none;
@@ -53,6 +61,11 @@ $formPadding: 3.571rem;
         animation: buttonAnimation 0.2s forwards;
     }
 }
+
+.header{
+    margin-top: -2.142rem;
+}
+
 @keyframes buttonAnimation{
     0%{
         transform: translate(-50%, -50%) scale(0);
@@ -69,7 +82,11 @@ $formPadding: 3.571rem;
 
 @media (max-width:480px) {
     .root{
-        padding: 1.2142rem;
+        padding: 0.6rem 1.2142rem 1.2142rem 1.2142rem;
+    }
+    .header{
+        display: none;
+        margin: 0;
     }
     .button{
         font-size: 1.4285rem;

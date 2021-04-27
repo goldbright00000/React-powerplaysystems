@@ -11,8 +11,8 @@ import { redirectTo } from "../../utility/shared";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
 import styles from './styles.module.scss';
-import HeroSection from "./HeroSection";
-import formStyles from './formstyles.module.scss';
+import formStyles from '../../scss/formstyles.module.scss';
+import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 
 const INITIAL_STATE = {
   username: "",
