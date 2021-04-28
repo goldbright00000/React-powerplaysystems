@@ -48,39 +48,41 @@ function LoginPage(props) {
     }
 
     return (
-        <>
-            <Header />
-            <HeroSection title={<>Get ready <br /> to Power-up!</>} subTitle={<>Let’s start your new experience our ground-breaking live-play games <br /> where you have the Power to control your destiny!</>} />
-            <form onSubmit={onLoginSubmit} className={formStyles.root}>
-                {
-                    !isEmpty(authUser) && !loggedIn &&
-                    <>
-                        <Alert renderMsg={() => <p>{message}</p>} danger />
-                        <br />
-                    </>
-                }
-                {
-                    !isEmpty(authUser) && loggedIn &&
-                    <>
-                        <Alert renderMsg={() => <p>Login Success</p>} success />
-                        <br />
-                    </>
-                }
-                <Input type="text" title="E-mail" required value={user.email} onChange={(e) => setUser({ ...user, email: e?.target?.value })} />
-                <Input type="password" title="Password" required value={user.password} onChange={(e) => setUser({ ...user, password: e?.target?.value })} />
-                <button className={formStyles.button} type="submit" disabled={loading || (isEmpty(user.email) || isEmpty(user.password))}>
+        <div className={styles.root}>
+            <Header isStick={true} />
+            <HeroSection title={<>Get Ready <br /> to Power-Up!</>} subTitle={<>Let’s start your new experience our ground-breaking live-play <br /> games where you have the Power to control your destiny!</>} />
+            <div className={styles.container}>
+                <form onSubmit={onLoginSubmit} className={formStyles.root}>
                     {
-                        loading ?
-                            'Loading...'
-                            :
-                            'Log in'
+                        !isEmpty(authUser) && !loggedIn &&
+                        <>
+                            <Alert renderMsg={() => <p>{message}</p>} danger />
+                            <br />
+                        </>
                     }
-                </button>
-            </form>
-            <p className={`${styles.blogSection}`}>Don't have an account? <Link to="/power-up">Click here to Power-up!</Link></p>
+                    {
+                        !isEmpty(authUser) && loggedIn &&
+                        <>
+                            <Alert renderMsg={() => <p>Login Success</p>} success />
+                            <br />
+                        </>
+                    }
+                    <Input type="text" title="E-mail" required value={user.email} onChange={(e) => setUser({ ...user, email: e?.target?.value })} />
+                    <Input type="password" title="Password" required value={user.password} onChange={(e) => setUser({ ...user, password: e?.target?.value })} />
+                    <button className={formStyles.button} type="submit" disabled={loading || (isEmpty(user.email) || isEmpty(user.password))}>
+                        {
+                            loading ?
+                                'Loading...'
+                                :
+                                'Log in'
+                        }
+                    </button>
+                </form>
+                <p className={`${styles.blogSection}`}>Don't have an account? <Link to="/power-up">Click here to Power-up!</Link></p>
+            </div>
             <Footer isBlack />
             {redirect()}
-        </>
+        </div>
     )
 }
 
