@@ -42,14 +42,13 @@ export async function payNow(data) {
     } = data;
 
     const obj = {
-      api_key:
-        "142805pHokPbTO4t0O1JxEdZI7kLeuEC9GhGosDzQ1GqiiGtzPzUSEnGO6jKi6eNHbHqx",
+      api_key:process.env.IPAY_API_KEY,
       method: "visa-mc",
       response_url: "?paid=true",
       first_name,
       last_name,
       address,
-      country: country.substring(0, 2),
+      country: country.substring(0, 2)?.toUpperCase(),
       state: state_or_province,
       city,
       zip,
