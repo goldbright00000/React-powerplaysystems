@@ -64,7 +64,6 @@ export async function payNow(data) {
     axios
       .post("/api/hosted-pay/payment-request", obj)
       .then((res) => {
-        console.log(res.data.payment_redirect_url);
         window.open(res.data.payment_redirect_url, "_blank");
       })
       .catch((er) => console.log(er));
