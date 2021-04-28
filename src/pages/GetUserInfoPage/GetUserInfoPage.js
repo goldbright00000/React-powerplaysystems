@@ -54,7 +54,6 @@ const INITIAL_STATE = {
 };
 
 const GetUserInfoPage = (props) => {
-  props.location.state = {};
   const [user, setUser] = useState({
     ...INITIAL_STATE,
     username: props.location.state.username,
@@ -63,7 +62,7 @@ const GetUserInfoPage = (props) => {
   });
   useEffect(() => {
     if (user.isSuccess || isEmpty(props.location.state.email)) {
-      // redirectTo(props, { path: "login" });
+      redirectTo(props, { path: "login" });
     }
   }, [user]);
   useEffect(() => {
