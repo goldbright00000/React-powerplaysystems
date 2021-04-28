@@ -2,7 +2,7 @@
 
 .root{
     width: 90%;
-    margin: auto;
+    margin: auto auto 7.857rem auto;
     max-width: 70.8572rem;
     display: flex;
     align-items: flex-start;
@@ -111,6 +111,9 @@
 }
 
 @media (max-width: 345px) {
+    .root{
+        width: 92%;
+    }
     .titleWrappersForMobileOnly{
         h2{
             font-size: 1.36rem;

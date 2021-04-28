@@ -1,9 +1,7 @@
-$formPadding: 3.571rem;
-
 .root{
     max-width: 33.2857rem;
     margin: auto;
-    padding: $formPadding;
+    padding: 3.571rem;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 6px 24px 18px rgba(0, 0, 0, 0.38);
@@ -16,6 +14,12 @@ $formPadding: 3.571rem;
     gap: 1.428rem;
     >*{
         margin: 0 !important;
+    }
+    select{
+        background: initial !important;
+    }
+    @media (max-width: 450px) {
+        gap: 0.7143rem;
     }
 }
 .button{
@@ -94,5 +98,10 @@ $formPadding: 3.571rem;
         height: 2.4em;
         border-radius: 0.4285em;
         top: calc(1.2142rem + 1.2em);
+    }
+}
+@media (max-width: 345px) {
+    .root{
+        padding: 0.4rem 1rem 1rem 1rem;
     }
 }

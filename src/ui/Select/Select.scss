@@ -28,8 +28,12 @@
     &:focus{
       border-color: $primary;
     }
+    @media (max-width: 550px) {
+      padding: 1.22em 0.9em;
+    }
   }
   .white {
     background-color: $white;
   }
+  
 }
