@@ -1,8 +1,13 @@
+@import '../../scss/colors.scss';
+
 .blogSection{
     text-align: center;
     margin: 4rem 0 5em 0;
     a{
         text-decoration: underline !important;
+        &:hover{
+            color: $primary;
+        }
     }
 }
 .container{

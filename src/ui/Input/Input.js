@@ -10,9 +10,7 @@ const Input = props => {
     const onChange = e => {
         const { value } = e.target;
         setValue(value);
-        
-        if(props.onChange)
-            props.onChange(e);
+        if(props.onChange) props.onChange(e);
     }
     const showPasswordHandler = () => setType(type === 'password' ? 'text' : 'password');
     return (
@@ -20,7 +18,7 @@ const Input = props => {
             <label htmlFor={id}>{props.title} {
                 propsType === 'password' && <Eye className={`__eye-icon ${type === 'text' ? 'active' : ''}`} onClick={showPasswordHandler} />
             }</label>
-            <input type={type} value={value} onChange={onChange} />
+            <input type={type} id={id} {...props} value={value} onChange={onChange} />
         </div>
     )
 }
