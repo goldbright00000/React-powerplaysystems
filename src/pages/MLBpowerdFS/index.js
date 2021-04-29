@@ -229,6 +229,8 @@ function MLBPowerdFs(props) {
   const [activeTab, setActiveTab] = useState(0);
 
   const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+
   const dispatch = useDispatch();
 
   //reset the states
@@ -411,7 +413,9 @@ function MLBPowerdFs(props) {
         data.map((mainItem, mainIndex) => {
           return (
             <>
-            <div className={classes.scoring_title} style={{ marginTop: mainItem.title == 'Team Defence' && 38}}>
+            <div className={classes.scoring_title} 
+              style={{ marginTop: mainItem.title == 'Team Defence' && 38, marginBottom: 6}} 
+              key={mainIndex}>
               <p>{mainItem.title}</p>
             </div>
             {
@@ -485,6 +489,7 @@ function MLBPowerdFs(props) {
           prizeBtnTitle="Prize Grid"
           bgImageUri={BaseballImage}
           onClickPrize={() => setPrizeModalState(true)}
+          token={token}
         />
 
         <div className={classes.container}>
@@ -713,11 +718,7 @@ function MLBPowerdFs(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar
-              styles={{
-                padding: "0px",
-              }}
-            >
+            <Sidebar styles={{ padding: 20}}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
