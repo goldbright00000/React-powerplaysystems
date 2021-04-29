@@ -2,7 +2,8 @@ import axios from "axios";
 import { getLocalStorage } from "../utility/shared";
 import { CONSTANTS } from "../utility/constants";
 
-const apiUrl = "http://api.powerplaysystems.com/api/v1";
+// const apiUrl = "http://api.powerplaysystems.com/api/v1";
+const apiUrl = "http://localhost:5000/api/v1";
 
 const http = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/v1` || apiUrl,
