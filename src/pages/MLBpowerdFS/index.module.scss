@@ -132,8 +132,15 @@
             transform: translate(10px, -20px);
 
             h2 {
+              font-family: Poppins;
               font-size: 20px;
               font-weight: normal;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: normal;
+              letter-spacing: normal;
+              text-align: center;
+              color: $white;
               margin: 0;
               padding: 0;
             }
@@ -248,7 +255,6 @@
                   color: $grey2;
                   font-weight: 600;
                   font-family: Poppins;
-                  border-bottom: 1px solid $grey2;
                   line-height: 16px;
                 }
               }
@@ -262,8 +268,14 @@
                 }
 
                 p {
-                  font-size: 14px;
                   width: 112px;
+                  font-family: Poppins;
+                  font-size: 14px;
+                  font-weight: normal;
+                  font-stretch: normal;
+                  font-style: normal;
+                  letter-spacing: normal;
+                  color: $grey2;
 
                   &.flex_0_85 {
                     flex: 0.85;
@@ -299,11 +311,17 @@
                 display: flex;
                 margin: 0;
                 padding: 0;
-                font-size: 16px;
+                font-family: Teko;
+                font-size: 28px;
+                font-weight: 600;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                color: $grey2;
                 border-bottom: 2px solid $grey;
             
                 li {
-                padding: 10px 0;
                 margin: 0 78px -2px 0;
                 }
             
@@ -399,6 +417,7 @@
             align-items: center;
             display: flex;
             width: 187px;
+            height: 50px;
             padding: 13px 0;
             background-color: $primary;
             color: $darkblack;
@@ -420,8 +439,8 @@
           }
         }
         .container_body_img {
-          width: 421px;
-          height: 291px;
+          width: 502px;
+          height: 352px;
           position: absolute;
           display: flex;
           align-self: flex-end;
@@ -461,14 +480,15 @@
         margin: 25px 0 0 0;
 
         h2 {
-          color: $primary;
           font-family: Teko;
-          font-size: 38px;
+          font-size: 48px;
           font-weight: normal;
           font-stretch: normal;
           font-style: normal;
           line-height: normal;
           letter-spacing: normal;
+          text-align: center;
+          color: $primary;
           margin: 0;
         }
 
@@ -529,6 +549,7 @@
         justify-content: center;
         align-items: center;
         width: 100%;
+        height: 56px;
         padding: 16px 0;
         font-family: Poppins;
         font-size: 18px;
@@ -684,8 +705,15 @@
               transform: translate(10px, -20px);
 
               h2 {
+                font-family: Poppins;
                 font-size: 20px;
                 font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
                 margin: 0;
                 padding: 0;
               }
@@ -800,7 +828,6 @@
                     color: $grey2;
                     font-weight: 600;
                     font-family: Poppins;
-                    border-bottom: 1px solid $grey2;
                     line-height: 16px;
                   }
                 }
@@ -814,8 +841,14 @@
                   }
 
                   p {
-                    font-size: 14px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.85;
@@ -843,6 +876,7 @@
               align-items: center;
               display: flex;
               width: 187px;
+              height: 50px;
               padding: 13px 0;
               background-color: $primary;
               color: $darkblack;
@@ -865,12 +899,12 @@
             }
           }
           .container_body_img {
-            width: 421px;
-            height: 291px;
+            width: 502px;
+            height: 352px;
             position: absolute;
             display: flex;
             align-self: flex-end;
-            bottom: 7.32rem;
+            bottom: 7.32rem;  
           }
         }
 
@@ -906,14 +940,15 @@
           margin: 25px 0 0 0;
 
           h2 {
-            color: $primary;
             font-family: Teko;
-            font-size: 38px;
+            font-size: 48px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
+            text-align: center;
+            color: $primary;
             margin: 0;
           }
 
@@ -974,6 +1009,7 @@
           justify-content: center;
           align-items: center;
           width: 100%;
+          height: 56px;
           padding: 16px 0;
           font-family: Poppins;
           font-size: 18px;
@@ -1023,7 +1059,15 @@
           .container_footer_header {
             .container_footer_title {
               h2 {
-                font-size: 24px;
+                font-family: Poppins;
+                font-size: 20px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
               }
             }
           }
@@ -1083,8 +1127,14 @@
                   }
 
                   p {
-                    font-size: 18px;
-                    width: 165px;
+                    width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.85;
@@ -1118,12 +1168,12 @@
             }
           }
           .container_body_img {
-            width: 471px;
-            height: 331px;
+            width: 502px;
+            height: 352px;
             position: absolute;
             display: flex;
             align-self: flex-end;
-            bottom: 7.32rem;
+            bottom: 8.32rem;
           }
         }
 
@@ -1159,14 +1209,15 @@
           margin: 25px 0 0 0;
 
           h2 {
-            color: $primary;
             font-family: Teko;
-            font-size: 38px;
+            font-size: 48px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
+            text-align: center;
+            color: $primary;
             margin: 0;
           }
 
@@ -1227,6 +1278,7 @@
           justify-content: center;
           align-items: center;
           width: 100%;
+          height: 56px;
           padding: 16px 0;
           font-family: Poppins;
           font-size: 18px;
@@ -1363,8 +1415,15 @@
               transform: translate(10px, -20px);
 
               h2 {
+                font-family: Poppins;
                 font-size: 20px;
                 font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
                 margin: 0;
                 padding: 0;
               }
@@ -1479,7 +1538,6 @@
                     color: $grey2;
                     font-weight: 600;
                     font-family: Poppins;
-                    border-bottom: 1px solid $grey2;
                     line-height: 16px;
                   }
                 }
@@ -1493,8 +1551,14 @@
                   }
 
                   p {
-                    font-size: 14px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.85;
@@ -1522,6 +1586,7 @@
               align-items: center;
               display: flex;
               width: 187px;
+              height: 50px;
               padding: 13px 0;
               background-color: $primary;
               color: $darkblack;
@@ -1543,8 +1608,8 @@
             }
           }
           .container_body_img {
-            width: 421px;
-            height: 291px;
+            width: 502px;
+            height: 352px;
             position: absolute;
             display: flex;
             align-self: flex-end;
@@ -1584,14 +1649,15 @@
           margin: 25px 0 0 0;
 
           h2 {
-            color: $primary;
             font-family: Teko;
-            font-size: 38px;
+            font-size: 48px;
             font-weight: normal;
             font-stretch: normal;
             font-style: normal;
             line-height: normal;
             letter-spacing: normal;
+            text-align: center;
+            color: $primary;
             margin: 0;
           }
 
@@ -1652,6 +1718,7 @@
           justify-content: center;
           align-items: center;
           width: 100%;
+          height: 56px;
           padding: 16px 0;
           font-family: Poppins;
           font-size: 18px;
@@ -1732,7 +1799,15 @@
           .container_footer_header {
             .container_footer_title {
               h2 {
-                font-size: 18px;
+                font-family: Poppins;
+                font-size: 20px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
               }
 
               .separator {
@@ -1797,8 +1872,14 @@
                   }
 
                   p {
-                    font-size: 12px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.8;
@@ -1939,7 +2020,15 @@
           .container_footer_header {
             .container_footer_title {
               h2 {
-                font-size: 18px;
+                font-family: Poppins;
+                font-size: 20px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
               }
 
               .separator {
@@ -2004,8 +2093,14 @@
                   }
 
                   p {
-                    font-size: 12px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.8;
@@ -2145,7 +2240,14 @@
           .container_footer_header {
             .container_footer_title {
               h2 {
-                font-size: 18px;
+                font-size: 20px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
               }
 
               .separator {
@@ -2210,8 +2312,14 @@
                   }
 
                   p {
-                    font-size: 12px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.8;
@@ -2353,7 +2461,14 @@
           .container_footer_header {
             .container_footer_title {
               h2 {
-                font-size: 18px;
+                font-size: 20px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
               }
 
               .separator {
@@ -2418,8 +2533,14 @@
                   }
 
                   p {
-                    font-size: 12px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.8;
@@ -2563,7 +2684,14 @@
           .container_footer_header {
             .container_footer_title {
               h2 {
-                font-size: 18px;
+                font-size: 20px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: center;
+                color: $white;
               }
 
               .separator {
@@ -2628,8 +2756,14 @@
                   }
 
                   p {
-                    font-size: 12px;
                     width: 112px;
+                    font-family: Poppins;
+                    font-size: 14px;
+                    font-weight: normal;
+                    font-stretch: normal;
+                    font-style: normal;
+                    letter-spacing: normal;
+                    color: $grey2;
 
                     &.flex_0_85 {
                       flex: 0.8;
