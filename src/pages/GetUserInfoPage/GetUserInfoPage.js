@@ -169,10 +169,10 @@ const GetUserInfoPage = (props) => {
       isSuccess: true,
       errorMsg: response.data.message,
     });
-    // props.history.push('/user-profile-info')
+    props.history.replace('/verify-your-identity')
   };
   return (
-    <div>
+    <>
       <Header isStick={true} />
       <HeroSection
         isBlack={true}
@@ -189,11 +189,10 @@ const GetUserInfoPage = (props) => {
             <h3>10 Powerplay tokens</h3>
             <h4>will be added to your account!</h4>
           </div>
-          <img alt="" src={img1}
-          />
+          <img alt="" src={img1} />
         </section>
 
-        <form className={formStyles.root} action={null} onSubmit={onSubmit}>
+        <form className={formStyles.root2} action={null} onSubmit={onSubmit}>
           <div className={formStyles.header}>
             <h2 className={styles.formTitle}>Receive 10 Powerplay tokens</h2>
             <h5 className={styles.formSubTitle}>just for signing up!</h5>
@@ -300,7 +299,7 @@ const GetUserInfoPage = (props) => {
         </form>
       </main>
       <Footer isBlack={true} />
-    </div>
+    </>
   );
 };
 

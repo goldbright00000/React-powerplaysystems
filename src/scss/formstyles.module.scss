@@ -1,6 +1,8 @@
 .root{
-    max-width: 33.2857rem;
     margin: auto;
+}
+.root2, .root{
+    max-width: 33.2857rem;
     padding: 3.571rem;
     background: #fff;
     border-radius: 12px;
@@ -67,7 +69,7 @@
 }
 
 .header{
-    margin-top: -2.142rem;
+    margin: -2.142rem -2.142rem 0 -2.142rem;
 }
 
 @keyframes buttonAnimation{
@@ -84,8 +86,14 @@
     }
 }
 
+@media (max-width: 950px) {
+    .root2{
+        margin: auto;
+    }
+}
+
 @media (max-width:480px) {
-    .root{
+    .root, .root2{
         padding: 0.6rem 1.2142rem 1.2142rem 1.2142rem;
     }
     .header{
@@ -101,7 +109,7 @@
     }
 }
 @media (max-width: 345px) {
-    .root{
+    .root, .root2{
         padding: 0.4rem 1rem 1rem 1rem;
     }
 }
