@@ -33,6 +33,7 @@ import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
 
 import SwapPlayerIcon from "../../assets/swap-player-icon.png"
 import PointMultiplierIcon from '../../assets/point-multiplier-icon.png';
@@ -561,6 +562,7 @@ function MLBPowerdFs(props) {
                               key={player.playerId + " - " + player?.match_id}
                               loading={loading}
                               onSelectDeselect={onSelectDeselect}
+                              pageType={PAGE_TYPES.MLB}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&

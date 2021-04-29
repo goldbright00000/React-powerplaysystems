@@ -5,7 +5,7 @@ import classes from "./playerStat.module.scss";
 
 const titles = ["ERA", "W-L", "K", "WHIP", "FFPG"];
 
-function PlayerStat(props) {
+function MLBPlayerStat(props) {
   const { active = false, playerStats = {} } = props || {};
 
   const {
@@ -56,9 +56,9 @@ function PlayerStat(props) {
   );
 }
 
-PlayerStat.propTypes = {
+MLBPlayerStat.propTypes = {
   playerStats: PropTypes.object,
   active: PropTypes.bool,
 };
 
-export default PlayerStat;
+export default MLBPlayerStat;
