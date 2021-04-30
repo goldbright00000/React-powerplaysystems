@@ -605,7 +605,7 @@ function MLBPowerdFs(props) {
                         <Tab className={`${activeTab === 1 && classes.active}`}>
                           Scoring
                         </Tab>
-                        <Tab className={`${activeTab === 2 && classes.active}`}>
+                        <Tab className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header}`}>
                           Powers Available
                         </Tab>
                       </TabList>
@@ -699,18 +699,19 @@ function MLBPowerdFs(props) {
                     </Tabs>
                   </div>
                 </div>
-
-                <ContestRulesPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      className={classes.footer_full_rules}
-                      href="#"
-                    >
-                      See Full Rules <img src={RightArrow} />
-                    </button>
-                  )}
-                />
+                <div className={classes.__see_full_rules}>
+                  <ContestRulesPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        onClick={showPopUp}
+                        className={classes.footer_full_rules}
+                        href="#"
+                      >
+                        See Full Rules <img src={RightArrow} />
+                      </button>
+                    )}
+                  />
+                </div>
               </div>
               <img
                 src={MLBFooterImage}
@@ -726,7 +727,6 @@ function MLBPowerdFs(props) {
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
-                  width: "100%",
                   marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"
