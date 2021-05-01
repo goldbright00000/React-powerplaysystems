@@ -25,6 +25,10 @@
 .additionWaysToContactSection{
     grid-column: 2/3;
     grid-row: 1/2;
+    address{
+        display: inline;
+        font-style: normal;
+    }
 }
 .inputField{
     margin-bottom: 2.857rem;
@@ -81,6 +85,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    color: #fff;
     &::after, &::before{
         content: '';
         position: absolute;
@@ -92,15 +97,17 @@
         transform: translateY(-50%) scale(0);
     }
     &:hover::before{
-        background: rgba($color: #fff, $alpha: 0.05);
+        background: rgba($color: #9e9e9e, $alpha: 0.1);
         transform: translateY(-50%) scale(1);
     }
     &:active::after{
-        background: rgba($color: $primary, $alpha: 0.1);
+        background: rgba($color: #000, $alpha: 0.1);
         transform: translateY(-50%) scale(1);
     }
 }
-
+.noteBlogSection{
+    margin-top: 5.5rem;
+}
 @media (max-width: 900px) {
     .formWrapper{
         grid-template-columns: 1fr;
