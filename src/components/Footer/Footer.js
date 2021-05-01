@@ -2,7 +2,6 @@ import logo from '../../assets/new-logo-2.png';
 import { Link } from 'react-router-dom';
 import styles from './index.module.scss';
 
-
 const Footer = props => {
     return (
         <footer className={`${styles.root} ${props.className} ${props.isBlack ? styles.style_2 : ''}`}>
@@ -15,7 +14,7 @@ const Footer = props => {
                     <Link to='/my-account'>My Account</Link>
                     <Link to='/terms'>Terms of use</Link>
                     <Link to='/faqs'>FAQs</Link>
-                    <Link to='/sponer-contest'>Power Center</Link>
+                    <Link to='/power-center'>Power Center</Link>
                     <Link to='/privacy'>Privacy</Link>
                     <Link to='/trust-and-safety'>Trust & Safety </Link>
                     <Link to='/responsible-gaming'>Responsible Gaming</Link>
