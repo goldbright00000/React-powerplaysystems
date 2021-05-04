@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import QRCode from "../../assets/QRCode.png";
 import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
+import EFTImage from "../../assets/group-15@2x.png";
+import interactImage from "../../assets/interact.jpg";
 
 const formatePrice = (price, currencyValue) =>
   `$${(price * currencyValue).toFixed(2)}`;
@@ -72,6 +74,29 @@ class DepositAmountForm extends Component {
         { value: 500, title: "$500" },
       ],
       paymentMetods: [
+        {
+          value: 'EFT',
+          title: (
+            <img
+              src={EFTImage}
+              className={styles.EFTImage}
+              alt=''
+            />
+          ),
+          helperText: 'EFT',
+          country: 'Canada'
+        },
+        {
+          value: 'interact',
+          title: (
+            <img
+              src={interactImage}
+              className={styles.interactImage}
+            />
+          ),
+          helperText: 'INTERACT',
+          country: 'Canada'
+        },
         {
           value: "Credit or Debit Card",
           title: (
@@ -184,6 +209,7 @@ class DepositAmountForm extends Component {
   render() {
     const { currency, price, paymentMetod, walletAddress } = this.state.form;
     const { isOtherAmount } = this.state;
+    const {country} = this.props;
     return (
       <form className={styles.form} onSubmit={this.onSubmit}>
         <section className={styles.formSection}>
@@ -227,7 +253,14 @@ class DepositAmountForm extends Component {
           <section className={styles.formSection}>
             <h6>Add Payment Details</h6>
             <div>
-              {this.prices[currency].paymentMetods.map((data, index) => (
+              {this.prices[currency].paymentMetods.map((data, index) => data.country ? (
+                data.country === country && <ChooseItem
+                  {...data}
+                  key={index}
+                  checked={paymentMetod === data.value}
+                  onChange={this.onPaymentMethodChange}
+                />
+              ) : (
                 <ChooseItem
                   {...data}
                   key={index}
@@ -294,26 +327,6 @@ class DepositAmountForm extends Component {
                 </select>
               </form>
             </div>
-            {/* <div className="__mt-2 __flex __sb">
-              <div>
-                <p>Fred Smith</p>
-                <p className="__mt-s __mb-s">123 Main St</p>
-                <p>Toronto, ON. M1N 1N1</p>
-              </div>
-              <div className={styles.inputField}>
-                <label htmlFor="CVV">CVV</label>
-                <div className="__flex">
-                  <input
-                    type="text"
-                    maxLength={3}
-                    minLength={3}
-                    className={styles.cvvInput}
-                    id="CVV"
-                  />
-                  <img alt="" src={CVVImg} className={styles.cvvImage} />
-                </div>
-              </div>
-            </div> */}
           </section>
         )}
         {currency !== "USD" ? (

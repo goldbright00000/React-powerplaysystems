@@ -6,9 +6,9 @@ import styles from "./styles.module.scss";
 class DepositAmountPopUp extends Component {
   render() {
     console.log(this.props);
-    const { city, address, phone_number, zip, currency } =
+    const { city, address, phone_number, zip, currency, country } =
       this.props?.user || {};
-
+    console.log(this.props.user);
     return (
       <CreatePopUpPortal>
         <div className={styles.blur}></div>
@@ -28,6 +28,7 @@ class DepositAmountPopUp extends Component {
                 zip={zip}
                 currency={currency}
                 submitted={this.props.formSubmitted}
+                country={country}
               />
               <div className={styles.leftSection}>
                 <div>
