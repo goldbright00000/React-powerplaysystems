@@ -202,7 +202,9 @@ function MLBPowerdFs(props) {
   const [selectedType, setSelectedType] = useState();
   const [loading, setLoading] = useState(false);
 
-  const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const { data = [], starPlayerCount = 0, game_id, sport_id } = useSelector(
+    (state) => state.mlb
+  );
   const dispatch = useDispatch();
 
   //reset the states
@@ -421,6 +423,25 @@ function MLBPowerdFs(props) {
       {children}
     </div>
   );
+
+  const onSubmitMLbSelection = async () => {
+    if (selectedPlayerCount < 8) {
+      return;
+    }
+
+    const playerIds = [];
+    for (let i = 0; i < playerList?.length; i++) {
+      playerIds.push(playerList[i]?.playerId);
+    }
+    const payload = {
+      gameId: game_id,
+      sportId: sport_id,
+      userId: 92,
+      players: [...playerIds],
+    };
+    await MLBActions.saveAndGetSelectPlayers(payload);
+    redirectTo(props, { path: "/mlb-live-powerdfs" });
+  };
 
   return (
     <>
@@ -650,9 +671,7 @@ function MLBPowerdFs(props) {
               />
               <button
                 className={classes.sidebar_button}
-                onClick={() =>
-                  redirectTo(props, { path: "/mlb-live-powerdfs" })
-                }
+                onClick={onSubmitMLbSelection}
               >
                 Submit!
               </button>

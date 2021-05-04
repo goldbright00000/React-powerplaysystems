@@ -14,17 +14,18 @@ const { P, OF, C, SS, D, XB } = FILTERS.MLB;
 export function mlbData() {
   return async (dispatch) => {
     const response = await http.get(URLS.DFS.MLB);
-    const { data = [] } = response.data || {};
+    const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
+      response.data || {};
 
     const mlbPlayerList = [];
-    for (let i = 0; i < data?.length; i++) {
+    for (let i = 0; i < mlbSchedule?.length; i++) {
       const {
         away_team = {},
         home_team = {},
         date_time = "",
         venue = {},
         match_id = "",
-      } = data[i] || {};
+      } = mlbSchedule[i] || {};
       const { mlb_players: awayTeamPlayers = [], name: awayTeamName = "" } =
         away_team || {};
       const { mlb_players: homeTeamPlayers = [], name: homeTeamName = "" } =
@@ -67,6 +68,8 @@ export function mlbData() {
     return dispatch({
       type: MLB_DATA,
       payload: filterdList,
+      game_id,
+      sport_id,
     });
   };
 }
@@ -151,4 +154,29 @@ export function setStarPlayerCount(payload) {
       type: MLB_STAR_PLAYER_COUNT,
       payload,
     });
+}
+
+export function saveAndGetSelectPlayers(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(URLS.DFS.MLB_SAVE_PLAYERS, payload);
+      const { message = "", error = false } = response.data || {};
+      if (!error && message === "Success") {
+        //get the live page players and save them in redux
+        try {
+          const playersResponse = await http.post(
+            URLS.DFS.MLB_LIVE_PAGE_PLAYERS,
+            {
+              game_id: payload.gameId,
+              sport_id: payload.sportId,
+              user_id: payload.userId,
+            }
+          );
+          const { game_id, sport_id, user_id, team_id, players = [] } =
+            playersResponse.data || {};
+          return dispatch(mlbLiveData(players));
+        } catch (er) {}
+      }
+    } catch (err) {}
+  };
 }
