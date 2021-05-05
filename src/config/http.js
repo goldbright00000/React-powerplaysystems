@@ -2,7 +2,7 @@ import axios from "axios";
 import { getLocalStorage } from "../utility/shared";
 import { CONSTANTS } from "../utility/constants";
 
-const apiUrl = "http://api.powerplaysystems.com/ppgapi/api/v1";
+const apiUrl = "https://api.powerplaysystems.com/ppgapi/api/v1";
 //const apiUrl = "http://localhost:5000/api/v1";
 
 const http = axios.create({
