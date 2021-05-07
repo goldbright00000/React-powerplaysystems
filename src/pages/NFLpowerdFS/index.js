@@ -513,7 +513,7 @@ function NFLPowerdFs(props) {
                 </div>
               </div>
               <div className={classes.container_footer_1}>
-                <div className={classes.container_footer_2}>
+                <div className={classes.first_column}>
                   <ContestColumn title="Summary" widthClass={classes.width_200}>
                     <div className={classes.column_body}>
                       <ContestSummaryRow
@@ -541,41 +541,44 @@ function NFLPowerdFs(props) {
                       />
                     </div>
                   </ContestColumn>
-
-                  <ContestColumn
-                    title="Scoring"
-                    styles={{ marginLeft: "116px" }}
-                  >
-                    <div className={classes.contest_scoring_wrapper}>
-                      <ContestScoringColumn
-                        title=""
-                        data={contestScoring.data1}
-                      />
-                      <ContestScoringColumn
-                        title=""
-                        data={contestScoring.data2}
-                        styles={{ width: "235px" }}
-                      />
-                    </div>
-                  </ContestColumn>
-                </div>
-
-                <ContestRulesPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      className={classes.footer_full_rules}
-                      href="#"
+                  <ContestRulesPopUp
+                      component={({ showPopUp }) => (
+                        <button
+                          onClick={showPopUp}
+                          className={classes.footer_full_rules}
+                          href="#"
+                        >
+                          See Full Rules <img src={RightArrow} />
+                        </button>
+                      )}
+                  />
+                  </div>
+                  <div className={classes.second_column}>
+                    <ContestColumn
+                      title="Scoring"
                     >
-                      See Full Rules <img src={RightArrow} />
-                    </button>
-                  )}
-                />
+                      <div className={classes.contest_scoring_wrapper}>
+                        <ContestScoringColumn
+                          title=""
+                          data={contestScoring.data1}
+                        />
+                      </div>
+                    </ContestColumn>
+                </div>
+                <div className={classes.third_column}>
+                  <ContestScoringColumn
+                    title=""
+                    data={contestScoring.data2}
+                    styles={{ width: "235px", marginTop: 48 }}
+                  />
+                  <div className={classes.container_body_img_div}>
+                    <img
+                      src={NFLFooterImage}
+                      className={classes.container_body_img}
+                    />
+                  </div>
+                </div>
               </div>
-              <img
-                src={NFLFooterImage}
-                className={classes.container_body_img}
-              />
             </div>
           </div>
 

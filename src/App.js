@@ -42,6 +42,7 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -107,6 +108,7 @@ const App = (props) => {
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
         <Route path='/responsible-gaming' component={ResponsibleGaming} />
         <Route path='/how-to-play' component={HowToPlayPage} />
+        <Route path='/verify-your-identity' component={VerifyIdentityPage} />
         <Route component={HomePage} />
       </Switch>
     </Fragment>

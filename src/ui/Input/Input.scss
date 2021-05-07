@@ -1,3 +1,5 @@
+@import '../../scss/colors.scss';
+
 .__text-field-style-2 {
   color: #000000;
   margin: 1.1em 0;
@@ -25,6 +27,12 @@
     font-size: inherit;
     outline: none;
     border-radius: 0.3em;
+    &:focus{
+      border-color: $primary;
+    }
+    @media (max-width: 550px) {
+      padding: 1.22em 0.9em;
+    }
   }
 }
 .w-50 {
