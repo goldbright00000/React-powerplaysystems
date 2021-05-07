@@ -18,6 +18,7 @@ export function mlbData() {
       response.data || {};
 
     const mlbPlayerList = [];
+    const mlbTeams = [];
     for (let i = 0; i < mlbSchedule?.length; i++) {
       const {
         away_team = {},
@@ -26,6 +27,25 @@ export function mlbData() {
         venue = {},
         match_id = "",
       } = mlbSchedule[i] || {};
+
+      const awayTeam = getTeam(
+        away_team,
+        home_team,
+        match_id,
+        venue,
+        date_time
+      );
+      const homeTeam = getTeam(
+        home_team,
+        away_team,
+        match_id,
+        venue,
+        date_time
+      );
+
+      mlbTeams.push(awayTeam);
+      mlbTeams.push(homeTeam);
+
       const { mlb_players: awayTeamPlayers = [], name: awayTeamName = "" } =
         away_team || {};
       const { mlb_players: homeTeamPlayers = [], name: homeTeamName = "" } =
@@ -57,7 +77,7 @@ export function mlbData() {
     const cTypePlayers = getFilterPlayersList(C, mlbPlayerList);
     const ssTypePlayers = getFilterPlayersList(SS, mlbPlayerList);
     const xBTypePlayers = getFilterPlayersList(XB, mlbPlayerList);
-    const dTypePlayers = getFilterPlayersList(D, mlbPlayerList);
+    const dTypePlayers = { type: D, listData: mlbTeams };
     filterdList.push(pTypePlayers);
     filterdList.push(ofTypePlayers);
     filterdList.push(cTypePlayers);
@@ -71,6 +91,20 @@ export function mlbData() {
       game_id,
       sport_id,
     });
+  };
+}
+
+function getTeam(currentTeam, opponentTeam, match_id, venue, date_time) {
+  const time = moment(date_time).format("LT");
+  const date = moment(date_time).format("YYYY-MM-DD");
+  return {
+    ...currentTeam,
+    teamBName: opponentTeam.name,
+    teamBCity: opponentTeam.city,
+    match_id,
+    venue,
+    time,
+    date,
   };
 }
 
@@ -134,7 +168,7 @@ function getFilterPlayersList(filter = "", playersList = []) {
 
   const players = {
     type: filter,
-    players: [...list],
+    listData: [...list],
   };
 
   return players;
@@ -172,8 +206,20 @@ export function saveAndGetSelectPlayers(payload) {
               user_id: payload.userId,
             }
           );
+
+          const { data = {} } = playersResponse.data || {};
           const { game_id, sport_id, user_id, team_id, players = [] } =
-            playersResponse.data || {};
+            data || {};
+
+          for (let i = 0; i < players?.length; i++) {
+            const player = players[i];
+            Object.assign(player, {
+              playerName: player?.name,
+              playerId: player?.player_id,
+            });
+
+            delete player?.name;
+          }
           return dispatch(mlbLiveData(players));
         } catch (er) {}
       }

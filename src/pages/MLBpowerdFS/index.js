@@ -20,7 +20,6 @@ import SportsSidebarContent from "../../components/SportsSidebarContent";
 import SelectionCard3 from "../../components/SportsSelectionCard3";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
-import SelectionCard2 from "../../components/SportsSelectionCard2";
 import Search from "../../components/SearchInput";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import { dummyData } from "./dummyData";
@@ -32,6 +31,7 @@ import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
 import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
+import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCard";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -187,6 +187,7 @@ const prizeData = [
 
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
+const sidebarObj = {};
 
 function MLBPowerdFs(props) {
   const [selected, setSelected] = useState(new Map());
@@ -232,14 +233,16 @@ function MLBPowerdFs(props) {
     }
   }, [data]);
 
-  const onSelectDeselect = useCallback(
+  const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
       if (loading) return;
 
-      const { type = "", players: _selectedData = [] } = selectedData || {};
+      const { type = "", listData: _selectedData = [] } = selectedData || {};
 
-      const [currentPlayer] = _selectedData?.filter(
-        (player) => player?.playerId === id && player?.match_id === matchId
+      const [currentPlayer] = _selectedData?.filter((player) =>
+        type?.toLocaleLowerCase() === D
+          ? player?.team_id
+          : player?.playerId === id && player?.match_id === matchId
       );
       const _selected = new Map(selected);
       let _starPlayerCount = starPlayerCount;
@@ -256,10 +259,17 @@ function MLBPowerdFs(props) {
           const playerListIndex = _playersList?.indexOf(_player);
           let player = { ..._player };
 
-          player.name = currentPlayer?.playerName;
-          player.playerId = currentPlayer?.playerId;
-          player.isStarPlayer = currentPlayer?.isStarPlayer;
-          player.matchId = currentPlayer?.match_id;
+          if (type?.toLocaleLowerCase() === D) {
+            player.name = currentPlayer?.name;
+            player.playerId = currentPlayer?.team_id;
+            player.isStarPlayer = currentPlayer?.isStarPlayer;
+            player.matchId = currentPlayer?.match_id;
+          } else {
+            player.name = currentPlayer?.playerName;
+            player.playerId = currentPlayer?.playerId;
+            player.isStarPlayer = currentPlayer?.isStarPlayer;
+            player.matchId = currentPlayer?.match_id;
+          }
           _playersList[playerListIndex] = player;
 
           _selected.set(id, !selected.get(id));
@@ -324,14 +334,16 @@ function MLBPowerdFs(props) {
     );
     const filter = _selectedFilter;
     let _remaining = filter?.remaining;
+    let id = type === D ? player?.team_id : player?.playerId;
+    console.log(player);
     if (_remaining > 0) {
-      if (!!!selected.get(player?.playerId)) _remaining -= 1;
+      if (!!!selected.get(id)) _remaining -= 1;
       else if (_remaining < 2) _remaining += 1;
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
       }
-    } else if (!!selected.get(player?.playerId) && _remaining < 2) {
+    } else if (!!selected.get(id) && _remaining < 2) {
       _remaining++;
     } else {
       setSelectedFilter(_selectedFilter);
@@ -347,7 +359,7 @@ function MLBPowerdFs(props) {
   };
 
   const onDelete = (playerId, matchId) => {
-    onSelectDeselect(playerId, matchId);
+    onPlayerSelectDeselect(playerId, matchId);
   };
 
   const onSearch = (e) => {
@@ -430,7 +442,7 @@ function MLBPowerdFs(props) {
     }
 
     const playerIds = [];
-    for (let i = 0; i < playerList?.length; i++) {
+    for (let i = 0; i < playerList?.length - 1; i++) {
       playerIds.push(playerList[i]?.playerId);
     }
     const payload = {
@@ -438,8 +450,9 @@ function MLBPowerdFs(props) {
       sportId: sport_id,
       userId: 92,
       players: [...playerIds],
+      teamId: playerList[playerList?.length - 1]?.playerId,
     };
-    await MLBActions.saveAndGetSelectPlayers(payload);
+    await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
     redirectTo(props, { path: "/mlb-live-powerdfs" });
   };
 
@@ -499,39 +512,28 @@ function MLBPowerdFs(props) {
                     </div>
 
                     <div className={classes.card_body}>
-                      {filterdData && filterdData?.players?.length ? (
-                        filterdData?.players?.map((player, index) =>
+                      {filterdData && filterdData?.listData?.length ? (
+                        filterdData?.listData?.map((item, index) =>
                           selectedFilter?.title === D ? (
-                            <SelectionCard2
-                              title={player.name}
-                              avgVal={player.avgVal}
-                              teamA={player.teamA}
-                              teamB={player.teamB}
-                              time={player.time}
-                              date={player.date}
-                              stadium={player.stadium}
-                              isSelected={!!selected.get(player.id)}
-                              key={player?.playerId + " - " + player?.match_id}
-                              onSelectDeselect={onSelectDeselect}
-                              id={player.id}
-                              steps={player?.steps && player?.steps}
-                              isStarPlayer={
-                                player.isStarPlayer && player.isStarPlayer
-                              }
+                            <SportsTeamSelectionCard
+                              item={item}
+                              isSelected={!!selected.get(item.team_id)}
+                              key={item?.team_id + " - " + item?.match_id}
+                              onSelectDeselect={onPlayerSelectDeselect}
                               disabled={
-                                player.isStarPlayer &&
-                                player.isStarPlayer &&
+                                item.isStarPlayer &&
+                                item.isStarPlayer &&
                                 starPowerIndex >= 3
                               }
                               mlbCard
                             />
                           ) : (
                             <SelectionCard3
-                              player={player}
-                              isSelected={!!selected.get(player.playerId)}
-                              key={player.playerId + " - " + player?.match_id}
+                              player={item}
+                              isSelected={!!selected.get(item.playerId)}
+                              key={item.playerId + " - " + item?.match_id}
                               loading={loading}
-                              onSelectDeselect={onSelectDeselect}
+                              onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
                               // disabled={
                               //   item.isStarPlayer &&
