@@ -268,7 +268,7 @@ function MLBPowerdFs(props) {
 
       const [currentPlayer] = _selectedData?.filter((player) =>
         type?.toLocaleLowerCase() === D
-          ? player?.team_id
+          ? player?.team_id === id
           : player?.playerId === id && player?.match_id === matchId
       );
       const _selected = new Map(selected);
@@ -488,7 +488,7 @@ function MLBPowerdFs(props) {
       sportId: sport_id,
       userId: 92,
       players: [...playerIds],
-      teamId: playerList[playerList?.length - 1]?.playerId,
+      team_d_id: playerList[playerList?.length - 1]?.playerId,
     };
     await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
     redirectTo(props, { path: "/mlb-live-powerdfs" });
