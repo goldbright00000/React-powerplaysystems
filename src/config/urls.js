@@ -9,6 +9,7 @@ export const URLS = {
   USER: {
     BALANCE: "/users/account/balance",
     SMALL_TOKEN: "users/account/balance/token",
+    ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance"
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
