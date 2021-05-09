@@ -385,8 +385,8 @@ function MLBPowerdFs(props) {
     setFilters(_filters);
   };
 
-  const onDelete = (playerId, matchId) => {
-    onPlayerSelectDeselect(playerId, matchId);
+  const onDelete = (id, matchId) => {
+    onPlayerSelectDeselect(id, matchId);
   };
 
   const onSearch = (e) => {
@@ -783,7 +783,7 @@ function MLBPowerdFs(props) {
               </div>
               <SportsSidebarContent
                 data={playerList}
-                onDelete={(playerId, matchId) => onDelete(playerId, matchId)}
+                onDelete={(id, matchId) => onDelete(id, matchId)}
                 starIcon={StarImg}
                 selectedPlayerCount={selectedPlayerCount}
               />
