@@ -6,15 +6,15 @@ import DepositAmountForm from "./DepositAmountForm";
 import styles from "./styles.module.scss";
 import { setRates } from "../../actions/userActions";
 
-const DepositAmountPopUp = (props) => {  
+const DepositAmountPopUp = (props) => {
   const { city, address, phone_number, zip, currency, country } =
     props?.user || {};
   const dispatch = useDispatch();
-  const rate = useSelector((state) => state?.user?.rate);
+  const rate = useSelector((state) => state?.user?.markedUpRate);
 
   useEffect(() => {
     if (country === "Canada") {
-      dispatch(setRates);      
+      dispatch(setRates());
     }
   });
 
@@ -37,7 +37,7 @@ const DepositAmountPopUp = (props) => {
               zip={zip}
               currency={currency}
               country={country}
-              cad={country === "Canada" && rate}
+              cad={rate}
               ipaySubmitted={props.ipayFormSubmitted}
               zumSubmitted={props.zumFormSubmitted}
             />

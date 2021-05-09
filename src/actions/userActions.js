@@ -13,6 +13,7 @@ export const REMOVE_ZUM_TOKEN = "REMOVE_ZUM_TOKEN";
 export const SET_ZUM_REDIRECT_URL = "ZUM_REDIRECT_URL";
 export const REMOVE_ZUM_REDIRECT_URL = "REMOVE_ZUM_REDIRECT_URL";
 export const SEND_ZUM_TRANSACTION = "SEND_ZUM_TRANSACTION";
+export const SET_CONVERSION_MARKUP = "SET_CONVERSION_MARKUP";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -32,7 +33,6 @@ export function setUserBalance(payload) {
 export async function payNowWithIpay(data) {
   http.post(URLS.USER.SMALL_TOKEN).then((res) => {
     let token = res.data;
-    console.log();
 
     const {
       first_name,
@@ -49,7 +49,7 @@ export async function payNowWithIpay(data) {
     } = data;
 
     const obj = {
-      api_key: process.env.REACT_APP_REACT_APP_IPAY_API_KEY,
+      api_key: process.env.REACT_APP_IPAY_API_KEY,
       method: "visa-mc",
       response_url: "?paid=true",
       first_name,
@@ -84,7 +84,7 @@ export const PAYMENT_METHODS = {
   VISA_DIRECT: "VISA",
 };
 
-export function payWithZum(dispatch, data, push) {
+export function payWithZum(data, push) {
   const { amount, email, zumToken, paymentMethod } = data;
   let walletId = null;
   switch (paymentMethod) {
@@ -115,59 +115,65 @@ export function payWithZum(dispatch, data, push) {
     SendEmailNotification: true,
   };
 
-  axios
-    .post(`${process.env.REACT_APP_ZUM_API}/api/requestfunds`, obj, {
-      headers: { Authorization: `Bearer ${zumToken}` },
-    })
-    .then((res) => {
-      dispatch({
-        type: SET_ZUM_REDIRECT_URL,
-        payload: res.data.result.ConnectUrl,
-      });
-      push("/paymentFrame");
-    })
-    .catch((er) => console.log(er));
+  return (dispatch) =>
+    axios
+      .post(`${process.env.REACT_APP_ZUM_API}/api/requestfunds`, obj, {
+        headers: { Authorization: `Bearer ${zumToken}` },
+      })
+      .then((res) => {
+        dispatch({
+          type: SET_ZUM_REDIRECT_URL,
+          payload: res.data.result.ConnectUrl,
+        });
+        push("/paymentFrame");
+      })
+      .catch((er) => console.log(er));
 }
 
-export function setRates(dispatch) {
-  axios
-    .get(
-      "http://data.fixer.io/api/latest?access_key=fa3628fdfda5d5a96c1b5279ff862d37"
-    )
-    .then((res) => {
-      let rates = res.data.rates;
-      let rate = rates["CAD"] / rates["USD"];
-      return dispatch({
-        type: CURRENCY_EXCHANGE_RATES,
-        payload: rate,
+export function setRates() {
+  return (dispatch) => {
+    axios
+      .get(
+        "http://data.fixer.io/api/latest?access_key=fa3628fdfda5d5a96c1b5279ff862d37"
+      )
+      .then((res) => {
+        let rates = res.data.rates;
+        let rate = rates["CAD"] / rates["USD"];
+        return dispatch({
+          type: CURRENCY_EXCHANGE_RATES,
+          payload: rate,
+        });
+      })
+      .catch((er) => {
+        console.log(er);
       });
-    })
-    .catch((er) => {
-      console.log(er);
-    });
+  };
 }
 
-export function setZumToken(dispatch) {
+export function setZumToken() {
   const obj = {
     Username: process.env.REACT_APP_ZUM_USERNAME,
     Password: process.env.REACT_APP_ZUM_PASSWORD,
   };
-  axios
-    .post(`${process.env.REACT_APP_ZUM_API}/api/authorize`, obj)
-    .then((res) => {
-      // it will remove the token from state after one hour as it gets expired.
-      setTimeout(() => {
-        dispatch({ type: REMOVE_ZUM_TOKEN });
-      }, 3600 * 1000);
+  return (dispatch) => {
+    dispatch(setConversionMarkup());
+    axios
+      .post(`${process.env.REACT_APP_ZUM_API}/api/authorize`, obj)
+      .then((res) => {
+        // it will remove the token from state after one hour as it gets expired.
+        setTimeout(() => {
+          dispatch({ type: REMOVE_ZUM_TOKEN });
+        }, 3600 * 1000);
 
-      return dispatch({
-        type: SET_ZUM_TOKEN,
-        payload: res.data.result.Token,
+        return dispatch({
+          type: SET_ZUM_TOKEN,
+          payload: res.data.result.Token,
+        });
+      })
+      .catch((er) => {
+        console.log(er);
       });
-    })
-    .catch((er) => {
-      console.log(er);
-    });
+  };
 }
 
 export function sendZumTransaction(transactionId) {
@@ -180,6 +186,21 @@ export function sendZumTransaction(transactionId) {
       console.log(response);
       if (response.data.status === true) {
         dispatch({ type: SEND_ZUM_TRANSACTION });
+      }
+    });
+  };
+}
+
+export function setConversionMarkup() {
+  const request = http.get(URLS.USER.CONVERSION_MARKUP_VALUE);
+
+  return (dispatch) => {
+    return request.then((response) => {
+      if (response.data.status === true) {
+        dispatch({
+          type: SET_CONVERSION_MARKUP,
+          payload: parseFloat(response.data.data.data_value),
+        });
       }
     });
   };

@@ -53,7 +53,7 @@ const Header = (props) => {
     headerLogo = null,
   } = props || {};
 
-  const { user = {} } = useSelector((state) => state?.auth);
+  const { user } = useSelector((state) => state?.auth);
   const zumToken = useSelector((state) => state?.user?.zumToken);
 
   const dispatch = useDispatch();
@@ -64,7 +64,7 @@ const Header = (props) => {
   const [showDepositModal, setShowDepositModal] = useState(false);
 
   useEffect(() => {
-    !zumToken && dispatch(setZumToken);
+    !zumToken && dispatch(setZumToken());
   }, [zumToken]);
 
   const onLogout = () => {
@@ -113,7 +113,7 @@ const Header = (props) => {
         email: user?.email,
         zumToken,
       };
-      payWithZum(dispatch, obj, history.push);
+      dispatch(payWithZum(obj, history.push));
       setShowDepositModal(false);
     }
   };

@@ -29,7 +29,8 @@ class DepositAmountForm extends Component {
     form: {
       currency: "USD",
       price: 25,
-      paymentMetod: this.props.cad ? "EFT" : "Credit or Debit Card",
+      paymentMetod:
+        this.props.country === "Canada" ? "EFT" : "Credit or Debit Card",
       walletAddress: "",
     },
     isOtherAmount: false,
@@ -37,9 +38,9 @@ class DepositAmountForm extends Component {
     address: this.props.address,
     phoneNumber: this.props.phoneNumber,
     zip: this.props.zip,
-    currency: this.props.currency,
-    currencyRate: this.props.cadRate,
+    currency: this.props.currency ? this.props.currency : "USD",
     country: this.props.country,
+    canadianVisible: this.props.country === "Canada",
   };
 
   onCurrencyChange = (e) => {
@@ -85,7 +86,7 @@ class DepositAmountForm extends Component {
             <img src={EFTCard} alt="" className={styles.creditdebitcardImg} />
           ),
           helperText: "EFT",
-          visible: this.props.cad,
+          visible: this.state.canadianVisible,
         },
         {
           value: "INTERAC",
@@ -97,7 +98,7 @@ class DepositAmountForm extends Component {
             />
           ),
           helperText: "INTERAC",
-          visible: this.props.cad,
+          visible: this.state.canadianVisible,
         },
         {
           value: "CREDIT",
@@ -109,13 +110,13 @@ class DepositAmountForm extends Component {
             />
           ),
           helperText: "CREDIT",
-          visible: this.props.cad,
+          visible: this.state.canadianVisible,
         },
         {
           value: "VISA",
           title: <img src={VisaCard} alt="" className={styles.visaCard} />,
           helperText: "VISA DEBIT",
-          visible: this.props.cad,
+          visible: this.state.canadianVisible,
         },
         {
           value: "Credit or Debit Card",
@@ -127,17 +128,17 @@ class DepositAmountForm extends Component {
             />
           ),
           helperText: "CREDIT or DEBIT",
-          visible: !this.props.cad,
+          visible: !this.state.canadianVisible,
         },
         {
           value: "PayPal",
           title: <img src={PayPal} alt="" className={styles.PayPal} />,
-          visible: !this.props.cad,
+          visible: !this.state.canadianVisible,
         },
         {
           value: "E-Check",
           title: <img src={ECheck} alt="" className={styles.ECheck} />,
-          visible: !this.props.cad,
+          visible: !this.state.canadianVisible,
         },
       ],
     },
@@ -217,7 +218,7 @@ class DepositAmountForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    if (!this.props.cad) {
+    if (!this.state.canadianVisible) {
       const object = {
         currency: this.state.currency,
         amount: this.state.form.price,
@@ -229,7 +230,8 @@ class DepositAmountForm extends Component {
 
       this.props.ipaySubmitted(object);
     } else {
-      const { price, paymentMetod } = this.state.form;
+      let { price, paymentMetod } = this.state.form;
+      price = parseFloat((price * this.props.cad).toFixed(2));
       this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
     }
   };
@@ -263,7 +265,7 @@ class DepositAmountForm extends Component {
                 key={index}
                 onChange={this.onPriceChange}
                 helperText={
-                  this.props.cad
+                  this.state.canadianVisible
                     ? formatePrice(data.value, this.props.cad, true)
                     : null
                 }
@@ -312,7 +314,7 @@ class DepositAmountForm extends Component {
             </div>
           </section>
         )}
-        {currency === "USD" && this.props.country !== "Canada" && (
+        {currency === "USD" && !this.state.canadianVisible && (
           <section className={styles.cardSectionn}>
             <div className={styles.cardDetails}>
               <div>
