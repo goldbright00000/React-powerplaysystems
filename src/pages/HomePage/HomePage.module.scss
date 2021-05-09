@@ -405,8 +405,7 @@
       display: flex;
       justify-content: center;
       position: relative;
-      bottom: 30px;
-      margin-top: 130px;
+      margin: 7.43rem 0 8.8571rem 0;
 
       .__home_page_third_section_power_up_btn {
         width: 180px;
@@ -863,6 +862,10 @@
             .__home_page_third_section_power_tokens {
               color: $primary;
               font-weight: bold;
+            }
+
+            div {
+              margin-top: 15px;
             }
           }
 

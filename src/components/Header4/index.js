@@ -5,9 +5,11 @@ import classes from "./index.module.scss";
 import DocIcon from "../../icons/Doc";
 import Trophy from "../../icons/Trophy";
 import PowerBW from "../../assets/power_bw.png";
-import { setNumberComma } from "../../utility/shared";
+import { getLocalStorage, setNumberComma } from "../../utility/shared";
 import Points from "../../icons/Points";
 import ContestRulesPopUp from "../ContestRulesPopUp";
+import Balance from "../Balance";
+import { CONSTANTS } from "../../utility/constants";
 function Header4(props) {
   const {
     onClickContest = () => {},
@@ -21,6 +23,7 @@ function Header4(props) {
     bgImageUri,
     compressedView = false,
     currentState = <></>,
+    token = "",
   } = props || {};
 
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
@@ -78,33 +81,11 @@ function Header4(props) {
         </div>
       </div>
 
-      <div className={classes.header_bottom}>
-        <div className={classes.header_bottom_l}>
-          <p>
-            Entries {setNumberComma(10000)}
-            <span> / {setNumberComma(100000)}</span>
-          </p>
-        </div>
-
-        <div className={classes.header_bottom_r}>
-          {currentState && currentState}
-          <div className={classes.divider} />
-          <FooterSection
-            title="15,000"
-            footerText="Power Balance"
-            Icon={PowerBW}
-          />
-          <div className={classes.divider} />
-          <FooterSection
-            title="$36"
-            footerText="Cash Balance"
-            Icon={Points}
-            isSvg
-          />
-          <div className={classes.divider} />
-          <FooterSection title="Deposit" />
-        </div>
-      </div>
+      {
+        (token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))
+        &&
+        <Balance entries="10,000" totalEntries="100,000" />
+      }
     </div>
   );
 

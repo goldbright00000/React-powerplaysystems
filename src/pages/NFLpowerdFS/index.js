@@ -31,6 +31,7 @@ import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
 import Header5 from "../../components/Header5";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
 
 const { QB, RB, WR, TE, K, D } = CONSTANTS.FILTERS.NFL;
 
@@ -200,7 +201,7 @@ function NFLPowerdFs(props) {
   const [showPrizeModal, setPrizeModalState] = useState(false);
 
   const { data = [], starPlayerCount = 0 } = useSelector((state) => state.nfl);
-  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+  const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //reset the states
@@ -486,6 +487,7 @@ function NFLPowerdFs(props) {
                           isSelected={!!selected.get(item.id)}
                           key={item.id}
                           onSelectDeselect={onSelectDeselect}
+                          pageType={PAGE_TYPES.NFL}
                           // disabled={
                           //   item.isStarPlayer &&
                           //   item.isStarPlayer &&
@@ -581,7 +583,7 @@ function NFLPowerdFs(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar styles={{ padding: 20}}>
+            <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}

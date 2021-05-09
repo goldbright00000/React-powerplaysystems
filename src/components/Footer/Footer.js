@@ -15,12 +15,12 @@ const Footer = props => {
                     <Link to='/my-account'>My Account</Link>
                     <Link to='/terms'>Terms of use</Link>
                     <Link to='/faqs'>FAQs</Link>
-                    <Link to='/sponer-contest'>Sponsor a contest</Link>
+                    <Link to='/sponer-contest'>Power Center</Link>
                     <Link to='/privacy'>Privacy</Link>
                     <Link to='/trust-and-safety'>Trust & Safety </Link>
                     <Link to='/responsible-gaming'>Responsible Gaming</Link>
                     <Link to='/account-security'>Account Security</Link>
-                    <Link to='/about-us'>About Us</Link>
+                    <Link to='/contact-us'>Contact Us</Link>
                 </div>
                 <p className={styles.copyWriteSection}>Copyright © 2021 PowerPlay Systems Inc. - All Rights Reserved <br /> 140 Yonge St., S.200, Toronto, ON, M5C 1X6 | info@powerplaysystems.com | 1-888-808-7697</p>
             </div>

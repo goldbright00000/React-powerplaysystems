@@ -1,0 +1,44 @@
+[debug] [2021-04-29T09:01:12.864Z] ----------------------------------------------------------------------
+[debug] [2021-04-29T09:01:12.867Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\UBaid\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2021-04-29T09:01:12.868Z] CLI Version:   9.10.0
+[debug] [2021-04-29T09:01:12.868Z] Platform:      win32
+[debug] [2021-04-29T09:01:12.868Z] Node Version:  v14.16.0
+[debug] [2021-04-29T09:01:12.870Z] Time:          Thu Apr 29 2021 14:01:12 GMT+0500 (Pakistan Standard Time)
+[debug] [2021-04-29T09:01:12.871Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-04-29T09:01:12.882Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-04-29T09:01:12.882Z] > authorizing via signed-in user (m.ubaidbadar@gmail.com)
+[debug] [2021-04-29T09:01:12.882Z] [iam] checking project defy-games for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2021-04-29T09:01:12.885Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-29T09:01:12.885Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-29T09:01:13.972Z] <<< HTTP RESPONSE 200 {"date":"Thu, 29 Apr 2021 09:01:25 GMT","pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","expires":"Mon, 01 Jan 1990 00:00:00 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-29T09:01:14.006Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/defy-games:testIamPermissions  
+ {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2021-04-29T09:01:16.275Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Thu, 29 Apr 2021 09:01:27 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","server-timing":"gfet4t7; dur=1182","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-29T09:01:16.276Z] > refreshing access token with scopes: []
+[debug] [2021-04-29T09:01:16.276Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-29T09:01:16.792Z] <<< HTTP RESPONSE 200 {"date":"Thu, 29 Apr 2021 09:01:28 GMT","pragma":"no-cache","expires":"Mon, 01 Jan 1990 00:00:00 GMT","cache-control":"no-cache, no-store, max-age=0, must-revalidate","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-29T09:01:16.819Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/defy-games [none]
+[debug] [2021-04-29T09:01:17.442Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/defy-games 200
+[debug] [2021-04-29T09:01:17.443Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/defy-games {"projectId":"defy-games","projectNumber":"567247642712","displayName":"Defy-Games-test","name":"projects/defy-games","resources":{"hostingSite":"defy-games"},"state":"ACTIVE"}
+[info] 
+[info] === Deploying to 'defy-games'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2021-04-29T09:01:17.457Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2021-04-29T09:01:17.458Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-29T09:01:17.948Z] <<< HTTP RESPONSE 200 {"expires":"Mon, 01 Jan 1990 00:00:00 GMT","pragma":"no-cache","cache-control":"no-cache, no-store, max-age=0, must-revalidate","date":"Thu, 29 Apr 2021 09:01:29 GMT","content-type":"application/json; charset=utf-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","server":"scaffolding on HTTPServer2","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[debug] [2021-04-29T09:01:17.961Z] >>> HTTP REQUEST POST https://firebasehosting.googleapis.com/v1beta1/sites/defy-games/versions  
+ {"config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2021-04-29T09:01:20.383Z] <<< HTTP RESPONSE 200 {"content-type":"application/json; charset=UTF-8","vary":"X-Origin, Referer, Origin,Accept-Encoding","date":"Thu, 29 Apr 2021 09:01:31 GMT","server":"ESF","cache-control":"private","x-xss-protection":"0","x-frame-options":"SAMEORIGIN","x-content-type-options":"nosniff","alt-svc":"h3-29=\":443\"; ma=2592000,h3-T051=\":443\"; ma=2592000,h3-Q050=\":443\"; ma=2592000,h3-Q046=\":443\"; ma=2592000,h3-Q043=\":443\"; ma=2592000,quic=\":443\"; ma=2592000; v=\"46,43\"","accept-ranges":"none","transfer-encoding":"chunked"}
+[info] i  hosting[defy-games]: beginning deploy... 
+[info] i  hosting[defy-games]: found 98 files in build 
+[debug] [2021-04-29T09:01:20.461Z] [hosting] hash cache [YnVpbGQ] not populated
+[debug] [2021-04-29T09:01:21.350Z] > refreshing access token with scopes: []
+[debug] [2021-04-29T09:01:21.350Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2021-04-29T09:01:21.353Z] [hosting] hash cache [YnVpbGQ] stored for 98 files
+[debug] [2021-04-29T09:01:21.354Z] [hosting][hash queue][FINAL] {"max":881,"min":29,"avg":199.73469387755102,"active":0,"complete":98,"success":98,"errored":0,"retried":0,"total":98,"elapsed":893}

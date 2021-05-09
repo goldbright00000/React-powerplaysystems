@@ -5,12 +5,14 @@ import { isEmpty, isEqual } from "lodash";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import "./PowerUpPage.scss";
 import Input from "../../ui/Input/Input";
 import Alert from "../../components/Alert";
 import { redirectTo } from "../../utility/shared";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
+import styles from './styles.module.scss';
+import formStyles from '../../scss/formstyles.module.scss';
+import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 
 const INITIAL_STATE = {
   username: "",
@@ -78,28 +80,12 @@ const PowerUpPage = (props) => {
   };
 
   return (
-    <div className="__PowerUpPage">
+    <div className={styles.root}>
       <Header isStick={true} />
-      <div className="__background-section">
-        <div className="__background-color">
-          <div className="__center __mt-7 __sign-in-container">
-            <div className="__inline-block">
-              <div className="__viewport-title __ml-1 __mb-1 __mr-1 __primary __m-a __h3 __bold __p-s __h4-on-small">
-                Get ready to Power-up!
-              </div>
-              <div className="__viewport-subtitle __h6 __mediam-on-small">
-                Let’s start your new experience our ground-breaking live-play{" "}
-                <br className="__hide-on-small" /> games where you have the
-                Power to control your destiny!
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="__sign-in-section __form-section">
-        <div className="__form-wrapper __sign-in-container">
+      <HeroSection title={<>Get Ready <br />to Power-Up!</>} subTitle={<>Start your new fantasy experience on our live-play platform <br /> where you have the Power to control your team's destiny!</>} />
+      <div className={styles.container}>
           <form
-            className="__sign-in-form __container"
+            className={formStyles.root}
             action={null}
             onSubmit={onSubmit}
           >
@@ -151,19 +137,18 @@ const PowerUpPage = (props) => {
               }}
             />
             <button
-              className="__btn __h4 __submit-btn __uppercase __block __h5-on-small"
+              className={formStyles.button}
               disabled={user.isLoading}
             >
               {user.isLoading ? "Loading..." : "Next"}
             </button>
           </form>
-          <div className="__center __mt-4 __already-have-an-account">
+          <p className={styles.blogSection}>
             Already have an account?{" "}
-            <Link to="/login" className="__login-link">
+            <Link to="/login">
               Log in!
             </Link>
-          </div>
-        </div>
+          </p>
       </div>
       <Footer isBlack={true} />
     </div>

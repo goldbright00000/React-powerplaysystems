@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty, cloneDeep } from "lodash";
 
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import * as MLBActions from "../../actions/MLBActions";
 
 import classes from "./index.module.scss";
@@ -31,6 +33,14 @@ import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
+
+import SwapPlayerIcon from "../../assets/swap-player-icon.png"
+import PointMultiplierIcon from '../../assets/point-multiplier-icon.png';
+import VideoReviewIcon from "../../assets/video-review-icon.png";
+import DWallIcon from "../../assets/d-wall-icon.png";
+import UndoIcon from "../../assets/undo-icon.png";
+import RetroBoostIcon from '../../assets/retro-boost-icon.png';
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -128,19 +138,36 @@ const dropDown = [
 
 const contestScoring = {
   data1: [
-    { title: "Single", points: "+3 pts" },
-    { title: "Double", points: "+5 pts" },
-    { title: "Triple", points: "+8 pts" },
-    { title: "Home Run", points: "+10 pts" },
-    { title: "Run Batted in", points: "+2 pts" },
-    { title: "Run", points: "+2 pts" },
-    { title: "Base on Balls", points: "+1 pts" },
-    { title: "Stolen Base", points: "+5 pts" },
+    {
+      title: 'Hitters',
+      data: [
+        { title: "Single", points: "+3 pts" },
+        { title: "Double", points: "+5 pts" },
+        { title: "Triple", points: "+8 pts" },
+        { title: "Home Run", points: "+10 pts" },
+        { title: "Run Batted in", points: "+2 pts" },
+        { title: "Run", points: "+2 pts" },
+        { title: "Base on Balls", points: "+1 pts" },
+        { title: "Stolen Base", points: "+5 pts" },
+      ]
+    }
   ],
   data2: [
-    { title: "Outs", points: "+1 Pt per Out" },
-    { title: "Inning 1-6 K's", points: "+2 pts" },
-    { title: "Innings 7+ K's", points: "+3 pts" },
+    {
+      title: 'Pitchers',
+      data: [
+        { title: "Innings 1-8 Outs", points: "+1 Pt per Out" },
+        { title: "Innings 9+ Outs", points: "+ 2 Pts per Out" },
+        { title: "Innings 1-7 K’s", points: "+ 2 Pts" },
+        { title: "Innings 8+ K’s", points: "+ 3 Pts" },
+      ]
+    },
+    {
+      title: 'Team Defence',
+      data: [
+        { title: "Runs Against", points: "- 5 Pts" },
+      ]
+    }
   ],
 };
 
@@ -200,8 +227,11 @@ function MLBPowerdFs(props) {
   const [showPrizeModal, setPrizeModalState] = useState(false);
   const [selectedType, setSelectedType] = useState();
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
 
   const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+
   const dispatch = useDispatch();
 
   //reset the states
@@ -378,22 +408,35 @@ function MLBPowerdFs(props) {
     </div>
   );
 
-  const ContestScoringColumn = ({ title = "", data = [], styles = {} }) => (
+  const ContestScoringColumn = ({data = [], styles = {} }) => (
     <div className={classes.scoring_column} style={styles}>
-      <div className={classes.scoring_title}>
-        <p>{title}</p>
-      </div>
-      <div className={classes.scoring_body}>
-        {data &&
-          data?.length &&
-          data?.map((item, ind) => (
-            <ContestScoringRow
-              item={item}
-              key={ind + "-"}
-              width={title == "Pitchers" && classes.width_140}
-            />
-          ))}
-      </div>
+      {
+        data.map((mainItem, mainIndex) => {
+          return (
+            <>
+            <div className={classes.scoring_title} 
+              style={{ marginTop: mainItem.title == 'Team Defence' && 38, marginBottom: 6}} 
+              key={mainIndex}>
+              <p>{mainItem.title}</p>
+            </div>
+            {
+              data &&
+              data?.length &&
+              mainItem.data.map((item, index) => {
+                return (
+                  <div className={classes.scoring_body}>
+                  <ContestScoringRow
+                      item={item}
+                      key={index + "-"}
+                    />
+                  </div>
+                );
+              })
+            }
+            </>
+          );
+        })
+      }
     </div>
   );
 
@@ -421,6 +464,14 @@ function MLBPowerdFs(props) {
     </div>
   );
 
+  const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
+    <div className={classes.body_card}>
+      <span>{count}</span>
+      <img src={Icon} />
+      <p>{title}</p>
+    </div>
+  );
+
   return (
     <>
       <Header />
@@ -439,6 +490,7 @@ function MLBPowerdFs(props) {
           prizeBtnTitle="Prize Grid"
           bgImageUri={BaseballImage}
           onClickPrize={() => setPrizeModalState(true)}
+          token={token}
         />
 
         <div className={classes.container}>
@@ -510,6 +562,7 @@ function MLBPowerdFs(props) {
                               key={player.playerId + " - " + player?.match_id}
                               loading={loading}
                               onSelectDeselect={onSelectDeselect}
+                              pageType={PAGE_TYPES.MLB}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
@@ -538,63 +591,127 @@ function MLBPowerdFs(props) {
               </div>
               <div className={classes.container_footer_1}>
                 <div className={classes.container_footer_2}>
-                  <ContestColumn title="Summary" widthClass={classes.width_200}>
-                    <div className={classes.column_body}>
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            <span>$100,000</span> Prize Pool
-                          </p>
-                        }
-                      />
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            Live-play <span>Powers</span> included with entry
-                            fee
-                          </p>
-                        }
-                      />
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            Pick players from any teams scheduled to play on{" "}
-                            <span>July 19, 2021</span>
-                          </p>
-                        }
-                      />
-                    </div>
-                  </ContestColumn>
-
-                  <ContestColumn
-                    title="Scoring"
-                    styles={{ marginLeft: "116px" }}
-                  >
-                    <div className={classes.contest_scoring_wrapper}>
-                      <ContestScoringColumn
-                        title="Hitters"
-                        data={contestScoring.data1}
-                      />
-                      <ContestScoringColumn
-                        title="Pitchers"
-                        data={contestScoring.data2}
-                        styles={{ width: "235px" }}
-                      />
-                    </div>
-                  </ContestColumn>
-                </div>
-
-                <ContestRulesPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      className={classes.footer_full_rules}
-                      href="#"
+                <div className={classes.container_tabs}>
+                    <Tabs
+                      selectedIndex={activeTab}
+                      onSelect={(tabIndex) => {
+                        setActiveTab(tabIndex);
+                      }}
                     >
-                      See Full Rules <img src={RightArrow} />
-                    </button>
-                  )}
-                />
+                      <TabList className={classes.tabs_header}>
+                        <Tab className={`${activeTab === 0 && classes.active}`}>
+                          Summary
+                        </Tab>
+                        <Tab className={`${activeTab === 1 && classes.active}`}>
+                          Scoring
+                        </Tab>
+                        <Tab className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header}`}>
+                          Powers Available
+                        </Tab>
+                      </TabList>
+
+                      <div className={classes.tab_body}>
+                        <TabPanel>
+                        <ContestColumn title="" widthClass={classes.width_200}>
+                          <div className={classes.column_body}>
+                            <ContestSummaryRow
+                              text={
+                                <p>
+                                  <span>$100,000</span> Prize Pool
+                                </p>
+                              }
+                            />
+                            <ContestSummaryRow
+                              text={
+                                <p>
+                                  Live-play <span>Powers</span> included with entry
+                                  fee
+                                </p>
+                              }
+                            />
+                            <ContestSummaryRow
+                              text={
+                                <p>
+                                  Pick players from any teams scheduled to play on{" "}
+                                  <span>July 19, 2021</span>
+                                </p>
+                              }
+                            />
+                          </div>
+                        </ContestColumn>
+                        </TabPanel>
+                        <TabPanel>
+                          <ContestColumn
+                            title=""
+                          >
+                            <div className={classes.contest_scoring_wrapper}>
+                              <ContestScoringColumn
+                                data={contestScoring.data1}
+                              />
+                              <ContestScoringColumn
+                                data={contestScoring.data2}
+                              />
+                            </div>
+                          </ContestColumn>
+                        </TabPanel>
+                        <TabPanel>
+                          <div className={classes.__powers_available}>
+                          <RenderIcon
+                              title="Point Multiplier"
+                              Icon={PointMultiplierIcon}
+                              iconSize={54}
+                              count={2}
+                            />
+
+                            <RenderIcon
+                              title="Swap Player"
+                              Icon={SwapPlayerIcon}
+                              iconSize={54}
+                              count={2}
+                            />
+
+                            <RenderIcon
+                              title="Undo"
+                              Icon={UndoIcon}
+                              iconSize={54}
+                              count={2}
+                            />
+                          </div>
+                          <div className={classes.__powers_available}>
+                            <RenderIcon
+                              title="Retro Boost"
+                              Icon={RetroBoostIcon}
+                              iconSize={24}
+                              count={1}
+                            />
+
+                            <RenderIcon title="D-Wall" Icon={DWallIcon} iconSize={54} count={1} />
+
+                            <RenderIcon
+                              title="Video Review"
+                              Icon={VideoReviewIcon}
+                              iconSize={54}
+                              count={1}
+                            />
+                          </div>
+                        </TabPanel>
+                      </div>
+                    </Tabs>
+                  </div>
+                </div>
+                <div className={classes.__see_full_rules}>
+                  <ContestRulesPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        onClick={showPopUp}
+                        className={classes.footer_full_rules}
+                        href="#"
+                      >
+                        See Full Rules <img src={RightArrow} />
+                      </button>
+                    )}
+                  />
+                </div>
               </div>
               <img
                 src={MLBFooterImage}
@@ -604,17 +721,12 @@ function MLBPowerdFs(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar
-              styles={{
-                padding: "0px",
-              }}
-            >
+            <Sidebar styles={{ padding: 20}}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
-                  width: "100%",
                   marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"
