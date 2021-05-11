@@ -1,0 +1,65 @@
+@import '../../scss/colors.scss';
+
+.__balance {
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    background-color: $black5;
+    flex: 1;
+
+    .__balance_cash_and_balance_outer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+    }
+
+    .__balance_cash_and_balance_icon {
+        margin-top: 4px;
+    }
+
+    .__balance_cash_and_balance_inner {
+        .__balance_power_and_cash_balance {
+            height: 23px;
+            font-family: Teko;
+            font-size: 22px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $grey2;
+        }
+
+        .__balance_power_and_cash_balance_title {
+            height: 17px;
+            opacity: 0.6;
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $white;
+            padding-left: 3px;
+        }
+    }
+
+    .__balance_deposit {
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        align-items: center;
+        font-family: Teko;
+        font-size: 22px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $grey2;
+        cursor: pointer;
+    }
+}

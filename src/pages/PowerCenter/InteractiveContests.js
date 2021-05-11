@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classes from './interactiveContests.module.scss';
+import { useMediaQuery } from 'react-responsive';
 import moment from "moment";
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
@@ -129,6 +130,7 @@ const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
     const currencyMenuRef = useRef(null);
+    const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
 
     const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
     const [showCardDetails, setShowCardDetails] = useState(-1);
@@ -188,7 +190,7 @@ const InteractiveContests = props => {
     return (
         <>
             <div className='__table-wrapper __mb-6'>
-                <div className='__flex'>
+                <div className={isMobile ? '' : '__flex'}>
                     <div style={{ flex: 1 }}>
                         <div className='__badges-wrapper __text-in-one-line __mediam'>
                             {
@@ -216,6 +218,25 @@ const InteractiveContests = props => {
                         
                     </div>
                 </div>
+                {
+                    isMobile
+                    ?
+                    <div className={classes.__interactive_contests_filter}>
+                        <div className={classes.__interactive_contests_most_popular}>
+                            <p>
+                                Most Popular
+                                <FilledArrow down={true} />
+                            </p>
+                        </div>
+                        <div className={classes.__interactive_contests_date}>
+                            <CustomDropDown 
+                                value={selectedDate}
+                                options={days}
+                                onChange={selectedOption => setSelectedDate(selectedOption)}
+                            />
+                        </div>
+                    </div>
+                    :
                 <div className={classes.__interactive_contests_filter}>
                     <div className={classes.__interactive_contests_most_popular}>
                         <p>Most Popular</p>
@@ -283,8 +304,33 @@ const InteractiveContests = props => {
                         />
                     </div>
                 </div>
+                }
 
                 {
+                    isMobile
+                    ?
+                    (() => {
+                        const itemsInaRow = 1;
+                        const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
+                        const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
+                            const start = ((i + 1) * itemsInaRow) - 1;
+                            const end = ((i + 1) * itemsInaRow);
+                            const items = filteredData.slice(start, end);
+
+                            return (
+                                <div className={classes.__interactive_contests_power_center_card_row}>
+                                    {
+                                        items.map(power => {
+                                            return powerCenterCard(power, power.url);
+                                        })
+                                    }
+                                </div>
+                            );
+                        })
+                        return powerCenterCardView;
+                    }
+                    )()
+                    :
                     (() => {
                         const itemsInaRow = 4;
                         const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
