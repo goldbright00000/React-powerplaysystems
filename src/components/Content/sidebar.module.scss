@@ -22,7 +22,7 @@
     padding: 1rem 0;
     position: sticky;
     margin: 0 0 auto 0;
-    top: 7.9rem;
+    top: 7.3rem;
     max-height: calc(100vh - 12rem);
     overflow: auto;
     &::-webkit-scrollbar {
@@ -39,5 +39,12 @@
         &:hover{
             background-color: rgba(242, 242, 242, 0.09);
         }
+    }
+    @media (max-width: 997px) {
+        min-width: 20rem;
+        top: 5.7rem;
+    }
+    @media (max-width: 770px) {
+        display: none;
     }
 }
