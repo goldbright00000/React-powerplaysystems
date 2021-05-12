@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import CreatePopUpPortal from "../../utility/CreatePopUpPortal";
+import { printLog } from "../../utility/shared";
 import DepositAmountForm from "./DepositAmountForm";
 import styles from "./styles.module.scss";
 
 class DepositAmountPopUp extends Component {
   render() {
-    console.log(this.props);
+    printLog(this.props);
     const { city, address, phone_number, zip, currency } =
       this.props?.user || {};
 

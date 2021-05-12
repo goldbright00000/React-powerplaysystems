@@ -10,6 +10,7 @@ import LottoBall from "../../components/LottoBall";
 
 //styling
 import "./Elite8draw.scss";
+import { printLog } from "../../utility/shared";
 
 //constants
 const TOTAL_NUMBERS_TO_DRAW = 8;
@@ -35,7 +36,7 @@ function Elte8Game(props) {
   //componet mount and unmount
   useEffect(() => {
     var picks = props.location.state.picks;
-    console.log(picks);
+    printLog(picks);
     picks ? setMyPickedNumbers(picks) : setMyPickedNumbers(MY_NUMBERS);
     return () => {
       //when the component will unmount
@@ -76,7 +77,7 @@ function Elte8Game(props) {
 
     return () => clearInterval(timeOut);
   }, [latestDrawnNumber]);
-  
+
   function startGame() {
     //get New number
     getNewNumber();

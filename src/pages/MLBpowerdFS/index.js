@@ -491,7 +491,7 @@ function MLBPowerdFs(props) {
       team_d_id: playerList[playerList?.length - 1]?.playerId,
     };
     await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-    redirectTo(props, { path: "/mlb-live-powerdfs" });
+    // redirectTo(props, { path: "/mlb-live-powerdfs" });
   };
 
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (

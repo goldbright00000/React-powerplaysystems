@@ -37,11 +37,13 @@ function MLBPowerdFsLive(props) {
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
   const {
-    live_data: selectedData = [],
+    live_data = {},
     data: mlbData = [],
     starPlayerCount = 0,
   } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
+
+  const { players: selectedData = [], teamD = {} } = live_data || {};
 
   const onCloseModal = () => setLearnMoreModal(false);
 

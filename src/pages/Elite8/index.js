@@ -16,25 +16,27 @@ import SelectNumbers from "./SelectNumbers.js";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import { useState, useEffect } from "react";
+import { printLog } from "../../utility/shared";
 
 function ComponentPickNumbersBtn(props) {
   return (
     <button
       className="c-pick-your-numbers-btn"
       onClick={(e) => {
-        executeScroll()
+        executeScroll();
       }}
     >
       Pick Your Numbers
     </button>
   );
   function executeScroll() {
-    console.log("Executing scoroll")
-    if(document.getElementById("btn-pick-div")){
-      document.getElementById("btn-pick-div").scrollIntoView({behavior: "smooth"});
+    printLog("Executing scoroll");
+    if (document.getElementById("btn-pick-div")) {
+      document
+        .getElementById("btn-pick-div")
+        .scrollIntoView({ behavior: "smooth" });
     }
-    
-}
+  }
 }
 //functional conponents,
 // can be defined in the same file or a seperate file.
@@ -164,9 +166,7 @@ class Elite8 extends React.Component {
   constructor(props) {
     super(props);
   }
-  executeScroll() {
-   
-  }
+  executeScroll() {}
 
   render() {
     return (

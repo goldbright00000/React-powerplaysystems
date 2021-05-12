@@ -3,6 +3,7 @@ import { URLS } from "../config/urls";
 import moment from "moment";
 
 import { CONSTANTS } from "../utility/constants";
+import { printLog } from "../utility/shared";
 
 export const MLB_DATA = "[MLB] GET_SET_DATA";
 export const MLB_LIVE_DATA = "[MLB] MLB_LIVE_DATA";
@@ -198,6 +199,15 @@ export function saveAndGetSelectPlayers(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
+          printLog(payload);
+          if (!payload.gameId || !payload.sportId || !payload.userId) {
+            return alert(
+              "Invalid informations",
+              payload.gameId,
+              payload.userId,
+              payload.sportId
+            );
+          }
           const playersResponse = await http.post(
             URLS.DFS.MLB_LIVE_PAGE_PLAYERS,
             {
@@ -207,9 +217,17 @@ export function saveAndGetSelectPlayers(payload) {
             }
           );
 
+          printLog(playersResponse.data.data);
+
           const { data = {} } = playersResponse.data || {};
-          const { game_id, sport_id, user_id, team_id, players = [] } =
-            data || {};
+          const {
+            game_id,
+            sport_id,
+            user_id,
+            team_id,
+            teamD = {},
+            players = [],
+          } = data || {};
 
           for (let i = 0; i < players?.length; i++) {
             const player = players[i];
@@ -220,7 +238,7 @@ export function saveAndGetSelectPlayers(payload) {
 
             delete player?.name;
           }
-          return dispatch(mlbLiveData(players));
+          return dispatch(mlbLiveData({ players, teamD }));
         } catch (er) {}
       }
     } catch (err) {}
