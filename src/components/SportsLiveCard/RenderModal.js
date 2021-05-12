@@ -16,8 +16,8 @@ function RenderModal(props) {
     visible = false,
     player: currentPlayer = {},
     onClose = () => {},
-    onSwap = () => {},
-    playerList = [],
+    onSwap = (playerId, match_id) => {},
+    playerList = {},
     starPlayerCount = 0,
   } = props || {};
 
@@ -67,16 +67,18 @@ function RenderModal(props) {
           </div>
 
           <div className={classes.modal_list}>
-            {playerList?.length &&
-              playerList?.map((player, ind) =>
+            {playerList?.players?.length &&
+              playerList?.players?.map((player, ind) =>
                 starPlayerCount >= 3 &&
                 player?.isStarPlayer &&
                 !currentPlayer?.isStarPlayer ? null : (
                   <SportsSelectionCard3
-                    item={player}
+                    player={player}
                     btnTitle="Swap"
                     key={ind + "--"}
-                    onSelectDeselect={(playerId) => onSwap(playerId)}
+                    onSelectDeselect={(playerId, match_id) =>
+                      onSwap(playerId, match_id)
+                    }
                   />
                 )
               )}
@@ -91,7 +93,7 @@ RenderModal.propTypes = {
   visible: PropTypes.bool,
   starPlayerCount: PropTypes.number,
   player: PropTypes.object,
-  playerList: PropTypes.array,
+  playerList: PropTypes.object,
   onSwap: PropTypes.func,
   onClose: PropTypes.func,
 };

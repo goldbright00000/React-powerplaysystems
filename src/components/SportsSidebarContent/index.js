@@ -8,7 +8,7 @@ import PowerIcon from "../../assets/power_balance_icon.png";
 function SportsSidebarContent(props) {
   const {
     data = [],
-    onDelete = () => {},
+    onDelete = (id, matchId) => {},
     starIcon = "",
     selectedPlayerCount = 0,
   } = props || {};
