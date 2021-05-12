@@ -52,19 +52,18 @@ const ContactUSPage = props => {
                             <div>
                                 <h5 className='__title-5 __mt-0 __mb-1'>Additional Ways to Contact Us:</h5>
                                 <p className='__mt-1 __mb-1'>
-                                    <span>Email:</span>
+                                    <span>Email: </span>
                                     <a href='mailto:support@powerplaysystems.com' target='__blank'>support@powerplaysystems.com</a>
                                 </p>
                                 <p>
-                                    <span>Address:</span>
-                                    <a href=''>140 Yonge St., S.200, Toronto, ON, M5C 1X6</a>
+                                    <span>Address: </span>
+                                    <address>140 Yonge St., S.200, Toronto, ON, M5C 1X6</address>
                                 </p>
                             </div>
                             <div>
                                 <h5 className='__title-5 __mt-4 __mb-1'>Support Hours:</h5>
-                                <p className='__mt-1 __mb-1'><span>Monday - Friday:</span>6:00 AM EST - 11:59 PM EST</p>
-                                <p className='__mb-3'><span>Saturday & Sunday:</span>6:00 AM EST - 11:59 PM EST</p>
-                                <p>* Please note that we do not offer Customer Support Services via telephone or in-person on-site visits</p>
+                                <p className='__mt-1'><span>Monday - Friday:</span>6:00 AM EST - 11:59 PM EST</p>
+                                <p className={styles.noteBlogSection}>* Please note that we do not offer Customer Support Services via telephone or in-person on-site visits</p>
                             </div>
                         </section>
                     </div>

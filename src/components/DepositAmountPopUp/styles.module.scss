@@ -127,6 +127,7 @@ body {
 }
 .creditdebitcardImg {
   width: 2.857rem;
+  margin: 0.6rem 0;
 }
 .PayPal,
 .ECheck,
@@ -134,7 +135,7 @@ body {
 .cvvInput {
   max-width: 5.714rem;
 }
-.BitCoin {
+.BitCoin, .EFTImage, .interactImage {
   width: 3.428rem;
 }
 .cardDetails {
