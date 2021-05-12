@@ -6,19 +6,24 @@ import { Link } from "react-router-dom";
 import classes from "./index.module.scss";
 import Button from "../Button";
 import Ticket from "../../icons/Ticket";
-import CashBalance from '../../assets/points-collected.png';
+import CashBalance from "../../assets/points-collected.png";
 import Token from "../../assets/token.png";
-import Bitcoin from '../../assets/bitcoin.png';
-import Ethereum from '../../assets/ethereum.png';
+import Bitcoin from "../../assets/bitcoin.png";
+import Ethereum from "../../assets/ethereum.png";
 import Money from "../../icons/Money";
 import ListItem from "./ListItem";
 import Modal from "../Modal";
 import Input from "../Input";
 import Checkbox from "../Checkbox";
 import Select from "../Select";
-import { getDays, getMonthDays, getYearsList } from "../../utility/shared";
+import {
+  getDays,
+  getMonthDays,
+  getYearsList,
+  printLog,
+} from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
-import DepositAmountPopUp from '../DepositAmountPopUp/DepositAmountPopUp';
+import DepositAmountPopUp from "../DepositAmountPopUp/DepositAmountPopUp";
 
 const ListTitle = (Icon, isSvg, title) => (
   <span className={classes.list_left_side_1}>
@@ -56,7 +61,11 @@ const ListHeader = (
       <div className={classes.list_right_side}>
         <div className={classes.list_right_side_btns}>
           <Button title={firstBtnTitle} onClick={firstBtnOnClick} />
-          <Button title={btnTitle} onClick={balance != 0 && onClick} styles={{opacity: balance == 0 ? 0.5 : 1.0}}/>
+          <Button
+            title={btnTitle}
+            onClick={balance != 0 && onClick}
+            styles={{ opacity: balance == 0 ? 0.5 : 1.0 }}
+          />
         </div>
         <div className={classes.list_right_side_text}>
           <span>{minAmount}</span>
@@ -70,13 +79,13 @@ function BalanceInfoComponent(props) {
   const [form, setForm] = useState({});
   const [showModal, setModalState] = useState(false);
   const [activeForm, setActiveForm] = useState(0);
-  const [showDepositModal, setShowDepositModal] = useState(false)
-  
+  const [showDepositModal, setShowDepositModal] = useState(false);
+
   const { isMobile = false } = props || {};
   const { balance = {} } = props || {};
 
   useEffect(() => {
-    console.log(balance);
+    printLog(balance);
   }, []);
   const changeInputHandler = (e) => {
     const { target: { value = "", name = "" } = {} } = e || {};
@@ -107,7 +116,7 @@ function BalanceInfoComponent(props) {
       return;
     }
 
-    console.log("withdraw");
+    printLog("withdraw");
   };
 
   const handleBack = () => {
@@ -119,7 +128,9 @@ function BalanceInfoComponent(props) {
 
   return (
     <>
-      {showDepositModal && <DepositAmountPopUp onClose={() => setShowDepositModal(false)} />}
+      {showDepositModal && (
+        <DepositAmountPopUp onClose={() => setShowDepositModal(false)} />
+      )}
       <div className={classes.list_header_wrapper}>
         {ListHeader(
           "My Cash Balance",

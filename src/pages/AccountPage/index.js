@@ -15,6 +15,7 @@ import BalanceInfoComponent from "../../components/BalanceInfoComponent";
 import ResultsInforComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
 import AccountLimits from "../../components/AccountLimits";
+import { printLog } from "../../utility/shared";
 
 function AccountPage(props) {
   const [activeTab, setActiveTab] = useState(0);
@@ -31,7 +32,7 @@ function AccountPage(props) {
     const response = await http.get(URLS.AUTH.ACCOUNT);
     if (response.data.status === false) {
       //has error
-      console.log(response.data);
+      printLog(response.data);
     } else {
       setUserAccount(response.data);
     }

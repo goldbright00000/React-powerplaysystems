@@ -45,7 +45,7 @@ function SportsSelectionCard3(props) {
     injured = false,
     position = "",
     match_id,
-    currentPosition = "",
+    primary_position = "",
   } = player || {};
 
   const nextStep = () => {
@@ -91,7 +91,7 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{currentPosition}</span>
+          <span>{primary_position}</span>
           {name}
         </p>
         {injured && (
@@ -125,7 +125,7 @@ function SportsSelectionCard3(props) {
         {currentStep === 0 ? (
           renderStats()
         ) : currentStep === 1 ? (
-          <MLBDetailStats position={currentPosition} />
+          <MLBDetailStats position={primary_position} />
         ) : (
           <img src={AdImage} />
         )}

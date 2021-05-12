@@ -1,7 +1,7 @@
 import http from "../config/http";
 import { URLS } from "../config/urls";
 import { CONSTANTS } from "../utility/constants";
-import { getLocalStorage, setLocalStorage } from "../utility/shared";
+import { getLocalStorage, printLog, setLocalStorage } from "../utility/shared";
 import jwtDecode from "jwt-decode";
 
 export const AUTH_LOADING = "[AUTH] AUTH LOADING";
@@ -18,7 +18,7 @@ export function authenticate(user) {
     });
 
     return request.then((response) => {
-      console.log(response);
+      printLog(response);
       if (response.data.status === true) {
         //save in local storage.
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, response.data.token);
@@ -60,7 +60,7 @@ export function updateUser(user) {
     });
 
     return request.then((response) => {
-      console.log(response);      
+      printLog(response);
       return dispatch({ type: GET_AUTH, payload: user });
     });
   };
