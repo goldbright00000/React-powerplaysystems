@@ -60,7 +60,7 @@ function SingleView(props) {
             <SportsLiveCard
               key={ind + "-"}
               player={item}
-              active={selectedCard?.id === item?.id}
+              active={selectedCard?.playerId === item?.playerId}
               onSelectCard={onSelectCard}
               singleView
               onChangeXp={onChangeXp}

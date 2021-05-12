@@ -20,7 +20,7 @@ function SportsTeamSelectionCard(props) {
   const {
     item = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => {},
+    onSelectDeselect = (team_id, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -29,38 +29,24 @@ function SportsTeamSelectionCard(props) {
   } = props || {};
 
   const {
-    playerName: name = "",
-    avgVal = 0,
-    homeTeam = "",
-    awayTeam = "",
+    team_id = "",
+    name = "",
+    teamBName = "",
+    teamBCity = "",
+    city = "",
+    mlb_team_stats: awayTeamStats = [],
     date = "",
     time = "",
-    stadium = "",
-    playerId = "",
-    isStarPlayer = false,
     steps = [],
     playerStats = {},
-    injured = false,
-    position = "",
     match_id,
+    venue = {},
   } = item || {};
 
-  const {
-    hits = 0,
-    doubles = 0,
-    triples = 0,
-    home_runs = 0,
-    stolen_bases = 0,
-    runs_batted_in = 0,
-    batting_average = 0,
-    wins = 0,
-    losses = 0,
-    innings_pitched = 0,
-    strike_outs = 0,
-    earned_runs_average = 0,
-    base_on_balls = 0,
-    walks_hits_per_innings_pitched = 0,
-  } = playerStats || {};
+  const { venue_id = "", name: stadium = "" } = venue || {};
+
+  const { wins = 0, losses = 0, average_runs_against = 0 } =
+    awayTeamStats[0] || {};
 
   const RenderMLBState = () => (
     <div
@@ -114,7 +100,7 @@ function SportsTeamSelectionCard(props) {
     >
       <div className={classes.container_body_card_1}>
         <div className={classes.container_body_left}>
-          {isStarPlayer && (
+          {/* {isStarPlayer && (
             <span
               className={`${classes.container_body_card_start_power} ${
                 mlbCard && classes.inset
@@ -128,18 +114,18 @@ function SportsTeamSelectionCard(props) {
               )}{" "}
               Star Power{" "}
             </span>
-          )}
+          )} */}
           <div className={classes.container_body_card_header}>
             <p
               className={`${classes.container_selected_p} ${
                 isSelected ? classes.active : ""
               }`}
             >
-              {name}
+              <span>{city}</span> {name}
             </p>
             {!isSelected ? (
               <button
-                onClick={() => onSelectDeselect(playerId, match_id)}
+                onClick={() => onSelectDeselect(team_id, match_id)}
                 className={disabled && classes.disabled}
                 disabled={disabled}
               >
@@ -152,7 +138,7 @@ function SportsTeamSelectionCard(props) {
                   <Tick2 /> Selected{" "}
                   <img
                     src={DeleteIcon}
-                    onClick={() => onSelectDeselect(playerId, match_id)}
+                    onClick={() => onSelectDeselect(team_id, match_id)}
                   />
                 </p>
               </div>
@@ -160,7 +146,7 @@ function SportsTeamSelectionCard(props) {
           </div>
           {mlbCard && currentStep === 1 && (
             <div className={classes.card_mlb_vs}>
-              <p>VS {awayTeam}</p>
+              <p>Vs {teamBCity + " " + teamBName}</p>
             </div>
           )}
 
@@ -180,7 +166,7 @@ function SportsTeamSelectionCard(props) {
 
           {currentStep === 0 && (
             <div className={classes.team_vs}>
-              <p>VS {awayTeam}</p>
+              <p>Vs {teamBCity + " " + teamBName}</p>
             </div>
           )}
           <div className={classes.divider}></div>
@@ -221,16 +207,8 @@ function SportsTeamSelectionCard(props) {
 }
 
 SportsTeamSelectionCard.propTypes = {
-  title: PropTypes.string,
-  avgVal: PropTypes.number,
-  teamA: PropTypes.string,
-  teamB: PropTypes.string,
-  time: PropTypes.string,
-  date: PropTypes.string,
-  stadium: PropTypes.string,
-  id: PropTypes.number,
+  item: {},
   isSelected: PropTypes.bool,
-  isStarPlayer: PropTypes.bool,
   disabled: PropTypes.bool,
   mlbCard: PropTypes.bool,
   steps: PropTypes.array,

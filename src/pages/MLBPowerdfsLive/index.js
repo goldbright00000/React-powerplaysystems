@@ -26,31 +26,37 @@ import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 
-import { dummyData } from "./dummyData";
+// import { dummyData } from "./dummyData";
 import SportsLiveCard from "../../components/SportsLiveCard";
+import { redirectTo } from "../../utility/shared";
 
 function MLBPowerdFsLive(props) {
-  const _data = dummyData;
+  // const _data = dummyData;
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
   const {
-    live_data: selectedData = [],
+    live_data = {},
     data: mlbData = [],
     starPlayerCount = 0,
   } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
 
+  const { players: selectedData = [], teamD = {} } = live_data || {};
+
   const onCloseModal = () => setLearnMoreModal(false);
 
   useEffect(() => {
-    setData();
+    if (!selectedData?.length) {
+      redirectTo(props, { path: "/power-center" });
+    }
+    // setData();
   }, []);
 
-  const setData = () => {
-    dispatch(MLBActions.mlbLiveData(_data));
-  };
+  // const setData = () => {
+  //   dispatch(MLBActions.mlbLiveData(_data));
+  // };
 
   const onChangeXp = (xp, player) => {
     const _selectedXp = {
@@ -166,7 +172,7 @@ function MLBPowerdFsLive(props) {
       return (
         <SingleView
           data={selectedData}
-          playerList={mlbData?.[0]?.data}
+          playerList={mlbData?.[0]?.players}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
@@ -179,7 +185,7 @@ function MLBPowerdFsLive(props) {
           compressedView={compressedView}
           key={index + ""}
           onChangeXp={onChangeXp}
-          playerList={mlbData?.[0]?.data}
+          playerList={mlbData?.[0]?.players}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
         />

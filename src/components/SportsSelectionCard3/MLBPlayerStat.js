@@ -33,8 +33,6 @@ function MLBPlayerStat(props) {
 
   const RenderItem = ({ value }) => <span>{value}</span>;
 
-  console.log(active);
-
   return (
     <div className={`${classes.card_state} ${active && classes.active}`}>
       <div className={classes.card_state_title}>
