@@ -29,3 +29,5 @@ yarn.lock
 .eslintcache
 .firebase.json
 .eslintcache
+
+.env

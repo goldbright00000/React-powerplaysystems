@@ -1,9 +1,8 @@
 import http from "../config/http";
 import { URLS } from "../config/urls";
 import { CONSTANTS } from "../utility/constants";
-import { getLocalStorage, printLog, setLocalStorage } from "../utility/shared";
+import { getLocalStorage, setLocalStorage } from "../utility/shared";
 import jwtDecode from "jwt-decode";
-
 export const AUTH_LOADING = "[AUTH] AUTH LOADING";
 export const GET_AUTH = "[AUTH] GET AUTH";
 export const RESET_AUTH = "[AUTH] RESET AUTH";
@@ -18,11 +17,11 @@ export function authenticate(user) {
     });
 
     return request.then((response) => {
-      printLog(response);
+      console.log(response);
       if (response.data.status === true) {
         //save in local storage.
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, response.data.token);
-      }
+      }            
       return dispatch({ type: GET_AUTH, payload: response.data });
     });
   };
@@ -60,7 +59,6 @@ export function updateUser(user) {
     });
 
     return request.then((response) => {
-      printLog(response);
       return dispatch({ type: GET_AUTH, payload: user });
     });
   };
