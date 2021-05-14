@@ -13,7 +13,7 @@ const http = axios.create({
 
 http.interceptors.request.use(
   (config) => {
-    const { origin } = new URL(config.baseURL + "/" + config.url);
+    // const { origin } = new URL(config.baseURL + "/" + config.url);
 
     const token = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
     const allowedOrigin = [apiUrl];

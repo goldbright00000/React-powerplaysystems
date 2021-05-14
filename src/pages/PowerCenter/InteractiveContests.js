@@ -10,6 +10,7 @@ import PowerCenterCard from '../../components/PowerCenterCard';
 import { getDaysFromToday, redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
 import FilledArrow from '../../components/FilledArrow';
+import PowerCenterMobileCard from '../../components/PowerCenterMobileCard';
 
 const powerCenterCardData = [
     {
@@ -126,6 +127,11 @@ const ALL_CURRENCIES = [
     }
 ];
 
+let mlbData = [];
+let nflData = [];
+let nbaData = [];
+let nhlData = [];
+
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
@@ -161,6 +167,22 @@ const InteractiveContests = props => {
         };
       }, []);
 
+    useEffect(() => {
+        if (isMobile) {
+            powerCenterCardData.map((item, index) => {
+                if (item.title == 'MLB') {
+                    mlbData.push(item);
+                } else if (item.title == 'NFL') {
+                    nflData.push(item);
+                }  else if (item.title == 'NBA') {
+                    nbaData.push(item);
+                } else {
+                    nhlData.push(item);
+                }
+            });
+        }
+    }, []);
+
     const handleClick = e => {
         if (currencyMenuRef.current && !currencyMenuRef.current.contains(e.target)) {
             setCurrencyMenu(false);
@@ -171,6 +193,26 @@ const InteractiveContests = props => {
         return (
             <div className={classes.__interactive_contests_power_center_card}>
                 <PowerCenterCard
+                    id={item.id}
+                    title={item.title}
+                    prize={item.prize}
+                    outOf={item.outOf}
+                    total={item.total}
+                    percent={item.percent}
+                    showDetails={showCardDetails == item.id}
+                    onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
+                    onDetailsClick={(cardId) => setShowCardDetails(cardId)}
+                    onBackClick={() => setShowCardDetails(-1)}
+                    onNextClick={() => setShowCardDetails(-1)}
+                />
+            </div>
+        );
+    }
+
+    const powerCenterMobileCard = (item, redirectUri) => {
+        return (
+            <div className={classes.__interactive_contests_power_center_card}>
+                <PowerCenterMobileCard
                     id={item.id}
                     title={item.title}
                     prize={item.prize}
@@ -312,7 +354,7 @@ const InteractiveContests = props => {
                     (() => {
                         const itemsInaRow = 1;
                         const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
-                        const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
+                        const powerCenterMobileCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
                             const start = ((i + 1) * itemsInaRow) - 1;
                             const end = ((i + 1) * itemsInaRow);
                             const items = filteredData.slice(start, end);
@@ -321,13 +363,13 @@ const InteractiveContests = props => {
                                 <div className={classes.__interactive_contests_power_center_card_row}>
                                     {
                                         items.map(power => {
-                                            return powerCenterCard(power, power.url);
+                                            return powerCenterMobileCard(power, power.url);
                                         })
                                     }
                                 </div>
                             );
                         })
-                        return powerCenterCardView;
+                        return powerCenterMobileCardView;
                     }
                     )()
                     :
