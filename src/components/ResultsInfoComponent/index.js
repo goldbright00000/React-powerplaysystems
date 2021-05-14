@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Accordian from "../Accordian";
-import Token from '../../assets/points-collected.png';
-import Bitcoin from '../../assets/bitcoin.png';
-import Ethereum from '../../assets/ethereum.png';
+import Token from "../../assets/points-collected.png";
+import Bitcoin from "../../assets/bitcoin.png";
+import Ethereum from "../../assets/ethereum.png";
+import { printLog } from "../../utility/shared";
 
 const data = [
   {
@@ -12,7 +13,7 @@ const data = [
     dataTitle: "USD Cash Prizes",
     type: "cashBalance",
     balanceType: "cash",
-    iconWithTitle: ''
+    iconWithTitle: "",
   },
   {
     cashTitle: "Total Tokens: ",
@@ -20,7 +21,7 @@ const data = [
     dataTitle: "Power Token Prizes",
     type: "tokenBalance",
     balanceType: "token",
-    iconWithTitle: Token
+    iconWithTitle: Token,
   },
   {
     cashTitle: "",
@@ -28,7 +29,7 @@ const data = [
     dataTitle: "Bitcoin Prizes",
     type: "tokenBalance",
     balanceType: "token",
-    iconWithTitle: Bitcoin
+    iconWithTitle: Bitcoin,
   },
   {
     cashTitle: "",
@@ -36,7 +37,7 @@ const data = [
     dataTitle: "Ethereum Prizes",
     type: "tokenBalance",
     balanceType: "token",
-    iconWithTitle: Ethereum
+    iconWithTitle: Ethereum,
   },
 ];
 
@@ -45,9 +46,8 @@ function ResultsInforComponent(props) {
   const { isMobile = false, balance = {}, transactions = [] } = props || {};
   const onClickAccordian = (index) => {
     setActiveTab(activeTab === null ? index : null);
-    console.log(balance);
+    printLog(balance);
   };
-
 
   return (
     <>
@@ -68,7 +68,6 @@ function ResultsInforComponent(props) {
       ))}
     </>
   );
-
 }
 
 ResultsInforComponent.propTypes = {

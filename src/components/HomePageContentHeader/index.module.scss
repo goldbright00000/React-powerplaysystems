@@ -19,30 +19,7 @@
   text-align: center;
 }
 .title{
-  background: linear-gradient(98deg, #ffffff 12%, #b3b3b3 30%, #fefefe 33%, #f8f8f8 74%, #bdbdbd 77%, #ffffff 89%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  font-size: 3.4285rem;
-  font-family: Gotthard;
-  text-shadow: 0 0.04167em 0.29167em $black5;
-  text-transform: uppercase;
-  margin: 0;
-  display: inline-block;
-  position: relative;
-  span{
-    margin-top: 0.3em;
-    position: relative;
-    display: block;
-    background: inherit;
-  }
-  sup{
-    font-size: 0.375em;
-    font-weight: normal;
-    bottom: 70%;
-    left: 100%;
-    position: absolute;
-    background: inherit
-  }
+  width: 41.714rem;
 }
 .subtitle{
   font-size: 1.2857rem;
@@ -72,18 +49,16 @@
 
 @media (max-width: 767px) {
   .title{
-    font-size: 1.4286rem;
+    max-width: 22.5714rem;
   }
-  .subtitle, .powerBtn{
-    font-size: 1rem;
-  }
-  .blogSection{
+  .blogSection, .subtitle{
     font-size: 0.8571em;
   }
   .subtitle br{
     display: none;
   }
   .powerBtn{
+    font-size: 1rem;
     margin: 2em auto 0 auto;
   }
 }

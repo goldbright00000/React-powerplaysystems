@@ -6,6 +6,9 @@ import PayPal from "../../assets/paypal.png";
 import BitCoin from "../../assets/bitcoin.png";
 import Coingate from "../../assets/coingate.png";
 import CreditDebitCard from "../../assets/combined-shape.png";
+import EFTCard from "../../assets/eft.svg";
+import InteracCard from "../../assets/interac.png";
+import VisaCard from "../../assets/visa.svg";
 import ECheck from "../../assets/e-check.png";
 import Ethereum from "../../assets/ethereum.png";
 import CVVImg from "../../assets/cvv.png";
@@ -14,8 +17,10 @@ import QRCode from "../../assets/QRCode.png";
 import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
 
-const formatePrice = (price, currencyValue) =>
-  `$${(price * currencyValue).toFixed(2)}`;
+const formatePrice = (price, currencyValue, isCad, noSign) =>
+  noSign
+    ? (price * currencyValue).toFixed(2)
+    : `${isCad ? "CAD " : "$"}${(price * currencyValue).toFixed(2)}`;
 
 class DepositAmountForm extends Component {
   state = {
@@ -24,7 +29,8 @@ class DepositAmountForm extends Component {
     form: {
       currency: "USD",
       price: 25,
-      paymentMetod: "Credit or Debit Card",
+      paymentMetod:
+        this.props.country === "Canada" ? "EFT" : "Credit or Debit Card",
       walletAddress: "",
     },
     isOtherAmount: false,
@@ -32,7 +38,9 @@ class DepositAmountForm extends Component {
     address: this.props.address,
     phoneNumber: this.props.phoneNumber,
     zip: this.props.zip,
-    currency: this.props.currency,
+    currency: this.props.currency ? this.props.currency : "USD",
+    country: this.props.country,
+    canadianVisible: this.props.country === "Canada",
   };
 
   onCurrencyChange = (e) => {
@@ -73,6 +81,44 @@ class DepositAmountForm extends Component {
       ],
       paymentMetods: [
         {
+          value: "EFT",
+          title: (
+            <img src={EFTCard} alt="" className={styles.creditdebitcardImg} />
+          ),
+          helperText: "EFT",
+          visible: this.state.canadianVisible,
+        },
+        {
+          value: "INTERAC",
+          title: (
+            <img
+              src={InteracCard}
+              alt=""
+              className={styles.creditdebitcardImg}
+            />
+          ),
+          helperText: "INTERAC",
+          visible: this.state.canadianVisible,
+        },
+        {
+          value: "CREDIT",
+          title: (
+            <img
+              src={CreditDebitCard}
+              alt=""
+              className={styles.creditdebitcardImg}
+            />
+          ),
+          helperText: "CREDIT",
+          visible: this.state.canadianVisible,
+        },
+        {
+          value: "VISA",
+          title: <img src={VisaCard} alt="" className={styles.visaCard} />,
+          helperText: "VISA DEBIT",
+          visible: this.state.canadianVisible,
+        },
+        {
           value: "Credit or Debit Card",
           title: (
             <img
@@ -82,14 +128,17 @@ class DepositAmountForm extends Component {
             />
           ),
           helperText: "CREDIT or DEBIT",
+          visible: !this.state.canadianVisible,
         },
         {
           value: "PayPal",
           title: <img src={PayPal} alt="" className={styles.PayPal} />,
+          visible: !this.state.canadianVisible,
         },
         {
           value: "E-Check",
           title: <img src={ECheck} alt="" className={styles.ECheck} />,
+          visible: !this.state.canadianVisible,
         },
       ],
     },
@@ -169,16 +218,22 @@ class DepositAmountForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    const object = {
-      currency: this.state.currency,
-      amount: this.state.form.price,
-      city: this.state.city,
-      address: this.state.address,
-      zip: this.state.zip,
-      phone_number: this.state.phoneNumber,
-    };
+    if (!this.state.canadianVisible) {
+      const object = {
+        currency: this.state.currency,
+        amount: this.state.form.price,
+        city: this.state.city,
+        address: this.state.address,
+        zip: this.state.zip,
+        phone_number: this.state.phoneNumber,
+      };
 
-    this.props.submitted(object);
+      this.props.ipaySubmitted(object);
+    } else {
+      let { price, paymentMetod } = this.state.form;
+      price = parseFloat((price * this.props.cad).toFixed(2));
+      this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+    }
   };
 
   render() {
@@ -209,6 +264,11 @@ class DepositAmountForm extends Component {
                 name="price"
                 key={index}
                 onChange={this.onPriceChange}
+                helperText={
+                  this.state.canadianVisible
+                    ? formatePrice(data.value, this.props.cad, true)
+                    : null
+                }
                 {...data}
                 checked={!isOtherAmount && price === data.value}
               />
@@ -227,14 +287,17 @@ class DepositAmountForm extends Component {
           <section className={styles.formSection}>
             <h6>Add Payment Details</h6>
             <div>
-              {this.prices[currency].paymentMetods.map((data, index) => (
-                <ChooseItem
-                  {...data}
-                  key={index}
-                  checked={paymentMetod === data.value}
-                  onChange={this.onPaymentMethodChange}
-                />
-              ))}
+              {this.prices[currency].paymentMetods.map(
+                (data, index) =>
+                  data.visible && (
+                    <ChooseItem
+                      {...data}
+                      key={index}
+                      checked={paymentMetod === data.value}
+                      onChange={this.onPaymentMethodChange}
+                    />
+                  )
+              )}
             </div>
           </section>
         ) : (
@@ -251,7 +314,7 @@ class DepositAmountForm extends Component {
             </div>
           </section>
         )}
-        {currency === "USD" && (
+        {currency === "USD" && !this.state.canadianVisible && (
           <section className={styles.cardSectionn}>
             <div className={styles.cardDetails}>
               <div>
@@ -345,7 +408,8 @@ class DepositAmountForm extends Component {
         ) : (
           <button className={styles.submitbtn}>
             Deposit • {currency === "$USD" && "$"}
-            {price} {currency.replace("$", "")}
+            {price}
+            {currency.replace("$", "")}
           </button>
         )}
       </form>

@@ -5,6 +5,7 @@ import { useMediaQuery } from "react-responsive";
 
 import classes from "./index.module.scss";
 import { isEmpty } from "lodash";
+import HomePageTitle from '../../assets/HomePageTitle.png'
 
 function HomePageContentHeader(props) {
     const {
@@ -66,8 +67,7 @@ function HomePageContentHeader(props) {
         <section className={classes.root}>
             <div className={classes.container}>
                 <div className={classes.titlesWrapper}>
-                    <h1 className={classes.title}>Our Games <span>Defy Reality <sup>TM</sup></span></h1>
-                    <h1 className={classes.title}></h1>
+                    <img src={HomePageTitle} alt='' className={classes.title} />
                     <h4 className={classes.subtitle}>Experience our ground-breaking live-play games where <br /> you have the Power to control your team’s destiny. *</h4>
                     <Link className={classes.powerBtn} to={redirectTo}>Power Up!</Link>
                 </div>

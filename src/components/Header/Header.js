@@ -6,7 +6,12 @@ import { useSelector, useDispatch } from "react-redux";
 import "./Header.scss";
 import logo from "../../assets/new-logo.png";
 import { resetAuth, updateUser } from "../../actions/authActions";
-import { setUserBalance, payNow } from "../../actions/userActions";
+import {
+  setUserBalance,
+  payNowWithIpay,
+  payWithZum,
+  setZumToken,
+} from "../../actions/userActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
@@ -48,13 +53,19 @@ const Header = (props) => {
     headerLogo = null,
   } = props || {};
 
-  const { user = {} } = useSelector((state) => state?.auth);
+  const { user } = useSelector((state) => state?.auth);
+  const zumToken = useSelector((state) => state?.user?.zumToken);
+
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
 
   const [myAccountMenu, setMyAccountMenu] = useState(false);
   const [showDepositModal, setShowDepositModal] = useState(false);
+
+  useEffect(() => {
+    !zumToken && dispatch(setZumToken());
+  }, [zumToken]);
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
@@ -86,7 +97,23 @@ const Header = (props) => {
       let obj = { ...user, ...details };
       dispatch(updateUser(obj));
 
-      payNow(obj);
+      payNowWithIpay(obj);
+      setShowDepositModal(false);
+    }
+  };
+
+  const onZumPayment = (data) => {
+    if (data.amount < 1) {
+      alert("Please add amount at least more than 1.");
+    } else {
+      const { amount, paymentMethod } = data;
+      const obj = {
+        amount,
+        paymentMethod,
+        email: user?.email,
+        zumToken,
+      };
+      dispatch(payWithZum(obj, history.push));
       setShowDepositModal(false);
     }
   };
@@ -183,7 +210,8 @@ const Header = (props) => {
               <DepositAmountPopUp
                 onClose={() => setShowDepositModal(false)}
                 user={user}
-                formSubmitted={onUpdateUserDetails}
+                ipayFormSubmitted={onUpdateUserDetails}
+                zumFormSubmitted={onZumPayment}
               />
             )}
           </>

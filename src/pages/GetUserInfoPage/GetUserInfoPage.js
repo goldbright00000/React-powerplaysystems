@@ -7,6 +7,7 @@ import {
   getStates,
   getProvinces,
   redirectTo,
+  printLog,
 } from "../../utility/shared";
 //store
 import { useDispatch, useSelector } from "react-redux";
@@ -24,8 +25,8 @@ import powerplayicon from "../../assets/powerplay-icon.png";
 import img1 from "../../assets/group-14.png";
 //css
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
-import formStyles from '../../scss/formstyles.module.scss';
-import styles from './styles.module.scss';
+import formStyles from "../../scss/formstyles.module.scss";
+import styles from "./styles.module.scss";
 
 const INITIAL_STATE = {
   //from step 1
@@ -92,7 +93,7 @@ const GetUserInfoPage = (props) => {
   };
   const onSubmit = async (e) => {
     e.preventDefault();
-    console.log("User", user);
+    printLog("User", user);
     const {
       username = "",
       email = "",
@@ -169,15 +170,28 @@ const GetUserInfoPage = (props) => {
       isSuccess: true,
       errorMsg: response.data.message,
     });
-    props.history.replace('/verify-your-identity')
+    props.history.replace("/verify-your-identity");
   };
   return (
     <>
       <Header isStick={true} />
       <HeroSection
         isBlack={true}
-        title={<>Get Ready <br /> to Power-Up!</>}
-        subTitle={<>Complete the fields below to create your PowerPlay Account. <br /> As a bonus you can receive up to <span>20   <img src={powerplayicon} alt="" align="center" /> Powerplay tokens!</span></>}
+        title={
+          <>
+            Get Ready <br /> to Power-Up!
+          </>
+        }
+        subTitle={
+          <>
+            Complete the fields below to create your PowerPlay Account. <br />{" "}
+            As a bonus you can receive up to{" "}
+            <span>
+              20 <img src={powerplayicon} alt="" align="center" /> Powerplay
+              tokens!
+            </span>
+          </>
+        }
       />
       <main className={styles.root}>
         <div className={styles.titleWrappersForMobileOnly}>
@@ -236,7 +250,7 @@ const GetUserInfoPage = (props) => {
             >
               <option hidden disabled value="">
                 Country
-                </option>
+              </option>
               {getCountries().map((opt) => (
                 <option key={opt} value={opt}>
                   {opt}
@@ -253,7 +267,7 @@ const GetUserInfoPage = (props) => {
             >
               <option hidden disabled value="">
                 State/Province
-                </option>
+              </option>
               {getStatesOrProvinces().map((opt) => (
                 <option key={opt} value={opt}>
                   {opt}
@@ -275,25 +289,40 @@ const GetUserInfoPage = (props) => {
             checked={user.ageCheck}
             onChange={handleCheckBox}
             name="ageCheck"
-            title='I am over the age of majority in the state or province where currently reside.'
+            title="I am over the age of majority in the state or province where currently reside."
           />
           <CheckBox
             checked={user.termsAndConditions}
             onChange={handleCheckBox}
             name="termsAndConditions"
-            title={<>I have read agree to the<Link to="/"> terms and conditions </Link>for using this website.</>}
+            title={
+              <>
+                I have read agree to the
+                <Link to="/"> terms and conditions </Link>for using this
+                website.
+              </>
+            }
           />
           <CheckBox
             checked={user.updatesCheck}
             onChange={handleCheckBox}
             name="updatesCheck"
-            title='I agree to receive email communications regarding status of games that I enter.'
+            title="I agree to receive email communications regarding status of games that I enter."
           />
           <CheckBox
             checked={user.promotionsCheck}
             onChange={handleCheckBox}
             name="promotionsCheck"
-            title={<>I agree to receive marketing email communications from Powerplay Systems and or their partners. <span className={styles.blogSection}>+ 5 bonus tokens <img src={powerplayicon} alt="" align="center" /></span></>}
+            title={
+              <>
+                I agree to receive marketing email communications from Powerplay
+                Systems and or their partners.{" "}
+                <span className={styles.blogSection}>
+                  + 5 bonus tokens{" "}
+                  <img src={powerplayicon} alt="" align="center" />
+                </span>
+              </>
+            }
           />
           <button className={formStyles.button}>NEXT</button>
         </form>
