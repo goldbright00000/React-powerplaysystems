@@ -128,6 +128,40 @@
     }
 }
 
+.__power_up_text {
+    width: 326px;
+    height: 60px;
+    margin: 40px 24px 28px 25px;
+    text-shadow: 0 2px 14px $lightBlack8;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: -0.13px;
+    text-align: center;
+    color: $white;
+}
+
+.__power_up_btn {
+    width: 316px;
+    height: 48px;
+    margin: 28px 29px 60px 30px;
+    border-radius: 6px;
+    border: solid 2px $primary;
+    background-color: $primary;
+    font-family: Teko;
+    font-size: 26px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: $black;
+}
+
 @media (max-width: 414px) {
     .__interactive_contests_filter {
         display: flex;

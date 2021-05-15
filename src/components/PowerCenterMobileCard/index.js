@@ -9,6 +9,10 @@ import NHLPlayer from '../../assets/nhl-player-mobile.png';
 import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
 import PrizeGrid from './PrizeGrid';
+import PowersAvailable from './PowersAvailable';
+import Hitters from './Hitters';
+import PointSystem from './PointSystem';
+import TeamRoster from './TeamRoster';
 
 const PowerCenterMobileCard = (props) => {
     const {
@@ -50,41 +54,46 @@ const PowerCenterMobileCard = (props) => {
         !showDetails
             ?
             <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
-                {/* <div className={classes.__power_center_card_container}>
-                    <div style={{ flex: 1}}></div>
-                    <div className={classes.__power_center_card_content}>
-                        <div className={classes.__power_center_card_date_time}>
-                            Oct 24, 2020  |  8:00PM ET
-                        </div>
-                        <div className={classes.__power_center_card_powerdfs}>
-                            <p className={classes.__power_center_card_powerdfs_title}>
-                                <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
+                <Carousel showArrows={false} showStatus={false} showThumbs={false} autoPlay={false} infiniteLoop={false} interval={300000}>
+                    <div className={classes.__power_center_card_container}>
+                        <div style={{ flex: 1}}></div>
+                        <div className={classes.__power_center_card_content}>
+                            <div className={classes.__power_center_card_date_time}>
+                                Oct 24, 2020  |  8:00PM ET
+                            </div>
+                            <div className={classes.__power_center_card_powerdfs}>
+                                <p className={classes.__power_center_card_powerdfs_title}>
+                                    <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
+                                </p>
+                            </div>
+                            <div className={classes.__power_center_card_prize_pool}>
+                                <p
+                                    className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_price}>
+                                    ${prize}
+                                </p>
+                                <p
+                                    className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>
+                                    Prize Pool
                             </p>
-                        </div>
-                        <div className={classes.__power_center_card_prize_pool}>
-                            <p
-                                className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_price}>
-                                ${prize}
-                            </p>
-                            <p
-                                className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>
-                                Prize Pool
-                        </p>
-                        </div>
-                        <div className={classes.__power_center_card_total}>
-                            <p>
-                                {outOf} of <span>{total}</span>
-                            </p>
-                        </div>
-                        <div className={classes.__power_center_card_enter}>
-                                <OutlineButton 
-                                    title="Enter  •  $5"
-                                    onClick={onEnter}
-                                />
+                            </div>
+                            <div className={classes.__power_center_card_total}>
+                                <p>
+                                    {outOf} of <span>{total}</span>
+                                </p>
+                            </div>
+                            <div className={classes.__power_center_card_enter}>
+                                    <OutlineButton 
+                                        title="Enter  •  $5"
+                                        onClick={onEnter}
+                                    />
+                            </div>
                         </div>
                     </div>
-                </div> */}
-                <PrizeGrid title={title} />
+                        <PrizeGrid />
+                        <PowersAvailable title={title} />
+                        <PointSystem title={title} />
+                        <TeamRoster title={title} />
+                </Carousel>
             </div>
             :
             <PowerCenterCardDetails

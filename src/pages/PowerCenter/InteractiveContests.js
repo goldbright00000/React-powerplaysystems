@@ -395,6 +395,12 @@ const InteractiveContests = props => {
                     }
                     )()
                 }
+                <div className={classes.__power_up_text}>
+                    Power-Up to experience our ground-breaking live-play games where you have the Power to control your team’s destiny. *
+                </div>
+                <button className={classes.__power_up_btn}>
+                    Power Up!
+                </button>
             </div>
         </>
     )
