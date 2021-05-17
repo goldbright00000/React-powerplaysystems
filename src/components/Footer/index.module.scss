@@ -37,11 +37,23 @@
 }
 
 @media (max-width: 800px) {
+    .container {
+        padding: 0.7143rem 0;
+    }
     .linksWrapper{
         grid-template-columns: 1fr;
         text-align: center;
         span{
             display: none;
         }
+    }
+    .copyWriteSection{
+        width: 334px;
+        text-align: center;
+        font-size: 16px;
+        line-height: normal;
+        letter-spacing: 2px;
+        margin: 0 auto;
+        color: $white;
     }
 }

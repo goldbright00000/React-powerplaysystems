@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Accordian from "../Accordian";
+import Power from '../../assets/power-play-sidebar-icon.png';
 import Token from "../../assets/points-collected.png";
 import Bitcoin from "../../assets/bitcoin.png";
 import Ethereum from "../../assets/ethereum.png";
@@ -13,7 +14,7 @@ const data = [
     dataTitle: "USD Cash Prizes",
     type: "cashBalance",
     balanceType: "cash",
-    iconWithTitle: "",
+    iconWithTitle: Token,
   },
   {
     cashTitle: "Total Tokens: ",
@@ -21,7 +22,7 @@ const data = [
     dataTitle: "Power Token Prizes",
     type: "tokenBalance",
     balanceType: "token",
-    iconWithTitle: Token,
+    iconWithTitle: Power,
   },
   {
     cashTitle: "",
