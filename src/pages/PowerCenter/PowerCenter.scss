@@ -4,7 +4,7 @@
     .__power_center_banner {
         background-image: url('../../assets/power-center-banner.png');
         background-size: 100% auto;
-        background-position: center;
+        background-repeat: no-repeat;
 
         .__power_center_banner_left {
             display: flex;
@@ -47,72 +47,205 @@
                 }
             }
         }
-    }
-}
 
-@media(min-width: 900px){
-    .__PowerCenter{
-        .__power-center-links{
-            overflow: hidden;
-            background-color: rgba(17, 17, 17, 0.3);
-            a{
-                padding: 1em 7em;
-                transform: skew(-45deg);
-                border: 2px solid transparent;
-                span{
-                    transform: skew(45deg);
-                }
-                &.active{
-                    color: $primary;
-                    border-color: currentColor;
-                    background-color: rgba(99, 99, 99, 0.24);
-                }
-                &:first-child{
-                    margin-left: -4em;
-                    &.active{
-                        border-top-right-radius: 1em;
-                        border-bottom-right-radius: 0.4em;
-                    }
-                }
-                &:last-child{
-                    margin-right: -4em;
-                    &.active{
-                        border-top-left-radius: 0.4em;
-                        border-bottom-left-radius: 1em;
-                    }
-                }
-            }
-        }
-    }
-}
-@media (max-width: 899px){
-    .__PowerCenter{
-        .__power-center-links{
-            margin: 5em 1em;
-            justify-content: space-around;
-            a{
-                font-size: 20px;
-                text-align: initial;
-                flex: initial;
-            }
-            a.active{
-                color: $primary;
-                border: 2px solid transparent;
-                border-bottom-color: $primary;
-            }
-            a:first-child{
-                margin-right: 1em;
-            }
+        .__balance {
+            position: relative;
+            margin-top: 60px;
+
         }
     }
 }
 
-@media (max-width: 365px){
-    .__PowerCenter{
-        .__power-center-links{
-            margin: 3em 1em;
-            a{
-                font-size: 16px;
+@media (max-width: 1024px) {
+    .__power_center {
+        .__power_center_banner {
+            background-image: url('../../assets/power-center-banner-mobile.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 553px;
+
+            .__power_center_banner_left {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                height: 350px;
+                align-items: center;
+                .__power_center_banner_left_icon {
+                    display: inherit;
+                    align-items: flex-end;
+
+                    .__banner_title_icon {
+                        width: 35px;
+                        height: 60px;
+                    }
+                }
+    
+                .__power_center_banner_left_title {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+    
+                    .__power_center_banner_left_title_main {
+                        width: 396px;
+                        height: 56px;
+                        font-family: Teko;
+                        font-size: 56px;
+                        font-weight: bold;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        text-align: center;
+                        color: $grey2;
+                    }
+    
+                    .__power_center_banner_left_title_sub {
+                        height: 17px;
+                        font-family: Poppins;
+                        font-size: 12px;
+                        font-weight: 500;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: 0.4px;
+                        color: $grey2;
+                    }
+                }
+            }
+
+            .__balance {
+                margin-top: 153px;
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .__power_center {
+        .__power_center_banner {
+            background-image: url('../../assets/power-center-banner-mobile.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 553px;
+
+            .__power_center_banner_left {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                height: 350px;
+                align-items: center;
+                .__power_center_banner_left_icon {
+                    display: inherit;
+                    align-items: flex-end;
+
+                    .__banner_title_icon {
+                        width: 35px;
+                        height: 60px;
+                    }
+                }
+    
+                .__power_center_banner_left_title {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+    
+                    .__power_center_banner_left_title_main {
+                        width: 395px;
+                        height: 56px;
+                        font-family: Teko;
+                        font-size: 56px;
+                        font-weight: bold;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        text-align: center;
+                        color: $grey2;
+                    }
+    
+                    .__power_center_banner_left_title_sub {
+                        height: 17px;
+                        font-family: Poppins;
+                        font-size: 12px;
+                        font-weight: 500;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: 0.4px;
+                        color: $grey2;
+                    }
+                }
+            }
+
+            .__balance {
+                margin-top: 153px;
+            }
+        }
+    }
+}
+
+@media (max-width: 414px) {
+    .__power_center {
+        .__power_center_banner {
+            background-image: url('../../assets/power-center-banner-mobile.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            height: 553px;
+
+            .__power_center_banner_left {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                height: 350px;
+                align-items: center;
+                .__power_center_banner_left_icon {
+                    display: inherit;
+                    align-items: flex-end;
+
+                    .__banner_title_icon {
+                        width: 35px;
+                        height: 60px;
+                    }
+                }
+    
+                .__power_center_banner_left_title {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-end;
+    
+                    .__power_center_banner_left_title_main {
+                        width: 293px;
+                        height: 56px;
+                        font-family: Teko;
+                        font-size: 56px;
+                        font-weight: bold;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: normal;
+                        text-align: center;
+                        color: $grey2;
+                    }
+    
+                    .__power_center_banner_left_title_sub {
+                        height: 17px;
+                        font-family: Poppins;
+                        font-size: 12px;
+                        font-weight: 500;
+                        font-stretch: normal;
+                        font-style: normal;
+                        line-height: normal;
+                        letter-spacing: 0.4px;
+                        color: $grey2;
+                    }
+                }
+            }
+
+            .__balance {
+                margin-top: 153px;
             }
         }
     }

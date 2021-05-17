@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classes from './interactiveContests.module.scss';
+import { useMediaQuery } from 'react-responsive';
 import moment from "moment";
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
@@ -9,6 +10,7 @@ import PowerCenterCard from '../../components/PowerCenterCard';
 import { getDaysFromToday, redirectTo } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
 import FilledArrow from '../../components/FilledArrow';
+import PowerCenterMobileCard from '../../components/PowerCenterMobileCard';
 
 const powerCenterCardData = [
     {
@@ -125,10 +127,18 @@ const ALL_CURRENCIES = [
     }
 ];
 
+let mlbData = [];
+let nflData = [];
+let nbaData = [];
+let nhlData = [];
+
 const InteractiveContests = props => {
     const [isMobileDevice, setMobileDevice] = useState(false);
     const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
     const currencyMenuRef = useRef(null);
+    const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({query: '(max-width: 768px)'});
+    const isBigScreenTablet = useMediaQuery({query: '(max-width: 1024px)'});
 
     const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
     const [showCardDetails, setShowCardDetails] = useState(-1);
@@ -159,6 +169,22 @@ const InteractiveContests = props => {
         };
       }, []);
 
+    useEffect(() => {
+        if (isMobile) {
+            powerCenterCardData.map((item, index) => {
+                if (item.title == 'MLB') {
+                    mlbData.push(item);
+                } else if (item.title == 'NFL') {
+                    nflData.push(item);
+                }  else if (item.title == 'NBA') {
+                    nbaData.push(item);
+                } else {
+                    nhlData.push(item);
+                }
+            });
+        }
+    }, []);
+
     const handleClick = e => {
         if (currencyMenuRef.current && !currencyMenuRef.current.contains(e.target)) {
             setCurrencyMenu(false);
@@ -185,10 +211,30 @@ const InteractiveContests = props => {
         );
     }
 
+    const powerCenterMobileCard = (item, redirectUri) => {
+        return (
+            <div className={classes.__interactive_contests_power_center_card}>
+                <PowerCenterMobileCard
+                    id={item.id}
+                    title={item.title}
+                    prize={item.prize}
+                    outOf={item.outOf}
+                    total={item.total}
+                    percent={item.percent}
+                    showDetails={showCardDetails == item.id}
+                    onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
+                    onDetailsClick={(cardId) => setShowCardDetails(cardId)}
+                    onBackClick={() => setShowCardDetails(-1)}
+                    onNextClick={() => setShowCardDetails(-1)}
+                />
+            </div>
+        );
+    }
+
     return (
         <>
             <div className='__table-wrapper __mb-6'>
-                <div className='__flex'>
+                <div className={isMobile || isTablet ? '' : '__flex'}>
                     <div style={{ flex: 1 }}>
                         <div className='__badges-wrapper __text-in-one-line __mediam'>
                             {
@@ -216,6 +262,25 @@ const InteractiveContests = props => {
                         
                     </div>
                 </div>
+                {
+                    isMobile || isTablet
+                    ?
+                    <div className={classes.__interactive_contests_filter}>
+                        <div className={classes.__interactive_contests_most_popular}>
+                            <p>
+                                Most Popular
+                                <FilledArrow down={true} />
+                            </p>
+                        </div>
+                        <div className={classes.__interactive_contests_date}>
+                            <CustomDropDown 
+                                value={selectedDate}
+                                options={days}
+                                onChange={selectedOption => setSelectedDate(selectedOption)}
+                            />
+                        </div>
+                    </div>
+                    :
                 <div className={classes.__interactive_contests_filter}>
                     <div className={classes.__interactive_contests_most_popular}>
                         <p>Most Popular</p>
@@ -283,8 +348,57 @@ const InteractiveContests = props => {
                         />
                     </div>
                 </div>
+                }
 
                 {
+                    isMobile
+                    ?
+                    (() => {
+                        const itemsInaRow = 1;
+                        const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
+                        const powerCenterMobileCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
+                            const start = ((i + 1) * itemsInaRow) - 1;
+                            const end = ((i + 1) * itemsInaRow);
+                            const items = filteredData.slice(start, end);
+
+                            return (
+                                <div className={classes.__interactive_contests_power_center_card_row}>
+                                    {
+                                        items.map(power => {
+                                            return powerCenterMobileCard(power, power.url);
+                                        })
+                                    }
+                                </div>
+                            );
+                        })
+                        return powerCenterMobileCardView;
+                    }
+                    )()
+                    :
+                    isTablet || isBigScreenTablet
+                    ?
+                    (() => {
+                        const itemsInaRow = 2;
+                        const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
+                        const powerCenterCardView = Array(numberOfRows).fill(undefined).map((item, i) => {
+                            const start = ((i + 1) * itemsInaRow) - 2;
+                            const end = ((i + 1) * itemsInaRow);
+                            const items = filteredData.slice(start, end);
+
+                            return (
+                                <div className={classes.__interactive_contests_power_center_card_row}>
+                                    {
+                                        items.map(power => {
+                                            return powerCenterCard(power, power.url);
+                                        })
+                                    }
+                                </div>
+                            );
+                        })
+                        return powerCenterCardView;
+                    }
+                    )()
+                    :
                     (() => {
                         const itemsInaRow = 4;
                         const numberOfRows = Math.ceil(powerCenterCardData.length / itemsInaRow);
@@ -307,6 +421,19 @@ const InteractiveContests = props => {
                     }
                     )()
                 }
+                {
+                    isMobile
+                    &&
+                    <>
+                        <div className={classes.__power_up_text}>
+                            Power-Up to experience our ground-breaking live-play games where you have the Power to control your team’s destiny. *
+                        </div>
+                        <button className={classes.__power_up_btn}>
+                            Power Up!
+                        </button>
+                    </>
+                }
+                
             </div>
         </>
     )
