@@ -582,6 +582,7 @@ function MLBPowerdFs(props) {
                               loading={loading}
                               onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
+                              type={selectedData?.type}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&

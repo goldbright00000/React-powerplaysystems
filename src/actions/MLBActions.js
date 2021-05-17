@@ -122,7 +122,7 @@ function getPlayers(
   if (playerList?.length) {
     for (let i = 0; i < playerList?.length; i++) {
       const {
-        current_position = "",
+        primary_position = "",
         current_team = "",
         is_injured = "",
         name = "",
@@ -138,7 +138,7 @@ function getPlayers(
       const date = moment(date_time).format("YYYY-MM-DD");
 
       const player = {
-        currentPosition: current_position,
+        primary_position: primary_position,
         currentTeamId: current_team,
         isInjured: is_injured,
         playerName: name,
@@ -199,7 +199,6 @@ export function saveAndGetSelectPlayers(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          printLog(payload);
           if (!payload.gameId || !payload.sportId || !payload.userId) {
             return alert(
               "Invalid informations",
@@ -216,8 +215,6 @@ export function saveAndGetSelectPlayers(payload) {
               user_id: payload.userId,
             }
           );
-
-          printLog(playersResponse.data.data);
 
           const { data = {} } = playersResponse.data || {};
           const {

@@ -28,6 +28,7 @@ function SportsSelectionCard3(props) {
     btnTitle = "+ Select",
     btnIcon = "",
     pageType = PAGE_TYPES.MLB,
+    type = "",
   } = props || {};
 
   const {
@@ -62,7 +63,13 @@ function SportsSelectionCard3(props) {
   const renderStats = () => {
     switch (pageType) {
       case PAGE_TYPES.MLB:
-        return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
+        return (
+          <MLBPlayerStat
+            playerStats={playerStats}
+            active={isSelected}
+            position={type}
+          />
+        );
 
       case PAGE_TYPES.NFL:
         return (
@@ -171,6 +178,7 @@ SportsSelectionCard3.propTypes = {
   onSelectDeselect: PropTypes.func,
   loading: PropTypes.bool,
   pageType: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default React.memo(SportsSelectionCard3);
