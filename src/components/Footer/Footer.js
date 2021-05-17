@@ -5,12 +5,13 @@ import { useMediaQuery } from 'react-responsive';
 
 const Footer = props => {
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
 
     return (
         <footer className={`${styles.root} ${props.className} ${props.isBlack ? styles.style_2 : ''}`}>
             <div className={styles.container}>
                 {
-                    isMobile
+                    isMobile || isTablet
                     ?
                     <>
                         <div className={styles.linksWrapper}>

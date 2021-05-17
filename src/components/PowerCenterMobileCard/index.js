@@ -54,7 +54,13 @@ const PowerCenterMobileCard = (props) => {
         !showDetails
             ?
             <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
-                <Carousel showArrows={false} showStatus={false} showThumbs={false} autoPlay={false} infiniteLoop={false} interval={300000}>
+                <Carousel 
+                    showArrows={false} 
+                    showStatus={false} 
+                    showThumbs={false} 
+                    autoPlay={false} 
+                    infiniteLoop={false} 
+                    interval={300000}>
                     <div className={classes.__power_center_card_container}>
                         <div style={{ flex: 1}}></div>
                         <div className={classes.__power_center_card_content}>

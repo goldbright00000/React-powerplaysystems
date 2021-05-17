@@ -18,8 +18,6 @@ const PowerCenter = props => {
     const { url } = props.match;
     const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
-    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
-    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
 
     return (
         <Fragment>

@@ -162,6 +162,57 @@
     color: $black;
 }
 
+@media (max-width: 768px) {
+    .__interactive_contests_filter {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 40px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        background-color: $lightBlack;
+    
+        .__interactive_contests_most_popular {
+            width: 55%;
+            padding-left: 20px;
+    
+            p {
+                font-family: Poppins;
+                font-size: 16px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                color: $grey2;
+            }
+        }
+    
+        .__interactive_contests_date {
+            display: flex;
+            flex: 1;
+            justify-content: flex-end;
+        }
+    
+        .__drop_down_menu {
+            cursor: pointer;
+        }
+    }
+    
+    .__interactive_contests_power_center_card_row {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        
+        .__interactive_contests_power_center_card {
+            display: flex;
+            flex: 1;
+            justify-content: space-evenly;
+        }
+    }
+}
+
 @media (max-width: 414px) {
     .__interactive_contests_filter {
         display: flex;
