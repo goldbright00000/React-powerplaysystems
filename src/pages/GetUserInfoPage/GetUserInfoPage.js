@@ -63,7 +63,8 @@ const GetUserInfoPage = (props) => {
   });
   useEffect(() => {
     if (user.isSuccess || isEmpty(props.location.state.email)) {
-      redirectTo(props, { path: "login" });
+      // redirectTo(props, { path: "login" });
+      redirectTo(props, { path: "verify-your-identity" });
     }
   }, [user]);
   useEffect(() => {
@@ -324,7 +325,9 @@ const GetUserInfoPage = (props) => {
               </>
             }
           />
-          <button className={formStyles.button}>NEXT</button>
+          <button className={formStyles.button}>
+            {user?.isLoading ? "LOADING..." : "NEXT"}
+          </button>
         </form>
       </main>
       <Footer isBlack={true} />
