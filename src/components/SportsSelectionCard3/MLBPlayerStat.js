@@ -136,21 +136,6 @@ function MLBPlayerStat(props) {
   return (
     <div className={`${classes.card_state} ${active && classes.active}`}>
       {RenderData()}
-      {/* <div className={classes.card_state_title}>
-        {defaultTitles?.map((title, index) => (
-          <span key={index.toString()} className={classes.state_step_1_title}>
-            {title}
-          </span>
-        ))}
-      </div>
-
-      <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(earned_runs_average)} />
-        <RenderItem value={`${wins}-${losses}`} />
-        <RenderItem value={strike_outs} />
-        <RenderItem value={getTwoDecimal(walks_hits_per_innings_pitched)} />
-        <RenderItem value={0} />
-      </div> */}
     </div>
   );
 }
