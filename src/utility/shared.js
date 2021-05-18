@@ -313,3 +313,10 @@ export function printLog(val) {
     console.log(val);
   }
 }
+
+export function addTrailingZerons(num) {
+  return num.toLocaleString("en", {
+    useGrouping: false,
+    minimumFractionDigits: 3,
+  });
+}

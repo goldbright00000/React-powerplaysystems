@@ -24,13 +24,11 @@ import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
 import Search from "../../components/SearchInput";
 import PowerCollapesible from "../../components/PowerCollapesible";
-import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
-import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
 import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
 import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCard";
@@ -392,14 +390,14 @@ function MLBPowerdFs(props) {
   const onSearch = (e) => {
     const { value } = e.target;
     if (!isEmpty(value)) {
-      const _filterdData = selectedData?.players?.filter((player) =>
+      const _filterdData = selectedData?.listData?.filter((player) =>
         player?.playerName
           ?.toLocaleLowerCase()
           ?.includes(value?.toLocaleLowerCase())
       );
       const _filterdDataObj = {
         type: selectedData?.type,
-        players: _filterdData,
+        listData: _filterdData,
       };
       setFilterdData(_filterdDataObj);
     } else {

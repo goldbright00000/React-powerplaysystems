@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import classes from "./playerStat.module.scss";
+import { addTrailingZerons } from "../../utility/shared";
 
 const defaultTitles = ["AVG", "HR", "RBI", "OPS", "FFPG"];
 const titlesP = ["ERA", "W-L", "K", "WHIP", "FFPG"];
@@ -48,7 +49,9 @@ function MLBPlayerStat(props) {
         <RenderItem
           value={
             batting_average !== 0
-              ? `.${batting_average?.toString()?.split(".")[1]}`
+              ? `.${
+                  addTrailingZerons(batting_average)?.toString()?.split(".")[1]
+                }`
               : batting_average
           }
         />
