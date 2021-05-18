@@ -4,9 +4,8 @@ import PropTypes from "prop-types";
 import classes from "./playerStat.module.scss";
 
 const defaultTitles = ["AVG", "HR", "K", "RBI", "OPS", "FFPG"];
+const titlesC = ["AVG", "HR", "RBI", "OPS", "FFPG"];
 const titlesP = ["ERA", "W-L", "K", "WHIP", "FFPG"];
-const titlesXB = ["GP", "G", "A", "PTS", "FPPG"];
-const titlesSS = ["AVG", "HR", "RBI", "FPPG"];
 
 function MLBPlayerStat(props) {
   const { active = false, playerStats = {}, position = "" } = props || {};
@@ -47,20 +46,26 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={runs_batted_in} />
-        <RenderItem value={doubles} />
+        <RenderItem
+          value={
+            batting_average !== 0
+              ? `.${batting_average?.toString()?.split(".")[1]}`
+              : batting_average
+          }
+        />
+        <RenderItem value={home_runs} />
         <RenderItem value={strike_outs} />
-        <RenderItem value={triples} />
-        <RenderItem value={hits} />
+        <RenderItem value={runs_batted_in} />
+        <RenderItem value={".000"} />
         <RenderItem value={0} />
       </div>
     </>
   );
 
-  const RenderXB = () => (
+  const RenderC = () => (
     <>
       <div className={classes.card_state_title}>
-        {titlesXB?.map((title, index) => (
+        {titlesC?.map((title, index) => (
           <span key={index.toString()} className={classes.state_step_1_title}>
             {title}
           </span>
@@ -68,29 +73,16 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(batting_average)} />
-        <RenderItem value={runs_batted_in} />
-        <RenderItem value={doubles} />
+        <RenderItem
+          value={
+            batting_average !== 0
+              ? `.${batting_average?.toString()?.split(".")[1]}`
+              : batting_average
+          }
+        />
         <RenderItem value={home_runs} />
-        <RenderItem value={0} />
-      </div>
-    </>
-  );
-
-  const RenderSS = () => (
-    <>
-      <div className={classes.card_state_title}>
-        {titlesSS?.map((title, index) => (
-          <span key={index.toString()} className={classes.state_step_1_title}>
-            {title}
-          </span>
-        ))}
-      </div>
-
-      <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(batting_average)} />
         <RenderItem value={runs_batted_in} />
-        <RenderItem value={home_runs} />
+        <RenderItem value={".000"} />
         <RenderItem value={0} />
       </div>
     </>
@@ -121,11 +113,8 @@ function MLBPlayerStat(props) {
       case "p" || "P":
         return <RenderP />;
 
-      case "xb" || "XB":
-        return <RenderXB />;
-
-      case "ss" || "SS":
-        return <RenderSS />;
+      case "c" || "C":
+        return <RenderC />;
 
       default:
         return <RenderDefault />;
