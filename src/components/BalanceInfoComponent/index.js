@@ -145,7 +145,7 @@ function BalanceInfoComponent(props) {
           "Min. Amount: $100"
         )}
         {ListHeader(
-          "My Token Balance",
+          "Power Token Balance",
           balance.tokenBalance,
           "Deposit",
           () => {},
@@ -158,7 +158,7 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "BTC Balance",
-          balance.tokenBalance,
+          balance.btcBalance,
           "Deposit",
           () => {},
           "Transfer",
@@ -170,7 +170,7 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "ETH Balance",
-          balance.tokenBalance,
+          balance.ethBalance,
           "Deposit",
           () => {},
           "Transfer",

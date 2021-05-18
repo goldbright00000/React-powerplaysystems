@@ -24,6 +24,8 @@ export function setUserBalance(payload) {
     CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE,
     payload.tokenBalance
   );
+  setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE, payload.btcBalance);
+  setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE, payload.ethBalance);
   return {
     type: USER_BALANCE,
     payload,

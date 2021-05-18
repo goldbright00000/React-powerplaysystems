@@ -18,6 +18,8 @@ const PowerCenter = props => {
     const { url } = props.match;
     const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
+    const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
+    const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
 
     return (
         <Fragment>
@@ -34,7 +36,7 @@ const PowerCenter = props => {
                             </div>
                             <div className='__power_center_banner_left_title_sub'>
                                 {
-                                    isMobile
+                                    isMobile || isTablet || isBigScreenTablet
                                     ?
                                     "Worlds first Live-Play Fantasy Sports platform"
                                     :
