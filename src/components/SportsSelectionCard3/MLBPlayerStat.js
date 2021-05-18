@@ -3,8 +3,7 @@ import PropTypes from "prop-types";
 
 import classes from "./playerStat.module.scss";
 
-const defaultTitles = ["AVG", "HR", "K", "RBI", "OPS", "FFPG"];
-const titlesC = ["AVG", "HR", "RBI", "OPS", "FFPG"];
+const defaultTitles = ["AVG", "HR", "RBI", "OPS", "FFPG"];
 const titlesP = ["ERA", "W-L", "K", "WHIP", "FFPG"];
 
 function MLBPlayerStat(props) {
@@ -54,33 +53,6 @@ function MLBPlayerStat(props) {
           }
         />
         <RenderItem value={home_runs} />
-        <RenderItem value={strike_outs} />
-        <RenderItem value={runs_batted_in} />
-        <RenderItem value={".000"} />
-        <RenderItem value={0} />
-      </div>
-    </>
-  );
-
-  const RenderC = () => (
-    <>
-      <div className={classes.card_state_title}>
-        {titlesC?.map((title, index) => (
-          <span key={index.toString()} className={classes.state_step_1_title}>
-            {title}
-          </span>
-        ))}
-      </div>
-
-      <div className={classes.card_state_values}>
-        <RenderItem
-          value={
-            batting_average !== 0
-              ? `.${batting_average?.toString()?.split(".")[1]}`
-              : batting_average
-          }
-        />
-        <RenderItem value={home_runs} />
         <RenderItem value={runs_batted_in} />
         <RenderItem value={".000"} />
         <RenderItem value={0} />
@@ -112,9 +84,6 @@ function MLBPlayerStat(props) {
     switch (position) {
       case "p" || "P":
         return <RenderP />;
-
-      case "c" || "C":
-        return <RenderC />;
 
       default:
         return <RenderDefault />;
