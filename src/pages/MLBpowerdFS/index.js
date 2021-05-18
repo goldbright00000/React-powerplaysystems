@@ -225,6 +225,7 @@ function MLBPowerdFs(props) {
   const [selectedType, setSelectedType] = useState();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const [dropDownState, setDropDownTeam] = useState(dropDown);
 
   const { data = [], starPlayerCount = 0, game_id, sport_id } = useSelector(
     (state) => state.mlb
@@ -255,6 +256,12 @@ function MLBPowerdFs(props) {
     if (data?.length) {
       setFilterdData(data[0]);
       setSelectedData(data[0]);
+
+      //set dropdown
+      const _dropDownlist = data?.filter(
+        (list) => list?.type === "d" || list?.type === "D"
+      );
+      setDropDownTeam(_dropDownlist?.[0]?.listData);
     }
   }, [data]);
 
@@ -540,7 +547,7 @@ function MLBPowerdFs(props) {
                 <Search
                   onSearch={onSearch}
                   onSelect={onSelectSearchDropDown}
-                  dropDown={dropDown}
+                  dropDown={dropDownState}
                   selected={selectedDropDown}
                 />
               </div>
