@@ -11,8 +11,6 @@ function AccountInfo(props) {
   const [showDeleteAccountModal, setDeleteAccountModal] = useState(false);
   const [editItem, setEditItem] = useState(-1);
 
-  console.log('USER', user);
-
   const deleteAccountModal = () => {
     return (
       <Modal visible={showDeleteAccountModal}>
