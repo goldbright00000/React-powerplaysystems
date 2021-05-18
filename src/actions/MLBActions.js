@@ -57,7 +57,8 @@ export function mlbData() {
         homeTeamName,
         venue,
         match_id,
-        date_time
+        date_time,
+        awayTeam?.team_id
       );
       const _homeTeamPlayersList = getPlayers(
         homeTeamPlayers,
@@ -65,7 +66,8 @@ export function mlbData() {
         awayTeamName,
         venue,
         match_id,
-        date_time
+        date_time,
+        homeTeam?.team_id
       );
       const playersList = [..._awayTeamPlayersList, ..._homeTeamPlayersList];
       mlbPlayerList.push(...playersList);
@@ -115,7 +117,8 @@ function getPlayers(
   awayTeam = "",
   venue = {},
   match_id = "",
-  date_time = ""
+  date_time = "",
+  teamId = ""
 ) {
   const _playerList = [];
 
@@ -151,6 +154,7 @@ function getPlayers(
         time: time,
         stadium: venue?.name,
         playerStats: { ...mlbPlayerStats },
+        team_id: teamId,
       };
 
       _playerList.push(player);
