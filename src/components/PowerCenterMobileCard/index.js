@@ -10,9 +10,9 @@ import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
 import PrizeGrid from './PrizeGrid';
 import PowersAvailable from './PowersAvailable';
-import Hitters from './Hitters';
 import PointSystem from './PointSystem';
 import TeamRoster from './TeamRoster';
+import './carousel.scss';
 
 const PowerCenterMobileCard = (props) => {
     const {
@@ -60,7 +60,8 @@ const PowerCenterMobileCard = (props) => {
                     showThumbs={false} 
                     autoPlay={false} 
                     infiniteLoop={false} 
-                    interval={300000}>
+                    interval={300000}
+                    className=".carousel .control-dots">
                     <div className={classes.__power_center_card_container}>
                         <div style={{ flex: 1}}></div>
                         <div className={classes.__power_center_card_content}>
