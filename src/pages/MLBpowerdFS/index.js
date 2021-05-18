@@ -261,7 +261,14 @@ function MLBPowerdFs(props) {
       const _dropDownlist = data?.filter(
         (list) => list?.type === "d" || list?.type === "D"
       );
-      setDropDownTeam(_dropDownlist?.[0]?.listData);
+      const dropDownTeams = [
+        {
+          team_id: "all",
+          name: "All Teams",
+        },
+        ..._dropDownlist?.[0]?.listData,
+      ];
+      setDropDownTeam(dropDownTeams);
     }
   }, [data]);
 
@@ -412,10 +419,26 @@ function MLBPowerdFs(props) {
     }
   };
 
-  const onSelectSearchDropDown = (item) => {
-    if (item === selectedDropDown) return setSelectedDropDown(null);
+  const onSelectSearchDropDown = (team) => {
+    if (team === selectedDropDown) return setSelectedDropDown(null);
 
-    setSelectedDropDown(item);
+    if (team) {
+      if (team?.team_id !== "all") {
+        const _filterdData = selectedData?.listData?.filter(
+          (player) => player?.team_id === team?.team_id
+        );
+
+        const _filterdDataObj = {
+          type: selectedData?.type,
+          listData: _filterdData,
+        };
+        setFilterdData(_filterdDataObj);
+      } else {
+        setFilterdData(selectedData);
+      }
+    }
+
+    setSelectedDropDown(team);
   };
 
   const ContestScoringRow = ({ item = {}, width = {} }) => (
