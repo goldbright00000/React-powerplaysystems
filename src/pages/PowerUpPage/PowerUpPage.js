@@ -10,8 +10,8 @@ import Alert from "../../components/Alert";
 import { redirectTo } from "../../utility/shared";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
-import styles from './styles.module.scss';
-import formStyles from '../../scss/formstyles.module.scss';
+import styles from "./styles.module.scss";
+import formStyles from "../../scss/formstyles.module.scss";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 
 const INITIAL_STATE = {
@@ -82,73 +82,76 @@ const PowerUpPage = (props) => {
   return (
     <div className={styles.root}>
       <Header isStick={true} />
-      <HeroSection title={<>Get Ready <br />to Power-Up!</>} subTitle={<>Start your new fantasy experience on our live-play platform <br /> where you have the Power to control your team's destiny!</>} />
+      <HeroSection
+        title={
+          <>
+            Get Ready <br />
+            to Power-Up!
+          </>
+        }
+        subTitle={
+          <>
+            Start your new fantasy experience on our live-play platform <br />{" "}
+            where you have the Power to control your team's destiny!
+          </>
+        }
+      />
       <div className={styles.container}>
-          <form
-            className={formStyles.root}
-            action={null}
-            onSubmit={onSubmit}
-          >
-            {!user?.isFailed && !isEmpty(user.errorMsg) && (
-              <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
-            )}
-            {user.isFailed && !isEmpty(user.errorMsg) && (
-              <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
-            )}
+        <form className={formStyles.root} action={null} onSubmit={onSubmit}>
+          {!user?.isFailed && !isEmpty(user.errorMsg) && (
+            <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
+          )}
+          {user.isFailed && !isEmpty(user.errorMsg) && (
+            <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
+          )}
 
-            {user.isSuccess && !isEmpty(user.errorMsg) && (
-              <Alert renderMsg={() => <p>{user.errorMsg}</p>} success />
-            )}
+          {user.isSuccess && !isEmpty(user.errorMsg) && (
+            <Alert renderMsg={() => <p>{user.errorMsg}</p>} success />
+          )}
 
-            <Input
-              type="text"
-              title="Username"
-              id="username"
-              value={user.username}
-              onChange={(e) => {
-                setUser({ ...user, username: e?.target?.value });
-              }}
-            />
-            <Input
-              type="email"
-              title="E-mail"
-              id="email"
-              value={user.email}
-              onChange={(e) => {
-                setUser({ ...user, email: e?.target?.value });
-              }}
-            />
-            <Input
-              type="password"
-              title="Create-a-password"
-              id="password"
-              value={user.password}
-              onChange={(e) => {
-                setUser({ ...user, password: e?.target?.value });
-              }}
-            />
-            <Input
-              type="password"
-              title="Confirm your password"
-              id="confirmpassword"
-              value={user.cPassword}
-              onChange={(e) => {
-                setUser({ ...user, cPassword: e?.target?.value });
-              }}
-            />
-            <button
-              className={formStyles.button}
-              disabled={user.isLoading}
-            >
-              {user.isLoading ? "Loading..." : "Next"}
-            </button>
-          </form>
-          <p className={styles.blogSection}>
-            Already have an account?{" "}
-            <Link to="/login">
-              Log in!
-            </Link>
-          </p>
+          <Input
+            type="text"
+            title="Display Name"
+            id="username"
+            value={user.username}
+            onChange={(e) => {
+              setUser({ ...user, username: e?.target?.value });
+            }}
+          />
+          <Input
+            type="email"
+            title="E-mail"
+            id="email"
+            value={user.email}
+            onChange={(e) => {
+              setUser({ ...user, email: e?.target?.value });
+            }}
+          />
+          <Input
+            type="password"
+            title="Create-a-password"
+            id="password"
+            value={user.password}
+            onChange={(e) => {
+              setUser({ ...user, password: e?.target?.value });
+            }}
+          />
+          <Input
+            type="password"
+            title="Confirm your password"
+            id="confirmpassword"
+            value={user.cPassword}
+            onChange={(e) => {
+              setUser({ ...user, cPassword: e?.target?.value });
+            }}
+          />
+          <button className={formStyles.button} disabled={user.isLoading}>
+            {user.isLoading ? "Loading..." : "Next"}
+          </button>
+        </form>
+        <p className={styles.blogSection}>
+          Already have an account? <Link to="/login">Log in!</Link>
+        </p>
       </div>
       <Footer isBlack={true} />
     </div>

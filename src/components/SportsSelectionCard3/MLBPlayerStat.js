@@ -5,7 +5,6 @@ import classes from "./playerStat.module.scss";
 
 const defaultTitles = ["AVG", "HR", "K", "RBI", "OPS", "FFPG"];
 const titlesP = ["ERA", "W-L", "K", "WHIP", "FFPG"];
-const titlesD = ["W", "L", "ARA", "FPPG"];
 const titlesXB = ["GP", "G", "A", "PTS", "FPPG"];
 const titlesSS = ["AVG", "HR", "RBI", "FPPG"];
 
@@ -48,11 +47,11 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(earned_runs_average)} />
-        <RenderItem value={`${wins}-${losses}`} />
+        <RenderItem value={runs_batted_in} />
+        <RenderItem value={doubles} />
         <RenderItem value={strike_outs} />
-        <RenderItem value={getTwoDecimal(walks_hits_per_innings_pitched)} />
-        <RenderItem value={0} />
+        <RenderItem value={triples} />
+        <RenderItem value={hits} />
         <RenderItem value={0} />
       </div>
     </>
@@ -69,10 +68,10 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(earned_runs_average)} />
-        <RenderItem value={`${wins}-${losses}`} />
-        <RenderItem value={strike_outs} />
-        <RenderItem value={getTwoDecimal(walks_hits_per_innings_pitched)} />
+        <RenderItem value={getTwoDecimal(batting_average)} />
+        <RenderItem value={runs_batted_in} />
+        <RenderItem value={doubles} />
+        <RenderItem value={home_runs} />
         <RenderItem value={0} />
       </div>
     </>
@@ -89,9 +88,9 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={0} />
-        <RenderItem value={0} />
-        <RenderItem value={0} />
+        <RenderItem value={getTwoDecimal(batting_average)} />
+        <RenderItem value={runs_batted_in} />
+        <RenderItem value={home_runs} />
         <RenderItem value={0} />
       </div>
     </>
@@ -108,10 +107,10 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={0} />
-        <RenderItem value={0} />
-        <RenderItem value={0} />
-        <RenderItem value={0} />
+        <RenderItem value={getTwoDecimal(earned_runs_average)} />
+        <RenderItem value={`${wins}-${losses}`} />
+        <RenderItem value={strike_outs} />
+        <RenderItem value={getTwoDecimal(walks_hits_per_innings_pitched)} />
         <RenderItem value={0} />
       </div>
     </>

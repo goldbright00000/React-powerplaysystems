@@ -276,15 +276,24 @@ const GetUserInfoPage = (props) => {
               ))}
             </Select>
           </div>
-          <Input
-            type="date"
-            title="Date Of Birth"
-            id="dateOfBirth"
-            value={user.dateOfBirth}
-            onChange={(e) => {
-              setUser({ ...user, dateOfBirth: e?.target?.value });
-            }}
-          />
+          <div>
+            <Input
+              type="date"
+              title="Date Of Birth"
+              id="dateOfBirth"
+              value={user.dateOfBirth}
+              onChange={(e) => {
+                setUser({ ...user, dateOfBirth: e?.target?.value });
+              }}
+              extraClass={styles.dob}
+              extra={
+                <div className={styles.bonus}>
+                  <p>+ 5 bonus tokens</p>
+                  <img src={powerplayicon} />
+                </div>
+              }
+            />
+          </div>
           <br />
           <CheckBox
             checked={user.ageCheck}
