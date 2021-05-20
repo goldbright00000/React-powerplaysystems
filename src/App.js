@@ -44,6 +44,7 @@ import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
+import MLBPowerLevels from "./pages/MLBPowerLevels";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -106,6 +107,7 @@ const App = (props) => {
         <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
         <Route path="/nba-powerdfs" component={NBAPowerdFs} />
         <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
+        <Route path="/mlb-power-levels" component={MLBPowerLevels} />
         <Route path="/contact-us" component={ContactUSPage} />
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
         <Route path='/responsible-gaming' component={ResponsibleGaming} />
