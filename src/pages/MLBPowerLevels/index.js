@@ -11,7 +11,6 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/baseball.jpg";
-import BaseballImageMobile from '../../assets/baseball-player-select-mobile.png';
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -40,10 +39,8 @@ import VideoReviewIcon from "../../assets/video-review-icon.png";
 import DWallIcon from "../../assets/d-wall-icon.png";
 import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
-
-import { useMediaQuery } from 'react-responsive'
-import { redirectTo } from "../../utility/shared";
-
+import LiveRankBox from "../../components/LiveRankBox";
+import BatteryPowerLevels from "../../components/BatteryPowerLevels";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -216,7 +213,7 @@ let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 const sidebarObj = {};
 
-function MLBPowerdFs(props) {
+function MLBPowerLevels(props) {
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -238,8 +235,6 @@ function MLBPowerdFs(props) {
   const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
 
   const dispatch = useDispatch();
-
-  const isMobile = useMediaQuery({ query: '(max-width: 414px)' })
 
   //reset the states
   useEffect(() => {
@@ -510,7 +505,6 @@ function MLBPowerdFs(props) {
   );
 
   const onSubmitMLbSelection = async () => {
-    redirectTo(props, { path: "/live-play-power-levels" });
     if (selectedPlayerCount < 8) {
       return;
     }
@@ -527,6 +521,7 @@ function MLBPowerdFs(props) {
       team_d_id: playerList[playerList?.length - 1]?.playerId,
     };
     await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+    // redirectTo(props, { path: "/mlb-live-powerdfs" });
   };
 
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
@@ -553,32 +548,20 @@ function MLBPowerdFs(props) {
           }
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
-          bgImageUri={isMobile ? BaseballImageMobile : BaseballImage}
+          bgImageUri={BaseballImage}
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
-          isMobile={isMobile}
         />
 
         <div className={classes.container}>
           <div className={classes.container_left}>
-            {
-              !isMobile
-              &&
-              <>
-              <h2>Select your team</h2>
-              <div className={classes.container_left_header_2}>
-                <p>7 starters + 1 team D</p> <span className={classes.line} />
-              </div>
-              </>
-            }
-            
+            <h2>Select your team</h2>
+            <div className={classes.container_left_header_2}>
+              <p>7 starters + 1 team D</p> <span className={classes.line} />
+            </div>
 
             <div className={classes.container_top}>
-              {
-                !isMobile
-                &&
-                <p>Select Position</p>
-              }
+              <p>Select Position</p>
               <div className={classes.container_top_1}>
                 <SportsFilters
                   data={filters}
@@ -594,13 +577,6 @@ function MLBPowerdFs(props) {
                 />
               </div>
             </div>
-            {
-              isMobile
-              &&
-              <div className={classes.select_team_info}>
-                Select 1 Team Defense, Goals against result in negative points for your team.
-              </div>
-            }
 
             <div className={classes.container_body}>
               <Card>
@@ -608,13 +584,9 @@ function MLBPowerdFs(props) {
                   <p className={classes.loading_view}>Loading...</p>
                 ) : (
                   <>
-                    {
-                      !isMobile
-                      &&
-                      <div className={classes.card_header}>
-                        <p>{headerText[selectedFilter?.id - 1]?.text}</p>
-                      </div>
-                    }
+                    <div className={classes.card_header}>
+                      <p>{headerText[selectedFilter?.id - 1]?.text}</p>
+                    </div>
 
                     <div className={classes.card_body}>
                       {filterdData && filterdData?.listData?.length ? (
@@ -641,7 +613,6 @@ function MLBPowerdFs(props) {
                               onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
                               type={selectedData?.type}
-                              isMobile={isMobile}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
@@ -660,7 +631,7 @@ function MLBPowerdFs(props) {
               <img src={AcceleRadar} className={classes.partner_logo} />
             </div>
 
-            {/* <div className={classes.container_footer}>
+            <div className={classes.container_footer}>
               <div className={classes.container_footer_header}>
                 <ContestRulesIcon />
                 <div className={classes.container_footer_title}>
@@ -806,7 +777,7 @@ function MLBPowerdFs(props) {
                 src={MLBFooterImage}
                 className={classes.container_body_img}
               />
-            </div> */}
+            </div>
           </div>
 
           <div className={classes.sidebar_container}>
@@ -822,37 +793,8 @@ function MLBPowerdFs(props) {
                 powerTitle="Top Prize"
                 centered
               />
-              <PowerCollapesible />
-              <div className={classes.sidebar_header}>
-                <h2>My Selections</h2>
-                <div className={classes.sidebar_header_1}>
-                  <p>
-                    <span>
-                      <img src={StarImg} className={classes.smallImg} />
-                      Star Power
-                    </span>{" "}
-                    players selected
-                  </p>
-                </div>
-                <div className={classes.sidebar_circles}>
-                  <StarPlayersCheck
-                    totalStarPlayers={3}
-                    selectedCount={starPlayerCount}
-                  />
-                </div>
-              </div>
-              <SportsSidebarContent
-                data={playerList}
-                onDelete={(id, matchId) => onDelete(id, matchId)}
-                starIcon={StarImg}
-                selectedPlayerCount={selectedPlayerCount}
-              />
-              <button
-                className={classes.sidebar_button}
-                onClick={onSubmitMLbSelection}
-              >
-                Submit!
-              </button>
+            <LiveRankBox />
+            <BatteryPowerLevels />
             </Sidebar>
           </div>
         </div>
@@ -869,4 +811,4 @@ function MLBPowerdFs(props) {
   );
 }
 
-export default MLBPowerdFs;
+export default MLBPowerLevels;

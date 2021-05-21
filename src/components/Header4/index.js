@@ -24,6 +24,7 @@ function Header4(props) {
     compressedView = false,
     currentState = <></>,
     token = "",
+    isMobile = false
   } = props || {};
 
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
@@ -43,7 +44,21 @@ function Header4(props) {
       }`}
       style={{ backgroundImage: "url(" + bgImageUri + ")" }}
     >
-      <div className={classes.header_top}>
+      {
+        isMobile
+        ?
+        <div className={classes.header_top}>
+          <div className={classes.header_title}>
+            Select your team
+          </div>
+          <div>
+            <span className={classes.horizontal_line}></span>
+            <span className={classes.header_sub_title}>7 starters + 1 team D</span>
+            <span className={classes.horizontal_line}></span>
+          </div>
+        </div>
+        :
+        <div className={classes.header_top}>
         {titleMain1 && (
           <div className={classes.header_title}>
             <h2 className={compressedView && classes.compressedView}>
@@ -80,9 +95,12 @@ function Header4(props) {
           )}
         </div>
       </div>
+      }
 
       {
         (token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))
+        &&
+        !isMobile
         &&
         <Balance entries="10,000" totalEntries="100,000" />
       }
