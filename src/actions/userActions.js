@@ -71,7 +71,7 @@ export async function payNowWithIpay(data) {
     };
 
     axios
-      .post("/api/hosted-pay/payment-request", obj)
+      .post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj)
       .then((res) => {
         window.open(res.data.payment_redirect_url, "_blank");
       })
@@ -136,7 +136,7 @@ export function setRates() {
   return (dispatch) => {
     axios
       .get(
-        "http://data.fixer.io/api/latest?access_key=fa3628fdfda5d5a96c1b5279ff862d37"
+        `${process.env.REACT_APP_FIXER_API_URL}/api/latest?access_key=${process.env.REACT_APP_FIXER_KEY}`
       )
       .then((res) => {
         let rates = res.data.rates;
@@ -178,10 +178,13 @@ export function setZumToken() {
   };
 }
 
-export function sendZumTransaction(transactionId) {
+export function sendZumTransaction(transactionId, markupRate) {
   const request = http.post(URLS.USER.ZUM_BALANCE_TRANSACTION, {
     transactionId,
+    markupRate
   });
+
+  debugger;
 
   return (dispatch) => {
     return request.then((response) => {

@@ -16,7 +16,7 @@ const DepositAmountPopUp = (props) => {
     if (country === "Canada") {
       dispatch(setRates());
     }
-  });
+  }, []);
 
   return (
     <CreatePopUpPortal>
