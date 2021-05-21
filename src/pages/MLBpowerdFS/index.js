@@ -520,9 +520,9 @@ function MLBPowerdFs(props) {
       playerIds.push(playerList[i]?.playerId);
     }
     const payload = {
-      gameId: game_id,
-      sportId: sport_id,
-      userId: 92,
+      game_id: game_id,
+      sport_id: sport_id,
+      user_id: 92,
       players: [...playerIds],
       team_d_id: playerList[playerList?.length - 1]?.playerId,
     };

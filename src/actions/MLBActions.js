@@ -203,20 +203,20 @@ export function saveAndGetSelectPlayers(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          if (!payload.gameId || !payload.sportId || !payload.userId) {
+          if (!payload.game_id || !payload.sport_id || !payload.user_id) {
             return alert(
               "Invalid informations",
-              payload.gameId,
-              payload.userId,
-              payload.sportId
+              payload.game_id,
+              payload.user_id,
+              payload.sport_id
             );
           }
           const playersResponse = await http.post(
             URLS.DFS.MLB_LIVE_PAGE_PLAYERS,
             {
-              game_id: payload.gameId,
-              sport_id: payload.sportId,
-              user_id: payload.userId,
+              game_id: payload.game_id,
+              sport_id: payload.sport_id,
+              user_id: payload.user_id,
             }
           );
 
