@@ -11,6 +11,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/baseball.jpg";
+import BaseballImageMobile from '../../assets/baseball-player-select-mobile.png';
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -39,6 +40,10 @@ import VideoReviewIcon from "../../assets/video-review-icon.png";
 import DWallIcon from "../../assets/d-wall-icon.png";
 import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+
+import { useMediaQuery } from 'react-responsive'
+import { redirectTo } from "../../utility/shared";
+
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -233,6 +238,8 @@ function MLBPowerdFs(props) {
   const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
 
   const dispatch = useDispatch();
+
+  const isMobile = useMediaQuery({ query: '(max-width: 414px)' })
 
   //reset the states
   useEffect(() => {
@@ -503,6 +510,7 @@ function MLBPowerdFs(props) {
   );
 
   const onSubmitMLbSelection = async () => {
+    redirectTo(props, { path: "/live-play-power-levels" });
     if (selectedPlayerCount < 8) {
       return;
     }
@@ -519,7 +527,6 @@ function MLBPowerdFs(props) {
       team_d_id: playerList[playerList?.length - 1]?.playerId,
     };
     await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-    // redirectTo(props, { path: "/mlb-live-powerdfs" });
   };
 
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
@@ -546,20 +553,32 @@ function MLBPowerdFs(props) {
           }
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
-          bgImageUri={BaseballImage}
+          bgImageUri={isMobile ? BaseballImageMobile : BaseballImage}
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
+          isMobile={isMobile}
         />
 
         <div className={classes.container}>
           <div className={classes.container_left}>
-            <h2>Select your team</h2>
-            <div className={classes.container_left_header_2}>
-              <p>7 starters + 1 team D</p> <span className={classes.line} />
-            </div>
+            {
+              !isMobile
+              &&
+              <>
+              <h2>Select your team</h2>
+              <div className={classes.container_left_header_2}>
+                <p>7 starters + 1 team D</p> <span className={classes.line} />
+              </div>
+              </>
+            }
+            
 
             <div className={classes.container_top}>
-              <p>Select Position</p>
+              {
+                !isMobile
+                &&
+                <p>Select Position</p>
+              }
               <div className={classes.container_top_1}>
                 <SportsFilters
                   data={filters}
@@ -575,6 +594,13 @@ function MLBPowerdFs(props) {
                 />
               </div>
             </div>
+            {
+              isMobile
+              &&
+              <div className={classes.select_team_info}>
+                Select 1 Team Defense, Goals against result in negative points for your team.
+              </div>
+            }
 
             <div className={classes.container_body}>
               <Card>
@@ -582,9 +608,13 @@ function MLBPowerdFs(props) {
                   <p className={classes.loading_view}>Loading...</p>
                 ) : (
                   <>
-                    <div className={classes.card_header}>
-                      <p>{headerText[selectedFilter?.id - 1]?.text}</p>
-                    </div>
+                    {
+                      !isMobile
+                      &&
+                      <div className={classes.card_header}>
+                        <p>{headerText[selectedFilter?.id - 1]?.text}</p>
+                      </div>
+                    }
 
                     <div className={classes.card_body}>
                       {filterdData && filterdData?.listData?.length ? (
@@ -611,6 +641,7 @@ function MLBPowerdFs(props) {
                               onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
                               type={selectedData?.type}
+                              isMobile={isMobile}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
@@ -629,7 +660,7 @@ function MLBPowerdFs(props) {
               <img src={AcceleRadar} className={classes.partner_logo} />
             </div>
 
-            <div className={classes.container_footer}>
+            {/* <div className={classes.container_footer}>
               <div className={classes.container_footer_header}>
                 <ContestRulesIcon />
                 <div className={classes.container_footer_title}>
@@ -775,7 +806,7 @@ function MLBPowerdFs(props) {
                 src={MLBFooterImage}
                 className={classes.container_body_img}
               />
-            </div>
+            </div> */}
           </div>
 
           <div className={classes.sidebar_container}>
