@@ -16,11 +16,11 @@ const PaymentFrame = (props) => {
       const { transactionId, userId } = data;
 
       dispatch({ type: REMOVE_ZUM_REDIRECT_URL });
-      dispatch(sendZumTransaction(transactionId));
-      console.log(transactionId, userId);
+      dispatch(sendZumTransaction(transactionId, markupRate));
     }
   });
   const frameUrl = useSelector((state) => state.user?.zumRedirectUrl);
+  const markupRate = useSelector((state) => state.user?.markedUpRate);
   if (!frameUrl) props.history.replace("/");
   useEffect(() => {});
   return (
