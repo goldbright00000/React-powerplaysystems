@@ -60,11 +60,12 @@ const powerCenterCardData = [
     },
     {
         id: 6,
-        title: "MLB",
+        title: "Levels",
         prize: "10,000",
         outOf: "58,589",
         total: "200,000",
         percent: "29",
+        url: '/mlb-power-levels'
     },
     {
         id: 7,

@@ -41,6 +41,7 @@ import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 import LiveRankBox from "../../components/LiveRankBox";
 import BatteryPowerLevels from "../../components/BatteryPowerLevels";
+import { redirectTo } from "../../utility/shared";
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -505,6 +506,7 @@ function MLBPowerLevels(props) {
   );
 
   const onSubmitMLbSelection = async () => {
+    redirectTo(props, { path: "/live-play-power-levels" });
     if (selectedPlayerCount < 8) {
       return;
     }
@@ -521,7 +523,7 @@ function MLBPowerLevels(props) {
       team_d_id: playerList[playerList?.length - 1]?.playerId,
     };
     await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-    // redirectTo(props, { path: "/mlb-live-powerdfs" });
+
   };
 
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
@@ -781,7 +783,7 @@ function MLBPowerLevels(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar styles={{ padding: 20 }}>
+          <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
@@ -793,8 +795,37 @@ function MLBPowerLevels(props) {
                 powerTitle="Top Prize"
                 centered
               />
-            <LiveRankBox />
-            <BatteryPowerLevels />
+              <PowerCollapesible />
+              <div className={classes.sidebar_header}>
+                <h2>My Selections</h2>
+                <div className={classes.sidebar_header_1}>
+                  <p>
+                    <span>
+                      <img src={StarImg} className={classes.smallImg} />
+                      Star Power
+                    </span>{" "}
+                    players selected
+                  </p>
+                </div>
+                <div className={classes.sidebar_circles}>
+                  <StarPlayersCheck
+                    totalStarPlayers={3}
+                    selectedCount={starPlayerCount}
+                  />
+                </div>
+              </div>
+              <SportsSidebarContent
+                data={playerList}
+                onDelete={(id, matchId) => onDelete(id, matchId)}
+                starIcon={StarImg}
+                selectedPlayerCount={selectedPlayerCount}
+              />
+              <button
+                className={classes.sidebar_button}
+                onClick={onSubmitMLbSelection}
+              >
+                Submit!
+              </button>
             </Sidebar>
           </div>
         </div>
