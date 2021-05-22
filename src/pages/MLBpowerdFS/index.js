@@ -510,7 +510,6 @@ function MLBPowerdFs(props) {
   );
 
   const onSubmitMLbSelection = async () => {
-    redirectTo(props, { path: "/live-play-power-levels" });
     if (selectedPlayerCount < 8) {
       return;
     }
@@ -641,7 +640,6 @@ function MLBPowerdFs(props) {
                               onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
                               type={selectedData?.type}
-                              isMobile={isMobile}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
@@ -657,7 +655,11 @@ function MLBPowerdFs(props) {
                   </>
                 )}
               </Card>
-              <img src={AcceleRadar} className={classes.partner_logo} />
+              {
+                !isMobile
+                &&
+                <img src={AcceleRadar} className={classes.partner_logo} />
+              }
             </div>
 
             {/* <div className={classes.container_footer}>

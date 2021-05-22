@@ -70,7 +70,7 @@ const PowerCenterMobileCard = (props) => {
                             </div>
                             <div className={classes.__power_center_card_powerdfs}>
                                 <p className={classes.__power_center_card_powerdfs_title}>
-                                    <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
+                                    <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> {title !== 'Levels' && 'PowerdFS'}
                                 </p>
                             </div>
                             <div className={classes.__power_center_card_prize_pool}>
