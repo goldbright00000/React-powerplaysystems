@@ -662,7 +662,7 @@ function MLBPowerdFs(props) {
               }
             </div>
 
-            {/* <div className={classes.container_footer}>
+            <div className={classes.container_footer}>
               <div className={classes.container_footer_header}>
                 <ContestRulesIcon />
                 <div className={classes.container_footer_title}>
@@ -808,7 +808,7 @@ function MLBPowerdFs(props) {
                 src={MLBFooterImage}
                 className={classes.container_body_img}
               />
-            </div> */}
+            </div>
           </div>
 
           <div className={classes.sidebar_container}>
