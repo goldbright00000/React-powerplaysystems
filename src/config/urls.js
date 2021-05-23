@@ -4,13 +4,14 @@ export const URLS = {
     REGISTER: "/users/signup",
     ACCOUNT: "/users/account",
     VERIFY_EMAIL: "/users/verify-email",
-    UPDATE_DETAILS: "/users"
+    UPDATE_DETAILS: "/users",
+    DELETE_USER_ACCOUNT: "/users/delete",
   },
   USER: {
     BALANCE: "/users/account/balance",
     SMALL_TOKEN: "users/account/balance/token",
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
-    CONVERSION_MARKUP_VALUE: "users/conversion-rate"
+    CONVERSION_MARKUP_VALUE: "users/conversion-rate",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",

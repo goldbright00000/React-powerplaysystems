@@ -37,8 +37,12 @@ const PowerUpPage = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { username = "", email = "", password = "", cPassword = "" } =
-      user || {};
+    const {
+      username = "",
+      email = "",
+      password = "",
+      cPassword = "",
+    } = user || {};
     setUser({ ...user, isLoading: true });
 
     if (
@@ -65,6 +69,7 @@ const PowerUpPage = (props) => {
     const data = {
       email,
       password,
+      username,
     };
     const response = await http.post(URLS.AUTH.VERIFY_EMAIL, data);
     if (response.data.status === false) {
