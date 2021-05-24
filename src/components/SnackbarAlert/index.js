@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeShownAlert } from "../../actions/notificationActions";
 import classes from "./index.module.scss";
+import SuccessIcon from "../../assets/success-icon.png";
+import ErrorIcon from "../../assets/error-icon.png";
+import InfoIcon from "../../assets/info-icon.png";
 import CloseIconWhite from "../../assets/close-white-icon.png";
-// import Icon from "../Icon";
-// import successIcon from "../icons/success.svg";
-// import errorIcon from "../icons/error.svg";
-// import closeIcon from "../icons/close.svg";
-// import { Wrapper, Content, Message } from "./Wrappers";
 
 const Alert = () => {
   const dispatch = useDispatch();
@@ -32,12 +30,26 @@ const Alert = () => {
   };
 
   // const color = alert.type === "success" ? "teal" : "darkred";
-  // const iconUrl = alert.type === "success" ? successIcon : errorIcon;
+  const iconUrl =
+    alert.type === "success"
+      ? SuccessIcon
+      : alert.type === "info"
+      ? InfoIcon
+      : ErrorIcon;
   return show ? (
     <div className={`${classes.__wrapper} ${classes[alert.type]}`}>
       <div className={classes.content_div}>
-        {/* <Icon icon={iconUrl} color={color} size="20px" /> */}
-        <div className={classes.message}>{alert.message || ""}</div>
+        <img
+          src={iconUrl}
+          width="28px"
+          height="28px"
+          style={{ cursor: "pointer" }}
+          onClick={onClose}
+        />
+        <div className={classes.message}>
+          {" "}
+          <b>{alert.type.toUpperCase()}.</b> {alert.message || ""}
+        </div>
       </div>
       {/* <Icon
         icon={closeIcon}

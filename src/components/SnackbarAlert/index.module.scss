@@ -17,11 +17,10 @@
 
 .__wrapper {
   position: fixed;
-  top: 20px;
+  bottom: 80px;
   animation: enter-leave 5s ease-in-out;
-  left: calc(50% - 300px);
-  width: 600px;
-  height: 42px;
+  left: calc(90% - 300px);
+  width: 400px;
   border-radius: 4px;
   z-index: 20000;
   padding: 8px 18px;
@@ -31,16 +30,16 @@
 
   @keyframes enter-leave {
     0% {
-      top: -60px;
+      bottom: -80px;
     }
     7.5% {
-      top: 16px;
+      bottom: 80px;
     }
     92.5% {
-      top: 16px;
+      bottom: 80px;
     }
     100% {
-      top: -60px;
+      bottom: -80px;
     }
   }
   @media screen and (max-width: 640px) {
@@ -50,13 +49,25 @@
 }
 
 .error {
-  border: 1px solid tomato;
-  background-color: lightSalmon;
-  color: darkred;
+  border-radius: 5px;
+  background-color: #fa3800;
+  color: white;
+}
+
+.warning {
+  border-radius: 5px;
+  background-color: #fb6e00;
+  color: white;
 }
 
 .success {
-  border: 1px solid teal;
-  background-color: #66cdaa;
-  color: teal;
+  border-radius: 5px;
+  background-color: #4bb654;
+  color: white;
+}
+
+.info {
+  border-radius: 5px;
+  background-color: #688fbd;
+  color: white;
 }
