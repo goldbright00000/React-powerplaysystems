@@ -7,6 +7,7 @@ import {
   removeLocalStorage,
 } from "../utility/shared";
 import jwtDecode from "jwt-decode";
+import { createAlert } from "./notificationActions";
 export const AUTH_LOADING = "[AUTH] AUTH LOADING";
 export const AUTH_LOADING_FALSE = "[AUTH] AUTH LOADING FALSE";
 export const GET_AUTH = "[AUTH] GET AUTH";
@@ -66,8 +67,10 @@ export function updateUser(user) {
 
     return request.then((response) => {
       if (response.data.status) {
+        dispatch(createAlert(response?.data?.message, "success"));
         return dispatch({ type: GET_AUTH, payload: user });
       } else {
+        dispatch(createAlert(response?.data?.message, "error"));
         return dispatch({
           type: AUTH_LOADING_FALSE,
         });
@@ -102,6 +105,33 @@ export function deleteUserAccount(data) {
       removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
       return dispatch({ type: RESET_AUTH });
     });
+  };
+}
+
+export function changeAccountPassword(oldPassword, newPassword) {
+  const request = http.post(URLS.AUTH.CHANGE_PASSWORD, {
+    oldPassword,
+    newPassword,
+  });
+
+  return (dispatch) => {
+    dispatch({
+      type: AUTH_LOADING,
+    });
+
+    return request
+      .then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          dispatch(createAlert(response?.data?.message, "success"));
+        } else {
+          dispatch(createAlert(response?.data?.message, "error"));
+        }
+        return dispatch({ type: AUTH_LOADING_FALSE });
+      })
+      .catch((error) => {
+        return dispatch(createAlert(error?.response?.message, "error"));
+      });
   };
 }
 
