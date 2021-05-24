@@ -102,8 +102,13 @@ export function deleteUserAccount(data) {
     });
 
     return request.then((response) => {
-      removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
-      return dispatch({ type: RESET_AUTH });
+      if (response.status === 200) {
+        dispatch(createAlert(response?.data?.message, "success"));
+        removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+        return dispatch({ type: RESET_AUTH });
+      } else {
+        dispatch(createAlert(response?.data?.message, "error"));
+      }
     });
   };
 }
@@ -122,7 +127,6 @@ export function changeAccountPassword(oldPassword, newPassword) {
     return request
       .then((response) => {
         if (response.status === 200) {
-          console.log(response);
           dispatch(createAlert(response?.data?.message, "success"));
         } else {
           dispatch(createAlert(response?.data?.message, "error"));
@@ -130,7 +134,8 @@ export function changeAccountPassword(oldPassword, newPassword) {
         return dispatch({ type: AUTH_LOADING_FALSE });
       })
       .catch((error) => {
-        return dispatch(createAlert(error?.response?.message, "error"));
+        dispatch(createAlert(error?.response?.message, "error"));
+        return dispatch({ type: AUTH_LOADING_FALSE });
       });
   };
 }

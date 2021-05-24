@@ -21,6 +21,7 @@ function AccountInfo(props) {
 
   let [password, setPassword] = useState();
   let deleteAccount = () => {
+    setDeleteAccountModal(false);
     return dispatch(deleteUserAccount({ password }));
   };
 
@@ -77,9 +78,10 @@ function AccountInfo(props) {
   let [msg, setMsg] = useState();
 
   let changePassword = () => {
-    if (newPassword === confirmNewPassword && newPassword)
+    if (newPassword === confirmNewPassword && newPassword) {
+      setChangePasswordModal(false);
       return dispatch(changeAccountPassword(oldPassword, newPassword));
-    else {
+    } else {
       setMsg("New Password and Confirm Password does not match");
       setTimeout(() => {
         setMsg();
