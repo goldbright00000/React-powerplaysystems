@@ -63,8 +63,21 @@ p {
     }
   }
 
-  .list_container:first-child{
+  .list_container:first-child {
     border-bottom: 2px solid $lightBlack3;
+  }
+}
+
+.list_left_side_2 {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: $grey3;
+  width: 50px;
+  justify-content: center;
+
+  span {
+    margin: 0 8px;
   }
 }
 
