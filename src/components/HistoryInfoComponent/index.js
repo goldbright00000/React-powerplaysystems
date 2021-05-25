@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./historyInfoComponent.module.scss";
 import moment from "moment";
 const HistoryInfoComponent = (props) => {
-  const { isMobile = false, balance = {}, transactions = {} } = props || {};
+  const { isMobile = false, balance = {}, transactions = [] } = props || {};
 
   const TableRow = (props) => {
     const { transaction = {}, isMobile = false } = props || {};

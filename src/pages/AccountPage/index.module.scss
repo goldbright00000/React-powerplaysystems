@@ -98,9 +98,9 @@
         }
 
         .tabs_header {
-          display: flex;
-          flex: 1;
-          justify-content: center;
+          // display: flex;
+          // flex: 1;
+          // justify-content: center;
           align-items: center;
           font-size: 16px;
           border-bottom: none;
@@ -109,10 +109,12 @@
           background-color: $black;
           width: 100%;
           position: fixed;
+          overflow: auto;
 
           li {
             padding: 0px;
             margin: 0 15px;
+            min-width: fit-content;
           }
 
           li:hover {
