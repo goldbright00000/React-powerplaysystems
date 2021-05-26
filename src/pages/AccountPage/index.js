@@ -16,6 +16,7 @@ import ResultsInforComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
 import AccountLimits from "../../components/AccountLimits";
 import { printLog } from "../../utility/shared";
+import SnackbarAlert from "../../components/SnackbarAlert";
 
 function AccountPage(props) {
   const [activeTab, setActiveTab] = useState(0);
@@ -41,6 +42,7 @@ function AccountPage(props) {
   return (
     <>
       <Header isStick />
+      <SnackbarAlert />
       <div className={classes.wrapper}>
         <div className={classes.container}>
           <h2>Settings</h2>

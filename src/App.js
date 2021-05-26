@@ -46,6 +46,8 @@ import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
+import MLBPowerLevels from "./pages/MLBPowerLevels";
+import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -126,6 +128,11 @@ const App = (props) => {
           <Route path="/responsible-gaming" component={ResponsibleGaming} />
           <Route path="/how-to-play" component={HowToPlayPage} />
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
+          <Route path="/mlb-power-levels" component={MLBPowerLevels} />
+          <Route
+            path="/live-play-power-levels"
+            component={LivePlayPowerLevels}
+          />
           <Route component={HomePage} />
         </Switch>
       )}

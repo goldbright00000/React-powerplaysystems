@@ -25,16 +25,37 @@ import {
 import { CONSTANTS } from "../../utility/constants";
 import DepositAmountPopUp from "../DepositAmountPopUp/DepositAmountPopUp";
 
-const ListTitle = (Icon, isSvg, title) => (
-  <span className={classes.list_left_side_1}>
-    {Icon && isSvg ? (
-      <Icon />
-    ) : (
-      Icon && !isSvg && <img src={Icon} width={34} height={34} />
-    )}
-    <span>{title}</span>
-  </span>
-);
+const ListTitle = (Icon, isSvg, title) => {
+  let width = 34,
+    height = 34;
+
+  if (title === "My Cash Balance") {
+    width = 35;
+    height = 26;
+  } else if (title === "Power Token Balance") {
+    width = 34;
+    height = 34;
+  } else if (title === "BTC Balance") {
+    width = 26;
+    height = 26;
+  } else if (title === "ETH Balance") {
+    width = 23;
+    height = 36;
+  }
+
+  return (
+    <>
+      <span className={classes.list_left_side_2}>
+        {Icon && isSvg ? (
+          <Icon />
+        ) : (
+          Icon && !isSvg && <img src={Icon} width={width} height={height} />
+        )}
+      </span>
+      <span className={classes.list_left_side_1}>{title}</span>
+    </>
+  );
+};
 
 const ListHeader = (
   title,

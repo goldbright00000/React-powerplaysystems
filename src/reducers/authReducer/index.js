@@ -13,6 +13,12 @@ const authReducer = (state = INITIAL_STATE, actions) => {
         loading: true,
       };
 
+    case Actions.AUTH_LOADING_FALSE:
+      return {
+        ...state,
+        loading: false,
+      };
+
     case Actions.GET_AUTH:
       return {
         ...state,
@@ -33,6 +39,12 @@ const authReducer = (state = INITIAL_STATE, actions) => {
         success: false,
         failed: false,
         user: {},
+      };
+
+    case Actions.GET_USER_INFO:
+      return {
+        ...state,
+        user: actions.payload,
       };
 
     default:
