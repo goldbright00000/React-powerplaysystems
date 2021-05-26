@@ -40,6 +40,7 @@ const DepositAmountPopUp = (props) => {
               cad={rate}
               ipaySubmitted={props.ipayFormSubmitted}
               zumSubmitted={props.zumFormSubmitted}
+              coinbaseSubmitted={props.coinbaseFormSubmitted}
             />
             <div className={styles.leftSection}>
               <div>

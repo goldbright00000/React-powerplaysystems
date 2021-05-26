@@ -218,21 +218,26 @@ class DepositAmountForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    if (!this.state.canadianVisible) {
-      const object = {
-        currency: this.state.currency,
-        amount: this.state.form.price,
-        city: this.state.city,
-        address: this.state.address,
-        zip: this.state.zip,
-        phone_number: this.state.phoneNumber,
-      };
+    if (this.state.form.currency === "USD")
+      if (!this.state.canadianVisible) {
+        const object = {
+          currency: this.state.currency,
+          amount: this.state.form.price,
+          city: this.state.city,
+          address: this.state.address,
+          zip: this.state.zip,
+          phone_number: this.state.phoneNumber,
+        };
 
-      this.props.ipaySubmitted(object);
-    } else {
-      let { price, paymentMetod } = this.state.form;
-      price = parseFloat((price * this.props.cad).toFixed(2));
-      this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+        this.props.ipaySubmitted(object);
+      } else {
+        let { price, paymentMetod } = this.state.form;
+        price = parseFloat((price * this.props.cad).toFixed(2));
+        this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+      }
+    else {
+      const { currency, price } = this.state.form;
+      this.props.coinbaseSubmitted(price, currency);
     }
   };
 

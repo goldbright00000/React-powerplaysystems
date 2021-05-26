@@ -10,7 +10,8 @@ export const URLS = {
     BALANCE: "/users/account/balance",
     SMALL_TOKEN: "users/account/balance/token",
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
-    CONVERSION_MARKUP_VALUE: "users/conversion-rate"
+    CONVERSION_MARKUP_VALUE: "users/conversion-rate",
+    COINBASE_LINK_GENERATE: "users/coinbase-link-generate"
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
