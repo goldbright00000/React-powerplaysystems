@@ -13,6 +13,7 @@ export const URLS = {
     SMALL_TOKEN: "users/account/balance/token",
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
     CONVERSION_MARKUP_VALUE: "users/conversion-rate",
+    ACCOUNT_LIMITS: "/users/account/limit",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",

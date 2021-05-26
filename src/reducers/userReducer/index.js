@@ -6,6 +6,7 @@ import {
   SET_ZUM_REDIRECT_URL,
   REMOVE_ZUM_REDIRECT_URL,
   SET_CONVERSION_MARKUP,
+  SET_ACCOUNT_LIMITS,
 } from "../../actions/userActions";
 
 const INITIAL_STATE = {
@@ -15,6 +16,7 @@ const INITIAL_STATE = {
   zumRedirectUrl: null,
   conversionMarkup: 0,
   markedUpRate: 0,
+  accountLimits: {},
 };
 
 const userReducer = (state = INITIAL_STATE, actions) => {
@@ -58,6 +60,11 @@ const userReducer = (state = INITIAL_STATE, actions) => {
         ...state,
         conversionMarkup: actions.payload,
         markedUpRate: markedRate,
+      };
+    case SET_ACCOUNT_LIMITS:
+      return {
+        ...state,
+        accountLimits: actions.payload,
       };
     default:
       return state;
