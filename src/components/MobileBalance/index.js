@@ -69,7 +69,7 @@ const MobileBalance = (props) => {
           </div>
         </div>
       </div>
-      <div className={classes.__balance_deposit} onClick={props.depositClicked}>
+      <div className={classes.__balance_deposit} onClick={() => history.push("/my-account")}>
         Deposit
       </div>
     </div>

@@ -72,7 +72,7 @@ const Balance = (props) => {
           Entries {entries} <span> / {totalEntries}</span>
         </div>
       )}
-      <div className={classes.__balance_deposit} onClick={props.depositClicked}>
+      <div className={classes.__balance_deposit} onClick={() => history.push("/my-account")}>
         Deposit
       </div>
       <div
