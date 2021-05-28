@@ -181,4 +181,4 @@ SportsSelectionCard3.propTypes = {
   type: PropTypes.string,
 };
 
-export default React.memo(SportsSelectionCard3);
+export default SportsSelectionCard3;

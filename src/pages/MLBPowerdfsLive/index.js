@@ -26,12 +26,14 @@ import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 
-// import { dummyData } from "./dummyData";
+import { dummyData } from "./dummyData";
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { redirectTo } from "../../utility/shared";
+import { socket } from "../../config/server_connection";
 
+let _socket = null;
 function MLBPowerdFsLive(props) {
-  // const _data = dummyData;
+  const _data = dummyData;
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
@@ -48,11 +50,24 @@ function MLBPowerdFsLive(props) {
   const onCloseModal = () => setLearnMoreModal(false);
 
   useEffect(() => {
-    if (!selectedData?.length) {
-      redirectTo(props, { path: "/power-center" });
-    }
+    // if (!selectedData?.length) {
+    //   redirectTo(props, { path: "/power-center" });
+    // }
     // setData();
+    _socket = socket();
+
+    return function cleanUP() {
+      _socket = null;
+    };
   }, []);
+
+  useEffect(() => {
+    _socket?.emit(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.ON_ROOM_SUB, {
+      player: [],
+      user: 92,
+      match: 123,
+    });
+  }, [_socket]);
 
   // const setData = () => {
   //   dispatch(MLBActions.mlbLiveData(_data));
