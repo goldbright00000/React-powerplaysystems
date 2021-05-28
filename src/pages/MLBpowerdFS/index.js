@@ -435,7 +435,7 @@ function MLBPowerdFs(props) {
   const onSearch = (e) => {
     const { value } = e.target;
     if (!isEmpty(value)) {
-      const _filterdData = selectedData?.listData?.filter((player) =>
+      const _filterdData = filterdData?.listData?.filter((player) =>
         player?.playerName
           ?.toLocaleLowerCase()
           ?.includes(value?.toLocaleLowerCase())
