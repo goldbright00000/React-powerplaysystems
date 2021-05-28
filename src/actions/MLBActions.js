@@ -36,6 +36,7 @@ export function mlbData() {
         venue,
         date_time
       );
+
       const homeTeam = getTeam(
         home_team,
         away_team,
@@ -47,10 +48,14 @@ export function mlbData() {
       mlbTeams.push(awayTeam);
       mlbTeams.push(homeTeam);
 
-      const { mlb_players: awayTeamPlayers = [], name: awayTeamName = "" } =
-        away_team || {};
-      const { mlb_players: homeTeamPlayers = [], name: homeTeamName = "" } =
-        home_team || {};
+      const {
+        mlb_match_lineups: awayTeamPlayers = [],
+        name: awayTeamName = "",
+      } = away_team || {};
+      const {
+        mlb_match_lineups: homeTeamPlayers = [],
+        name: homeTeamName = "",
+      } = home_team || {};
       const _awayTeamPlayersList = getPlayers(
         awayTeamPlayers,
         awayTeamName,
@@ -132,7 +137,8 @@ function getPlayers(
         player_id = "",
         type = "",
         mlb_player_stats = [],
-      } = playerList[i] || {};
+        current_position = "",
+      } = playerList[i]?.player || {};
 
       const mlbPlayerStats =
         (mlb_player_stats?.length && mlb_player_stats[0]) || {};
@@ -155,6 +161,7 @@ function getPlayers(
         stadium: venue?.name,
         playerStats: { ...mlbPlayerStats },
         team_id: teamId,
+        current_position,
       };
 
       _playerList.push(player);
@@ -170,6 +177,8 @@ function getFilterPlayersList(filter = "", playersList = []) {
     playersList?.filter(
       (player) => `${player.type}`?.toLocaleLowerCase() === filter
     );
+
+  console.log(filter, list);
 
   const players = {
     type: filter,
@@ -239,7 +248,7 @@ export function saveAndGetSelectPlayers(payload) {
 
             delete player?.name;
           }
-          return dispatch(mlbLiveData({ players, teamD }));
+          // return dispatch(mlbLiveData({ players, teamD }));
         } catch (er) {}
       }
     } catch (err) {}

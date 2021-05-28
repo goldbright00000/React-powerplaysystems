@@ -58,6 +58,13 @@ export const CONSTANTS = {
       ON: "on_landing_page_email",
       EMIT: "emit_landing_page_email",
     },
+    MLB: {
+      LIVE: {
+        EMIT_ROOM: "ON_EMIT_LIVE_DATA",
+        ON_ROOM_SUB: "POWER_DFS_LIVE_SUBSCRIBE",
+        ON_ROOM_UN_SUB: "POWER_DFS_LIVE_UN_SUBSCRIBE",
+      },
+    },
   },
 
   LOCAL_STORAGE_KEYS: {
@@ -107,13 +114,13 @@ export const CONSTANTS = {
       D: "d",
     },
     NFL: {
-      QB: 'qb',
-      RB: 'rb',
-      WR: 'wr',
-      TE: 'te',
-      K: 'k',
-      D: 'd'
-    }
+      QB: "qb",
+      RB: "rb",
+      WR: "wr",
+      TE: "te",
+      K: "k",
+      D: "d",
+    },
   },
 
   NHL_VIEW: {
