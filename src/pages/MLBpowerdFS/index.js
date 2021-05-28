@@ -556,6 +556,7 @@ function MLBPowerdFs(props) {
       };
       dispatch(MLBActions.mlbLiveData(sideBarList));
       await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+      // redirectTo(props, { path: "/mlb-live-powerdfs" });
     }
   };
 
