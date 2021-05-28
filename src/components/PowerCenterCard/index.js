@@ -50,7 +50,7 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_powerdfs}>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
                     <p className={classes.__power_center_card_powerdfs_title}>
-                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
+                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> {title !== 'Levels' && 'PowerdFS'}
                     </p>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_right}></span>
                 </div>

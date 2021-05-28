@@ -662,7 +662,6 @@ function MLBPowerdFs(props) {
                               onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
                               type={selectedData?.type}
-                              isMobile={isMobile}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
@@ -678,7 +677,11 @@ function MLBPowerdFs(props) {
                   </>
                 )}
               </Card>
-              <img src={AcceleRadar} className={classes.partner_logo} />
+              {
+                !isMobile
+                &&
+                <img src={AcceleRadar} className={classes.partner_logo} />
+              }
             </div>
 
             <div className={classes.container_footer}>

@@ -1,12 +1,19 @@
 import http from "../config/http";
 import { URLS } from "../config/urls";
 import { CONSTANTS } from "../utility/constants";
-import { getLocalStorage, setLocalStorage } from "../utility/shared";
+import {
+  getLocalStorage,
+  setLocalStorage,
+  removeLocalStorage,
+} from "../utility/shared";
 import jwtDecode from "jwt-decode";
+import { createAlert } from "./notificationActions";
 export const AUTH_LOADING = "[AUTH] AUTH LOADING";
+export const AUTH_LOADING_FALSE = "[AUTH] AUTH LOADING FALSE";
 export const GET_AUTH = "[AUTH] GET AUTH";
 export const RESET_AUTH = "[AUTH] RESET AUTH";
 export const SET_AUTH = "[AUTH] SET AUTH";
+export const GET_USER_INFO = "[AUTH] GET USER INFO";
 
 export function authenticate(user) {
   const request = http.post(URLS.AUTH.LOGIN, user);
@@ -21,7 +28,7 @@ export function authenticate(user) {
       if (response.data.status === true) {
         //save in local storage.
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, response.data.token);
-      }            
+      }
       return dispatch({ type: GET_AUTH, payload: response.data });
     });
   };
@@ -59,8 +66,77 @@ export function updateUser(user) {
     });
 
     return request.then((response) => {
-      return dispatch({ type: GET_AUTH, payload: user });
+      if (response.data.status) {
+        dispatch(createAlert(response?.data?.message, "success"));
+        return dispatch({ type: GET_AUTH, payload: user });
+      } else {
+        dispatch(createAlert(response?.data?.message, "error"));
+        return dispatch({
+          type: AUTH_LOADING_FALSE,
+        });
+      }
     });
+  };
+}
+
+export function getUserInfo() {
+  const request = http.get(URLS.AUTH.UPDATE_DETAILS);
+
+  return (dispatch) => {
+    dispatch({
+      type: AUTH_LOADING,
+    });
+
+    return request.then((response) => {
+      return dispatch({ type: GET_USER_INFO, payload: response.data });
+    });
+  };
+}
+
+export function deleteUserAccount(data) {
+  const request = http.post(URLS.AUTH.DELETE_USER_ACCOUNT, data);
+
+  return (dispatch) => {
+    dispatch({
+      type: AUTH_LOADING,
+    });
+
+    return request.then((response) => {
+      if (response.status === 200) {
+        dispatch(createAlert(response?.data?.message, "success"));
+        removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+        return dispatch({ type: RESET_AUTH });
+      } else {
+        dispatch(createAlert(response?.data?.message, "error"));
+      }
+    });
+  };
+}
+
+export function changeAccountPassword(oldPassword, newPassword) {
+  const request = http.post(URLS.AUTH.CHANGE_PASSWORD, {
+    oldPassword,
+    newPassword,
+  });
+
+  return (dispatch) => {
+    dispatch({
+      type: AUTH_LOADING,
+    });
+
+    return request
+      .then((response) => {
+        if (response.status === 200) {
+          dispatch(createAlert(response?.data?.message, "success"));
+        } else {
+          dispatch(createAlert(response?.data?.message, "error"));
+        }
+        return dispatch({ type: AUTH_LOADING_FALSE });
+      })
+      .catch((error) => {
+        dispatch(createAlert(error?.response?.message, "error"));
+        return dispatch({ type: AUTH_LOADING_FALSE });
+      });
   };
 }
 
