@@ -96,7 +96,10 @@ function AccountPage(props) {
                   />
                 </TabPanel>
                 <TabPanel>
-                  <AccountLimits />
+                  <AccountLimits
+                    isMobile={isMobile}
+                    accountLimit={userAccount.accountLimit}
+                  />
                 </TabPanel>
               </div>
             </Tabs>

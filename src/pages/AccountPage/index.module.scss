@@ -108,7 +108,7 @@
           padding: 20px 0;
           background-color: $black;
           width: 100%;
-          position: fixed;
+          // position: fixed;
           overflow: auto;
 
           li {
@@ -140,7 +140,7 @@
         }
 
         .tab_body {
-          margin: 90px auto;
+          margin: 30px auto;
           width: 90%;
         }
       }

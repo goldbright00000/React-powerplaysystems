@@ -36,7 +36,7 @@ export function setUserBalance(payload) {
 }
 
 export function setAccountLimit(accountLimits) {
-  const request = http.post(URLS.USER.ACCOUNT_LIMITS, accountLimits);
+  const request = http.put(URLS.USER.ACCOUNT_LIMITS, accountLimits);
 
   return (dispatch) => {
     return request.then((response) => {
