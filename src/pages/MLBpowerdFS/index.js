@@ -639,37 +639,39 @@ function MLBPowerdFs(props) {
 
                     <div className={classes.card_body}>
                       {filterdData && filterdData?.listData?.length ? (
-                        filterdData?.listData?.map((item, index) =>
-                          selectedFilter?.title === D ? (
-                            <SportsTeamSelectionCard
-                              item={item}
-                              isSelected={!!selected.get(item.team_id)}
-                              key={item?.team_id + " - " + item?.match_id}
-                              onSelectDeselect={onPlayerSelectDeselect}
-                              disabled={
-                                item.isStarPlayer &&
-                                item.isStarPlayer &&
-                                starPowerIndex >= 3
-                              }
-                              mlbCard
-                            />
-                          ) : (
-                            <SelectionCard3
-                              player={item}
-                              isSelected={!!selected.get(item.playerId)}
-                              key={item.playerId + " - " + item?.match_id}
-                              loading={loading}
-                              onSelectDeselect={onPlayerSelectDeselect}
-                              pageType={PAGE_TYPES.MLB}
-                              type={selectedData?.type}
-                              // disabled={
-                              //   item.isStarPlayer &&
-                              //   item.isStarPlayer &&
-                              //   starPlayerCount >= 3
-                              // }
-                            />
-                          )
-                        )
+                        filterdData?.listData?.map((item, index) => (
+                          <>
+                            {selectedFilter?.title === D ? (
+                              <SportsTeamSelectionCard
+                                item={item}
+                                isSelected={!!selected.get(item.team_id)}
+                                key={item?.team_id + " - " + item?.match_id}
+                                onSelectDeselect={onPlayerSelectDeselect}
+                                disabled={
+                                  item.isStarPlayer &&
+                                  item.isStarPlayer &&
+                                  starPowerIndex >= 3
+                                }
+                                mlbCard
+                              />
+                            ) : (
+                              <SelectionCard3
+                                player={item}
+                                isSelected={!!selected.get(item.playerId)}
+                                key={item.playerId + " - " + item?.match_id}
+                                loading={loading}
+                                onSelectDeselect={onPlayerSelectDeselect}
+                                pageType={PAGE_TYPES.MLB}
+                                type={selectedData?.type}
+                                // disabled={
+                                //   item.isStarPlayer &&
+                                //   item.isStarPlayer &&
+                                //   starPlayerCount >= 3
+                                // }
+                              />
+                            )}
+                          </>
+                        ))
                       ) : (
                         <p>No Data</p>
                       )}
@@ -677,11 +679,9 @@ function MLBPowerdFs(props) {
                   </>
                 )}
               </Card>
-              {
-                !isMobile
-                &&
+              {!isMobile && (
                 <img src={AcceleRadar} className={classes.partner_logo} />
-              }
+              )}
             </div>
 
             <div className={classes.container_footer}>

@@ -45,7 +45,7 @@ function SportsTeamSelectionCard(props) {
 
   const { venue_id = "", name: stadium = "" } = venue || {};
 
-  const { wins = 0, losses = 0, average_runs_against = 0 } =
+  const { wins = 0, loses = 0, average_runs_against = 0 } =
     awayTeamStats[0] || {};
 
   const RenderMLBState = () => (
@@ -76,7 +76,7 @@ function SportsTeamSelectionCard(props) {
       </div>
       <div className={classes.card_state_values}>
         <span>{wins}</span>
-        <span>{losses}</span>
+        <span>{loses}</span>
         <span>{0}</span>
         <span>{0}</span>
       </div>
