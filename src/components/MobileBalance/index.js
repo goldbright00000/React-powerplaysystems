@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import classes from "./index.module.scss";
 import { CONSTANTS } from "../../utility/constants";
-import { getLocalStorage, setLocalStorage } from "../../utility/shared";
+import { getLocalStorage, redirectTo, setLocalStorage } from "../../utility/shared";
 import PowerBalanceGrey from "../../assets/power-balance-grey.png";
 import CashBalanceGrey from "../../assets/cash-balance-grey.png";
 import BitcoinGrey from "../../assets/bitcoin-grey.png";
@@ -69,7 +69,7 @@ const MobileBalance = (props) => {
           </div>
         </div>
       </div>
-      <div className={classes.__balance_deposit} onClick={() => history.push("/my-account")}>
+      <div className={classes.__balance_deposit}  onClick={() => redirectTo({history}, { path: "/my-account" })}>
         Deposit
       </div>
     </div>

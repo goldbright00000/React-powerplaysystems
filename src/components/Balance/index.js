@@ -8,6 +8,7 @@ import PowerBalanceGrey from "../../assets/power-balance-grey.png";
 import CashBalanceGrey from "../../assets/cash-balance-grey.png";
 import BitcoinGrey from "../../assets/bitcoin-grey.png";
 import EthereumGrey from "../../assets/ethereum-grey.png";
+import { redirectTo } from "../../utility/shared";
 
 const CURRENCY_DATA = [
   {
@@ -72,7 +73,10 @@ const Balance = (props) => {
           Entries {entries} <span> / {totalEntries}</span>
         </div>
       )}
-      <div className={classes.__balance_deposit} onClick={() => history.push("/my-account")}>
+      <div
+        className={classes.__balance_deposit}
+        onClick={() => redirectTo({history}, { path: "/my-account" })}
+      >
         Deposit
       </div>
       <div
@@ -108,7 +112,9 @@ const Balance = (props) => {
             <div className={classes.__balance_power_and_cash_balance}>
               $
               {userBalance.cashBalance?.toFixed(4) ||
-                parseFloat(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)).toFixed(4)}
+                parseFloat(
+                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)
+                ).toFixed(4)}
             </div>
             <div className={classes.__balance_power_and_cash_balance_title}>
               Cash Balance
@@ -130,7 +136,9 @@ const Balance = (props) => {
           <div className={classes.__balance_cash_and_balance_inner}>
             <div className={classes.__balance_power_and_cash_balance}>
               {userBalance.btcBalance ||
-                parseFloat(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE)).toFixed(4)}
+                parseFloat(
+                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE)
+                ).toFixed(4)}
             </div>
             <div className={classes.__balance_power_and_cash_balance_title}>
               Bitcoin
@@ -146,7 +154,9 @@ const Balance = (props) => {
           <div className={classes.__balance_cash_and_balance_inner}>
             <div className={classes.__balance_power_and_cash_balance}>
               {userBalance.ethBalance ||
-                parseFloat(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE)).toFixed(4)}
+                parseFloat(
+                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE)
+                ).toFixed(4)}
             </div>
             <div className={classes.__balance_power_and_cash_balance_title}>
               Ethereum
