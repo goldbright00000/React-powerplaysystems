@@ -36,13 +36,26 @@ function Accordian(props) {
               <img src={iconWithTitle} width="23" height="20" />
             </span>
           )}
+        </span>
+        <span className={classes.__accordian_cash_title}>
           {title}
+          {isMobile ? (
+            <>
+              <br />
+              <span>
+                <span>{cashTitle}</span>
+                <span className={classes.amount}>{cash - sub}</span>
+              </span>
+            </>
+          ) : null}
         </span>
         <span className={classes.accoridan_bar_right}>
-          <span>
-            <span>{cashTitle}</span>
-            <span className={classes.amount}>{cash - sub}</span>
-          </span>
+          {isMobile ? null : (
+            <span>
+              <span>{cashTitle}</span>
+              <span className={classes.amount}>{cash - sub}</span>
+            </span>
+          )}
           {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} />}
           <i
             className={`${classes.arrow} ${
