@@ -455,9 +455,12 @@ function MLBPowerdFs(props) {
 
     if (team) {
       if (team?.team_id !== "all") {
-        const _filterdData = selectedData?.listData?.filter(
-          (player) => player?.team_id === team?.team_id
-        );
+        const _filterdData = selectedData?.listData?.filter((player) => {
+          return (
+            player?.team_id === team?.team_id ||
+            player?.awayTeam_id === team?.team_id
+          );
+        });
 
         const _filterdDataObj = {
           type: selectedData?.type,
