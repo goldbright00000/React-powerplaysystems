@@ -10,10 +10,16 @@ export const CURRENCY_EXCHANGE_RATES = "CURRENCY_EXCHANGE_RATES";
 export const SET_ZUM_TOKEN = "SET_ZUM_TOKEN";
 export const REMOVE_ZUM_TOKEN = "REMOVE_ZUM_TOKEN";
 
+export const SET_LOADING = "SET_LOADING";
+export const SET_NOT_lOADING = "SET_NOT_lOADING";
 export const SET_ZUM_REDIRECT_URL = "ZUM_REDIRECT_URL";
 export const REMOVE_ZUM_REDIRECT_URL = "REMOVE_ZUM_REDIRECT_URL";
+
 export const SEND_ZUM_TRANSACTION = "SEND_ZUM_TRANSACTION";
 export const SET_CONVERSION_MARKUP = "SET_CONVERSION_MARKUP";
+
+export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
+export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -117,7 +123,8 @@ export function payWithZum(data, push) {
     SendEmailNotification: true,
   };
 
-  return (dispatch) =>
+  return (dispatch) => {
+    dispatch({ type: SET_LOADING });
     axios
       .post(`${process.env.REACT_APP_ZUM_API}/api/requestfunds`, obj, {
         headers: { Authorization: `Bearer ${zumToken}` },
@@ -129,7 +136,11 @@ export function payWithZum(data, push) {
         });
         push("/paymentFrame");
       })
-      .catch((er) => console.log(er));
+      .catch((er) => console.log(er))
+      .finally(() => {
+        dispatch({ type: SET_NOT_lOADING });
+      });
+  };
 }
 
 export function setRates() {
@@ -181,7 +192,7 @@ export function setZumToken() {
 export function sendZumTransaction(transactionId, markupRate) {
   const request = http.post(URLS.USER.ZUM_BALANCE_TRANSACTION, {
     transactionId,
-    markupRate
+    markupRate,
   });
 
   debugger;
@@ -204,9 +215,32 @@ export function setConversionMarkup() {
       if (response.data.status === true) {
         dispatch({
           type: SET_CONVERSION_MARKUP,
-          payload: parseFloat(response.data.data.data_value),
+          payload: parseFloat(response?.data?.data?.data_value),
         });
       }
     });
+  };
+}
+
+export function getCoinbaseLink(amount, currency) {
+  currency = currency.toUpperCase();
+  const request = http.post(URLS.USER.COINBASE_LINK_GENERATE, {
+    amount,
+    currency,
+  });
+
+  return (dispatch) => {
+    return request.then((response) => {
+      dispatch({
+        type: SET_COINBASE_REDIRECT_URL,
+        payload: response.data?.hostedUrl,
+      });
+    });
+  };
+}
+
+export function removeCoinbaseLink() {
+  return (dispatch) => {
+    dispatch({ type: REMOVE_COINBASE_REDIRECT_URL });
   };
 }
