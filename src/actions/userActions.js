@@ -1,5 +1,5 @@
 import { CONSTANTS } from "../utility/constants";
-import { setLocalStorage } from "../utility/shared";
+import { setLocalStorage, redirectTo } from "../utility/shared";
 import { URLS } from "../config/urls";
 
 import axios from "axios";
@@ -92,7 +92,7 @@ export const PAYMENT_METHODS = {
   VISA_DIRECT: "VISA",
 };
 
-export function payWithZum(data, push) {
+export function payWithZum(data, history) {
   const { amount, email, zumToken, paymentMethod } = data;
   let walletId = null;
   switch (paymentMethod) {
@@ -119,7 +119,7 @@ export function payWithZum(data, push) {
     AllowMoreThanOneTransaction: false,
     IsRecurrent: false,
     DisplayRecurrencyQuantityInConnect: true,
-    Email: email,
+    // Email: email,
     SendEmailNotification: true,
   };
 
@@ -134,7 +134,14 @@ export function payWithZum(data, push) {
           type: SET_ZUM_REDIRECT_URL,
           payload: res.data.result.ConnectUrl,
         });
-        push("/paymentFrame");
+        redirectTo(
+          { history },
+          {
+            path: "zum-payment",
+            state: { previousPath: history?.location?.pathname },
+          }
+        );
+        // push("/paymentFrame");
       })
       .catch((er) => console.log(er))
       .finally(() => {
@@ -194,9 +201,6 @@ export function sendZumTransaction(transactionId, markupRate) {
     transactionId,
     markupRate,
   });
-
-  debugger;
-
   return (dispatch) => {
     return request.then((response) => {
       console.log(response);

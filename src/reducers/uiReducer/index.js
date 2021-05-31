@@ -1,10 +1,13 @@
 import {
   SET_HIDE_DEPOSIT_FORM,
   SET_SHOW_DEPOSIT_FORM,
+  SET_SHOW_TOAST,
+  SET_HIDE_TOAST,
 } from "../../actions/uiActions";
 
 const INITIAL_STATE = {
   showDepositForm: false,
+  toastData: null,
 };
 
 const uiReducer = (state = INITIAL_STATE, actions) => {
@@ -18,6 +21,17 @@ const uiReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         showDepositForm: true,
+      };
+
+    case SET_HIDE_TOAST:
+      return {
+        ...state,
+        showToast: null,
+      };
+    case SET_SHOW_TOAST:
+      return {
+        ...state,
+        toastData: actions.payload,
       };
     default:
       return state;

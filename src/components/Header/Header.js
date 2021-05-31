@@ -130,7 +130,7 @@ const Header = (props) => {
         email: user?.email,
         zumToken,
       };
-      dispatch(payWithZum(obj, history.push));
+      dispatch(payWithZum(obj, history));
       setHideDepositModal();
     }
   };
