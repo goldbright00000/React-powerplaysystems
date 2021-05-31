@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  fetchUserBalance,
   REMOVE_ZUM_REDIRECT_URL,
   sendZumTransaction,
 } from "../../actions/userActions";
@@ -11,27 +12,14 @@ const PaymentFrame = (props) => {
   const dispatch = useDispatch();
   const [previousPath] = useState(props.location?.state?.previousPath);
 
-  console.log(props);
-
   window.addEventListener("message", function (e) {
     var data = e.data;
     if (data && data.origin && data.origin === "ZUM_RAILS") {
       // call action for pushing the transaction to backend
       const { transactionId } = data;
 
-      dispatch({ type: REMOVE_ZUM_REDIRECT_URL });
       if (transactionId) {
         dispatch(sendZumTransaction(transactionId, markupRate));
-        dispatch(
-          showToast(
-            "Payment succesfull. Your balance will be updated soon.",
-            "success"
-          )
-        );
-      } else {
-        dispatch(
-          showToast("Some error occured during the transaction.", "error")
-        );
       }
     }
   });

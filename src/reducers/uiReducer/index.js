@@ -6,7 +6,7 @@ import {
 } from "../../actions/uiActions";
 
 const INITIAL_STATE = {
-  showDepositForm: false,
+  depositFormData: null,
   toastData: null,
 };
 
@@ -15,12 +15,12 @@ const uiReducer = (state = INITIAL_STATE, actions) => {
     case SET_HIDE_DEPOSIT_FORM:
       return {
         ...state,
-        showDepositForm: false,
+        depositFormData: null,
       };
     case SET_SHOW_DEPOSIT_FORM:
       return {
         ...state,
-        showDepositForm: true,
+        depositFormData: actions.payload,
       };
 
     case SET_HIDE_TOAST:

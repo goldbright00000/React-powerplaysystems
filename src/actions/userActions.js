@@ -4,6 +4,7 @@ import { URLS } from "../config/urls";
 
 import axios from "axios";
 import http from "../config/http";
+import { showToast } from "./uiActions";
 
 export const USER_BALANCE = "USER_BALANCE";
 export const CURRENCY_EXCHANGE_RATES = "CURRENCY_EXCHANGE_RATES";
@@ -36,6 +37,15 @@ export function setUserBalance(payload) {
     type: USER_BALANCE,
     payload,
   };
+}
+
+export function fetchUserBalance() {
+  const request = http.get(URLS.USER.BALANCE);
+
+  return (dispatch) =>
+    request
+      .then((response) => dispatch(setUserBalance(response.data)))
+      .catch((err) => console.log(err?.response));
 }
 
 export async function payNowWithIpay(data) {
@@ -119,7 +129,7 @@ export function payWithZum(data, history) {
     AllowMoreThanOneTransaction: false,
     IsRecurrent: false,
     DisplayRecurrencyQuantityInConnect: true,
-    // Email: email,
+    Email: email,
     SendEmailNotification: true,
   };
 
@@ -203,10 +213,15 @@ export function sendZumTransaction(transactionId, markupRate) {
   });
   return (dispatch) => {
     return request.then((response) => {
-      console.log(response);
-      if (response.data.status === true) {
-        dispatch({ type: SEND_ZUM_TRANSACTION });
-      }
+      dispatch({ type: SEND_ZUM_TRANSACTION });
+      dispatch({ type: REMOVE_ZUM_REDIRECT_URL });
+      dispatch(fetchUserBalance());
+      dispatch(
+        showToast(
+          "Payment succesfull. Your balance will be updated soon.",
+          "success"
+        )
+      );
     });
   };
 }

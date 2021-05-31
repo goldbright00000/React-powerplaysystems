@@ -82,7 +82,7 @@ function AccountPage(props) {
                 </TabPanel>
                 <TabPanel>
                   <BalanceInfoComponent
-                    openDepositModal={() => dispatch(showDepositForm())}
+                    openDepositModal={(val) => dispatch(showDepositForm(val))}
                     isMobile={isMobile}
                     balance={userAccount.balance}
                   />

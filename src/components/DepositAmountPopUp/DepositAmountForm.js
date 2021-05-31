@@ -23,12 +23,13 @@ const formatePrice = (price, currencyValue, isCad, noSign) =>
     : `${isCad ? "CAD " : "$"}${(price * currencyValue).toFixed(2)}`;
 
 class DepositAmountForm extends Component {
+
   state = {
     BTC: 58680,
     ETH: 2092,
     form: {
-      currency: "USD",
-      price: 25,
+      currency: this.props.formCurrency,
+      price: this.props.formCurrency === "USD" ? 25 : (this.props.formCurrency === "BTC" ? 0.0005 : 0.015),
       paymentMetod:
         this.props.country === "Canada" ? "EFT" : "Credit or Debit Card",
       walletAddress: "",
@@ -203,6 +204,7 @@ class DepositAmountForm extends Component {
       paymentMetods: [],
     },
   };
+
   onWalletAddressChange = (e) => {
     const newForm = { ...this.state.form };
     newForm.walletAddress = e.target.value;
