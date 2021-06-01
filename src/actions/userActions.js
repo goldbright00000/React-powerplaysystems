@@ -54,6 +54,8 @@ export function setAccountLimit(accountLimits) {
       }
     });
   };
+}
+
 export function fetchUserBalance() {
   const request = http.get(URLS.USER.BALANCE);
 
