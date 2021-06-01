@@ -1,28 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 import {
+  fetchUserBalance,
   REMOVE_ZUM_REDIRECT_URL,
   sendZumTransaction,
 } from "../../actions/userActions";
+import { showToast } from "../../actions/uiActions";
 
 const PaymentFrame = (props) => {
   const dispatch = useDispatch();
+  const [previousPath] = useState(props.location?.state?.previousPath);
 
   window.addEventListener("message", function (e) {
     var data = e.data;
     if (data && data.origin && data.origin === "ZUM_RAILS") {
       // call action for pushing the transaction to backend
-      const { transactionId, userId } = data;
+      const { transactionId } = data;
 
-      dispatch({ type: REMOVE_ZUM_REDIRECT_URL });
-      dispatch(sendZumTransaction(transactionId, markupRate));
+      if (transactionId) {
+        dispatch(sendZumTransaction(transactionId, markupRate));
+      }
     }
   });
   const frameUrl = useSelector((state) => state.user?.zumRedirectUrl);
   const markupRate = useSelector((state) => state.user?.markedUpRate);
-  if (!frameUrl) props.history.replace("/");
-  useEffect(() => {});
+  if (!frameUrl) {
+    props.history.push(previousPath ? previousPath : "/");
+  }
+
   return (
     <iframe
       src={frameUrl}
