@@ -1,22 +1,28 @@
 import { CONSTANTS } from "../utility/constants";
-import { setLocalStorage } from "../utility/shared";
+import { setLocalStorage, redirectTo } from "../utility/shared";
 import { URLS } from "../config/urls";
 import { createAlert } from "./notificationActions";
 
 import axios from "axios";
 import http from "../config/http";
+import { showToast } from "./uiActions";
 
 export const USER_BALANCE = "USER_BALANCE";
 export const CURRENCY_EXCHANGE_RATES = "CURRENCY_EXCHANGE_RATES";
 export const SET_ZUM_TOKEN = "SET_ZUM_TOKEN";
 export const REMOVE_ZUM_TOKEN = "REMOVE_ZUM_TOKEN";
 
+export const SET_LOADING = "SET_LOADING";
+export const SET_NOT_lOADING = "SET_NOT_lOADING";
 export const SET_ZUM_REDIRECT_URL = "ZUM_REDIRECT_URL";
 export const REMOVE_ZUM_REDIRECT_URL = "REMOVE_ZUM_REDIRECT_URL";
+
 export const SEND_ZUM_TRANSACTION = "SEND_ZUM_TRANSACTION";
 export const SET_CONVERSION_MARKUP = "SET_CONVERSION_MARKUP";
 
 export const SET_ACCOUNT_LIMITS = "SET_ACCOUNT_LIMITS";
+export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
+export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -48,6 +54,13 @@ export function setAccountLimit(accountLimits) {
       }
     });
   };
+export function fetchUserBalance() {
+  const request = http.get(URLS.USER.BALANCE);
+
+  return (dispatch) =>
+    request
+      .then((response) => dispatch(setUserBalance(response.data)))
+      .catch((err) => console.log(err?.response));
 }
 
 export async function payNowWithIpay(data) {
@@ -89,7 +102,7 @@ export async function payNowWithIpay(data) {
     };
 
     axios
-      .post("/api/hosted-pay/payment-request", obj)
+      .post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj)
       .then((res) => {
         window.open(res.data.payment_redirect_url, "_blank");
       })
@@ -104,7 +117,7 @@ export const PAYMENT_METHODS = {
   VISA_DIRECT: "VISA",
 };
 
-export function payWithZum(data, push) {
+export function payWithZum(data, history) {
   const { amount, email, zumToken, paymentMethod } = data;
   let walletId = null;
   switch (paymentMethod) {
@@ -135,7 +148,8 @@ export function payWithZum(data, push) {
     SendEmailNotification: true,
   };
 
-  return (dispatch) =>
+  return (dispatch) => {
+    dispatch({ type: SET_LOADING });
     axios
       .post(`${process.env.REACT_APP_ZUM_API}/api/requestfunds`, obj, {
         headers: { Authorization: `Bearer ${zumToken}` },
@@ -145,16 +159,27 @@ export function payWithZum(data, push) {
           type: SET_ZUM_REDIRECT_URL,
           payload: res.data.result.ConnectUrl,
         });
-        push("/paymentFrame");
+        redirectTo(
+          { history },
+          {
+            path: "zum-payment",
+            state: { previousPath: history?.location?.pathname },
+          }
+        );
+        // push("/paymentFrame");
       })
-      .catch((er) => console.log(er));
+      .catch((er) => console.log(er))
+      .finally(() => {
+        dispatch({ type: SET_NOT_lOADING });
+      });
+  };
 }
 
 export function setRates() {
   return (dispatch) => {
     axios
       .get(
-        "http://data.fixer.io/api/latest?access_key=fa3628fdfda5d5a96c1b5279ff862d37"
+        `${process.env.REACT_APP_FIXER_API_URL}/api/latest?access_key=${process.env.REACT_APP_FIXER_KEY}`
       )
       .then((res) => {
         let rates = res.data.rates;
@@ -196,17 +221,22 @@ export function setZumToken() {
   };
 }
 
-export function sendZumTransaction(transactionId) {
+export function sendZumTransaction(transactionId, markupRate) {
   const request = http.post(URLS.USER.ZUM_BALANCE_TRANSACTION, {
     transactionId,
+    markupRate,
   });
-
   return (dispatch) => {
     return request.then((response) => {
-      console.log(response);
-      if (response.data.status === true) {
-        dispatch({ type: SEND_ZUM_TRANSACTION });
-      }
+      dispatch({ type: SEND_ZUM_TRANSACTION });
+      dispatch({ type: REMOVE_ZUM_REDIRECT_URL });
+      dispatch(fetchUserBalance());
+      dispatch(
+        showToast(
+          "Payment succesfull. Your balance will be updated soon.",
+          "success"
+        )
+      );
     });
   };
 }
@@ -219,9 +249,32 @@ export function setConversionMarkup() {
       if (response.data.status === true) {
         dispatch({
           type: SET_CONVERSION_MARKUP,
-          payload: parseFloat(response.data.data.data_value),
+          payload: parseFloat(response?.data?.data?.data_value),
         });
       }
     });
+  };
+}
+
+export function getCoinbaseLink(amount, currency) {
+  currency = currency.toUpperCase();
+  const request = http.post(URLS.USER.COINBASE_LINK_GENERATE, {
+    amount,
+    currency,
+  });
+
+  return (dispatch) => {
+    return request.then((response) => {
+      dispatch({
+        type: SET_COINBASE_REDIRECT_URL,
+        payload: response.data?.hostedUrl,
+      });
+    });
+  };
+}
+
+export function removeCoinbaseLink() {
+  return (dispatch) => {
+    dispatch({ type: REMOVE_COINBASE_REDIRECT_URL });
   };
 }

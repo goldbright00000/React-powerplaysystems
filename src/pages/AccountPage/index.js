@@ -17,8 +17,11 @@ import HistoryInfoComponent from "../../components/HistoryInfoComponent";
 import AccountLimits from "../../components/AccountLimits";
 import { printLog } from "../../utility/shared";
 import SnackbarAlert from "../../components/SnackbarAlert";
+import { showDepositForm } from "../../actions/uiActions";
 
 function AccountPage(props) {
+  const dispatch = useDispatch();
+
   const [activeTab, setActiveTab] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
 
@@ -27,6 +30,8 @@ function AccountPage(props) {
   }, []);
 
   const { user = "" } = useSelector((state) => state?.auth);
+  const showDepositModal = useSelector((state) => state.ui?.showDepositForm);
+
   const [userAccount, setUserAccount] = useState({});
 
   const getUserAccount = async () => {
@@ -77,6 +82,7 @@ function AccountPage(props) {
                 </TabPanel>
                 <TabPanel>
                   <BalanceInfoComponent
+                    openDepositModal={(val) => dispatch(showDepositForm(val))}
                     isMobile={isMobile}
                     balance={userAccount.balance}
                   />

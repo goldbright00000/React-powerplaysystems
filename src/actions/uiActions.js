@@ -1,0 +1,21 @@
+export const SET_SHOW_DEPOSIT_FORM = "SHOW_DEPOSIT_FORM";
+export const SET_HIDE_DEPOSIT_FORM = "SET_HIDE_DEPOSIT_FORM";
+
+export const SET_SHOW_TOAST = "SET_SHOW_TOAST";
+export const SET_HIDE_TOAST = "SET_HIDE_TOAST";
+
+export const showDepositForm = (currency) => {
+  return (dispatch) =>
+    dispatch({ type: SET_SHOW_DEPOSIT_FORM, payload: currency ? currency : "USD" });
+};
+
+export const hideDepositForm = () => {
+  return (dispatch) => dispatch({ type: SET_HIDE_DEPOSIT_FORM });
+};
+
+export const showToast = (message, appearance) => {
+  return (dispatch) => {
+    dispatch({ type: SET_SHOW_TOAST, payload: { message, appearance } });
+    dispatch({ type: SET_HIDE_TOAST });
+  };
+};

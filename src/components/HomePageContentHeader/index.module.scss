@@ -50,6 +50,7 @@
 @media (max-width: 767px) {
   .title{
     max-width: 22.5714rem;
+    width: 100%;
   }
   .blogSection, .subtitle{
     font-size: 0.8571em;
@@ -60,5 +61,14 @@
   .powerBtn{
     font-size: 1rem;
     margin: 2em auto 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .root{
+    background: url('../../assets/home-page-hero-image_mobile.png') no-repeat bottom center;
+  }
+  .container{
+    justify-content: initial;
   }
 }

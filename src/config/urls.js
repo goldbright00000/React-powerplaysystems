@@ -14,6 +14,7 @@ export const URLS = {
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
     CONVERSION_MARKUP_VALUE: "users/conversion-rate",
     ACCOUNT_LIMITS: "/users/account/limit",
+    COINBASE_LINK_GENERATE: "users/coinbase-link-generate"
   },
   DFS: {
     MLB: "/dfs/mlb-selection",

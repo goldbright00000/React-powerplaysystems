@@ -306,3 +306,56 @@
     }
   }
 }
+
+@media (max-width: 414px) {
+  .container_top_2 {
+    display: flex;
+    flex-wrap: nowrap;
+    
+    button {
+      margin: 0 14px;
+      width: 47px;
+      height: 47px;
+      font-family: Poppins;
+      font-size: 18px;
+      font-weight: 900;
+      font-stretch: normal;
+      font-style: italic;
+      line-height: normal;
+      letter-spacing: 1px;
+      text-align: center;
+      margin: 0 10px;
+
+      span {
+        position: absolute;
+        bottom: 0;
+        transform: translate(0, 10px);
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $white;
+        width: 50px;
+      }
+
+      &.active {
+        .tick {
+          transform: translate(0, 12px);
+
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
+
+        span {
+          display: none;
+        }
+      }
+    }
+  }
+}

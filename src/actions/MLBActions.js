@@ -36,6 +36,7 @@ export function mlbData() {
         venue,
         date_time
       );
+
       const homeTeam = getTeam(
         home_team,
         away_team,
@@ -47,10 +48,14 @@ export function mlbData() {
       mlbTeams.push(awayTeam);
       mlbTeams.push(homeTeam);
 
-      const { mlb_players: awayTeamPlayers = [], name: awayTeamName = "" } =
-        away_team || {};
-      const { mlb_players: homeTeamPlayers = [], name: homeTeamName = "" } =
-        home_team || {};
+      const {
+        mlb_match_lineups: awayTeamPlayers = [],
+        name: awayTeamName = "",
+      } = away_team || {};
+      const {
+        mlb_match_lineups: homeTeamPlayers = [],
+        name: homeTeamName = "",
+      } = home_team || {};
       const _awayTeamPlayersList = getPlayers(
         awayTeamPlayers,
         awayTeamName,
@@ -58,7 +63,8 @@ export function mlbData() {
         venue,
         match_id,
         date_time,
-        awayTeam?.team_id
+        awayTeam?.team_id,
+        homeTeam?.team_id
       );
       const _homeTeamPlayersList = getPlayers(
         homeTeamPlayers,
@@ -67,7 +73,8 @@ export function mlbData() {
         venue,
         match_id,
         date_time,
-        homeTeam?.team_id
+        homeTeam?.team_id,
+        awayTeam?.team_id
       );
       const playersList = [..._awayTeamPlayersList, ..._homeTeamPlayersList];
       mlbPlayerList.push(...playersList);
@@ -118,7 +125,8 @@ function getPlayers(
   venue = {},
   match_id = "",
   date_time = "",
-  teamId = ""
+  teamId = "",
+  awayTeamId = ""
 ) {
   const _playerList = [];
 
@@ -132,7 +140,8 @@ function getPlayers(
         player_id = "",
         type = "",
         mlb_player_stats = [],
-      } = playerList[i] || {};
+        current_position = "",
+      } = playerList[i]?.player || {};
 
       const mlbPlayerStats =
         (mlb_player_stats?.length && mlb_player_stats[0]) || {};
@@ -155,6 +164,8 @@ function getPlayers(
         stadium: venue?.name,
         playerStats: { ...mlbPlayerStats },
         team_id: teamId,
+        awayTeam_id: awayTeamId,
+        current_position,
       };
 
       _playerList.push(player);
@@ -203,20 +214,20 @@ export function saveAndGetSelectPlayers(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          if (!payload.gameId || !payload.sportId || !payload.userId) {
+          if (!payload.game_id || !payload.sport_id || !payload.user_id) {
             return alert(
               "Invalid informations",
-              payload.gameId,
-              payload.userId,
-              payload.sportId
+              payload.game_id,
+              payload.user_id,
+              payload.sport_id
             );
           }
           const playersResponse = await http.post(
             URLS.DFS.MLB_LIVE_PAGE_PLAYERS,
             {
-              game_id: payload.gameId,
-              sport_id: payload.sportId,
-              user_id: payload.userId,
+              game_id: payload.game_id,
+              sport_id: payload.sport_id,
+              user_id: payload.user_id,
             }
           );
 
@@ -239,7 +250,7 @@ export function saveAndGetSelectPlayers(payload) {
 
             delete player?.name;
           }
-          return dispatch(mlbLiveData({ players, teamD }));
+          // return dispatch(mlbLiveData({ players, teamD }));
         } catch (er) {}
       }
     } catch (err) {}

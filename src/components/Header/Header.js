@@ -11,7 +11,10 @@ import {
   payNowWithIpay,
   payWithZum,
   setZumToken,
+  getCoinbaseLink,
+  removeCoinbaseLink,
 } from "../../actions/userActions";
+import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
@@ -55,17 +58,30 @@ const Header = (props) => {
 
   const { user } = useSelector((state) => state?.auth);
   const zumToken = useSelector((state) => state?.user?.zumToken);
+  const coinbaseUrl = useSelector((state) => state?.user.coinbaseRedirectUrl);
+  const showDepositModal = useSelector((state) => state.ui.depositFormData);
 
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
 
   const [myAccountMenu, setMyAccountMenu] = useState(false);
-  const [showDepositModal, setShowDepositModal] = useState(false);
+
+  const setHideDepositModal = () => dispatch(hideDepositForm());
+  const setShowDepositModal = () => dispatch(showDepositForm());
 
   useEffect(() => {
     !zumToken && dispatch(setZumToken());
   }, [zumToken]);
+
+  useEffect(() => {
+    if (coinbaseUrl) {
+      setTimeout(() => {
+        dispatch(removeCoinbaseLink());
+      }, 2000);
+      window.open(coinbaseUrl, "_blank");
+    }
+  });
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
@@ -75,10 +91,10 @@ const Header = (props) => {
 
   const onMyAccountMenuItemClick = (menuItem) => {
     setMyAccountMenu(false);
-    if (menuItem == "/log-out") {
+    if (menuItem === "/log-out") {
       onLogout();
-    } else if (menuItem == "/deposit") {
-      setShowDepositModal(true);
+    } else if (menuItem === "/deposit") {
+      setShowDepositModal();
     } else {
       history.push(menuItem);
     }
@@ -98,7 +114,8 @@ const Header = (props) => {
       dispatch(updateUser(obj));
 
       payNowWithIpay(obj);
-      setShowDepositModal(false);
+
+      setHideDepositModal();
     }
   };
 
@@ -113,9 +130,14 @@ const Header = (props) => {
         email: user?.email,
         zumToken,
       };
-      dispatch(payWithZum(obj, history.push));
-      setShowDepositModal(false);
+      dispatch(payWithZum(obj, history));
+      setHideDepositModal();
     }
+  };
+
+  const coinbaseSubmitHandler = (amount, currency) => {
+    dispatch(getCoinbaseLink(amount, currency));
+    setHideDepositModal();
   };
 
   useEffect(() => {
@@ -208,10 +230,11 @@ const Header = (props) => {
             </ul>
             {showDepositModal && (
               <DepositAmountPopUp
-                onClose={() => setShowDepositModal(false)}
+                onClose={() => setHideDepositModal()}
                 user={user}
                 ipayFormSubmitted={onUpdateUserDetails}
                 zumFormSubmitted={onZumPayment}
+                coinbaseFormSubmitted={coinbaseSubmitHandler}
               />
             )}
           </>
