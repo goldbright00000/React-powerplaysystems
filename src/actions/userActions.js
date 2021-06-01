@@ -1,6 +1,7 @@
 import { CONSTANTS } from "../utility/constants";
 import { setLocalStorage, redirectTo } from "../utility/shared";
 import { URLS } from "../config/urls";
+import { createAlert } from "./notificationActions";
 
 import axios from "axios";
 import http from "../config/http";
@@ -19,6 +20,7 @@ export const REMOVE_ZUM_REDIRECT_URL = "REMOVE_ZUM_REDIRECT_URL";
 export const SEND_ZUM_TRANSACTION = "SEND_ZUM_TRANSACTION";
 export const SET_CONVERSION_MARKUP = "SET_CONVERSION_MARKUP";
 
+export const SET_ACCOUNT_LIMITS = "SET_ACCOUNT_LIMITS";
 export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
 export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
 
@@ -36,6 +38,21 @@ export function setUserBalance(payload) {
   return {
     type: USER_BALANCE,
     payload,
+  };
+}
+
+export function setAccountLimit(accountLimits) {
+  const request = http.put(URLS.USER.ACCOUNT_LIMITS, accountLimits);
+
+  return (dispatch) => {
+    return request.then((response) => {
+      if (response.status === 200) {
+        dispatch(createAlert(response?.data?.message, "success"));
+        return dispatch({ type: SET_ACCOUNT_LIMITS, payload: accountLimits });
+      } else {
+        return dispatch(createAlert(response?.data?.message, "error"));
+      }
+    });
   };
 }
 

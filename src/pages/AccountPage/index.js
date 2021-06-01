@@ -63,7 +63,7 @@ function AccountPage(props) {
                   Account Info
                 </Tab>
                 <Tab className={`${activeTab === 1 && classes.active}`}>
-                  Balance
+                  Balance/Deposit
                 </Tab>
                 <Tab className={`${activeTab === 2 && classes.active}`}>
                   Results
@@ -102,7 +102,10 @@ function AccountPage(props) {
                   />
                 </TabPanel>
                 <TabPanel>
-                  <AccountLimits />
+                  <AccountLimits
+                    isMobile={isMobile}
+                    accountLimit={userAccount.accountLimit}
+                  />
                 </TabPanel>
               </div>
             </Tabs>
