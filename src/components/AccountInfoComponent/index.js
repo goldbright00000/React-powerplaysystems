@@ -152,7 +152,7 @@ function AccountInfo(props) {
               <div>
                 <button
                   className={classes.__delete_account_btn}
-                  // onClick={changePassword}
+                  type="submit"
                 >
                   Change Password
                 </button>
