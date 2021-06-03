@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./historyInfoComponent.module.scss";
 import moment from "moment";
 
-import TickIcon from "../../assets/home_page_tick.png";
+import TickIcon from "../../assets/icons/correct-copy.png";
 
 const HistoryInfoComponent = (props) => {
   const { isMobile = false, balance = {}, transactions = [] } = props || {};

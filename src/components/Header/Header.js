@@ -158,6 +158,11 @@ const Header = (props) => {
     }
   };
 
+  let [openMenu, setOpenMenu] = useState(false);
+  let handleMenu = () => {
+    setOpenMenu(!openMenu);
+  };
+
   return (
     <nav
       className="__Header"
@@ -169,7 +174,12 @@ const Header = (props) => {
         </Link>
         {hasMenu ? (
           <>
-            <button className="__menu-icon __hide-only-on-large __pointer">
+            <button
+              className={`__menu-icon __hide-only-on-large __pointer ${
+                openMenu ? `__menu-icon_clicked` : ``
+              }`}
+              onClick={handleMenu}
+            >
               <span></span>
               <span></span>
               <span></span>

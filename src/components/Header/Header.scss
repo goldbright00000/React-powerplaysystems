@@ -67,10 +67,17 @@
           margin: 2px 0;
         }
       }
-      &:focus ~ .__navlinks {
-        max-height: 1000px;
+      // &:focus ~ .__navlinks {
+      //   max-height: 1000px;
+      // }
+    }
+
+    .__menu-icon_clicked {
+      ~ .__navlinks {
+        height: 1000px;
       }
     }
+
     .__navlinks {
       position: absolute;
       display: block;
@@ -80,7 +87,7 @@
       text-align: center;
       background-color: #17181a;
       margin: 0;
-      max-height: 0;
+      height: 0;
       overflow: hidden;
       transition: linear 0.3s max-height;
       li {
@@ -104,6 +111,10 @@
           width: 5em;
           margin: 1.5em auto;
         }
+      }
+
+      .__my_account_li {
+        width: unset;
       }
     }
 
