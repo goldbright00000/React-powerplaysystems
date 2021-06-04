@@ -2,28 +2,28 @@
 
 .__my_game_center {
   .__my_game_center_banner {
-      background-image: url('../../assets/power-center-banner.png');
-      background-size: 100% auto;
-      background-position: center;
+    background-image: url("../../assets/power-center-banner.png");
+    background-size: 100% auto;
+    background-position: center;
 
-      .__my_game_center_banner_left {
-          display: flex;
-          flex-direction: row;
+    .__my_game_center_banner_left {
+      display: flex;
+      flex-direction: row;
 
-              .__my_game_center_banner_left_title_main {
-                  width: 602px;
-                  height: 96px;
-                  font-family: Teko;
-                  font-size: 96px;
-                  font-weight: bold;
-                  font-stretch: normal;
-                  font-style: normal;
-                  line-height: normal;
-                  letter-spacing: normal;
-                  text-align: center;
-                  color: $grey2;
-              }
+      .__my_game_center_banner_left_title_main {
+        width: 602px;
+        height: 96px;
+        font-family: Teko;
+        font-size: 96px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: $grey2;
       }
+    }
   }
 
   .__balance {
@@ -90,12 +90,47 @@
 }
 
 @media (max-width: 540px) {
-  .__MyGameCenter {
-    .__power-center-links {
-      margin: 3em 1em;
-      a {
-        font-size: 16px;
+  // .__MyGameCenter {
+  //   .__power-center-links {
+  //     margin: 3em 1em;
+  //     a {
+  //       font-size: 16px;
+  //     }
+  //   }
+  // }
+
+  .__my_game_center {
+    .__my_game_center_banner {
+      background-image: url("../../assets/power-center-banner-mobile.png");
+      background-size: 100% auto;
+      background-position: center;
+      height: 241px;
+
+      .__my_game_center_banner_left {
+        display: flex;
+        flex-direction: row;
+
+        .__my_game_center_banner_left_title_main {
+          width: 197px;
+          height: 112px;
+          font-family: Teko;
+          font-size: 56px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          text-align: left;
+          color: $grey2;
+          margin-top: 30px;
+        }
       }
+    }
+
+    .__balance {
+      position: relative;
+      margin-top: 0px;
+      background-color: $black;
     }
   }
 }

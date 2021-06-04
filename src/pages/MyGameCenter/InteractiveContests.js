@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import classes from "./interactiveContests.module.scss";
 import { useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { setUserBalance } from "../../actions/userActions";
 import Ball from "../../icons/Ball";
 import BasketBall from "../../icons/BasketBall";
@@ -161,11 +162,32 @@ const filters = [
   },
 ];
 
+const contentTypes = [
+  {
+    label: "All Active",
+    value: "All Active",
+  },
+  {
+    label: "Not Started",
+    value: "Not Started",
+  },
+  {
+    label: "In Progress",
+    value: "In Progress",
+  },
+  {
+    label: "Completed",
+    value: "Completed",
+  },
+];
+
 const InteractiveContests = (props) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const dispatch = useDispatch();
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
 
+  const [contentType, setContentType] = useState("All Active");
   const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
   const [showCardDetails, setShowCardDetails] = useState(-1);
   const [selectedFilter, setSelectedFilter] = useState(1);
@@ -228,7 +250,7 @@ const InteractiveContests = (props) => {
   return (
     <>
       <div className="__table-wrapper __mb-6">
-        <div className="__flex">
+        <div className={`__flex ${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
             <div className="__badges-wrapper __text-in-one-line __mediam">
               {filters.map((item, index) => {
@@ -266,18 +288,30 @@ const InteractiveContests = (props) => {
           </div>
         </div>
         <div className={classes.__interactive_contests_filter}>
-          <div className={classes.__interactive_contests_most_popular}>
-            <p>All Active</p>
-          </div>
-          <div className={classes.__interactive_contests_prize_total}>
-            <p>Not Started</p>
-          </div>
-          <div className={classes.__interactive_contests_top_prize}>
-            <p>In Progress</p>
-          </div>
-          <div className={classes.__interactive_contests_min_entry}>
-            <p>Completed</p>
-          </div>
+          {isMobile ? (
+            <div className={classes.__interactive_contests_content_type}>
+              <CustomDropDown
+                value={contentType}
+                options={contentTypes}
+                onChange={(selectedOption) => setContentType(selectedOption)}
+              />
+            </div>
+          ) : (
+            <>
+              <div className={classes.__interactive_contests_most_popular}>
+                <p>All Active</p>
+              </div>
+              <div className={classes.__interactive_contests_prize_total}>
+                <p>Not Started</p>
+              </div>
+              <div className={classes.__interactive_contests_top_prize}>
+                <p>In Progress</p>
+              </div>
+              <div className={classes.__interactive_contests_min_entry}>
+                <p>Completed</p>
+              </div>
+            </>
+          )}
           <div className={classes.__interactive_contests_date}>
             <CustomDropDown
               value={selectedDate}
