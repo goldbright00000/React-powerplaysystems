@@ -189,7 +189,7 @@ const HomePage = (props) => {
                 >
                   {renderSecondSectionText(
                     "Sign Up",
-                    "Join today and get up to 20 Power Tokens!"
+                    "Join today and get up to 30 Power Tokens!"
                   )}
                 </div>
               </div>

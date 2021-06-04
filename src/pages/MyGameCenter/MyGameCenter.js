@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import classes from "./MyGameCenter.module.scss";
 import Header from "../../components/Header/Header";
 import "./MyGameCenter.scss";
@@ -14,6 +15,7 @@ import Balance from "../../components/Balance";
 import { showDepositForm } from "../../actions/uiActions";
 
 const MyGameCenter = (props) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const { url } = props.match;
   const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -30,14 +32,29 @@ const MyGameCenter = (props) => {
               My Game Center
             </div>
           </div>
-          {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
-            <div className="__balance">
-              <Balance depositClicked={setShowDepositModal} />
-            </div>
-          ) : (
-            <div style={{ height: 50 }}></div>
+          {isMobile ? null : (
+            <>
+              {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+                <div className="__balance">
+                  <Balance depositClicked={setShowDepositModal} />
+                </div>
+              ) : (
+                <div style={{ height: 50 }}></div>
+              )}
+            </>
           )}
         </div>
+        {isMobile ? (
+          <>
+            {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+              <div className="__balance">
+                <Balance depositClicked={setShowDepositModal} />
+              </div>
+            ) : (
+              <div style={{ height: 50 }}></div>
+            )}
+          </>
+        ) : null}
         {/* <div className={classes.header2_container}>
                     <div className={classes.header2_card}>
                         <Card>
