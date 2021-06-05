@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import PowerPlaySponsorsPage from "./pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage";
 import SponserAContestPage from "./pages/SponserAContestPage/SponserAContestPage";
 import PowerCenter from "./pages/PowerCenter/PowerCenter";
+import Mobile from "./pages/Mobile/Mobile";
 import SelectTeams from "./pages/SelectTeams/SelectTeams";
 import PowerBetLive from "./pages/PowerBetLive/PowerBetLive";
 import ScrollToTop from "./utility/ScrollToTop";
@@ -59,6 +60,7 @@ const App = (props) => {
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route path="/mobile" component={Mobile} />
         <Route path="/paymentFrame" component={PaymentFrame} />
         <Route
           exact
@@ -79,6 +81,7 @@ const App = (props) => {
           path="/power-play-sponsors/sponsor-a-contest"
           component={SponserAContestPage}
         />
+        
         <Route path="/power-center" component={PowerCenter} />
         <Route path="/select-teams" component={SelectTeams} />
         <Route path="/powerbet-live" component={PowerBetLive} />
