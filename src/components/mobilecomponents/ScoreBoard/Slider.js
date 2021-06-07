@@ -76,7 +76,7 @@ const Slider = ({
                   {secondShow && secondShow === true && (
                     <>
                       <div className="col-4 pe-0">
-                        <img src="/images/bating.svg" alt="" />
+                        <img style={{maxWidth:'68px'}} src="/images/bating.svg" alt="" />
                       </div>
 
                       <div className="col-8 roger">

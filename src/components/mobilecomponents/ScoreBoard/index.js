@@ -6,7 +6,6 @@ import { BoardWrapper } from "./style";
 import TagLines from "./TagLines";
 const ScoreBoard = ({
   tagLine,
-
   firstTeam,
   secondShow,
   secondTeam,

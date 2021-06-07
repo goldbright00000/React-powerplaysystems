@@ -1,12 +1,9 @@
 import Styled from "styled-components";
 
 const BoardWrapper = Styled.section`
-
- 
-
-
 background-color: #17181a;
 margin-top: -1px;
+
 .details{
     padding: 0 15px 48px;
     .active{
@@ -59,11 +56,6 @@ margin-top: -1px;
     }
 }  
 
-
-
-
-
-
 .reto{
     .xp{
        
@@ -74,17 +66,10 @@ margin-top: -1px;
         }
     }
 }
-
-
-
-
-
-
-
 `;
 
 const IconsSide = Styled.div`
-text-align:center;
+    text-align:center;
     border-radius: 8px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
@@ -97,14 +82,15 @@ text-align:center;
         ? "66.3px 0"
         : "55.3px 0"};
     position: relative;
-    
+    min-height: 100%;
 
-
-
+    img{
+        display: block;
+        margin: auto;
+    }
 `;
 
 const Badge = Styled.div`
-
 width: 100px;
    position:absolute;
    top:0;
@@ -115,11 +101,9 @@ width: 100px;
    
 
    div {
-display:flex;
-justify-content:center;
-align-items:baseline;
-
-
+    display:flex;
+    justify-content:center;
+    align-items:baseline;
 
     .star{
         padding:0;
@@ -135,11 +119,6 @@ align-items:baseline;
  
     }
    }
-   
-   
-   
-
-
 `;
 
 const Indicators = Styled.div`
@@ -147,27 +126,24 @@ const Indicators = Styled.div`
     bottom: ${props => (props.baseBall === true ? "9px" : "13px")};
     left: 42px;
     button{
-      width: 10px !important;
-height: 10px !important;
-margin: 0 6px 0 0 !important;
-padding: 0 !important;
-opacity: 0.1 !important;
-background-color: #f2f2f2 !important;
+        width: 10px !important;
+        height: 10px !important;
+        margin: 0 6px 0 0 !important;
+        padding: 0 !important;
+        opacity: 0.1 !important;
+        background-color: #f2f2f2 !important;
         border-radius: 50px !important;
         border:1px solid #f2f2f2 !important;
+
         &:focus{
             box-shadow: none !important;
             outline: none !important;
         }
     }
     .active{
-         opacity: 0.5 !important;
-background-color: #f2f2f2 !important;
+        opacity: 0.5 !important;
+        background-color: #f2f2f2 !important;
     }
-
-
-
-
 `;
 
 const EndTag = Styled.div`
@@ -214,11 +190,6 @@ const Data = Styled.div`
            float: right;
        }
    }
-
- 
-        
-       
-  
     h4{
         font-weight: bold;
          letter-spacing: 1px;
@@ -229,16 +200,13 @@ const Data = Styled.div`
             display: flex;
             align-items: center;
             margin-top: 3px;
+
             img{
                 margin-right: 8px;
+                width:20px;
             }
         }
     }
-
-
-
-
-
 
 `;
 
