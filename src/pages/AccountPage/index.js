@@ -46,7 +46,7 @@ function AccountPage(props) {
 
   return (
     <>
-      <Header isStick />
+      <Header isStick isMobile={isMobile} />
       <SnackbarAlert />
       <div className={classes.wrapper}>
         <div className={classes.container}>

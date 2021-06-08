@@ -47,8 +47,11 @@ const MyGameCenter = (props) => {
         {isMobile ? (
           <>
             {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
-              <div className="__balance">
-                <Balance depositClicked={setShowDepositModal} />
+              <div className="__balance __sticky_balance">
+                <Balance
+                  depositClicked={setShowDepositModal}
+                  isMobile={isMobile}
+                />
               </div>
             ) : (
               <div style={{ height: 50 }}></div>

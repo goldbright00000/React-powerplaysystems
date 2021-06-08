@@ -132,5 +132,11 @@
       margin-top: 0px;
       background-color: $black;
     }
+
+    .__sticky_balance {
+      position: sticky;
+      top: 50px;
+      z-index: 1;
+    }
   }
 }

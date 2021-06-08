@@ -13,6 +13,8 @@ import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
 import { URLS } from "../../config/urls";
 import http from "../../config/http";
+// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
 
 const myGameCenterCardData = [
   {
@@ -314,6 +316,8 @@ const InteractiveContests = (props) => {
           )}
           <div className={classes.__interactive_contests_date}>
             <CustomDropDown
+              wrapperClassName={classes.__interactive_contests_date_wrapper}
+              dropdownClassName={classes.__interactive_contests_date_dropdown}
               value={selectedDate}
               options={days}
               onChange={(selectedOption) => setSelectedDate(selectedOption)}
@@ -334,15 +338,33 @@ const InteractiveContests = (props) => {
               const items = filteredData.slice(start, end);
 
               return (
-                <div
-                  className={
-                    classes.__interactive_contests_power_center_card_row
-                  }
-                >
-                  {items.map((power) => {
-                    return myGameCenterCard(power, power.url);
-                  })}
-                </div>
+                <>
+                  {isMobile ? (
+                    <div>
+                      <Carousel
+                        showArrows={false}
+                        showStatus={false}
+                        className={classes.__carousel_height}
+                      >
+                        {items.map((power) => {
+                          return myGameCenterCard(power, power.url);
+                        })}
+                      </Carousel>
+                    </div>
+                  ) : (
+                    <>
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return myGameCenterCard(power, power.url);
+                        })}
+                      </div>
+                    </>
+                  )}
+                </>
               );
             });
           return myGameCenterCardView;

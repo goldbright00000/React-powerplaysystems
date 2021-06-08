@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 import "./Header.scss";
 import logo from "../../assets/new-logo.png";
@@ -49,6 +50,7 @@ const MY_ACCOUNT_MENU_OPTIONS = [
 ];
 
 const Header = (props) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const {
     isStick = false,
     btnBorderStyle = false,
@@ -195,29 +197,45 @@ const Header = (props) => {
                   <li>
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
-                  <li className="__my_account_li" ref={myAccountMenuRef}>
-                    <NavLink
-                      to="#"
-                      onClick={() => setMyAccountMenu(!myAccountMenu)}
-                    >
-                      My Account
-                      {!myAccountMenu ? (
-                        <FilledArrow down={true} />
-                      ) : (
-                        <FilledArrow up={true} />
+                  {isMobile ? (
+                    MY_ACCOUNT_MENU_OPTIONS.map((item) => (
+                      <li>
+                        <NavLink
+                          to={item.value}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onMyAccountMenuItemClick(item.value);
+                          }}
+                        >
+                          {item.label}
+                        </NavLink>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="__my_account_li" ref={myAccountMenuRef}>
+                      <NavLink
+                        to="#"
+                        onClick={() => setMyAccountMenu(!myAccountMenu)}
+                      >
+                        My Account
+                        {!myAccountMenu ? (
+                          <FilledArrow down={true} />
+                        ) : (
+                          <FilledArrow up={true} />
+                        )}
+                      </NavLink>
+                      {myAccountMenu && (
+                        <MyAccountMenu
+                          visible={myAccountMenu}
+                          value={window.location.pathname}
+                          options={MY_ACCOUNT_MENU_OPTIONS}
+                          onClick={(menuItem) =>
+                            onMyAccountMenuItemClick(menuItem)
+                          }
+                        />
                       )}
-                    </NavLink>
-                    {myAccountMenu && (
-                      <MyAccountMenu
-                        visible={myAccountMenu}
-                        value={window.location.pathname}
-                        options={MY_ACCOUNT_MENU_OPTIONS}
-                        onClick={(menuItem) =>
-                          onMyAccountMenuItemClick(menuItem)
-                        }
-                      />
-                    )}
-                  </li>
+                    </li>
+                  )}
                 </>
               ) : (
                 <>
