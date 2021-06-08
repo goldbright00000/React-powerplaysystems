@@ -56,7 +56,7 @@ const HistoryInfoComponent = (props) => {
                 <br />{" "}
                 <span className={classes.values}>
                   {" "}
-                  {transaction.description || "--"}{" "}
+                  {transaction?.transaction_type_details?.type || "--"}{" "}
                 </span>{" "}
               </div>
               <div className={classes.col_details}>
@@ -76,9 +76,8 @@ const HistoryInfoComponent = (props) => {
             <div className={classes.row}>
               <div>{getDate(transaction.date_time)} </div>
               <div>{getTime(transaction.date_time)} </div>
-              <div>{transaction.description || "--"} </div>
-              <div>Power Token </div>
-
+              <div>{transaction?.transaction_type_details?.type || "--"} </div>
+              <div>{transaction.balance_type?.toUpperCase()}</div>
               <div>{transaction.transaction_amount || "--"}</div>
               <div>Verified</div>
             </div>
@@ -94,8 +93,8 @@ const HistoryInfoComponent = (props) => {
         <div className={classes.row}>
           <div>Date</div>
           <div>Time</div>
-          <div>Description</div>
           <div>Type</div>
+          <div>Currency</div>
           <div>Amount</div>
           <div>Results</div>
         </div>
