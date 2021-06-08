@@ -26,7 +26,7 @@ const CURRENCY_DATA = [
 ];
 
 const Balance = (props) => {
-  const { entries = "", totalEntries = "" } = props || {};
+  const { isMobile = false, entries = "", totalEntries = "" } = props || {};
   const { auth: { user: { userBalance = {} } } = {} } = useSelector(
     (state) => state
   );
@@ -67,149 +67,273 @@ const Balance = (props) => {
   };
 
   return (
-    <div className={classes.__balance}>
-      {(entries || totalEntries) && (
-        <div className={classes.__entries}>
-          Entries {entries} <span> / {totalEntries}</span>
-        </div>
-      )}
-      <div
-        className={classes.__balance_deposit}
-        onClick={() => props.depositClicked()}
-      >
-        Deposit
-      </div>
-      <div
-        className={`${classes.__balance_cash_and_balance_outer} ${
-          displayCurrency.length > 0 && classes.__border_right
-        }`}
-      >
-        <div className={classes.__balance_cash_and_balance_icon}>
-          <img src={PowerBalanceGrey} />
-        </div>
-        <div className={classes.__balance_cash_and_balance_inner}>
-          <div className={classes.__balance_power_and_cash_balance}>
-            {userBalance.tokenBalance ||
-              getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)}
-          </div>
-          <div className={classes.__balance_power_and_cash_balance_title}>
-            Power Balance
-          </div>
-        </div>
-      </div>
-      {displayCurrency.includes("cash") && (
-        <div
-          className={`${classes.__balance_cash_and_balance_outer} ${
-            (displayCurrency.includes("bitcoin") ||
-              displayCurrency.includes("ethereum")) &&
-            classes.__border_right
-          }`}
-        >
-          <div className={classes.__balance_cash_and_balance_icon}>
-            <img src={CashBalanceGrey} />
-          </div>
-          <div className={classes.__balance_cash_and_balance_inner}>
-            <div className={classes.__balance_power_and_cash_balance}>
-              $
-              {userBalance.cashBalance?.toFixed(2) ||
-                parseFloat(
-                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)
-                ).toFixed(2)}
-            </div>
-            <div className={classes.__balance_power_and_cash_balance_title}>
-              Cash Balance
-            </div>
-          </div>
-        </div>
-      )}
-      {displayCurrency.includes("bitcoin") && (
-        <div
-          className={`${classes.__balance_cash_and_balance_outer} ${
-            (displayCurrency.includes("cash") ||
-              displayCurrency.includes("ethereum")) &&
-            classes.__border_right
-          }`}
-        >
-          <div className={classes.__balance_cash_and_balance_icon}>
-            <img src={BitcoinGrey} />
-          </div>
-          <div className={classes.__balance_cash_and_balance_inner}>
-            <div className={classes.__balance_power_and_cash_balance}>
-              {userBalance.btcBalance ||
-                parseFloat(
-                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE)
-                ).toFixed(4)}
-            </div>
-            <div className={classes.__balance_power_and_cash_balance_title}>
-              Bitcoin
-            </div>
-          </div>
-        </div>
-      )}
-      {displayCurrency.includes("ethereum") && (
-        <div className={classes.__balance_cash_and_balance_outer}>
-          <div className={classes.__balance_cash_and_balance_icon}>
-            <img src={EthereumGrey} />
-          </div>
-          <div className={classes.__balance_cash_and_balance_inner}>
-            <div className={classes.__balance_power_and_cash_balance}>
-              {userBalance.ethBalance ||
-                parseFloat(
-                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE)
-                ).toFixed(4)}
-            </div>
-            <div className={classes.__balance_power_and_cash_balance_title}>
-              Ethereum
-            </div>
-          </div>
-        </div>
-      )}
-      {currencyMenu && (
-        <div className={classes.__currency_menu} ref={currencyMenuRef}>
-          <div>Display:</div>
-          {CURRENCY_DATA.map((item, index) => {
-            return (
-              <div
-                key={index}
-                className={`${classes.__currency_menu_item} 
-                                        ${
-                                          displayCurrency.includes(
-                                            item.value
-                                          ) && classes.__currency_menu_selected
-                                        }`}
-                onClick={() => {
-                  const newDisplayCurreny = [...displayCurrency];
-                  // Check if currency exist in array
-                  const i = newDisplayCurreny.indexOf(item.value);
-                  if (i > -1) {
-                    newDisplayCurreny.splice(i, 1);
-                  } else {
-                    newDisplayCurreny.push(item.value);
-                  }
-                  setDisplayCurrency(newDisplayCurreny);
-                  setLocalStorage(
-                    CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE,
-                    JSON.stringify(newDisplayCurreny)
-                  );
-                }}
-              >
-                {item.label}
+    <>
+      {isMobile ? (
+        <div>
+          <div className={classes.__balance}>
+            {(entries || totalEntries) && (
+              <div className={classes.__entries}>
+                Entries {entries} <span> / {totalEntries}</span>
               </div>
-            );
-          })}
+            )}
+            <div
+              className={`${classes.__balance_cash_and_balance_outer} ${
+                displayCurrency.length > 0 && classes.__border_right
+              }`}
+            >
+              <div className={classes.__balance_cash_and_balance_icon}>
+                <img src={PowerBalanceGrey} />
+              </div>
+              <div className={classes.__balance_cash_and_balance_inner}>
+                <div className={classes.__balance_power_and_cash_balance}>
+                  {userBalance.tokenBalance ||
+                    getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)}
+                </div>
+                <div className={classes.__balance_power_and_cash_balance_title}>
+                  Powers
+                </div>
+              </div>
+            </div>
+            {displayCurrency.includes("cash") && (
+              <div
+                className={`${classes.__balance_cash_and_balance_outer} ${
+                  (displayCurrency.includes("bitcoin") ||
+                    displayCurrency.includes("ethereum")) &&
+                  classes.__border_right
+                }`}
+              >
+                <div className={classes.__balance_cash_and_balance_icon}>
+                  <img src={CashBalanceGrey} />
+                </div>
+                <div className={classes.__balance_cash_and_balance_inner}>
+                  <div className={classes.__balance_power_and_cash_balance}>
+                    $
+                    {userBalance.cashBalance?.toFixed(2) ||
+                      parseFloat(
+                        getLocalStorage(
+                          CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE
+                        )
+                      ).toFixed(2)}
+                  </div>
+                  <div
+                    className={classes.__balance_power_and_cash_balance_title}
+                  >
+                    USD
+                  </div>
+                </div>
+              </div>
+            )}
+            <div
+              className={classes.__balance_deposit}
+              onClick={() => props.depositClicked()}
+            >
+              Deposit
+            </div>
+          </div>
+          <div className={classes.__balance}>
+            {displayCurrency.includes("bitcoin") && (
+              <div
+                className={`${classes.__balance_cash_and_balance_outer} ${
+                  (displayCurrency.includes("cash") ||
+                    displayCurrency.includes("ethereum")) &&
+                  classes.__border_right
+                }`}
+              >
+                <div className={classes.__balance_cash_and_balance_icon}>
+                  <img src={BitcoinGrey} />
+                </div>
+                <div className={classes.__balance_cash_and_balance_inner}>
+                  <div className={classes.__balance_power_and_cash_balance}>
+                    {userBalance.btcBalance ||
+                      parseFloat(
+                        getLocalStorage(
+                          CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE
+                        )
+                      ).toFixed(4)}
+                  </div>
+                  <div
+                    className={classes.__balance_power_and_cash_balance_title}
+                  >
+                    BTC
+                  </div>
+                </div>
+              </div>
+            )}
+            {displayCurrency.includes("ethereum") && (
+              <div className={classes.__balance_cash_and_balance_outer}>
+                <div className={classes.__balance_cash_and_balance_icon}>
+                  <img src={EthereumGrey} />
+                </div>
+                <div className={classes.__balance_cash_and_balance_inner}>
+                  <div className={classes.__balance_power_and_cash_balance}>
+                    {userBalance.ethBalance ||
+                      parseFloat(
+                        getLocalStorage(
+                          CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE
+                        )
+                      ).toFixed(4)}
+                  </div>
+                  <div
+                    className={classes.__balance_power_and_cash_balance_title}
+                  >
+                    ETH
+                  </div>
+                </div>
+              </div>
+            )}
+            <div
+              className={classes.__balance_deposit1}
+              onClick={() => props.depositClicked()}
+            >
+              Deposit
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className={classes.__balance}>
+          {(entries || totalEntries) && (
+            <div className={classes.__entries}>
+              Entries {entries} <span> / {totalEntries}</span>
+            </div>
+          )}
+          <div
+            className={classes.__balance_deposit}
+            onClick={() => props.depositClicked()}
+          >
+            Deposit
+          </div>
+          <div
+            className={`${classes.__balance_cash_and_balance_outer} ${
+              displayCurrency.length > 0 && classes.__border_right
+            }`}
+          >
+            <div className={classes.__balance_cash_and_balance_icon}>
+              <img src={PowerBalanceGrey} />
+            </div>
+            <div className={classes.__balance_cash_and_balance_inner}>
+              <div className={classes.__balance_power_and_cash_balance}>
+                {userBalance.tokenBalance ||
+                  getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)}
+              </div>
+              <div className={classes.__balance_power_and_cash_balance_title}>
+                Power Balance
+              </div>
+            </div>
+          </div>
+          {displayCurrency.includes("cash") && (
+            <div
+              className={`${classes.__balance_cash_and_balance_outer} ${
+                (displayCurrency.includes("bitcoin") ||
+                  displayCurrency.includes("ethereum")) &&
+                classes.__border_right
+              }`}
+            >
+              <div className={classes.__balance_cash_and_balance_icon}>
+                <img src={CashBalanceGrey} />
+              </div>
+              <div className={classes.__balance_cash_and_balance_inner}>
+                <div className={classes.__balance_power_and_cash_balance}>
+                  $
+                  {userBalance.cashBalance?.toFixed(2) ||
+                    parseFloat(
+                      getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)
+                    ).toFixed(2)}
+                </div>
+                <div className={classes.__balance_power_and_cash_balance_title}>
+                  Cash Balance
+                </div>
+              </div>
+            </div>
+          )}
+          {displayCurrency.includes("bitcoin") && (
+            <div
+              className={`${classes.__balance_cash_and_balance_outer} ${
+                (displayCurrency.includes("cash") ||
+                  displayCurrency.includes("ethereum")) &&
+                classes.__border_right
+              }`}
+            >
+              <div className={classes.__balance_cash_and_balance_icon}>
+                <img src={BitcoinGrey} />
+              </div>
+              <div className={classes.__balance_cash_and_balance_inner}>
+                <div className={classes.__balance_power_and_cash_balance}>
+                  {userBalance.btcBalance ||
+                    parseFloat(
+                      getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE)
+                    ).toFixed(4)}
+                </div>
+                <div className={classes.__balance_power_and_cash_balance_title}>
+                  Bitcoin
+                </div>
+              </div>
+            </div>
+          )}
+          {displayCurrency.includes("ethereum") && (
+            <div className={classes.__balance_cash_and_balance_outer}>
+              <div className={classes.__balance_cash_and_balance_icon}>
+                <img src={EthereumGrey} />
+              </div>
+              <div className={classes.__balance_cash_and_balance_inner}>
+                <div className={classes.__balance_power_and_cash_balance}>
+                  {userBalance.ethBalance ||
+                    parseFloat(
+                      getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE)
+                    ).toFixed(4)}
+                </div>
+                <div className={classes.__balance_power_and_cash_balance_title}>
+                  Ethereum
+                </div>
+              </div>
+            </div>
+          )}
+          {currencyMenu && (
+            <div className={classes.__currency_menu} ref={currencyMenuRef}>
+              <div>Display:</div>
+              {CURRENCY_DATA.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className={`${classes.__currency_menu_item} 
+                                    ${
+                                      displayCurrency.includes(item.value) &&
+                                      classes.__currency_menu_selected
+                                    }`}
+                    onClick={() => {
+                      const newDisplayCurreny = [...displayCurrency];
+                      // Check if currency exist in array
+                      const i = newDisplayCurreny.indexOf(item.value);
+                      if (i > -1) {
+                        newDisplayCurreny.splice(i, 1);
+                      } else {
+                        newDisplayCurreny.push(item.value);
+                      }
+                      setDisplayCurrency(newDisplayCurreny);
+                      setLocalStorage(
+                        CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE,
+                        JSON.stringify(newDisplayCurreny)
+                      );
+                    }}
+                  >
+                    {item.label}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+          <div className={classes.__three_dots_div}>
+            <button
+              className={classes.__three_dots}
+              onClick={() => setCurrencyMenu(!currencyMenu)}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+          </div>
         </div>
       )}
-      <div className={classes.__three_dots_div}>
-        <button
-          className={classes.__three_dots}
-          onClick={() => setCurrencyMenu(!currencyMenu)}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </div>
-    </div>
+    </>
   );
 };
 
