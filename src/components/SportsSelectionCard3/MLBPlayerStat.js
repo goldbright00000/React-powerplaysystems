@@ -58,7 +58,7 @@ function MLBPlayerStat(props) {
         />
         <RenderItem value={home_runs} />
         <RenderItem value={runs_batted_in} />
-        <RenderItem value={ops} />
+        <RenderItem value={"." + `${ops}`.split(".")[1]} />
         <RenderItem value={0} />
       </div>
     </>
