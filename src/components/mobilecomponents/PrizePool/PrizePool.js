@@ -13,7 +13,7 @@ const PrizePool = () => {
         </div>
       </div>
 
-      <Link to="/" style={{ textDecoration: "none" }}>
+      <Link to="/mobile" style={{ textDecoration: "none" }}>
         <div className="liveGame">
           <img src="/images/backArrow.svg" alt="arrow" />
           <h3>Back to Live play</h3>
