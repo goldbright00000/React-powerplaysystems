@@ -19,4 +19,7 @@ export const URLS = {
     MLB_SAVE_PLAYERS: "/dfs/mlb-save-players",
     MLB_LIVE_PAGE_PLAYERS: "/dfs/mlb-live",
   },
+  GAMES: {
+    ALL_GAMES: 'admin/games'
+  }
 };

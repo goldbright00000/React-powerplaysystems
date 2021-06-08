@@ -21,13 +21,13 @@ const listItems = [
     { title: 'Up Coming', value: 'upcoming' },
     { title: 'Completed Game', value: 'com_game' }
 ]
-
 const MyGameCenterTable = props => {
     // const [isMobileDevice, setMobileDevice] = useState(false);
     const [selectedMenu, setSelectedMenu] = useState(listItems[0].value)
     // const responsiveHandler = maxWidth => setMobileDevice(maxWidth.matches);
-    const isMobileDevice = useMediaQuery({query: '(max-width: 1024px)'})
+    const isMobileDevice = useMediaQuery({ query: '(max-width: 1024px)' })
     useEffect(() => {
+
         // const maxWidth = window.matchMedia("(max-width: 1200px)");
         // responsiveHandler(maxWidth);
         // maxWidth.addEventListener('change', responsiveHandler);
@@ -65,10 +65,10 @@ const MyGameCenterTable = props => {
                         :
                         <ButtonDropdown elements={listItems} selected={listItems[0]} onChange={(e) => {
                             setSelectedMenu(e?.target?.value)
-                            }} isActive styles={{margin: '0 5px', border: 'none'}} />
-                 }
+                        }} isActive styles={{ margin: '0 5px', border: 'none' }} />
+                }
             </div>
-            
+
             <div className={classes.table}>
                 <div className={classes.table_main}>
                     <div className={classes.table_header}>

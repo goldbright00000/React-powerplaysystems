@@ -6,8 +6,8 @@ const data = [
         heading: 'Hitters',
         hitters: [
             {
-                title: 'Single',
-                value: '+ 3 Pts'
+                title: 'Single', // play
+                value: '+ 3 Pts' // points
             },
             {
                 title: 'Double',
@@ -45,7 +45,7 @@ const data = [
     }
 ];
 
-const Hitters = () => {
+const Hitters = ({ PointsSystem }) => {
     return (
         <div className={classes.__hitters}>
             <p className={classes.__hitters_main_title}>Point System</p>
@@ -55,14 +55,14 @@ const Hitters = () => {
                         <>
                             <div className={classes.__hitters_heading}>{d.heading}</div>
                             {
-                                d.hitters.map((item, index) => {
+                                PointsSystem.map((item, index) => {
                                     return (
                                         <div className={classes.__hitters_data}>
                                             <div className={classes.__hitters_data_title_div}>
-                                                <p className={classes.__hitters_data_title}>{item.title}</p>
+                                                <p className={classes.__hitters_data_title}>{item?.plays}</p>
                                             </div>
                                             <div className={classes.__hitters_data_value_div}>
-                                                <p className={classes.__hitters_data_value}>{item.value}</p>
+                                                <p className={classes.__hitters_data_value}>+{item?.points} Pts</p>
                                             </div>
                                         </div>
                                     );

@@ -20,7 +20,6 @@ const PowerCenter = props => {
     const isMobile = useMediaQuery({ query: '(max-width: 414px)' });
     const isTablet = useMediaQuery({ query: '(max-width: 768px)' });
     const isBigScreenTablet = useMediaQuery({ query: '(max-width: 1024px)' });
-
     return (
         <Fragment>
             <Header isStick={true} />
@@ -37,28 +36,28 @@ const PowerCenter = props => {
                             <div className='__power_center_banner_left_title_sub'>
                                 {
                                     isMobile || isTablet || isBigScreenTablet
-                                    ?
-                                    "Worlds first Live-Play Fantasy Sports platform"
-                                    :
-                                    "Welcome to the worlds first Live-Play Fantasy Sports platform"
+                                        ?
+                                        "Worlds first Live-Play Fantasy Sports platform"
+                                        :
+                                        "Welcome to the worlds first Live-Play Fantasy Sports platform"
                                 }
                             </div>
                         </div>
                     </div>
                     {
                         token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
-                        ?
-                        <div className="__balance">
-                            {
-                                isMobile
-                                ?
-                                <MobileBalance />
-                                :
-                                <Balance />
-                            }
-                        </div>
-                    :
-                    <div style={{ height: 50}}></div>
+                            ?
+                            <div className="__balance">
+                                {
+                                    isMobile
+                                        ?
+                                        <MobileBalance />
+                                        :
+                                        <Balance />
+                                }
+                            </div>
+                            :
+                            <div style={{ height: 50 }}></div>
                     }
                 </div>
                 {/* <div className='__flex __power-center-links __mb-5'>

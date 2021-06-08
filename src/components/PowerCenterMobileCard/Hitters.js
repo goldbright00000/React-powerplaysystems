@@ -54,7 +54,7 @@ const data2 = [
 ];
 
 const Hitters = (props) => {
-    const {title = ''} = props || {};
+    const { title = '' } = props || {};
 
     return (
         <div className={classes.__hitters}>

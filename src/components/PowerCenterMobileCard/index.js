@@ -23,10 +23,17 @@ const PowerCenterMobileCard = (props) => {
         total = null,
         percent = null,
         showDetails = false,
+        game_type = '',
+        game_set_end = '',
+        start_time = '',
+        entry_fee = null,
         onDetailsClick = () => { },
         onBackClick = () => { },
         onNextClick = () => { },
         onEnter = () => { },
+        PointsSystem = [],
+        Power = [],
+        PrizePayout = []
     } = props || {};
 
     const getBackgroundImageWithStyle = () => {
@@ -54,19 +61,19 @@ const PowerCenterMobileCard = (props) => {
         !showDetails
             ?
             <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
-                <Carousel 
-                    showArrows={false} 
-                    showStatus={false} 
-                    showThumbs={false} 
-                    autoPlay={false} 
-                    infiniteLoop={false} 
+                <Carousel
+                    showArrows={false}
+                    showStatus={false}
+                    showThumbs={false}
+                    autoPlay={false}
+                    infiniteLoop={false}
                     interval={300000}
                     className=".carousel .control-dots">
                     <div className={classes.__power_center_card_container}>
-                        <div style={{ flex: 1}}></div>
+                        <div style={{ flex: 1 }}></div>
                         <div className={classes.__power_center_card_content}>
                             <div className={classes.__power_center_card_date_time}>
-                                Oct 24, 2020  |  8:00PM ET
+                                {game_set_end} | {start_time} ET
                             </div>
                             <div className={classes.__power_center_card_powerdfs}>
                                 <p className={classes.__power_center_card_powerdfs_title}>
@@ -89,21 +96,25 @@ const PowerCenterMobileCard = (props) => {
                                 </p>
                             </div>
                             <div className={classes.__power_center_card_enter}>
-                                    <OutlineButton 
-                                        title="Enter  •  $5"
-                                        onClick={onEnter}
-                                    />
+                                <OutlineButton
+                                    title={`Enter  •  $${entry_fee}`}
+                                    onClick={onEnter}
+                                />
                             </div>
                         </div>
                     </div>
-                        <PrizeGrid />
-                        <PowersAvailable title={title} />
-                        <PointSystem title={title} />
-                        <TeamRoster title={title} />
+                    <PrizeGrid PrizePayout={PrizePayout} game_set_end={game_set_end} start_time={start_time} />
+                    <PowersAvailable title={title} Power={Power} game_set_end={game_set_end} start_time={start_time} />
+                    <PointSystem title={title} PointsSystem={PointsSystem} game_set_end={game_set_end} start_time={start_time} />
+                    <TeamRoster title={title} game_set_end={game_set_end} start_time={start_time} />
                 </Carousel>
             </div>
             :
             <PowerCenterCardDetails
+                Power={Power}
+                PrizePayout={PrizePayout}
+                PointsSystem={PointsSystem}
+                entry_fee={entry_fee}
                 title={title}
                 onBackClick={() => onBackClick()}
                 onNextClick={() => onNextClick()}

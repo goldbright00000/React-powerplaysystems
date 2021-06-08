@@ -64,7 +64,7 @@ const dummyData = [
 function LiveStandings(props) {
   const [filteredData, setFilteredData] = useState(dummyData);
 
-  const { visible = false, onClose = () => {} } = props || {};
+  const { visible = false, onClose = () => { } } = props || {};
 
   const onSearch = (e) => {
     const { value } = e?.target || {};

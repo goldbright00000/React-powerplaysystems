@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import Footer from './Footer';
 import Header from './Header';
 import Hitters from './Hitters';
@@ -9,7 +9,16 @@ import PrizeGrid from './PrizeGrid';
 import TeamRoster from './TeamRoster';
 
 const PowerCenterCardDetails = (props) => {
-    const {title = '', onBackClick = () => {}, onNextClick = () => {}, myGameCenter = false} = props || {};
+    const {
+        entry_fee = '',
+        title = '',
+        onBackClick = () => { },
+        onNextClick = () => { },
+        myGameCenter = false,
+        PointsSystem = [],
+        Power = [],
+        PrizePayout = []
+    } = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
@@ -18,12 +27,12 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 0
                 &&
-                <PrizeGrid />
+                <PrizeGrid PrizePayout={PrizePayout} />
             }
             {
                 currentIndex == 1 && title !== 'NHL'
                 &&
-                <Hitters />
+                <Hitters PointsSystem={PointsSystem} />
             }
             {
                 currentIndex == 1 && title === 'NHL'
@@ -33,14 +42,15 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 2
                 &&
-                <PowersAvailable title={title} />
+                <PowersAvailable title={title} Power={Power} />
             }
             {
                 currentIndex == 3 && title === 'MLB'
                 &&
-                <TeamRoster />
+                <TeamRoster league={title} />
             }
-            <Footer 
+            <Footer
+                entry_fee={entry_fee}
                 onBack={() => {
                     if (currentIndex > 0) {
                         setCurrentIndex(currentIndex - 1);

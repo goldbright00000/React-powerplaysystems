@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import classes from './interactiveContests.module.scss';
-import {useDispatch} from 'react-redux';
-import {setUserBalance} from '../../actions/userActions';
+import { useDispatch } from 'react-redux';
+import { setUserBalance } from '../../actions/userActions';
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
@@ -160,7 +160,6 @@ const filters = [
         icon: <Hockeys />
     },
 ];
-
 const InteractiveContests = props => {
     const dispatch = useDispatch();
     const [isMobileDevice, setMobileDevice] = useState(false);
@@ -234,18 +233,18 @@ const InteractiveContests = props => {
                             {
                                 filters.map((item, index) => {
                                     return (
-                                        <div 
-                                        className={'__outline-badge __f1 ' + (selectedFilter == item.id && '__active')}
-                                        onClick={() => {
-                                            setSelectedFilter(item.id);
-                                            const filteredData = item.id === 1 
-                                                ? 
-                                                myGameCenterCardData 
-                                                : 
-                                                myGameCenterCardData.filter(cardItem => cardItem.title === item.title);
-                                            setFilteredData(filteredData);
-                                                
-                                        }}>
+                                        <div
+                                            className={'__outline-badge __f1 ' + (selectedFilter == item.id && '__active')}
+                                            onClick={() => {
+                                                setSelectedFilter(item.id);
+                                                const filteredData = item.id === 1
+                                                    ?
+                                                    myGameCenterCardData
+                                                    :
+                                                    myGameCenterCardData.filter(cardItem => cardItem.title === item.title);
+                                                setFilteredData(filteredData);
+
+                                            }}>
                                             {item.icon}{item.title}
                                         </div>
                                     );
@@ -276,7 +275,7 @@ const InteractiveContests = props => {
                         <p>Completed</p>
                     </div>
                     <div className={classes.__interactive_contests_date}>
-                        <CustomDropDown 
+                        <CustomDropDown
                             value={selectedDate}
                             options={days}
                             onChange={selectedOption => setSelectedDate(selectedOption)}

@@ -4,6 +4,8 @@ import { CONSTANTS } from "../utility/constants";
 
 const apiUrl = "https://api.powerplaysystems.com/ppgapi/api/v1";
 
+console.log('process.env.REACT_APP_API_URL => ', process.env.REACT_APP_API_URL);
+
 const http = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/ppgapi/api/v1` || apiUrl,
   timeout: 60000, //60 seconds timeout

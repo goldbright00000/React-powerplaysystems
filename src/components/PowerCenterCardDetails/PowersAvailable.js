@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import classes from './powersAvailable.module.scss';
 import PointMultipliers from '../../assets/point-multipliers.png';
 import PlayerSwaps from '../../assets/player-swaps.png';
@@ -34,7 +34,10 @@ const data = [
 ];
 
 const PowersAvailable = (props) => {
-    const {title = ''} = props || {};
+    const {
+        title = '',
+        Power = [],
+    } = props || {};
 
     const [learnMoreModal, setLearnMoreModal] = useState(false);
 
@@ -50,28 +53,28 @@ const PowersAvailable = (props) => {
                 {
                     learnMoreModal
                     &&
-                    <LearnMoreModal 
+                    <LearnMoreModal
                         title={title}
-                        learnMoreModal={learnMoreModal} 
-                        onCloseModal={onCloseModal} 
+                        learnMoreModal={learnMoreModal}
+                        onCloseModal={onCloseModal}
                     />
                 }
             </div>
             {
-                data.map((item, index) => {
+                Power.map((item, index) => {
                     return (
                         <div className={classes.__powers_available_data}>
                             <div className={classes.__powers_available_data_icon_div}>
-                                <img src={item.icon} width="36" height="36" className={classes.__powers_available_data_icon} />
+                                <img src={item?.icon || null} width="36" height="36" className={classes.__powers_available_data_icon} />
                                 <div className={classes.__powers_available_data_power_count}>
-                                    {item.count}
+                                    {item?.amount || null}
                                 </div>
                             </div>
                             <div className={classes.__powers_available_data_value_div}>
-                                <p className={classes.__powers_available_data_value}>{item.value}</p>
+                                <p className={classes.__powers_available_data_value}>{item?.powerName}</p>
                             </div>
                             {
-                                data.length == index + 1
+                                Power.length == index + 1
                                 &&
                                 <div className={classes.__powers_available_learn_more_div} onClick={() => onOpenModal()}>
                                     <p className={classes.__powers_available_learn_more_text}>Learn more</p>

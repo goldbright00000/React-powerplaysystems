@@ -1,7 +1,9 @@
 import React from 'react';
+
+import CurrencyFormat from 'react-currency-format';
 import classes from './prizeGrid.module.scss';
 
-const PrizeGrid = () => {
+const PrizeGrid = ({ PrizePayout }) => {
     const data = [
         {
             title: '1st',
@@ -49,14 +51,17 @@ const PrizeGrid = () => {
         <div className={classes.__prize_grid}>
             <p className={classes.__prize_grid_title}>Prize Grid</p>
             {
-                data.map((item, index) => {
+                PrizePayout.map((item, index) => {
                     return (
                         <div className={classes.__prize_grid_data}>
                             <div className={classes.__prize_grid_data_title_div}>
-                                <p className={classes.__prize_grid_data_title}>{item.title}</p>
+                                <p className={classes.__prize_grid_data_title}>{item?.from}-{item?.to}</p>
                             </div>
                             <div className={classes.__prize_grid_data_value_div}>
-                                <p className={classes.__prize_grid_data_value}>{item.value}</p>
+
+                                <p className={classes.__prize_grid_data_value}>
+                                    <CurrencyFormat value={item?.amount} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}.00</div>} />
+                                </p>
                             </div>
                         </div>
                     )

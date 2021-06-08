@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import classes from './powersAvailable.module.scss';
 import PointBooster from '../../assets/point-booster-mobile.png';
 import SwapPlayer from '../../assets/swap-player-mobile.png';
@@ -50,12 +50,17 @@ const data2 = [
 ];
 
 const PowersAvailable = (props) => {
-    const {title = ''} = props || {};
+    const {
+        title = '',
+        Power = [],
+        game_set_end = '',
+        start_time = '',
+    } = props || {};
 
     return (
         <div className={classes.__powers_available}>
             <div className={classes.__powers_available_date_time}>
-                Oct 24, 2020  |  8:00PM ET
+                {game_set_end} | {start_time} ET
             </div>
             <div className={classes.__powers_available_powerdfs}>
                 <div>
@@ -69,47 +74,51 @@ const PowersAvailable = (props) => {
             </div>
             <div className={classes.__powers_available_data_container}>
                 {
-                    data1.map((item, index) => {
-                        return (
-                            <div className={classes.__powers_available_data} key={index}>
-                                <div className={classes.__powers_available_data_icon_div}>
-                                    <img src={item.icon} width="34" height="34" className={classes.__powers_available_data_icon} />
-                                    <div className={classes.__powers_available_data_power_count}>
-                                        <p>
-                                            {item.count}
-                                        </p>
+                    Power?.map((item, index) =>
+                        <>
+                            {index < 3 && (
+                                <div className={classes.__powers_available_data} key={index}>
+                                    <div className={classes.__powers_available_data_icon_div}>
+                                        <img src={item?.icon} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                                        <div className={classes.__powers_available_data_power_count}>
+                                            <p>
+                                                {item?.amount}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className={classes.__powers_available_data_value_div}>
+                                        <p className={classes.__powers_available_data_value}>{item?.powerName}</p>
                                     </div>
                                 </div>
-                                <div className={classes.__powers_available_data_value_div}>
-                                    <p className={classes.__powers_available_data_value}>{item.value}</p>
-                                </div>
-                            </div>
-                        )
-                    })
+                            )}
+                        </>
+                    )
                 }
             </div>
             <div className={classes.__powers_available_data_container}>
                 {
-                    data2.map((item, index) => {
-                        return (
-                            <div className={classes.__powers_available_data} key={index}>
-                                <div className={classes.__powers_available_data_icon_div}>
-                                    <img src={item.icon} width="34" height="34" className={classes.__powers_available_data_icon} />
-                                    <div className={classes.__powers_available_data_power_count}>
-                                        <p>
-                                            {item.count}
-                                        </p>
+                    Power?.map((item, index) =>
+                        <>
+                            {index >= 3 && (
+                                <div className={classes.__powers_available_data} key={index}>
+                                    <div className={classes.__powers_available_data_icon_div}>
+                                        <img src={item?.icon} width="34" height="34" className={classes.__powers_available_data_icon} />
+                                        <div className={classes.__powers_available_data_power_count}>
+                                            <p>
+                                                {item?.count}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className={classes.__powers_available_data_value_div}>
+                                        <p className={classes.__powers_available_data_value}>{item?.powerName}</p>
                                     </div>
                                 </div>
-                                <div className={classes.__powers_available_data_value_div}>
-                                    <p className={classes.__powers_available_data_value}>{item.value}</p>
-                                </div>
-                            </div>
-                        )
-                    })
+                            )}
+                        </>
+                    )
                 }
             </div>
-        </div>
+        </div >
     );
 };
 
