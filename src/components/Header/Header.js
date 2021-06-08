@@ -200,7 +200,15 @@ const Header = (props) => {
                   {isMobile ? (
                     MY_ACCOUNT_MENU_OPTIONS.map((item) => (
                       <li>
-                        <NavLink to={item.value}>{item.label}</NavLink>
+                        <NavLink
+                          to={item.value}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onMyAccountMenuItemClick(item.value);
+                          }}
+                        >
+                          {item.label}
+                        </NavLink>
                       </li>
                     ))
                   ) : (
@@ -247,19 +255,6 @@ const Header = (props) => {
                   </li>
                 </>
               )}
-
-              {/* <li>
-                <NavLink to="/power-center">Contact Us</NavLink>
-              </li>
-              <li>
-                <NavLink to="/power-center">How to Play</NavLink>
-              </li>
-              <li>
-                <NavLink to="/power-center">FAQ</NavLink>
-              </li>
-              <li>
-                <NavLink to="/power-center">Log Out</NavLink>
-              </li> */}
             </ul>
             {showDepositModal && (
               <DepositAmountPopUp
