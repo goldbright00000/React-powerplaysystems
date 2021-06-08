@@ -12,7 +12,9 @@ import { hasText } from "../../../utility/shared";
 import SportsLiveCardSelection from "../../../components/SportsLiveCardSelection";
 import { CONSTANTS } from "../../../utility/constants";
 import SportsLiveCard from "../../../components/SportsLiveCard";
+import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 
+const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 let currentCard = 0;
 
 function SingleView(props) {
@@ -57,17 +59,28 @@ function SingleView(props) {
         {data &&
           data?.length &&
           data?.map((item, ind) => (
-            <SportsLiveCard
-              key={ind + "-"}
-              player={item}
-              active={selectedCard?.playerId === item?.playerId}
-              onSelectCard={onSelectCard}
-              singleView
-              onChangeXp={onChangeXp}
-              playerList={playerList}
-              updateReduxState={updateReduxState}
-              starPlayerCount={starPlayerCount}
-            />
+            <>
+              {item?.type === D ? (
+                <SportsLiveCardTeamD
+                  key={ind + "-"}
+                  team={item}
+                  active={selectedCard?.playerId === item?.playerId}
+                  singleView
+                />
+              ) : (
+                <SportsLiveCard
+                  key={ind + "-"}
+                  player={item}
+                  active={selectedCard?.playerId === item?.playerId}
+                  onSelectCard={onSelectCard}
+                  singleView
+                  onChangeXp={onChangeXp}
+                  playerList={playerList}
+                  updateReduxState={updateReduxState}
+                  starPlayerCount={starPlayerCount}
+                />
+              )}
+            </>
           ))}
       </div>
 

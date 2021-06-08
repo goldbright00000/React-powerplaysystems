@@ -1,131 +1,59 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./index.module.scss";
-import Replace from "../../icons/Replace";
-import XPIcon from "../../icons/XPIcon";
-import StarPower from "../../assets/star_power.png";
 import { hasText } from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
-import XP1_5 from "../../icons/XP1_5";
-import XP1_5_1 from "../../icons/XP1_5_1";
-import XP2Icon from "../../icons/XP2";
-import XP2Icon_1 from "../../icons/XP2_1";
-import XP3 from "../../icons/XP3";
-import XP3_1 from "../../icons/XP3_1";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
-import MiniStar from "../../assets/mini_star.png";
-import Tooltip from "../ToolTip";
 import { isEmpty } from "lodash";
-import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
-import RenderModal from "./RenderModal";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
-function SportsLiveCard(props) {
+function SportsLiveCardTeamD(props) {
   const [showSummary, setSummaryState] = useState(false);
-  const [showReplaceModal, setReplaceModalState] = useState(false);
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
-  const [playerList, setPlayerList] = useState({});
-
-  const { data: mlbData = [] } = useSelector((state) => state.mlb);
 
   const {
-    player = {},
-    // playerList = [],
+    team = {},
     compressedView = false,
     largeView = false,
     singleView = false,
     active = false,
-    starPlayerCount = 0,
-    onSelectCard = () => {},
-    onChangeXp = (xp, player) => {},
-    updateReduxState = (currentPlayer, newPlayer) => {},
   } = props || {};
 
   const {
-    playerName = "",
+    name = "",
     type = "",
     status = "",
     points = 0,
     homeTeam = "",
     awayTeam = "",
-    stats = {},
     playerStats = {},
     pointsSummary = [],
     totalPts = 0,
-    isStarPlayer = false,
     range = "",
-    id = "",
     xp = {},
-    mlb_player_stats = [],
-  } = player || {};
+    mlb_team_stats = [],
+  } = team || {};
 
   const {
-    hits = 0,
-    doubles = 0,
-    triples = 0,
-    home_runs = 0,
-    stolen_bases = 0,
-    runs_batted_in = 0,
-    batting_average = 0,
-    wins = 0,
-    losses = 0,
-    innings_pitched = 0,
-    strike_outs = 0,
-    earned_runs_average = 0,
-    base_on_balls = 0,
-    walks_hits_per_innings_pitched = 0,
-  } = mlb_player_stats[0] || {};
+    abbr = 0,
+    average_runs_against = 0,
+    loses = 0,
+    season_id = 0,
+    stats_id = 0,
+    status: teamStatus = null,
+    team_id,
+    wins: teamWins = 0,
+  } = mlb_team_stats[0] || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
-
-  const renderXp = () => {
-    let svgSize = singleView ? 14 : largeView ? 28 : 24;
-    if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
-      return <XP1_5_1 className={classes.xp_svg} size={svgSize} />;
-    else if (xp && xp?.xp === CONSTANTS.XP.xp2)
-      return <XP2Icon_1 className={classes.xp_svg} size={svgSize} />;
-    else if (xp && xp?.xp === CONSTANTS.XP.xp3)
-      return <XP3_1 className={classes.xp_svg} size={svgSize} />;
-
-    if (!singleView) {
-      return <XPIcon size={svgSize} />;
-    }
-
-    return null;
-  };
-
-  const RenderStarPower = ({}) =>
-    isStarPlayer && (
-      <img
-        className={`${classes.star_power} ${singleView && classes.mini_star}`}
-        src={singleView ? MiniStar : StarPower}
-      />
-    );
-
-  const RenderXpToolTip = () => (
-    <div className={classes.stat_xp}>
-      <Tooltip
-        toolTipContent={
-          <div className={classes.xp_icons}>
-            <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, player)} />
-            <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, player)} />
-            <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, player)} />
-          </div>
-        }
-      >
-        {renderXp()}
-      </Tooltip>
-    </div>
-  );
 
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
@@ -139,10 +67,7 @@ function SportsLiveCard(props) {
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {stats?.val1}
-          </p>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            K:{strike_outs} | W:{wins}
+            Avg Runs Against:{average_runs_against}
           </p>
         </div>
       </div>
@@ -156,15 +81,20 @@ function SportsLiveCard(props) {
           {xp?.xpVal} Points
         </p>
         <div
-          className={`${classes.points} ${largeView && classes.large_view} ${
+          className={`${classes.points} ${classes.team_d_width} ${
             largeView && classes.large_view_d
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {points}
           </p>
-          <RenderXpToolTip />
         </div>
+      </div>
+      <div
+        className={`${classes.team_d_icons} ${largeView && classes.large_view}`}
+      >
+        <VideoIcon size={largeView ? 28 : 24} />
+        <ShieldIcon size={largeView ? 28 : 24} />
       </div>
     </div>
   );
@@ -204,7 +134,6 @@ function SportsLiveCard(props) {
       <div>
         <p className={classes.single_view_pts}>
           Pts: <span className={xp && xp?.xp && classes.active}>30</span>
-          {renderXp()}
         </p>
       </div>
       <p>
@@ -217,35 +146,8 @@ function SportsLiveCard(props) {
   const RenderTeamDHeader = () =>
     !singleView && <span className={classes.teamd_range}>{range}</span>;
 
-  const RenderHeaderIcons = () => (
-    <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
-  );
-
-  const toggleReplaceModal = () => {
-    const [_playerList] =
-      mlbData &&
-      mlbData?.length &&
-      mlbData?.filter((data) => data?.type === `${type}`?.toLocaleLowerCase());
-
-    if (_playerList) {
-      setPlayerList(_playerList);
-      setReplaceModalState(!showReplaceModal);
-    }
-  };
-
-  const onSwap = (playerId, match_id) => {
-    const [swapablePlayer] =
-      !isEmpty(playerList) &&
-      playerList?.players?.length &&
-      playerList?.players?.filter(
-        (player) =>
-          player?.playerId === playerId && player?.match_id === match_id
-      );
-    if (swapablePlayer) {
-      updateReduxState(player, swapablePlayer);
-      toggleReplaceModal();
-    }
-  };
+  const RenderHeaderIcons = () =>
+    singleView && <VideoIcon size={singleView && 23} />;
 
   return (
     <>
@@ -260,16 +162,15 @@ function SportsLiveCard(props) {
           ${singleView && classes.single_view_hover}
           ${active && classes.active}
         `}
-          onClick={() => onSelectCard(player)}
+          onClick={() => {}}
         >
-          <RenderStarPower />
           <div className={classes.container_header}>
             <p
               className={`${classes.container_title} ${
                 largeView && classes.large_view
               }`}
             >
-              {playerName} <RenderTeamDHeader />
+              {name} <RenderTeamDHeader />
             </p>
             <RenderHeaderIcons />
           </div>
@@ -321,31 +222,25 @@ function SportsLiveCard(props) {
               largeView={largeView}
             />
           )}
+
+          <SportsLiveCardOverlay
+            text="Video review is available now"
+            visible={!singleView && showVideoOverlay}
+            onGotIt={() => setVideoOverlayState(false)}
+            largeView={largeView}
+          />
         </div>
       </div>
-      <RenderModal
-        player={player}
-        visible={showReplaceModal}
-        onClose={toggleReplaceModal}
-        onSwap={onSwap}
-        playerList={playerList}
-        starPlayerCount={starPlayerCount}
-      />
     </>
   );
 }
 
-SportsLiveCard.propTypes = {
-  player: PropTypes.object,
+SportsLiveCardTeamD.propTypes = {
+  team: PropTypes.object,
   compressedView: PropTypes.bool,
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,
-  starPlayerCount: PropTypes.number,
-  playerList: PropTypes.array,
   active: PropTypes.bool,
-  onSelectCard: PropTypes.func,
-  onChangeXp: PropTypes.func,
-  updateReduxState: PropTypes.func,
 };
 
-export default SportsLiveCard;
+export default SportsLiveCardTeamD;

@@ -14,93 +14,97 @@ const { P, OF, C, SS, D, XB } = FILTERS.MLB;
 
 export function mlbData() {
   return async (dispatch) => {
-    const response = await http.get(URLS.DFS.MLB);
-    const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
-      response.data || {};
+    try {
+      const response = await http.get(URLS.DFS.MLB);
+      const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
+        response.data || {};
 
-    const mlbPlayerList = [];
-    const mlbTeams = [];
-    for (let i = 0; i < mlbSchedule?.length; i++) {
-      const {
-        away_team = {},
-        home_team = {},
-        date_time = "",
-        venue = {},
-        match_id = "",
-      } = mlbSchedule[i] || {};
+      const mlbPlayerList = [];
+      const mlbTeams = [];
+      for (let i = 0; i < mlbSchedule?.length; i++) {
+        const {
+          away_team = {},
+          home_team = {},
+          date_time = "",
+          venue = {},
+          match_id = "",
+        } = mlbSchedule[i] || {};
 
-      const awayTeam = getTeam(
-        away_team,
-        home_team,
-        match_id,
-        venue,
-        date_time
-      );
+        const awayTeam = getTeam(
+          away_team,
+          home_team,
+          match_id,
+          venue,
+          date_time
+        );
 
-      const homeTeam = getTeam(
-        home_team,
-        away_team,
-        match_id,
-        venue,
-        date_time
-      );
+        const homeTeam = getTeam(
+          home_team,
+          away_team,
+          match_id,
+          venue,
+          date_time
+        );
 
-      mlbTeams.push(awayTeam);
-      mlbTeams.push(homeTeam);
+        mlbTeams.push(awayTeam);
+        mlbTeams.push(homeTeam);
 
-      const {
-        mlb_match_lineups: awayTeamPlayers = [],
-        name: awayTeamName = "",
-      } = away_team || {};
-      const {
-        mlb_match_lineups: homeTeamPlayers = [],
-        name: homeTeamName = "",
-      } = home_team || {};
-      const _awayTeamPlayersList = getPlayers(
-        awayTeamPlayers,
-        awayTeamName,
-        homeTeamName,
-        venue,
-        match_id,
-        date_time,
-        awayTeam?.team_id,
-        homeTeam?.team_id
-      );
-      const _homeTeamPlayersList = getPlayers(
-        homeTeamPlayers,
-        homeTeamName,
-        awayTeamName,
-        venue,
-        match_id,
-        date_time,
-        homeTeam?.team_id,
-        awayTeam?.team_id
-      );
-      const playersList = [..._awayTeamPlayersList, ..._homeTeamPlayersList];
-      mlbPlayerList.push(...playersList);
+        const {
+          mlb_match_lineups: awayTeamPlayers = [],
+          name: awayTeamName = "",
+        } = away_team || {};
+        const {
+          mlb_match_lineups: homeTeamPlayers = [],
+          name: homeTeamName = "",
+        } = home_team || {};
+        const _awayTeamPlayersList = getPlayers(
+          awayTeamPlayers,
+          awayTeamName,
+          homeTeamName,
+          venue,
+          match_id,
+          date_time,
+          awayTeam?.team_id,
+          homeTeam?.team_id
+        );
+        const _homeTeamPlayersList = getPlayers(
+          homeTeamPlayers,
+          homeTeamName,
+          awayTeamName,
+          venue,
+          match_id,
+          date_time,
+          homeTeam?.team_id,
+          awayTeam?.team_id
+        );
+        const playersList = [..._awayTeamPlayersList, ..._homeTeamPlayersList];
+        mlbPlayerList.push(...playersList);
+      }
+
+      //filter the data on the basis of types
+      const filterdList = [];
+      const pTypePlayers = getFilterPlayersList(P, mlbPlayerList);
+      const ofTypePlayers = getFilterPlayersList(OF, mlbPlayerList);
+      const cTypePlayers = getFilterPlayersList(C, mlbPlayerList);
+      const ssTypePlayers = getFilterPlayersList(SS, mlbPlayerList);
+      const xBTypePlayers = getFilterPlayersList(XB, mlbPlayerList);
+      const dTypePlayers = { type: D, listData: mlbTeams };
+      filterdList.push(pTypePlayers);
+      filterdList.push(ofTypePlayers);
+      filterdList.push(cTypePlayers);
+      filterdList.push(ssTypePlayers);
+      filterdList.push(xBTypePlayers);
+      filterdList.push(dTypePlayers);
+
+      return dispatch({
+        type: MLB_DATA,
+        payload: filterdList,
+        game_id,
+        sport_id,
+      });
+    } catch (err) {
+      return err;
     }
-
-    //filter the data on the basis of types
-    const filterdList = [];
-    const pTypePlayers = getFilterPlayersList(P, mlbPlayerList);
-    const ofTypePlayers = getFilterPlayersList(OF, mlbPlayerList);
-    const cTypePlayers = getFilterPlayersList(C, mlbPlayerList);
-    const ssTypePlayers = getFilterPlayersList(SS, mlbPlayerList);
-    const xBTypePlayers = getFilterPlayersList(XB, mlbPlayerList);
-    const dTypePlayers = { type: D, listData: mlbTeams };
-    filterdList.push(pTypePlayers);
-    filterdList.push(ofTypePlayers);
-    filterdList.push(cTypePlayers);
-    filterdList.push(ssTypePlayers);
-    filterdList.push(xBTypePlayers);
-    filterdList.push(dTypePlayers);
-
-    return dispatch({
-      type: MLB_DATA,
-      payload: filterdList,
-      game_id,
-      sport_id,
-    });
   };
 }
 
@@ -222,37 +226,41 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-          const playersResponse = await http.post(
-            URLS.DFS.MLB_LIVE_PAGE_PLAYERS,
-            {
-              game_id: payload.game_id,
-              sport_id: payload.sport_id,
-              user_id: payload.user_id,
-            }
-          );
-
-          const { data = {} } = playersResponse.data || {};
-          const {
-            game_id,
-            sport_id,
-            user_id,
-            team_id,
-            teamD = {},
-            players = [],
-          } = data || {};
-
-          for (let i = 0; i < players?.length; i++) {
-            const player = players[i];
-            Object.assign(player, {
-              playerName: player?.name,
-              playerId: player?.player_id,
-            });
-
-            delete player?.name;
-          }
-          // return dispatch(mlbLiveData({ players, teamD }));
         } catch (er) {}
       }
     } catch (err) {}
+  };
+}
+
+export function getMlbLivePlayPlayerTeamData(payload) {
+  return async (dispatch) => {
+    try {
+      const playersResponse = await http.post(URLS.DFS.MLB_LIVE_PAGE_PLAYERS, {
+        game_id: payload.game_id,
+        sport_id: payload.sport_id,
+        user_id: payload.user_id,
+      });
+
+      const { data = {} } = playersResponse.data || {};
+      const { game_id, sport_id, user_id, team_id, teamD = {}, players = [] } =
+        data || {};
+
+      for (let i = 0; i < players?.length; i++) {
+        const player = players[i];
+        Object.assign(player, {
+          playerName: player?.name,
+          playerId: player?.player_id,
+        });
+
+        delete player?.name;
+      }
+
+      return {
+        players,
+        teamD,
+      };
+    } catch (err) {
+      console.log(err);
+    }
   };
 }

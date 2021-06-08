@@ -226,7 +226,9 @@ function MLBPowerdFs(props) {
   const { data = [], starPlayerCount = 0, game_id, sport_id } = useSelector(
     (state) => state.mlb
   );
-  const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
+  const { auth: { user = {} } = {} } = useSelector((state) => state);
+
+  const { token = "", user_id = 0 } = user || {};
 
   const dispatch = useDispatch();
 
@@ -475,6 +477,42 @@ function MLBPowerdFs(props) {
     setSelectedDropDown(team);
   };
 
+  const onSubmitMLbSelection = async () => {
+    if (!user) {
+      return redirectTo(props, { path: "/login" });
+    }
+
+    if (selectedPlayerCount < 8) {
+      return;
+    }
+
+    const players = [];
+    for (let i = 0; i < sideBarList?.length - 1; i++) {
+      players.push({
+        playerId: sideBarList[i]?.player?.playerId,
+        matchId: sideBarList[i]?.player?.match_id,
+      });
+    }
+
+    const [teamD] = sideBarList?.filter((team) => team?.type === D);
+    const { team = {} } = teamD || {};
+
+    if (!isEmpty(team) && players?.length === 7) {
+      const payload = {
+        game_id: game_id,
+        sport_id: sport_id,
+        user_id: user_id,
+        players: [...players],
+        team_d_id: team?.team_id,
+        match_id: teamD?.team?.match_id,
+      };
+      //dispatch(MLBActions.mlbLiveData(sideBarList));
+
+      await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+      redirectTo(props, { path: "/mlb-live-powerdfs" });
+    }
+  };
+
   const ContestScoringRow = ({ item = {}, width = {} }) => (
     <div className={classes.scoring_row}>
       <p>{item?.title}</p>{" "}
@@ -535,33 +573,6 @@ function MLBPowerdFs(props) {
       {children}
     </div>
   );
-
-  const onSubmitMLbSelection = async () => {
-    if (selectedPlayerCount < 8) {
-      return;
-    }
-
-    const playerIds = [];
-    for (let i = 0; i < sideBarList?.length - 1; i++) {
-      playerIds.push(sideBarList[i]?.player?.playerId);
-    }
-
-    const [teamD] = sideBarList?.filter((team) => team?.type === D);
-    const { team = {} } = teamD || {};
-
-    if (!isEmpty(team) && playerIds?.length === 7) {
-      const payload = {
-        game_id: game_id,
-        sport_id: sport_id,
-        user_id: 92,
-        players: [...playerIds],
-        team_d_id: team?.team_id,
-      };
-      dispatch(MLBActions.mlbLiveData(sideBarList));
-      await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-      // redirectTo(props, { path: "/mlb-live-powerdfs" });
-    }
-  };
 
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
     <div className={classes.body_card}>

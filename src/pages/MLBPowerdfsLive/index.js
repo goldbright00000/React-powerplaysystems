@@ -26,26 +26,29 @@ import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 
-import { dummyData } from "./dummyData";
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
+import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
+
+const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 
 let _socket = null;
 function MLBPowerdFsLive(props) {
-  const _data = dummyData;
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
+  const [playerIds, setPlayerIds] = useState([]);
+  const [data, setData] = useState([]);
 
   const {
-    live_data = {},
+    live_data: selectedData = [],
     data: mlbData = [],
     starPlayerCount = 0,
+    sport_id = 0,
+    game_id = 0,
   } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
-
-  const { players: selectedData = [], teamD = {} } = live_data || {};
 
   const onCloseModal = () => setLearnMoreModal(false);
 
@@ -53,25 +56,105 @@ function MLBPowerdFsLive(props) {
     // if (!selectedData?.length) {
     //   redirectTo(props, { path: "/power-center" });
     // }
-    // setData();
     _socket = socket();
 
     return function cleanUP() {
+      if (_socket) _socket.disconnect();
+
       _socket = null;
     };
-  }, []);
+  }, [data]);
 
   useEffect(() => {
-    _socket?.emit(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.ON_ROOM_SUB, {
-      player: [],
-      user: 92,
-      match: 123,
-    });
-  }, [_socket]);
+    const playerTeamdata = {};
+    const playerIds = [];
+    if (selectedData?.length) {
+      for (let i = 0; i < selectedData?.length - 1; i++) {
+        const { player = {} } = selectedData[i];
+        playerIds.push({
+          playerId: player?.playerId,
+          matchId: player?.match_id,
+        });
+      }
 
-  // const setData = () => {
-  //   dispatch(MLBActions.mlbLiveData(_data));
-  // };
+      const [teamD] = selectedData?.filter((d) => d?.type === D);
+
+      playerTeamdata.players = playerIds;
+      playerTeamdata.teamId = teamD?.team?.team_id;
+      playerTeamdata.user = 92; //TODO: use actual user id
+
+      setPlayerIds(playerIds);
+      _socket?.emit(
+        CONSTANTS.SOCKET_EVENTS.MLB.LIVE.ON_ROOM_SUB,
+        playerTeamdata
+      );
+    }
+
+    getPlayers();
+  }, [selectedData]);
+
+  useEffect(() => {
+    if (_socket && data?.length) {
+      const _players = [];
+      console.log("Data =========== ", data);
+      _socket?.on(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.EMIT_ROOM, (res) => {
+        console.log(`Response: `, res);
+        const _player = res?.data || {};
+        const playerInd = _players?.findIndex(_players);
+        console.log(playerInd);
+      });
+    }
+  }, [_socket, data]);
+
+  const getPlayers = async () => {
+    const dataResponse = await dispatch(
+      MLBActions.getMlbLivePlayPlayerTeamData({
+        game_id,
+        sport_id,
+        user_id: 92,
+      })
+    );
+
+    const playersArr = new Array(8);
+    const { players = [], teamD = {} } = dataResponse || {};
+    const [playerP] = players?.filter(
+      (plr) => `${plr?.type}`?.toLocaleLowerCase() === P
+    );
+    const [playerC] = players?.filter(
+      (plr) => `${plr?.type}`?.toLocaleLowerCase() === C
+    );
+    const [playerSS] = players?.filter(
+      (plr) => `${plr?.type}`?.toLocaleLowerCase() === SS
+    );
+    const playerXB = players?.filter(
+      (plr) => `${plr?.type}`?.toLocaleLowerCase() === XB
+    );
+    const playerOF = players?.filter(
+      (plr) => `${plr?.type}`?.toLocaleLowerCase() === OF
+    );
+
+    playersArr[0] = playerP;
+    playersArr[1] = playerC;
+    playersArr[2] = playerSS;
+
+    if (playerXB?.length) {
+      playersArr[3] = playerXB[0];
+      playersArr[3].type = "XB1";
+      playersArr[4] = playerXB[1];
+      playersArr[4].type = "XB2";
+    }
+
+    if (playerOF?.length) {
+      playersArr[5] = playerOF[0];
+      playersArr[5].type = "OF1";
+      playersArr[6] = playerOF[1];
+      playersArr[6].type = "OF2";
+    }
+    playersArr[7] = teamD;
+    playersArr[7].type = D;
+
+    setData(playersArr);
+  };
 
   const onChangeXp = (xp, player) => {
     const _selectedXp = {
@@ -186,24 +269,34 @@ function MLBPowerdFsLive(props) {
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
         <SingleView
-          data={selectedData}
+          data={data}
           playerList={mlbData?.[0]?.players}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
         />
       );
-    } else if (selectedData && selectedData?.length) {
-      return selectedData?.map((item, index) => (
-        <SportsLiveCard
-          player={item}
-          compressedView={compressedView}
-          key={index + ""}
-          onChangeXp={onChangeXp}
-          playerList={mlbData?.[0]?.players}
-          updateReduxState={updateReduxState}
-          starPlayerCount={starPlayerCount}
-        />
+    } else if (data && data?.length) {
+      return data?.map((item, index) => (
+        <>
+          {item?.type === D ? (
+            <SportsLiveCardTeamD
+              team={item}
+              compressedView={compressedView}
+              key={index + ""}
+            />
+          ) : (
+            <SportsLiveCard
+              player={item}
+              compressedView={compressedView}
+              key={index + ""}
+              onChangeXp={onChangeXp}
+              playerList={mlbData?.[0]?.players}
+              updateReduxState={updateReduxState}
+              starPlayerCount={starPlayerCount}
+            />
+          )}
+        </>
       ));
     }
   };
