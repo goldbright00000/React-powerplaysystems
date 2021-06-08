@@ -33,7 +33,6 @@ function SportsSelectionCard3(props) {
 
   const {
     playerName: name = "",
-    avgVal = 0,
     homeTeam = "",
     awayTeam = "",
     date = "",
@@ -41,7 +40,6 @@ function SportsSelectionCard3(props) {
     stadium = "",
     playerId = "",
     isStarPlayer = false,
-    steps = [],
     playerStats = {},
     injured = false,
     position = "",
