@@ -25,6 +25,7 @@ function MLBPlayerStat(props) {
     earned_runs_average = 0,
     base_on_balls = 0,
     walks_hits_per_innings_pitched = 0,
+    ops = 0.0,
   } = playerStats || {};
 
   const getTwoDecimal = (value) => {
@@ -57,7 +58,7 @@ function MLBPlayerStat(props) {
         />
         <RenderItem value={home_runs} />
         <RenderItem value={runs_batted_in} />
-        <RenderItem value={".000"} />
+        <RenderItem value={"." + `${ops}`.split(".")[1]} />
         <RenderItem value={0} />
       </div>
     </>
