@@ -9,6 +9,7 @@ import {
   changeAccountPassword,
 } from "../../actions/authActions";
 import { useDispatch } from "react-redux";
+import { getCountries, getStates, getProvinces } from "../../utility/shared";
 
 function AccountInfo(props) {
   const { isMobile = false } = props || {};
@@ -20,7 +21,8 @@ function AccountInfo(props) {
   const dispatch = useDispatch();
 
   let [password, setPassword] = useState();
-  let deleteAccount = () => {
+  let deleteAccount = (e) => {
+    e.preventDefault();
     setDeleteAccountModal(false);
     return dispatch(deleteUserAccount({ password }));
   };
@@ -28,45 +30,45 @@ function AccountInfo(props) {
   const deleteAccountModal = () => {
     return (
       <Modal visible={showDeleteAccountModal}>
-        <div className={classes.__delete_account_modal}>
-          <div className={classes.__close_icon}>
-            <img
-              src={CloseIconGrey}
-              width="20px"
-              height="20px"
-              onClick={() => setDeleteAccountModal(false)}
-            />
-          </div>
-          <div className={classes.__confirmation_message_div}>
-            <div className={classes.__message}>
-              Are you sure you want to delete your account?
-            </div>
-          </div>
-          <div className={classes.__confirmation_info_div}>
-            <div className={classes.__info}>
-              All your information will be deleted and cannot be recovered.
-              Enter your password to proceed:
-            </div>
-          </div>
-          <div className={classes.__input_and_btn}>
-            <div>
-              <input
-                type="password"
-                className={classes.__password_input}
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
+        <form onSubmit={deleteAccount}>
+          <div className={classes.__delete_account_modal}>
+            <div className={classes.__close_icon}>
+              <img
+                src={CloseIconGrey}
+                width="20px"
+                height="20px"
+                onClick={() => setDeleteAccountModal(false)}
               />
             </div>
-            <div>
-              <button
-                className={classes.__delete_account_btn}
-                onClick={deleteAccount}
-              >
-                Delete my account
-              </button>
+            <div className={classes.__confirmation_message_div}>
+              <div className={classes.__message}>
+                Are you sure you want to delete your account?
+              </div>
+            </div>
+            <div className={classes.__confirmation_info_div}>
+              <div className={classes.__info}>
+                All your information will be deleted and cannot be recovered.
+                Enter your password to proceed:
+              </div>
+            </div>
+            <div className={classes.__input_and_btn}>
+              <div>
+                <input
+                  required
+                  type="password"
+                  className={classes.__password_input}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div>
+                <button className={classes.__delete_account_btn}>
+                  Delete my account
+                </button>
+              </div>
             </div>
           </div>
-        </div>
+        </form>
       </Modal>
     );
   };
@@ -77,7 +79,8 @@ function AccountInfo(props) {
 
   let [msg, setMsg] = useState();
 
-  let changePassword = () => {
+  let changePassword = (e) => {
+    e.preventDefault();
     if (newPassword === confirmNewPassword && newPassword) {
       setChangePasswordModal(false);
       return dispatch(changeAccountPassword(oldPassword, newPassword));
@@ -92,69 +95,84 @@ function AccountInfo(props) {
   const changePasswordModal = () => {
     return (
       <Modal visible={showChangePasswordModal}>
-        <div className={classes.__change_password_modal}>
-          <div className={classes.__close_icon}>
-            <img
-              src={CloseIconGrey}
-              width="20px"
-              height="20px"
-              onClick={() => setChangePasswordModal(false)}
-            />
-          </div>
-          <div className={classes.__confirmation_message_div}>
-            <div className={classes.__message}>Change Password</div>
-          </div>
-
-          <div className={classes.__input_and_btn}>
-            <div className={classes.__info}>Old Password</div>
-            <div>
-              <input
-                type="password"
-                className={classes.__password_input}
-                placeholder="Password"
-                onChange={(e) => setOldPassword(e.target.value)}
+        <form onSubmit={changePassword}>
+          <div className={classes.__change_password_modal}>
+            <div className={classes.__close_icon}>
+              <img
+                src={CloseIconGrey}
+                width="20px"
+                height="20px"
+                onClick={() => setChangePasswordModal(false)}
               />
             </div>
-          </div>
-
-          <div className={classes.__input_and_btn}>
-            <div className={classes.__info}>New Password</div>
-            <div>
-              <input
-                type="password"
-                className={classes.__password_input}
-                placeholder="Password"
-                onChange={(e) => setNewPassword(e.target.value)}
-              />
+            <div className={classes.__confirmation_message_div}>
+              <div className={classes.__message}>Change Password</div>
             </div>
-          </div>
 
-          <div className={classes.__input_and_btn}>
-            <div className={classes.__info}>Confirm New Password</div>
-            <div>
-              <input
-                type="password"
-                className={classes.__password_input}
-                placeholder="Password"
-                onChange={(e) => setConfirmNewPassword(e.target.value)}
-              />
+            <div className={classes.__input_and_btn}>
+              <div className={classes.__info}>Old Password</div>
+              <div>
+                <input
+                  required
+                  type="password"
+                  className={classes.__password_input}
+                  placeholder="Password"
+                  onChange={(e) => setOldPassword(e.target.value)}
+                />
+              </div>
             </div>
-          </div>
 
-          <div className={classes.__input_and_btn}>
-            <div>
-              <button
-                className={classes.__delete_account_btn}
-                onClick={changePassword}
-              >
-                Change Password
-              </button>
+            <div className={classes.__input_and_btn}>
+              <div className={classes.__info}>New Password</div>
+              <div>
+                <input
+                  required
+                  type="password"
+                  className={classes.__password_input}
+                  placeholder="Password"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                />
+              </div>
             </div>
+
+            <div className={classes.__input_and_btn}>
+              <div className={classes.__info}>Confirm New Password</div>
+              <div>
+                <input
+                  required
+                  type="password"
+                  className={classes.__password_input}
+                  placeholder="Password"
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                />
+              </div>
+            </div>
+
+            <div className={classes.__input_and_btn}>
+              <div>
+                <button
+                  className={classes.__delete_account_btn}
+                  type="submit"
+                >
+                  Change Password
+                </button>
+              </div>
+            </div>
+            <br />
           </div>
-          <br />
-        </div>
+        </form>
       </Modal>
     );
+  };
+
+  const getStatesOrProvinces = () => {
+    if (user.country == "USA") {
+      return getStates();
+    } else if (user.country == "Canada") {
+      return getProvinces();
+    } else {
+      return [];
+    }
   };
 
   let [editedValue, setEditedValue] = useState();
@@ -172,13 +190,49 @@ function AccountInfo(props) {
           {buttonTitle == "Edit" && (
             <>
               {id == editItem ? (
-                <div className={classes.edit_input}>
-                  {value && <span>{value}</span>}
-                  <input
-                    type="text"
-                    onChange={(e) => setEditedValue(e.target.value)}
-                  />
-                </div>
+                <>
+                  {id === 6 ? (
+                    <select
+                      id="country"
+                      name="country"
+                      title="Country"
+                      onChange={(e) => setEditedValue(e.target.value)}
+                    >
+                      <option value="">Country</option>
+                      {getCountries().map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  ) : null}
+
+                  {id === 7 ? (
+                    <select
+                      id="stateOrProvince"
+                      name="stateOrProvince"
+                      title="State/Province"
+                      onChange={(e) => setEditedValue(e.target.value)}
+                    >
+                      <option value="">State/Province</option>
+                      {getStatesOrProvinces().map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                  ) : null}
+
+                  {id !== 6 && id !== 7 ? (
+                    <div className={classes.edit_input}>
+                      {value && <span>{value}</span>}
+                      <input
+                        type="text"
+                        onChange={(e) => setEditedValue(e.target.value)}
+                      />
+                    </div>
+                  ) : null}
+                </>
               ) : (
                 <span>{value}</span>
               )}

@@ -154,9 +154,9 @@ function BalanceInfoComponent(props) {
       <div className={classes.list_header_wrapper}>
         {ListHeader(
           "My Cash Balance",
-          balance.cashBalance,
+          balance.cashBalance.toFixed(2),
           "Deposit",
-          props.openDepositModal,
+          () => props.openDepositModal(),
           "Withdraw",
           changeModalState,
           CashBalance,
@@ -178,9 +178,9 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "BTC Balance",
-          balance.btcBalance,
+          balance.btcBalance.toFixed(4),
           "Deposit",
-          () => {},
+          () => props.openDepositModal("BTC"),
           "Transfer",
           () => {},
           Bitcoin,
@@ -190,9 +190,9 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "ETH Balance",
-          balance.ethBalance,
+          balance.ethBalance.toFixed(4),
           "Deposit",
-          () => {},
+          () => props.openDepositModal("ETH"),
           "Transfer",
           () => {},
           Ethereum,

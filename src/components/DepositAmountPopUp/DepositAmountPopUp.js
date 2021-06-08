@@ -11,6 +11,7 @@ const DepositAmountPopUp = (props) => {
     props?.user || {};
   const dispatch = useDispatch();
   const rate = useSelector((state) => state?.user?.markedUpRate);
+  const formCurrency = useSelector((state) => state?.ui?.depositFormData);
 
   useEffect(() => {
     if (country === "Canada") {
@@ -41,6 +42,7 @@ const DepositAmountPopUp = (props) => {
               ipaySubmitted={props.ipayFormSubmitted}
               zumSubmitted={props.zumFormSubmitted}
               coinbaseSubmitted={props.coinbaseFormSubmitted}
+              formCurrency={formCurrency}
             />
             <div className={styles.leftSection}>
               <div>

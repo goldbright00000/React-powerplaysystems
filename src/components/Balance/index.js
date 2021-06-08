@@ -75,7 +75,7 @@ const Balance = (props) => {
       )}
       <div
         className={classes.__balance_deposit}
-        onClick={() => redirectTo({history}, { path: "/my-account" })}
+        onClick={() => props.depositClicked()}
       >
         Deposit
       </div>
@@ -111,10 +111,10 @@ const Balance = (props) => {
           <div className={classes.__balance_cash_and_balance_inner}>
             <div className={classes.__balance_power_and_cash_balance}>
               $
-              {userBalance.cashBalance?.toFixed(4) ||
+              {userBalance.cashBalance?.toFixed(2) ||
                 parseFloat(
                   getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)
-                ).toFixed(4)}
+                ).toFixed(2)}
             </div>
             <div className={classes.__balance_power_and_cash_balance_title}>
               Cash Balance

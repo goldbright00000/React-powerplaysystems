@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useToasts } from "react-toast-notifications";
 
 import HomePage from "./pages/HomePage/HomePage";
 import PowerPlaySponsorsPage from "./pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage";
@@ -59,12 +60,23 @@ const App = (props) => {
   `;
 
   const dispatch = useDispatch();
+  const { addToast } = useToasts();
+
+  const toastData = useSelector((state) => state.ui?.toastData);
+  const loading = useSelector((state) => state.user?.loading);
 
   useEffect(() => {
     dispatch(setupUser());
   }, []);
 
-  const loading = useSelector((state) => state.user?.loading);
+  useEffect(() => {
+    if (toastData !== null) {
+      addToast(toastData.message, {
+        appearance: toastData.appearance,
+        autoDismiss: true,
+      });
+    }
+  }, [toastData]);
 
   return (
     <Fragment>
@@ -74,7 +86,7 @@ const App = (props) => {
       ) : (
         <Switch>
           <Route exact path="/" component={HomePage} />
-          <Route path="/paymentFrame" component={PaymentFrame} />
+          <Route path="/zum-payment" component={PaymentFrame} />
           <Route
             exact
             path="/power-play-sponsors"

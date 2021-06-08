@@ -6,6 +6,7 @@ import {
   SET_ZUM_REDIRECT_URL,
   REMOVE_ZUM_REDIRECT_URL,
   SET_CONVERSION_MARKUP,
+  SET_ACCOUNT_LIMITS,
   SET_COINBASE_REDIRECT_URL,
   REMOVE_COINBASE_REDIRECT_URL,
   SET_LOADING,
@@ -19,6 +20,7 @@ const INITIAL_STATE = {
   zumRedirectUrl: null,
   conversionMarkup: 0,
   markedUpRate: 0,
+  accountLimits: {},
   coinbaseRedirectUrl: null,
   loading: false,
 };
@@ -75,7 +77,11 @@ const userReducer = (state = INITIAL_STATE, actions) => {
         conversionMarkup: actions.payload,
         markedUpRate: markedRate,
       };
-
+    case SET_ACCOUNT_LIMITS:
+      return {
+        ...state,
+        accountLimits: actions.payload,
+      };
     case SET_COINBASE_REDIRECT_URL:
       return {
         ...state,
