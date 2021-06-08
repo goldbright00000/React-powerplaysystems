@@ -6,6 +6,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import PowerPlaySponsorsPage from "./pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage";
 import SponserAContestPage from "./pages/SponserAContestPage/SponserAContestPage";
 import PowerCenter from "./pages/PowerCenter/PowerCenter";
+import Mobile from "./pages/Mobile/Mobile";
+import LiveStanding from "./pages/Mobile/LiveStanding";
 import SelectTeams from "./pages/SelectTeams/SelectTeams";
 import PowerBetLive from "./pages/PowerBetLive/PowerBetLive";
 import ScrollToTop from "./utility/ScrollToTop";
@@ -47,7 +49,7 @@ import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import MLBPowerLevels from "./pages/MLBPowerLevels";
 import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
 
-const App = (props) => {
+const App = props => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -59,6 +61,8 @@ const App = (props) => {
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route path="/mobile" component={Mobile} />
+        <Route exact path="/live-standing" component={LiveStanding} />
         <Route path="/paymentFrame" component={PaymentFrame} />
         <Route
           exact
@@ -79,6 +83,7 @@ const App = (props) => {
           path="/power-play-sponsors/sponsor-a-contest"
           component={SponserAContestPage}
         />
+
         <Route path="/power-center" component={PowerCenter} />
         <Route path="/select-teams" component={SelectTeams} />
         <Route path="/powerbet-live" component={PowerBetLive} />
@@ -110,9 +115,9 @@ const App = (props) => {
         <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
         <Route path="/contact-us" component={ContactUSPage} />
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
-        <Route path='/responsible-gaming' component={ResponsibleGaming} />
-        <Route path='/how-to-play' component={HowToPlayPage} />
-        <Route path='/verify-your-identity' component={VerifyIdentityPage} />
+        <Route path="/responsible-gaming" component={ResponsibleGaming} />
+        <Route path="/how-to-play" component={HowToPlayPage} />
+        <Route path="/verify-your-identity" component={VerifyIdentityPage} />
         <Route path="/mlb-power-levels" component={MLBPowerLevels} />
         <Route path="/live-play-power-levels" component={LivePlayPowerLevels} />
         <Route component={HomePage} />
