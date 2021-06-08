@@ -75,6 +75,15 @@
     display: flex;
     flex: 1;
     justify-content: flex-end;
+
+    .__interactive_contests_date_wrapper {
+      width: unset;
+    }
+
+    .__interactive_contests_date_dropdown {
+      width: 130px;
+      left: -50%;
+    }
   }
 
   .__interactive_contests_arrow {

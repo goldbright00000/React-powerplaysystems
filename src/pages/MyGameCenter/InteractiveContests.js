@@ -316,6 +316,8 @@ const InteractiveContests = (props) => {
           )}
           <div className={classes.__interactive_contests_date}>
             <CustomDropDown
+              wrapperClassName={classes.__interactive_contests_date_wrapper}
+              dropdownClassName={classes.__interactive_contests_date_dropdown}
               value={selectedDate}
               options={days}
               onChange={(selectedOption) => setSelectedDate(selectedOption)}
