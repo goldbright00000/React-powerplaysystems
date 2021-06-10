@@ -35,7 +35,7 @@ const data = [
 ];
 
 const PowersAvailable = (props) => {
-  const { title = "", isMobile = false } = props || {};
+  const { title = "", isMobile = false, learnMore = () => {} } = props || {};
 
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
@@ -84,6 +84,7 @@ const PowersAvailable = (props) => {
                         <div>
                           <div
                             className={classes.__powers_available_data_icon_div}
+                            onClick={learnMore}
                           >
                             <img
                               src={item.icon}

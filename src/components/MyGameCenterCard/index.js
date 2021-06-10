@@ -16,6 +16,7 @@ import PointSystem from "../PowerCenterCardDetails/PointSystem";
 import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
+import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import Hitters from "../PowerCenterCardDetails/Hitters";
 
 const MyGameCenterCard = (props) => {
@@ -46,6 +47,7 @@ const MyGameCenterCard = (props) => {
   } = props || {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
+  const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
 
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {
@@ -260,11 +262,16 @@ const MyGameCenterCard = (props) => {
                     </div>
                   )}
 
-                  <div style={{ padding: "10px 20px" }}>
-                    <div className={classes.__my_game_center_card_date_time}>
-                      Oct 24, 2020 | 8:00PM ET
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <PrizeGrid
                   isMobile={isMobile}
@@ -290,16 +297,22 @@ const MyGameCenterCard = (props) => {
                     </div>
                   )}
 
-                  <div style={{ padding: "10px 20px" }}>
-                    <div className={classes.__my_game_center_card_date_time}>
-                      Oct 24, 2020 | 8:00PM ET
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <PowersAvailable
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
+                  learnMore={() => setPowerLearnMoreModal(true)}
                 />
               </>
 
@@ -320,11 +333,16 @@ const MyGameCenterCard = (props) => {
                     </div>
                   )}
 
-                  <div style={{ padding: "10px 20px" }}>
-                    <div className={classes.__my_game_center_card_date_time}>
-                      Oct 24, 2020 | 8:00PM ET
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <PointSystem
                   isMobile={isMobile}
@@ -350,11 +368,16 @@ const MyGameCenterCard = (props) => {
                     </div>
                   )}
 
-                  <div style={{ padding: "10px 20px" }}>
-                    <div className={classes.__my_game_center_card_date_time}>
-                      Oct 24, 2020 | 8:00PM ET
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
                 <TeamRoster
                   isMobile={isMobile}
@@ -364,6 +387,20 @@ const MyGameCenterCard = (props) => {
               </>
             </Carousel>
           </div>
+          {leaveGameModal && (
+            <LeaveGameModal
+              isMobile={isMobile}
+              title={title}
+              onCancel={() => setLeaveGameModal(false)}
+            />
+          )}
+          {powerLearnMoreModal && (
+            <PowerLearnMoreModal
+              isMobile={isMobile}
+              title={title}
+              onCancel={() => setPowerLearnMoreModal(false)}
+            />
+          )}
         </>
       ) : !showDetails ? (
         !viewResults ? (

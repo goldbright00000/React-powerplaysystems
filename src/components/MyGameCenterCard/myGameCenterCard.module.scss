@@ -580,4 +580,21 @@
       color: #85d68a;
     }
   }
+
+  .__close_icon_div {
+    display: flex;
+    justify-content: flex-end;
+    flex-grow: 1;
+    // margin-right: 6px;
+    // opacity: 0.6;
+    // cursor: pointer;
+  }
+
+  .__close_icon {
+    // display: flex;
+    // justify-content: flex-end;
+    margin-right: 10px;
+    opacity: 0.6;
+    cursor: pointer;
+  }
 }
