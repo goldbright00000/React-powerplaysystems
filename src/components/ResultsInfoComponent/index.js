@@ -21,7 +21,7 @@ const data = [
     cash: "5,000",
     dataTitle: "Power Token Prizes",
     type: "tokenBalance",
-    balanceType: "token",
+    balanceType: "pwrs",
     iconWithTitle: Power,
   },
   {
@@ -29,7 +29,7 @@ const data = [
     cash: "$4500",
     dataTitle: "Bitcoin Prizes",
     type: "btcBalance",
-    balanceType: "token",
+    balanceType: "eth",
     iconWithTitle: Bitcoin,
   },
   {
@@ -37,7 +37,7 @@ const data = [
     cash: "$4500",
     dataTitle: "Ethereum Prizes",
     type: "ethBalance",
-    balanceType: "token",
+    balanceType: "btc",
     iconWithTitle: Ethereum,
   },
 ];
@@ -62,7 +62,9 @@ function ResultsInforComponent(props) {
           key={ind.toString()}
           isMobile={isMobile}
           transactions={transactions?.filter(
-            (transaction) => transaction.balance_type == v.balanceType
+            (transaction) =>
+              transaction.balance_type == v.balanceType &&
+              transaction?.transaction_type_details?.type === "Prize"
           )}
           iconWithTitle={v.iconWithTitle}
         />

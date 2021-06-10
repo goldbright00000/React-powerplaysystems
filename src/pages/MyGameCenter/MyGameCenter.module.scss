@@ -806,6 +806,11 @@
 }
 
 @media (max-width: 540px) {
+  .container {
+    width: 90%;
+    margin: 0 auto;
+  }
+
   .header2_container {
     display: flex;
     flex-direction: column;
