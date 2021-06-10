@@ -1,9 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
-import { PoweredWrapper } from "./style";
+import "./poweredBy.scss";
 const PoweredBy = () => {
   return (
-    <PoweredWrapper>
+    <section className="poweredBy">
       <Container fluid={true}>
         <Row>
           <Col>
@@ -11,7 +11,7 @@ const PoweredBy = () => {
           </Col>
         </Row>
       </Container>
-    </PoweredWrapper>
+    </section>
   );
 };
 

@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { Container, Row } from "reactstrap";
-import { CardWrapper, CardBody, CardFooter } from "./style";
 import Header from "./header/header";
 import Body from "./Body/Body";
 import Footer from "./Body/Footer";
+
+import "./score_card.scss";
 const ScoreCard = ({
   sideTitle,
   title,
@@ -27,7 +28,7 @@ const ScoreCard = ({
     }
   };
   return (
-    <CardWrapper>
+    <section className="scoreCard__wrapper">
       <Container fluid={true}>
         <Header
           background={background}
@@ -39,7 +40,14 @@ const ScoreCard = ({
           subtitle={subtitle}
         />
 
-        <CardBody background={background}>
+        <div
+          className="scoreCard__wrapper__cardBody"
+          style={
+            background
+              ? { backgroundColor: "rgba(251, 110, 0, 0.06)" }
+              : { backgroundColor: "#202124" }
+          }
+        >
           <Row>
             <Body
               show={show}
@@ -50,13 +58,20 @@ const ScoreCard = ({
               bgClr={bgClr}
             />
           </Row>
-        </CardBody>
+        </div>
 
-        <CardFooter background={background}>
+        <div
+          className="scoreCard__wrapper__cardFooter "
+          style={
+            background
+              ? { backgroundColor: "rgba(251, 110, 0, 0.06)" }
+              : { backgroundColor: "#202124" }
+          }
+        >
           <Footer runnungTotal={runnungTotal} />
-        </CardFooter>
+        </div>
       </Container>
-    </CardWrapper>
+    </section>
   );
 };
 

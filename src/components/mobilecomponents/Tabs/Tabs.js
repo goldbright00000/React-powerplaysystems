@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col, Container } from "reactstrap";
 import { Link } from "react-router-dom";
-import { BoardWrapper } from "../ScoreBoard/style";
+import "./tab_style.scss";
 
 const Tabs = ({ state, setState }) => {
   const [sticky, setSticky] = useState();
@@ -15,7 +15,7 @@ const Tabs = ({ state, setState }) => {
   };
 
   return (
-    <BoardWrapper className={sticky}>
+    <section className={`${sticky} board__wrapper`}>
       <Container fluid={true}>
         <Row className="details">
           <Col xs={6} className={`${state && state === 1 ? "active" : ""}`}>
@@ -64,7 +64,7 @@ const Tabs = ({ state, setState }) => {
           </Col>
         </Row>
       </Container>
-    </BoardWrapper>
+    </section>
   );
 };
 

@@ -1,12 +1,12 @@
 import React from "react";
-import { Wrapper } from "./style";
+import "./mobileHeader.scss";
 import { Container, Row, Col } from "reactstrap";
 import Logo from "./Logo";
 import Menu from "./Menu";
 
 const Header = () => {
   return (
-    <Wrapper>
+    <div className="mobile_header">
       <Container fluid={true}>
         <Row>
           <Col>
@@ -17,7 +17,7 @@ const Header = () => {
           </Col>
         </Row>
       </Container>
-    </Wrapper>
+    </div>
   );
 };
 

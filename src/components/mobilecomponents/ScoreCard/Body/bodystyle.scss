@@ -1,0 +1,67 @@
+.scoreplay {
+  padding-bottom: 20px;
+  padding-top: 5px;
+
+  h2 {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #fb6e00;
+  }
+
+  p {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: left;
+    color: #979797;
+  }
+
+  span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 42px;
+    height: 32px;
+
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+}
+
+.scorePoints {
+  padding-bottom: 16px;
+  padding-right: 15px;
+  .play {
+    h2 {
+      font-family: Poppins;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #fb6e00;
+    }
+
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      background-color: rgba(242, 242, 242, 0.1);
+      width: 92px;
+      height: 32px;
+    }
+  }
+}

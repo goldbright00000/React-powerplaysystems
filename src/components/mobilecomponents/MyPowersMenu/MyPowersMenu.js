@@ -2,11 +2,10 @@ import React from "react";
 import { Modal } from "reactstrap";
 import ThreeBoxes from "../ThreeBoxes";
 import SingleBooster from "./SingleBooster";
-import { ModalHeader, ModalFooter, Boosters } from "./style";
-
+import "./menu.scss";
 //********************************************************************************
 //********************************************************************************
-// ** I HAVE TO OVERWRITE MODAL COMPONENT CSS AND IT CAN BE FOUND IN APP.CSS FILE.
+// ** I HAVE TO OVERWRITE MODAL COMPONENT CSS AND IT CAN BE FOUND IN STYLE.SCSS FILE.
 //********************************************************************************
 //********************************************************************************
 const MyPowersMenu = ({
@@ -19,7 +18,7 @@ const MyPowersMenu = ({
 }) => {
   return (
     <Modal isOpen={modal} toggle={toggle} className="popUpModal">
-      <ModalHeader>
+      <div className="modal_header">
         <div>
           <p>Powers</p>
           <h2>15,000</h2>
@@ -33,16 +32,16 @@ const MyPowersMenu = ({
         <div>
           <h2>DEPOSIT</h2>
         </div>
-      </ModalHeader>
+      </div>
 
-      <ModalFooter>
+      <section className="modal_footer">
         <div className="heading">
           <h1>
             <span>MY</span> POWERS
           </h1>
         </div>
 
-        <Boosters>
+        <div className="modal_footer__booster">
           <SingleBooster
             unlock={false}
             src="xpLocked.svg"
@@ -62,8 +61,8 @@ const MyPowersMenu = ({
             heading="Undo"
             number="2"
           />
-        </Boosters>
-        <Boosters>
+        </div>
+        <div className="modal_footer__booster">
           <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={false} />{" "}
           <SingleBooster
             unlock={true}
@@ -77,7 +76,7 @@ const MyPowersMenu = ({
             heading="Retro Boost"
             number="2"
           />
-        </Boosters>
+        </div>
         <ThreeBoxes
           showTime={false}
           priceModal={priceModal}
@@ -86,7 +85,7 @@ const MyPowersMenu = ({
         <div className="close__box" onClick={toggle}>
           x
         </div>
-      </ModalFooter>
+      </section>
     </Modal>
   );
 };

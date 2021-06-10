@@ -9,6 +9,7 @@ const SingleBox = ({
   priceModal,
   link,
   setModal,
+  showTime,
 }) => {
   return (
     <Col xs={4} className={`p-0 ${customClass}`}>
@@ -28,7 +29,7 @@ const SingleBox = ({
             className="services"
             onClick={priceModal ? () => priceModal(false) : null}
           >
-            <img src={image} alt="" />
+            <img src={image} alt="" className="services__image" />
             <h4>
               {subHeading}
               <br /> {heading}

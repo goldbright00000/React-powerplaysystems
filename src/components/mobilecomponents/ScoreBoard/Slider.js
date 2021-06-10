@@ -1,16 +1,7 @@
 import React from "react";
 import { Row, Col } from "reactstrap";
-import {
-  IconsSide,
-  Badge,
-  Indicators,
-  EndTag,
-  Data,
-  FieldText,
-  Table,
-  ImageHolder,
-} from "./style";
 import { Link } from "react-router-dom";
+import "./score_board.scss";
 const Slider = ({
   icons,
   double,
@@ -34,7 +25,10 @@ const Slider = ({
           id="carouselExampleIndicators"
           className="carousel slide"
         >
-          <Indicators className="carousel-indicators" baseBall={baseBall}>
+          <div
+            className="carousel-indicators board__wrapper__indicators"
+            style={baseBall ? { bottom: "13px" } : { bottom: "9px" }}
+          >
             <button
               type="button"
               data-bs-target="#carouselExampleIndicators"
@@ -55,13 +49,20 @@ const Slider = ({
               data-bs-slide-to="2"
               aria-label="Slide 3"
             ></button>
-          </Indicators>
+          </div>
           <div className="carousel-inner">
             <div className="carousel-item active">
-              <Data secondShow={secondShow} baseBall={baseBall}>
+              <div
+                className="board__wrapper__content"
+                style={
+                  secondShow && baseBall
+                    ? { height: "248px" }
+                    : { height: "227px" }
+                }
+              >
                 <div className="row">
                   <div className="col-9">
-                    <h2>{title}</h2>
+                    <h2 style={{ marginTop: "5px" }}>{title}</h2>
                     <p>{subTitle}</p>
                   </div>
                   <div className="col-3 point">
@@ -69,9 +70,12 @@ const Slider = ({
                     <h3>{points}</h3>
                   </div>
                   <div className="col-12 ps-2 pe-2">
-                    <FieldText fieldColor={fieldColor}>
+                    <div
+                      className="board__wrapper__fieldsText"
+                      style={{ color: fieldColor }}
+                    >
                       <h4>{fieldText}</h4>
-                    </FieldText>
+                    </div>
                   </div>
                   {secondShow && (
                     <>
@@ -105,14 +109,21 @@ const Slider = ({
                     </>
                   )}
                 </div>
-              </Data>
+              </div>
             </div>
 
             <div className="carousel-item">
-              <Data secondShow={secondShow} baseBall={baseBall} topSpace>
+              <div
+                className="board__wrapper__content"
+                style={
+                  secondShow && baseBall
+                    ? { height: "248px" }
+                    : { height: "227px" }
+                }
+              >
                 <div className="row">
                   <div className="col-9">
-                    <h2>{title}</h2>
+                    <h2 style={{ marginTop: 0 }}>{title}</h2>
                     <p
                       style={{
                         marginTop: 7,
@@ -137,7 +148,7 @@ const Slider = ({
                     </h3>
                   </div>
                   <div className="col-10 ps-2 ">
-                    <Table>
+                    <table className="board__wrapper__content__table">
                       <thead>
                         <th>Inning</th>
                         <th>Type</th>
@@ -176,33 +187,40 @@ const Slider = ({
                           <td>3</td>
                         </tr>
                       </tbody>
-                    </Table>
+                    </table>
                   </div>
                 </div>
-              </Data>
+              </div>
             </div>
 
             <div className="carousel-item ">
-              <Data secondShow={secondShow} baseBall={baseBall}>
+              <div
+                className="board__wrapper__content"
+                style={
+                  secondShow && baseBall
+                    ? { height: "248px" }
+                    : { height: "227px" }
+                }
+              >
                 <div className="row">
                   <div className="col-12">
-                    <h2>{title}</h2>
-                    <ImageHolder>
+                    <h2 style={{ marginTop: "5px" }}>{title}</h2>
+                    <div className="board__wrapper__content__imageHolder">
                       <img src="/images/fanatics.jpg" alt="files" />
                       <div>
                         <Link to="#">
                           <button>Shop Now!</button>
                         </Link>
                       </div>
-                    </ImageHolder>
+                    </div>
                   </div>
                 </div>
-              </Data>
+              </div>
             </div>
           </div>
 
           {featured && featured === true && (
-            <Badge>
+            <div className="badge">
               <div>
                 <span className="me-1 ">
                   <img src="/images/star.svg" alt="" />
@@ -210,17 +228,26 @@ const Slider = ({
 
                 <span className="star">STAR POWER</span>
               </div>
-            </Badge>
+            </div>
           )}
 
-          <EndTag baseBall={baseBall}>
+          <div className="endTag">
             {" "}
             <p className="pt-1">Bot 1st | 2 Out</p>
-          </EndTag>
+          </div>
         </div>
       </Col>
       <Col xs={2} className="ps-0">
-        <IconsSide icons={icons} baseBall={baseBall}>
+        <div
+          className="iconSides"
+          style={
+            icons
+              ? { padding: "36.4px 0" }
+              : !icons && baseBall
+              ? { padding: "66.3px 0" }
+              : { padding: "55.3px 0" }
+          }
+        >
           <img
             src={`${
               imageTochanged && otherIcons
@@ -246,7 +273,7 @@ const Slider = ({
               <h4>0:30</h4>
             </>
           )}
-        </IconsSide>
+        </div>
       </Col>
     </Row>
   );

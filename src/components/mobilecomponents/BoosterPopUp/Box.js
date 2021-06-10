@@ -1,17 +1,17 @@
 import React from "react";
-import { BoxBooster } from "./style";
+import "./boxBooster.scss";
 const Box = () => {
   return (
     <div style={{ display: "flex", marginTop: "20px" }}>
-      <BoxBooster>
+      <div className="boxBooster">
         <img src="/images/oneX.svg" alt="boost" />
-      </BoxBooster>
-      <BoxBooster>
+      </div>
+      <div className="boxBooster">
         <img src="/images/2xBoost.svg" alt="boost" />
-      </BoxBooster>
-      <BoxBooster margin={false}>
+      </div>
+      <div className="boxBooster">
         <img src="/images/3xSpeed.svg" alt="boost" />
-      </BoxBooster>
+      </div>
     </div>
   );
 };

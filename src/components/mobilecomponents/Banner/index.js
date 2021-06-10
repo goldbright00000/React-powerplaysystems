@@ -1,9 +1,11 @@
 import React from "react";
-import { BannerWrapper } from "./style";
+
 import { Container, Row, Col } from "reactstrap";
+import "./mobile_banner.scss";
+
 const Banner = () => {
   return (
-    <BannerWrapper>
+    <div className="mobile__banner">
       <Container fluid={true}>
         <Row>
           <Col className="text-center">
@@ -17,7 +19,7 @@ const Banner = () => {
           </Col>
         </Row>
       </Container>
-    </BannerWrapper>
+    </div>
   );
 };
 

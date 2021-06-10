@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { MatchWrapper, Rank } from "./style";
 import { Container, Row, Col } from "reactstrap";
 import WinningCash from "./WinningCash";
 import Chart from "./Chart";
@@ -8,6 +7,7 @@ import MyPowersMenu from "../MyPowersMenu/MyPowersMenu";
 import BoosterPopUp from "../BoosterPopUp/BoosterPopUp";
 import PrizeGrid from "../PrizeGrid/PrizeGrid";
 import SwapStarter from "../SwapStarter/SwapStarter";
+import "./live_match.scss";
 const LiveMatch = () => {
   const [modal, setModal] = useState(false);
   const [secondModal, setSecondModal] = useState(false);
@@ -30,7 +30,7 @@ const LiveMatch = () => {
 
   return (
     <>
-      <MatchWrapper>
+      <section className="matchWrapper">
         <div className="live">
           <Container>
             <Row>
@@ -45,7 +45,7 @@ const LiveMatch = () => {
               </Col>
             </Row>
           </Container>
-          <Rank>
+          <div className="matchWrapper__rank">
             <div className="box">
               <span className="cricle"></span>
               <p>
@@ -59,9 +59,9 @@ const LiveMatch = () => {
               <span></span>
               <span></span>
             </div>
-          </Rank>
+          </div>
         </div>
-      </MatchWrapper>
+      </section>
 
       <MyPowersMenu
         modal={modal}

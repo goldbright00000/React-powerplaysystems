@@ -1,11 +1,11 @@
 import React from "react";
-import { PoolWrapper } from "./style";
 import { Link } from "react-router-dom";
 import { SearchFields } from "../SwapStarter/style";
 import PlayerCard from "./PlayerCard";
+import "./price_pool.scss";
 const PrizePool = () => {
   return (
-    <PoolWrapper>
+    <section className="pool__wrapper ">
       <div className="wrap">
         <div>
           <h1>$10,000</h1>
@@ -37,7 +37,7 @@ const PrizePool = () => {
         </div>
       </SearchFields>
       <PlayerCard />
-    </PoolWrapper>
+    </section>
   );
 };
 

@@ -1,6 +1,5 @@
 import React from "react";
-import { CardWrapper } from "./style";
-
+import "./price_pool.scss";
 const headings = [
   {
     value: "#",
@@ -45,7 +44,7 @@ const players = [
 
 const PlayerCard = () => {
   return (
-    <CardWrapper>
+    <div className="card__wrapper">
       <div className="heading">
         {headings &&
           headings.map(name => {
@@ -63,7 +62,7 @@ const PlayerCard = () => {
             </div>
           );
         })}
-    </CardWrapper>
+    </div>
   );
 };
 

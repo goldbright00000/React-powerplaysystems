@@ -1,12 +1,18 @@
 import React from "react";
-import { BoxWrapper } from "./style";
 import { Container, Row } from "reactstrap";
 import SingleBox from "./singleBox/SingleBox";
 import GameCountDown from "./GameCountDown";
-
+import "./style.scss";
 const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
   return (
-    <BoxWrapper showTime={showTime}>
+    <div
+      className="box__wrapper"
+      style={
+        showTime
+          ? { backgroundColor: "#17181a", marginTop: "-1px" }
+          : { backgroundColor: "transparent", marginTop: "30px" }
+      }
+    >
       <Container fluid={true}>
         <Row>
           <SingleBox
@@ -16,6 +22,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
             heading="Standing"
             subHeading="Live"
             setModal={setModal}
+            showTime={showTime}
           />
           <SingleBox
             customClass=""
@@ -23,17 +30,19 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
             heading="Grid"
             subHeading="Price"
             priceModal={priceModal}
+            showTime={showTime}
           />
           <SingleBox
             customClass="third"
             image="/images/gaming.svg"
             heading="Center"
             subHeading="My Game"
+            showTime={showTime}
           />
           {showTime === true && <GameCountDown state={state} />}
         </Row>
       </Container>
-    </BoxWrapper>
+    </div>
   );
 };
 

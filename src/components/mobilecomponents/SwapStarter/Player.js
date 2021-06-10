@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { PlayerWrapper, Icons } from "./style";
 import { Carousel, CarouselItem, CarouselIndicators } from "reactstrap";
-
+import "./starter.scss";
 const items = [
   {
     plyerName: "Chris Carpenter",
@@ -137,7 +136,7 @@ const Player = () => {
         onExited={() => setAnimating(false)}
         key={index}
       >
-        <PlayerWrapper>
+        <div className="swap__wrapper__playerWrapper ">
           <div className="heading">
             <h2>
               <span>{item.rank}</span> {item.plyerName}
@@ -164,7 +163,7 @@ const Player = () => {
           <p>
             {item.firstTeam} <span> VS {item.secondTeam} </span>{" "}
           </p>
-          <Icons>
+          <div className="swap__wrapper__playerWrapper__icons">
             <div>
               <img src="/images/time.svg" alt="time" />
               <p>{item.time}</p>
@@ -177,12 +176,12 @@ const Player = () => {
               <img src="/images/stadium.svg" alt="time" />
               <p>{item.stadium}</p>
             </div>
-          </Icons>
+          </div>
 
           <button>
             <img src="/images/switch.svg" alt="icon" /> Swap
           </button>
-        </PlayerWrapper>
+        </div>
       </CarouselItem>
     );
   });

@@ -1,8 +1,9 @@
 import React from "react";
-import { BoosterWrapper } from "./style";
+
+import "./menu.scss";
 const SingleBooster = ({ src, heading, unlock, number, popUp }) => {
   return (
-    <BoosterWrapper>
+    <section className="boostWrapper">
       <div className="imageHolder" onClick={popUp ? () => popUp(false) : null}>
         <img src={`/images/${src}`} alt="booster" />
         {unlock === false && (
@@ -30,7 +31,7 @@ const SingleBooster = ({ src, heading, unlock, number, popUp }) => {
           <p>{number} left</p>
         </div>
       )}
-    </BoosterWrapper>
+    </section>
   );
 };
 

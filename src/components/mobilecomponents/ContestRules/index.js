@@ -1,10 +1,10 @@
 import React from "react";
-import { RulesWrapper } from "./style";
+import "./contestRules.scss";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 const ContestRules = () => {
   return (
-    <RulesWrapper>
+    <div className="rulesWrapper">
       <Container fluid={true}>
         <Row>
           <Col>
@@ -59,7 +59,7 @@ const ContestRules = () => {
           </Col>
         </Row>
       </Container>
-    </RulesWrapper>
+    </div>
   );
 };
 

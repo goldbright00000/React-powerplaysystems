@@ -1,8 +1,9 @@
 import React from "react";
 import { Col, Row } from "reactstrap";
 import ScoringPlay from "./ScoringPlay";
-import { ScorePoints } from "../style";
+
 import ScoringPoints from "./ScoringPoints";
+import "./bodystyle.scss";
 const Body = ({ show, totalPts, image, myScore, clr, bgClr }) => {
   return (
     <>
@@ -26,7 +27,10 @@ const Body = ({ show, totalPts, image, myScore, clr, bgClr }) => {
         </>
       ) : null}
 
-      <ScorePoints style={show === false ? { marginTop: 10 } : null}>
+      <div
+        className="scorePoints"
+        style={show === false ? { marginTop: 10 } : null}
+      >
         <Row>
           <Col xs={4}>
             <ScoringPoints title="Total Pts" totalPts={totalPts} />
@@ -43,7 +47,7 @@ const Body = ({ show, totalPts, image, myScore, clr, bgClr }) => {
             />
           </Col>
         </Row>
-      </ScorePoints>
+      </div>
     </>
   );
 };

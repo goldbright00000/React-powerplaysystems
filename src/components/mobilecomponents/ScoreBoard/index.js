@@ -1,8 +1,7 @@
 import React from "react";
 import { Container } from "reactstrap";
 import Slider from "./Slider";
-import { BoardWrapper } from "./style";
-
+import "./score_board.scss";
 import TagLines from "./TagLines";
 const ScoreBoard = ({
   tagLine,
@@ -24,7 +23,7 @@ const ScoreBoard = ({
   setstate,
 }) => {
   return (
-    <BoardWrapper>
+    <section className="board__wrapper">
       <Container fluid={true}>
         <TagLines
           title={tagLine}
@@ -47,7 +46,7 @@ const ScoreBoard = ({
           notShow={notShow}
         />
       </Container>
-    </BoardWrapper>
+    </section>
   );
 };
 

@@ -1,11 +1,11 @@
 import React from "react";
-import { BannerWrapper } from "./style";
+import "./banner.scss";
 const StandingBanner = () => {
   return (
-    <BannerWrapper>
+    <div className="bannerWrapper">
       <h2>Live Standings</h2>
       <p>Oct 24, 2020 | 8:00PM ET</p>
-    </BannerWrapper>
+    </div>
   );
 };
 

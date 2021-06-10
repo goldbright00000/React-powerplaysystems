@@ -1,10 +1,10 @@
 import React from "react";
 import { Modal } from "reactstrap";
-import { PrizeGridWrapper } from "./style";
 import { Container, Row, Col } from "reactstrap";
+import "./price_grid.scss";
 //********************************************************************************
 //********************************************************************************
-// ** I HAVE TO OVERWRITE MODAL COMPONENT CSS AND IT CAN BE FOUND IN APP.CSS FILE.
+// ** I HAVE TO OVERWRITE MODAL COMPONENT CSS AND IT CAN BE FOUND IN STYLE.SCSS FILE.
 //********************************************************************************
 //********************************************************************
 
@@ -15,7 +15,7 @@ const PrizeGrid = ({ priceGrid, priceModal }) => {
       toggle={() => priceModal(false)}
       className="popUpModal price__grid"
     >
-      <PrizeGridWrapper>
+      <section className="price_Grid_Wrapper">
         <h1>
           PoweredFS - <span>MLB</span>
         </h1>
@@ -63,7 +63,7 @@ const PrizeGrid = ({ priceGrid, priceModal }) => {
         <div className="close__box" onClick={() => priceModal(false)}>
           X
         </div>
-      </PrizeGridWrapper>
+      </section>
     </Modal>
   );
 };

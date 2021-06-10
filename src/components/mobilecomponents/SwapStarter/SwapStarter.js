@@ -1,23 +1,26 @@
 import React from "react";
 import { Modal } from "reactstrap";
 import Player from "./Player";
-import { SwapWrapper, SearchFields } from "./style";
+import "./starter.scss";
 //********************************************************************************
 //********************************************************************************
-// ** I HAVE TO OVERWRITE MODAL COMPONENT CSS AND IT CAN BE FOUND IN APP.CSS FILE.
+// ** I HAVE TO OVERWRITE MODAL COMPONENT CSS AND IT CAN BE FOUND IN STYLE.SCSS FILE.
 //********************************************************************************
 //********************************************************************************
 
 const SwapStarter = ({ swap, swapModal }) => {
   return (
     <Modal isOpen={swap} toggle={swapModal} className="popUpModal swapModal ">
-      <SwapWrapper>
+      <d className="swap__wrapper">
         <div className="heading">
           <h2>Swap Your Starter</h2>
           <p>Choose QB player to replace</p>
           <h1>Brandon Allen</h1>
         </div>
-        <SearchFields>
+        <div
+          className="swap__wrapper__searchFileds"
+          style={{ marginTop: "30px", paddingBottom: "0px" }}
+        >
           <div className="input__search">
             <input type="text" placeholder="Search By Player Name" />
             <img src="/images/searchIcon.svg" alt="icon" />
@@ -31,7 +34,7 @@ const SwapStarter = ({ swap, swapModal }) => {
             </select>
             <img src="/images/arrow-right.svg" alt="arrow" />
           </div>
-        </SearchFields>
+        </div>
         <Player />
         <Player />
 
@@ -43,7 +46,7 @@ const SwapStarter = ({ swap, swapModal }) => {
         <div className="close__box" onClick={() => swapModal(false)}>
           X
         </div>
-      </SwapWrapper>
+      </d>
     </Modal>
   );
 };
