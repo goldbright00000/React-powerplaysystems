@@ -100,7 +100,6 @@ function BalanceInfoComponent(props) {
   const [form, setForm] = useState({});
   const [showModal, setModalState] = useState(false);
   const [activeForm, setActiveForm] = useState(0);
-  const [showDepositModal, setShowDepositModal] = useState(false);
 
   const { isMobile = false } = props || {};
   const { balance = {} } = props || {};
@@ -149,15 +148,15 @@ function BalanceInfoComponent(props) {
 
   return (
     <>
-      {showDepositModal && (
-        <DepositAmountPopUp onClose={() => setShowDepositModal(false)} />
-      )}
+      {/* {props.openDepositModal && (
+        <DepositAmountPopUp onClose={() => props.setOpenDepositModal(false)} />
+      )} */}
       <div className={classes.list_header_wrapper}>
         {ListHeader(
           "My Cash Balance",
-          balance.cashBalance,
+          balance.cashBalance.toFixed(2),
           "Deposit",
-          () => setShowDepositModal(true),
+          () => props.openDepositModal(),
           "Withdraw",
           changeModalState,
           CashBalance,
@@ -179,9 +178,9 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "BTC Balance",
-          balance.btcBalance,
+          balance.btcBalance.toFixed(4),
           "Deposit",
-          () => {},
+          () => props.openDepositModal("BTC"),
           "Transfer",
           () => {},
           Bitcoin,
@@ -191,9 +190,9 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "ETH Balance",
-          balance.ethBalance,
+          balance.ethBalance.toFixed(4),
           "Deposit",
-          () => {},
+          () => props.openDepositModal("ETH"),
           "Transfer",
           () => {},
           Ethereum,

@@ -67,10 +67,17 @@
           margin: 2px 0;
         }
       }
-      &:focus ~ .__navlinks {
-        max-height: 1000px;
+      // &:focus ~ .__navlinks {
+      //   max-height: 1000px;
+      // }
+    }
+
+    .__menu-icon_clicked {
+      ~ .__navlinks {
+        height: 1000px;
       }
     }
+
     .__navlinks {
       position: absolute;
       display: block;
@@ -80,7 +87,7 @@
       text-align: center;
       background-color: #17181a;
       margin: 0;
-      max-height: 0;
+      height: 0;
       overflow: hidden;
       transition: linear 0.3s max-height;
       li {
@@ -105,6 +112,10 @@
           margin: 1.5em auto;
         }
       }
+
+      .__my_account_li {
+        width: unset;
+      }
     }
 
     .__landing-page_title {
@@ -116,5 +127,24 @@
         font-size: 16px;
       }
     }
+  }
+}
+
+@media (max-width: 540px) {
+  .__navlinks {
+    padding-inline-start: 0px;
+    li {
+      &:not(:last-child)::after {
+        content: "";
+        border-bottom: 1px solid rgba(242, 242, 242, 0.2);
+        display: block;
+        width: unset !important;
+        margin: 1.5em auto;
+      }
+    }
+  }
+
+  .__Header {
+    z-index: 2000;
   }
 }

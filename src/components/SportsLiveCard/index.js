@@ -60,7 +60,6 @@ function SportsLiveCard(props) {
     pointsSummary = [],
     totalPts = 0,
     isStarPlayer = false,
-    team = "",
     range = "",
     id = "",
     xp = {},
@@ -157,26 +156,16 @@ function SportsLiveCard(props) {
           {xp?.xpVal} Points
         </p>
         <div
-          className={`${classes.points} ${
-            isTeamD() ? classes.team_d_width : largeView && classes.large_view
-          } ${isTeamD() && largeView && classes.large_view_d}`}
+          className={`${classes.points} ${largeView && classes.large_view} ${
+            largeView && classes.large_view_d
+          }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {points}
           </p>
-          {!isTeamD() && <RenderXpToolTip />}
+          <RenderXpToolTip />
         </div>
       </div>
-      {isTeamD() && (
-        <div
-          className={`${classes.team_d_icons} ${
-            largeView && classes.large_view
-          }`}
-        >
-          <VideoIcon size={largeView ? 28 : 24} />
-          <ShieldIcon size={largeView ? 28 : 24} />
-        </div>
-      )}
     </div>
   );
 
@@ -226,15 +215,11 @@ function SportsLiveCard(props) {
   );
 
   const RenderTeamDHeader = () =>
-    isTeamD() &&
     !singleView && <span className={classes.teamd_range}>{range}</span>;
 
-  const RenderHeaderIcons = () =>
-    !isTeamD() ? (
-      <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
-    ) : (
-      isTeamD() && singleView && <VideoIcon size={singleView && 23} />
-    );
+  const RenderHeaderIcons = () => (
+    <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+  );
 
   const toggleReplaceModal = () => {
     const [_playerList] =
@@ -261,8 +246,6 @@ function SportsLiveCard(props) {
       toggleReplaceModal();
     }
   };
-
-  const isTeamD = () => team === "d" || team === "defence";
 
   return (
     <>
@@ -338,13 +321,6 @@ function SportsLiveCard(props) {
               largeView={largeView}
             />
           )}
-
-          <SportsLiveCardOverlay
-            text="Video review is available now"
-            visible={isTeamD() && !singleView && showVideoOverlay}
-            onGotIt={() => setVideoOverlayState(false)}
-            largeView={largeView}
-          />
         </div>
       </div>
       <RenderModal

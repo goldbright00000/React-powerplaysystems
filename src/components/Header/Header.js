@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 
 import "./Header.scss";
 import logo from "../../assets/new-logo.png";
@@ -11,7 +12,10 @@ import {
   payNowWithIpay,
   payWithZum,
   setZumToken,
+  getCoinbaseLink,
+  removeCoinbaseLink,
 } from "../../actions/userActions";
+import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
@@ -46,6 +50,7 @@ const MY_ACCOUNT_MENU_OPTIONS = [
 ];
 
 const Header = (props) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const {
     isStick = false,
     btnBorderStyle = false,
@@ -55,17 +60,30 @@ const Header = (props) => {
 
   const { user } = useSelector((state) => state?.auth);
   const zumToken = useSelector((state) => state?.user?.zumToken);
+  const coinbaseUrl = useSelector((state) => state?.user.coinbaseRedirectUrl);
+  const showDepositModal = useSelector((state) => state.ui.depositFormData);
 
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
 
   const [myAccountMenu, setMyAccountMenu] = useState(false);
-  const [showDepositModal, setShowDepositModal] = useState(false);
+
+  const setHideDepositModal = () => dispatch(hideDepositForm());
+  const setShowDepositModal = () => dispatch(showDepositForm());
 
   useEffect(() => {
     !zumToken && dispatch(setZumToken());
   }, [zumToken]);
+
+  useEffect(() => {
+    if (coinbaseUrl) {
+      setTimeout(() => {
+        dispatch(removeCoinbaseLink());
+      }, 2000);
+      window.open(coinbaseUrl, "_blank");
+    }
+  });
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
@@ -75,10 +93,10 @@ const Header = (props) => {
 
   const onMyAccountMenuItemClick = (menuItem) => {
     setMyAccountMenu(false);
-    if (menuItem == "/log-out") {
+    if (menuItem === "/log-out") {
       onLogout();
-    } else if (menuItem == "/deposit") {
-      setShowDepositModal(true);
+    } else if (menuItem === "/deposit") {
+      setShowDepositModal();
     } else {
       history.push(menuItem);
     }
@@ -98,7 +116,8 @@ const Header = (props) => {
       dispatch(updateUser(obj));
 
       payNowWithIpay(obj);
-      setShowDepositModal(false);
+
+      setHideDepositModal();
     }
   };
 
@@ -113,9 +132,14 @@ const Header = (props) => {
         email: user?.email,
         zumToken,
       };
-      dispatch(payWithZum(obj, history.push));
-      setShowDepositModal(false);
+      dispatch(payWithZum(obj, history));
+      setHideDepositModal();
     }
+  };
+
+  const coinbaseSubmitHandler = (amount, currency) => {
+    dispatch(getCoinbaseLink(amount, currency));
+    setHideDepositModal();
   };
 
   useEffect(() => {
@@ -136,6 +160,11 @@ const Header = (props) => {
     }
   };
 
+  let [openMenu, setOpenMenu] = useState(false);
+  let handleMenu = () => {
+    setOpenMenu(!openMenu);
+  };
+
   return (
     <nav
       className="__Header"
@@ -147,7 +176,12 @@ const Header = (props) => {
         </Link>
         {hasMenu ? (
           <>
-            <button className="__menu-icon __hide-only-on-large __pointer">
+            <button
+              className={`__menu-icon __hide-only-on-large __pointer ${
+                openMenu ? `__menu-icon_clicked` : ``
+              }`}
+              onClick={handleMenu}
+            >
               <span></span>
               <span></span>
               <span></span>
@@ -163,29 +197,45 @@ const Header = (props) => {
                   <li>
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
-                  <li className="__my_account_li" ref={myAccountMenuRef}>
-                    <NavLink
-                      to="#"
-                      onClick={() => setMyAccountMenu(!myAccountMenu)}
-                    >
-                      My Account
-                      {!myAccountMenu ? (
-                        <FilledArrow down={true} />
-                      ) : (
-                        <FilledArrow up={true} />
+                  {isMobile ? (
+                    MY_ACCOUNT_MENU_OPTIONS.map((item) => (
+                      <li>
+                        <NavLink
+                          to={item.value}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            onMyAccountMenuItemClick(item.value);
+                          }}
+                        >
+                          {item.label}
+                        </NavLink>
+                      </li>
+                    ))
+                  ) : (
+                    <li className="__my_account_li" ref={myAccountMenuRef}>
+                      <NavLink
+                        to="#"
+                        onClick={() => setMyAccountMenu(!myAccountMenu)}
+                      >
+                        My Account
+                        {!myAccountMenu ? (
+                          <FilledArrow down={true} />
+                        ) : (
+                          <FilledArrow up={true} />
+                        )}
+                      </NavLink>
+                      {myAccountMenu && (
+                        <MyAccountMenu
+                          visible={myAccountMenu}
+                          value={window.location.pathname}
+                          options={MY_ACCOUNT_MENU_OPTIONS}
+                          onClick={(menuItem) =>
+                            onMyAccountMenuItemClick(menuItem)
+                          }
+                        />
                       )}
-                    </NavLink>
-                    {myAccountMenu && (
-                      <MyAccountMenu
-                        visible={myAccountMenu}
-                        value={window.location.pathname}
-                        options={MY_ACCOUNT_MENU_OPTIONS}
-                        onClick={(menuItem) =>
-                          onMyAccountMenuItemClick(menuItem)
-                        }
-                      />
-                    )}
-                  </li>
+                    </li>
+                  )}
                 </>
               ) : (
                 <>
@@ -208,10 +258,11 @@ const Header = (props) => {
             </ul>
             {showDepositModal && (
               <DepositAmountPopUp
-                onClose={() => setShowDepositModal(false)}
+                onClose={() => setHideDepositModal()}
                 user={user}
                 ipayFormSubmitted={onUpdateUserDetails}
                 zumFormSubmitted={onZumPayment}
+                coinbaseFormSubmitted={coinbaseSubmitHandler}
               />
             )}
           </>

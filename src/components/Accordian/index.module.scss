@@ -56,6 +56,72 @@
       }
     }
   }
+
+  @media (max-width: 540px) {
+    .accoridan_bar {
+      background-color: $grey4;
+      padding: 9px 16px;
+      display: inherit;
+      justify-content: flex-start;
+      align-items: center;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      .accoridan_bar_icon {
+        display: flex;
+      }
+
+      .accoridan_bar_right {
+        color: $primary;
+        font-size: 16px;
+        margin-right: 0;
+        margin-left: auto;
+
+        .amount {
+          font-weight: bold;
+          font-style: italic;
+        }
+
+        .arrow {
+          border: solid $white;
+          border-width: 0 4px 4px 0;
+          padding: 4px;
+          display: inline-block;
+          margin: 0 0 0 20px;
+        }
+
+        .down {
+          transform: rotate(45deg) translate(-5px, 3px);
+        }
+        .up {
+          transform: rotate(-135deg) translate(0, -5px);
+        }
+      }
+
+      .accoridan_bar_icon_with_title_span {
+        display: flex;
+        align-items: center;
+
+        .accoridan_bar_icon {
+          padding-right: 10px;
+        }
+      }
+
+      .__accordian_cash_title {
+        span {
+          color: $primary;
+          font-size: 16px;
+        }
+
+        .amount {
+          font-weight: bold;
+          font-style: italic;
+        }
+      }
+    }
+  }
 }
 
 .table_wrapper {
