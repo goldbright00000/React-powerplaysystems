@@ -2,7 +2,10 @@ import React, { useState, useEffect } from "react";
 import classes from "./interactiveContests.module.scss";
 import { useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import { Carousel } from "react-responsive-carousel";
+
 import { setUserBalance } from "../../actions/userActions";
+import * as MLbActions from "../../actions/MLBActions";
 import Ball from "../../icons/Ball";
 import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
@@ -14,7 +17,6 @@ import MyGameCenterCard from "../../components/MyGameCenterCard";
 import { URLS } from "../../config/urls";
 import http from "../../config/http";
 // import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from "react-responsive-carousel";
 
 const myGameCenterCardData = [
   {
@@ -28,7 +30,7 @@ const myGameCenterCardData = [
     inProgress: true,
     completed: false,
     teamManager: true,
-    editPicks: false,
+    editPicks: true,
     makePicks: false,
     timeToStart: "",
   },
@@ -218,6 +220,14 @@ const InteractiveContests = (props) => {
     setBalance(response.data);
   };
 
+  const onEdit = (item) => {
+    switch (item?.title) {
+      case "MLB":
+        dispatch(MLbActions.getAndSetEditPlayers({ game_id: 7, sport_id: 1 }));
+        return redirectTo(props, { path: "/mlb-powerdfs" });
+    }
+  };
+
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
@@ -238,7 +248,12 @@ const InteractiveContests = (props) => {
           showDetails={showCardDetails == item.id}
           viewResults={viewResults == item.id}
           finalStandingsModal={finalStandingsModal == item.id}
-          onEnter={() => redirectTo(props, { path: redirectUri || "/" })}
+          onEnter={() => {
+            redirectTo(props, { path: redirectUri || "/" });
+          }}
+          onEdit={() => {
+            onEdit(item);
+          }}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}

@@ -8,6 +8,7 @@ import { printLog } from "../utility/shared";
 export const MLB_DATA = "[MLB] GET_SET_DATA";
 export const MLB_LIVE_DATA = "[MLB] MLB_LIVE_DATA";
 export const MLB_STAR_PLAYER_COUNT = "[MLB] STAR_PLAYER_COUNT";
+export const MLB_EDIT_PLAYERS = "[MLB] MLB_EDIT_PLAYERS";
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -95,10 +96,11 @@ export function mlbData() {
       filterdList.push(ssTypePlayers);
       filterdList.push(xBTypePlayers);
       filterdList.push(dTypePlayers);
+      mlbPlayerList.push(...mlbTeams);
 
       return dispatch({
         type: MLB_DATA,
-        payload: filterdList,
+        payload: { filterdList: filterdList, allData: mlbPlayerList },
         game_id,
         sport_id,
       });
@@ -119,6 +121,7 @@ function getTeam(currentTeam, opponentTeam, match_id, venue, date_time) {
     venue,
     time,
     date,
+    type: "d",
   };
 }
 
@@ -232,35 +235,90 @@ export function saveAndGetSelectPlayers(payload) {
   };
 }
 
-export function getMlbLivePlayPlayerTeamData(payload) {
-  return async (dispatch) => {
-    try {
-      const playersResponse = await http.post(URLS.DFS.MLB_LIVE_PAGE_PLAYERS, {
-        game_id: payload.game_id,
-        sport_id: payload.sport_id,
-        user_id: payload.user_id,
+export async function getSavedTeamPlayers(payload) {
+  try {
+    const playersResponse = await http.post(URLS.DFS.MLB_LIVE_PAGE_PLAYERS, {
+      game_id: payload.game_id,
+      sport_id: payload.sport_id,
+      user_id: payload.user_id,
+    });
+
+    const { data = {} } = playersResponse.data || {};
+    const { game_id, sport_id, user_id, team_id, teamD = {}, players = [] } =
+      data || {};
+
+    for (let i = 0; i < players?.length; i++) {
+      const player = players[i];
+      Object.assign(player, {
+        playerName: player?.name,
+        playerId: player?.player_id,
       });
 
-      const { data = {} } = playersResponse.data || {};
-      const { game_id, sport_id, user_id, team_id, teamD = {}, players = [] } =
-        data || {};
-
-      for (let i = 0; i < players?.length; i++) {
-        const player = players[i];
-        Object.assign(player, {
-          playerName: player?.name,
-          playerId: player?.player_id,
-        });
-
-        delete player?.name;
-      }
-
-      return {
-        players,
-        teamD,
-      };
-    } catch (err) {
-      console.log(err);
+      delete player?.name;
     }
+
+    return {
+      players,
+      teamD,
+    };
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export function getMlbLivePlayPlayerTeamData(payload) {
+  return async (dispatch) => {
+    const teamPlayers = await getSavedTeamPlayers(payload);
+
+    return teamPlayers;
+  };
+}
+
+export function getAndSetEditPlayers(payload = { game_id: 0, sport_id: 0 }) {
+  return async (dispatch, getState) => {
+    const { user = {} } = getState().auth || {};
+    const { user_id = "" } = user || {};
+    const requestPayload = { ...payload };
+    requestPayload.user_id = 97;
+
+    const teamPlayers = await getSavedTeamPlayers(requestPayload);
+
+    const players = teamPlayers?.players || [];
+    const teamD = teamPlayers?.teamD;
+
+    const savedPlayers = [];
+    for (let i = 0; i < players?.length; i++) {
+      const obj = {
+        matchId: players[i]?.match_id,
+        playerId: players[i]?.player_id,
+      };
+      savedPlayers.push(obj);
+    }
+
+    const teamDObj = {
+      team_id: teamD?.team_id,
+      match_id: teamD?.match_id,
+    };
+
+    savedPlayers.push(teamDObj);
+
+    return dispatch(
+      setEditPlayers({
+        data: savedPlayers,
+        isEdit: true,
+      })
+    );
+  };
+}
+
+export function setEditPlayers(payload = { data: [], isEdit: false }) {
+  return (dispatch) => {
+    dispatch({
+      type: MLB_EDIT_PLAYERS,
+      payload: {
+        data: payload?.data,
+        isEdit: payload?.isEdit,
+      },
+    });
   };
 }

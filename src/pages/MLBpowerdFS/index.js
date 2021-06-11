@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isEmpty, cloneDeep } from "lodash";
+import { isEmpty, cloneDeep, isLength } from "lodash";
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
@@ -223,9 +223,15 @@ function MLBPowerdFs(props) {
   const [activeTab, setActiveTab] = useState(0);
   const [dropDownState, setDropDownTeam] = useState(dropDown);
 
-  const { data = [], starPlayerCount = 0, game_id, sport_id } = useSelector(
-    (state) => state.mlb
-  );
+  const {
+    data = [],
+    starPlayerCount = 0,
+    game_id,
+    sport_id,
+    isEdit = false,
+    allData = [],
+    savedPlayers = [],
+  } = useSelector((state) => state.mlb);
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
   const { token = "", user_id = 0 } = user || {};
@@ -244,6 +250,13 @@ function MLBPowerdFs(props) {
     setFilters(cloneDeep(FILTERS_INITIAL_VALUES));
     setFilterdData(null);
     setSelectedData(null);
+
+    //unmount
+    return function cleanUp() {
+      starPowerIndex = 0;
+      selectedPlayerCount = 0;
+      dispatch(MLBActions.setEditPlayers({ data: [], isEdit: false }));
+    };
   }, []);
 
   const getData = async () => {
@@ -272,104 +285,168 @@ function MLBPowerdFs(props) {
     }
   }, [data]);
 
+  useEffect(() => {
+    autoSelectOnEdit();
+  }, [isEdit, loading, selected]);
+
+  const autoSelectOnEdit = () => {
+    if (isEdit == true && !loading && selected.entries().next().done) {
+      const pls = [
+        { playerId: 10440, matchId: 5656 },
+        { playerId: 11063, matchId: 5656 },
+        { playerId: 10737, matchId: 5656 },
+        { playerId: 10559, matchId: 5656 },
+        { playerId: 10767, matchId: 5656 },
+        { playerId: 10647, matchId: 5656 },
+        { playerId: 10797, matchId: 5656 },
+        { team_id: 11281, match_id: 5656 },
+      ];
+
+      let _selected = new Map(selected);
+      let _playerList = [...sideBarList];
+
+      for (let i = 0; i < pls.length; i++) {
+        const res = setPlayerSelection(
+          pls[i].playerId || pls[i].team_id,
+          pls[i].matchId || pls[i].match_id,
+          _selected,
+          _playerList
+        );
+        _selected = res.selected;
+        _playerList = [...res._playersList];
+        dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+        activateFilter(
+          res.currentPlayer,
+          res.currentPlayer?.type?.toLocaleLowerCase()
+        );
+        onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
+      }
+
+      setSelected(_selected);
+      setSidebarList(_playerList);
+    }
+  };
+
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
       if (loading) return;
 
-      const { type = "", listData: _selectedData = [] } = selectedData || {};
+      const _selected = new Map(selected);
+      const res = setPlayerSelection(id, matchId, _selected, sideBarList);
 
-      const [currentPlayer] = _selectedData?.filter((player) => {
-        if (type?.toLocaleLowerCase() === D) {
-          return player?.team_id === id && player?.match_id === matchId;
+      dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+      setSelected(res.selected);
+      setSidebarList(res._playersList);
+      activateFilter(
+        res.currentPlayer,
+        res.currentPlayer?.type?.toLocaleLowerCase()
+      );
+      onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
+    },
+    [selected, selectedFilter, selectedData, isEdit]
+  );
+
+  const setPlayerSelection = (
+    id,
+    matchId,
+    selected = new Map(),
+    playerList = []
+  ) => {
+    const [currentPlayer] = allData?.filter((player) => {
+      if (player?.type?.toLocaleLowerCase() === D) {
+        return player?.team_id === id && player?.match_id === matchId;
+      } else {
+        return player?.playerId === id && player?.match_id === matchId;
+      }
+    });
+
+    let _starPlayerCount = starPlayerCount;
+
+    //selected players
+    const _playersList = [...playerList];
+
+    if (!selected.get(id)) {
+      const [_player] = _playersList?.filter((player) => {
+        let obj = {};
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          obj = player?.team;
         } else {
-          return player?.playerId === id && player?.match_id === matchId;
+          obj = player?.player;
+        }
+
+        return (
+          player?.filter === currentPlayer?.type?.toLocaleLowerCase() &&
+          isEmpty(obj)
+        );
+      });
+      if (!isEmpty(_player)) {
+        let selectedObj = {};
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          selectedObj = _player?.team;
+        } else {
+          selectedObj = _player?.player;
+        }
+
+        if (isEmpty(selectedObj)) {
+          const playerListIndex = _playersList?.indexOf(_player);
+          let player = { ..._player };
+
+          if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+            player.team = { ...currentPlayer };
+          } else {
+            player.player = { ...currentPlayer };
+          }
+          player.type = currentPlayer?.type?.toLocaleLowerCase();
+          player.matchId = currentPlayer?.match_id;
+          player.isStarPlayer = currentPlayer?.isStarPlayer;
+          _playersList[playerListIndex] = player;
+
+          selected.set(id, !selected.get(id));
+          //Star Power Player selection (sidebar)
+          if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
+            _starPlayerCount++;
+          }
+          selectedPlayerCount++;
+        }
+      }
+    } else {
+      let existingPlayerIndex = _playersList?.findIndex((player) => {
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          return player?.team?.team_id === id;
+        } else {
+          return player?.player?.playerId === id;
         }
       });
-      const _selected = new Map(selected);
-      let _starPlayerCount = starPlayerCount;
 
-      //selected players
-      const _playersList = [...sideBarList];
-
-      if (!_selected.get(id)) {
-        const [_player] = _playersList?.filter((player) => {
-          let obj = {};
-          if (type?.toLocaleLowerCase() === D) {
-            obj = player?.team;
-          } else {
-            obj = player?.player;
-          }
-
-          return player?.filter === selectedData?.type && isEmpty(obj);
-        });
-        if (!isEmpty(_player)) {
-          let selectedObj = {};
-          if (type?.toLocaleLowerCase() === D) {
-            selectedObj = _player?.team;
-          } else {
-            selectedObj = _player?.player;
-          }
-
-          if (isEmpty(selectedObj)) {
-            const playerListIndex = _playersList?.indexOf(_player);
-            let player = { ..._player };
-
-            if (type?.toLocaleLowerCase() === D) {
-              player.team = { ...currentPlayer };
-            } else {
-              player.player = { ...currentPlayer };
-            }
-            player.type = type?.toLocaleLowerCase();
-            player.matchId = currentPlayer?.match_id;
-            player.isStarPlayer = currentPlayer?.isStarPlayer;
-            _playersList[playerListIndex] = player;
-
-            _selected.set(id, !selected.get(id));
-            //Star Power Player selection (sidebar)
-            if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
-              _starPlayerCount++;
-            }
-            selectedPlayerCount++;
-          }
+      if (existingPlayerIndex !== -1) {
+        selected.set(id, !selected.get(id));
+        if (
+          starPlayerCount > 0 &&
+          _playersList[existingPlayerIndex].isStarPlayer
+        ) {
+          _starPlayerCount--;
         }
-      } else {
-        let existingPlayerIndex = _playersList?.findIndex((player) => {
-          if (type?.toLocaleLowerCase() === D) {
-            return player?.team?.team_id === id;
-          } else {
-            return player?.player?.playerId === id;
-          }
-        });
 
-        if (existingPlayerIndex !== -1) {
-          _selected.set(id, !selected.get(id));
-          if (
-            starPlayerCount > 0 &&
-            _playersList[existingPlayerIndex].isStarPlayer
-          ) {
-            _starPlayerCount--;
-          }
+        _playersList[existingPlayerIndex].isStarPlayer = false;
+        _playersList[existingPlayerIndex].type = "";
+        _playersList[existingPlayerIndex].matchId = "";
 
-          _playersList[existingPlayerIndex].isStarPlayer = false;
-          _playersList[existingPlayerIndex].type = "";
-          _playersList[existingPlayerIndex].matchId = "";
-
-          if (type?.toLocaleLowerCase() === D) {
-            _playersList[existingPlayerIndex].team = {};
-          } else {
-            _playersList[existingPlayerIndex].player = {};
-          }
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          _playersList[existingPlayerIndex].team = {};
+        } else {
+          _playersList[existingPlayerIndex].player = {};
         }
-        selectedPlayerCount--;
       }
+      selectedPlayerCount--;
+    }
 
-      dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
-      setSelected(_selected);
-      setSidebarList(_playersList);
-      activateFilter(currentPlayer, type);
-    },
-    [selected, selectedFilter, selectedData]
-  );
+    return {
+      selected,
+      _playersList,
+      currentPlayer,
+      _starPlayerCount,
+    };
+  };
 
   const onSelectFilter = useCallback(
     (type) => {
@@ -608,7 +685,13 @@ function MLBPowerdFs(props) {
           <div className={classes.container_left}>
             {!isMobile && (
               <>
-                <h2>Select your team</h2>
+                <h2>
+                  {loading
+                    ? "Loading..."
+                    : isEdit
+                    ? "Edit your team"
+                    : "Select your team"}
+                </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
                 </div>

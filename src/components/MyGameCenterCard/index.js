@@ -41,6 +41,7 @@ const MyGameCenterCard = (props) => {
     onBackClick = () => {},
     onNextClick = () => {},
     onEnter = () => {},
+    onEdit = () => {},
     onViewResults = () => {},
     onViewResultsBack = () => {},
     onFinalStandings = () => {},
@@ -146,11 +147,17 @@ const MyGameCenterCard = (props) => {
                   </div>
                 </div>
 
-                <div
-                  className={classes.__my_game_center_card_powerdfs}
-                  style={{ marginTop: inProgress || !completed ? -3 : 10 }}
-                >
-                  <p className={classes.__my_game_center_card_powerdfs_title}>
+                {editPicks && (
+                  <OutlineButton
+                    title="Edit Picks"
+                    onClick={onEdit}
+                    styles={{ color: "#f2f2f2", marginTop: 14 }}
+                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                  />
+                )}
+
+                <div className={classes.__my_game_center_card_powerdfs_title}>
+                  <p>
                     <span
                       className={
                         classes.__my_game_center_card_powerdfs_title_first
