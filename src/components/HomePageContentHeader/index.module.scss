@@ -60,15 +60,17 @@
   }
   .powerBtn{
     font-size: 1rem;
-    margin: 2em auto 0 auto;
+    margin: 13em auto 0 auto;
+    height: 4em;
+    width: 15em;
   }
-}
 
-@media (max-width: 600px) {
   .root{
-    background: url('../../assets/home-page-hero-image_mobile.png') no-repeat bottom center;
+    background: url('../../assets/home-page-hero-image_mobile.png') no-repeat center center;
+    background-size: cover;
   }
   .container{
     justify-content: initial;
+    height: 75vh;
   }
 }

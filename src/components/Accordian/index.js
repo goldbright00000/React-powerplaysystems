@@ -5,7 +5,7 @@ import classes from "./index.module.scss";
 import ResultCard from "./ResultCard";
 
 function Accordian(props) {
-
+  let [sub, setSub] = useState(0);
   const {
     title = "",
     visible = false,
@@ -16,27 +16,46 @@ function Accordian(props) {
     onClick = () => {},
     isMobile = false,
     transactions = [],
-    iconWithTitle = '',
+    iconWithTitle = "",
   } = props || {};
+
+  useEffect(() => {
+    let sum = 0;
+    transactions.forEach((element) => {
+      sum = sum + element.transaction_amount;
+    });
+    setSub(cash - sum);
+  }, []);
 
   return (
     <div className={classes.wrapper}>
       <div className={classes.accoridan_bar} onClick={onClick}>
         <span className={classes.accoridan_bar_icon_with_title_span}>
-          {
-            iconWithTitle
-            &&
+          {iconWithTitle && (
             <span className={classes.accoridan_bar_icon}>
               <img src={iconWithTitle} width="23" height="20" />
             </span>
-          }
+          )}
+        </span>
+        <span className={classes.__accordian_cash_title}>
           {title}
+          {isMobile ? (
+            <>
+              <br />
+              <span>
+                <span>{cashTitle}</span>
+                <span className={classes.amount}>{cash - sub}</span>
+              </span>
+            </>
+          ) : null}
         </span>
         <span className={classes.accoridan_bar_right}>
-          <span>
-            <span>{cashTitle}</span>
-            <span className={classes.amount}>{cash}</span>
-          </span>
+          {isMobile ? null : (
+            <span>
+              <span>{cashTitle}</span>
+              <span className={classes.amount}>{cash - sub}</span>
+            </span>
+          )}
           {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} />}
           <i
             className={`${classes.arrow} ${

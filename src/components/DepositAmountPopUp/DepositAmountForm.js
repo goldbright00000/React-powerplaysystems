@@ -23,12 +23,13 @@ const formatePrice = (price, currencyValue, isCad, noSign) =>
     : `${isCad ? "CAD " : "$"}${(price * currencyValue).toFixed(2)}`;
 
 class DepositAmountForm extends Component {
+
   state = {
     BTC: 58680,
     ETH: 2092,
     form: {
-      currency: "USD",
-      price: 25,
+      currency: this.props.formCurrency,
+      price: this.props.formCurrency === "USD" ? 25 : (this.props.formCurrency === "BTC" ? 0.0005 : 0.015),
       paymentMetod:
         this.props.country === "Canada" ? "EFT" : "Credit or Debit Card",
       walletAddress: "",
@@ -203,6 +204,7 @@ class DepositAmountForm extends Component {
       paymentMetods: [],
     },
   };
+
   onWalletAddressChange = (e) => {
     const newForm = { ...this.state.form };
     newForm.walletAddress = e.target.value;
@@ -218,21 +220,26 @@ class DepositAmountForm extends Component {
   onSubmit = (e) => {
     e.preventDefault();
 
-    if (!this.state.canadianVisible) {
-      const object = {
-        currency: this.state.currency,
-        amount: this.state.form.price,
-        city: this.state.city,
-        address: this.state.address,
-        zip: this.state.zip,
-        phone_number: this.state.phoneNumber,
-      };
+    if (this.state.form.currency === "USD")
+      if (!this.state.canadianVisible) {
+        const object = {
+          currency: this.state.currency,
+          amount: this.state.form.price,
+          city: this.state.city,
+          address: this.state.address,
+          zip: this.state.zip,
+          phone_number: this.state.phoneNumber,
+        };
 
-      this.props.ipaySubmitted(object);
-    } else {
-      let { price, paymentMetod } = this.state.form;
-      price = parseFloat((price * this.props.cad).toFixed(2));
-      this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+        this.props.ipaySubmitted(object);
+      } else {
+        let { price, paymentMetod } = this.state.form;
+        price = parseFloat((price * this.props.cad).toFixed(2));
+        this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+      }
+    else {
+      const { currency, price } = this.state.form;
+      this.props.coinbaseSubmitted(price, currency);
     }
   };
 
@@ -302,7 +309,7 @@ class DepositAmountForm extends Component {
           </section>
         ) : (
           <section className={styles.formSection}>
-            <h6>
+            {/* <h6>
               Don’t own any {currency === "BTC" ? "Bitcoin" : "Ethereum"}? Buy
               at our Payment Partner{" "}
             </h6>
@@ -311,7 +318,7 @@ class DepositAmountForm extends Component {
               <button className={styles.buyCoinBtn} type="button">
                 Buy {currency} at Coingate
               </button>
-            </div>
+            </div> */}
           </section>
         )}
         {currency === "USD" && !this.state.canadianVisible && (
@@ -381,9 +388,9 @@ class DepositAmountForm extends Component {
         )}
         {currency !== "USD" ? (
           <section className={styles.QRCodeWrapper}>
-            <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6>
+            {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
             <div>
-              <img alt="" src={QRCode} className={styles.qrImage} />
+              {/* <img alt="" src={QRCode} className={styles.qrImage} />
               <div className={styles.inputField}>
                 <label htmlFor="wallet-address">Wallet Address</label>
                 <img
@@ -398,7 +405,7 @@ class DepositAmountForm extends Component {
                   value={walletAddress}
                   onChange={this.onWalletAddressChange}
                 />
-              </div>
+              </div> */}
               <button className={styles.submitbtn}>
                 Deposit • {currency === "$USD" && "$"}
                 {price} {currency.replace("$", "")}

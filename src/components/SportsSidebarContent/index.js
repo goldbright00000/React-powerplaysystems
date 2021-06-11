@@ -4,6 +4,9 @@ import PropTypes from "prop-types";
 import classes from "./index.module.scss";
 import DeleteIcon from "../../icons/Delete2";
 import PowerIcon from "../../assets/power_balance_icon.png";
+import { CONSTANTS } from "../../utility/constants";
+
+const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
 function SportsSidebarContent(props) {
   const {
@@ -56,9 +59,15 @@ function SportsSidebarContent(props) {
           data?.map((item, index) => (
             <SideBarSection
               title={item?.title}
-              name={item?.name}
-              playerId={item?.playerId}
-              keyVal={item?.playerId}
+              name={
+                item?.type === D ? item?.team?.name : item?.player?.playerName
+              }
+              playerId={
+                item?.type === D ? item?.team?.team_id : item?.player?.playerId
+              }
+              keyVal={
+                item?.type === D ? item?.team?.team_id : item?.player?.playerId
+              }
               SvgIcon={item?.icon}
               onDelete={onDelete}
               key={index.toString()}
