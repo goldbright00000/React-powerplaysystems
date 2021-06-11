@@ -3,6 +3,9 @@ import * as Actions from "../../actions/MLBActions";
 const INITIAL_STATE = {
   data: [],
   live_data: [],
+  savedPlayers: [],
+  allData: [],
+  isEdit: false,
   starPlayerCount: 0,
   sport_id: 0,
   game_id: 0,
@@ -13,7 +16,8 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
     case Actions.MLB_DATA:
       return {
         ...state,
-        data: actions.payload,
+        data: actions.payload.filterdList,
+        allData: actions.payload.allData,
         game_id: actions.game_id,
         sport_id: actions.sport_id,
       };
@@ -28,6 +32,13 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         starPlayerCount: actions.payload,
+      };
+
+    case Actions.MLB_EDIT_PLAYERS:
+      return {
+        ...state,
+        savedPlayers: actions.payload.data,
+        isEdit: actions.payload.isEdit,
       };
 
     default:

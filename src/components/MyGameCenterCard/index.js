@@ -33,6 +33,7 @@ const MyGameCenterCard = (props) => {
     onBackClick = () => {},
     onNextClick = () => {},
     onEnter = () => {},
+    onEdit = () => {},
     onViewResults = () => {},
     onViewResultsBack = () => {},
     onFinalStandings = () => {},
@@ -158,7 +159,7 @@ const MyGameCenterCard = (props) => {
           {editPicks && (
             <OutlineButton
               title="Edit Picks"
-              onClick={onEnter}
+              onClick={onEdit}
               styles={{ color: "#f2f2f2", marginTop: 14 }}
               //   icon={<img src={PencilIcon} width="16px" height="16px" />}
             />
