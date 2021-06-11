@@ -7,6 +7,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import PowerPlaySponsorsPage from "./pages/PowerPlaySponsorsPage/PowerPlaySponsorsPage";
 import SponserAContestPage from "./pages/SponserAContestPage/SponserAContestPage";
 import PowerCenter from "./pages/PowerCenter/PowerCenter";
+import Mobile from "./pages/Mobile/Mobile";
+import LiveStanding from "./pages/Mobile/LiveStanding";
 import SelectTeams from "./pages/SelectTeams/SelectTeams";
 import PowerBetLive from "./pages/PowerBetLive/PowerBetLive";
 import ScrollToTop from "./utility/ScrollToTop";
@@ -86,6 +88,7 @@ const App = (props) => {
       ) : (
         <Switch>
           <Route exact path="/" component={HomePage} />
+          <Route path="/mobile" component={Mobile} />
           <Route path="/zum-payment" component={PaymentFrame} />
           <Route
             exact

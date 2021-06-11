@@ -232,6 +232,7 @@ const InteractiveContests = (props) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
         <MyGameCenterCard
+          isMobile={isMobile}
           id={item.id}
           title={item.title}
           prize={item.prize}
@@ -356,15 +357,7 @@ const InteractiveContests = (props) => {
                 <>
                   {isMobile ? (
                     <div>
-                      <Carousel
-                        showArrows={false}
-                        showStatus={false}
-                        className={classes.__carousel_height}
-                      >
-                        {items.map((power) => {
-                          return myGameCenterCard(power, power.url);
-                        })}
-                      </Carousel>
+                      {items.map((power) => myGameCenterCard(power, power.url))}
                     </div>
                   ) : (
                     <>

@@ -1,5 +1,6 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
 import { ToastProvider } from "react-toast-notifications";
 
 import reportWebVitals from "./reportWebVitals";
