@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import classes from './powersAvailable.module.scss';
 import PointBooster from '../../assets/point-booster-mobile.png';
 import SwapPlayer from '../../assets/swap-player-mobile.png';
@@ -6,6 +6,8 @@ import Undo from '../../assets/undo-mobile.png';
 import RetroBoost from '../../assets/retro-boost-mobile.png';
 import DWall from '../../assets/d-wall-mobile.png';
 import VideoReview from '../../assets/video-review-mobile.png';
+import PointMultipliers from '../../assets/point-multipliers.png';
+import PlayerSwaps from '../../assets/player-swaps.png';
 
 const data1 = [
     {
@@ -49,6 +51,22 @@ const data2 = [
     },
 ];
 
+const getIcon = (powerName) => {
+    if (powerName) {
+        if (powerName.toLowerCase().match(/wall/g))
+            return DWall;
+
+        else if (powerName.toLowerCase().match(/video|review/g))
+            return VideoReview;
+
+        else if (powerName.toLowerCase().match(/swap/g))
+            return PlayerSwaps;
+
+        else if (powerName.toLowerCase().match(/multi|boost/g))
+            return PointMultipliers;
+    }
+}
+
 const PowersAvailable = (props) => {
     const {
         title = '',
@@ -79,7 +97,7 @@ const PowersAvailable = (props) => {
                             {index < 3 && (
                                 <div className={classes.__powers_available_data} key={index}>
                                     <div className={classes.__powers_available_data_icon_div}>
-                                        <img src={item?.icon} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                                        <img src={getIcon(item?.powerName)} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
                                         <div className={classes.__powers_available_data_power_count}>
                                             <p>
                                                 {item?.amount}
@@ -102,7 +120,7 @@ const PowersAvailable = (props) => {
                             {index >= 3 && (
                                 <div className={classes.__powers_available_data} key={index}>
                                     <div className={classes.__powers_available_data_icon_div}>
-                                        <img src={item?.icon} width="34" height="34" className={classes.__powers_available_data_icon} />
+                                        <img src={getIcon(item?.powerName)} width="34" height="34" className={classes.__powers_available_data_icon} alt="" />
                                         <div className={classes.__powers_available_data_power_count}>
                                             <p>
                                                 {item?.count}

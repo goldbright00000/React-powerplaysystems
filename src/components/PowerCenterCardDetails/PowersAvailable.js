@@ -33,6 +33,22 @@ const data = [
     },
 ];
 
+const getIcon = (powerName) => {
+    if (powerName) {
+        if (powerName.toLowerCase().match(/wall/g))
+            return DWall;
+
+        else if (powerName.toLowerCase().match(/video|review/g))
+            return VideoReview;
+
+        else if (powerName.toLowerCase().match(/swap/g))
+            return PlayerSwaps;
+
+        else if (powerName.toLowerCase().match(/multi|boost/g))
+            return PointMultipliers;
+    }
+}
+
 const PowersAvailable = (props) => {
     const {
         title = '',
@@ -65,7 +81,8 @@ const PowersAvailable = (props) => {
                     return (
                         <div className={classes.__powers_available_data}>
                             <div className={classes.__powers_available_data_icon_div}>
-                                <img src={item?.icon || null} width="36" height="36" className={classes.__powers_available_data_icon} />
+                                {console.log('powerName', item?.powerName)}
+                                <img src={getIcon(item?.powerName)} alt="" width="36" height="36" className={classes.__powers_available_data_icon} />
                                 <div className={classes.__powers_available_data_power_count}>
                                     {item?.amount || null}
                                 </div>

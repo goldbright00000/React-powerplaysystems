@@ -2,6 +2,7 @@ import React from 'react';
 
 import CurrencyFormat from 'react-currency-format';
 import classes from './prizeGrid.module.scss';
+import ordinal from 'ordinal';
 
 const PrizeGrid = ({ PrizePayout }) => {
     const data = [
@@ -55,7 +56,19 @@ const PrizeGrid = ({ PrizePayout }) => {
                     return (
                         <div className={classes.__prize_grid_data}>
                             <div className={classes.__prize_grid_data_title_div}>
-                                <p className={classes.__prize_grid_data_title}>{item?.from}-{item?.to}</p>
+                                {item?.from === item?.to ? (
+                                    <p className={classes.__prize_grid_data_title}>
+                                        {
+                                            ordinal(parseInt(item?.from))
+                                        }
+                                    </p>
+                                ) : (
+                                    <p className={classes.__prize_grid_data_title}>
+                                        {
+                                            ordinal(parseInt(item?.from))} - {ordinal(parseInt(item?.to))
+                                        }
+                                    </p>
+                                )}
                             </div>
                             <div className={classes.__prize_grid_data_value_div}>
 

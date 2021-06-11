@@ -166,7 +166,7 @@ class Elite8 extends React.Component {
   constructor(props) {
     super(props);
   }
-  executeScroll() {}
+  executeScroll() { }
 
   render() {
     return (

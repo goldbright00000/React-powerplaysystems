@@ -1,5 +1,6 @@
 import React from 'react';
 import classes from './hitters.module.scss';
+import _ from 'underscore';
 
 const data = [
     {
@@ -46,16 +47,18 @@ const data = [
 ];
 
 const Hitters = ({ PointsSystem }) => {
+    const groupedPoints = _.groupBy(PointsSystem, 'type');
+
     return (
         <div className={classes.__hitters}>
             <p className={classes.__hitters_main_title}>Point System</p>
             {
-                data.map((d, i) => {
+                Object.keys(groupedPoints).map((d, i) => {
                     return (
                         <>
-                            <div className={classes.__hitters_heading}>{d.heading}</div>
+                            <div className={classes.__hitters_heading}>{Object.keys(groupedPoints)[i]}</div>
                             {
-                                PointsSystem.map((item, index) => {
+                                groupedPoints[Object.keys(groupedPoints)[i]].map((item, index) => {
                                     return (
                                         <div className={classes.__hitters_data}>
                                             <div className={classes.__hitters_data_title_div}>

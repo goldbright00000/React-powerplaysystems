@@ -92,6 +92,7 @@ const PowerCenterMobileCard = (props) => {
                             </div>
                             <div className={classes.__power_center_card_total}>
                                 <p>
+
                                     {outOf} of <span>{total}</span>
                                 </p>
                             </div>

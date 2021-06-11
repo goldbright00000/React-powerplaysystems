@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import classes from './interactiveContests.module.scss';
 import { useMediaQuery } from 'react-responsive';
-import moment from "moment";
 import { useDispatch, useSelector } from 'react-redux';
 import _ from 'underscore';
 
@@ -163,9 +162,8 @@ const InteractiveContests = props => {
     }, []);
 
     useEffect(() => {
-        setFilteredData(powerCenterCardData);
         setDays(getDaysFromToday());
-    }, []);
+    }, [powerCenterCardData]);
 
     useEffect(() => {
         // add when mounted
@@ -176,15 +174,16 @@ const InteractiveContests = props => {
         };
     }, []);
 
+
     useEffect(() => {
         if (isMobile) {
             filteredData &&
                 filteredData.map((item, index) => {
-                    if (item?.league == 'MLB') {
+                    if (item?.league === 'MLB') {
                         mlbData.push(item);
-                    } else if (item?.league == 'NFL') {
+                    } else if (item?.league === 'NFL') {
                         nflData.push(item);
-                    } else if (item?.league == 'NBA') {
+                    } else if (item?.league === 'NBA') {
                         nbaData.push(item);
                     } else {
                         nhlData.push(item);
@@ -194,10 +193,11 @@ const InteractiveContests = props => {
     }, []);
 
     useEffect(async () => {
-        dispatch(getAllGames());
+        await dispatch(getAllGames());
     }, [])
 
     useEffect(async () => {
+        setFilteredData(powerCenterCardData);
     }, [powerCenterCardData])
 
     const handleClick = e => {
@@ -209,10 +209,11 @@ const InteractiveContests = props => {
     const powerCenterCard = (item, redirectUri) => {
         return (
             <div className={classes.__interactive_contests_power_center_card}>
+                {console.log('item', item)}
                 <PowerCenterCard
                     id={item?.game_id}
                     title={item?.league}
-                    prize={_.sortBy(item?.PrizePayout, 'prize')[0]?.amount}
+                    prize={_.sortBy(item?.PrizePayouts, 'from')[0]?.amount}
                     outOf={item?.outOf}
                     total={item?.target}
                     percent={item?.percent}
@@ -220,10 +221,10 @@ const InteractiveContests = props => {
                     game_set_end={item?.game_set_end}
                     start_time={item?.start_time}
                     entry_fee={item?.entry_fee}
-                    PointsSystem={item?.PointsSystem}
-                    Power={item?.Power}
-                    PrizePayout={_.sortBy(item?.PrizePayout, 'prize')}
-                    showDetails={showCardDetails == item?.game_id}
+                    PointsSystem={item?.PointsSystems}
+                    Power={item?.Powers}
+                    PrizePayout={_.sortBy(item?.PrizePayouts, 'from')}
+                    showDetails={showCardDetails === item?.game_id}
                     onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
                     onBackClick={() => setShowCardDetails(-1)}
@@ -239,7 +240,7 @@ const InteractiveContests = props => {
                 <PowerCenterMobileCard
                     id={item?.game_id}
                     title={item?.league}
-                    prize={_.max(item?.PrizePayout, function (prizes) { return prizes?.amount; }).amount}
+                    prize={_.sortBy(item?.PrizePayouts, 'from')[0]?.amount}
                     outOf={item?.outOf}
                     total={item?.target}
                     percent={item?.percent}
@@ -247,10 +248,10 @@ const InteractiveContests = props => {
                     game_set_end={item?.game_set_end}
                     start_time={item?.start_time}
                     entry_fee={item?.entry_fee}
-                    PointsSystem={item?.PointsSystem}
-                    Power={item?.Power}
-                    PrizePayout={_.sortBy(item?.PrizePayout, 'prize')}
-                    showDetails={showCardDetails == item?.game_id}
+                    PointsSystem={item?.PointsSystems}
+                    Power={item?.Powers}
+                    PrizePayout={_.sortBy(item?.PrizePayouts, 'from')}
+                    showDetails={showCardDetails === item?.game_id}
                     onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
                     onBackClick={() => setShowCardDetails(-1)}
@@ -266,18 +267,21 @@ const InteractiveContests = props => {
                 <div className={isMobile || isTablet ? '' : '__flex'}>
                     <div style={{ flex: 1 }}>
                         <div className='__badges-wrapper __text-in-one-line __mediam'>
+
+                            {console.log('powerCenterCardData', powerCenterCardData?.length)}
                             {
                                 filters.map((item, index) => {
                                     return (
                                         <div
-                                            className={'__outline-badge __f1 ' + (selectedFilter == item.id && '__active')}
+                                            className={'__outline-badge __f1 ' + (selectedFilter === item.id && '__active')}
                                             onClick={() => {
-                                                setSelectedFilter(item.id);
-                                                const filteredData = item.id === 1
+                                                setSelectedFilter(item?.id);
+                                                const filteredData = item?.id === 1
                                                     ?
                                                     powerCenterCardData
                                                     :
-                                                    powerCenterCardData.filter(cardItem => cardItem.league === item.title);
+                                                    powerCenterCardData?.length > 0 && powerCenterCardData.filter(cardItem => cardItem.league === item.title);
+
                                                 setFilteredData(filteredData);
                                             }}>
                                             {item.icon}{item.title}
@@ -288,7 +292,6 @@ const InteractiveContests = props => {
                         </div>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'flex-end', flex: 1 }}>
-
                     </div>
                 </div>
                 {
@@ -298,7 +301,7 @@ const InteractiveContests = props => {
                             <div className={classes.__interactive_contests_most_popular}>
                                 <p>
                                     Most Popular
-                                <FilledArrow down={true} />
+                                    <FilledArrow down={true} />
                                 </p>
                             </div>
                             <div className={classes.__interactive_contests_date}>
@@ -316,12 +319,12 @@ const InteractiveContests = props => {
                             </div>
                             <div className={classes.__interactive_contests_prize_total}>
                                 <p>Prize Total
-                        <FilledArrow down={true} />
+                                    <FilledArrow down={true} />
                                 </p>
                             </div>
                             <div className={classes.__interactive_contests_top_prize}>
                                 <p>Top Prize
-                        <FilledArrow down={true} />
+                                    <FilledArrow down={true} />
                                 </p>
                             </div>
                             <div className={classes.__interactive_contests_min_entry}>
@@ -329,7 +332,7 @@ const InteractiveContests = props => {
                             </div>
                             <div className={`${classes.__interactive_contests_top_prize} ${classes.__drop_down_menu}`} ref={currencyMenuRef}>
                                 <p onClick={() => setCurrencyMenu(!currencyMenu)}>Currency
-                        {
+                                    {
                                         currencyMenu
                                             ?
                                             <FilledArrow up={true} />
@@ -348,7 +351,7 @@ const InteractiveContests = props => {
                                                         key={index}
                                                         className={
                                                             `${classes.__currency_menu_item} 
-                                                ${selectedCurrencies.includes(item.value) && classes.__currency_menu_selected}`
+                                                ${selectedCurrencies?.includes(item.value) && classes.__currency_menu_selected}`
                                                         }
                                                         onClick={() => {
                                                             const newCurrencyData = [...selectedCurrencies];

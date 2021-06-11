@@ -204,7 +204,7 @@ export function setConversionMarkup() {
       if (response.data.status === true) {
         dispatch({
           type: SET_CONVERSION_MARKUP,
-          payload: parseFloat(response.data.data.data_value),
+          payload: parseFloat(response?.data?.data?.data_value),
         });
       }
     });

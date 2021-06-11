@@ -1,5 +1,7 @@
 import React from 'react';
 import classes from './prizeGrid.module.scss';
+import CurrencyFormat from 'react-currency-format';
+import ordinal from 'ordinal';
 
 const PrizeGrid = (props) => {
     const {
@@ -8,6 +10,7 @@ const PrizeGrid = (props) => {
         game_set_end = '',
         start_time = '',
     } = props || {};
+
     const data1 = [
         {
             title: '1st',
@@ -78,10 +81,20 @@ const PrizeGrid = (props) => {
                                 {index < 5 && (
                                     <div className={classes.__prize_grid_data} key={index}>
                                         <div className={classes.__prize_grid_data_title_div}>
-                                            <p className={classes.__prize_grid_data_title}>{item?.from} - {item?.to}</p>
+                                            {item?.from === item?.to ? (
+                                                <p className={classes.__prize_grid_data_title}>
+                                                    {ordinal(parseInt(item?.from))}
+                                                </p>
+                                            ) : (
+                                                <p className={classes.__prize_grid_data_title}>
+                                                    {ordinal(parseInt(item?.from))} - {ordinal(parseInt(item?.to))}
+                                                </p>
+                                            )}
                                         </div>
                                         <div className={classes.__prize_grid_data_value_div}>
-                                            <p className={classes.__prize_grid_data_value}>{item?.amount}</p>
+                                            <p className={classes.__prize_grid_data_value}>
+                                                <CurrencyFormat value={item?.amount} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}.00</div>} />
+                                            </p>
                                         </div>
                                     </div>
                                 )}
@@ -90,22 +103,28 @@ const PrizeGrid = (props) => {
                     }
                 </div>
                 <div className={classes.__prize_grid_data_content}>
-                    {
-                        PrizePayout.map((item, index) =>
-                            <>
-                                {index >= 5 && (
-                                    <div className={classes.__prize_grid_data} key={index}>
-                                        <div className={classes.__prize_grid_data_title_div}>
-                                            <p className={classes.__prize_grid_data_title}>{item?.from} - {item?.to}</p>
-                                        </div>
-                                        <div className={classes.__prize_grid_data_value_div}>
-                                            <p className={classes.__prize_grid_data_value}>{item?.amount}</p>
-                                        </div>
+                    {PrizePayout.map((item, index) =>
+                        <>
+                            {index >= 5 && (
+                                <div className={classes.__prize_grid_data} key={index}>
+                                    <div className={classes.__prize_grid_data_title_div}>
+                                        {item?.from === item?.to ? (
+                                            <p className={classes.__prize_grid_data_title}>
+                                                {ordinal(parseInt(item?.from))}
+                                            </p>
+                                        ) : (
+                                            <p className={classes.__prize_grid_data_title}>
+                                                {ordinal(parseInt(item?.from))} - {ordinal(parseInt(item?.to))}
+                                            </p>
+                                        )}
                                     </div>
-                                )}
-                            </>
-                        )
-                    }
+                                    <div className={classes.__prize_grid_data_value_div}>
+                                        <p className={classes.__prize_grid_data_value}>{item?.amount}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </>
+                    )}
                 </div>
             </div>
 

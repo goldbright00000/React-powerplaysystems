@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './pointSystem.module.scss';
-import _, { object } from 'underscore';
+import _ from 'underscore';
 
 const data1 = [
     {
@@ -63,6 +63,8 @@ const PointSystem = (props) => {
     } = props || {};
 
     const groupedPoints = _.groupBy(PointsSystem, 'type');
+    const typeOne = Object.keys(groupedPoints)[0];
+    const typeTwo = Object.keys(groupedPoints)[1];
 
     return (
         <div className={classes.__point_system}>
@@ -81,50 +83,37 @@ const PointSystem = (props) => {
             </div>
             <div className={classes.__point_system_data_container}>
                 <div className={classes.__point_system_data_content}>
-                    {
-                        Object.keys(groupedPoints).length > 0 && (
-                            Object.keys(groupedPoints)?.map((d, i) => {
-                                return (
-                                    <>
-                                        <div className={classes.__point_system_heading}>{Object.keys(groupedPoints)[0]}</div>
-                                        {console.log('groupedPoints', groupedPoints)}
-                                        {groupedPoints.d && (
-                                            groupedPoints.d.map((item, index) => {
-                                                return (
-                                                    <div className={classes.__point_system_data} key={index}>
-                                                        <div className={classes.__point_system_data_title_div}>
-                                                            <p className={classes.__point_system_data_title}>{item.title}</p>
-                                                        </div>
-                                                        <div className={classes.__point_system_data_value_div}>
-                                                            <p className={classes.__point_system_data_value}>{item.value}</p>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            })
-                                        )}
-                                    </>
-                                );
-                            })
-                        )
-                    }
+                    <>
+                        <div className={classes.__point_system_heading}>{typeOne}</div>
+                        {groupedPoints[typeOne]?.map((item, index) => {
+                            return (
+                                <div className={classes.__point_system_data} key={index}>
+                                    <div className={classes.__point_system_data_title_div}>
+                                        <p className={classes.__point_system_data_title}>{item?.plays}</p>
+                                    </div>
+                                    <div className={classes.__point_system_data_value_div}>
+                                        <p className={classes.__point_system_data_value}>+ {item?.points} Pts</p>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </>
                 </div>
                 <div className={classes.__point_system_data_content}>
                     <>
-                        <div className={classes.__point_system_heading} >{Object.keys(groupedPoints)[1]}</div>
-                        {
-                            // d.hitters.map((item, index) => {
-                            //     return (
-                            //         <div className={classes.__point_system_data} key={index}>
-                            //             <div className={classes.__point_system_data_title_div}>
-                            //                 <p className={classes.__point_system_data_title}>{item.title}</p>
-                            //             </div>
-                            //             <div className={classes.__point_system_data_value_div}>
-                            //                 <p className={classes.__point_system_data_value}>{item.value}</p>
-                            //             </div>
-                            //         </div>
-                            //     );
-                            // })
-                        }
+                        <div className={classes.__point_system_heading} >{typeTwo}</div>
+                        {groupedPoints[typeTwo]?.map((item, index) => {
+                            return (
+                                <div className={classes.__point_system_data} key={index}>
+                                    <div className={classes.__point_system_data_title_div}>
+                                        <p className={classes.__point_system_data_title}>{item?.plays}</p>
+                                    </div>
+                                    <div className={classes.__point_system_data_value_div}>
+                                        <p className={classes.__point_system_data_value}>+{item?.points} Pts</p>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </>
                 </div>
             </div>
