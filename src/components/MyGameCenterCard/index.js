@@ -147,15 +147,6 @@ const MyGameCenterCard = (props) => {
                   </div>
                 </div>
 
-                {editPicks && (
-                  <OutlineButton
-                    title="Edit Picks"
-                    onClick={onEdit}
-                    styles={{ color: "#f2f2f2", marginTop: 14 }}
-                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
-                  />
-                )}
-
                 <div className={classes.__my_game_center_card_powerdfs_title}>
                   <p>
                     <span
@@ -228,7 +219,7 @@ const MyGameCenterCard = (props) => {
                   {editPicks && (
                     <OutlineButton
                       title="Edit Picks"
-                      onClick={onEnter}
+                      onClick={onEdit}
                       styles={{ width: "140px", fontSize: "14px" }}
                       //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
@@ -507,7 +498,7 @@ const MyGameCenterCard = (props) => {
               {editPicks && (
                 <OutlineButton
                   title="Edit Picks"
-                  onClick={onEnter}
+                  onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
                   //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
