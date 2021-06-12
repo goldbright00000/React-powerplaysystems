@@ -1,7 +1,7 @@
 import { GET_ALL_GAMES } from "../../actions/powerCenterActions";
 
 const INITIAL_STATE = {
-
+    allGames: [],
 };
 
 const powerCenterReducer = (state = INITIAL_STATE, actions) => {
