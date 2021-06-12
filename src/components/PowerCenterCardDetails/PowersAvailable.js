@@ -55,7 +55,7 @@ const PowersAvailable = (props) => {
     learnMore = () => { },
     Power = [],
   } = props || {};
-  console.log('powers', Power)
+
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
   const onOpenModal = () => setLearnMoreModal(true);

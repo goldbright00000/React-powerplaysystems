@@ -7,7 +7,7 @@ import BasketBall from '../../icons/BasketBall';
 import Hockeys from '../../icons/Hockeys';
 import SuperBall from '../../icons/SuperBall';
 import CashPowerBalance from '../../components/CashPowerBalance';
-import { redirectTo, getDaysFromToday } from '../../utility/shared';
+import { redirectTo, getDaysFromToday, printLog } from '../../utility/shared';
 import CustomDropDown from '../../components/CustomDropDown';
 import MyGameCenterCard from '../../components/MyGameCenterCard';
 import { URLS } from '../../config/urls';
@@ -229,7 +229,7 @@ const InteractiveContests = (props) => {
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
-        {console.log('MyGameCenterCard ==>', item)}
+        {printLog('MyGameCenterCard ==>', item)}
         <MyGameCenterCard
           isMobile={isMobile}
           id={item.id}

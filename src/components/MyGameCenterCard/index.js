@@ -18,6 +18,7 @@ import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import Hitters from "../PowerCenterCardDetails/Hitters";
+import { printLog } from "../../utility/shared";
 
 const MyGameCenterCard = (props) => {
   const {
@@ -47,7 +48,7 @@ const MyGameCenterCard = (props) => {
     onFinalStandings = () => { },
   } = props || {};
 
-  console.log('props', props)
+  printLog('props', props)
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);

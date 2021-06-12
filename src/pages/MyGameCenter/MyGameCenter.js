@@ -9,7 +9,7 @@ import "./table.scss";
 import Footer from "../../components/Footer/Footer";
 import InteractiveContests from "./InteractiveContests";
 import MyGameCenterTable from "./MyGameCenterTable";
-import { getLocalStorage } from "../../utility/shared";
+import { getLocalStorage, printLog } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import Balance from "../../components/Balance";
 import { showDepositForm } from "../../actions/uiActions";
@@ -32,7 +32,7 @@ const MyGameCenter = (props) => {
               My Game Center
             </div>
           </div>
-          {console.log('local storage', CONSTANTS.LOCAL_STORAGE_KEYS.USER)}
+          {printLog('local storage', CONSTANTS.LOCAL_STORAGE_KEYS.USER)}
           {isMobile ? null : (
             <>
               {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (

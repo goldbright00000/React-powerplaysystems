@@ -8,7 +8,6 @@ import http from "../config/http";
 export const GET_ALL_GAMES = "GET_ALL_GAMES";
 
 export function getAllGames() {
-    console.log('app url => ', process.env.REACT_APP_API_URL);
     return (dispatch) => {
         axios
             .get(`${process.env.REACT_APP_API_URL}/ppgapi/${URLS.GAMES.ALL_GAMES}`)
