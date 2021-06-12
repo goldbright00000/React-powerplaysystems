@@ -47,6 +47,8 @@ const MyGameCenterCard = (props) => {
     onFinalStandings = () => { },
   } = props || {};
 
+  console.log('props', props)
+
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
 

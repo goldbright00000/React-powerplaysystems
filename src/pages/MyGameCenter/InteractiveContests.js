@@ -229,6 +229,7 @@ const InteractiveContests = (props) => {
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
+        {console.log('MyGameCenterCard ==>', item)}
         <MyGameCenterCard
           isMobile={isMobile}
           id={item.id}
