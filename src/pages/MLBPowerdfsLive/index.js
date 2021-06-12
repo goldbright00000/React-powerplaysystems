@@ -48,6 +48,7 @@ function MLBPowerdFsLive(props) {
     sport_id = 0,
     game_id = 0,
   } = useSelector((state) => state.mlb);
+  const { user = {} } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
@@ -111,12 +112,13 @@ function MLBPowerdFsLive(props) {
       MLBActions.getMlbLivePlayPlayerTeamData({
         game_id,
         sport_id,
-        user_id: 92,
+        user_id: user.user_id,
       })
     );
 
     const playersArr = new Array(8);
     const { players = [], teamD = {} } = dataResponse || {};
+    console.log(players);
     const [playerP] = players?.filter(
       (plr) => `${plr?.type}`?.toLocaleLowerCase() === P
     );

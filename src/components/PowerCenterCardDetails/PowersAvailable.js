@@ -55,7 +55,7 @@ const PowersAvailable = (props) => {
     learnMore = () => { },
     Power = [],
   } = props || {};
-
+  console.log('powers', Power)
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
   const onOpenModal = () => setLearnMoreModal(true);
@@ -88,13 +88,13 @@ const PowersAvailable = (props) => {
 
           {(() => {
             const itemsInaRow = 3;
-            const numberOfRows = Math.ceil(data.length / itemsInaRow);
+            const numberOfRows = Math.ceil(Power.length / itemsInaRow);
             const myGameCenterCardAvailablePowerView = Array(numberOfRows)
               .fill(undefined)
               .map((item, i) => {
                 const start = (i + 1) * itemsInaRow - 3;
                 const end = (i + 1) * itemsInaRow;
-                const items = data.slice(start, end);
+                const items = Power.slice(start, end);
 
                 return (
                   <div className={classes.__powers_available_data}>
@@ -106,7 +106,7 @@ const PowersAvailable = (props) => {
                             onClick={learnMore}
                           >
                             <img
-                              src={item.icon}
+                              src={getIcon(item?.powerName)}
                               width="28"
                               height="28"
                               className={classes.__powers_available_data_icon}
@@ -116,7 +116,7 @@ const PowersAvailable = (props) => {
                                 classes.__powers_available_data_power_count
                               }
                             >
-                              {item.count}
+                              {item?.amount}
                             </div>
                           </div>
                           <div
@@ -127,11 +127,11 @@ const PowersAvailable = (props) => {
                             <p
                               className={classes.__powers_available_data_value}
                             >
-                              {item.value}
+                              {item?.powerName}
                             </p>
                           </div>
                           {
-                            data.length == index + 1 && (
+                            Power.length == index + 1 && (
                               <div
                                 className={
                                   classes.__powers_available_learn_more_div
@@ -174,26 +174,26 @@ const PowersAvailable = (props) => {
             )}
           </div>
 
-          {data.map((item, index) => {
+          {Power.map((item, index) => {
             return (
               <div className={classes.__powers_available_data}>
                 <div className={classes.__powers_available_data_icon_div}>
                   <img
-                    src={item.icon}
+                    src={getIcon(item?.powerName)}
                     width="36"
                     height="36"
                     className={classes.__powers_available_data_icon}
                   />
                   <div className={classes.__powers_available_data_power_count}>
-                    {item.count}
+                    {item.amount}
                   </div>
                 </div>
                 <div className={classes.__powers_available_data_value_div}>
                   <p className={classes.__powers_available_data_value}>
-                    {item.value}
+                    {item?.powerName}
                   </p>
                 </div>
-                {data.length == index + 1 && (
+                {Power.length == index + 1 && (
                   <div
                     className={classes.__powers_available_learn_more_div}
                     onClick={() => onOpenModal()}

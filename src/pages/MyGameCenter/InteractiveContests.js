@@ -12,8 +12,9 @@ import CustomDropDown from '../../components/CustomDropDown';
 import MyGameCenterCard from '../../components/MyGameCenterCard';
 import { URLS } from '../../config/urls';
 import http from '../../config/http';
-
 import { useMediaQuery } from "react-responsive";
+import { Carousel } from "react-responsive-carousel";
+import * as MLbActions from "../../actions/MLBActions";
 
 const myGameCenterCardData = [
   {
@@ -27,7 +28,7 @@ const myGameCenterCardData = [
     inProgress: true,
     completed: false,
     teamManager: true,
-    editPicks: false,
+    editPicks: true,
     makePicks: false,
     timeToStart: "",
   },
@@ -217,6 +218,14 @@ const InteractiveContests = (props) => {
     setBalance(response.data);
   };
 
+  const onEdit = (item) => {
+    switch (item?.title) {
+      case "MLB":
+        dispatch(MLbActions.getAndSetEditPlayers({ game_id: 7, sport_id: 1 }));
+        return redirectTo(props, { path: "/mlb-powerdfs" });
+    }
+  };
+
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
@@ -237,7 +246,12 @@ const InteractiveContests = (props) => {
           showDetails={showCardDetails == item.id}
           viewResults={viewResults == item.id}
           finalStandingsModal={finalStandingsModal == item.id}
-          onEnter={() => redirectTo(props, { path: redirectUri || "/" })}
+          onEnter={() => {
+            redirectTo(props, { path: redirectUri || "/" });
+          }}
+          onEdit={() => {
+            onEdit(item);
+          }}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
