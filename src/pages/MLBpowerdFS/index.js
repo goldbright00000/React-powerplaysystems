@@ -760,11 +760,11 @@ function MLBPowerdFs(props) {
                                 onSelectDeselect={onPlayerSelectDeselect}
                                 pageType={PAGE_TYPES.MLB}
                                 type={selectedData?.type}
-                                // disabled={
-                                //   item.isStarPlayer &&
-                                //   item.isStarPlayer &&
-                                //   starPlayerCount >= 3
-                                // }
+                              // disabled={
+                              //   item.isStarPlayer &&
+                              //   item.isStarPlayer &&
+                              //   starPlayerCount >= 3
+                              // }
                               />
                             )}
                           </>
@@ -806,9 +806,8 @@ function MLBPowerdFs(props) {
                           Scoring
                         </Tab>
                         <Tab
-                          className={`${activeTab === 2 && classes.active} ${
-                            classes.__last_tab_header
-                          }`}
+                          className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                            }`}
                         >
                           Powers Available
                         </Tab>

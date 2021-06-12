@@ -21,6 +21,7 @@ import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
 import FilledArrow from "../FilledArrow";
 import DepositAmountPopUp from "../DepositAmountPopUp/DepositAmountPopUp";
+import { getAllGames } from "../../actions/powerCenterActions";
 
 const MY_ACCOUNT_MENU_OPTIONS = [
   {
@@ -192,7 +193,7 @@ const Header = (props) => {
               </li>
               {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
               {user?.token ||
-              getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+                getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
                 <>
                   <li>
                     <NavLink to="/my-game-center">My Game Center</NavLink>
@@ -246,9 +247,8 @@ const Header = (props) => {
                   <li>
                     <NavLink
                       to="/power-up"
-                      className={`__btn __header-btn ${
-                        btnBorderStyle ? "__style-2 __primary-color" : ""
-                      }`}
+                      className={`__btn __header-btn ${btnBorderStyle ? "__style-2 __primary-color" : ""
+                        }`}
                     >
                       Power up!
                     </NavLink>

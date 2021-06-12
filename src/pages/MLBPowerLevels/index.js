@@ -615,11 +615,11 @@ function MLBPowerLevels(props) {
                               onSelectDeselect={onPlayerSelectDeselect}
                               pageType={PAGE_TYPES.MLB}
                               type={selectedData?.type}
-                              // disabled={
-                              //   item.isStarPlayer &&
-                              //   item.isStarPlayer &&
-                              //   starPlayerCount >= 3
-                              // }
+                            // disabled={
+                            //   item.isStarPlayer &&
+                            //   item.isStarPlayer &&
+                            //   starPlayerCount >= 3
+                            // }
                             />
                           )
                         )
@@ -658,9 +658,8 @@ function MLBPowerLevels(props) {
                           Scoring
                         </Tab>
                         <Tab
-                          className={`${activeTab === 2 && classes.active} ${
-                            classes.__last_tab_header
-                          }`}
+                          className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                            }`}
                         >
                           Powers Available
                         </Tab>
@@ -783,7 +782,7 @@ function MLBPowerLevels(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-          <Sidebar styles={{ padding: 20 }}>
+            <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}

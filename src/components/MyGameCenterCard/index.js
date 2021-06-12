@@ -18,6 +18,7 @@ import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import Hitters from "../PowerCenterCardDetails/Hitters";
+import { printLog } from "../../utility/shared";
 
 const MyGameCenterCard = (props) => {
   const {
@@ -37,15 +38,17 @@ const MyGameCenterCard = (props) => {
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    onDetailsClick = () => {},
-    onBackClick = () => {},
-    onNextClick = () => {},
-    onEnter = () => {},
-    onEdit = () => {},
-    onViewResults = () => {},
-    onViewResultsBack = () => {},
-    onFinalStandings = () => {},
+    onDetailsClick = () => { },
+    onBackClick = () => { },
+    onNextClick = () => { },
+    onEnter = () => { },
+    onEdit = () => { },
+    onViewResults = () => { },
+    onViewResultsBack = () => { },
+    onFinalStandings = () => { },
   } = props || {};
+
+  printLog('props', props)
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
@@ -221,7 +224,7 @@ const MyGameCenterCard = (props) => {
                       title="Edit Picks"
                       onClick={onEdit}
                       styles={{ width: "140px", fontSize: "14px" }}
-                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -500,7 +503,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 

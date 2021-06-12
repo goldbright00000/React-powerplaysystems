@@ -1,13 +1,14 @@
 import React from 'react';
 import classes from './hitters.module.scss';
+import _ from 'underscore';
 
 const data = [
     {
         heading: 'Hitters',
         hitters: [
             {
-                title: 'Single',
-                value: '+ 3 Pts'
+                title: 'Single', // play
+                value: '+ 3 Pts' // points
             },
             {
                 title: 'Double',
@@ -45,24 +46,26 @@ const data = [
     }
 ];
 
-const Hitters = () => {
+const Hitters = ({ PointsSystem }) => {
+    const groupedPoints = _.groupBy(PointsSystem, 'type');
+
     return (
         <div className={classes.__hitters}>
             <p className={classes.__hitters_main_title}>Point System</p>
             {
-                data.map((d, i) => {
+                Object.keys(groupedPoints).map((d, i) => {
                     return (
                         <>
-                            <div className={classes.__hitters_heading}>{d.heading}</div>
+                            <div className={classes.__hitters_heading}>{Object.keys(groupedPoints)[i]}</div>
                             {
-                                d.hitters.map((item, index) => {
+                                groupedPoints[Object.keys(groupedPoints)[i]].map((item, index) => {
                                     return (
                                         <div className={classes.__hitters_data}>
                                             <div className={classes.__hitters_data_title_div}>
-                                                <p className={classes.__hitters_data_title}>{item.title}</p>
+                                                <p className={classes.__hitters_data_title}>{item?.plays}</p>
                                             </div>
                                             <div className={classes.__hitters_data_value_div}>
-                                                <p className={classes.__hitters_data_value}>{item.value}</p>
+                                                <p className={classes.__hitters_data_value}>+{item?.points} Pts</p>
                                             </div>
                                         </div>
                                     );

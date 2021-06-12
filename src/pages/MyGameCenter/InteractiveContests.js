@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from "react";
-import classes from "./interactiveContests.module.scss";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import classes from './interactiveContests.module.scss';
+import { useDispatch } from 'react-redux';
+import { setUserBalance } from '../../actions/userActions';
+import Ball from '../../icons/Ball';
+import BasketBall from '../../icons/BasketBall';
+import Hockeys from '../../icons/Hockeys';
+import SuperBall from '../../icons/SuperBall';
+import CashPowerBalance from '../../components/CashPowerBalance';
+import { redirectTo, getDaysFromToday, printLog } from '../../utility/shared';
+import CustomDropDown from '../../components/CustomDropDown';
+import MyGameCenterCard from '../../components/MyGameCenterCard';
+import { URLS } from '../../config/urls';
+import http from '../../config/http';
 import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
-
-import { setUserBalance } from "../../actions/userActions";
 import * as MLbActions from "../../actions/MLBActions";
-import Ball from "../../icons/Ball";
-import BasketBall from "../../icons/BasketBall";
-import Hockeys from "../../icons/Hockeys";
-import SuperBall from "../../icons/SuperBall";
-import CashPowerBalance from "../../components/CashPowerBalance";
-import { redirectTo, getDaysFromToday } from "../../utility/shared";
-import CustomDropDown from "../../components/CustomDropDown";
-import MyGameCenterCard from "../../components/MyGameCenterCard";
-import { URLS } from "../../config/urls";
-import http from "../../config/http";
-// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 
 const myGameCenterCardData = [
   {
@@ -231,6 +229,7 @@ const InteractiveContests = (props) => {
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
+        {printLog('MyGameCenterCard ==>', item)}
         <MyGameCenterCard
           isMobile={isMobile}
           id={item.id}
@@ -284,8 +283,8 @@ const InteractiveContests = (props) => {
                         item.id === 1
                           ? myGameCenterCardData
                           : myGameCenterCardData.filter(
-                              (cardItem) => cardItem.title === item.title
-                            );
+                            (cardItem) => cardItem.title === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
