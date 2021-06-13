@@ -13,7 +13,7 @@ const VerifyIdentityPage = (props) => {
   const onVerifyLater = () => {
     return redirectTo(props, { path: "login" });
   };
-  // send it to backend and verify the inquiry there.
+  // send it to backend and verify the inquiry there.`
   // http://localhost:3000/verify-your-identity?inquiry-id=inq_9XBzrr32E5mET1LSFZ74LrJh
 
   const redirectToPerson = () =>{
