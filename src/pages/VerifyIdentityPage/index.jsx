@@ -13,6 +13,14 @@ const VerifyIdentityPage = (props) => {
   const onVerifyLater = () => {
     return redirectTo(props, { path: "login" });
   };
+  // send it to backend and verify the inquiry there.
+  // http://localhost:3000/verify-your-identity?inquiry-id=inq_9XBzrr32E5mET1LSFZ74LrJh
+
+  const redirectToPerson = () =>{
+    let url = `https://withpersona.com/verify?template-id=${process.env.REACT_APP_PERSONA_TEMPLATE_ID}&`
+    .concat(`environment=sandbox&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`)
+    window.open(url, "_blank")
+  }
 
   return (
     <>
@@ -49,7 +57,7 @@ const VerifyIdentityPage = (props) => {
             <img alt="" src={personaLogo} className={styles.personaLogo} />
           </div>
           <div className={styles.buttonWrappers}>
-            <button className={styles.verifyIdentityButton} disabled={true}>
+            <button className={styles.verifyIdentityButton} onClick={redirectToPerson}>
               Verify Your Identity
             </button>
             <button
