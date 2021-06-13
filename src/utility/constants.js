@@ -134,4 +134,5 @@ export const CONSTANTS = {
     xp2: "xp2",
     xp3: "xp3",
   },
+  PERSONA_USER_ID: "PERSONA_USER_ID"
 };

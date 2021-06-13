@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 import formStyles from "../../scss/formstyles.module.scss";
 import styles from "./styles.module.scss";
@@ -8,19 +9,71 @@ import Footer from "../../components/Footer/Footer";
 import personaLogo from "../../assets/persona-logo.svg";
 import { Link } from "react-router-dom";
 import { redirectTo } from "../../utility/shared";
+import {
+  getPersonaUserId,
+  removePersonaUserId,
+} from "../../actions/personaActions";
+import { showToast } from "../../actions/uiActions";
+import http from "../../config/http";
+import { URLS } from "../../config/urls";
 
 const VerifyIdentityPage = (props) => {
+  const dispatch = useDispatch();
   const onVerifyLater = () => {
+    removePersonaUserId();
     return redirectTo(props, { path: "login" });
   };
   // send it to backend and verify the inquiry there.`
   // http://localhost:3000/verify-your-identity?inquiry-id=inq_9XBzrr32E5mET1LSFZ74LrJh
 
-  const redirectToPerson = () =>{
-    let url = `https://withpersona.com/verify?template-id=${process.env.REACT_APP_PERSONA_TEMPLATE_ID}&`
-    .concat(`environment=sandbox&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`)
-    window.open(url, "_blank")
-  }
+  const redirectToPerson = () => {
+    let url =
+      `https://withpersona.com/verify?template-id=${process.env.REACT_APP_PERSONA_TEMPLATE_ID}&`.concat(
+        `environment=sandbox&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`
+      );
+    window.open(url, "_blank");
+  };
+
+  useEffect(() => {
+    let params = new URLSearchParams(props.location.search);
+    let inquiryId = params.get("inquiry-id");
+    if (inquiryId) {
+      let personaUserId = getPersonaUserId();
+      if (!personaUserId) {
+        dispatch(
+          showToast(
+            "There's is some error during verification. Please try again.",
+            "error"
+          )
+        );
+      } else {
+        console.log("You can go with the verification endpoint.");
+        let obj = { user_id: personaUserId, inquiry_id: inquiryId };
+
+        http
+          .post(URLS.USER.PERSONA_VERIFICATION, obj)
+          .then((res) => {
+            if (res.data.status === true) {
+              dispatch(showToast("Verification successfull. ", "success"));
+              removePersonaUserId();
+              redirectTo(props, { path: "login" });
+            } else {
+              dispatch(showToast(res.data?.message, "error"));
+            }
+          })
+          .catch((err) => {
+            console.log(err.response);
+            dispatch(
+              showToast(
+                err?.response?.data?.message ||
+                  "Verification failed. Please try again.",
+                "error"
+              )
+            );
+          });
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -57,7 +110,10 @@ const VerifyIdentityPage = (props) => {
             <img alt="" src={personaLogo} className={styles.personaLogo} />
           </div>
           <div className={styles.buttonWrappers}>
-            <button className={styles.verifyIdentityButton} onClick={redirectToPerson}>
+            <button
+              className={styles.verifyIdentityButton}
+              onClick={redirectToPerson}
+            >
               Verify Your Identity
             </button>
             <button
