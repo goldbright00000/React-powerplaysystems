@@ -4,6 +4,10 @@ import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
 import NBAPlayer from "../../assets/nba-player.png";
 import NHLPlayer from "../../assets/nhl-player.png";
+import MLBPlayerMobile from "../../assets/mlb-player-mobile.png";
+import NFLPlayerMobile from "../../assets/nfl-player-mobile.png";
+import NBAPlayerMobile from "../../assets/nba-player-mobile.png";
+import NHLPlayerMobile from "../../assets/nhl-player-mobile-left.png";
 import BlueTick from "../../assets/blue_tick.png";
 import PencilIcon from "../../assets/pencil_icon.png";
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
@@ -85,17 +89,17 @@ const MyGameCenterCard = (props) => {
       // backgroundSize: "auto"
     };
     if (title === "MLB") {
-      backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
-      backgroundImageStyle.backgroundPosition = "110px -40px";
+      backgroundImageStyle.backgroundImage = `url(${MLBPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "180px -10px";
     } else if (title === "NFL") {
-      backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "120px -15px";
+      backgroundImageStyle.backgroundImage = `url(${NFLPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "175px 0px";
     } else if (title === "NBA") {
-      backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
-      backgroundImageStyle.backgroundPosition = "-20px -35px";
+      backgroundImageStyle.backgroundImage = `url(${NBAPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "35px -10px";
     } else {
-      backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "180px 0px";
+      backgroundImageStyle.backgroundImage = `url(${NHLPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "185px 30px";
     }
     return backgroundImageStyle;
   };
@@ -154,17 +158,22 @@ const MyGameCenterCard = (props) => {
                   </div>
                 </div>
 
-                <div className={classes.__my_game_center_card_powerdfs_title}>
-                  <p>
-                    <span
-                      className={
-                        classes.__my_game_center_card_powerdfs_title_first
-                      }
-                    >
-                      {title}
-                    </span>{" "}
-                    PowerdFS
-                  </p>
+                <div
+                  className={classes.__my_game_center_card_powerdfs}
+                  style={{ marginTop: inProgress || !completed ? -3 : 10 }}
+                >
+                  <div className={classes.__my_game_center_card_powerdfs_title}>
+                    <p>
+                      <span
+                        className={
+                          classes.__my_game_center_card_powerdfs_title_first
+                        }
+                      >
+                        {title}
+                      </span>{" "}
+                      PowerdFS
+                    </p>
+                  </div>
                 </div>
 
                 <div className={classes.__my_game_center_card_prize_pool}>
