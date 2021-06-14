@@ -11,6 +11,10 @@ import {
 } from "../../utility/shared";
 //store
 import { useDispatch, useSelector } from "react-redux";
+import {
+  removePersonaUserId,
+  savePersonaUserId,
+} from "../../actions/personaActions";
 //lodash
 import { isEmpty, isEqual } from "lodash";
 //ui component imports
@@ -61,6 +65,7 @@ const GetUserInfoPage = (props) => {
     email: props.location.state.email,
     password: props.location.state.password,
   });
+
   useEffect(() => {
     if (user.isSuccess || isEmpty(props.location.state.email)) {
       // redirectTo(props, { path: "login" });
@@ -70,6 +75,12 @@ const GetUserInfoPage = (props) => {
   useEffect(() => {
     setUser({ ...user, stateOrProvince: "" });
   }, [user.country]);
+
+  useEffect(() => {
+    // it will remove the id of any previous user before the registeration of new one.
+    removePersonaUserId();
+  }, []);
+
   const getStatesOrProvinces = () => {
     if (user.country == "USA") {
       return getStates();
@@ -163,6 +174,9 @@ const GetUserInfoPage = (props) => {
         isFailed: true,
         errorMsg: response.data.message,
       });
+    } else {
+      console.log(response?.data?.user?.user_id);
+      savePersonaUserId(response?.data?.user?.user_id);
     }
 
     setUser({
@@ -171,6 +185,7 @@ const GetUserInfoPage = (props) => {
       isSuccess: true,
       errorMsg: response.data.message,
     });
+
     props.history.replace("/verify-your-identity");
   };
   return (
