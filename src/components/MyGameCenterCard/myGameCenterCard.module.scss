@@ -15,9 +15,9 @@
     padding-top: 1px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    background-color: $successLight3;
+    background-color: $successLight4;
     font-family: Poppins;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -331,10 +331,11 @@
     display: flex;
     width: 108px;
     height: 24px;
-    padding-top: 1px;
+    // padding-top: 1px;
+    margin-left: -1px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    background-color: $successLight3;
+    background-color: $successLight4;
     font-family: Poppins;
     font-size: 12px;
     font-weight: 500;
@@ -377,7 +378,7 @@
     border-top-left-radius: 8px;
     background-color: $lightBlue;
     font-family: Poppins;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;

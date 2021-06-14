@@ -29,6 +29,7 @@ const MyGameCenterCard = (props) => {
     outOf = null,
     total = null,
     percent = null,
+    PrizePayout = [],
     showDetails = false,
     inProgress = false,
     completed = false,
@@ -38,17 +39,17 @@ const MyGameCenterCard = (props) => {
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    onDetailsClick = () => { },
-    onBackClick = () => { },
-    onNextClick = () => { },
-    onEnter = () => { },
-    onEdit = () => { },
-    onViewResults = () => { },
-    onViewResultsBack = () => { },
-    onFinalStandings = () => { },
+    onDetailsClick = () => {},
+    onBackClick = () => {},
+    onNextClick = () => {},
+    onEnter = () => {},
+    onEdit = () => {},
+    onViewResults = () => {},
+    onViewResultsBack = () => {},
+    onFinalStandings = () => {},
   } = props || {};
 
-  printLog('props', props)
+  printLog("props", props);
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
@@ -79,11 +80,9 @@ const MyGameCenterCard = (props) => {
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
-      border: inProgress ? "1px solid #214f24" : "1px solid #000",
-      backgroundColor: "#000",
-      // background: !inProgress && "#000",
-      // zIndex: 2,
-      // opacity: "0.6",
+      border: inProgress ? "1px solid #214f24" : "1px solid #17181a",
+      backgroundColor: "#17181a",
+      // backgroundSize: "auto"
     };
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
@@ -109,7 +108,14 @@ const MyGameCenterCard = (props) => {
             className={classes.__my_game_center_card_mobile}
             style={getBackgroundImageWithStyleMobile()}
           >
-            <Carousel showArrows={false} showStatus={false} autoPlay={false}>
+            <Carousel
+              showArrows={false}
+              showStatus={false}
+              showThumbs={false}
+              autoPlay={false}
+              infiniteLoop={false}
+              interval={300000}
+            >
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>
                   {inProgress && (
@@ -121,9 +127,7 @@ const MyGameCenterCard = (props) => {
                   )}
                   {completed && (
                     <div className={classes.__my_game_center_card_completed}>
-                      <div className={classes.__completed}>
-                        <span></span>Completed
-                      </div>
+                      <div className={classes.__completed}>Completed</div>
                     </div>
                   )}
 
@@ -224,7 +228,7 @@ const MyGameCenterCard = (props) => {
                       title="Edit Picks"
                       onClick={onEdit}
                       styles={{ width: "140px", fontSize: "14px" }}
-                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -275,6 +279,7 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
                 <PrizeGrid
+                  PrizePayout={PrizePayout}
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
@@ -388,6 +393,7 @@ const MyGameCenterCard = (props) => {
               </>
             </Carousel>
           </div>
+
           {leaveGameModal && (
             <LeaveGameModal
               isMobile={isMobile}
@@ -503,7 +509,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 
