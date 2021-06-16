@@ -8,6 +8,7 @@ import SponserAContestPage from "./pages/SponserAContestPage/SponserAContestPage
 import PowerCenter from "./pages/PowerCenter/PowerCenter";
 import Mobile from "./pages/Mobile/Mobile";
 import LiveStanding from "./pages/Mobile/LiveStanding";
+import EasyPlay from "./pages/Mobile/EasyPlay";
 import SelectTeams from "./pages/SelectTeams/SelectTeams";
 import PowerBetLive from "./pages/PowerBetLive/PowerBetLive";
 import ScrollToTop from "./utility/ScrollToTop";
@@ -62,7 +63,9 @@ const App = props => {
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/mobile" component={Mobile} />
+
         <Route exact path="/live-standing" component={LiveStanding} />
+        <Route exact path="/easy-play" component={EasyPlay} />
         <Route path="/paymentFrame" component={PaymentFrame} />
         <Route
           exact

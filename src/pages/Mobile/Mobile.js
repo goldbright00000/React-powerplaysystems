@@ -6,7 +6,7 @@ import LiveMatch from "../../components/mobilecomponents/LiveMatch/LiveMatch";
 import Tabs from "../../components/mobilecomponents/Tabs/Tabs";
 import ThreeBoxes from "../../components/mobilecomponents/ThreeBoxes";
 
-import { Main } from "./style";
+import "./mainStyle.scss";
 import ScoreDetails from "./views/ScoreDetails";
 import TeamManager from "./views/TeamManager";
 
@@ -25,14 +25,14 @@ function App() {
   };
 
   return (
-    <Main>
+    <section className="main">
       <Header />
       <Banner />
       <ThreeBoxes state={state} showTime={true} />
       <Tabs state={state} setState={setState} />
       {changeComponent(state)}
       <LiveMatch />
-    </Main>
+    </section>
   );
 }
 
