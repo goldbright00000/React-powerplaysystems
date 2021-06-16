@@ -23,7 +23,7 @@ const ScoreBoard = ({
   setstate,
 }) => {
   return (
-    <section className="board__wrapper">
+    <section className="transparent board__wrapper">
       <Container fluid={true}>
         <TagLines
           title={tagLine}
