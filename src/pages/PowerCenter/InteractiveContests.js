@@ -209,7 +209,6 @@ const InteractiveContests = props => {
     const powerCenterCard = (item, redirectUri) => {
         return (
             <div className={classes.__interactive_contests_power_center_card}>
-                {console.log('item', item)}
                 <PowerCenterCard
                     id={item?.game_id}
                     title={item?.league}
@@ -225,7 +224,9 @@ const InteractiveContests = props => {
                     Power={item?.Powers}
                     PrizePayout={_.sortBy(item?.PrizePayouts, 'from')}
                     showDetails={showCardDetails === item?.game_id}
-                    onEnter={() => redirectTo(props, { path: redirectUri || '/' })}
+                    onEnter={() => {
+                        redirectTo(props, { path: redirectUri || `/${item?.league?.toLowerCase()}-powerdfs?game_id=${item?.game_id}` });
+                    }}
                     onDetailsClick={(cardId) => setShowCardDetails(cardId)}
                     onBackClick={() => setShowCardDetails(-1)}
                     onNextClick={() => setShowCardDetails(-1)}

@@ -13,10 +13,10 @@ export const MLB_EDIT_PLAYERS = "[MLB] MLB_EDIT_PLAYERS";
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
 
-export function mlbData() {
+export function mlbData(gameId) {
   return async (dispatch) => {
     try {
-      const response = await http.get(URLS.DFS.MLB);
+      const response = await http.get(`${URLS.DFS.MLB}?game_id=${gameId}`);
       const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
         response.data || {};
 
@@ -229,9 +229,11 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) {
+        }
       }
-    } catch (err) {}
+    } catch (err) {
+    }
   };
 }
 

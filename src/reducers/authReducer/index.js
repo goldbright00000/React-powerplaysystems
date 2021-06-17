@@ -2,7 +2,7 @@ import * as Actions from "../../actions/authActions";
 
 const INITIAL_STATE = {
   loading: false,
-  user: [],
+  user: '',
 };
 
 const authReducer = (state = INITIAL_STATE, actions) => {

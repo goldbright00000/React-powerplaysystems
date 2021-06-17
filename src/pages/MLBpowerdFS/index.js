@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty, cloneDeep, isLength } from "lodash";
+import queryString from 'query-string'
 
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
@@ -260,8 +261,9 @@ function MLBPowerdFs(props) {
   }, []);
 
   const getData = async () => {
+    const queries = queryString.parse(props.location.search)
     setLoading(true);
-    await dispatch(MLBActions.mlbData());
+    await dispatch(MLBActions.mlbData(queries.game_id));
     setLoading(false);
   };
 
@@ -555,6 +557,7 @@ function MLBPowerdFs(props) {
   };
 
   const onSubmitMLbSelection = async () => {
+
     if (!user) {
       return redirectTo(props, { path: "/login" });
     }
@@ -575,6 +578,7 @@ function MLBPowerdFs(props) {
     const { team = {} } = teamD || {};
 
     if (!isEmpty(team) && players?.length === 7) {
+      // TODO: Fix user_id issue
       const payload = {
         game_id: game_id,
         sport_id: sport_id,
@@ -584,9 +588,8 @@ function MLBPowerdFs(props) {
         match_id: teamD?.team?.match_id,
       };
       //dispatch(MLBActions.mlbLiveData(sideBarList));
-
       await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-      redirectTo(props, { path: "/mlb-live-powerdfs" });
+      redirectTo(props, { path: "/my-game-center" });
     }
   };
 
@@ -689,8 +692,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
