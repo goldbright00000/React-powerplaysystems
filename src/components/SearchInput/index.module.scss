@@ -524,17 +524,17 @@
 
     span {
       background-color: $lightBlack5;
-      padding: 2px 10px;
+      padding: 2px 0px;
       border-radius: 12px;
       margin: 0 10px 0 0;
       width: 100%;
       display: flex;
       align-items: center;
-  
+
       svg {
         margin: 0 10px;
       }
-  
+
       input {
         border: none;
         outline: none;
@@ -545,7 +545,7 @@
         font-size: 14px;
       }
     }
-  
+
     .search_dropdown {
       background-color: $lightBlack5;
       padding: 13px 20px;
@@ -556,11 +556,11 @@
       display: flex;
       justify-content: center;
       align-items: center;
-  
+
       &:hover {
         cursor: pointer;
       }
-  
+
       .arrow {
         position: absolute;
         border: solid $white;
@@ -570,15 +570,15 @@
         display: inline-block;
         width: 8px;
       }
-  
+
       .down {
         transform: rotate(45deg) translate(36px, -37px);
       }
-  
+
       .up {
         transform: rotate(-135deg) translate(-36px, 37px);
       }
-  
+
       .search_dropdown_menu {
         display: flex;
         flex-direction: column;
@@ -591,22 +591,22 @@
         font-size: 14px;
         z-index: 5;
         text-align: center;
-  
+
         span {
           width: 100%;
           padding: 13px 30px;
           border-radius: 0;
-  
+
           &:last-child {
             border-radius: 0 0 12px 12px;
           }
-  
+
           &:hover {
             cursor: pointer;
             background-color: $darkblack;
             transition: background-color 1s;
           }
-  
+
           &.active {
             cursor: default;
             background-color: $darkblack;
