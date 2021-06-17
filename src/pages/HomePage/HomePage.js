@@ -54,7 +54,7 @@ const HomePage = (props) => {
   return (
     <div className={classes.__home_page}>
       <Header />
-      <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/power-up" />
+      <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/" />
       <div className={classes.__home_page_first_section_bg}>
         <div className={classes.__home_page_first_section}>
           <div className={classes.__home_page_first_section_main_heading}>
@@ -139,7 +139,7 @@ const HomePage = (props) => {
                   className={
                     classes.__home_page_first_section_body_explore_games_text
                   }
-                  onClick={() => redirectTo(props, { path: "/power-center" })}
+                  onClick={() => redirectTo(props, { path: "/" })}
                 >
                   Explore Games
                 </div>
@@ -156,7 +156,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_common_power_up_btn_div}>
             <button
               className={classes.__home_page_common_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/power-up" })}
+              onClick={() => redirectTo(props, { path: "/" })}
             >
               Power Up!
             </button>
@@ -249,6 +249,14 @@ const HomePage = (props) => {
               <img src={NFL} />
             </div>
           </div>
+          <div className={classes.__home_page_common_power_up_btn_div}>
+            <button
+              className={classes.__home_page_common_power_up_btn}
+              onClick={() => redirectTo(props, { path: "/" })}
+            >
+              Power Up!
+            </button>
+          </div>
         </div>
       </div>
       <div className={classes.__home_page_third_section_bg}>
@@ -304,7 +312,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_third_section_power_up}>
             <button
               className={classes.__home_page_third_section_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/power-up" })}
+              onClick={() => redirectTo(props, { path: "/" })}
             >
               WIN Powers
             </button>

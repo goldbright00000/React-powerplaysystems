@@ -178,9 +178,8 @@ const Header = (props) => {
         {hasMenu ? (
           <>
             <button
-              className={`__menu-icon __hide-only-on-large __pointer ${
-                openMenu ? `__menu-icon_clicked` : ``
-              }`}
+              className={`__menu-icon __hide-only-on-large __pointer ${openMenu ? `__menu-icon_clicked` : ``
+                }`}
               onClick={handleMenu}
             >
               <span></span>
@@ -189,7 +188,7 @@ const Header = (props) => {
             </button>
             <ul className="__navlinks __flex">
               <li>
-                <NavLink to="/power-center">Power Center</NavLink>
+                <NavLink to="/">Power Center</NavLink>
               </li>
               {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
               {user?.token ||
@@ -242,11 +241,11 @@ const Header = (props) => {
                 <>
                   {/* <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li> */}
                   <li>
-                    <NavLink to="/login">Log In</NavLink>
+                    <NavLink to="/">Log In</NavLink>
                   </li>
                   <li>
                     <NavLink
-                      to="/power-up"
+                      to="/"
                       className={`__btn __header-btn ${btnBorderStyle ? "__style-2 __primary-color" : ""
                         }`}
                     >
