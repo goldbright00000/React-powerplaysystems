@@ -24,6 +24,7 @@ import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
 import RenderModal from "./RenderModal";
+import { CardType } from "./CardType";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -46,6 +47,7 @@ function SportsLiveCard(props) {
     onSelectCard = () => {},
     onChangeXp = (xp, player) => {},
     updateReduxState = (currentPlayer, newPlayer) => {},
+    cardType = CardType.MLB,
   } = props || {};
 
   const {
@@ -113,17 +115,26 @@ function SportsLiveCard(props) {
 
   const RenderXpToolTip = () => (
     <div className={classes.stat_xp}>
-      <Tooltip
-        toolTipContent={
-          <div className={classes.xp_icons}>
-            <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, player)} />
-            <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, player)} />
-            <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, player)} />
-          </div>
-        }
-      >
-        {renderXp()}
-      </Tooltip>
+      {cardType === CardType.MLBR ? (
+        <div
+          className={classes.stat_xp_mlbr}
+          onClick={() => onChangeXp(0, player)}
+        >
+          <XPIcon size={singleView ? 14 : largeView ? 28 : 24} />
+        </div>
+      ) : (
+        <Tooltip
+          toolTipContent={
+            <div className={classes.xp_icons}>
+              <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, player)} />
+              <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, player)} />
+              <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, player)} />
+            </div>
+          }
+        >
+          {renderXp()}
+        </Tooltip>
+      )}
     </div>
   );
 
@@ -222,22 +233,26 @@ function SportsLiveCard(props) {
   );
 
   const toggleReplaceModal = () => {
-    const [_playerList] =
-      mlbData &&
-      mlbData?.length &&
-      mlbData?.filter((data) => data?.type === `${type}`?.toLocaleLowerCase());
+    if (cardType === CardType.MLB) {
+      const [_playerList] =
+        mlbData &&
+        mlbData?.length &&
+        mlbData?.filter(
+          (data) => data?.type === `${type}`?.toLocaleLowerCase()
+        );
 
-    if (_playerList) {
-      setPlayerList(_playerList);
-      setReplaceModalState(!showReplaceModal);
+      if (_playerList) {
+        setPlayerList(_playerList);
+        setReplaceModalState(!showReplaceModal);
+      }
     }
   };
 
   const onSwap = (playerId, match_id) => {
     const [swapablePlayer] =
       !isEmpty(playerList) &&
-      playerList?.players?.length &&
-      playerList?.players?.filter(
+      playerList?.listData?.length &&
+      playerList?.listData?.filter(
         (player) =>
           player?.playerId === playerId && player?.match_id === match_id
       );
@@ -340,6 +355,7 @@ SportsLiveCard.propTypes = {
   compressedView: PropTypes.bool,
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,
+  cardType: PropTypes.string,
   starPlayerCount: PropTypes.number,
   playerList: PropTypes.array,
   active: PropTypes.bool,
