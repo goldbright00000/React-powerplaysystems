@@ -8,6 +8,7 @@ import nhlReducer from "./nhlReducer";
 import mlbReducer from "./mlbReducer";
 import userReducer from "./userReducer";
 import nflReducer from "./nflReducer";
+import uiReducer from "./uiReducer";
 import notificationReducer from "./notificationReducer";
 
 export const reducers = {
@@ -21,5 +22,6 @@ export const reducers = {
   mlb: mlbReducer,
   nfl: nflReducer,
   user: userReducer,
+  ui: uiReducer,
   notifications: notificationReducer,
 };

@@ -1,8 +1,11 @@
 import React from "react";
 import classes from "./historyInfoComponent.module.scss";
 import moment from "moment";
+
+import TickIcon from "../../assets/icons/correct-copy.png";
+
 const HistoryInfoComponent = (props) => {
-  const { isMobile = false, balance = {}, transactions = {} } = props || {};
+  const { isMobile = false, balance = {}, transactions = [] } = props || {};
 
   const TableRow = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
@@ -12,11 +15,13 @@ const HistoryInfoComponent = (props) => {
     const getTime = (timestamp) => {
       return moment(timestamp).format("hh:mm A");
     };
+
+    console.log(transaction);
     return (
-      <div className={classes.row}>
+      <>
         {isMobile ? (
           <>
-            <div className={classes.row_m}>
+            {/* <div className={classes.row_m}>
               <div className={classes.row_m1}>
                 <span>Date</span>
                 <span>{getDate(transaction.date_time)}</span>
@@ -41,20 +46,44 @@ const HistoryInfoComponent = (props) => {
                 <span>Results</span>
                 <span>Verified</span>
               </div>
+            </div> */}
+            <div className={classes.row_mobile}>
+              <div className={classes.col_details}>
+                <span className={classes.details}>
+                  {getDate(transaction.date_time)}{" "}
+                  {getTime(transaction.date_time)}{" "}
+                </span>{" "}
+                <br />{" "}
+                <span className={classes.values}>
+                  {" "}
+                  {transaction?.transaction_type_details?.type || "--"}{" "}
+                </span>{" "}
+              </div>
+              <div className={classes.col_details}>
+                <span>{transaction.balance_type}: </span> <br />
+                <span className={classes.values}>
+                  {" "}
+                  {transaction.transaction_amount || "--"}{" "}
+                </span>
+              </div>
+              <div className={classes.col_details}>
+                <img src={TickIcon} width="30px" height="30px" />
+              </div>
             </div>
           </>
         ) : (
           <>
-            <div>{getDate(transaction.date_time)} </div>
-            <div>{getTime(transaction.date_time)} </div>
-            <div>{transaction.description || "--"} </div>
-            <div>Power Token </div>
-
-            <div>{transaction.transaction_amount || "--"}</div>
-            <div>Verified</div>
+            <div className={classes.row}>
+              <div>{getDate(transaction.date_time)} </div>
+              <div>{getTime(transaction.date_time)} </div>
+              <div>{transaction?.transaction_type_details?.type || "--"} </div>
+              <div>{transaction.balance_type?.toUpperCase()}</div>
+              <div>{transaction.transaction_amount || "--"}</div>
+              <div>Verified</div>
+            </div>
           </>
         )}
-      </div>
+      </>
     );
   };
 
@@ -64,8 +93,8 @@ const HistoryInfoComponent = (props) => {
         <div className={classes.row}>
           <div>Date</div>
           <div>Time</div>
-          <div>Description</div>
           <div>Type</div>
+          <div>Currency</div>
           <div>Amount</div>
           <div>Results</div>
         </div>

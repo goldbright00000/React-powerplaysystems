@@ -1,42 +1,64 @@
-import React, { Fragment } from 'react';
-import { Route } from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import classes from './MyGameCenter.module.scss';
-import Header from '../../components/Header/Header';
-import './MyGameCenter.scss';
-import './table.scss';
-import Footer from '../../components/Footer/Footer'
-import InteractiveContests from './InteractiveContests';
-import MyGameCenterTable from './MyGameCenterTable';
-import { getLocalStorage } from '../../utility/shared';
-import { CONSTANTS } from '../../utility/constants';
-import Balance from '../../components/Balance';
+import React, { Fragment } from "react";
+import { Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
+import classes from "./MyGameCenter.module.scss";
+import Header from "../../components/Header/Header";
+import "./MyGameCenter.scss";
+import "./table.scss";
+import Footer from "../../components/Footer/Footer";
+import InteractiveContests from "./InteractiveContests";
+import MyGameCenterTable from "./MyGameCenterTable";
+import { getLocalStorage } from "../../utility/shared";
+import { CONSTANTS } from "../../utility/constants";
+import Balance from "../../components/Balance";
+import { showDepositForm } from "../../actions/uiActions";
 
-const MyGameCenter = props => {
-    const { url } = props.match;
-    const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+const MyGameCenter = (props) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
+  const { url } = props.match;
+  const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
-    return (
-        <Fragment>
-            <Header isStick={true} />
-            <div className='__my_game_center'>
-                <div className='__my_game_center_banner'>
-                    <div className='__my_game_center_banner_left __container'>
-                        <div className='__my_game_center_banner_left_title_main'>
-                            My Game Center
-                        </div>
-                    </div>
-                    {
-                        token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
-                        ?
-                        <div className="__balance">
-                            <Balance />
-                        </div>
-                    :
-                    <div style={{ height: 50}}></div>
-                    }
+  const setShowDepositModal = () => dispatch(showDepositForm());
+
+  return (
+    <Fragment>
+      <Header isStick={true} />
+      <div className="__my_game_center">
+        <div className="__my_game_center_banner">
+          <div className="__my_game_center_banner_left __container">
+            <div className="__my_game_center_banner_left_title_main">
+              My Game Center
+            </div>
+          </div>
+          {isMobile ? null : (
+            <>
+              {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+                <div className="__balance">
+                  <Balance depositClicked={setShowDepositModal} />
                 </div>
-                {/* <div className={classes.header2_container}>
+              ) : (
+                <div style={{ height: 50 }}></div>
+              )}
+            </>
+          )}
+        </div>
+        {isMobile ? (
+          <>
+            {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+              <div className="__balance __sticky_balance">
+                <Balance
+                  depositClicked={setShowDepositModal}
+                  isMobile={isMobile}
+                />
+              </div>
+            ) : (
+              <div style={{ height: 50 }}></div>
+            )}
+          </>
+        ) : null}
+        {/* <div className={classes.header2_container}>
                     <div className={classes.header2_card}>
                         <Card>
                             <div className={classes.header2_card_1}>
@@ -67,7 +89,7 @@ const MyGameCenter = props => {
                         </Card>
                     </div>
                 </div> */}
-                {/* <div className='__flex __power-center-links __mb-5'>
+        {/* <div className='__flex __power-center-links __mb-5'>
                     <NavLink exact to={`${url}`} className='__f1 __block __right __relative'>
                         <span className='__block'>Live-Play Fantasy Sports</span>
                     </NavLink>
@@ -75,12 +97,12 @@ const MyGameCenter = props => {
                         <span className='__block'>Interactive Promo<span className='__hide-on-small'>tional</span> Contests</span>
                     </NavLink>
                 </div> */}
-                <div className={classes.container}>
-                    <Route exact path={url} component={InteractiveContests} />
-                    <Route path={`${url}/contests`} component={MyGameCenterTable} />
-                </div>
-            </div>
-            {/* <div className={classes.body_footer}>
+        <div className={classes.container}>
+          <Route exact path={url} component={InteractiveContests} />
+          <Route path={`${url}/contests`} component={MyGameCenterTable} />
+        </div>
+      </div>
+      {/* <div className={classes.body_footer}>
                 <div>
                     <Card>
                         <div className={classes.body_footer_card_wrapper}>
@@ -105,9 +127,9 @@ const MyGameCenter = props => {
                     </Card>
                 </div>
             </div> */}
-            <Footer isBlack={true} />
-        </Fragment>
-    )
-}
+      <Footer isBlack={true} />
+    </Fragment>
+  );
+};
 
 export default MyGameCenter;

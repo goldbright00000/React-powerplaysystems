@@ -188,7 +188,7 @@ const GetUserInfoPage = (props) => {
             Complete the fields below to create your PowerPlay Account. <br />{" "}
             As a bonus you can receive up to{" "}
             <span>
-              20 <img src={powerplayicon} alt="" align="center" /> Powerplay
+              30 <img src={powerplayicon} alt="" align="center" /> Powerplay
               tokens!
             </span>
           </>
@@ -196,12 +196,12 @@ const GetUserInfoPage = (props) => {
       />
       <main className={styles.root}>
         <div className={styles.titleWrappersForMobileOnly}>
-          <h2>Receive 10 Powerplay tokens</h2>
+          <h2>Receive 20 Powerplay tokens</h2>
           <h3>just for signing up!</h3>
         </div>
         <section className={styles.leftSection}>
           <div className={styles.titleWrapper}>
-            <h3>10 Powerplay tokens</h3>
+            <h3>20 Powerplay tokens</h3>
             <h4>will be added to your account!</h4>
           </div>
           <img alt="" src={img1} />
@@ -209,7 +209,7 @@ const GetUserInfoPage = (props) => {
 
         <form className={formStyles.root2} action={null} onSubmit={onSubmit}>
           <div className={formStyles.header}>
-            <h2 className={styles.formTitle}>Receive 10 Powerplay tokens</h2>
+            <h2 className={styles.formTitle}>Receive 20 Powerplay tokens</h2>
             <h5 className={styles.formSubTitle}>just for signing up!</h5>
           </div>
           {!user?.isFailed && !isEmpty(user.errorMsg) && (
