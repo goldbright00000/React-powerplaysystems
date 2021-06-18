@@ -46,6 +46,7 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
@@ -146,7 +147,8 @@ const App = (props) => {
           <Route path="/contact-us" component={ContactUSPage} />
           <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
           <Route path="/responsible-gaming" component={ResponsibleGaming} />
-          <Route path="/how-to-play" component={HowToPlayPage} />
+          {/* <Route path="/how-to-play" component={HowToPlayPage} /> */}
+          <Route path="/how-to-play" component={EasyPlay} />
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
