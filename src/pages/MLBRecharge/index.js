@@ -301,6 +301,7 @@ function MLBRecharge(props) {
               team={item}
               compressedView={compressedView}
               key={index + ""}
+              cardType={CardType.MLBR}
             />
           ) : (
             <SportsLiveCard
@@ -312,6 +313,7 @@ function MLBRecharge(props) {
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
               cardType={CardType.MLBR}
+              isHomeRun={item?.isHomeRun}
             />
           )}
         </>

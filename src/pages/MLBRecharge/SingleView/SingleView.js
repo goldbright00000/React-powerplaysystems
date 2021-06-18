@@ -67,6 +67,7 @@ function SingleView(props) {
                   team={item}
                   active={selectedCard?.playerId === item?.playerId}
                   singleView
+                  cardType={CardType.MLBR}
                 />
               ) : (
                 <SportsLiveCard
@@ -80,6 +81,7 @@ function SingleView(props) {
                   updateReduxState={updateReduxState}
                   starPlayerCount={starPlayerCount}
                   cardType={CardType.MLBR}
+                  isHomeRun={item?.isHomeRun}
                 />
               )}
             </>
@@ -95,6 +97,8 @@ function SingleView(props) {
           playerList={playerList}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
+          cardType={CardType.MLBR}
+          isHomeRun={selectedCard?.isHomeRun}
         />
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
       </div>

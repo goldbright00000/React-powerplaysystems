@@ -70,6 +70,7 @@ export const dummyData = [
     },
     points: 6,
     status: "on deck",
+    isHomeRun: true,
     playerStats: {
       battingPlayer: {
         playerName: "J. Rogers",
@@ -173,6 +174,9 @@ export const dummyData = [
     },
     points: 6,
     status: "hitting",
+    boost: {
+      boost: "1.5x",
+    },
     playerStats: {
       battingPlayer: {
         playerName: "J. Rogers",
