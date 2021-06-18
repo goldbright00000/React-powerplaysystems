@@ -25,6 +25,8 @@ import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
 import RenderModal from "./RenderModal";
 import { CardType } from "./CardType";
+import HomeRun from "./HomeRun";
+import ActivatedBoost from "./ActivatedBoost";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -48,6 +50,7 @@ function SportsLiveCard(props) {
     onChangeXp = (xp, player) => {},
     updateReduxState = (currentPlayer, newPlayer) => {},
     cardType = CardType.MLB,
+    isHomeRun = false,
   } = props || {};
 
   const {
@@ -66,6 +69,7 @@ function SportsLiveCard(props) {
     id = "",
     xp = {},
     mlb_player_stats = [],
+    boost = {},
   } = player || {};
 
   const {
@@ -197,6 +201,27 @@ function SportsLiveCard(props) {
     </p>
   );
 
+  const RenderMlbRechargeStatus = () => {
+    if (isHomeRun) {
+      return <HomeRun largeView={largeView} />;
+    }
+
+    if (!isEmpty(boost)) {
+      return <ActivatedBoost largeView={largeView} boost={boost} />;
+    }
+
+    return (
+      <RenderStatus
+        success={
+          hasText(status, "batting") ||
+          hasText(status, "pitching") ||
+          hasText(status, "hitting")
+        }
+        danger={hasText(status, "deck")}
+      />
+    );
+  };
+
   const RenderHeader = () => (
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
@@ -297,14 +322,18 @@ function SportsLiveCard(props) {
                 {!compressedView && (
                   <>
                     {singleView && <RenderSingleViewStats />}
-                    <RenderStatus
-                      success={
-                        hasText(status, "batting") ||
-                        hasText(status, "pitching") ||
-                        hasText(status, "hitting")
-                      }
-                      danger={hasText(status, "deck")}
-                    />
+                    {cardType === CardType.MLBR ? (
+                      <RenderMlbRechargeStatus />
+                    ) : (
+                      <RenderStatus
+                        success={
+                          hasText(status, "batting") ||
+                          hasText(status, "pitching") ||
+                          hasText(status, "hitting")
+                        }
+                        danger={hasText(status, "deck")}
+                      />
+                    )}
 
                     {!isEmpty(playerStats) && !singleView && (
                       <RenderMLBPlayerStats
@@ -355,6 +384,8 @@ SportsLiveCard.propTypes = {
   compressedView: PropTypes.bool,
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,
+  isHomeRun: PropTypes.bool,
+  boost: PropTypes.object,
   cardType: PropTypes.string,
   starPlayerCount: PropTypes.number,
   playerList: PropTypes.array,
