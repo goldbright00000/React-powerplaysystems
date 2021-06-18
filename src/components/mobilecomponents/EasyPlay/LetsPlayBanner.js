@@ -1,41 +1,50 @@
 import React from "react";
 import "./easy_play.scss";
+import { Row, Col } from "reactstrap";
 const LetsPlayBanner = ({
   image,
   number,
   description,
+  background,
+  offset,
   width,
   height,
-  background,
+  float,
+  valueAlign,
+  rowReverse,
+  newClass,
 }) => {
   return (
-    <>
-      {background && (
-        <div style={{ marginTop: "85px" }}>
-          <img src={background} alt="stepfive" width="100%" height="100%" />
-        </div>
-      )}
-      <div
-        className={`play`}
-        style={background && { marginTop: "-104px", marginBottom: "136px" }}
-      >
-        <div className="image_holder">
-          {image && (
-            <img src={image} alt="LetsPlay" width={width} height={height} />
-          )}
-          <div className="numberbox">
-            <span>{number}</span>
-          </div>
-        </div>
-        <div className="description">
-          <p
-            dangerouslySetInnerHTML={{
-              __html: description,
-            }}
+    <Row className={`imagebox flex-column-reverse ${rowReverse}`}>
+      <Col md={6}>
+        <div className="numberBox">
+          <span className="number" style={{ top: offset[0], left: offset[1] }}>
+            {number}
+          </span>
+          <span
+            style={{ top: valueAlign }}
+            className="description"
+            dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
-      </div>
-    </>
+      </Col>
+      <Col md={6}>
+        <img
+          className={newClass}
+          src={image}
+          width={width}
+          height={height}
+          alt=""
+          style={
+            newClass
+              ? null
+              : rowReverse === "flex-md-row-reverse"
+              ? { float: "left" }
+              : { float: float }
+          }
+        />
+      </Col>
+    </Row>
   );
 };
 
