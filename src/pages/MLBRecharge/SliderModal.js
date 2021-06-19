@@ -31,7 +31,7 @@ function SliderModal(props) {
       </h3>
       <div className={classes.slider_container}>
         <div className={classes.slider_left}>
-          <ShowBatteries value={slider} />
+          <ShowBatteries greenOnly value={slider} />
           <span>
             Points for {player?.playerName} will be boosted for this plate
             appearance by the amount you choose

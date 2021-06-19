@@ -242,12 +242,14 @@ function SportsLiveCardTeamD(props) {
             />
           )}
 
-          <SportsLiveCardOverlay
-            text="Video review is available now"
-            visible={!singleView && showVideoOverlay}
-            onGotIt={() => setVideoOverlayState(false)}
-            largeView={largeView}
-          />
+          {cardType !== CardType.MLBR && (
+            <SportsLiveCardOverlay
+              text="Video review is available now"
+              visible={!singleView && showVideoOverlay}
+              onGotIt={() => setVideoOverlayState(false)}
+              largeView={largeView}
+            />
+          )}
         </div>
       </div>
     </>
