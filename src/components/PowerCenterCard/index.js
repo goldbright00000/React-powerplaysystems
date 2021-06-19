@@ -69,7 +69,7 @@ const PowerCenterCard = (props) => {
                     <p
                         className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>
                         Prize Pool
-                </p>
+                    </p>
                 </div>
                 <div className={classes.__power_center_card_enter}>
                     <OutlineButton
@@ -91,7 +91,7 @@ const PowerCenterCard = (props) => {
                             onDetailsClick(id)
                         }}>
                             Details
-                    </div>
+                        </div>
                         <div className={classes.__power_center_card_details_link_forward_arrow}>
                             {">"}
                         </div>
@@ -107,6 +107,7 @@ const PowerCenterCard = (props) => {
                 title={title}
                 onBackClick={() => onBackClick()}
                 onNextClick={() => onNextClick()}
+                onEnter={onEnter}
             />
     );
 };
