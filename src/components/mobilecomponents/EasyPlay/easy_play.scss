@@ -15,6 +15,13 @@
       @media (max-width: 767px) {
         float: right !important;
       }
+
+      .left {
+        float: right !important;
+        @media (max-width: 767px) {
+          float: left !important;
+        }
+      }
     }
   }
   .numberBox {
