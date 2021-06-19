@@ -72,6 +72,10 @@
             font-weight: 600;
             color: $primary;
           }
+
+          &:hover {
+            color: $primary;
+          }
         }
       }
     }

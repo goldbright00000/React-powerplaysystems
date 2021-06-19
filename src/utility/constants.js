@@ -121,6 +121,14 @@ export const CONSTANTS = {
       K: "k",
       D: "d",
     },
+    MLB_R: {
+      SP: "qb",
+      IF: "rb",
+      OF: "wr",
+      DH: "te",
+      RP: "k",
+      D: "d",
+    },
   },
 
   NHL_VIEW: {
@@ -134,5 +142,5 @@ export const CONSTANTS = {
     xp2: "xp2",
     xp3: "xp3",
   },
-  PERSONA_USER_ID: "PERSONA_USER_ID"
+  PERSONA_USER_ID: "PERSONA_USER_ID",
 };

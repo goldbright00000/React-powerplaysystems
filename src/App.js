@@ -9,6 +9,7 @@ import SponserAContestPage from "./pages/SponserAContestPage/SponserAContestPage
 import PowerCenter from "./pages/PowerCenter/PowerCenter";
 import Mobile from "./pages/Mobile/Mobile";
 import LiveStanding from "./pages/Mobile/LiveStanding";
+import EasyPlay from "./pages/Mobile/EasyPlay";
 import SelectTeams from "./pages/SelectTeams/SelectTeams";
 import PowerBetLive from "./pages/PowerBetLive/PowerBetLive";
 import ScrollToTop from "./utility/ScrollToTop";
@@ -45,12 +46,15 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
 import MLBPowerLevels from "./pages/MLBPowerLevels";
 import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
+import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
+import MLBRecharge from "./pages/MLBRecharge";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -89,6 +93,7 @@ const App = (props) => {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/mobile" component={Mobile} />
+          <Route exact path="/easy-play" component={EasyPlay} />
           <Route path="/zum-payment" component={PaymentFrame} />
           <Route
             exact
@@ -139,6 +144,7 @@ const App = (props) => {
           <Route exact path="/elite8-draw" component={Elite8Draw} />
           <Route path="/mlb-powerdfs" component={MLBPowerdFs} />
           <Route path="/nfl-powerdfs" component={NFLPowerdFs} />
+          <Route path="/nfl-live-powerdfs" component={NFLPowerdFsLive} />
           <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
           <Route path="/nba-powerdfs" component={NBAPowerdFs} />
           <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
@@ -148,6 +154,7 @@ const App = (props) => {
           <Route path="/how-to-play" component={HowToPlayPage} />
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
+          <Route path="/mlb-recharge" component={MLBRecharge} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}

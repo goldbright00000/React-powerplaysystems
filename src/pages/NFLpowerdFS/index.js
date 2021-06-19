@@ -671,7 +671,7 @@ function NFLPowerdFs(props) {
               <button
                 className={classes.sidebar_button}
                 onClick={() =>
-                  redirectTo(props, { path: "/mlb-live-powerdfs" })
+                  redirectTo(props, { path: "/nfl-live-powerdfs" })
                 }
               >
                 Submit!

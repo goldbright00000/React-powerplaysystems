@@ -3,19 +3,20 @@ import StandingBanner from "../../components/mobilecomponents/LiveStandingBanner
 import PrizePool from "../../components/mobilecomponents/PrizePool/PrizePool";
 import Header from "../../components/mobilecomponents/Header";
 import LiveMatch from "../../components/mobilecomponents/LiveMatch/LiveMatch";
-import { Main, StandingWrapper } from "./style";
+
+import "./mainStyle.scss";
 const LiveStanding = () => {
   return (
-    <Main>
+    <section className="main">
       <Header />
 
-      <StandingWrapper>
+      <div className="standingWrapper">
         <StandingBanner />
         <PrizePool />
-      </StandingWrapper>
+      </div>
 
       <LiveMatch />
-    </Main>
+    </section>
   );
 };
 
