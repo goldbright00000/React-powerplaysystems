@@ -123,6 +123,10 @@ const App = (props) => {
           <Route path="/account-security" component={AccountSecurityPage} />
           <Route path="/terms" component={TermsOfUse} />
           <Route path="/power-up" component={PowerUpPage} />
+          <Route
+            path="/email-verification"
+            render={(props) => <PowerUpPage verification {...props} />}
+          />
           <Route path="/user-profile-info" component={GetUserInfoPage} />
           <ProtectedRoute path="/my-game-center" component={MyGameCenter} />
           <Route path="/bingo-in-progress" component={BingoInProgressGame} />

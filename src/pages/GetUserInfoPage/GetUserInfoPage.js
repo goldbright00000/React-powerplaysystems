@@ -45,7 +45,7 @@ const INITIAL_STATE = {
   stateOrProvince: "",
   dateOfBirth: "",
 
-  termsAndConditions: true,
+  termsAndConditions: false,
   promotionsCheck: false,
   updatesCheck: false,
   ageCheck: false,
@@ -202,7 +202,7 @@ const GetUserInfoPage = (props) => {
           <>
             Complete the fields below to create your PowerPlay Account. <br />{" "}
             As a bonus you can receive up to{" "}
-            <span>
+            <span style={{color: '#fb6e00'}}>
               30 <img src={powerplayicon} alt="" align="center" /> Powerplay
               tokens!
             </span>
@@ -210,7 +210,7 @@ const GetUserInfoPage = (props) => {
         }
       />
       <main className={styles.root}>
-        <div className={styles.titleWrappersForMobileOnly}>
+        <div className={`${styles.titleWrappersForMobileOnly}`}>
           <h2>Receive 20 Powerplay tokens</h2>
           <h3>just for signing up!</h3>
         </div>
@@ -223,9 +223,9 @@ const GetUserInfoPage = (props) => {
         </section>
 
         <form className={formStyles.root2} action={null} onSubmit={onSubmit}>
-          <div className={formStyles.header}>
+          <div className={`${formStyles.header} text-center`}>
             <h2 className={styles.formTitle}>Receive 20 Powerplay tokens</h2>
-            <h5 className={styles.formSubTitle}>just for signing up!</h5>
+            <h6 className={styles.formSubTitle}>just for signing up!</h6>
           </div>
           {!user?.isFailed && !isEmpty(user.errorMsg) && (
             <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
@@ -304,7 +304,7 @@ const GetUserInfoPage = (props) => {
               extra={
                 <div className={styles.bonus}>
                   <p>+ 5 bonus tokens</p>
-                  <img src={powerplayicon} />
+                  <img src={powerplayicon} alt="" />
                 </div>
               }
             />

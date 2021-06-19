@@ -1,16 +1,57 @@
 @import '../../scss/colors.scss';
 
-.blogSection{
+.blogSection {
     text-align: center;
     margin: 4rem 0 5em 0;
-    a{
+
+    a {
         text-decoration: underline !important;
-        &:hover{
+
+        &:hover {
             color: $primary;
         }
     }
 }
-.container{
+
+.container {
     width: 90%;
     margin: auto;
+}
+
+.customizeBackBtn {
+    top: 15px;
+    left: 15px;
+
+    &:hover {
+        text-decoration: none;
+        box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
+    }
+
+    &.btnFlat {
+        box-shadow: none !important;
+        background-color: transparent !important;
+
+        &:hover {
+            background-color: #dedede !important;
+            box-shadow: none !important;
+        }
+
+        &.disabled:hover,
+        &[disabled]:hover {
+            background-color: transparent !important;
+        }
+    }
+}
+
+.paperPlane {
+    width: 120px;
+    height: 80px;
+    margin: 2rem !important;
+    object-fit: contain;
+}
+
+@media (max-width: 480px) {
+    .paperPlane {
+        margin-top: 3.571rem !important;
+    }
 }

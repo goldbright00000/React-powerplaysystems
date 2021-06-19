@@ -15,7 +15,9 @@ export const URLS = {
     CONVERSION_MARKUP_VALUE: "users/conversion-rate",
     ACCOUNT_LIMITS: "/users/account/limit",
     COINBASE_LINK_GENERATE: "users/coinbase-link-generate",
-    PERSONA_VERIFICATION: "users/verify-persona"
+    PERSONA_VERIFICATION: "users/verify-persona",
+    SEND_EMAIL_CONFIRMATION: "users/send-nopass-verification",
+    VERIFY_CONFIRMATION_CODE: "users/verify-nopass",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
@@ -23,6 +25,6 @@ export const URLS = {
     MLB_LIVE_PAGE_PLAYERS: "/dfs/mlb-live",
   },
   GAMES: {
-    ALL_GAMES: 'admin/games'
-  }
+    ALL_GAMES: "admin/games",
+  },
 };
