@@ -12,6 +12,7 @@ const LetsPlayBanner = ({
   float,
   valueAlign,
   rowReverse,
+  space,
   newClass,
 }) => {
   return (
@@ -30,7 +31,7 @@ const LetsPlayBanner = ({
       </Col>
       <Col md={6}>
         <img
-          className={newClass}
+          className={`${newClass} ${space}`}
           src={image}
           width={width}
           height={height}
