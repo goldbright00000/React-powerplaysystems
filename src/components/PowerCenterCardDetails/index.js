@@ -38,7 +38,7 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 1 && title === 'NHL'
                 &&
-                <PointSystem onEnter={onEnter} />
+                <PointSystem PointsSystem={PointsSystem} onEnter={onEnter} />
             }
             {
                 currentIndex == 2

@@ -41,6 +41,12 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
         isEdit: actions.payload.isEdit,
       };
 
+    case Actions.MLB_USER_SAVED_GAMES:
+      return {
+        ...state,
+        getUserSavedGames: actions.payload
+      }
+
     default:
       return state;
   }

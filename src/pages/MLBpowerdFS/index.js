@@ -233,6 +233,7 @@ function MLBPowerdFs(props) {
     allData = [],
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
+
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
   const { token = "", user_id = 0 } = user || {};
@@ -500,13 +501,15 @@ function MLBPowerdFs(props) {
       setSelectedFilter(_selectedFilter);
     }
 
-    filter.remaining = _remaining;
-    const filterIndex = filters?.findIndex(
-      (filter) => filter?.id === _selectedFilter?.id
-    );
-    const _filters = [...filters];
-    _filters[filterIndex] = filter;
-    setFilters(_filters);
+    if (filters) {
+      filter.remaining = _remaining;
+      const filterIndex = filters?.findIndex(
+        (filter) => filter?.id === _selectedFilter?.id
+      );
+      const _filters = [...filters];
+      _filters[filterIndex] = filter;
+      setFilters(_filters);
+    }
   };
 
   const onDelete = (id, matchId) => {
@@ -557,7 +560,6 @@ function MLBPowerdFs(props) {
   };
 
   const onSubmitMLbSelection = async () => {
-
     if (!user) {
       return redirectTo(props, { path: "/login" });
     }
@@ -657,7 +659,7 @@ function MLBPowerdFs(props) {
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
     <div className={classes.body_card}>
       <span>{count}</span>
-      <img src={Icon} />
+      <img src={Icon} alt="" />
       <p>{title}</p>
     </div>
   );

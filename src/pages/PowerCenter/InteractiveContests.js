@@ -270,8 +270,6 @@ const InteractiveContests = props => {
                 <div className={isMobile || isTablet ? '' : '__flex'}>
                     <div style={{ flex: 1 }}>
                         <div className='__badges-wrapper __text-in-one-line __mediam'>
-
-                            {console.log('powerCenterCardData', powerCenterCardData?.length)}
                             {
                                 filters.map((item, index) => {
                                     return (
