@@ -20,8 +20,6 @@ const HowToPlayPage = () => {
     setScreenSize(window.screen.width);
   };
 
-  console.log(screenSize);
-
   return (
     <>
       <Header isStick={true} />
