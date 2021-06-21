@@ -67,7 +67,7 @@ const EasyPlay = () => {
           <Col xs={12}>
             <LetsPlayBanner
               rowReverse="flex-md-row-reverse"
-              width="100%"
+              width="350px"
               float="right"
               height="100%"
               valueAlign={-51}
