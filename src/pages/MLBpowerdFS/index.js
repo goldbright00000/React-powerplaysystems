@@ -1,11 +1,10 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isEmpty, cloneDeep, isLength } from "lodash";
-
+import { isEmpty, cloneDeep } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { useHistory } from "react-router-dom";
 
 import * as MLBActions from "../../actions/MLBActions";
-
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -234,15 +233,15 @@ function MLBPowerdFs(props) {
   } = useSelector((state) => state.mlb);
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
-  const { token = "", user_id = 0 } = user || {};
+  const { token = "", user_id } = user || {};
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   //reset the states
   useEffect(() => {
-    getData();
     dispatch(MLBActions.setStarPlayerCount(0));
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
@@ -258,6 +257,10 @@ function MLBPowerdFs(props) {
       dispatch(MLBActions.setEditPlayers({ data: [], isEdit: false }));
     };
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [user]);
 
   const getData = async () => {
     setLoading(true);

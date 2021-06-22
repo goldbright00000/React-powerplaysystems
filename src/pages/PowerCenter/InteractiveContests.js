@@ -9,7 +9,7 @@ import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import PowerCenterCard from "../../components/PowerCenterCard";
-import { getDaysFromToday, redirectTo } from "../../utility/shared";
+import { getDaysFromToday, printLog, redirectTo } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import FilledArrow from "../../components/FilledArrow";
 import PowerCenterMobileCard from "../../components/PowerCenterMobileCard";
@@ -214,10 +214,18 @@ const InteractiveContests = (props) => {
     }
   };
 
-  const onEnter = (league) => {
-    switch (league) {
+  const onEnter = (item) => {
+    switch (item?.league) {
       case "MLB":
-        return redirectTo(props, { path: "/mlb-powerdfs" });
+        return redirectTo(props, {
+          path: "/mlb-powerdfs",
+          state: {
+            game_id: item?.game_id,
+            sport_id: item?.sports_id,
+            start_date: item?.start_date,
+            end_date: item?.end_date,
+          },
+        });
 
       default:
         return redirectTo(props, { path: "/" });
@@ -227,7 +235,7 @@ const InteractiveContests = (props) => {
   const powerCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
-        {console.log("item", item)}
+        {printLog(item)}
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
@@ -243,7 +251,7 @@ const InteractiveContests = (props) => {
           Power={item?.Powers}
           PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
           showDetails={showCardDetails === item?.game_id}
-          onEnter={() => onEnter(item?.league)}
+          onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
