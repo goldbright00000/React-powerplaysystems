@@ -1,11 +1,10 @@
-import React, { useState } from "react";
-import classes from "./powersAvailable.module.scss";
-import PointMultipliers from "../../assets/point-multipliers.png";
-import PlayerSwaps from "../../assets/player-swaps.png";
-import VideoReview from "../../assets/video-review.png";
-import DWall from "../../assets/d-wall.png";
-import LearnMoreModal from "./LearnMoreModal";
-import { isSymbol } from "lodash";
+import React, { useState } from 'react';
+import classes from './powersAvailable.module.scss';
+import PointMultipliers from '../../assets/point-multipliers.png';
+import PlayerSwaps from '../../assets/player-swaps.png';
+import VideoReview from '../../assets/video-review.png';
+import DWall from '../../assets/d-wall.png';
+import LearnMoreModal from './LearnMoreModal';
 
 const data = [
   {
@@ -34,8 +33,28 @@ const data = [
   },
 ];
 
+const getIcon = (powerName) => {
+  if (powerName) {
+    if (powerName.toLowerCase().match(/wall/g))
+      return DWall;
+
+    else if (powerName.toLowerCase().match(/video|review/g))
+      return VideoReview;
+
+    else if (powerName.toLowerCase().match(/swap/g))
+      return PlayerSwaps;
+
+    else if (powerName.toLowerCase().match(/multi|boost/g))
+      return PointMultipliers;
+  }
+}
+
 const PowersAvailable = (props) => {
-  const { title = "", isMobile = false, learnMore = () => {} } = props || {};
+  const { title = "",
+    isMobile = false,
+    learnMore = () => { },
+    Power = [],
+  } = props || {};
 
   const [learnMoreModal, setLearnMoreModal] = useState(false);
 
@@ -53,15 +72,14 @@ const PowersAvailable = (props) => {
               onCloseModal={onCloseModal}
             />
           )} */}
+          
           <div className={classes.__my_game_center_card_powerdfs}>
-            <p className={classes.__my_game_center_card_powerdfs_title}>
-              <span
-                className={classes.__my_game_center_card_powerdfs_title_first}
-              >
+            <p className={`text-left`}>
+              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{fontSize: '18px', color: 'white'}}>
                 {title}
-              </span>{" "}
-              PowerdFS{" "}
-              <span className={classes.__my_game_center_card_powerdfs_subtitle}>
+              </span>
+              <span  className={classes.__my_game_center_card_powerdfs_title} style={{fontSize: '18px'}}> PowerdFS </span>
+              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{fontSize: '14px'}}>
                 Available Powers
               </span>
             </p>
@@ -69,13 +87,13 @@ const PowersAvailable = (props) => {
 
           {(() => {
             const itemsInaRow = 3;
-            const numberOfRows = Math.ceil(data.length / itemsInaRow);
+            const numberOfRows = Math.ceil(Power.length / itemsInaRow);
             const myGameCenterCardAvailablePowerView = Array(numberOfRows)
               .fill(undefined)
               .map((item, i) => {
                 const start = (i + 1) * itemsInaRow - 3;
                 const end = (i + 1) * itemsInaRow;
-                const items = data.slice(start, end);
+                const items = Power.slice(start, end);
 
                 return (
                   <div className={classes.__powers_available_data}>
@@ -87,7 +105,7 @@ const PowersAvailable = (props) => {
                             onClick={learnMore}
                           >
                             <img
-                              src={item.icon}
+                              src={getIcon(item?.powerName)}
                               width="28"
                               height="28"
                               className={classes.__powers_available_data_icon}
@@ -97,7 +115,7 @@ const PowersAvailable = (props) => {
                                 classes.__powers_available_data_power_count
                               }
                             >
-                              {item.count}
+                              {item?.amount}
                             </div>
                           </div>
                           <div
@@ -108,29 +126,31 @@ const PowersAvailable = (props) => {
                             <p
                               className={classes.__powers_available_data_value}
                             >
-                              {item.value}
+                              {item?.powerName}
                             </p>
                           </div>
-                          {data.length == index + 1 && (
-                            <div
-                              className={
-                                classes.__powers_available_learn_more_div
-                              }
-                              onClick={() => onOpenModal()}
-                            >
-                              <p
+                          {
+                            Power.length == index + 1 && (
+                              <div
                                 className={
-                                  classes.__powers_available_learn_more_text
+                                  classes.__powers_available_learn_more_div
                                 }
+                                onClick={() => onOpenModal()}
                               >
-                                Learn more
-                              </p>
-                            </div>
-                          )}
+                                <p
+                                  className={
+                                    classes.__powers_available_learn_more_text
+                                  }
+                                >
+                                  Learn more
+                                </p>
+                              </div>
+                            )
+                          }
                         </div>
                       );
                     })}
-                  </div>
+                  </div >
                 );
               });
             return myGameCenterCardAvailablePowerView;
@@ -153,26 +173,26 @@ const PowersAvailable = (props) => {
             )}
           </div>
 
-          {data.map((item, index) => {
+          {Power.map((item, index) => {
             return (
               <div className={classes.__powers_available_data}>
                 <div className={classes.__powers_available_data_icon_div}>
                   <img
-                    src={item.icon}
+                    src={getIcon(item?.powerName)}
                     width="36"
                     height="36"
                     className={classes.__powers_available_data_icon}
                   />
                   <div className={classes.__powers_available_data_power_count}>
-                    {item.count}
+                    {item.amount}
                   </div>
                 </div>
                 <div className={classes.__powers_available_data_value_div}>
                   <p className={classes.__powers_available_data_value}>
-                    {item.value}
+                    {item?.powerName}
                   </p>
                 </div>
-                {data.length == index + 1 && (
+                {Power.length == index + 1 && (
                   <div
                     className={classes.__powers_available_learn_more_div}
                     onClick={() => onOpenModal()}
@@ -187,7 +207,7 @@ const PowersAvailable = (props) => {
           })}
         </>
       )}
-    </div>
+    </div >
   );
 };
 

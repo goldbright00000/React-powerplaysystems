@@ -2,7 +2,12 @@ import React from 'react';
 import classes from './footer.module.scss';
 
 const Footer = (props) => {
-    const {onBack = () => {}, onNext = () => {}, myGameCenter = false} = props || {};
+    const {
+        entry_fee = '',
+        onBack = () => { },
+        onNext = () => { },
+        myGameCenter = false
+    } = props || {};
     return (
         <div className={classes.__power_center_card_details_footer}>
             <div className={classes.__power_center_card_details_footer_back}>
@@ -17,7 +22,7 @@ const Footer = (props) => {
                 !myGameCenter
                 &&
                 <div className={classes.__power_center_card_details_enter}>
-                    <button>Enter  •  $5</button>
+                    <button>{`Enter  •  $${entry_fee}`}</button>
                 </div>
             }
             <div className={classes.__power_center_card_details_footer_next}>

@@ -11,6 +11,10 @@ import {
 } from "../../utility/shared";
 //store
 import { useDispatch, useSelector } from "react-redux";
+import {
+  removePersonaUserId,
+  savePersonaUserId,
+} from "../../actions/personaActions";
 //lodash
 import { isEmpty, isEqual } from "lodash";
 //ui component imports
@@ -41,7 +45,7 @@ const INITIAL_STATE = {
   stateOrProvince: "",
   dateOfBirth: "",
 
-  termsAndConditions: true,
+  termsAndConditions: false,
   promotionsCheck: false,
   updatesCheck: false,
   ageCheck: false,
@@ -61,6 +65,7 @@ const GetUserInfoPage = (props) => {
     email: props.location.state.email,
     password: props.location.state.password,
   });
+
   useEffect(() => {
     if (user.isSuccess || isEmpty(props.location.state.email)) {
       // redirectTo(props, { path: "login" });
@@ -70,6 +75,12 @@ const GetUserInfoPage = (props) => {
   useEffect(() => {
     setUser({ ...user, stateOrProvince: "" });
   }, [user.country]);
+
+  useEffect(() => {
+    // it will remove the id of any previous user before the registeration of new one.
+    removePersonaUserId();
+  }, []);
+
   const getStatesOrProvinces = () => {
     if (user.country == "USA") {
       return getStates();
@@ -163,6 +174,9 @@ const GetUserInfoPage = (props) => {
         isFailed: true,
         errorMsg: response.data.message,
       });
+    } else {
+      console.log(response?.data?.user?.user_id);
+      savePersonaUserId(response?.data?.user?.user_id);
     }
 
     setUser({
@@ -171,6 +185,7 @@ const GetUserInfoPage = (props) => {
       isSuccess: true,
       errorMsg: response.data.message,
     });
+
     props.history.replace("/verify-your-identity");
   };
   return (
@@ -187,7 +202,7 @@ const GetUserInfoPage = (props) => {
           <>
             Complete the fields below to create your PowerPlay Account. <br />{" "}
             As a bonus you can receive up to{" "}
-            <span>
+            <span style={{color: '#fb6e00'}}>
               30 <img src={powerplayicon} alt="" align="center" /> Powerplay
               tokens!
             </span>
@@ -195,7 +210,7 @@ const GetUserInfoPage = (props) => {
         }
       />
       <main className={styles.root}>
-        <div className={styles.titleWrappersForMobileOnly}>
+        <div className={`${styles.titleWrappersForMobileOnly}`}>
           <h2>Receive 20 Powerplay tokens</h2>
           <h3>just for signing up!</h3>
         </div>
@@ -208,9 +223,9 @@ const GetUserInfoPage = (props) => {
         </section>
 
         <form className={formStyles.root2} action={null} onSubmit={onSubmit}>
-          <div className={formStyles.header}>
+          <div className={`${formStyles.header} text-center`}>
             <h2 className={styles.formTitle}>Receive 20 Powerplay tokens</h2>
-            <h5 className={styles.formSubTitle}>just for signing up!</h5>
+            <h6 className={styles.formSubTitle}>just for signing up!</h6>
           </div>
           {!user?.isFailed && !isEmpty(user.errorMsg) && (
             <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
@@ -285,11 +300,11 @@ const GetUserInfoPage = (props) => {
               onChange={(e) => {
                 setUser({ ...user, dateOfBirth: e?.target?.value });
               }}
-              extraClass={styles.dob}
+              extraclass={styles.dob}
               extra={
                 <div className={styles.bonus}>
                   <p>+ 5 bonus tokens</p>
-                  <img src={powerplayicon} />
+                  <img src={powerplayicon} alt="" />
                 </div>
               }
             />

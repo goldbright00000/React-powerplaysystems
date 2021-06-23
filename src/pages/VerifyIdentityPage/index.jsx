@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 import formStyles from "../../scss/formstyles.module.scss";
 import styles from "./styles.module.scss";
@@ -8,11 +9,71 @@ import Footer from "../../components/Footer/Footer";
 import personaLogo from "../../assets/persona-logo.svg";
 import { Link } from "react-router-dom";
 import { redirectTo } from "../../utility/shared";
+import {
+  getPersonaUserId,
+  removePersonaUserId,
+} from "../../actions/personaActions";
+import { showToast } from "../../actions/uiActions";
+import http from "../../config/http";
+import { URLS } from "../../config/urls";
+import ArrowLeft from "../../assets/icons/ArrowLeft";
 
 const VerifyIdentityPage = (props) => {
+  const dispatch = useDispatch();
   const onVerifyLater = () => {
+    removePersonaUserId();
     return redirectTo(props, { path: "login" });
   };
+
+
+  const redirectToPerson = () => {
+    let url =
+      `https://withpersona.com/verify?template-id=${process.env.REACT_APP_PERSONA_TEMPLATE_ID}&`.concat(
+        `environment=sandbox&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`
+      );
+    window.open(url);
+  };
+
+  useEffect(() => {
+    let params = new URLSearchParams(props.location.search);
+    let inquiryId = params.get("inquiry-id");
+    if (inquiryId) {
+      let personaUserId = getPersonaUserId();
+      if (!personaUserId) {
+        dispatch(
+          showToast(
+            "There's is some error during verification. Please try again.",
+            "error"
+          )
+        );
+      } else {
+        console.log("You can go with the verification endpoint.");
+        let obj = { user_id: personaUserId, inquiry_id: inquiryId };
+
+        http
+          .post(URLS.USER.PERSONA_VERIFICATION, obj)
+          .then((res) => {
+            if (res.data.status === true) {
+              dispatch(showToast("Verification successfull. ", "success"));
+              removePersonaUserId();
+              redirectTo(props, { path: "login" });
+            } else {
+              dispatch(showToast(res.data?.message, "error"));
+            }
+          })
+          .catch((err) => {
+            console.log(err.response);
+            dispatch(
+              showToast(
+                err?.response?.data?.message ||
+                "Verification failed. Please try again.",
+                "error"
+              )
+            );
+          });
+      }
+    }
+  }, []);
 
   return (
     <>
@@ -40,22 +101,29 @@ const VerifyIdentityPage = (props) => {
           <img alt="" src={img1} />
         </section>
         <section className={formStyles.root2}>
+
           <div className={formStyles.header}>
-            <button className={styles.backButton}>Back</button>
+            {/* <button className={styles.backButton}>Back</button> */}
+            <button className={`btn btn-default ${styles.customizeBackBtn} ${styles.btnFlat}`}>
+              <span> <ArrowLeft /> </span>
+              <span className={`ml-3`}> Back </span>
+            </button>
           </div>
           <div className={styles.cardTitleWrapper}>
-            <h2>Verify your identity today and receive</h2>
+            <h2 className="text-muted">Verify your identity today and receive</h2>
             <h1>100 bonus Power Tokens!</h1>
             <img alt="" src={personaLogo} className={styles.personaLogo} />
           </div>
           <div className={styles.buttonWrappers}>
-            <button className={styles.verifyIdentityButton} disabled={true}>
+            <button
+              className={styles.verifyIdentityButton}
+              onClick={redirectToPerson}
+            >
               Verify Your Identity
             </button>
             <button
               className={styles.verifyLaterButton}
-              onClick={onVerifyLater}
-            >
+              onClick={onVerifyLater}>
               I will verify my identity later and forgo the bonus Power Token
               offer
             </button>

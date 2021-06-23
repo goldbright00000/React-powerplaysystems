@@ -1,17 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty, cloneDeep } from "lodash";
-
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { useHistory } from "react-router-dom";
 
 import * as MLBActions from "../../actions/MLBActions";
-
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/baseball.jpg";
-import BaseballImageMobile from "../../assets/baseball-player-select-mobile.png";
+import BaseballImageMobile from "../../assets/baseball-player-select-mobile1.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -223,20 +222,26 @@ function MLBPowerdFs(props) {
   const [activeTab, setActiveTab] = useState(0);
   const [dropDownState, setDropDownTeam] = useState(dropDown);
 
-  const { data = [], starPlayerCount = 0, game_id, sport_id } = useSelector(
-    (state) => state.mlb
-  );
+  const {
+    data = [],
+    starPlayerCount = 0,
+    game_id,
+    sport_id,
+    isEdit = false,
+    allData = [],
+    savedPlayers = [],
+  } = useSelector((state) => state.mlb);
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
-  const { token = "", user_id = 0 } = user || {};
+  const { token = "", user_id } = user || {};
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   //reset the states
   useEffect(() => {
-    getData();
     dispatch(MLBActions.setStarPlayerCount(0));
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
@@ -244,7 +249,18 @@ function MLBPowerdFs(props) {
     setFilters(cloneDeep(FILTERS_INITIAL_VALUES));
     setFilterdData(null);
     setSelectedData(null);
+
+    //unmount
+    return function cleanUp() {
+      starPowerIndex = 0;
+      selectedPlayerCount = 0;
+      dispatch(MLBActions.setEditPlayers({ data: [], isEdit: false }));
+    };
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [user]);
 
   const getData = async () => {
     setLoading(true);
@@ -272,104 +288,168 @@ function MLBPowerdFs(props) {
     }
   }, [data]);
 
+  useEffect(() => {
+    autoSelectOnEdit();
+  }, [isEdit, loading, selected]);
+
+  const autoSelectOnEdit = () => {
+    if (isEdit == true && !loading && selected.entries().next().done) {
+      const pls = [
+        { playerId: 10440, matchId: 5656 },
+        { playerId: 11063, matchId: 5656 },
+        { playerId: 10737, matchId: 5656 },
+        { playerId: 10559, matchId: 5656 },
+        { playerId: 10767, matchId: 5656 },
+        { playerId: 10647, matchId: 5656 },
+        { playerId: 10797, matchId: 5656 },
+        { team_id: 11281, match_id: 5656 },
+      ];
+
+      let _selected = new Map(selected);
+      let _playerList = [...sideBarList];
+
+      for (let i = 0; i < pls.length; i++) {
+        const res = setPlayerSelection(
+          pls[i].playerId || pls[i].team_id,
+          pls[i].matchId || pls[i].match_id,
+          _selected,
+          _playerList
+        );
+        _selected = res.selected;
+        _playerList = [...res._playersList];
+        dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+        activateFilter(
+          res.currentPlayer,
+          res.currentPlayer?.type?.toLocaleLowerCase()
+        );
+        onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
+      }
+
+      setSelected(_selected);
+      setSidebarList(_playerList);
+    }
+  };
+
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
       if (loading) return;
 
-      const { type = "", listData: _selectedData = [] } = selectedData || {};
+      const _selected = new Map(selected);
+      const res = setPlayerSelection(id, matchId, _selected, sideBarList);
 
-      const [currentPlayer] = _selectedData?.filter((player) => {
-        if (type?.toLocaleLowerCase() === D) {
-          return player?.team_id === id && player?.match_id === matchId;
+      dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+      setSelected(res.selected);
+      setSidebarList(res._playersList);
+      activateFilter(
+        res.currentPlayer,
+        res.currentPlayer?.type?.toLocaleLowerCase()
+      );
+      onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
+    },
+    [selected, selectedFilter, selectedData, isEdit]
+  );
+
+  const setPlayerSelection = (
+    id,
+    matchId,
+    selected = new Map(),
+    playerList = []
+  ) => {
+    const [currentPlayer] = allData?.filter((player) => {
+      if (player?.type?.toLocaleLowerCase() === D) {
+        return player?.team_id === id && player?.match_id === matchId;
+      } else {
+        return player?.playerId === id && player?.match_id === matchId;
+      }
+    });
+
+    let _starPlayerCount = starPlayerCount;
+
+    //selected players
+    const _playersList = [...playerList];
+
+    if (!selected.get(id)) {
+      const [_player] = _playersList?.filter((player) => {
+        let obj = {};
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          obj = player?.team;
         } else {
-          return player?.playerId === id && player?.match_id === matchId;
+          obj = player?.player;
+        }
+
+        return (
+          player?.filter === currentPlayer?.type?.toLocaleLowerCase() &&
+          isEmpty(obj)
+        );
+      });
+      if (!isEmpty(_player)) {
+        let selectedObj = {};
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          selectedObj = _player?.team;
+        } else {
+          selectedObj = _player?.player;
+        }
+
+        if (isEmpty(selectedObj)) {
+          const playerListIndex = _playersList?.indexOf(_player);
+          let player = { ..._player };
+
+          if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+            player.team = { ...currentPlayer };
+          } else {
+            player.player = { ...currentPlayer };
+          }
+          player.type = currentPlayer?.type?.toLocaleLowerCase();
+          player.matchId = currentPlayer?.match_id;
+          player.isStarPlayer = currentPlayer?.isStarPlayer;
+          _playersList[playerListIndex] = player;
+
+          selected.set(id, !selected.get(id));
+          //Star Power Player selection (sidebar)
+          if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
+            _starPlayerCount++;
+          }
+          selectedPlayerCount++;
+        }
+      }
+    } else {
+      let existingPlayerIndex = _playersList?.findIndex((player) => {
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          return player?.team?.team_id === id;
+        } else {
+          return player?.player?.playerId === id;
         }
       });
-      const _selected = new Map(selected);
-      let _starPlayerCount = starPlayerCount;
 
-      //selected players
-      const _playersList = [...sideBarList];
-
-      if (!_selected.get(id)) {
-        const [_player] = _playersList?.filter((player) => {
-          let obj = {};
-          if (type?.toLocaleLowerCase() === D) {
-            obj = player?.team;
-          } else {
-            obj = player?.player;
-          }
-
-          return player?.filter === selectedData?.type && isEmpty(obj);
-        });
-        if (!isEmpty(_player)) {
-          let selectedObj = {};
-          if (type?.toLocaleLowerCase() === D) {
-            selectedObj = _player?.team;
-          } else {
-            selectedObj = _player?.player;
-          }
-
-          if (isEmpty(selectedObj)) {
-            const playerListIndex = _playersList?.indexOf(_player);
-            let player = { ..._player };
-
-            if (type?.toLocaleLowerCase() === D) {
-              player.team = { ...currentPlayer };
-            } else {
-              player.player = { ...currentPlayer };
-            }
-            player.type = type?.toLocaleLowerCase();
-            player.matchId = currentPlayer?.match_id;
-            player.isStarPlayer = currentPlayer?.isStarPlayer;
-            _playersList[playerListIndex] = player;
-
-            _selected.set(id, !selected.get(id));
-            //Star Power Player selection (sidebar)
-            if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
-              _starPlayerCount++;
-            }
-            selectedPlayerCount++;
-          }
+      if (existingPlayerIndex !== -1) {
+        selected.set(id, !selected.get(id));
+        if (
+          starPlayerCount > 0 &&
+          _playersList[existingPlayerIndex].isStarPlayer
+        ) {
+          _starPlayerCount--;
         }
-      } else {
-        let existingPlayerIndex = _playersList?.findIndex((player) => {
-          if (type?.toLocaleLowerCase() === D) {
-            return player?.team?.team_id === id;
-          } else {
-            return player?.player?.playerId === id;
-          }
-        });
 
-        if (existingPlayerIndex !== -1) {
-          _selected.set(id, !selected.get(id));
-          if (
-            starPlayerCount > 0 &&
-            _playersList[existingPlayerIndex].isStarPlayer
-          ) {
-            _starPlayerCount--;
-          }
+        _playersList[existingPlayerIndex].isStarPlayer = false;
+        _playersList[existingPlayerIndex].type = "";
+        _playersList[existingPlayerIndex].matchId = "";
 
-          _playersList[existingPlayerIndex].isStarPlayer = false;
-          _playersList[existingPlayerIndex].type = "";
-          _playersList[existingPlayerIndex].matchId = "";
-
-          if (type?.toLocaleLowerCase() === D) {
-            _playersList[existingPlayerIndex].team = {};
-          } else {
-            _playersList[existingPlayerIndex].player = {};
-          }
+        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          _playersList[existingPlayerIndex].team = {};
+        } else {
+          _playersList[existingPlayerIndex].player = {};
         }
-        selectedPlayerCount--;
       }
+      selectedPlayerCount--;
+    }
 
-      dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
-      setSelected(_selected);
-      setSidebarList(_playersList);
-      activateFilter(currentPlayer, type);
-    },
-    [selected, selectedFilter, selectedData]
-  );
+    return {
+      selected,
+      _playersList,
+      currentPlayer,
+      _starPlayerCount,
+    };
+  };
 
   const onSelectFilter = useCallback(
     (type) => {
@@ -582,6 +662,21 @@ function MLBPowerdFs(props) {
     </div>
   );
 
+  const getBackgroundImageWithStyle = () => {
+    let backgroundImageStyle = {
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "inherit",
+      backgroundColor: "#17181a",
+      backgroundImage: `url(${MLBFooterImage})`,
+      backgroundSize: "cover",
+      opacity: 0.6,
+    };
+
+    // backgroundImageStyle.backgroundPosition = "-16px -13px";
+
+    return backgroundImageStyle;
+  };
+
   return (
     <>
       <Header />
@@ -608,7 +703,13 @@ function MLBPowerdFs(props) {
           <div className={classes.container_left}>
             {!isMobile && (
               <>
-                <h2>Select your team</h2>
+                <h2>
+                  {loading
+                    ? "Loading..."
+                    : isEdit
+                    ? "Edit your team"
+                    : "Select your team"}
+                </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
                 </div>
@@ -698,153 +799,220 @@ function MLBPowerdFs(props) {
               )}
             </div>
 
-            <div className={classes.container_footer}>
-              <div className={classes.container_footer_header}>
-                <ContestRulesIcon />
-                <div className={classes.container_footer_title}>
-                  <h2>Contest Rules</h2>
-                  <span className={classes.separator} />
-                </div>
-              </div>
-              <div className={classes.container_footer_1}>
-                <div className={classes.container_footer_2}>
-                  <div className={classes.container_tabs}>
-                    <Tabs
-                      selectedIndex={activeTab}
-                      onSelect={(tabIndex) => {
-                        setActiveTab(tabIndex);
-                      }}
-                    >
-                      <TabList className={classes.tabs_header}>
-                        <Tab className={`${activeTab === 0 && classes.active}`}>
-                          Summary
-                        </Tab>
-                        <Tab className={`${activeTab === 1 && classes.active}`}>
-                          Scoring
-                        </Tab>
-                        <Tab
-                          className={`${activeTab === 2 && classes.active} ${
-                            classes.__last_tab_header
-                          }`}
-                        >
-                          Powers Available
-                        </Tab>
-                      </TabList>
+            {isMobile ? (
+              <>
+                <div className={classes.container_footer}>
+                  <div className={classes.container_footer_header}>
+                    <div className={classes.container_footer_title}>
+                      <h2>Contest Rules</h2>
+                      <span className={classes.separator} />
+                    </div>
+                  </div>
 
-                      <div className={classes.tab_body}>
-                        <TabPanel>
-                          <ContestColumn
-                            title=""
-                            widthClass={classes.width_200}
-                          >
-                            <div className={classes.column_body}>
-                              <ContestSummaryRow
-                                text={
-                                  <p>
-                                    <span>$100,000</span> Prize Pool
-                                  </p>
-                                }
-                              />
-                              <ContestSummaryRow
-                                text={
-                                  <p>
-                                    Live-play <span>Powers</span> included with
-                                    entry fee
-                                  </p>
-                                }
-                              />
-                              <ContestSummaryRow
-                                text={
-                                  <p>
-                                    Pick players from any teams scheduled to
-                                    play on <span>July 19, 2021</span>
-                                  </p>
-                                }
-                              />
-                            </div>
-                          </ContestColumn>
-                        </TabPanel>
-                        <TabPanel>
-                          <ContestColumn title="">
-                            <div className={classes.contest_scoring_wrapper}>
-                              <ContestScoringColumn
-                                data={contestScoring.data1}
-                              />
-                              <ContestScoringColumn
-                                data={contestScoring.data2}
-                              />
-                            </div>
-                          </ContestColumn>
-                        </TabPanel>
-                        <TabPanel>
-                          <div className={classes.__powers_available}>
-                            <RenderIcon
-                              title="Point Multiplier"
-                              Icon={PointMultiplierIcon}
-                              iconSize={54}
-                              count={2}
-                            />
+                  <div className={classes.__mobilefooter}>
+                    <div
+                      style={getBackgroundImageWithStyle()}
+                      className={classes.__mobilefooterimage}
+                    ></div>
 
-                            <RenderIcon
-                              title="Swap Player"
-                              Icon={SwapPlayerIcon}
-                              iconSize={54}
-                              count={2}
-                            />
-
-                            <RenderIcon
-                              title="Undo"
-                              Icon={UndoIcon}
-                              iconSize={54}
-                              count={2}
-                            />
-                          </div>
-                          <div className={classes.__powers_available}>
-                            <RenderIcon
-                              title="Retro Boost"
-                              Icon={RetroBoostIcon}
-                              iconSize={24}
-                              count={1}
-                            />
-
-                            <RenderIcon
-                              title="D-Wall"
-                              Icon={DWallIcon}
-                              iconSize={54}
-                              count={1}
-                            />
-
-                            <RenderIcon
-                              title="Video Review"
-                              Icon={VideoReviewIcon}
-                              iconSize={54}
-                              count={1}
-                            />
-                          </div>
-                        </TabPanel>
+                    <ContestColumn title="" widthClass={classes.width_200}>
+                      <div className={classes.column_body}>
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              <span>$100,000</span> Prize Pool
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Live-play <span>Powers</span> included with <br />
+                              entry fee
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Pick players from any teams scheduled to play on{" "}
+                              <span>July 19, 2021</span>
+                            </p>
+                          }
+                        />
                       </div>
-                    </Tabs>
+                    </ContestColumn>
+
+                    <div className={classes.__see_full_rules}>
+                      <ContestRulesPopUp
+                        component={({ showPopUp }) => (
+                          <button
+                            onClick={showPopUp}
+                            className={classes.footer_full_rules}
+                            href="#"
+                          >
+                            See Full Rules <img src={RightArrow} />
+                          </button>
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className={classes.__see_full_rules}>
-                  <ContestRulesPopUp
-                    component={({ showPopUp }) => (
-                      <button
-                        onClick={showPopUp}
-                        className={classes.footer_full_rules}
-                        href="#"
-                      >
-                        See Full Rules <img src={RightArrow} />
-                      </button>
-                    )}
-                  />
+              </>
+            ) : (
+              <div className={classes.container_footer}>
+                <div className={classes.container_footer_header}>
+                  <ContestRulesIcon />
+                  <div className={classes.container_footer_title}>
+                    <h2>Contest Rules</h2>
+                    <span className={classes.separator} />
+                  </div>
                 </div>
+                <div className={classes.container_footer_1}>
+                  <div className={classes.container_footer_2}>
+                    <div className={classes.container_tabs}>
+                      <Tabs
+                        selectedIndex={activeTab}
+                        onSelect={(tabIndex) => {
+                          setActiveTab(tabIndex);
+                        }}
+                      >
+                        <TabList className={classes.tabs_header}>
+                          <Tab
+                            className={`${activeTab === 0 && classes.active}`}
+                          >
+                            Summary
+                          </Tab>
+                          <Tab
+                            className={`${activeTab === 1 && classes.active}`}
+                          >
+                            Scoring
+                          </Tab>
+                          <Tab
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
+                          >
+                            Powers Available
+                          </Tab>
+                        </TabList>
+
+                        <div className={classes.tab_body}>
+                          <TabPanel>
+                            <ContestColumn
+                              title=""
+                              widthClass={classes.width_200}
+                            >
+                              <div className={classes.column_body}>
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      <span>$100,000</span> Prize Pool
+                                    </p>
+                                  }
+                                />
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      Live-play <span>Powers</span> included
+                                      with entry fee
+                                    </p>
+                                  }
+                                />
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      Pick players from any teams scheduled to
+                                      play on <span>July 19, 2021</span>
+                                    </p>
+                                  }
+                                />
+                              </div>
+                            </ContestColumn>
+                          </TabPanel>
+                          <TabPanel>
+                            <ContestColumn title="">
+                              <div className={classes.contest_scoring_wrapper}>
+                                <ContestScoringColumn
+                                  data={contestScoring.data1}
+                                />
+                                <ContestScoringColumn
+                                  data={contestScoring.data2}
+                                />
+                              </div>
+                            </ContestColumn>
+                          </TabPanel>
+                          <TabPanel>
+                            <div className={classes.__powers_available}>
+                              <RenderIcon
+                                title="Point Multiplier"
+                                Icon={PointMultiplierIcon}
+                                iconSize={54}
+                                count={2}
+                              />
+
+                              <RenderIcon
+                                title="Swap Player"
+                                Icon={SwapPlayerIcon}
+                                iconSize={54}
+                                count={2}
+                              />
+
+                              <RenderIcon
+                                title="Undo"
+                                Icon={UndoIcon}
+                                iconSize={54}
+                                count={2}
+                              />
+                            </div>
+                            <div className={classes.__powers_available}>
+                              <RenderIcon
+                                title="Retro Boost"
+                                Icon={RetroBoostIcon}
+                                iconSize={24}
+                                count={1}
+                              />
+
+                              <RenderIcon
+                                title="D-Wall"
+                                Icon={DWallIcon}
+                                iconSize={54}
+                                count={1}
+                              />
+
+                              <RenderIcon
+                                title="Video Review"
+                                Icon={VideoReviewIcon}
+                                iconSize={54}
+                                count={1}
+                              />
+                            </div>
+                          </TabPanel>
+                        </div>
+                      </Tabs>
+                    </div>
+                  </div>
+                  <div className={classes.__see_full_rules}>
+                    <ContestRulesPopUp
+                      component={({ showPopUp }) => (
+                        <button
+                          onClick={showPopUp}
+                          className={classes.footer_full_rules}
+                          href="#"
+                        >
+                          See Full Rules <img src={RightArrow} />
+                        </button>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <img
+                  src={MLBFooterImage}
+                  className={classes.container_body_img}
+                />
               </div>
-              <img
-                src={MLBFooterImage}
-                className={classes.container_body_img}
-              />
-            </div>
+            )}
           </div>
 
           <div className={classes.sidebar_container}>

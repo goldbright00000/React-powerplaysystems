@@ -13,6 +13,8 @@ import { URLS } from "../../config/urls";
 import styles from "./styles.module.scss";
 import formStyles from "../../scss/formstyles.module.scss";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
+import CreateAccount from "./CreateAccount";
+import Verification from "./Verification";
 
 const INITIAL_STATE = {
   username: "",
@@ -35,54 +37,23 @@ const PowerUpPage = (props) => {
     }
   }, [user]);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    const {
-      username = "",
-      email = "",
-      password = "",
-      cPassword = "",
-    } = user || {};
-    setUser({ ...user, isLoading: true });
+  useEffect(() => {
+    async function sendVerificationEmail() {
+      if (props.verification) {
+        const { state } = props?.location;
 
-    if (
-      isEmpty(username) ||
-      isEmpty(email) ||
-      isEmpty(password) ||
-      isEmpty(cPassword)
-    ) {
-      return setUser({
-        ...user,
-        isFailed: true,
-        errorMsg: "All fields are required",
-      });
+        if (state?.email) {
+          await http.post(URLS.USER.SEND_EMAIL_CONFIRMATION, {
+            email: state.email,
+          });
+        } else {
+          redirectTo(props, { path: "/power-up" });
+        }
+      }
     }
 
-    if (!isEqual(password, cPassword)) {
-      return setUser({
-        ...user,
-        isFailed: true,
-        errorMsg: "Password did not match",
-      });
-    }
-
-    const data = {
-      email,
-      password,
-      username,
-    };
-    const response = await http.post(URLS.AUTH.VERIFY_EMAIL, data);
-    if (response.data.status === false) {
-      return setUser({
-        ...user,
-        isLoading: false,
-        isFailed: true,
-        errorMsg: response.data.message,
-      });
-    }
-
-    redirectTo(props, { path: "user-profile-info", state: data });
-  };
+    sendVerificationEmail();
+  }, [props.verification]);
 
   return (
     <div className={styles.root}>
@@ -101,63 +72,12 @@ const PowerUpPage = (props) => {
           </>
         }
       />
-      <div className={styles.container}>
-        <form className={formStyles.root} action={null} onSubmit={onSubmit}>
-          {!user?.isFailed && !isEmpty(user.errorMsg) && (
-            <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
-          )}
-          {user.isFailed && !isEmpty(user.errorMsg) && (
-            <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
-          )}
+      {props.verification ? (
+        <Verification data={props?.location?.state} />
+      ) : (
+        <CreateAccount user={user} setUser={setUser} />
+      )}
 
-          {user.isSuccess && !isEmpty(user.errorMsg) && (
-            <Alert renderMsg={() => <p>{user.errorMsg}</p>} success />
-          )}
-
-          <Input
-            type="text"
-            title="Display Name"
-            id="username"
-            value={user.username}
-            onChange={(e) => {
-              setUser({ ...user, username: e?.target?.value });
-            }}
-          />
-          <Input
-            type="email"
-            title="E-mail"
-            id="email"
-            value={user.email}
-            onChange={(e) => {
-              setUser({ ...user, email: e?.target?.value });
-            }}
-          />
-          <Input
-            type="password"
-            title="Create-a-password"
-            id="password"
-            value={user.password}
-            onChange={(e) => {
-              setUser({ ...user, password: e?.target?.value });
-            }}
-          />
-          <Input
-            type="password"
-            title="Confirm your password"
-            id="confirmpassword"
-            value={user.cPassword}
-            onChange={(e) => {
-              setUser({ ...user, cPassword: e?.target?.value });
-            }}
-          />
-          <button className={formStyles.button} disabled={user.isLoading}>
-            {user.isLoading ? "Loading..." : "Next"}
-          </button>
-        </form>
-        <p className={styles.blogSection}>
-          Already have an account? <Link to="/login">Log in!</Link>
-        </p>
-      </div>
       <Footer isBlack={true} />
     </div>
   );

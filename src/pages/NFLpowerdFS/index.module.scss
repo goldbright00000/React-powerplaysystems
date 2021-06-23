@@ -244,7 +244,7 @@
                 color: $primary;
               }
             }
-            
+
             .contest_scoring_wrapper {
               display: flex;
               flex-direction: row;
@@ -308,6 +308,8 @@
             display: flex;
             flex-direction: column;
             flex: 1;
+            position: relative;
+            height: 100%;
 
             .column_title {
               display: flex;
@@ -321,7 +323,7 @@
                 color: $primary;
               }
             }
-            
+
             .contest_scoring_wrapper {
               display: flex;
               flex-direction: row;
@@ -380,15 +382,17 @@
             }
 
             .container_body_img_div {
+              position: absolute;
               display: flex;
               justify-content: flex-end;
+              bottom: 0;
+              right: 0;
 
               .container_body_img {
                 width: 295px;
                 height: 255px;
               }
             }
-            
           }
 
           .footer_full_rules {
@@ -693,7 +697,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -702,21 +706,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -724,11 +728,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -737,7 +741,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -746,7 +750,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -761,7 +765,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -780,21 +784,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -806,31 +810,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -857,20 +861,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -882,31 +886,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -924,9 +928,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -940,11 +943,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -1118,7 +1121,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -1127,21 +1130,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -1149,11 +1152,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -1162,7 +1165,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -1171,7 +1174,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -1186,7 +1189,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -1205,21 +1208,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -1231,31 +1234,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -1282,20 +1285,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -1307,31 +1310,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -1349,9 +1352,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -1365,11 +1367,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -1643,7 +1645,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -1652,21 +1654,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -1674,11 +1676,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -1687,7 +1689,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -1696,7 +1698,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -1711,7 +1713,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -1730,21 +1732,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -1756,31 +1758,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -1807,20 +1809,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -1832,31 +1834,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -1874,9 +1876,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -1890,11 +1891,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -2103,7 +2104,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -2112,21 +2113,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -2134,11 +2135,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -2147,7 +2148,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -2156,7 +2157,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -2171,7 +2172,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -2190,21 +2191,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -2216,31 +2217,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -2267,20 +2268,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -2292,31 +2293,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -2334,9 +2335,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -2350,11 +2350,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -2487,7 +2487,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -2496,21 +2496,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -2518,11 +2518,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -2531,7 +2531,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -2540,7 +2540,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -2555,7 +2555,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -2574,21 +2574,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -2600,31 +2600,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -2651,20 +2651,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -2676,31 +2676,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -2718,9 +2718,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -2734,11 +2733,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -2870,7 +2869,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -2879,21 +2878,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -2901,11 +2900,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -2914,7 +2913,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -2923,7 +2922,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -2938,7 +2937,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -2957,21 +2956,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -2983,31 +2982,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -3034,20 +3033,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -3059,31 +3058,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -3101,9 +3100,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -3117,11 +3115,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -3255,7 +3253,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -3264,21 +3262,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -3286,11 +3284,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -3299,7 +3297,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -3308,7 +3306,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -3323,7 +3321,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -3342,21 +3340,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -3368,31 +3366,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -3419,20 +3417,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -3444,31 +3442,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -3486,9 +3484,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -3502,11 +3499,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;
@@ -3642,7 +3639,7 @@
             border-radius: 9px;
             align-items: flex-start;
             height: 406px;
-  
+
             .first_column {
               display: flex;
               flex-direction: column;
@@ -3651,21 +3648,21 @@
               .footer_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 &.width_200 {
                   width: 180px;
                 }
-  
+
                 p {
                   margin: 0;
                   padding: 0;
                 }
-  
+
                 .column_title {
                   display: flex;
                   width: 100%;
                   margin-bottom: 8px;
-  
+
                   p {
                     font-family: Teko;
                     font-size: 28px;
@@ -3673,11 +3670,11 @@
                     color: $primary;
                   }
                 }
-  
+
                 .column_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .column_row {
                     display: flex;
                     width: 100%;
@@ -3686,7 +3683,7 @@
                     font-weight: 500;
                     margin: 0 0 16px 0;
                     position: relative;
-  
+
                     svg {
                       margin: 0;
                       padding: 0;
@@ -3695,7 +3692,7 @@
                       position: absolute;
                       top: 3px;
                     }
-  
+
                     p {
                       transform: translateX(24px);
                       font-size: 16px;
@@ -3710,7 +3707,7 @@
                 }
               }
             }
-  
+
             .second_column {
               display: flex;
               flex-direction: column;
@@ -3729,21 +3726,21 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
                 margin: 0 46px 0 0;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -3755,31 +3752,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -3806,20 +3803,20 @@
                   color: $primary;
                 }
               }
-              
+
               .contest_scoring_wrapper {
                 display: flex;
                 flex-direction: row;
               }
-  
+
               .scoring_column {
                 display: flex;
                 flex-direction: column;
-  
+
                 .scoring_title {
                   display: flex;
                   margin-bottom: 4px;
-  
+
                   p {
                     margin: 0;
                     padding: 0;
@@ -3831,31 +3828,31 @@
                     line-height: 16px;
                   }
                 }
-  
+
                 .scoring_body {
                   display: flex;
                   flex-direction: column;
-  
+
                   .width_140 {
                     width: 140px;
                   }
-  
+
                   p {
                     font-size: 14px;
                     width: 131px;
                     margin: 0 10px 0 0;
-  
+
                     &.flex_0_85 {
                       flex: 0.85;
                     }
                   }
-  
+
                   span {
                     font-size: 14px;
                     font-weight: 600;
                     color: $primary;
                   }
-  
+
                   .scoring_row {
                     display: flex;
                     width: 100%;
@@ -3873,9 +3870,8 @@
                   height: 255px;
                 }
               }
-              
             }
-  
+
             .footer_full_rules {
               justify-content: center;
               align-items: center;
@@ -3889,11 +3885,11 @@
               border-radius: 12px;
               border: none;
               outline: none;
-  
+
               &:hover {
                 cursor: pointer;
               }
-  
+
               img {
                 width: 26px;
                 height: 18px;

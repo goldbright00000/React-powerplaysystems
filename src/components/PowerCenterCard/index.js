@@ -15,11 +15,18 @@ const PowerCenterCard = (props) => {
         outOf = null,
         total = null,
         percent = null,
+        game_type = '',
+        game_set_end = '',
+        start_time = '',
+        entry_fee = null,
         showDetails = false,
         onDetailsClick = () => { },
         onBackClick = () => { },
         onNextClick = () => { },
         onEnter = () => { },
+        PointsSystem = [],
+        Power = [],
+        PrizePayout = []
     } = props || {};
 
     const getBackgroundImageWithStyle = () => {
@@ -50,7 +57,7 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_powerdfs}>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
                     <p className={classes.__power_center_card_powerdfs_title}>
-                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> {title !== 'Levels' && 'PowerdFS'}
+                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> {game_type}
                     </p>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_right}></span>
                 </div>
@@ -65,13 +72,13 @@ const PowerCenterCard = (props) => {
                 </p>
                 </div>
                 <div className={classes.__power_center_card_enter}>
-                        <OutlineButton 
-                            title="Enter  •  $5"
-                            onClick={onEnter}
-                        />
+                    <OutlineButton
+                        title={`Enter  •  $${entry_fee}`}
+                        onClick={onEnter}
+                    />
                 </div>
                 <div className={classes.__power_center_card_date_time}>
-                    Oct 24, 2020  |  8:00PM ET
+                    {game_set_end} | {start_time} ET
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
                     <div className={classes.__power_center_card_total}>
@@ -80,7 +87,9 @@ const PowerCenterCard = (props) => {
                         </p>
                     </div>
                     <div className={classes.__power_center_card_details}>
-                        <div className={classes.__power_center_card_details_link} onClick={() => onDetailsClick(id)}>
+                        <div className={classes.__power_center_card_details_link} onClick={() => {
+                            onDetailsClick(id)
+                        }}>
                             Details
                     </div>
                         <div className={classes.__power_center_card_details_link_forward_arrow}>
@@ -91,6 +100,10 @@ const PowerCenterCard = (props) => {
             </div>
             :
             <PowerCenterCardDetails
+                Power={Power}
+                PrizePayout={PrizePayout}
+                PointsSystem={PointsSystem}
+                entry_fee={entry_fee}
                 title={title}
                 onBackClick={() => onBackClick()}
                 onNextClick={() => onNextClick()}

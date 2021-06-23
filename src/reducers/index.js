@@ -10,6 +10,7 @@ import userReducer from "./userReducer";
 import nflReducer from "./nflReducer";
 import uiReducer from "./uiReducer";
 import notificationReducer from "./notificationReducer";
+import powerCenterReducer from "./powerCenterReducer";
 
 export const reducers = {
   cardGame: CardGameReducer,
@@ -24,4 +25,5 @@ export const reducers = {
   user: userReducer,
   ui: uiReducer,
   notifications: notificationReducer,
+  powerCenter: powerCenterReducer
 };

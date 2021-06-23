@@ -31,6 +31,7 @@
     }
 
 }
+
 .backButton{
     border: none;
     background: transparent;
@@ -38,6 +39,7 @@
     opacity: 0.6;
     cursor: pointer;
 }
+
 .titleWrappersForMobileOnly{
     display: none;
 }
@@ -203,5 +205,30 @@
     }
     100%{
         opacity: 0;
+    }
+}
+
+.customizeBackBtn {
+    top: 15px;
+    left: 15px;
+
+    &:hover {
+        text-decoration: none;
+        box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
+    }
+
+    &.btnFlat {
+        box-shadow: none !important;
+        background-color: transparent !important;
+
+        &:hover {
+            background-color: #dedede !important;
+            box-shadow: none !important;
+        }
+
+        &.disabled:hover,
+        &[disabled]:hover {
+            background-color: transparent !important;
+        }
     }
 }

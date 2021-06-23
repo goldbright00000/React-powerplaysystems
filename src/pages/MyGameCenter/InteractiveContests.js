@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import classes from "./interactiveContests.module.scss";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import classes from './interactiveContests.module.scss';
+import { useDispatch } from 'react-redux';
+import { setUserBalance } from '../../actions/userActions';
+import Ball from '../../icons/Ball';
+import BasketBall from '../../icons/BasketBall';
+import Hockeys from '../../icons/Hockeys';
+import SuperBall from '../../icons/SuperBall';
+import CashPowerBalance from '../../components/CashPowerBalance';
+import { redirectTo, getDaysFromToday, printLog } from '../../utility/shared';
+import CustomDropDown from '../../components/CustomDropDown';
+import MyGameCenterCard from '../../components/MyGameCenterCard';
+import { URLS } from '../../config/urls';
+import http from '../../config/http';
 import { useMediaQuery } from "react-responsive";
-import { setUserBalance } from "../../actions/userActions";
-import Ball from "../../icons/Ball";
-import BasketBall from "../../icons/BasketBall";
-import Hockeys from "../../icons/Hockeys";
-import SuperBall from "../../icons/SuperBall";
-import CashPowerBalance from "../../components/CashPowerBalance";
-import { redirectTo, getDaysFromToday } from "../../utility/shared";
-import CustomDropDown from "../../components/CustomDropDown";
-import MyGameCenterCard from "../../components/MyGameCenterCard";
-import { URLS } from "../../config/urls";
-import http from "../../config/http";
-// import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
+import * as MLbActions from "../../actions/MLBActions";
 
 const myGameCenterCardData = [
   {
@@ -28,7 +28,7 @@ const myGameCenterCardData = [
     inProgress: true,
     completed: false,
     teamManager: true,
-    editPicks: false,
+    editPicks: true,
     makePicks: false,
     timeToStart: "",
   },
@@ -218,9 +218,18 @@ const InteractiveContests = (props) => {
     setBalance(response.data);
   };
 
+  const onEdit = (item) => {
+    switch (item?.title) {
+      case "MLB":
+        dispatch(MLbActions.getAndSetEditPlayers({ game_id: 7, sport_id: 1 }));
+        return redirectTo(props, { path: "/mlb-powerdfs" });
+    }
+  };
+
   const myGameCenterCard = (item, redirectUri) => {
     return (
-      <div className={classes.__interactive_contests_power_center_card}>
+      <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}>
+        {printLog('MyGameCenterCard ==>', item)}
         <MyGameCenterCard
           isMobile={isMobile}
           id={item.id}
@@ -238,7 +247,12 @@ const InteractiveContests = (props) => {
           showDetails={showCardDetails == item.id}
           viewResults={viewResults == item.id}
           finalStandingsModal={finalStandingsModal == item.id}
-          onEnter={() => redirectTo(props, { path: redirectUri || "/" })}
+          onEnter={() => {
+            redirectTo(props, { path: redirectUri || "/" });
+          }}
+          onEdit={() => {
+            onEdit(item);
+          }}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
@@ -269,8 +283,8 @@ const InteractiveContests = (props) => {
                         item.id === 1
                           ? myGameCenterCardData
                           : myGameCenterCardData.filter(
-                              (cardItem) => cardItem.title === item.title
-                            );
+                            (cardItem) => cardItem.title === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -348,7 +362,7 @@ const InteractiveContests = (props) => {
                     <>
                       <div
                         className={
-                          classes.__interactive_contests_power_center_card_row
+                          `${classes.__interactive_contests_power_center_card_row} row`
                         }
                       >
                         {items.map((power) => {

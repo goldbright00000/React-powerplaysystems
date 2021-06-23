@@ -215,7 +215,7 @@
 
     &.compressedView {
       height: 326px;
-      margin: 65px 0 0 0;
+      margin: 50px 0 0 0;
     }
 
     .header_top {
@@ -336,8 +336,8 @@
     height: 528px;
 
     &.compressedView {
-      height: 286px;
-      margin: 50px 0 0 0;
+      height: 270px;
+      margin: 35px 0 0 0;
     }
 
     .header_top {
@@ -1119,14 +1119,14 @@
     background-repeat: no-repeat;
     justify-content: space-between;
     position: relative;
-  
+
     .header_top {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 200px;
-  
+
       .header_title {
         width: 256px;
         height: 52px;

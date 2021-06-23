@@ -14,11 +14,17 @@ export const URLS = {
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
     CONVERSION_MARKUP_VALUE: "users/conversion-rate",
     ACCOUNT_LIMITS: "/users/account/limit",
-    COINBASE_LINK_GENERATE: "users/coinbase-link-generate"
+    COINBASE_LINK_GENERATE: "users/coinbase-link-generate",
+    PERSONA_VERIFICATION: "users/verify-persona",
+    SEND_EMAIL_CONFIRMATION: "users/send-nopass-verification",
+    VERIFY_CONFIRMATION_CODE: "users/verify-nopass",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
     MLB_SAVE_PLAYERS: "/dfs/mlb-save-players",
     MLB_LIVE_PAGE_PLAYERS: "/dfs/mlb-live",
+  },
+  GAMES: {
+    ALL_GAMES: "admin/games",
   },
 };
