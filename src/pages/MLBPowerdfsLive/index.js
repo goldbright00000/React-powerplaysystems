@@ -30,11 +30,13 @@ import SportsLiveCard from "../../components/SportsLiveCard";
 import { redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
-
+import Mobile from "../../pages/Mobile/Mobile";
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 
 let _socket = null;
 function MLBPowerdFsLive(props) {
+  const [screenSize, setScreenSize] = useState(window.screen.width);
+
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
@@ -47,7 +49,7 @@ function MLBPowerdFsLive(props) {
     starPlayerCount = 0,
     sport_id = 0,
     game_id = 0,
-  } = useSelector((state) => state.mlb);
+  } = useSelector(state => state.mlb);
   const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
@@ -77,7 +79,7 @@ function MLBPowerdFsLive(props) {
         });
       }
 
-      const [teamD] = selectedData?.filter((d) => d?.type === D);
+      const [teamD] = selectedData?.filter(d => d?.type === D);
 
       playerTeamdata.players = playerIds;
       playerTeamdata.teamId = teamD?.team?.team_id;
@@ -97,7 +99,7 @@ function MLBPowerdFsLive(props) {
     if (_socket && data?.length) {
       const _players = [];
       console.log("Data =========== ", data);
-      _socket?.on(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.EMIT_ROOM, (res) => {
+      _socket?.on(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.EMIT_ROOM, res => {
         console.log(`Response: `, res);
         const _player = res?.data || {};
         const playerInd = _players?.findIndex(_players);
@@ -118,19 +120,19 @@ function MLBPowerdFsLive(props) {
     const playersArr = new Array(8);
     const { players = [], teamD = {} } = dataResponse || {};
     const [playerP] = players?.filter(
-      (plr) => `${plr?.type}`?.toLocaleLowerCase() === P
+      plr => `${plr?.type}`?.toLocaleLowerCase() === P
     );
     const [playerC] = players?.filter(
-      (plr) => `${plr?.type}`?.toLocaleLowerCase() === C
+      plr => `${plr?.type}`?.toLocaleLowerCase() === C
     );
     const [playerSS] = players?.filter(
-      (plr) => `${plr?.type}`?.toLocaleLowerCase() === SS
+      plr => `${plr?.type}`?.toLocaleLowerCase() === SS
     );
     const playerXB = players?.filter(
-      (plr) => `${plr?.type}`?.toLocaleLowerCase() === XB
+      plr => `${plr?.type}`?.toLocaleLowerCase() === XB
     );
     const playerOF = players?.filter(
-      (plr) => `${plr?.type}`?.toLocaleLowerCase() === OF
+      plr => `${plr?.type}`?.toLocaleLowerCase() === OF
     );
 
     playersArr[0] = playerP;
@@ -313,106 +315,116 @@ function MLBPowerdFsLive(props) {
       </p>
     );
 
+  window.onresize = () => {
+    setScreenSize(window.screen.width);
+  };
+
   return (
     <>
-      <Header />
-      <div className={classes.wrapper}>
-        <Header4
-          titleMain1="MLB 2021"
-          titleMain2="PowerdFS"
-          subHeader1="Introducing Live-Play Fantasy Baseball"
-          subHeader2={
-            <>
-              Use your <span>Powers</span> during the live game to drive your
-              team up the standings
-            </>
-          }
-          contestBtnTitle="Contest Rules"
-          prizeBtnTitle="Prize Grid"
-          bgImageUri={BaseballImage}
-          compressedView
-          currentState={<RenderLiveState />}
-        />
-
-        <div className={classes.container}>
-          <div className={classes.container_left_side}>
-            <NHLLiveSportsHeader
-              btnTitle1="Full View"
-              btnTitle2="Compressed"
-              btnTitle3="Single"
-              selectedView={selectedView}
-              onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
-              onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
-              onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
-              teamManagerLink="/mlb-live-powerdfs"
-              scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+      {screenSize > 550 ? (
+        <>
+          <Header />
+          <div className={classes.wrapper}>
+            <Header4
+              titleMain1="MLB 2021"
+              titleMain2="PowerdFS"
+              subHeader1="Introducing Live-Play Fantasy Baseball"
+              subHeader2={
+                <>
+                  Use your <span>Powers</span> during the live game to drive
+                  your team up the standings
+                </>
+              }
+              contestBtnTitle="Contest Rules"
+              prizeBtnTitle="Prize Grid"
+              bgImageUri={BaseballImage}
+              compressedView
+              currentState={<RenderLiveState />}
             />
-            <Card>{RenderView()}</Card>
-            <div className={classes.left_side_footer}>
-              <img src={FooterImage} alt="" />
+
+            <div className={classes.container}>
+              <div className={classes.container_left_side}>
+                <NHLLiveSportsHeader
+                  btnTitle1="Full View"
+                  btnTitle2="Compressed"
+                  btnTitle3="Single"
+                  selectedView={selectedView}
+                  onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
+                  onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
+                  onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
+                  teamManagerLink="/mlb-live-powerdfs"
+                  scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                />
+                <Card>{RenderView()}</Card>
+                <div className={classes.left_side_footer}>
+                  <img src={FooterImage} alt="" />
+                </div>
+              </div>
+
+              <div className={classes.sidebar_container}>
+                <Sidebar>
+                  <CashPowerBalance
+                    powerBalance={50000}
+                    cashBalance={200000}
+                    styles={{
+                      width: "100%",
+                      marginTop: "-40px",
+                    }}
+                    cashTitle="Prize Pool"
+                    powerTitle="Top Prize"
+                    centered
+                    showIcons={false}
+                  />
+                  <RankCard currentWin={100000} {...props} />
+
+                  <div className={classes.sidebar_content}>
+                    <p>
+                      <span>My</span> Powers
+                    </p>
+                    <div className={classes.sidebar_content_1}>
+                      <RenderPower
+                        title="Point Multiplier"
+                        isSvgIcon
+                        Icon={XPIcon}
+                        count={1}
+                      />
+                      <RenderPower
+                        title="Swap Player"
+                        isSvgIcon
+                        Icon={ReplaceAllIcon}
+                        count={0}
+                      />
+                      <RenderPower
+                        title="D-Wall"
+                        isSvgIcon
+                        Icon={ShieldIcon}
+                        count={0}
+                      />
+                      <RenderPower
+                        title="Video Review"
+                        isSvgIcon
+                        Icon={CamIcon}
+                        count={4}
+                      />
+                    </div>
+                    <button onClick={() => setLearnMoreModal(true)}>
+                      Learn more
+                    </button>
+                  </div>
+                </Sidebar>
+              </div>
             </div>
           </div>
-
-          <div className={classes.sidebar_container}>
-            <Sidebar>
-              <CashPowerBalance
-                powerBalance={50000}
-                cashBalance={200000}
-                styles={{
-                  width: "100%",
-                  marginTop: "-40px",
-                }}
-                cashTitle="Prize Pool"
-                powerTitle="Top Prize"
-                centered
-                showIcons={false}
-              />
-              <RankCard currentWin={100000} {...props} />
-
-              <div className={classes.sidebar_content}>
-                <p>
-                  <span>My</span> Powers
-                </p>
-                <div className={classes.sidebar_content_1}>
-                  <RenderPower
-                    title="Point Multiplier"
-                    isSvgIcon
-                    Icon={XPIcon}
-                    count={1}
-                  />
-                  <RenderPower
-                    title="Swap Player"
-                    isSvgIcon
-                    Icon={ReplaceAllIcon}
-                    count={0}
-                  />
-                  <RenderPower
-                    title="D-Wall"
-                    isSvgIcon
-                    Icon={ShieldIcon}
-                    count={0}
-                  />
-                  <RenderPower
-                    title="Video Review"
-                    isSvgIcon
-                    Icon={CamIcon}
-                    count={4}
-                  />
-                </div>
-                <button onClick={() => setLearnMoreModal(true)}>
-                  Learn more
-                </button>
-              </div>
-            </Sidebar>
-          </div>
-        </div>
-      </div>
-      <Footer isBlack={true} />
-      <LearnMoreModal
-        title="Point Multipler"
-        learnMoreModal={learnMoreModal}
-        onCloseModal={onCloseModal}
-      />
+          <Footer isBlack={true} />
+          <LearnMoreModal
+            title="Point Multipler"
+            learnMoreModal={learnMoreModal}
+            onCloseModal={onCloseModal}
+          />
+        </>
+      ) : (
+        <Mobile />
+      )}
     </>
   );
 }
