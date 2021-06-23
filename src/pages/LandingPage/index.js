@@ -41,6 +41,8 @@ const LandingPage = (props) => {
   useEffect(() => {
     _socket = socket();
 
+    console.log("SOCKET: ", _socket.connected);
+
     return function cleanUp() {
       _socket = null;
     };

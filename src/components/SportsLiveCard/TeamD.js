@@ -20,13 +20,18 @@ function SportsLiveCardTeamD(props) {
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
 
   const {
-    team = {},
+    data = {},
     compressedView = false,
     largeView = false,
     singleView = false,
     active = false,
+    onSelectCard = () => {},
     cardType = CardType.MLB,
   } = props || {};
+
+  const { team_d_mlb_team: team = {}, match = {} } = data || {};
+
+  const { away_team = {}, home_team = {} } = match || {};
 
   const {
     name = "",
@@ -138,7 +143,7 @@ function SportsLiveCardTeamD(props) {
         {type}
       </p>
       <div className={classes.header_teams}>
-        <p>{homeTeam}</p> vs <span>{awayTeam}</span>
+        <p>{home_team?.name}</p> vs <span>{away_team?.name}</span>
       </div>
     </div>
   );
@@ -177,7 +182,7 @@ function SportsLiveCardTeamD(props) {
           ${singleView && classes.single_view_hover}
           ${active && classes.active}
         `}
-          onClick={() => {}}
+          onClick={() => onSelectCard(data)}
         >
           <div className={classes.container_header}>
             <p
@@ -257,12 +262,13 @@ function SportsLiveCardTeamD(props) {
 }
 
 SportsLiveCardTeamD.propTypes = {
-  team: PropTypes.object,
+  data: PropTypes.object,
   compressedView: PropTypes.bool,
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,
   active: PropTypes.bool,
   cardType: PropTypes.string,
+  onSelectCard: PropTypes.func,
 };
 
 export default SportsLiveCardTeamD;
