@@ -80,7 +80,8 @@ const Verification = (props) => {
           />
         )}
 
-        <button className={formStyles.button}>
+        <button className={formStyles.button} disabled={!code} style={{
+          backgroundColor: !code ? '#874008' : '#fb6e00'}}>
           {error ? "Start Over" : "Next"}
         </button>
       </form>

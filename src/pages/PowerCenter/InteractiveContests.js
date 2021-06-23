@@ -498,11 +498,11 @@ const InteractiveContests = (props) => {
         )}
         {isMobile && (
           <>
-            <div className={classes.__power_up_text}>
+            <div className={`${classes.__power_up_text} w-100 mx-0`}>
               Power-Up to experience our ground-breaking live-play games where
               you have the Power to control your team’s destiny. *
             </div>
-            <button className={classes.__power_up_btn}>Power Up!</button>
+            <button className={`${classes.__power_up_btn} w-100 mx-0`}>Power Up!</button>
           </>
         )}
       </div>

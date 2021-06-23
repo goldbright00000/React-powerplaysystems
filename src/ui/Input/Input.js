@@ -16,7 +16,7 @@ const Input = (props) => {
     setType(type === "password" ? "text" : "password");
   return (
     <div className={`__text-field-style-2 ${props.className}`}>
-      <div className={props.extraClass}>
+      <div className={props.extraclass}>
         <label htmlFor={id}>
           {props.title}{" "}
           {propsType === "password" && (

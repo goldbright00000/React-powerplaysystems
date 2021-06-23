@@ -109,7 +109,7 @@ const MyGameCenterCard = (props) => {
       {isMobile ? (
         <>
           <div
-            className={classes.__my_game_center_card_mobile}
+            className={`${classes.__my_game_center_card_mobile} w-100`}
             style={getBackgroundImageWithStyleMobile()}
           >
             <Carousel
@@ -223,12 +223,12 @@ const MyGameCenterCard = (props) => {
                     240,051 <span>Your Current Rank</span>
                   </div>
                 )}
-                <div className={classes.__my_game_center_card_buttons}>
+                <div className={`${classes.__my_game_center_card_buttons} d-flex align-items-center justify-content-between`}>
                   {teamManager && (
                     <OutlineButton
                       title="Team Manager"
                       onClick={onEnter}
-                      styles={{ width: "140px", fontSize: "14px" }}
+                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
                     />
                   )}
 
@@ -236,7 +236,7 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Edit Picks"
                       onClick={onEdit}
-                      styles={{ width: "140px", fontSize: "14px" }}
+                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
                       //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
@@ -245,7 +245,7 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Make Picks"
                       onClick={onEnter}
-                      styles={{ width: "140px", fontSize: "14px" }}
+                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
                     />
                   )}
 
@@ -253,7 +253,7 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Final Standings"
                       onClick={() => onFinalStandings(id)}
-                      styles={{ marginTop: 14 }}
+                      styles={{ marginTop: 14, margin: '.25rem', fontSize: '12px' }}
                     />
                   )}
                 </div>
@@ -422,8 +422,7 @@ const MyGameCenterCard = (props) => {
         !viewResults ? (
           <div
             className={classes.__my_game_center_card}
-            style={getBackgroundImageWithStyle()}
-          >
+            style={getBackgroundImageWithStyle()}>
             {inProgress && (
               <div className={classes.__my_game_center_card_in_progress}>
                 <div className={classes.__in_progress}>

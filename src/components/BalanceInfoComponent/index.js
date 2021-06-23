@@ -70,8 +70,9 @@ const ListHeader = (
   minAmount
 ) => {
   return (
-    <div className={classes.list_container}>
-      <div className={classes.list_left_side}>
+    
+    <div className={`${classes.list_container} mx-0`}>
+      <div className={`${classes.list_left_side} d-flex align-items-center justify-content-between`}>
         {ListTitle(Icon, isSvg, title)}
         <span className={classes.span}>
           {balanceType == "cash" ? "$" : ""}
@@ -80,15 +81,16 @@ const ListHeader = (
       </div>
 
       <div className={classes.list_right_side}>
-        <div className={classes.list_right_side_btns}>
-          <Button title={firstBtnTitle} onClick={firstBtnOnClick} />
+        <div className={`d-flex align-items-center justify-content-around w-100`}>
+          <Button title={firstBtnTitle} onClick={firstBtnOnClick} className="mx-1 h-100"/>
           <Button
+            className="mx-1 h-100"
             title={btnTitle}
             onClick={balance != 0 && onClick}
             styles={{ opacity: balance == 0 ? 0.5 : 1.0 }}
           />
         </div>
-        <div className={classes.list_right_side_text}>
+        <div className={`${classes.list_right_side_text} w-100 my-2`}>
           <span>{minAmount}</span>
         </div>
       </div>
@@ -151,7 +153,7 @@ function BalanceInfoComponent(props) {
       {/* {props.openDepositModal && (
         <DepositAmountPopUp onClose={() => props.setOpenDepositModal(false)} />
       )} */}
-      <div className={classes.list_header_wrapper}>
+      <div className={`${classes.list_header_wrapper}`}>
         {ListHeader(
           "My Cash Balance",
           balance.cashBalance.toFixed(2),
@@ -207,6 +209,7 @@ function BalanceInfoComponent(props) {
         <ListItem title="10 free meals at Macdonald’s" claimed={false} />
         <ListItem title="3 nights stay at Fairmont Banff Springs" />
       </div> */}
+      
 
       <Modal visible={showModal} iconStyle={{ display: "none" }}>
         <div className={classes.modal_container}>

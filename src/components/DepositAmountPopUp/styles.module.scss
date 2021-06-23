@@ -7,11 +7,13 @@
   right: 0;
   bottom: 0;
   background: rgba($color: #000000, $alpha: 0.5);
-  z-index: 9;
+  z-index: 9999;
 }
+
 body {
   position: relative;
 }
+
 .root {
   z-index: 10;
   display: flex;
@@ -22,6 +24,7 @@ body {
   right: 0;
   height: 100%;
 }
+
 .contentWrapper {
   position: sticky;
   position: -webkit-sticky;
@@ -32,6 +35,7 @@ body {
   overflow: hidden;
   margin: auto;
 }
+
 .header {
   padding: 1rem 2.85rem;
   background: $primary;
@@ -40,6 +44,7 @@ body {
   align-items: center;
   color: #fff;
 }
+
 .main {
   padding: 2.85rem;
   display: flex;
@@ -53,6 +58,7 @@ body {
   line-height: 1em;
   font-weight: 500;
 }
+
 .formSection h6,
 .QRCodeWrapper h6,
 .title,
@@ -61,13 +67,16 @@ body {
   font-size: 1.143rem;
   margin: 0 0 1.2rem 0;
 }
+
 .title2 {
   color: $primary;
 }
+
 .cardSectionn {
   margin-bottom: 2.857rem;
   color: #000;
 }
+
 .crossicon {
   font-size: 1rem;
   cursor: pointer;
@@ -76,18 +85,22 @@ body {
   transition: 0.2s all;
   position: relative;
   right: -1em;
+
   &:hover {
     background: rgba($color: $lightGrey6, $alpha: 0.2);
   }
+
   &:active {
     background: $lightGrey6;
   }
+
   span {
     line-height: 1em;
     width: 1em;
     height: 1em;
     display: block;
     position: relative;
+
     &::after,
     &::before {
       content: "";
@@ -98,37 +111,54 @@ body {
       left: 50%;
       top: 0;
     }
+
     &::after {
       transform: rotate(45deg);
     }
+
     &::before {
       transform: rotate(135deg);
     }
   }
 }
+
+.customCloseIcon {
+  
+  &::after,
+  &::before {
+    background: #212529 !important;
+  }
+}
+
 .form {
   width: initial;
   max-width: initial;
   margin: 0;
 }
+
 .formSection {
   margin-bottom: 4.285rem;
   color: #000;
-  > div {
+
+  >div {
     display: flex;
-    > * {
+
+    >* {
       margin-right: 0.7143rem;
     }
   }
+
   .Coingate {
     width: 4.285rem;
     margin: auto 2.142rem;
   }
 }
+
 .creditdebitcardImg {
   width: 2.857rem;
   margin: 0.6rem 0;
 }
+
 // .visaCard {
 //   width: 16px;
 //   height: 20px;
@@ -140,16 +170,22 @@ body {
 .cvvInput {
   max-width: 5.714rem;
 }
-.BitCoin, .EFTImage, .interactImage {
+
+.BitCoin,
+.EFTImage,
+.interactImage {
   width: 3.428rem;
 }
+
 .cardDetails {
   display: block;
+
   div {
     justify-content: space-between;
     display: flex;
     margin-bottom: 0.3rem;
   }
+
   input {
     border: solid 0.0714rem $lightGrey2;
     border-radius: 0.142rem;
@@ -163,6 +199,7 @@ body {
     color: $lightBlack;
     margin-bottom: 10px;
   }
+
   select {
     border: solid 0.0714rem $lightGrey2;
     border-radius: 0.142rem;
@@ -176,10 +213,12 @@ body {
     color: $lightBlack;
     margin-bottom: 10px;
   }
+
   a {
     color: $primary;
   }
 }
+
 .buyCoinBtn,
 .submitbtn {
   height: 3.6rem;
@@ -191,6 +230,7 @@ body {
   overflow: hidden;
   outline: none;
   margin-top: auto;
+
   &::after,
   &::before {
     content: "";
@@ -202,20 +242,24 @@ body {
     transition: 0.2s all;
     transform: translateY(-50%) scale(0);
   }
+
   &:hover::before {
     background: rgba($color: #fff, $alpha: 0.05);
     transform: translateY(-50%) scale(1);
   }
+
   &:active::after {
     background: rgba($color: $primary, $alpha: 0.1);
     transform: translateY(-50%) scale(1);
   }
 }
+
 .submitbtn {
   width: 22.14rem;
   background: $primary;
   border: 1px solid $primary;
 }
+
 .buyCoinBtn {
   border: 1px solid;
   color: #688fbd;
@@ -223,24 +267,29 @@ body {
   margin-right: auto;
   background: transparent;
 }
+
 .QRCodeWrapper {
-  > div {
+  >div {
     display: grid;
     grid-template-columns: 10.857rem 1fr;
     grid-gap: 2rem;
+
     .qrImage {
       grid-row: span 2;
       width: 100%;
     }
   }
 }
+
 .inputField {
   position: relative;
+
   label {
     line-height: 1em;
     margin-bottom: 0.4em;
     display: block;
   }
+
   input {
     border: solid 0.0714rem $lightGrey2;
     border-radius: 0.142rem;
@@ -251,11 +300,13 @@ body {
     padding: 0.7142rem 1rem;
     background-size: auto 0.929rem;
     color: $lightBlack;
+
     &:focus {
       border-color: $primary;
     }
   }
 }
+
 .copyImage {
   position: absolute;
   z-index: 1;
@@ -264,13 +315,16 @@ body {
   width: 1.428rem;
   cursor: pointer;
 }
+
 .leftSection {
   width: 18.27rem;
   margin-right: 4rem;
 }
+
 .cvvImage {
   margin-left: 1rem;
 }
+
 .currentBalanceTitle {
   font-size: 2.571rem;
   color: $primary;
@@ -282,13 +336,52 @@ body {
 .creditCardDetails {
   margin: 5.3rem 0 2.857rem 0;
 }
+
 @media (max-height: 800px) {
   .root {
     position: absolute;
     margin: 3rem 0;
   }
+
   .contentWrapper {
     margin: auto auto 0 auto;
     bottom: 3rem;
+  }
+}
+
+
+.customizeBackBtn {
+  top: 15px;
+  left: 15px;
+
+  &:hover {
+    text-decoration: none;
+    box-shadow: 0 4px 10px 0px rgba(0, 0, 0, 0.225);
+  }
+
+  &.btnFlat {
+    box-shadow: none !important;
+    background-color: transparent !important;
+
+    &:hover {
+      background-color: #dedede !important;
+      box-shadow: none !important;
+    }
+
+    &.disabled:hover,
+    &[disabled]:hover {
+      background-color: transparent !important;
+    }
+  }
+}
+
+
+.customDepositBtn {
+  bottom: -60px !important;
+}
+
+@media (min-width:481px) {
+  .customDepositBtn {
+    bottom: -95px !important;
   }
 }
