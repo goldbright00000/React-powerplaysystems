@@ -301,13 +301,11 @@ function MLBPowerdFs(props) {
 
       savedPlayers.forEach((element) => {
         if (element.team_id) {
-          console.log('team id')
           pls.push({
             team_id: element?.team_id,
             matchId: element?.matchId || 5656,
           })
         } else {
-          console.log('player id')
           pls.push({
             playerId: element?.playerId,
             matchId: element?.matchId || 5656,
