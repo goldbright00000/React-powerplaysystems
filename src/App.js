@@ -84,7 +84,7 @@ const App = (props) => {
         <Route path="/powerbet-live" component={PowerBetLive} />
         <Route path="/bingo-pre-game" component={BingoPreGame} />
         <Route path="/card-game" component={CardGame} />
-        {/* <ProtectedRoute path='/card-game' component={CardGame} /> */}
+        <ProtectedRoute path='/card-game' component={CardGame} />
         <Route path="/power-picks" component={PowerPicks} />
         <Route path="/chase-a-card" component={ChaseACard} />
         <Route path="/faqs" component={FAQsPage} />
@@ -92,11 +92,11 @@ const App = (props) => {
         <Route path="/trust-and-safety" component={TrustAndSafetyPage} />
         <Route path="/account-security" component={AccountSecurityPage} />
         <Route path="/terms" component={TermsOfUse} />
-        {/* <Route path="/power-up" component={PowerUpPage} /> */}
+        <Route path="/power-up" component={PowerUpPage} />
         <Route path="/user-profile-info" component={GetUserInfoPage} />
         <ProtectedRoute path="/my-game-center" component={MyGameCenter} />
         <Route path="/bingo-in-progress" component={BingoInProgressGame} />
-        {/* <Route path="/login" component={LoginPage} /> */}
+        <Route path="/login" component={LoginPage} />
         <Route path="/power-royals" component={RoyalGame} />
         <Route path="/power-poker" component={PowerPoker} />
         <Route path="/landing-page" component={LandingPage} />
