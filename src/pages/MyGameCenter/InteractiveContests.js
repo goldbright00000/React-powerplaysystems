@@ -154,7 +154,7 @@ const InteractiveContests = (props) => {
     switch (item?.game?.league) {
       case "MLB":
         dispatch(MLbActions.getAndSetEditPlayers({ game_id: item?.game_id, sport_id: item?.sport_id, user_id: item?.user_id }));
-        return redirectTo(props, { path: "/mlb-powerdfs/" });
+        return redirectTo(props, { path: `/mlb-powerdfs?game_id=${item?.game_id}` });
     }
   };
 
@@ -178,7 +178,7 @@ const InteractiveContests = (props) => {
           inProgress={item.inProgress}
           completed={item.completed}
           teamManager={item.teamManager}
-          editPicks={item?.power_dfs_fantasy_team_players?.length > 0}
+          editPicks={item?.players?.length > 0}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}

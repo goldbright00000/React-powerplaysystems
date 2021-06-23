@@ -22,6 +22,7 @@ export const URLS = {
     MLB_SAVE_PLAYERS: "/dfs/mlb-save-players",
     MLB_LIVE_PAGE_PLAYERS: "/dfs/mlb-live",
     MLB_USER_GAMES: "/dfs/user-games",
+    MLB_EDIT_TEAM_PLAYER: 'dfs/mlb-edit-team-player',
   },
   GAMES: {
     ALL_GAMES: 'admin/games'

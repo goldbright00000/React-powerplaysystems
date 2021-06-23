@@ -234,6 +234,8 @@ function MLBPowerdFs(props) {
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
 
+  const selector_team_id = useSelector((state) => state?.mlb?.team_id);
+
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
   const { token = "", user_id = 0 } = user || {};
@@ -294,16 +296,37 @@ function MLBPowerdFs(props) {
 
   const autoSelectOnEdit = () => {
     if (isEdit == true && !loading && selected.entries().next().done) {
-      const pls = [
-        { playerId: 10440, matchId: 5656 },
-        { playerId: 11063, matchId: 5656 },
-        { playerId: 10737, matchId: 5656 },
-        { playerId: 10559, matchId: 5656 },
-        { playerId: 10767, matchId: 5656 },
-        { playerId: 10647, matchId: 5656 },
-        { playerId: 10797, matchId: 5656 },
-        { team_id: 11281, match_id: 5656 },
-      ];
+
+      const pls = []
+
+      savedPlayers.forEach((element) => {
+        if (element.team_id) {
+          console.log('team id')
+          pls.push({
+            team_id: element?.team_id,
+            matchId: element?.matchId || 5656,
+          })
+        } else {
+          console.log('player id')
+          pls.push({
+            playerId: element?.playerId,
+            matchId: element?.matchId || 5656,
+          })
+        }
+
+      })
+
+
+      // const pls = [
+      //   { playerId: 10440, matchId: 5656 },
+      //   { playerId: 11063, matchId: 5656 },
+      //   { playerId: 10737, matchId: 5656 },
+      //   { playerId: 10559, matchId: 5656 },
+      //   { playerId: 10767, matchId: 5656 },
+      //   { playerId: 10647, matchId: 5656 },
+      //   { playerId: 10797, matchId: 5656 },
+      //   { team_id: 11281, match_id: 5656 },
+      // ];
 
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];
@@ -324,7 +347,6 @@ function MLBPowerdFs(props) {
         );
         onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
       }
-
       setSelected(_selected);
       setSidebarList(_playerList);
     }
@@ -501,7 +523,7 @@ function MLBPowerdFs(props) {
       setSelectedFilter(_selectedFilter);
     }
 
-    if (filters) {
+    if (filter) {
       filter.remaining = _remaining;
       const filterIndex = filters?.findIndex(
         (filter) => filter?.id === _selectedFilter?.id
@@ -588,9 +610,16 @@ function MLBPowerdFs(props) {
         players: [...players],
         team_d_id: team?.team_id,
         match_id: teamD?.team?.match_id,
+        team_id: selector_team_id,
       };
+
       //dispatch(MLBActions.mlbLiveData(sideBarList));
-      await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+
+      if (isEdit) {
+        await dispatch(MLBActions.editDfsTeamPlayer(payload));
+      } else {
+        await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+      }
       redirectTo(props, { path: "/my-game-center" });
     }
   };
@@ -757,20 +786,22 @@ function MLBPowerdFs(props) {
                                 mlbCard
                               />
                             ) : (
-                              <SelectionCard3
-                                player={item}
-                                isSelected={!!selected.get(item.playerId)}
-                                key={item.playerId + " - " + item?.match_id}
-                                loading={loading}
-                                onSelectDeselect={onPlayerSelectDeselect}
-                                pageType={PAGE_TYPES.MLB}
-                                type={selectedData?.type}
-                              // disabled={
-                              //   item.isStarPlayer &&
-                              //   item.isStarPlayer &&
-                              //   starPlayerCount >= 3
-                              // }
-                              />
+                              <>
+                                <SelectionCard3
+                                  player={item}
+                                  isSelected={!!selected.get(item.playerId)}
+                                  key={item.playerId + " - " + item?.match_id}
+                                  loading={loading}
+                                  onSelectDeselect={onPlayerSelectDeselect}
+                                  pageType={PAGE_TYPES.MLB}
+                                  type={selectedData?.type}
+                                // disabled={
+                                //   item.isStarPlayer &&
+                                //   item.isStarPlayer &&
+                                //   starPlayerCount >= 3
+                                // }
+                                />
+                              </>
                             )}
                           </>
                         ))
