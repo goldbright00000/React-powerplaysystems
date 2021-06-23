@@ -250,59 +250,67 @@ class DepositAmountForm extends Component {
       <form className={styles.form} onSubmit={this.onSubmit}>
         <section className={styles.formSection}>
           <h6>Select Currency</h6>
-          <div>
+          <div className="row align-items-center">
             {Object.keys(this.prices).map((key, index) => (
-              <ChooseItem
-                name="currency"
-                title={this.prices[key].title}
-                value={key}
-                key={index}
-                checked={currency === key}
-                onChange={this.onCurrencyChange}
-              />
+              <div className="col-auto mx-0 my-2 px-1">
+                <ChooseItem
+                  name="currency"
+                  title={this.prices[key].title}
+                  value={key}
+                  key={index}
+                  checked={currency === key}
+                  onChange={this.onCurrencyChange}
+                />
+              </div>
             ))}
           </div>
         </section>
-        <section className={styles.formSection}>
+        <section className={`${styles.formSection}`}>
           <h6>Select Amount ({currency})</h6>
-          <div>
+          <div className="row align-items-center">
             {this.prices[currency].values.map((data, index) => (
+              <div className="col-auto mx-0 my-2 px-1">
+                <ChooseItem
+                  name="price"
+                  key={index}
+                  onChange={this.onPriceChange}
+                  helperText={
+                    this.state.canadianVisible
+                      ? formatePrice(data.value, this.props.cad, true)
+                      : null
+                  }
+                  {...data}
+                  checked={!isOtherAmount && price === data.value}
+                />
+              </div>
+            ))}
+            <div className="col-auto mx-0 my-2 px-1">
               <ChooseItem
                 name="price"
-                key={index}
+                title="Other"
+                helperText="Your Amount"
+                type="number"
                 onChange={this.onPriceChange}
-                helperText={
-                  this.state.canadianVisible
-                    ? formatePrice(data.value, this.props.cad, true)
-                    : null
-                }
-                {...data}
-                checked={!isOtherAmount && price === data.value}
+                value={isOtherAmount ? price : ""}
               />
-            ))}
-            <ChooseItem
-              name="price"
-              title="Other"
-              helperText="Your Amount"
-              type="number"
-              onChange={this.onPriceChange}
-              value={isOtherAmount ? price : ""}
-            />
+            </div>
           </div>
         </section>
         {currency === "USD" ? (
           <section className={styles.formSection}>
             <h6>Add Payment Details</h6>
-            <div>
+            <div className="row align-items-center">
               {this.prices[currency].paymentMetods.map(
                 (data, index) =>
                   data.visible && (
-                    <ChooseItem
-                      {...data}
-                      key={index}
-                      checked={paymentMetod === data.value}
-                      onChange={this.onPaymentMethodChange}
-                    />
+                    <div className="col-auto mx-0 my-2 px-1">
+                      <ChooseItem
+                        {...data}
+                        key={index}
+                        checked={paymentMetod === data.value}
+                        onChange={this.onPaymentMethodChange}
+                      />
+                    </div>
                   )
               )}
             </div>
@@ -387,33 +395,34 @@ class DepositAmountForm extends Component {
           </section>
         )}
         {currency !== "USD" ? (
-          <section className={styles.QRCodeWrapper}>
-            {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
-            <div>
-              {/* <img alt="" src={QRCode} className={styles.qrImage} />
-              <div className={styles.inputField}>
-                <label htmlFor="wallet-address">Wallet Address</label>
-                <img
-                  src={copyImage}
-                  alt=""
-                  className={styles.copyImage}
-                  onClick={() => navigator.clipboard.writeText(walletAddress)}
-                />
-                <input
-                  type="text"
-                  id="wallet-address"
-                  value={walletAddress}
-                  onChange={this.onWalletAddressChange}
-                />
-              </div> */}
-              <button className={styles.submitbtn}>
+          // <section className={styles.QRCodeWrapper}>
+          //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
+          //   <div>
+          //     {/* <img alt="" src={QRCode} className={styles.qrImage} />
+          //     <div className={styles.inputField}>
+          //       <label htmlFor="wallet-address">Wallet Address</label>
+          //       <img
+          //         src={copyImage}
+          //         alt=""
+          //         className={styles.copyImage}
+          //         onClick={() => navigator.clipboard.writeText(walletAddress)}
+          //       />
+          //       <input
+          //         type="text"
+          //         id="wallet-address"
+          //         value={walletAddress}
+          //         onChange={this.onWalletAddressChange}
+          //       />
+          //     </div> */}
+              
+          //   </div>
+          // </section>
+          <button className={`${styles.submitbtn} w-100 d-block`}>
                 Deposit • {currency === "$USD" && "$"}
                 {price} {currency.replace("$", "")}
               </button>
-            </div>
-          </section>
         ) : (
-          <button className={styles.submitbtn}>
+          <button className={`${styles.submitbtn} w-100 d-block`}>
             Deposit • {currency === "$USD" && "$"}
             {price}
             {currency.replace("$", "")}

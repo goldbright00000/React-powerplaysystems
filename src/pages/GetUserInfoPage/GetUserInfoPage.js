@@ -300,7 +300,7 @@ const GetUserInfoPage = (props) => {
               onChange={(e) => {
                 setUser({ ...user, dateOfBirth: e?.target?.value });
               }}
-              extraClass={styles.dob}
+              extraclass={styles.dob}
               extra={
                 <div className={styles.bonus}>
                   <p>+ 5 bonus tokens</p>

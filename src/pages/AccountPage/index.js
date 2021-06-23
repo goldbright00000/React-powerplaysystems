@@ -49,7 +49,7 @@ function AccountPage(props) {
       <Header isStick isMobile={isMobile} />
       <SnackbarAlert />
       <div className={classes.wrapper}>
-        <div className={classes.container}>
+        <div className={`${classes.container} container`}>
           <h2>Settings</h2>
           <div className={classes.container_tabs}>
             <Tabs
@@ -60,19 +60,19 @@ function AccountPage(props) {
             >
               <TabList className={classes.tabs_header}>
                 <Tab className={`${activeTab === 0 && classes.active}`}>
-                  Account Info
+                  <h6 className="m-0">Account Info</h6>
                 </Tab>
                 <Tab className={`${activeTab === 1 && classes.active}`}>
-                  Balance/Deposit
+                  <h6 className="m-0">Balance/Deposit</h6>
                 </Tab>
                 <Tab className={`${activeTab === 2 && classes.active}`}>
-                  Results
+                  <h6 className="m-0">Results</h6>
                 </Tab>
                 <Tab className={`${activeTab === 3 && classes.active}`}>
-                  History
+                  <h6 className="m-0">History</h6>
                 </Tab>
                 <Tab className={`${activeTab === 4 && classes.active}`}>
-                  Account Limits
+                  <h6 className="m-0">Account Limits</h6>
                 </Tab>
               </TabList>
 

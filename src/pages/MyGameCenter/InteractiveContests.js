@@ -228,7 +228,7 @@ const InteractiveContests = (props) => {
 
   const myGameCenterCard = (item, redirectUri) => {
     return (
-      <div className={classes.__interactive_contests_power_center_card}>
+      <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}>
         {printLog('MyGameCenterCard ==>', item)}
         <MyGameCenterCard
           isMobile={isMobile}
@@ -362,7 +362,7 @@ const InteractiveContests = (props) => {
                     <>
                       <div
                         className={
-                          classes.__interactive_contests_power_center_card_row
+                          `${classes.__interactive_contests_power_center_card_row} row`
                         }
                       >
                         {items.map((power) => {

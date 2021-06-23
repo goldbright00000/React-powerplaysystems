@@ -94,7 +94,7 @@ function AccountInfo(props) {
 
   const changePasswordModal = () => {
     return (
-      <Modal visible={showChangePasswordModal}>
+      <Modal visible={showChangePasswordModal} className={`m-5`}>
         <form onSubmit={changePassword}>
           <div className={classes.__change_password_modal}>
             <div className={classes.__close_icon}>
@@ -184,7 +184,7 @@ function AccountInfo(props) {
     onButtonClick = () => {}
   ) => {
     return (
-      <div className={classes.list_item}>
+      <div className={`${classes.list_item}`}>
         <span>{title}</span>
         <span>
           {buttonTitle == "Edit" && (
@@ -224,7 +224,7 @@ function AccountInfo(props) {
                   ) : null}
 
                   {id !== 6 && id !== 7 ? (
-                    <div className={classes.edit_input}>
+                    <div className={`${classes.edit_input}`}>
                       {value && <span>{value}</span>}
                       <input
                         type="text"
