@@ -54,7 +54,7 @@ const HomePage = (props) => {
   return (
     <div className={classes.__home_page}>
       <Header />
-      <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/" />
+      <HomePageContentHeader buttonTitle="Power Up!" redirectTo="/power-up" />
       <div className={classes.__home_page_first_section_bg}>
         <div className={classes.__home_page_first_section}>
           <div className={classes.__home_page_first_section_main_heading}>
@@ -156,7 +156,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_common_power_up_btn_div}>
             <button
               className={classes.__home_page_common_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/" })}
+              onClick={() => redirectTo(props, { path: "/power-up" })}
             >
               Power Up!
             </button>
@@ -304,7 +304,7 @@ const HomePage = (props) => {
           <div className={classes.__home_page_third_section_power_up}>
             <button
               className={classes.__home_page_third_section_power_up_btn}
-              onClick={() => redirectTo(props, { path: "/" })}
+              onClick={() => redirectTo(props, { path: "/power-up" })}
             >
               WIN Powers
             </button>
