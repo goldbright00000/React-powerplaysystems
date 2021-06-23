@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty, cloneDeep } from "lodash";
 
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+
 import * as MLBActions from "../../actions/MLBActions";
 
 import classes from "./index.module.scss";
@@ -9,6 +11,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/baseball.jpg";
+import BaseballImageMobile from '../../assets/baseball-player-select-mobile.png';
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -20,17 +23,27 @@ import SportsSidebarContent from "../../components/SportsSidebarContent";
 import SelectionCard3 from "../../components/SportsSelectionCard3";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
-import SelectionCard2 from "../../components/SportsSelectionCard2";
 import Search from "../../components/SearchInput";
 import PowerCollapesible from "../../components/PowerCollapesible";
-import { dummyData } from "./dummyData";
 import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
 import StarImg from "../../assets/star.png";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
-import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
+import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCard";
+
+import SwapPlayerIcon from "../../assets/swap-player-icon.png";
+import PointMultiplierIcon from "../../assets/point-multiplier-icon.png";
+import VideoReviewIcon from "../../assets/video-review-icon.png";
+import DWallIcon from "../../assets/d-wall-icon.png";
+import UndoIcon from "../../assets/undo-icon.png";
+import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+
+import { useMediaQuery } from 'react-responsive'
+import { redirectTo } from "../../utility/shared";
+
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -128,19 +141,34 @@ const dropDown = [
 
 const contestScoring = {
   data1: [
-    { title: "Single", points: "+3 pts" },
-    { title: "Double", points: "+5 pts" },
-    { title: "Triple", points: "+8 pts" },
-    { title: "Home Run", points: "+10 pts" },
-    { title: "Run Batted in", points: "+2 pts" },
-    { title: "Run", points: "+2 pts" },
-    { title: "Base on Balls", points: "+1 pts" },
-    { title: "Stolen Base", points: "+5 pts" },
+    {
+      title: "Hitters",
+      data: [
+        { title: "Single", points: "+3 pts" },
+        { title: "Double", points: "+5 pts" },
+        { title: "Triple", points: "+8 pts" },
+        { title: "Home Run", points: "+10 pts" },
+        { title: "Run Batted in", points: "+2 pts" },
+        { title: "Run", points: "+2 pts" },
+        { title: "Base on Balls", points: "+1 pts" },
+        { title: "Stolen Base", points: "+5 pts" },
+      ],
+    },
   ],
   data2: [
-    { title: "Outs", points: "+1 Pt per Out" },
-    { title: "Inning 1-6 K's", points: "+2 pts" },
-    { title: "Innings 7+ K's", points: "+3 pts" },
+    {
+      title: "Pitchers",
+      data: [
+        { title: "Innings 1-8 Outs", points: "+1 Pt per Out" },
+        { title: "Innings 9+ Outs", points: "+ 2 Pts per Out" },
+        { title: "Innings 1-7 K’s", points: "+ 2 Pts" },
+        { title: "Innings 8+ K’s", points: "+ 3 Pts" },
+      ],
+    },
+    {
+      title: "Team Defence",
+      data: [{ title: "Runs Against", points: "- 5 Pts" }],
+    },
   ],
 };
 
@@ -186,6 +214,7 @@ const prizeData = [
 
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
+const sidebarObj = {};
 
 function MLBPowerdFs(props) {
   const [selected, setSelected] = useState(new Map());
@@ -200,9 +229,17 @@ function MLBPowerdFs(props) {
   const [showPrizeModal, setPrizeModalState] = useState(false);
   const [selectedType, setSelectedType] = useState();
   const [loading, setLoading] = useState(false);
+  const [activeTab, setActiveTab] = useState(0);
+  const [dropDownState, setDropDownTeam] = useState(dropDown);
 
-  const { data = [], starPlayerCount = 0 } = useSelector((state) => state.mlb);
+  const { data = [], starPlayerCount = 0, game_id, sport_id } = useSelector(
+    (state) => state.mlb
+  );
+  const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
+
   const dispatch = useDispatch();
+
+  const isMobile = useMediaQuery({ query: '(max-width: 414px)' })
 
   //reset the states
   useEffect(() => {
@@ -226,17 +263,32 @@ function MLBPowerdFs(props) {
     if (data?.length) {
       setFilterdData(data[0]);
       setSelectedData(data[0]);
+
+      //set dropdown
+      const _dropDownlist = data?.filter(
+        (list) => list?.type === "d" || list?.type === "D"
+      );
+      const dropDownTeams = [
+        {
+          team_id: "all",
+          name: "All Teams",
+        },
+        ..._dropDownlist?.[0]?.listData,
+      ];
+      setDropDownTeam(dropDownTeams);
     }
   }, [data]);
 
-  const onSelectDeselect = useCallback(
+  const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
       if (loading) return;
 
-      const { type = "", players: _selectedData = [] } = selectedData || {};
+      const { type = "", listData: _selectedData = [] } = selectedData || {};
 
-      const [currentPlayer] = _selectedData?.filter(
-        (player) => player?.playerId === id && player?.match_id === matchId
+      const [currentPlayer] = _selectedData?.filter((player) =>
+        type?.toLocaleLowerCase() === D
+          ? player?.team_id === id
+          : player?.playerId === id && player?.match_id === matchId
       );
       const _selected = new Map(selected);
       let _starPlayerCount = starPlayerCount;
@@ -253,10 +305,17 @@ function MLBPowerdFs(props) {
           const playerListIndex = _playersList?.indexOf(_player);
           let player = { ..._player };
 
-          player.name = currentPlayer?.playerName;
-          player.playerId = currentPlayer?.playerId;
-          player.isStarPlayer = currentPlayer?.isStarPlayer;
-          player.matchId = currentPlayer?.match_id;
+          if (type?.toLocaleLowerCase() === D) {
+            player.name = currentPlayer?.name;
+            player.playerId = currentPlayer?.team_id;
+            player.isStarPlayer = currentPlayer?.isStarPlayer;
+            player.matchId = currentPlayer?.match_id;
+          } else {
+            player.name = currentPlayer?.playerName;
+            player.playerId = currentPlayer?.playerId;
+            player.isStarPlayer = currentPlayer?.isStarPlayer;
+            player.matchId = currentPlayer?.match_id;
+          }
           _playersList[playerListIndex] = player;
 
           _selected.set(id, !selected.get(id));
@@ -321,14 +380,16 @@ function MLBPowerdFs(props) {
     );
     const filter = _selectedFilter;
     let _remaining = filter?.remaining;
+    let id = type === D ? player?.team_id : player?.playerId;
+
     if (_remaining > 0) {
-      if (!!!selected.get(player?.playerId)) _remaining -= 1;
+      if (!!!selected.get(id)) _remaining -= 1;
       else if (_remaining < 2) _remaining += 1;
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
       }
-    } else if (!!selected.get(player?.playerId) && _remaining < 2) {
+    } else if (!!selected.get(id) && _remaining < 2) {
       _remaining++;
     } else {
       setSelectedFilter(_selectedFilter);
@@ -343,21 +404,21 @@ function MLBPowerdFs(props) {
     setFilters(_filters);
   };
 
-  const onDelete = (playerId, matchId) => {
-    onSelectDeselect(playerId, matchId);
+  const onDelete = (id, matchId) => {
+    onPlayerSelectDeselect(id, matchId);
   };
 
   const onSearch = (e) => {
     const { value } = e.target;
     if (!isEmpty(value)) {
-      const _filterdData = selectedData?.players?.filter((player) =>
+      const _filterdData = selectedData?.listData?.filter((player) =>
         player?.playerName
           ?.toLocaleLowerCase()
           ?.includes(value?.toLocaleLowerCase())
       );
       const _filterdDataObj = {
         type: selectedData?.type,
-        players: _filterdData,
+        listData: _filterdData,
       };
       setFilterdData(_filterdDataObj);
     } else {
@@ -365,10 +426,26 @@ function MLBPowerdFs(props) {
     }
   };
 
-  const onSelectSearchDropDown = (item) => {
-    if (item === selectedDropDown) return setSelectedDropDown(null);
+  const onSelectSearchDropDown = (team) => {
+    if (team === selectedDropDown) return setSelectedDropDown(null);
 
-    setSelectedDropDown(item);
+    if (team) {
+      if (team?.team_id !== "all") {
+        const _filterdData = selectedData?.listData?.filter(
+          (player) => player?.team_id === team?.team_id
+        );
+
+        const _filterdDataObj = {
+          type: selectedData?.type,
+          listData: _filterdData,
+        };
+        setFilterdData(_filterdDataObj);
+      } else {
+        setFilterdData(selectedData);
+      }
+    }
+
+    setSelectedDropDown(team);
   };
 
   const ContestScoringRow = ({ item = {}, width = {} }) => (
@@ -378,22 +455,33 @@ function MLBPowerdFs(props) {
     </div>
   );
 
-  const ContestScoringColumn = ({ title = "", data = [], styles = {} }) => (
+  const ContestScoringColumn = ({ data = [], styles = {} }) => (
     <div className={classes.scoring_column} style={styles}>
-      <div className={classes.scoring_title}>
-        <p>{title}</p>
-      </div>
-      <div className={classes.scoring_body}>
-        {data &&
-          data?.length &&
-          data?.map((item, ind) => (
-            <ContestScoringRow
-              item={item}
-              key={ind + "-"}
-              width={title == "Pitchers" && classes.width_140}
-            />
-          ))}
-      </div>
+      {data.map((mainItem, mainIndex) => {
+        return (
+          <>
+            <div
+              className={classes.scoring_title}
+              style={{
+                marginTop: mainItem.title == "Team Defence" && 38,
+                marginBottom: 6,
+              }}
+              key={mainIndex}
+            >
+              <p>{mainItem.title}</p>
+            </div>
+            {data &&
+              data?.length &&
+              mainItem.data.map((item, index) => {
+                return (
+                  <div className={classes.scoring_body}>
+                    <ContestScoringRow item={item} key={index + "-"} />
+                  </div>
+                );
+              })}
+          </>
+        );
+      })}
     </div>
   );
 
@@ -421,6 +509,33 @@ function MLBPowerdFs(props) {
     </div>
   );
 
+  const onSubmitMLbSelection = async () => {
+    if (selectedPlayerCount < 8) {
+      return;
+    }
+
+    const playerIds = [];
+    for (let i = 0; i < playerList?.length - 1; i++) {
+      playerIds.push(playerList[i]?.playerId);
+    }
+    const payload = {
+      game_id: game_id,
+      sport_id: sport_id,
+      user_id: 92,
+      players: [...playerIds],
+      team_d_id: playerList[playerList?.length - 1]?.playerId,
+    };
+    await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+  };
+
+  const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
+    <div className={classes.body_card}>
+      <span>{count}</span>
+      <img src={Icon} />
+      <p>{title}</p>
+    </div>
+  );
+
   return (
     <>
       <Header />
@@ -437,19 +552,32 @@ function MLBPowerdFs(props) {
           }
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
-          bgImageUri={BaseballImage}
+          bgImageUri={isMobile ? BaseballImageMobile : BaseballImage}
           onClickPrize={() => setPrizeModalState(true)}
+          token={token}
+          isMobile={isMobile}
         />
 
         <div className={classes.container}>
           <div className={classes.container_left}>
-            <h2>Select your team</h2>
-            <div className={classes.container_left_header_2}>
-              <p>7 starters + 1 team D</p> <span className={classes.line} />
-            </div>
+            {
+              !isMobile
+              &&
+              <>
+              <h2>Select your team</h2>
+              <div className={classes.container_left_header_2}>
+                <p>7 starters + 1 team D</p> <span className={classes.line} />
+              </div>
+              </>
+            }
+            
 
             <div className={classes.container_top}>
-              <p>Select Position</p>
+              {
+                !isMobile
+                &&
+                <p>Select Position</p>
+              }
               <div className={classes.container_top_1}>
                 <SportsFilters
                   data={filters}
@@ -460,11 +588,18 @@ function MLBPowerdFs(props) {
                 <Search
                   onSearch={onSearch}
                   onSelect={onSelectSearchDropDown}
-                  dropDown={dropDown}
+                  dropDown={dropDownState}
                   selected={selectedDropDown}
                 />
               </div>
             </div>
+            {
+              isMobile
+              &&
+              <div className={classes.select_team_info}>
+                Select 1 Team Defense, Goals against result in negative points for your team.
+              </div>
+            }
 
             <div className={classes.container_body}>
               <Card>
@@ -472,44 +607,39 @@ function MLBPowerdFs(props) {
                   <p className={classes.loading_view}>Loading...</p>
                 ) : (
                   <>
-                    <div className={classes.card_header}>
-                      <p>{headerText[selectedFilter?.id - 1]?.text}</p>
-                    </div>
+                    {
+                      !isMobile
+                      &&
+                      <div className={classes.card_header}>
+                        <p>{headerText[selectedFilter?.id - 1]?.text}</p>
+                      </div>
+                    }
 
                     <div className={classes.card_body}>
-                      {filterdData && filterdData?.players?.length ? (
-                        filterdData?.players?.map((player, index) =>
+                      {filterdData && filterdData?.listData?.length ? (
+                        filterdData?.listData?.map((item, index) =>
                           selectedFilter?.title === D ? (
-                            <SelectionCard2
-                              title={player.name}
-                              avgVal={player.avgVal}
-                              teamA={player.teamA}
-                              teamB={player.teamB}
-                              time={player.time}
-                              date={player.date}
-                              stadium={player.stadium}
-                              isSelected={!!selected.get(player.id)}
-                              key={player?.playerId + " - " + player?.match_id}
-                              onSelectDeselect={onSelectDeselect}
-                              id={player.id}
-                              steps={player?.steps && player?.steps}
-                              isStarPlayer={
-                                player.isStarPlayer && player.isStarPlayer
-                              }
+                            <SportsTeamSelectionCard
+                              item={item}
+                              isSelected={!!selected.get(item.team_id)}
+                              key={item?.team_id + " - " + item?.match_id}
+                              onSelectDeselect={onPlayerSelectDeselect}
                               disabled={
-                                player.isStarPlayer &&
-                                player.isStarPlayer &&
+                                item.isStarPlayer &&
+                                item.isStarPlayer &&
                                 starPowerIndex >= 3
                               }
                               mlbCard
                             />
                           ) : (
                             <SelectionCard3
-                              player={player}
-                              isSelected={!!selected.get(player.playerId)}
-                              key={player.playerId + " - " + player?.match_id}
+                              player={item}
+                              isSelected={!!selected.get(item.playerId)}
+                              key={item.playerId + " - " + item?.match_id}
                               loading={loading}
-                              onSelectDeselect={onSelectDeselect}
+                              onSelectDeselect={onPlayerSelectDeselect}
+                              pageType={PAGE_TYPES.MLB}
+                              type={selectedData?.type}
                               // disabled={
                               //   item.isStarPlayer &&
                               //   item.isStarPlayer &&
@@ -525,7 +655,11 @@ function MLBPowerdFs(props) {
                   </>
                 )}
               </Card>
-              <img src={AcceleRadar} className={classes.partner_logo} />
+              {
+                !isMobile
+                &&
+                <img src={AcceleRadar} className={classes.partner_logo} />
+              }
             </div>
 
             <div className={classes.container_footer}>
@@ -538,63 +672,137 @@ function MLBPowerdFs(props) {
               </div>
               <div className={classes.container_footer_1}>
                 <div className={classes.container_footer_2}>
-                  <ContestColumn title="Summary" widthClass={classes.width_200}>
-                    <div className={classes.column_body}>
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            <span>$100,000</span> Prize Pool
-                          </p>
-                        }
-                      />
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            Live-play <span>Powers</span> included with entry
-                            fee
-                          </p>
-                        }
-                      />
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            Pick players from any teams scheduled to play on{" "}
-                            <span>July 19, 2021</span>
-                          </p>
-                        }
-                      />
-                    </div>
-                  </ContestColumn>
-
-                  <ContestColumn
-                    title="Scoring"
-                    styles={{ marginLeft: "116px" }}
-                  >
-                    <div className={classes.contest_scoring_wrapper}>
-                      <ContestScoringColumn
-                        title="Hitters"
-                        data={contestScoring.data1}
-                      />
-                      <ContestScoringColumn
-                        title="Pitchers"
-                        data={contestScoring.data2}
-                        styles={{ width: "235px" }}
-                      />
-                    </div>
-                  </ContestColumn>
-                </div>
-
-                <ContestRulesPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      className={classes.footer_full_rules}
-                      href="#"
+                  <div className={classes.container_tabs}>
+                    <Tabs
+                      selectedIndex={activeTab}
+                      onSelect={(tabIndex) => {
+                        setActiveTab(tabIndex);
+                      }}
                     >
-                      See Full Rules <img src={RightArrow} />
-                    </button>
-                  )}
-                />
+                      <TabList className={classes.tabs_header}>
+                        <Tab className={`${activeTab === 0 && classes.active}`}>
+                          Summary
+                        </Tab>
+                        <Tab className={`${activeTab === 1 && classes.active}`}>
+                          Scoring
+                        </Tab>
+                        <Tab
+                          className={`${activeTab === 2 && classes.active} ${
+                            classes.__last_tab_header
+                          }`}
+                        >
+                          Powers Available
+                        </Tab>
+                      </TabList>
+
+                      <div className={classes.tab_body}>
+                        <TabPanel>
+                          <ContestColumn
+                            title=""
+                            widthClass={classes.width_200}
+                          >
+                            <div className={classes.column_body}>
+                              <ContestSummaryRow
+                                text={
+                                  <p>
+                                    <span>$100,000</span> Prize Pool
+                                  </p>
+                                }
+                              />
+                              <ContestSummaryRow
+                                text={
+                                  <p>
+                                    Live-play <span>Powers</span> included with
+                                    entry fee
+                                  </p>
+                                }
+                              />
+                              <ContestSummaryRow
+                                text={
+                                  <p>
+                                    Pick players from any teams scheduled to
+                                    play on <span>July 19, 2021</span>
+                                  </p>
+                                }
+                              />
+                            </div>
+                          </ContestColumn>
+                        </TabPanel>
+                        <TabPanel>
+                          <ContestColumn title="">
+                            <div className={classes.contest_scoring_wrapper}>
+                              <ContestScoringColumn
+                                data={contestScoring.data1}
+                              />
+                              <ContestScoringColumn
+                                data={contestScoring.data2}
+                              />
+                            </div>
+                          </ContestColumn>
+                        </TabPanel>
+                        <TabPanel>
+                          <div className={classes.__powers_available}>
+                            <RenderIcon
+                              title="Point Multiplier"
+                              Icon={PointMultiplierIcon}
+                              iconSize={54}
+                              count={2}
+                            />
+
+                            <RenderIcon
+                              title="Swap Player"
+                              Icon={SwapPlayerIcon}
+                              iconSize={54}
+                              count={2}
+                            />
+
+                            <RenderIcon
+                              title="Undo"
+                              Icon={UndoIcon}
+                              iconSize={54}
+                              count={2}
+                            />
+                          </div>
+                          <div className={classes.__powers_available}>
+                            <RenderIcon
+                              title="Retro Boost"
+                              Icon={RetroBoostIcon}
+                              iconSize={24}
+                              count={1}
+                            />
+
+                            <RenderIcon
+                              title="D-Wall"
+                              Icon={DWallIcon}
+                              iconSize={54}
+                              count={1}
+                            />
+
+                            <RenderIcon
+                              title="Video Review"
+                              Icon={VideoReviewIcon}
+                              iconSize={54}
+                              count={1}
+                            />
+                          </div>
+                        </TabPanel>
+                      </div>
+                    </Tabs>
+                  </div>
+                </div>
+                <div className={classes.__see_full_rules}>
+                  <ContestRulesPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        onClick={showPopUp}
+                        className={classes.footer_full_rules}
+                        href="#"
+                      >
+                        See Full Rules <img src={RightArrow} />
+                      </button>
+                    )}
+                  />
+                </div>
               </div>
               <img
                 src={MLBFooterImage}
@@ -604,17 +812,12 @@ function MLBPowerdFs(props) {
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar
-              styles={{
-                padding: "0px",
-              }}
-            >
+            <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
-                  width: "100%",
                   marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"
@@ -642,15 +845,13 @@ function MLBPowerdFs(props) {
               </div>
               <SportsSidebarContent
                 data={playerList}
-                onDelete={(playerId, matchId) => onDelete(playerId, matchId)}
+                onDelete={(id, matchId) => onDelete(id, matchId)}
                 starIcon={StarImg}
                 selectedPlayerCount={selectedPlayerCount}
               />
               <button
                 className={classes.sidebar_button}
-                onClick={() =>
-                  redirectTo(props, { path: "/mlb-live-powerdfs" })
-                }
+                onClick={onSubmitMLbSelection}
               >
                 Submit!
               </button>

@@ -42,6 +42,10 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+import PaymentFrame from "./components/ZumPayment/PaymentFrame";
+import VerifyIdentityPage from "./pages/VerifyIdentityPage";
+import MLBPowerLevels from "./pages/MLBPowerLevels";
+import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
 
 const App = (props) => {
   const dispatch = useDispatch();
@@ -55,6 +59,7 @@ const App = (props) => {
       <ScrollToTop />
       <Switch>
         <Route exact path="/" component={HomePage} />
+        <Route path="/paymentFrame" component={PaymentFrame} />
         <Route
           exact
           path="/power-play-sponsors"
@@ -107,6 +112,9 @@ const App = (props) => {
         <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
         <Route path='/responsible-gaming' component={ResponsibleGaming} />
         <Route path='/how-to-play' component={HowToPlayPage} />
+        <Route path='/verify-your-identity' component={VerifyIdentityPage} />
+        <Route path="/mlb-power-levels" component={MLBPowerLevels} />
+        <Route path="/live-play-power-levels" component={LivePlayPowerLevels} />
         <Route component={HomePage} />
       </Switch>
     </Fragment>

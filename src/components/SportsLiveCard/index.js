@@ -31,10 +31,13 @@ function SportsLiveCard(props) {
   const [showSummary, setSummaryState] = useState(false);
   const [showReplaceModal, setReplaceModalState] = useState(false);
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
+  const [playerList, setPlayerList] = useState({});
+
+  const { data: mlbData = [] } = useSelector((state) => state.mlb);
 
   const {
     player = {},
-    playerList = [],
+    // playerList = [],
     compressedView = false,
     largeView = false,
     singleView = false,
@@ -46,12 +49,12 @@ function SportsLiveCard(props) {
   } = props || {};
 
   const {
-    name: playerName = "",
-    category = "",
+    playerName = "",
+    type = "",
     status = "",
     points = 0,
-    teamA = "",
-    teamB = "",
+    homeTeam = "",
+    awayTeam = "",
     stats = {},
     playerStats = {},
     pointsSummary = [],
@@ -61,7 +64,25 @@ function SportsLiveCard(props) {
     range = "",
     id = "",
     xp = {},
+    mlb_player_stats = [],
   } = player || {};
+
+  const {
+    hits = 0,
+    doubles = 0,
+    triples = 0,
+    home_runs = 0,
+    stolen_bases = 0,
+    runs_batted_in = 0,
+    batting_average = 0,
+    wins = 0,
+    losses = 0,
+    innings_pitched = 0,
+    strike_outs = 0,
+    earned_runs_average = 0,
+    base_on_balls = 0,
+    walks_hits_per_innings_pitched = 0,
+  } = mlb_player_stats[0] || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
@@ -122,7 +143,7 @@ function SportsLiveCard(props) {
             {stats?.val1}
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {stats?.val2}
+            K:{strike_outs} | W:{wins}
           </p>
         </div>
       </div>
@@ -180,17 +201,17 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        {category}
+        {type}
       </p>
       <div className={classes.header_teams}>
-        <p>{teamA}</p> vs <span>{teamB}</span>
+        <p>{homeTeam}</p> vs <span>{awayTeam}</span>
       </div>
     </div>
   );
 
   const RenderSingleViewStats = () => (
     <div className={classes.single_view_state}>
-      <p className={classes.single_view_cat}>{category}</p>
+      <p className={classes.single_view_cat}>{type}</p>
       <div>
         <p className={classes.single_view_pts}>
           Pts: <span className={xp && xp?.xp && classes.active}>30</span>
@@ -216,13 +237,25 @@ function SportsLiveCard(props) {
     );
 
   const toggleReplaceModal = () => {
-    setReplaceModalState(!showReplaceModal);
+    const [_playerList] =
+      mlbData &&
+      mlbData?.length &&
+      mlbData?.filter((data) => data?.type === `${type}`?.toLocaleLowerCase());
+
+    if (_playerList) {
+      setPlayerList(_playerList);
+      setReplaceModalState(!showReplaceModal);
+    }
   };
 
-  const onSwap = (playerId) => {
-    const [swapablePlayer] = playerList?.filter(
-      (player) => player?.id === playerId
-    );
+  const onSwap = (playerId, match_id) => {
+    const [swapablePlayer] =
+      !isEmpty(playerList) &&
+      playerList?.players?.length &&
+      playerList?.players?.filter(
+        (player) =>
+          player?.playerId === playerId && player?.match_id === match_id
+      );
     if (swapablePlayer) {
       updateReduxState(player, swapablePlayer);
       toggleReplaceModal();

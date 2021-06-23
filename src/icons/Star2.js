@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { printLog } from "../utility/shared";
 
 function StarIcon2(props) {
-  console.log(props?.solidcolor);
+  printLog(props?.solidcolor);
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -105,7 +105,7 @@ const Balance = (props) => {
                     </div>
                     <div className={classes.__balance_cash_and_balance_inner}>
                         <div className={classes.__balance_power_and_cash_balance}>
-                            .00241
+                            {userBalance.btcBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE)}
                         </div>
                         <div className={classes.__balance_power_and_cash_balance_title}>
                             Bitcoin 
@@ -122,7 +122,7 @@ const Balance = (props) => {
                     </div>
                     <div className={classes.__balance_cash_and_balance_inner}>
                         <div className={classes.__balance_power_and_cash_balance}>
-                            .007
+                            {userBalance.ethBalance || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE)}
                         </div>
                         <div className={classes.__balance_power_and_cash_balance_title}>
                             Ethereum

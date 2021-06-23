@@ -80,3 +80,21 @@
         }
     }
 }
+
+@media (max-width: 770px) {
+    .root{
+        section{
+            padding: 0;
+            margin: 0;
+            h2{
+                font-size: 1.2857rem;
+                border-left: 0.25rem solid;
+                line-height: 1.2em;
+                padding-left: 0.5em;
+            }
+        }
+    }
+    .title, .optionals{
+        display: none;
+    }
+}

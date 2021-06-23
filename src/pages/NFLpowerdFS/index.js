@@ -31,6 +31,7 @@ import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
 import Header5 from "../../components/Header5";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
 
 const { QB, RB, WR, TE, K, D } = CONSTANTS.FILTERS.NFL;
 
@@ -200,7 +201,7 @@ function NFLPowerdFs(props) {
   const [showPrizeModal, setPrizeModalState] = useState(false);
 
   const { data = [], starPlayerCount = 0 } = useSelector((state) => state.nfl);
-  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+  const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
 
   //reset the states
@@ -486,6 +487,7 @@ function NFLPowerdFs(props) {
                           isSelected={!!selected.get(item.id)}
                           key={item.id}
                           onSelectDeselect={onSelectDeselect}
+                          pageType={PAGE_TYPES.NFL}
                           // disabled={
                           //   item.isStarPlayer &&
                           //   item.isStarPlayer &&
@@ -511,7 +513,7 @@ function NFLPowerdFs(props) {
                 </div>
               </div>
               <div className={classes.container_footer_1}>
-                <div className={classes.container_footer_2}>
+                <div className={classes.first_column}>
                   <ContestColumn title="Summary" widthClass={classes.width_200}>
                     <div className={classes.column_body}>
                       <ContestSummaryRow
@@ -539,46 +541,49 @@ function NFLPowerdFs(props) {
                       />
                     </div>
                   </ContestColumn>
-
-                  <ContestColumn
-                    title="Scoring"
-                    styles={{ marginLeft: "116px" }}
-                  >
-                    <div className={classes.contest_scoring_wrapper}>
-                      <ContestScoringColumn
-                        title=""
-                        data={contestScoring.data1}
-                      />
-                      <ContestScoringColumn
-                        title=""
-                        data={contestScoring.data2}
-                        styles={{ width: "235px" }}
-                      />
-                    </div>
-                  </ContestColumn>
-                </div>
-
-                <ContestRulesPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      className={classes.footer_full_rules}
-                      href="#"
+                  <ContestRulesPopUp
+                      component={({ showPopUp }) => (
+                        <button
+                          onClick={showPopUp}
+                          className={classes.footer_full_rules}
+                          href="#"
+                        >
+                          See Full Rules <img src={RightArrow} />
+                        </button>
+                      )}
+                  />
+                  </div>
+                  <div className={classes.second_column}>
+                    <ContestColumn
+                      title="Scoring"
                     >
-                      See Full Rules <img src={RightArrow} />
-                    </button>
-                  )}
-                />
+                      <div className={classes.contest_scoring_wrapper}>
+                        <ContestScoringColumn
+                          title=""
+                          data={contestScoring.data1}
+                        />
+                      </div>
+                    </ContestColumn>
+                </div>
+                <div className={classes.third_column}>
+                  <ContestScoringColumn
+                    title=""
+                    data={contestScoring.data2}
+                    styles={{ width: "235px", marginTop: 48 }}
+                  />
+                  <div className={classes.container_body_img_div}>
+                    <img
+                      src={NFLFooterImage}
+                      className={classes.container_body_img}
+                    />
+                  </div>
+                </div>
               </div>
-              <img
-                src={NFLFooterImage}
-                className={classes.container_body_img}
-              />
             </div>
           </div>
 
           <div className={classes.sidebar_container}>
-            <Sidebar styles={{ padding: 20}}>
+            <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}

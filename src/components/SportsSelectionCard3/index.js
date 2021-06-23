@@ -10,7 +10,11 @@ import DeleteIcon from "../../assets/delete.png";
 import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
-import PlayerStat from "./PlayerStat";
+import MLBPlayerStat from "./MLBPlayerStat";
+import NFLPlayerStat from "./NLFPlayerStats";
+import { PAGE_TYPES } from "./PageTypes";
+import MLBDetailStats from "./MLBDetailStats";
+import AdImage from "../../assets/img.jpg";
 
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -23,6 +27,8 @@ function SportsSelectionCard3(props) {
     isSelected = false,
     btnTitle = "+ Select",
     btnIcon = "",
+    pageType = PAGE_TYPES.MLB,
+    type = "",
   } = props || {};
 
   const {
@@ -40,17 +46,43 @@ function SportsSelectionCard3(props) {
     injured = false,
     position = "",
     match_id,
+    primary_position = "",
   } = player || {};
 
   const nextStep = () => {
     let _currentStep = currentStep;
-    if (currentStep < steps?.length - 1) {
+    if (currentStep !== 2) {
       _currentStep++;
     } else {
       _currentStep = 0;
     }
 
     setCurrentStep(_currentStep);
+  };
+
+  const renderStats = () => {
+    switch (pageType) {
+      case PAGE_TYPES.MLB:
+        return (
+          <MLBPlayerStat
+            playerStats={playerStats}
+            active={isSelected}
+            position={type}
+          />
+        );
+
+      case PAGE_TYPES.NFL:
+        return (
+          <NFLPlayerStat
+            playerStats={playerStats}
+            active={isSelected}
+            position={position}
+          />
+        );
+
+      default:
+        return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
+    }
   };
 
   return (
@@ -66,7 +98,7 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{position}</span>
+          <span>{primary_position}</span>
           {name}
         </p>
         {injured && (
@@ -96,93 +128,15 @@ function SportsSelectionCard3(props) {
         )}
       </div>
 
-      {/* {steps?.length ? ( */}
       <div className={classes.card_state_main_container}>
-        <PlayerStat playerStats={playerStats} />
-        {/* {steps[currentStep]?.step?.ad ? (
-              <img src={steps[currentStep]?.step?.ad} />
-            ) : (
-              <>
-                {currentStep === 1 && (
-                  <div className={classes.card_state_left}>
-                    {steps[currentStep]?.step?.map((val, key) => (
-                      <strong key={key.toString()}>{val?.title}</strong>
-                    ))}
-                  </div>
-                )}
-                <div
-                  className={`
-                    ${classes.container_body_card_state} 
-                    ${isSelected && classes.active} 
-                    ${currentStep === 0 && classes.border}`}
-                >
-                  {
-                    <div className={classes.card_state}>
-                      <div className={classes.card_state_title}>
-                        {steps[currentStep]?.titles?.map((title, index) => (
-                          <span
-                            key={index.toString()}
-                            className={`${
-                              currentStep === 1 && classes.state_step_1_title
-                            }`}
-                          >
-                            {title}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div
-                        className={`
-                          ${classes.card_state_values} 
-                          ${currentStep === 1 && classes.column}`}
-                      >
-                        {steps[currentStep]?.step?.length &&
-                          steps[currentStep]?.step?.map((val, key) =>
-                            val?.title ? (
-                              <div
-                                key={key.toString()}
-                                className={classes.card_state_title_1}
-                              >
-                                {val?.values?.map((value, index) => (
-                                  <div
-                                    key={index.toString()}
-                                    className={`${classes.step_value} ${
-                                      currentStep === 1 && classes.margin_4
-                                    }`}
-                                  >
-                                    <strong
-                                      className={classes.state_step_1_value}
-                                    >
-                                      {value}
-                                    </strong>
-                                  </div>
-                                ))}
-                              </div>
-                            ) : (
-                              <div
-                                key={key.toString()}
-                                className={`${classes.step_value} ${classes.step_value_1}`}
-                              >
-                                <strong>{val}</strong>
-                              </div>
-                            )
-                          )}
-                      </div>
-                    </div>
-                  }
-                </div>
-              </>
-            )} */}
+        {currentStep === 0 ? (
+          renderStats()
+        ) : currentStep === 1 ? (
+          <MLBDetailStats position={primary_position} />
+        ) : (
+          <img src={AdImage} />
+        )}
       </div>
-      {/* ) : (
-          <p
-            className={`${classes.container_body_card_state} ${
-              classes.card_state_no_data
-            } ${isSelected ? classes.active : ""}`}
-          >
-            No Data
-          </p>
-        )} */}
 
       <div className={classes.container_card_footer_main}>
         {currentStep === 0 && (
@@ -206,13 +160,10 @@ function SportsSelectionCard3(props) {
             </p>
           </div>
         )}
-        {steps?.length ? (
-          <div className={classes.card_footer_right} onClick={nextStep}>
-            <ForwardArrow color={"#fb6e00"} />
-          </div>
-        ) : (
-          <></>
-        )}
+
+        <div className={classes.card_footer_right} onClick={nextStep}>
+          <ForwardArrow color={"#fb6e00"} />
+        </div>
       </div>
     </div>
   );
@@ -226,6 +177,8 @@ SportsSelectionCard3.propTypes = {
   btnIcon: PropTypes.element,
   onSelectDeselect: PropTypes.func,
   loading: PropTypes.bool,
+  pageType: PropTypes.string,
+  type: PropTypes.string,
 };
 
 export default React.memo(SportsSelectionCard3);

@@ -29,7 +29,9 @@ const MyGameCenter = props => {
                     {
                         token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)
                         ?
-                        <Balance />
+                        <div className="__balance">
+                            <Balance />
+                        </div>
                     :
                     <div style={{ height: 50}}></div>
                     }

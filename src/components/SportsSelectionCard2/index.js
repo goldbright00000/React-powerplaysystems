@@ -12,26 +12,55 @@ import StarIcon from "../../icons/Star";
 import TDShirtImage from "../../assets/td.png";
 import TDBadge from "../../assets/tdBadge.png";
 import ForwardArrow from "../../icons/ForwardArrow";
+import { isEmpty } from "lodash";
 
-function SportsSelectionCard2(props) {
+function SportsTeamSelectionCard(props) {
   const [currentStep, setCurrentStep] = useState(0);
 
   const {
-    title = "",
-    avgVal = 0,
-    teamA = "",
-    teamB = "",
-    time = "",
-    date = "",
-    stadium = "",
-    id = "",
-    isSelected = false,
-    isStarPlayer = false,
-    steps = [],
-    onSelectDeselect = () => {},
+    item = {},
+    loading = false,
+    onSelectDeselect = (playerId, matchId) => {},
     disabled = false,
+    isSelected = false,
+    btnTitle = "+ Select",
+    btnIcon = "",
     mlbCard = false,
   } = props || {};
+
+  const {
+    playerName: name = "",
+    avgVal = 0,
+    homeTeam = "",
+    awayTeam = "",
+    date = "",
+    time = "",
+    stadium = "",
+    playerId = "",
+    isStarPlayer = false,
+    steps = [],
+    playerStats = {},
+    injured = false,
+    position = "",
+    match_id,
+  } = item || {};
+
+  const {
+    hits = 0,
+    doubles = 0,
+    triples = 0,
+    home_runs = 0,
+    stolen_bases = 0,
+    runs_batted_in = 0,
+    batting_average = 0,
+    wins = 0,
+    losses = 0,
+    innings_pitched = 0,
+    strike_outs = 0,
+    earned_runs_average = 0,
+    base_on_balls = 0,
+    walks_hits_per_innings_pitched = 0,
+  } = playerStats || {};
 
   const RenderMLBState = () => (
     <div
@@ -54,14 +83,16 @@ function SportsSelectionCard2(props) {
   const RenderOtherState = () => (
     <div className={`${classes.card_state} ${isSelected && classes.active}`}>
       <div className={classes.card_state_title}>
-        {steps?.[0]?.titles?.map((title, ind) => (
-          <span key={ind.toString()}>{title}</span>
-        ))}
+        <span>W</span>
+        <span>L</span>
+        <span>ARA</span>
+        <span>FPPG</span>
       </div>
       <div className={classes.card_state_values}>
-        {steps?.[0]?.step?.map((val, ind) => (
-          <span key={ind.toString()}>{val}</span>
-        ))}
+        <span>{wins}</span>
+        <span>{losses}</span>
+        <span>{0}</span>
+        <span>{0}</span>
       </div>
     </div>
   );
@@ -104,11 +135,11 @@ function SportsSelectionCard2(props) {
                 isSelected ? classes.active : ""
               }`}
             >
-              {title}
+              {name}
             </p>
             {!isSelected ? (
               <button
-                onClick={() => onSelectDeselect(id)}
+                onClick={() => onSelectDeselect(playerId, match_id)}
                 className={disabled && classes.disabled}
                 disabled={disabled}
               >
@@ -119,36 +150,37 @@ function SportsSelectionCard2(props) {
               <div className={classes.container_selected}>
                 <p className={classes.container_selected_p_1}>
                   <Tick2 /> Selected{" "}
-                  <img src={DeleteIcon} onClick={() => onSelectDeselect(id)} />
+                  <img
+                    src={DeleteIcon}
+                    onClick={() => onSelectDeselect(playerId, match_id)}
+                  />
                 </p>
               </div>
             )}
           </div>
           {mlbCard && currentStep === 1 && (
             <div className={classes.card_mlb_vs}>
-              <p>VS {teamB}</p>
+              <p>VS {awayTeam}</p>
             </div>
           )}
 
-          {steps?.[0] ? (
-            <div
-              className={`
+          <div
+            className={`
                 ${classes.container_body_card_state} 
                 ${isSelected && classes.active}`}
-            >
-              {mlbCard && currentStep === 1 ? (
-                <RenderMLBState />
-              ) : (
-                <RenderOtherState />
-              )}
-            </div>
-          ) : (
-            <p>No Data</p>
-          )}
+          >
+            {mlbCard && currentStep === 1 ? (
+              <RenderMLBState />
+            ) : isEmpty(playerStats) ? (
+              <RenderOtherState />
+            ) : (
+              <p>No Data</p>
+            )}
+          </div>
 
           {currentStep === 0 && (
             <div className={classes.team_vs}>
-              <p>VS {teamB}</p>
+              <p>VS {awayTeam}</p>
             </div>
           )}
           <div className={classes.divider}></div>
@@ -178,17 +210,17 @@ function SportsSelectionCard2(props) {
           </p>
         </div>
 
-        {mlbCard && (
+        {/* {mlbCard && (
           <div className={classes.forwardArrow} onClick={nextStep}>
             <ForwardArrow color="#fb6e00" />
           </div>
-        )}
+        )} */}
       </div>
     </div>
   );
 }
 
-SportsSelectionCard2.propTypes = {
+SportsTeamSelectionCard.propTypes = {
   title: PropTypes.string,
   avgVal: PropTypes.number,
   teamA: PropTypes.string,
@@ -205,4 +237,4 @@ SportsSelectionCard2.propTypes = {
   onSelectDeselect: PropTypes.func,
 };
 
-export default SportsSelectionCard2;
+export default SportsTeamSelectionCard;
