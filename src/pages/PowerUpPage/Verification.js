@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import Input from "../../ui/Input/Input";
-import Alert from "../../components/Alert";
+import { VerificationInput as Input } from "../../ui/Input/Input";
 import styles from "./styles.module.scss";
 
 import formStyles from "../../scss/formstyles.module.scss";
@@ -24,15 +23,21 @@ const Verification = (props) => {
       history.replace("power-up");
     }
 
-    const response = await http.post(URLS.USER.VERIFY_CONFIRMATION_CODE, {
-      email: props?.data?.email,
-      code,
-    });
-
-    if (response.status) {
-      redirectTo({ history }, { path: "user-profile-info", state: props.data });
-    } else {
-      setError(true);
+    try {
+      const response = await http.post(URLS.USER.VERIFY_CONFIRMATION_CODE, {
+        email: props?.data?.email,
+        code,
+      });
+      if (response.status) {
+        redirectTo(
+          { history },
+          { path: "user-profile-info", state: props.data }
+        );
+      } else {
+        setCode("");
+      }
+    } catch (error) {
+      setCode("");
     }
   };
 
@@ -80,7 +85,13 @@ const Verification = (props) => {
           />
         )}
 
-        <button className={formStyles.button}>
+        <button
+          className={formStyles.button}
+          disabled={!code}
+          style={{
+            backgroundColor: !code ? "#874008" : "#fb6e00",
+          }}
+        >
           {error ? "Start Over" : "Next"}
         </button>
       </form>

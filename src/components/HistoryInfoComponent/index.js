@@ -74,12 +74,12 @@ const HistoryInfoComponent = (props) => {
         ) : (
           <>
             <div className={classes.row}>
-              <div>{getDate(transaction.date_time)} </div>
-              <div>{getTime(transaction.date_time)} </div>
-              <div>{transaction?.transaction_type_details?.type || "--"} </div>
-              <div>{transaction.balance_type?.toUpperCase()}</div>
-              <div>{transaction.transaction_amount || "--"}</div>
-              <div>Verified</div>
+              <div className="mx-1 text-left text-ellipsis">{getDate(transaction.date_time)} </div>
+              <div className="mx-1 text-left text-ellipsis">{getTime(transaction.date_time)} </div>
+              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type || "--"} </div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.transaction_amount || "--"}</div>
+              <div className="mx-1 text-left text-ellipsis">Verified</div>
             </div>
           </>
         )}
@@ -88,19 +88,19 @@ const HistoryInfoComponent = (props) => {
   };
 
   return (
-    <div className={classes.table_wrapper}>
-      <div className={classes.table_header}>
+    <div className={`${classes.table_wrapper} w-100`} style={{transform: 'none'}}>
+      <div className={`${classes.table_header} w-100`}>
         <div className={classes.row}>
-          <div>Date</div>
-          <div>Time</div>
-          <div>Type</div>
-          <div>Currency</div>
-          <div>Amount</div>
-          <div>Results</div>
+          <div className="mx-1 text-left">Date</div>
+          <div className="mx-1 text-left">Time</div>
+          <div className="mx-1 text-left">Type</div>
+          <div className="mx-1 text-left">Currency</div>
+          <div className="mx-1 text-left">Amount</div>
+          <div className="mx-1 text-left">Results</div>
         </div>
       </div>
 
-      <div className={classes.table_body}>
+      <div className={`${classes.table_body} w-100`}>
         {transactions.map(function (row, index) {
           return <TableRow transaction={row} isMobile={isMobile} />;
         })}
