@@ -31,15 +31,12 @@ function SportsLiveCardTeamD(props) {
 
   const { team_d_mlb_team: team = {}, match = {} } = data || {};
 
-  const { away_team = {}, home_team = {} } = match || {};
+  const { away_team = {}, home_team = {}, status = "" } = match || {};
 
   const {
     name = "",
     type = "",
-    status = "",
     points = 0,
-    homeTeam = "",
-    awayTeam = "",
     playerStats = {},
     pointsSummary = [],
     totalPts = 0,
@@ -143,7 +140,7 @@ function SportsLiveCardTeamD(props) {
         {type}
       </p>
       <div className={classes.header_teams}>
-        <p>{home_team?.name}</p> vs <span>{away_team?.name}</span>
+        <p>{home_team?.name} 0</p> vs <span>{away_team?.name} 0</span>
       </div>
     </div>
   );
@@ -247,14 +244,14 @@ function SportsLiveCardTeamD(props) {
             />
           )}
 
-          {cardType !== CardType.MLBR && (
+          {/* {cardType !== CardType.MLBR && (
             <SportsLiveCardOverlay
               text="Video review is available now"
               visible={!singleView && showVideoOverlay}
               onGotIt={() => setVideoOverlayState(false)}
               largeView={largeView}
             />
-          )}
+          )} */}
         </div>
       </div>
     </>

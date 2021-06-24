@@ -32,6 +32,17 @@ import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
+const {
+  ON_ROOM_SUB,
+  ON_ROOM_UN_SUB,
+  EMIT_ROOM,
+  ON_POWER_APPLIED,
+  ON_GLOBAL_RANKING_REQUEST,
+  ON_FANTASY_LOGS_REQUEST,
+  MATCH_UPDATE,
+  GLOBAL_RANKING,
+  FANTASY_TEAM_UPDATE,
+} = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
 
 let _socket = null;
 
@@ -59,38 +70,86 @@ function MLBPowerdFsLive(props) {
     _socket = socket();
 
     return function cleanUP() {
-      _socket = null;
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
     };
   }, []);
 
   useEffect(() => {
     if (_socket) {
-      _socket.emit(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.ON_ROOM_SUB, {
-        gameId: 7,
-        userId: 113,
-      });
+      onSocketEmit();
 
-      setLoading(true);
-      _socket?.on(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.EMIT_ROOM, (res) => {
-        const {
-          game_id = "",
-          score = 0,
-          sport_id = "",
-          status = null,
-          team_id = "",
-          defense = [],
-          players = [],
-        } = res || {};
-
-        const teamD = defense[0] || {};
-        if (players && players?.length) {
-          getPlayers(players, teamD);
-        }
-
-        setLoading(false);
-      });
+      onSocketListen();
     }
   }, [_socket]);
+
+  //All Emit Events
+  const onSocketEmit = () => {
+    _socket.emit(ON_ROOM_SUB, {
+      gameId: 7,
+      userId: 113,
+    });
+
+    //On Power applied
+    _socket.emit(ON_POWER_APPLIED, {
+      fantasyTeamId: 172,
+      matchId: 7052,
+      playerId: 10790,
+      powerId: 1,
+    });
+
+    //ON_GLOBAL_RANKING_REQUEST
+    _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
+      gameId: 1,
+    });
+
+    //ON_FANTASY_LOGS_REQUEST
+    _socket.emit(ON_FANTASY_LOGS_REQUEST, {
+      fantasyTeamId: 172,
+    });
+  };
+
+  //All listen events
+  const onSocketListen = () => {
+    //fetch data first time
+    setLoading(true);
+    _socket?.on(EMIT_ROOM, (res) => {
+      const {
+        game_id = "",
+        score = 0,
+        sport_id = "",
+        status = null,
+        team_id = "",
+        defense = [],
+        players = [],
+      } = res || {};
+
+      const teamD = defense[0] || {};
+      if (players && players?.length) {
+        getPlayers(players, teamD);
+      }
+
+      setLoading(false);
+    });
+
+    //MATCH_UPDATE
+    _socket?.on(MATCH_UPDATE, (res) => {
+      printLog("MATCH_UPDATE: ", res);
+    });
+
+    //GLOBAL_RANKING
+    _socket?.on(GLOBAL_RANKING, (res) => {
+      printLog("GLOBAL_RANKING: ", res);
+    });
+
+    //FANTASY_TEAM_UPDATE
+    _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
+      printLog("FANTASY_TEAM_UPDATE: ", res);
+    });
+  };
 
   const getPlayers = async (players = [], teamD = {}) => {
     const playersArr = new Array(8);
@@ -247,8 +306,6 @@ function MLBPowerdFsLive(props) {
     if (loading) {
       return <p>Loading...</p>;
     }
-
-    printLog(data);
 
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (

@@ -34,7 +34,6 @@ function SingleView(props) {
 
   const onSelectCard = (player) => {
     let index = data?.length && data?.indexOf(player);
-    console.log(player, index);
     currentCard = index;
 
     setSelectedCard(player);
@@ -74,7 +73,7 @@ function SingleView(props) {
                 />
               ) : (
                 <SportsLiveCard
-                  key={ind + "-"}
+                  key={ind + "-" + item?.player?.player_id}
                   data={item}
                   active={
                     selectedCard?.player?.player_id === item?.player?.player_id

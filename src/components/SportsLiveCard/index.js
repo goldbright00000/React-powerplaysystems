@@ -60,7 +60,6 @@ function SportsLiveCard(props) {
   const {
     name = "",
     type = "",
-    status = "",
     points = 0,
     homeTeam = "",
     awayTeam = "",
@@ -76,7 +75,7 @@ function SportsLiveCard(props) {
     boost = {},
   } = player || {};
 
-  const { away_team = {}, home_team = {} } = match || {};
+  const { away_team = {}, home_team = {}, status = "" } = match || {};
 
   const {
     hits = 0,
@@ -235,7 +234,7 @@ function SportsLiveCard(props) {
         {type}
       </p>
       <div className={classes.header_teams}>
-        <p>{home_team?.name}</p> vs <span>{away_team?.name}</span>
+        <p>{home_team?.name} 0</p> vs <span>{away_team?.name} 0</span>
       </div>
     </div>
   );
