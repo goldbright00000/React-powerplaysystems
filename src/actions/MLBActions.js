@@ -285,7 +285,6 @@ export function getAndSetEditPlayers(payload = { game_id: 0, sport_id: 0, user_i
     const teamPlayers = await getSavedTeamPlayers(payload);
     const players = teamPlayers?.players || [];
     const teamD = teamPlayers?.teamD;
-
     const savedPlayers = [];
     for (let i = 0; i < players?.length; i++) {
       const obj = {
@@ -296,11 +295,12 @@ export function getAndSetEditPlayers(payload = { game_id: 0, sport_id: 0, user_i
     }
 
     const teamDObj = {
-      team_id: teamD?.team_id,
-      match_id: teamD?.match_id,
+      team_id: teamD[0]?.team_d,
+      match_id: teamD[0]?.match_id,
     };
 
     savedPlayers.push(teamDObj);
+
     return dispatch(
       setEditPlayers({
         team_id: teamPlayers.team_id,

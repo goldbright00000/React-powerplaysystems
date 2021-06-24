@@ -295,36 +295,21 @@ function MLBPowerdFs(props) {
   }, [isEdit, loading, selected]);
 
   const autoSelectOnEdit = () => {
-    if (isEdit == true && !loading && selected.entries().next().done) {
-
-      const pls = []
-
+    if (isEdit === true && !loading && selected.entries().next().done) {
+      const pls = [];
       savedPlayers.forEach((element) => {
         if (element.team_id) {
           pls.push({
             team_id: element?.team_id,
-            matchId: element?.matchId || 5656,
+            matchId: element?.match_id,
           })
         } else {
           pls.push({
             playerId: element?.playerId,
-            matchId: element?.matchId || 5656,
+            matchId: element?.matchId,
           })
         }
-
       })
-
-
-      // const pls = [
-      //   { playerId: 10440, matchId: 5656 },
-      //   { playerId: 11063, matchId: 5656 },
-      //   { playerId: 10737, matchId: 5656 },
-      //   { playerId: 10559, matchId: 5656 },
-      //   { playerId: 10767, matchId: 5656 },
-      //   { playerId: 10647, matchId: 5656 },
-      //   { playerId: 10797, matchId: 5656 },
-      //   { team_id: 11281, match_id: 5656 },
-      // ];
 
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];
