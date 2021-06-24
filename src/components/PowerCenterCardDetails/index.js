@@ -17,7 +17,8 @@ const PowerCenterCardDetails = (props) => {
         myGameCenter = false,
         PointsSystem = [],
         Power = [],
-        PrizePayout = []
+        PrizePayout = [],
+        onEnter = () => { },
     } = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -27,29 +28,30 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 0
                 &&
-                <PrizeGrid PrizePayout={PrizePayout} />
+                <PrizeGrid PrizePayout={PrizePayout} onEnter={onEnter} />
             }
             {
                 currentIndex == 1 && title !== 'NHL'
                 &&
-                <Hitters PointsSystem={PointsSystem} />
+                <Hitters PointsSystem={PointsSystem} onEnter={onEnter} />
             }
             {
                 currentIndex == 1 && title === 'NHL'
                 &&
-                <PointSystem />
+                <PointSystem PointsSystem={PointsSystem} onEnter={onEnter} />
             }
             {
                 currentIndex == 2
                 &&
-                <PowersAvailable title={title} Power={Power} />
+                <PowersAvailable title={title} Power={Power} onEnter={onEnter} />
             }
             {
                 currentIndex == 3 && title === 'MLB'
                 &&
-                <TeamRoster league={title} />
+                <TeamRoster league={title} onEnter={onEnter} />
             }
             <Footer
+                onEnter={onEnter}
                 entry_fee={entry_fee}
                 onBack={() => {
                     if (currentIndex > 0) {

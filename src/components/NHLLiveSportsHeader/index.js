@@ -17,10 +17,10 @@ function NHLLiveSportsHeader(props) {
     buttonIcon = "",
     teamManagerLink = "",
     scoreDetailLink = "",
-    onPress = () => {},
-    onFullView = () => {},
-    onCompressedView = () => {},
-    onSingleView = () => {},
+    onPress = () => { },
+    onFullView = () => { },
+    onCompressedView = () => { },
+    onSingleView = () => { },
     className = {},
   } = props || {};
 

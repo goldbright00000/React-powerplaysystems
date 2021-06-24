@@ -99,12 +99,9 @@ function MLBPowerdFsLive(props) {
   useEffect(() => {
     if (_socket && data?.length) {
       const _players = [];
-      console.log("Data =========== ", data);
       _socket?.on(CONSTANTS.SOCKET_EVENTS.MLB.LIVE.EMIT_ROOM, res => {
-        console.log(`Response: `, res);
         const _player = res?.data || {};
         const playerInd = _players?.findIndex(_players);
-        console.log(playerInd);
       });
     }
   }, [_socket, data]);
@@ -120,7 +117,6 @@ function MLBPowerdFsLive(props) {
 
     const playersArr = new Array(8);
     const { players = [], teamD = {} } = dataResponse || {};
-    console.log(players);
     const [playerP] = players?.filter(
       plr => `${plr?.type}`?.toLocaleLowerCase() === P
     );

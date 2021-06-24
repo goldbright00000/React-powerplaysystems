@@ -113,7 +113,7 @@ const PowerCenterMobileCard = (props) => {
               </p>
             </div>
             <div className={classes.__power_center_card_enter}>
-              <OutlineButton title="Enter  •  $5" onClick={onEnter} />
+              <OutlineButton title={`Enter  •  $${entry_fee}`} onClick={onEnter} />
             </div>
           </div>
         </div>
@@ -132,6 +132,7 @@ const PowerCenterMobileCard = (props) => {
       title={title}
       onBackClick={() => onBackClick()}
       onNextClick={() => onNextClick()}
+      onEnter={onEnter}
     />
   );
 };
