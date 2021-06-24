@@ -154,7 +154,7 @@ const Header = (props) => {
             </button>
             <ul className="__navlinks __flex">
               <li>
-                <NavLink to="/">Power Center</NavLink>
+                <NavLink to="/power-center">Power Center</NavLink>
               </li>
               {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
               {user?.token ||
