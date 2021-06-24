@@ -13,7 +13,7 @@ function Accordian(props) {
     cashTitle = "",
     Icon = "",
     isSvg = false,
-    onClick = () => {},
+    onClick = () => { },
     isMobile = false,
     transactions = [],
     iconWithTitle = "",
@@ -33,7 +33,7 @@ function Accordian(props) {
         <span className={classes.accoridan_bar_icon_with_title_span}>
           {iconWithTitle && (
             <span className={classes.accoridan_bar_icon}>
-              <img src={iconWithTitle} width="23" height="20" />
+              <img src={iconWithTitle} width="23" height="20" alt="" />
             </span>
           )}
         </span>
@@ -58,9 +58,8 @@ function Accordian(props) {
           )}
           {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} />}
           <i
-            className={`${classes.arrow} ${
-              visible ? classes.up : classes.down
-            }`}
+            className={`${classes.arrow} ${visible ? classes.up : classes.down
+              }`}
           />
         </span>
       </div>

@@ -59,7 +59,7 @@ function NHLPowerdFsLive(props) {
         {isSvgIcon ? (
           <Icon size={54} />
         ) : (
-          <img src={Icon} width={54} height={54} />
+          <img src={Icon} width={54} height={54} alt="" />
         )}
         <div className={classes.sidebar_lock_icon}>
           <LockIcon />

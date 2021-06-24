@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import classes from './interactiveContests.module.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUserBalance } from '../../actions/userActions';
 import Ball from '../../icons/Ball';
 import BasketBall from '../../icons/BasketBall';
@@ -15,8 +15,11 @@ import http from '../../config/http';
 import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
+import _ from 'underscore';
 
-const myGameCenterCardData = [
+// TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
+
+const myGameCenterCardData1 = [
   {
     id: 1,
     title: "MLB",
@@ -46,93 +49,6 @@ const myGameCenterCardData = [
     makePicks: true,
     timeToStart: "",
     url: "/nfl-powerdfs",
-  },
-  {
-    id: 3,
-    title: "NBA",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nba-powerdfs",
-    inProgress: false,
-    completed: false,
-    teamManager: true,
-    editPicks: true,
-    makePicks: false,
-    timeToStart: "",
-  },
-  {
-    id: 4,
-    title: "NHL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nhl-powerdfs",
-    inProgress: false,
-    completed: false,
-    teamManager: true,
-    editPicks: true,
-    makePicks: false,
-    timeToStart: "",
-  },
-  {
-    id: 5,
-    title: "NFL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    inProgress: false,
-    completed: false,
-    teamManager: true,
-    editPicks: true,
-    makePicks: false,
-    timeToStart: "",
-    url: "/nfl-powerdfs",
-  },
-  {
-    id: 6,
-    title: "MLB",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    inProgress: false,
-    completed: true,
-    teamManager: false,
-    editPicks: false,
-    makePicks: false,
-    timeToStart: "",
-  },
-  {
-    id: 7,
-    title: "NHL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    inProgress: false,
-    completed: false,
-    teamManager: true,
-    editPicks: true,
-    makePicks: false,
-    timeToStart: "58 mins to start",
-  },
-  {
-    id: 8,
-    title: "NBA",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    inProgress: false,
-    completed: false,
-    teamManager: true,
-    editPicks: true,
-    makePicks: false,
-    timeToStart: "",
   },
 ];
 
@@ -189,6 +105,7 @@ const InteractiveContests = (props) => {
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
 
+  const [myGameCenterCardData, setMyGameCenterCardData] = useState([]);
   const [contentType, setContentType] = useState("All Active");
   const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
   const [showCardDetails, setShowCardDetails] = useState(-1);
@@ -198,6 +115,9 @@ const InteractiveContests = (props) => {
   const [balance, setBalance] = useState({});
   const [finalStandingsModal, setFinalStandingsModal] = useState(-1);
   const [days, setDays] = useState([{}]);
+  const { user } = useSelector((state) => state?.auth);
+  const [userGames, setUserGames] = useState({})
+  const { getUserSavedGames } = useSelector((state) => state?.mlb);
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -206,11 +126,23 @@ const InteractiveContests = (props) => {
     return () => maxWidth.removeEventListener("change", responsiveHandler);
   }, []);
 
+  // useEffect(() => {
+  //   setFilteredData(myGameCenterCardData);
+  //   setDays(getDaysFromToday());
+  //   getUserBalance();
+  // }, []);
+
   useEffect(() => {
-    setFilteredData(myGameCenterCardData);
+    dispatch(MLbActions.getUserGames(user.user_id));
+  }, [dispatch, user])
+
+  useEffect(() => {
+    setMyGameCenterCardData(getUserSavedGames);
+    setFilteredData(getUserSavedGames);
     setDays(getDaysFromToday());
     getUserBalance();
-  }, []);
+    setUserGames(getUserSavedGames);
+  }, [getUserSavedGames])
 
   const getUserBalance = async () => {
     const response = await http.get(URLS.USER.BALANCE);
@@ -219,34 +151,39 @@ const InteractiveContests = (props) => {
   };
 
   const onEdit = (item) => {
-    switch (item?.title) {
+    switch (item?.game?.league) {
       case "MLB":
-        dispatch(MLbActions.getAndSetEditPlayers({ game_id: 7, sport_id: 1 }));
-        return redirectTo(props, { path: "/mlb-powerdfs" });
+        dispatch(MLbActions.getAndSetEditPlayers({ game_id: item?.game_id, sport_id: item?.sport_id, user_id: item?.user_id }));
+        return redirectTo(props, { path: `/mlb-powerdfs?game_id=${item?.game_id}` });
     }
   };
 
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}>
-        {printLog('MyGameCenterCard ==>', item)}
         <MyGameCenterCard
           isMobile={isMobile}
-          id={item.id}
-          title={item.title}
-          prize={item.prize}
-          outOf={item.outOf}
-          total={item.total}
-          percent={item.percent}
+          id={item?.team_id}
+          title={item?.game?.league}
+          prize={_.sortBy(item?.game?.PrizePayouts, 'from')[0]?.amount}
+          outOf={item?.game?.outOf}
+          total={item?.game?.target}
+          percent={item?.game?.percent}
+          game_type={item?.game?.game_type}
+          game_set_end={item?.game?.game_set_end}
+          start_time={item?.game?.start_time}
+          PointsSystem={item?.game?.PointsSystems}
+          Power={item?.game?.Powers}
+          PrizePayout={_.sortBy(item?.game?.PrizePayouts, 'from')}
           inProgress={item.inProgress}
           completed={item.completed}
           teamManager={item.teamManager}
-          editPicks={item.editPicks}
+          editPicks={item?.players?.length > 0}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
-          showDetails={showCardDetails == item.id}
-          viewResults={viewResults == item.id}
-          finalStandingsModal={finalStandingsModal == item.id}
+          showDetails={showCardDetails === item?.team_id}
+          viewResults={viewResults === item?.team_id}
+          finalStandingsModal={finalStandingsModal === item?.team_id}
           onEnter={() => {
             redirectTo(props, { path: redirectUri || "/" });
           }}
@@ -270,29 +207,29 @@ const InteractiveContests = (props) => {
         <div className={`__flex ${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
             <div className="__badges-wrapper __text-in-one-line __mediam">
-              {filters.map((item, index) => {
-                return (
-                  <div
-                    className={
-                      "__outline-badge __f1 " +
-                      (selectedFilter == item.id && "__active")
-                    }
-                    onClick={() => {
-                      setSelectedFilter(item.id);
-                      const filteredData =
-                        item.id === 1
-                          ? myGameCenterCardData
-                          : myGameCenterCardData.filter(
-                            (cardItem) => cardItem.title === item.title
-                          );
-                      setFilteredData(filteredData);
-                    }}
-                  >
-                    {item.icon}
-                    {item.title}
-                  </div>
-                );
-              })}
+              {myGameCenterCardData && (
+                filters.map((item, index) => {
+                  return (
+                    <div
+                      className={
+                        "__outline-badge __f1 " +
+                        (selectedFilter == item.id && "__active")
+                      }
+                      onClick={() => {
+                        setSelectedFilter(item.id);
+                        const filteredData =
+                          item.id === 1
+                            ? myGameCenterCardData
+                            : myGameCenterCardData?.length > 0 && myGameCenterCardData.filter(cardItem => cardItem?.game?.league === item.title);
+                        setFilteredData(filteredData);
+                      }}
+                    >
+                      {item.icon}
+                      {item.title}
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}>
@@ -340,42 +277,44 @@ const InteractiveContests = (props) => {
           </div>
         </div>
 
-        {(() => {
-          const itemsInaRow = 4;
-          const numberOfRows = Math.ceil(
-            myGameCenterCardData.length / itemsInaRow
-          );
-          const myGameCenterCardView = Array(numberOfRows)
-            .fill(undefined)
-            .map((item, i) => {
-              const start = (i + 1) * itemsInaRow - 4;
-              const end = (i + 1) * itemsInaRow;
-              const items = filteredData.slice(start, end);
+        {myGameCenterCardData && (
+          (() => {
+            const itemsInaRow = 4;
+            const numberOfRows = Math.ceil(
+              myGameCenterCardData.length / itemsInaRow
+            );
+            const myGameCenterCardView = Array(numberOfRows)
+              .fill(undefined)
+              .map((item, i) => {
+                const start = (i + 1) * itemsInaRow - 4;
+                const end = (i + 1) * itemsInaRow;
+                const items = filteredData.slice(start, end);
 
-              return (
-                <>
-                  {isMobile ? (
-                    <div>
-                      {items.map((power) => myGameCenterCard(power, power.url))}
-                    </div>
-                  ) : (
-                    <>
-                      <div
-                        className={
-                          `${classes.__interactive_contests_power_center_card_row} row`
-                        }
-                      >
-                        {items.map((power) => {
-                          return myGameCenterCard(power, power.url);
-                        })}
+                return (
+                  <>
+                    {isMobile ? (
+                      <div>
+                        {items.map((power) => myGameCenterCard(power, power.url))}
                       </div>
-                    </>
-                  )}
-                </>
-              );
-            });
-          return myGameCenterCardView;
-        })()}
+                    ) : (
+                      <>
+                        <div
+                          className={
+                            classes.__interactive_contests_power_center_card_row
+                          }
+                        >
+                          {items.map((power) => {
+                            return myGameCenterCard(power, power.url);
+                          })}
+                        </div>
+                      </>
+                    )}
+                  </>
+                );
+              });
+            return myGameCenterCardView;
+          })()
+        )}
       </div>
     </>
   );

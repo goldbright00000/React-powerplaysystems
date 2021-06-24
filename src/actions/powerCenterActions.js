@@ -10,7 +10,7 @@ export const GET_ALL_GAMES = "GET_ALL_GAMES";
 export function getAllGames() {
     return (dispatch) => {
         axios
-            .get(`${process.env.REACT_APP_API_URL}/ppgapi/${URLS.GAMES.ALL_GAMES}`)
+            .get(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.ALL_GAMES}`)
             .then((res) => {
                 dispatch({
                     type: GET_ALL_GAMES,

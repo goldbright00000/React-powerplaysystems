@@ -178,9 +178,8 @@ const Header = (props) => {
         {hasMenu ? (
           <>
             <button
-              className={`__menu-icon __hide-only-on-large __pointer ${
-                openMenu ? `__menu-icon_clicked` : ``
-              }`}
+              className={`__menu-icon __hide-only-on-large __pointer ${openMenu ? `__menu-icon_clicked` : ``
+                }`}
               onClick={handleMenu}
             >
               <span></span>
