@@ -7,9 +7,11 @@ import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
+import Challenge from "../../icons/Challenge";
 import { isEmpty } from "lodash";
 import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
+import { CardType } from "./CardType";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -23,6 +25,7 @@ function SportsLiveCardTeamD(props) {
     largeView = false,
     singleView = false,
     active = false,
+    cardType = CardType.MLB,
   } = props || {};
 
   const {
@@ -93,7 +96,11 @@ function SportsLiveCardTeamD(props) {
       <div
         className={`${classes.team_d_icons} ${largeView && classes.large_view}`}
       >
-        <VideoIcon size={largeView ? 28 : 24} />
+        {cardType === CardType.MLBR ? (
+          <Challenge size={largeView ? 28 : 24} />
+        ) : (
+          <VideoIcon size={largeView ? 28 : 24} />
+        )}
         <ShieldIcon size={largeView ? 28 : 24} />
       </div>
     </div>
@@ -115,6 +122,14 @@ function SportsLiveCardTeamD(props) {
       </span>
     </p>
   );
+
+  const RenderChallengeButton = () => {
+    return (
+      <button className={classes.challenge_btn}>
+        Click here to Challenge!
+      </button>
+    );
+  };
 
   const RenderHeader = () => (
     <div className={classes.card_header}>
@@ -183,14 +198,18 @@ function SportsLiveCardTeamD(props) {
                 {!compressedView && (
                   <>
                     {singleView && <RenderSingleViewStats />}
-                    <RenderStatus
-                      success={
-                        hasText(status, "batting") ||
-                        hasText(status, "pitching") ||
-                        hasText(status, "hitting")
-                      }
-                      danger={hasText(status, "deck")}
-                    />
+                    {cardType === CardType.MLBR ? (
+                      <RenderChallengeButton />
+                    ) : (
+                      <RenderStatus
+                        success={
+                          hasText(status, "batting") ||
+                          hasText(status, "pitching") ||
+                          hasText(status, "hitting")
+                        }
+                        danger={hasText(status, "deck")}
+                      />
+                    )}
 
                     {!isEmpty(playerStats) && !singleView && (
                       <RenderMLBPlayerStats
@@ -223,12 +242,14 @@ function SportsLiveCardTeamD(props) {
             />
           )}
 
-          <SportsLiveCardOverlay
-            text="Video review is available now"
-            visible={!singleView && showVideoOverlay}
-            onGotIt={() => setVideoOverlayState(false)}
-            largeView={largeView}
-          />
+          {cardType !== CardType.MLBR && (
+            <SportsLiveCardOverlay
+              text="Video review is available now"
+              visible={!singleView && showVideoOverlay}
+              onGotIt={() => setVideoOverlayState(false)}
+              largeView={largeView}
+            />
+          )}
         </div>
       </div>
     </>
@@ -241,6 +262,7 @@ SportsLiveCardTeamD.propTypes = {
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,
   active: PropTypes.bool,
+  cardType: PropTypes.string,
 };
 
 export default SportsLiveCardTeamD;

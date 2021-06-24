@@ -9,6 +9,7 @@ import SponserAContestPage from "./pages/SponserAContestPage/SponserAContestPage
 import PowerCenter from "./pages/PowerCenter/PowerCenter";
 import Mobile from "./pages/Mobile/Mobile";
 import LiveStanding from "./pages/Mobile/LiveStanding";
+import EasyPlay from "./pages/Mobile/EasyPlay";
 import SelectTeams from "./pages/SelectTeams/SelectTeams";
 import PowerBetLive from "./pages/PowerBetLive/PowerBetLive";
 import ScrollToTop from "./utility/ScrollToTop";
@@ -45,12 +46,15 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
 import MLBPowerLevels from "./pages/MLBPowerLevels";
 import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
+import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
+import MLBRecharge from "./pages/MLBRecharge";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -83,62 +87,81 @@ const App = (props) => {
   return (
     <Fragment>
       <ScrollToTop />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route
-          exact
-          path="/power-play-sponsors"
-          component={PowerPlaySponsorsPage}
-        />
-        <Route
-          exact
-          path="/nhl-live-powerdfs/my-score-details"
-          component={NHLLivePowerdFsScroeDetail}
-        />
-        <Route
-          exact
-          path="/mlb-live-powerdfs/my-score-details"
-          component={MLBLivePowerdFsScroeDetail}
-        />
-        <Route
-          path="/power-play-sponsors/sponsor-a-contest"
-          component={SponserAContestPage}
-        />
-        <Route path="/power-center" component={PowerCenter} />
-        <Route path="/select-teams" component={SelectTeams} />
-        <Route path="/powerbet-live" component={PowerBetLive} />
-        <Route path="/bingo-pre-game" component={BingoPreGame} />
-        <Route path="/card-game" component={CardGame} />
-        <ProtectedRoute path='/card-game' component={CardGame} />
-        <Route path="/power-picks" component={PowerPicks} />
-        <Route path="/chase-a-card" component={ChaseACard} />
-        <Route path="/faqs" component={FAQsPage} />
-        <Route path="/privacy" component={PrivacyPage} />
-        <Route path="/trust-and-safety" component={TrustAndSafetyPage} />
-        <Route path="/account-security" component={AccountSecurityPage} />
-        <Route path="/terms" component={TermsOfUse} />
-        <Route path="/power-up" component={PowerUpPage} />
-        <Route path="/user-profile-info" component={GetUserInfoPage} />
-        <ProtectedRoute path="/my-game-center" component={MyGameCenter} />
-        <Route path="/bingo-in-progress" component={BingoInProgressGame} />
-        <Route path="/login" component={LoginPage} />
-        <Route path="/power-royals" component={RoyalGame} />
-        <Route path="/power-poker" component={PowerPoker} />
-        <Route path="/landing-page" component={LandingPage} />
-        <ProtectedRoute path="/my-account" component={AccountPage} />
-        <Route exact path="/elite8" component={Elite8} />
-        <Route exact path="/elite8-draw" component={Elite8Draw} />
-        <Route path="/mlb-powerdfs" component={MLBPowerdFs} />
-        <Route path="/nfl-powerdfs" component={NFLPowerdFs} />
-        <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
-        <Route path="/nba-powerdfs" component={NBAPowerdFs} />
-        <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
-        <Route path="/contact-us" component={ContactUSPage} />
-        <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
-        <Route path='/responsible-gaming' component={ResponsibleGaming} />
-        <Route path='/how-to-play' component={HowToPlayPage} />
-        <Route component={HomePage} />
-      </Switch>
+      {loading ? (
+        <ClipLoader color={"#F5A623"} loading css={override} size={150} />
+      ) : (
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/mobile" component={Mobile} />
+          <Route exact path="/easy-play" component={EasyPlay} />
+          <Route path="/zum-payment" component={PaymentFrame} />
+          <Route
+            exact
+            path="/power-play-sponsors"
+            component={PowerPlaySponsorsPage}
+          />
+          <Route
+            exact
+            path="/nhl-live-powerdfs/my-score-details"
+            component={NHLLivePowerdFsScroeDetail}
+          />
+          <Route
+            exact
+            path="/mlb-live-powerdfs/my-score-details"
+            component={MLBLivePowerdFsScroeDetail}
+          />
+          <Route
+            path="/power-play-sponsors/sponsor-a-contest"
+            component={SponserAContestPage}
+          />
+          <Route path="/power-center" component={PowerCenter} />
+          <Route path="/select-teams" component={SelectTeams} />
+          <Route path="/powerbet-live" component={PowerBetLive} />
+          <Route path="/bingo-pre-game" component={BingoPreGame} />
+          <Route path="/card-game" component={CardGame} />
+          {/* <ProtectedRoute path='/card-game' component={CardGame} /> */}
+          <Route path="/power-picks" component={PowerPicks} />
+          <Route path="/chase-a-card" component={ChaseACard} />
+          <Route path="/faqs" component={FAQsPage} />
+          <Route path="/privacy" component={PrivacyPage} />
+          <Route path="/trust-and-safety" component={TrustAndSafetyPage} />
+          <Route path="/account-security" component={AccountSecurityPage} />
+          <Route path="/terms" component={TermsOfUse} />
+          <Route path="/power-up" component={PowerUpPage} />
+          <Route
+            path="/email-verification"
+            render={(props) => <PowerUpPage verification {...props} />}
+          />
+          <Route path="/user-profile-info" component={GetUserInfoPage} />
+          <ProtectedRoute path="/my-game-center" component={MyGameCenter} />
+          <Route path="/bingo-in-progress" component={BingoInProgressGame} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/power-royals" component={RoyalGame} />
+          <Route path="/power-poker" component={PowerPoker} />
+          <Route path="/landing-page" component={LandingPage} />
+          <ProtectedRoute path="/my-account" component={AccountPage} />
+          <Route exact path="/elite8" component={Elite8} />
+          <Route exact path="/elite8-draw" component={Elite8Draw} />
+          <Route path="/mlb-powerdfs" component={MLBPowerdFs} />
+          <Route path="/nfl-powerdfs" component={NFLPowerdFs} />
+          <Route path="/nfl-live-powerdfs" component={NFLPowerdFsLive} />
+          <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
+          <Route path="/nba-powerdfs" component={NBAPowerdFs} />
+          <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
+          <Route path="/contact-us" component={ContactUSPage} />
+          <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
+          <Route path="/responsible-gaming" component={ResponsibleGaming} />
+          <Route path="/how-to-play" component={HowToPlayPage} />
+          <Route path="/verify-your-identity" component={VerifyIdentityPage} />
+          <Route path="/mlb-power-levels" component={MLBPowerLevels} />
+          <Route path="/mlb-recharge" component={MLBRecharge} />
+          <Route
+            path="/live-play-power-levels"
+            component={LivePlayPowerLevels}
+          />
+          <Route component={HomePage} />
+        </Switch>
+      )}
     </Fragment>
   );
 };

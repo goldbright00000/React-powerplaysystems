@@ -160,7 +160,7 @@ const InteractiveContests = (props) => {
 
   const myGameCenterCard = (item, redirectUri) => {
     return (
-      <div className={classes.__interactive_contests_power_center_card}>
+      <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}>
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}

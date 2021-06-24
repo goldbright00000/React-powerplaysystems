@@ -2,10 +2,12 @@ import axios from "axios";
 import { getLocalStorage, printLog } from "../utility/shared";
 import { CONSTANTS } from "../utility/constants";
 
-const apiUrl = "https://api.powerplaysystems.com/api/v1";
+// const apiUrl = "https://api.powerplaysystems.com/api/v1";
+
+printLog('process.env.REACT_APP_API_URL => ', process.env.REACT_APP_API_URL);
 
 const http = axios.create({
-  baseURL: `${process.env.REACT_APP_API_URL}/api/v1` || apiUrl,
+  baseURL: `${process.env.REACT_APP_API_URL}/api/v1` /*|| apiUrl*/,
   timeout: 60000, //60 seconds timeout
   timeoutErrorMessage: "Request time out, please try again later",
   maxRedirects: 3,

@@ -282,8 +282,8 @@
 
   @media screen and (max-width: 640px) {
     .__delete_account_modal {
-      width: 340px;
-      height: 450px;
+      width: 90vw;
+      min-height: 350px;
       border-radius: 12px;
       box-shadow: 0 2px 24px 0 $black5;
       background-color: $lightBlack;
@@ -389,8 +389,9 @@
     }
 
     .__change_password_modal {
-      width: 340px;
-      height: 520px;
+      width: 90vw;
+      min-height: 350px;
+      overflow-y: auto;
       border-radius: 12px;
       box-shadow: 0 2px 24px 0 $black5;
       background-color: $lightBlack;

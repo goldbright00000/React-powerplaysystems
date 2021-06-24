@@ -16,6 +16,7 @@ import {
 import { showToast } from "../../actions/uiActions";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
+import ArrowLeft from "../../assets/icons/ArrowLeft";
 
 const VerifyIdentityPage = (props) => {
   const dispatch = useDispatch();
@@ -23,15 +24,14 @@ const VerifyIdentityPage = (props) => {
     removePersonaUserId();
     return redirectTo(props, { path: "login" });
   };
-  // send it to backend and verify the inquiry there.`
-  // http://localhost:3000/verify-your-identity?inquiry-id=inq_9XBzrr32E5mET1LSFZ74LrJh
+
 
   const redirectToPerson = () => {
     let url =
       `https://withpersona.com/verify?template-id=${process.env.REACT_APP_PERSONA_TEMPLATE_ID}&`.concat(
         `environment=sandbox&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`
       );
-    window.open(url, "_blank");
+    window.open(url);
   };
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const VerifyIdentityPage = (props) => {
             dispatch(
               showToast(
                 err?.response?.data?.message ||
-                  "Verification failed. Please try again.",
+                "Verification failed. Please try again.",
                 "error"
               )
             );
@@ -101,11 +101,16 @@ const VerifyIdentityPage = (props) => {
           <img alt="" src={img1} />
         </section>
         <section className={formStyles.root2}>
+
           <div className={formStyles.header}>
-            <button className={styles.backButton}>Back</button>
+            {/* <button className={styles.backButton}>Back</button> */}
+            <button className={`btn btn-default ${styles.customizeBackBtn} ${styles.btnFlat}`}>
+              <span> <ArrowLeft /> </span>
+              <span className={`ml-3`}> Back </span>
+            </button>
           </div>
           <div className={styles.cardTitleWrapper}>
-            <h2>Verify your identity today and receive</h2>
+            <h2 className="text-muted">Verify your identity today and receive</h2>
             <h1>100 bonus Power Tokens!</h1>
             <img alt="" src={personaLogo} className={styles.personaLogo} />
           </div>
@@ -118,8 +123,7 @@ const VerifyIdentityPage = (props) => {
             </button>
             <button
               className={styles.verifyLaterButton}
-              onClick={onVerifyLater}
-            >
+              onClick={onVerifyLater}>
               I will verify my identity later and forgo the bonus Power Token
               offer
             </button>

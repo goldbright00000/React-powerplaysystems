@@ -1,18 +1,18 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { isEmpty, cloneDeep, isLength } from "lodash";
-import queryString from 'query-string'
+import queryString from 'query-string';
 
+import { isEmpty, cloneDeep } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import { useHistory } from "react-router-dom";
 
 import * as MLBActions from "../../actions/MLBActions";
-
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/baseball.jpg";
-import BaseballImageMobile from "../../assets/baseball-player-select-mobile.png";
+import BaseballImageMobile from "../../assets/baseball-player-select-mobile1.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -238,15 +238,15 @@ function MLBPowerdFs(props) {
 
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
-  const { token = "", user_id = 0 } = user || {};
+  const { token = "", user_id } = user || {};
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   //reset the states
   useEffect(() => {
-    getData();
     dispatch(MLBActions.setStarPlayerCount(0));
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
@@ -262,6 +262,10 @@ function MLBPowerdFs(props) {
       dispatch(MLBActions.setEditPlayers({ data: [], isEdit: false }));
     };
   }, []);
+
+  useEffect(() => {
+    getData();
+  }, [user]);
 
   const getData = async () => {
     const queries = queryString.parse(props.location.search)
@@ -676,6 +680,21 @@ function MLBPowerdFs(props) {
     </div>
   );
 
+  const getBackgroundImageWithStyle = () => {
+    let backgroundImageStyle = {
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "inherit",
+      backgroundColor: "#17181a",
+      backgroundImage: `url(${MLBFooterImage})`,
+      backgroundSize: "cover",
+      opacity: 0.6,
+    };
+
+    // backgroundImageStyle.backgroundPosition = "-16px -13px";
+
+    return backgroundImageStyle;
+  };
+
   return (
     <>
       <Header />
@@ -800,152 +819,219 @@ function MLBPowerdFs(props) {
               )}
             </div>
 
-            <div className={classes.container_footer}>
-              <div className={classes.container_footer_header}>
-                <ContestRulesIcon />
-                <div className={classes.container_footer_title}>
-                  <h2>Contest Rules</h2>
-                  <span className={classes.separator} />
-                </div>
-              </div>
-              <div className={classes.container_footer_1}>
-                <div className={classes.container_footer_2}>
-                  <div className={classes.container_tabs}>
-                    <Tabs
-                      selectedIndex={activeTab}
-                      onSelect={(tabIndex) => {
-                        setActiveTab(tabIndex);
-                      }}
-                    >
-                      <TabList className={classes.tabs_header}>
-                        <Tab className={`${activeTab === 0 && classes.active}`}>
-                          Summary
-                        </Tab>
-                        <Tab className={`${activeTab === 1 && classes.active}`}>
-                          Scoring
-                        </Tab>
-                        <Tab
-                          className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                            }`}
-                        >
-                          Powers Available
-                        </Tab>
-                      </TabList>
+            {isMobile ? (
+              <>
+                <div className={classes.container_footer}>
+                  <div className={classes.container_footer_header}>
+                    <div className={classes.container_footer_title}>
+                      <h2>Contest Rules</h2>
+                      <span className={classes.separator} />
+                    </div>
+                  </div>
 
-                      <div className={classes.tab_body}>
-                        <TabPanel>
-                          <ContestColumn
-                            title=""
-                            widthClass={classes.width_200}
-                          >
-                            <div className={classes.column_body}>
-                              <ContestSummaryRow
-                                text={
-                                  <p>
-                                    <span>$100,000</span> Prize Pool
-                                  </p>
-                                }
-                              />
-                              <ContestSummaryRow
-                                text={
-                                  <p>
-                                    Live-play <span>Powers</span> included with
-                                    entry fee
-                                  </p>
-                                }
-                              />
-                              <ContestSummaryRow
-                                text={
-                                  <p>
-                                    Pick players from any teams scheduled to
-                                    play on <span>July 19, 2021</span>
-                                  </p>
-                                }
-                              />
-                            </div>
-                          </ContestColumn>
-                        </TabPanel>
-                        <TabPanel>
-                          <ContestColumn title="">
-                            <div className={classes.contest_scoring_wrapper}>
-                              <ContestScoringColumn
-                                data={contestScoring.data1}
-                              />
-                              <ContestScoringColumn
-                                data={contestScoring.data2}
-                              />
-                            </div>
-                          </ContestColumn>
-                        </TabPanel>
-                        <TabPanel>
-                          <div className={classes.__powers_available}>
-                            <RenderIcon
-                              title="Point Multiplier"
-                              Icon={PointMultiplierIcon}
-                              iconSize={54}
-                              count={2}
-                            />
+                  <div className={classes.__mobilefooter}>
+                    <div
+                      style={getBackgroundImageWithStyle()}
+                      className={classes.__mobilefooterimage}
+                    ></div>
 
-                            <RenderIcon
-                              title="Swap Player"
-                              Icon={SwapPlayerIcon}
-                              iconSize={54}
-                              count={2}
-                            />
-
-                            <RenderIcon
-                              title="Undo"
-                              Icon={UndoIcon}
-                              iconSize={54}
-                              count={2}
-                            />
-                          </div>
-                          <div className={classes.__powers_available}>
-                            <RenderIcon
-                              title="Retro Boost"
-                              Icon={RetroBoostIcon}
-                              iconSize={24}
-                              count={1}
-                            />
-
-                            <RenderIcon
-                              title="D-Wall"
-                              Icon={DWallIcon}
-                              iconSize={54}
-                              count={1}
-                            />
-
-                            <RenderIcon
-                              title="Video Review"
-                              Icon={VideoReviewIcon}
-                              iconSize={54}
-                              count={1}
-                            />
-                          </div>
-                        </TabPanel>
+                    <ContestColumn title="" widthClass={classes.width_200}>
+                      <div className={classes.column_body}>
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              <span>$100,000</span> Prize Pool
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Live-play <span>Powers</span> included with <br />
+                              entry fee
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Pick players from any teams scheduled to play on{" "}
+                              <span>July 19, 2021</span>
+                            </p>
+                          }
+                        />
                       </div>
-                    </Tabs>
+                    </ContestColumn>
+
+                    <div className={classes.__see_full_rules}>
+                      <ContestRulesPopUp
+                        component={({ showPopUp }) => (
+                          <button
+                            onClick={showPopUp}
+                            className={classes.footer_full_rules}
+                            href="#"
+                          >
+                            See Full Rules <img src={RightArrow} />
+                          </button>
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className={classes.__see_full_rules}>
-                  <ContestRulesPopUp
-                    component={({ showPopUp }) => (
-                      <button
-                        onClick={showPopUp}
-                        className={classes.footer_full_rules}
-                        href="#"
-                      >
-                        See Full Rules <img src={RightArrow} />
-                      </button>
-                    )}
-                  />
+              </>
+            ) : (
+              <div className={classes.container_footer}>
+                <div className={classes.container_footer_header}>
+                  <ContestRulesIcon />
+                  <div className={classes.container_footer_title}>
+                    <h2>Contest Rules</h2>
+                    <span className={classes.separator} />
+                  </div>
                 </div>
+                <div className={classes.container_footer_1}>
+                  <div className={classes.container_footer_2}>
+                    <div className={classes.container_tabs}>
+                      <Tabs
+                        selectedIndex={activeTab}
+                        onSelect={(tabIndex) => {
+                          setActiveTab(tabIndex);
+                        }}
+                      >
+                        <TabList className={classes.tabs_header}>
+                          <Tab
+                            className={`${activeTab === 0 && classes.active}`}
+                          >
+                            Summary
+                          </Tab>
+                          <Tab
+                            className={`${activeTab === 1 && classes.active}`}
+                          >
+                            Scoring
+                          </Tab>
+                          <Tab
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
+                          >
+                            Powers Available
+                          </Tab>
+                        </TabList>
+
+                        <div className={classes.tab_body}>
+                          <TabPanel>
+                            <ContestColumn
+                              title=""
+                              widthClass={classes.width_200}
+                            >
+                              <div className={classes.column_body}>
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      <span>$100,000</span> Prize Pool
+                                    </p>
+                                  }
+                                />
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      Live-play <span>Powers</span> included
+                                      with entry fee
+                                    </p>
+                                  }
+                                />
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      Pick players from any teams scheduled to
+                                      play on <span>July 19, 2021</span>
+                                    </p>
+                                  }
+                                />
+                              </div>
+                            </ContestColumn>
+                          </TabPanel>
+                          <TabPanel>
+                            <ContestColumn title="">
+                              <div className={classes.contest_scoring_wrapper}>
+                                <ContestScoringColumn
+                                  data={contestScoring.data1}
+                                />
+                                <ContestScoringColumn
+                                  data={contestScoring.data2}
+                                />
+                              </div>
+                            </ContestColumn>
+                          </TabPanel>
+                          <TabPanel>
+                            <div className={classes.__powers_available}>
+                              <RenderIcon
+                                title="Point Multiplier"
+                                Icon={PointMultiplierIcon}
+                                iconSize={54}
+                                count={2}
+                              />
+
+                              <RenderIcon
+                                title="Swap Player"
+                                Icon={SwapPlayerIcon}
+                                iconSize={54}
+                                count={2}
+                              />
+
+                              <RenderIcon
+                                title="Undo"
+                                Icon={UndoIcon}
+                                iconSize={54}
+                                count={2}
+                              />
+                            </div>
+                            <div className={classes.__powers_available}>
+                              <RenderIcon
+                                title="Retro Boost"
+                                Icon={RetroBoostIcon}
+                                iconSize={24}
+                                count={1}
+                              />
+
+                              <RenderIcon
+                                title="D-Wall"
+                                Icon={DWallIcon}
+                                iconSize={54}
+                                count={1}
+                              />
+
+                              <RenderIcon
+                                title="Video Review"
+                                Icon={VideoReviewIcon}
+                                iconSize={54}
+                                count={1}
+                              />
+                            </div>
+                          </TabPanel>
+                        </div>
+                      </Tabs>
+                    </div>
+                  </div>
+                  <div className={classes.__see_full_rules}>
+                    <ContestRulesPopUp
+                      component={({ showPopUp }) => (
+                        <button
+                          onClick={showPopUp}
+                          className={classes.footer_full_rules}
+                          href="#"
+                        >
+                          See Full Rules <img src={RightArrow} />
+                        </button>
+                      )}
+                    />
+                  </div>
+                </div>
+
+                <img
+                  src={MLBFooterImage}
+                  className={classes.container_body_img}
+                />
               </div>
-              <img
-                src={MLBFooterImage}
-                className={classes.container_body_img}
-              />
-            </div>
+            )}
           </div>
 
           <div className={classes.sidebar_container}>

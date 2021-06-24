@@ -72,7 +72,7 @@ function LoginPage(props) {
         <form onSubmit={onLoginSubmit} className={formStyles.root}>
           {!isEmpty(authUser) && !loggedIn && (
             <>
-              <Alert renderMsg={() => <p>{message}</p>} danger />
+              <Alert renderMsg={() => <p>The entered email and password combination does not match our records. Please try again.</p>} danger />
               <br />
             </>
           )}

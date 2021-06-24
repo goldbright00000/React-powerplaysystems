@@ -311,7 +311,7 @@
   .container_top_2 {
     display: flex;
     flex-wrap: nowrap;
-    
+
     button {
       margin: 0 14px;
       width: 47px;
@@ -324,7 +324,12 @@
       line-height: normal;
       letter-spacing: 1px;
       text-align: center;
-      margin: 0 10px;
+      margin: 0 5px;
+
+      // &.selected {
+      //   background-color: $lightBlack5;
+      //   color: $primary;
+      // }
 
       span {
         position: absolute;

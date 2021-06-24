@@ -96,18 +96,16 @@ const PointSystem = (props) => {
   } = props || {};
 
   return (
-    <div className={classes.__point_system}>
+    <div className={`${classes.__point_system}`}>
       {isMobile ? (
         <>
           <div className={classes.__my_game_center_card_powerdfs}>
-            <p className={classes.__my_game_center_card_powerdfs_title}>
-              <span
-                className={classes.__my_game_center_card_powerdfs_title_first}
-              >
+            <p className={`text-left`}>
+              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{fontSize: '18px', color: 'white'}}>
                 {title}
-              </span>{" "}
-              PowerdFS{" "}
-              <span className={classes.__my_game_center_card_powerdfs_subtitle}>
+              </span>
+              <span  className={classes.__my_game_center_card_powerdfs_title} style={{fontSize: '18px'}}> PowerdFS </span>
+              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{fontSize: '14px'}}>
                 Point System
               </span>
             </p>
@@ -129,12 +127,12 @@ const PointSystem = (props) => {
                               <div className={classes.__point_system_data}>
                                 <div
                                   className={
-                                    classes.__point_system_data_title_div
+                                    `${classes.__point_system_data_title_div}`
                                   }
                                 >
                                   <p
                                     className={
-                                      classes.__point_system_data_title
+                                      `${classes.__point_system_data_title} mr-1`
                                     }
                                   >
                                     {item.title}
@@ -142,12 +140,12 @@ const PointSystem = (props) => {
                                 </div>
                                 <div
                                   className={
-                                    classes.__point_system_data_value_div
+                                    `${classes.__point_system_data_value_div}`
                                   }
                                 >
                                   <p
                                     className={
-                                      classes.__point_system_data_value
+                                      `${classes.__point_system_data_value} ml-1`
                                     }
                                   >
                                     {item.value}

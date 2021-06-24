@@ -10,7 +10,7 @@ function Modal(props) {
   } else {
     document.body.style.overflow = "unset";
   }
-  return visible && <div className={classes.wrapper}>{props?.children}</div>;
+  return visible && <div className={`${classes.wrapper} ${props.className}`}>{props?.children}</div>;
 }
 
 Modal.propTypes = {

@@ -43,7 +43,7 @@ const AccountLimits = (props) => {
           </div>
         </div>
         <div className={classes.__input_field}>
-          <div>
+          <div className="mx-2">
             <div>{limitFieldLabel}</div>
             <input
               defaultValue={accountLimit?.[`${fieldType}Limit`]}
@@ -68,7 +68,7 @@ const AccountLimits = (props) => {
             defaultValue={accountLimit?.[`${fieldType}`]}
             name={`${fieldType}`}
             type="number"
-            className={classes.__input}
+            className={`${classes.__input} w-100`}
             placeholder="No Limit"
             onChange={handleLimitChanges}
           />
@@ -199,7 +199,7 @@ const AccountLimits = (props) => {
           </>
         )}
         {isMobile ? (
-          <>
+          <div className="container-fluid">
             <div className={classes.__main_title}>
               Deposit Alerts{" "}
               <img
@@ -214,10 +214,16 @@ const AccountLimits = (props) => {
               />
             </div>
 
-            <div className={classes.__input_field_div}>
-              {renderMobileInputs(1, "Set Daily Alert", "dailyAlert")}
-              {renderMobileInputs(1, "Set Weekly Alert", "weeklyAlert")}
-              {renderMobileInputs(1, "Set Monthly Alert", "monthlyAlert")}
+            <div className={`${classes.__input_field_div} row`}>
+              <div className="col my-1">
+                {renderMobileInputs(1, "Set Daily Alert", "dailyAlert")}
+              </div>
+              <div className="col my-1">
+                {renderMobileInputs(1, "Set Weekly Alert", "weeklyAlert")}
+              </div>
+              <div className="col-auto my-1">
+                {renderMobileInputs(1, "Set Monthly Alert", "monthlyAlert")}
+              </div>
             </div>
 
             <div className={classes.__main_title}>
@@ -234,18 +240,24 @@ const AccountLimits = (props) => {
               />
             </div>
 
-            <div className={classes.__input_field_div}>
-              {renderMobileInputs(1, "Set Daily Limit", "dailyLimit")}
-              {renderMobileInputs(1, "Set Weekly Limit", "weeklyLimit")}
-              {renderMobileInputs(1, "Set Monthly Limit", "monthlyLimit")}
+            <div className={`${classes.__input_field_div} row`}>
+              <div className="col my-1">
+                {renderMobileInputs(1, "Set Daily Limit", "dailyLimit")}
+              </div>
+              <div className="col my-1">
+                {renderMobileInputs(1, "Set Weekly Limit", "weeklyLimit")}
+              </div>
+              <div className="col-auto my-1">
+                {renderMobileInputs(1, "Set Monthly Limit", "monthlyLimit")}
+              </div>
             </div>
             <br />
-          </>
+          </div>
         ) : null}
         <div className={classes.__apply_btn_div}>
           <button onClick={handleApplyLimitChanges}>Apply</button>
         </div>
-        <div className={classes.__main_title}>
+        <div className={`${classes.__main_title} container-fluid`}>
           Entry Fee Limit{" "}
           {isMobile ? (
             <img
@@ -260,7 +272,7 @@ const AccountLimits = (props) => {
             />
           ) : null}
         </div>
-        <div className={classes.__entry_fee_limit}>
+        <div className={`${classes.__entry_fee_limit}`}>
           {isMobile ? null : (
             <div className={classes.__info}>
               Setting an entry fee limit prevents you from joining a contest
@@ -269,14 +281,14 @@ const AccountLimits = (props) => {
               limit for 90 calendar days.
             </div>
           )}
-          <div className={classes.__input_field}>
+          <div className={`${classes.__input_field} container-fluid`}>
             <div>
               <div>Entry Fee Limit </div>
               <input
                 defaultValue={accountLimit?.entryFeeLimit}
                 name="entryFeeLimit"
                 type="number"
-                className={classes.__input}
+                className={`${classes.__input} w-100`}
                 placeholder="No Limit"
                 onChange={handleLimitChanges}
               />

@@ -15,9 +15,9 @@
     padding-top: 1px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    background-color: $successLight3;
+    background-color: $successLight4;
     font-family: Poppins;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -331,10 +331,11 @@
     display: flex;
     width: 108px;
     height: 24px;
-    padding-top: 1px;
+    // padding-top: 1px;
+    margin-left: -1px;
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
-    background-color: $successLight3;
+    background-color: $successLight4;
     font-family: Poppins;
     font-size: 12px;
     font-weight: 500;
@@ -377,7 +378,7 @@
     border-top-left-radius: 8px;
     background-color: $lightBlue;
     font-family: Poppins;
-    font-size: 12px;
+    font-size: 16px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
@@ -468,16 +469,19 @@
     .__my_game_center_card_powerdfs_title {
       width: 150px;
       height: 28px;
-      margin: 10 13px 20px;
+      // margin: 10px 13px 20px 20px !important;
       font-family: Poppins;
-      font-size: 20px;
       font-weight: bold;
       font-stretch: normal;
       font-style: normal;
       line-height: normal;
       letter-spacing: normal;
       text-align: start;
-      color: $primary;
+
+      p {
+        color: $primary !important;
+        font-size: 20px !important;
+      }
 
       .__my_game_center_card_powerdfs_title_first {
         color: $grey2;

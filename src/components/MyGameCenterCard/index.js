@@ -4,6 +4,10 @@ import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
 import NBAPlayer from "../../assets/nba-player.png";
 import NHLPlayer from "../../assets/nhl-player.png";
+import MLBPlayerMobile from "../../assets/mlb-player-mobile.png";
+import NFLPlayerMobile from "../../assets/nfl-player-mobile.png";
+import NBAPlayerMobile from "../../assets/nba-player-mobile.png";
+import NHLPlayerMobile from "../../assets/nhl-player-mobile-left.png";
 import BlueTick from "../../assets/blue_tick.png";
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
 import OutlineButton from "../OutlineButton";
@@ -79,24 +83,22 @@ const MyGameCenterCard = (props) => {
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
-      border: inProgress ? "1px solid #214f24" : "1px solid #000",
-      backgroundColor: "#000",
-      // background: !inProgress && "#000",
-      // zIndex: 2,
-      // opacity: "0.6",
+      border: inProgress ? "1px solid #214f24" : "1px solid #17181a",
+      backgroundColor: "#17181a",
+      // backgroundSize: "auto"
     };
     if (title === "MLB") {
-      backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
-      backgroundImageStyle.backgroundPosition = "110px -40px";
+      backgroundImageStyle.backgroundImage = `url(${MLBPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "180px -10px";
     } else if (title === "NFL") {
-      backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "120px -15px";
+      backgroundImageStyle.backgroundImage = `url(${NFLPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "175px 0px";
     } else if (title === "NBA") {
-      backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
-      backgroundImageStyle.backgroundPosition = "-20px -35px";
+      backgroundImageStyle.backgroundImage = `url(${NBAPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "35px -10px";
     } else {
-      backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "180px 0px";
+      backgroundImageStyle.backgroundImage = `url(${NHLPlayerMobile})`;
+      backgroundImageStyle.backgroundPosition = "185px 30px";
     }
     return backgroundImageStyle;
   };
@@ -106,10 +108,17 @@ const MyGameCenterCard = (props) => {
       {isMobile ? (
         <>
           <div
-            className={classes.__my_game_center_card_mobile}
+            className={`${classes.__my_game_center_card_mobile} w-100`}
             style={getBackgroundImageWithStyleMobile()}
           >
-            <Carousel showArrows={false} showStatus={false} autoPlay={false}>
+            <Carousel
+              showArrows={false}
+              showStatus={false}
+              showThumbs={false}
+              autoPlay={false}
+              infiniteLoop={false}
+              interval={300000}
+            >
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>
                   {inProgress && (
@@ -121,9 +130,7 @@ const MyGameCenterCard = (props) => {
                   )}
                   {completed && (
                     <div className={classes.__my_game_center_card_completed}>
-                      <div className={classes.__completed}>
-                        <span></span>Completed
-                      </div>
+                      <div className={classes.__completed}>Completed</div>
                     </div>
                   )}
 
@@ -150,17 +157,22 @@ const MyGameCenterCard = (props) => {
                   </div>
                 </div>
 
-                <div className={classes.__my_game_center_card_powerdfs_title}>
-                  <p>
-                    <span
-                      className={
-                        classes.__my_game_center_card_powerdfs_title_first
-                      }
-                    >
-                      {title}
-                    </span>{" "}
-                    PowerdFS
-                  </p>
+                <div
+                  className={classes.__my_game_center_card_powerdfs}
+                  style={{ marginTop: inProgress || !completed ? -3 : 10 }}
+                >
+                  <div className={classes.__my_game_center_card_powerdfs_title}>
+                    <p>
+                      <span
+                        className={
+                          classes.__my_game_center_card_powerdfs_title_first
+                        }
+                      >
+                        {title}
+                      </span>{" "}
+                      PowerdFS
+                    </p>
+                  </div>
                 </div>
 
                 <div className={classes.__my_game_center_card_prize_pool}>
@@ -210,12 +222,12 @@ const MyGameCenterCard = (props) => {
                     240,051 <span>Your Current Rank</span>
                   </div>
                 )}
-                <div className={classes.__my_game_center_card_buttons}>
+                <div className={`${classes.__my_game_center_card_buttons} d-flex align-items-center justify-content-between`}>
                   {teamManager && (
                     <OutlineButton
                       title="Team Manager"
                       onClick={onEnter}
-                      styles={{ width: "140px", fontSize: "14px" }}
+                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
                     />
                   )}
 
@@ -223,7 +235,7 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Edit Picks"
                       onClick={onEdit}
-                      styles={{ width: "140px", fontSize: "14px" }}
+                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
                     //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
@@ -232,7 +244,7 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Make Picks"
                       onClick={onEnter}
-                      styles={{ width: "140px", fontSize: "14px" }}
+                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
                     />
                   )}
 
@@ -240,7 +252,7 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Final Standings"
                       onClick={() => onFinalStandings(id)}
-                      styles={{ marginTop: 14 }}
+                      styles={{ marginTop: 14, margin: '.25rem', fontSize: '12px' }}
                     />
                   )}
                 </div>
@@ -391,6 +403,7 @@ const MyGameCenterCard = (props) => {
               </>
             </Carousel>
           </div>
+
           {leaveGameModal && (
             <LeaveGameModal
               isMobile={isMobile}
@@ -410,8 +423,7 @@ const MyGameCenterCard = (props) => {
         !viewResults ? (
           <div
             className={classes.__my_game_center_card}
-            style={getBackgroundImageWithStyle()}
-          >
+            style={getBackgroundImageWithStyle()}>
             {inProgress && (
               <div className={classes.__my_game_center_card_in_progress}>
                 <div className={classes.__in_progress}>

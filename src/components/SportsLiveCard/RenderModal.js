@@ -67,8 +67,8 @@ function RenderModal(props) {
           </div>
 
           <div className={classes.modal_list}>
-            {playerList?.players?.length &&
-              playerList?.players?.map((player, ind) =>
+            {playerList?.listData?.length &&
+              playerList?.listData?.map((player, ind) =>
                 starPlayerCount >= 3 &&
                 player?.isStarPlayer &&
                 !currentPlayer?.isStarPlayer ? null : (

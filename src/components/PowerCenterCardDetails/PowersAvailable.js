@@ -72,15 +72,14 @@ const PowersAvailable = (props) => {
               onCloseModal={onCloseModal}
             />
           )} */}
+          
           <div className={classes.__my_game_center_card_powerdfs}>
-            <p className={classes.__my_game_center_card_powerdfs_title}>
-              <span
-                className={classes.__my_game_center_card_powerdfs_title_first}
-              >
+            <p className={`text-left`}>
+              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{fontSize: '18px', color: 'white'}}>
                 {title}
-              </span>{" "}
-              PowerdFS{" "}
-              <span className={classes.__my_game_center_card_powerdfs_subtitle}>
+              </span>
+              <span  className={classes.__my_game_center_card_powerdfs_title} style={{fontSize: '18px'}}> PowerdFS </span>
+              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{fontSize: '14px'}}>
                 Available Powers
               </span>
             </p>
