@@ -60,18 +60,24 @@ function SingleView(props) {
           data?.length &&
           data?.map((item, ind) => (
             <>
-              {item?.type === D ? (
+              {item?.team_d_mlb_team && item?.team_d_mlb_team?.type === D ? (
                 <SportsLiveCardTeamD
                   key={ind + "-"}
-                  team={item}
-                  active={selectedCard?.playerId === item?.playerId}
+                  data={item}
+                  active={
+                    selectedCard?.team_d_mlb_team?.team_id ===
+                    item?.team_d_mlb_team?.team_id
+                  }
                   singleView
+                  onSelectCard={onSelectCard}
                 />
               ) : (
                 <SportsLiveCard
-                  key={ind + "-"}
-                  player={item}
-                  active={selectedCard?.playerId === item?.playerId}
+                  key={ind + "-" + item?.player?.player_id}
+                  data={item}
+                  active={
+                    selectedCard?.player?.player_id === item?.player?.player_id
+                  }
                   onSelectCard={onSelectCard}
                   singleView
                   onChangeXp={onChangeXp}
@@ -86,14 +92,26 @@ function SingleView(props) {
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        <SportsLiveCard
-          largeView
-          player={selectedCard}
-          onChangeXp={onChangeXp}
-          playerList={playerList}
-          updateReduxState={updateReduxState}
-          starPlayerCount={starPlayerCount}
-        />
+        {selectedCard?.team_d_mlb_team &&
+        selectedCard?.team_d_mlb_team?.type === D ? (
+          <SportsLiveCardTeamD
+            largeView
+            data={selectedCard}
+            onChangeXp={onChangeXp}
+            playerList={playerList}
+            updateReduxState={updateReduxState}
+            starPlayerCount={starPlayerCount}
+          />
+        ) : (
+          <SportsLiveCard
+            largeView
+            data={selectedCard}
+            onChangeXp={onChangeXp}
+            playerList={playerList}
+            updateReduxState={updateReduxState}
+            starPlayerCount={starPlayerCount}
+          />
+        )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
       </div>
     </div>
