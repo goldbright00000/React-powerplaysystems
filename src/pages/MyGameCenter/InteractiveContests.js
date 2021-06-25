@@ -154,7 +154,14 @@ const InteractiveContests = (props) => {
     switch (item?.game?.league) {
       case "MLB":
         dispatch(MLbActions.getAndSetEditPlayers({ game_id: item?.game_id, sport_id: item?.sport_id, user_id: item?.user_id }));
-        return redirectTo(props, { path: `/mlb-powerdfs?game_id=${item?.game_id}` });
+
+        return redirectTo(props, {
+          path: `/mlb-powerdfs`,
+          state: {
+            game_id: item?.game_id
+          },
+        });
+
     }
   };
 

@@ -268,9 +268,8 @@ function MLBPowerdFs(props) {
   }, [user]);
 
   const getData = async () => {
-    const queries = queryString.parse(props.location.search)
     setLoading(true);
-    await dispatch(MLBActions.mlbData(queries.game_id));
+    await dispatch(MLBActions.mlbData(history.location?.state?.game_id));
     setLoading(false);
   };
 
@@ -599,8 +598,6 @@ function MLBPowerdFs(props) {
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
       };
-
-      //dispatch(MLBActions.mlbLiveData(sideBarList));
 
       if (isEdit) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));

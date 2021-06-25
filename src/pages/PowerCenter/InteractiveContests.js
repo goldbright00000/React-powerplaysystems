@@ -218,12 +218,12 @@ const InteractiveContests = (props) => {
     switch (item?.league) {
       case "MLB":
         return redirectTo(props, {
-          path: "/mlb-powerdfs",
+          path: `/mlb-powerdfs`,
           state: {
             game_id: item?.game_id,
             sport_id: item?.sports_id,
             start_date: item?.start_date,
-            end_date: item?.end_date,
+            end_date: item?.end_date
           },
         });
 
