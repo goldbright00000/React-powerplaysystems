@@ -6,9 +6,12 @@ import DeleteIcon from "../../icons/Delete2";
 import PowerIcon from "../../assets/power_balance_icon.png";
 import { CONSTANTS } from "../../utility/constants";
 
+import { useMediaQuery } from "react-responsive";
+
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
 function SportsSidebarContent(props) {
+  const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {
     data = [],
     onDelete = (id, matchId) => {},
@@ -31,8 +34,11 @@ function SportsSidebarContent(props) {
       className={classes.sidebar_body_section}
       key={playerId + " - " + matchId}
     >
-      <span className={name ? classes.active : ""}>{title}</span>
+      {!isMobile && <span className={name ? classes.active : ""}>{title}</span>}
       <div>
+        {isMobile && (
+          <span className={name ? classes.active : ""}>{title}</span>
+        )}
         {isStarPlayer && <img src={starIcon ? starIcon : PowerIcon} />}
         {SvgIcon && <SvgIcon size={svgSize} />}
         {name ? (
@@ -78,9 +84,11 @@ function SportsSidebarContent(props) {
         ) : (
           <span>No data</span>
         )}
-        <div className={classes.sidebar_arrow_container}>
-          <span className={`${classes.arrow} ${classes.up}`} />
-        </div>
+        {!isMobile && (
+          <div className={classes.sidebar_arrow_container}>
+            <span className={`${classes.arrow} ${classes.up}`} />
+          </div>
+        )}
       </div>
     </div>
   );

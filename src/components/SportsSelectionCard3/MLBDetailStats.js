@@ -5,8 +5,11 @@ import classes from "./index.module.scss";
 
 function MLBDetailStats(props) {
   const { position = "", stats = {} } = props || {};
-  const { last_game = {}, last_10_games = {}, last_2020_2021 = {} } =
-    stats || {};
+  const {
+    last_game = {},
+    last_10_games = {},
+    last_2020_2021 = {},
+  } = stats || {};
 
   const RenderItem = (...stat) => (
     <div className={classes.stats_detail_right_b_item}>
@@ -29,7 +32,7 @@ function MLBDetailStats(props) {
           <span>2B</span>
           <span>HR</span>
           <span>RBI</span>
-          <span>avg</span>
+          <span>AVG</span>
           <span>FPPG</span>
         </div>
         <div className={classes.stats_detail_right_b}>

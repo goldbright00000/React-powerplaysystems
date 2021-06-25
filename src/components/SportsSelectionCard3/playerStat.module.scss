@@ -16,6 +16,7 @@
   flex-direction: column;
   border-left: 3px solid $lightBlue;
   width: 290px;
+  margin-top: 10px;
 
   &.active {
     border-color: $primary !important;
@@ -46,6 +47,17 @@
       width: 80px;
       text-align: center;
       font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 414px) {
+  .card_state {
+    .card_state_title {
+      justify-content: space-around;
+    }
+    .card_state_values {
+      justify-content: space-around;
     }
   }
 }
