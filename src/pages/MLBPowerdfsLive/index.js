@@ -129,6 +129,8 @@ function MLBPowerdFsLive(props) {
         players = [],
       } = res || {};
 
+      printLog(res);
+
       const teamD = defense[0] || {};
       if (players && players?.length) {
         getPlayers(players, teamD);
