@@ -16,6 +16,8 @@ const Slider = ({
   imageTochanged,
   notShow,
   otherIcons,
+  boostModal,
+  swapModal,
 }) => {
   return (
     <Row className="pb-3">
@@ -249,6 +251,9 @@ const Slider = ({
           }
         >
           <img
+            onClick={
+              !otherIcons && !imageTochanged ? () => swapModal(true) : null
+            }
             src={`${
               imageTochanged && otherIcons
                 ? "/images/video.svg"
@@ -257,6 +262,9 @@ const Slider = ({
             alt=""
           />
           <img
+            onClick={
+              !otherIcons && !imageTochanged ? () => boostModal(true) : null
+            }
             className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
             src={`${
               imageTochanged && !otherIcons
