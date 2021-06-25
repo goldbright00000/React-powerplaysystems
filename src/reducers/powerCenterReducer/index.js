@@ -1,20 +1,20 @@
-import { GET_ALL_GAMES } from "../../actions/powerCenterActions";
+import { GET_ALL_POWER_GAMES } from "../../actions/powerCenterActions";
 
 const INITIAL_STATE = {
-    allGames: [],
+  allGames: [],
 };
 
 const powerCenterReducer = (state = INITIAL_STATE, actions) => {
-    switch (actions.type) {
-        case GET_ALL_GAMES:
-            return {
-                ...state,
-                allGames: actions.payload,
-            };
+  switch (actions.type) {
+    case GET_ALL_POWER_GAMES:
+      return {
+        ...state,
+        allGames: actions.payload,
+      };
 
-        default:
-            return state;
-    }
+    default:
+      return state;
+  }
 };
 
 export default powerCenterReducer;
