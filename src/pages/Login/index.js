@@ -6,7 +6,7 @@ import styles from "./styles.module.scss";
 import Footer from "../../components/Footer/Footer";
 import Header from "../../components/Header/Header";
 import SignInImage from "../../assets/signin-background.png";
-import Input from "../../ui/Input/Input";
+import Input, { PasswordInput } from "../../ui/Input/Input";
 import { CONSTANTS } from "../../utility/constants";
 import { authenticate } from "../../actions/authActions";
 import Alert from "../../components/Alert";
@@ -17,6 +17,7 @@ import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection"
 
 function LoginPage(props) {
   const [user, setUser] = useState({ email: "", password: "" });
+  const [isSignedUp, setSignedUp] = useState();
 
   const dispatch = useDispatch();
   const { loading = false, user: authUser = {} } = useSelector(
@@ -29,6 +30,12 @@ function LoginPage(props) {
       redirectTo(props, { path: "/my-game-center" });
     }
   }, [loggedIn, authUser]);
+
+  useEffect(() => {
+    let params = new URLSearchParams(props.location.search);
+    let signedUp = params.get("signup");
+    setSignedUp(signedUp);
+  }, []);
 
   const onLoginSubmit = async (e) => {
     e?.preventDefault();
@@ -52,6 +59,18 @@ function LoginPage(props) {
     }
   };
 
+  const subTitle = isSignedUp ? (
+    <>
+      Your account has been created. Please log in using your e-mail and
+      password
+    </>
+  ) : (
+    <>
+      Let’s start your new experience our ground-breaking live-play <br /> games
+      where you have the Power to control your destiny!
+    </>
+  );
+
   return (
     <div className={styles.root}>
       <Header isStick={true} />
@@ -61,18 +80,21 @@ function LoginPage(props) {
             Get Ready <br /> to Power-Up!
           </>
         }
-        subTitle={
-          <>
-            Let’s start your new experience our ground-breaking live-play <br />{" "}
-            games where you have the Power to control your destiny!
-          </>
-        }
+        subTitle={subTitle}
       />
       <div className={styles.container}>
         <form onSubmit={onLoginSubmit} className={formStyles.root}>
           {!isEmpty(authUser) && !loggedIn && (
             <>
-              <Alert renderMsg={() => <p>The entered email and password combination does not match our records. Please try again.</p>} danger />
+              <Alert
+                renderMsg={() => (
+                  <p>
+                    The entered email and password combination does not match
+                    our records. Please try again.
+                  </p>
+                )}
+                danger
+              />
               <br />
             </>
           )}
@@ -89,8 +111,7 @@ function LoginPage(props) {
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e?.target?.value })}
           />
-          <Input
-            type="password"
+          <PasswordInput
             title="Password"
             required
             value={user.password}

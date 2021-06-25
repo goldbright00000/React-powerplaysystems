@@ -16,21 +16,22 @@
         display: block;
     }
 }
-.titleWrapper{
+.titleWrapper {
     display: inline-block;
-    h3{
-        font-size: 2.2857rem;
-        color: $primary;
-        margin: 0.656em 0 0.3em 0;
+  
+    h3 {
+      font-size: 24px;
+      color: $primary;
+      margin: 0.656em 0 0.3em 0;
     }
-    h4{
-        font-size: 1.42857rem;
-        font-weight: normal;
-        margin: 0;
-        text-align: center;
+    h4 {
+      font-size: 20px;
+      font-weight: 500 !important;
+      font-weight: normal;
+      margin: 0;
+      text-align: center;
     }
-
-}
+  }
 
 .backButton{
     border: none;
@@ -171,14 +172,15 @@
             font-weight: 500;
         }
     }
-    .titleWrapper{
-        h3{
-            font-size: 1.2857rem;
+    .titleWrapper {
+        h3 {
+          font-size: 20px;
         }
-        h4{
-            font-size: 1rem;
+        h4 {
+          font-size: 16px;
+          font-weight: 500 !important;
         }
-    }
+      }
 }
 
 @media (max-width: 345px) {
