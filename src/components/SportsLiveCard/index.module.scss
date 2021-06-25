@@ -720,6 +720,26 @@
     }
   }
 
+  .nfl_footer_stat {
+    display: flex;
+    justify-content: space-between;
+
+    .nfl_stat {
+      width: 55px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      .title_p {
+        text-align: center;
+        width: 52px;
+        font-size: 12px;
+        background-color: aliceblue;
+      }
+    }
+  }
+
   .challenge_btn {
     width: 100%;
     margin: 14px 0 13px 0;

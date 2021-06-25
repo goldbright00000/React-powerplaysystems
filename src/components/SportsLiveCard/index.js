@@ -27,6 +27,7 @@ import RenderModal from "./RenderModal";
 import { CardType } from "./CardType";
 import HomeRun from "./HomeRun";
 import ActivatedBoost from "./ActivatedBoost";
+import NFLFooterStats from "./NFLFooterStats";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -39,7 +40,7 @@ function SportsLiveCard(props) {
   const { data: mlbData = [] } = useSelector((state) => state.mlb);
 
   const {
-    player = {},
+    data = {},
     // playerList = [],
     compressedView = false,
     largeView = false,
@@ -51,12 +52,14 @@ function SportsLiveCard(props) {
     updateReduxState = (currentPlayer, newPlayer) => {},
     cardType = CardType.MLB,
     isHomeRun = false,
+    match_id,
   } = props || {};
 
+  const { player = {}, match = {} } = data || {};
+
   const {
-    playerName = "",
+    name = "",
     type = "",
-    status = "",
     points = 0,
     homeTeam = "",
     awayTeam = "",
@@ -71,6 +74,8 @@ function SportsLiveCard(props) {
     mlb_player_stats = [],
     boost = {},
   } = player || {};
+
+  const { away_team = {}, home_team = {}, status = "" } = match || {};
 
   const {
     hits = 0,
@@ -229,7 +234,7 @@ function SportsLiveCard(props) {
         {type}
       </p>
       <div className={classes.header_teams}>
-        <p>{homeTeam}</p> vs <span>{awayTeam}</span>
+        <p>{home_team?.name} 0</p> vs <span>{away_team?.name} 0</span>
       </div>
     </div>
   );
@@ -300,7 +305,7 @@ function SportsLiveCard(props) {
           ${singleView && classes.single_view_hover}
           ${active && classes.active}
         `}
-          onClick={() => onSelectCard(player)}
+          onClick={() => onSelectCard(data)}
         >
           <RenderStarPower />
           <div className={classes.container_header}>
@@ -309,7 +314,7 @@ function SportsLiveCard(props) {
                 largeView && classes.large_view
               }`}
             >
-              {playerName} <RenderTeamDHeader />
+              {name} <RenderTeamDHeader />
             </p>
             <RenderHeaderIcons />
           </div>
@@ -335,11 +340,15 @@ function SportsLiveCard(props) {
                       />
                     )}
 
-                    {!isEmpty(playerStats) && !singleView && (
+                    {cardType !== CardType.NFL &&
+                    !isEmpty(playerStats) &&
+                    !singleView ? (
                       <RenderMLBPlayerStats
                         playerStats={playerStats}
                         {...props}
                       />
+                    ) : (
+                      cardType === CardType.NFL && <NFLFooterStats />
                     )}
                   </>
                 )}
@@ -380,7 +389,7 @@ function SportsLiveCard(props) {
 }
 
 SportsLiveCard.propTypes = {
-  player: PropTypes.object,
+  data: PropTypes.object,
   compressedView: PropTypes.bool,
   largeView: PropTypes.bool,
   singleView: PropTypes.bool,

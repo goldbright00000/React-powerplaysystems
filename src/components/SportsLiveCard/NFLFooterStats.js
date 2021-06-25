@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import classes from "./index.module.scss";
 function NFLFooterStats(props) {
   const RenderState = ({ title, state }) => (
-    <div>
-      <p>{title}</p>
+    <div className={classes.nfl_stat}>
+      <p className={classes.title_p}>{title}</p>
       <div>
         <p>{state}</p>
       </div>
@@ -12,7 +13,7 @@ function NFLFooterStats(props) {
   );
 
   return (
-    <div>
+    <div className={classes.nfl_footer_stat}>
       <RenderState title="Yards to FD/EZ" state="10/55" />
       <RenderState title="Yards to FD/EZ" state="80%" />
       <RenderState title="Yards to FD/EZ" state="1/4" />
