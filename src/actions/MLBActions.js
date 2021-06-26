@@ -323,12 +323,6 @@ export function setEditPlayers(
         team_id: payload?.team_id,
       },
     });
-    // dispatch({
-    //   type: MLB_DATA,
-    //   payload: {
-    //     team_id: payload.team_id
-    //   }
-    // })
   };
 }
 
