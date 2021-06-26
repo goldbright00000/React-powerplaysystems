@@ -268,8 +268,27 @@
   }
 }
 
-// @media (max-width: 1024px) {
-//   .sidebar_body {
-//     display: none;
-//   }
-// }
+@media (max-width: 414px) {
+  .sidebar_body {
+    padding: 20px;
+    margin-top: 5px;
+
+    .sidebar_body_1 {
+      width: 327px;
+      padding: unset;
+
+      .sidebar_body_section {
+        > div {
+          width: 327px;
+          margin-left: unset;
+
+          span {
+            min-width: 40px;
+            width: fit-content;
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
