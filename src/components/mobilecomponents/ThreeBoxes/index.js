@@ -19,7 +19,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
             link={true}
             customClass="first"
             image="/images/live-standing.svg"
-            heading="Standing"
+            heading="Standings"
             subHeading="Live"
             setModal={setModal}
             showTime={showTime}

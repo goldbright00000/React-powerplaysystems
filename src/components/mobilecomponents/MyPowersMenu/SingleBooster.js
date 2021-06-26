@@ -4,7 +4,7 @@ import "./menu.scss";
 const SingleBooster = ({ src, heading, unlock, number, popUp }) => {
   return (
     <section className="boostWrapper">
-      <div className="imageHolder" onClick={popUp ? () => popUp(false) : null}>
+      <div className="imageHolder">
         <img src={`/images/${src}`} alt="booster" />
         {unlock === false && (
           <img src={`/images/lock.svg`} alt="booster" className="lock" />
