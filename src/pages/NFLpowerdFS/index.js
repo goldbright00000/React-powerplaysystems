@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { isEmpty, cloneDeep } from "lodash";
 
@@ -30,8 +30,27 @@ import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import { redirectTo } from "../../utility/shared";
 import PrizeModal from "../../components/PrizeModal";
-import Header5 from "../../components/Header5";
+import Header4 from "../../components/Header4";
 import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
+
+import ContestRuleIcon from "../../assets/icons/contest-rules.png";
+import PrizeCupIcon from "../../assets/icons/prize-cup.png";
+import CloseIconGrey from "../../assets/close-icon-grey.png";
+import MenuIcon from "../../assets/icons/menu.png";
+import SwapPlayerIcon from "../../assets/swap-player-icon.png";
+import PointMultiplierIcon from "../../assets/point-multiplier-icon.png";
+import VideoReviewIcon from "../../assets/video-review-icon.png";
+import DWallIcon from "../../assets/d-wall-icon.png";
+import UndoIcon from "../../assets/undo-icon.png";
+import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+
+import Button from "../../components/Button";
+import ButtonFloating from "../../components/ButtonFloating";
+import ModalBottom from "../../components/ModalBottom";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "./bottomSheetStyles.scss";
+
+import { useMediaQuery } from "react-responsive";
 
 const { QB, RB, WR, TE, K, D } = CONSTANTS.FILTERS.NFL;
 
@@ -201,6 +220,7 @@ let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
 function NFLPowerdFs(props) {
+  const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -212,8 +232,17 @@ function NFLPowerdFs(props) {
   const [selectedDropDown, setSelectedDropDown] = useState();
   const [showPrizeModal, setPrizeModalState] = useState(false);
   const [dropDownState, setDropDownTeam] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const { data = [], starPlayerCount = 0 } = useSelector((state) => state.nfl);
+  const {
+    data = [],
+    starPlayerCount = 0,
+    game_id,
+    sport_id,
+    isEdit = false,
+    allData = [],
+    savedPlayers = [],
+  } = useSelector((state) => state.nfl);
   const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
 
@@ -461,11 +490,128 @@ function NFLPowerdFs(props) {
     </div>
   );
 
+  const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
+    <div className={classes.body_card}>
+      <span>{count}</span>
+      <img src={Icon} />
+      <p>{title}</p>
+    </div>
+  );
+
+  const getBackgroundImageWithStyle = () => {
+    let backgroundImageStyle = {
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "inherit",
+      backgroundColor: "#17181a",
+      backgroundImage: `url(${NFLFooterImage})`,
+      backgroundSize: "cover",
+      opacity: 0.6,
+    };
+
+    // backgroundImageStyle.backgroundPosition = "-16px -13px";
+
+    return backgroundImageStyle;
+  };
+
+  const [showPowerInfoModal, setShowPowerInfoModal] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const focusRef = useRef();
+  const sheetRef = useRef();
+
+  const powerInfoModal = () => {
+    return (
+      <>
+        <ModalBottom visible={showPowerInfoModal}>
+          <div className={classes.__info_modal}>
+            <div className={classes.__close_icon}>
+              <img
+                src={CloseIconGrey}
+                width="20px"
+                height="20px"
+                onClick={() => setShowPowerInfoModal(false)}
+              />
+            </div>
+            <div className={classes.__powerInfoModalTitle}>
+              <span>MY</span> POWERS
+            </div>
+            <br />
+            <div className={classes.__powers_available}>
+              <RenderIcon
+                title="Point Booster"
+                Icon={PointMultiplierIcon}
+                iconSize={54}
+                count={2}
+              />
+
+              <RenderIcon
+                title="Swap Player"
+                Icon={SwapPlayerIcon}
+                iconSize={54}
+                count={2}
+              />
+
+              <RenderIcon
+                title="Undo"
+                Icon={UndoIcon}
+                iconSize={54}
+                count={2}
+              />
+            </div>
+            <div className={classes.__powers_available}>
+              <RenderIcon
+                title="Retro Boost"
+                Icon={RetroBoostIcon}
+                iconSize={24}
+                count={1}
+              />
+
+              <RenderIcon
+                title="D-Wall"
+                Icon={DWallIcon}
+                iconSize={54}
+                count={1}
+              />
+
+              <RenderIcon
+                title="Video Review"
+                Icon={VideoReviewIcon}
+                iconSize={54}
+                count={1}
+              />
+            </div>
+
+            <div className={classes.__buttons_div}>
+              <Button
+                title={"Contest Rules"}
+                icon={
+                  <img src={ContestRuleIcon} width="18" height="18" alt="" />
+                }
+                styles={{
+                  marginRight: "10px",
+                  backgroundColor: "rgba(242, 242, 242, 0.1)",
+                  border: "0px",
+                }}
+              />
+              <Button
+                title={"Prize Grid"}
+                icon={<img src={PrizeCupIcon} width="18" height="18" alt="" />}
+                styles={{
+                  backgroundColor: "rgba(242, 242, 242, 0.1)",
+                  border: "0px",
+                }}
+              />
+            </div>
+          </div>
+        </ModalBottom>
+      </>
+    );
+  };
+
   return (
     <>
       <Header />
       <div className={classes.wrapper}>
-        <Header5
+        <Header4
           titleMain1="NFL 2021"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Football"
@@ -480,17 +626,28 @@ function NFLPowerdFs(props) {
           bgImageUri={NFLBGImage}
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
+          isMobile={isMobile}
         />
 
         <div className={classes.container}>
           <div className={classes.container_left}>
-            <h2>Select your team</h2>
-            <div className={classes.container_left_header_2}>
-              <p>7 starters + 1 team D</p> <span className={classes.line} />
-            </div>
+            {!isMobile && (
+              <>
+                <h2>
+                  {loading
+                    ? "Loading..."
+                    : isEdit
+                    ? "Edit your team"
+                    : "Select your team"}
+                </h2>
+                <div className={classes.container_left_header_2}>
+                  <p>7 starters + 1 team D</p> <span className={classes.line} />
+                </div>
+              </>
+            )}
 
             <div className={classes.container_top}>
-              <p>Select Position</p>
+              {!isMobile && <p>Select Position</p>}
               <div className={classes.container_top_1}>
                 <SportsFilters
                   data={filters}
@@ -506,128 +663,210 @@ function NFLPowerdFs(props) {
                 />
               </div>
             </div>
+            {isMobile && (
+              <div className={classes.select_team_info}>
+                Select 1 Team Defense, Goals against result in negative points
+                for your team.
+              </div>
+            )}
 
             <div className={classes.container_body}>
               <Card>
-                <div className={classes.card_header}>
-                  <p>{headerText[selectedFilter?.id - 1]?.text}</p>
-                </div>
+                {loading ? (
+                  <p className={classes.loading_view}>Loading...</p>
+                ) : (
+                  <>
+                    {!isMobile && (
+                      <div className={classes.card_header}>
+                        <p>{headerText[selectedFilter?.id - 1]?.text}</p>
+                      </div>
+                    )}
 
-                <div className={classes.card_body}>
-                  {filterdData && filterdData?.listData?.length ? (
-                    filterdData?.listData?.map((item, index) => (
-                      <>
-                        {selectedFilter?.title === D ? (
-                          <SportsTeamSelectionCard
-                            item={item}
-                            isSelected={!!selected.get(item.team_id)}
-                            key={item?.team_id + " - " + item?.match_id}
-                            onSelectDeselect={onSelectDeselect}
-                            disabled={
-                              item.isStarPlayer &&
-                              item.isStarPlayer &&
-                              starPowerIndex >= 3
-                            }
-                            mlbCard
-                          />
-                        ) : (
-                          <SelectionCard3
-                            player={item}
-                            isSelected={!!selected.get(item.playerId)}
-                            key={item.playerId}
-                            onSelectDeselect={onSelectDeselect}
-                            pageType={PAGE_TYPES.NFL}
-                            // disabled={
-                            //   item.isStarPlayer &&
-                            //   item.isStarPlayer &&
-                            //   starPlayerCount >= 3
-                            // }
-                          />
-                        )}
-                      </>
-                    ))
-                  ) : (
-                    <p>No Data</p>
-                  )}
-                </div>
+                    <div className={classes.card_body}>
+                      {filterdData && filterdData?.listData?.length ? (
+                        filterdData?.listData?.map((item, index) => (
+                          <>
+                            {selectedFilter?.title === D ? (
+                              <SportsTeamSelectionCard
+                                item={item}
+                                isSelected={!!selected.get(item.team_id)}
+                                key={item?.team_id + " - " + item?.match_id}
+                                onSelectDeselect={onSelectDeselect}
+                                disabled={
+                                  item.isStarPlayer &&
+                                  item.isStarPlayer &&
+                                  starPowerIndex >= 3
+                                }
+                                mlbCard
+                              />
+                            ) : (
+                              <SelectionCard3
+                                player={item}
+                                isSelected={!!selected.get(item.playerId)}
+                                key={item.playerId}
+                                loading={loading}
+                                onSelectDeselect={onSelectDeselect}
+                                pageType={PAGE_TYPES.NFL}
+                                // disabled={
+                                //   item.isStarPlayer &&
+                                //   item.isStarPlayer &&
+                                //   starPlayerCount >= 3
+                                // }
+                              />
+                            )}
+                          </>
+                        ))
+                      ) : (
+                        <p>No Data</p>
+                      )}
+                    </div>
+                  </>
+                )}
               </Card>
-              <img src={AcceleRadar} className={classes.partner_logo} />
+              {!isMobile && (
+                <img src={AcceleRadar} className={classes.partner_logo} />
+              )}
             </div>
 
-            <div className={classes.container_footer}>
-              <div className={classes.container_footer_header}>
-                <ContestRulesIcon />
-                <div className={classes.container_footer_title}>
-                  <h2>Contest Rules</h2>
-                  <span className={classes.separator} />
-                </div>
-              </div>
-              <div className={classes.container_footer_1}>
-                <div className={classes.first_column}>
-                  <ContestColumn title="Summary" widthClass={classes.width_200}>
-                    <div className={classes.column_body}>
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            <span>$100,000</span> Prize Pool
-                          </p>
-                        }
-                      />
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            Live-play <span>Powers</span> included with entry
-                            fee
-                          </p>
-                        }
-                      />
-                      <ContestSummaryRow
-                        text={
-                          <p>
-                            Pick players from any teams scheduled to play on{" "}
-                            <span>July 19, 2021</span>
-                          </p>
-                        }
+            {isMobile ? (
+              <>
+                <div className={classes.container_footer}>
+                  <div className={classes.container_footer_header}>
+                    <div className={classes.container_footer_title}>
+                      <h2>Contest Rules</h2>
+                      <span className={classes.separator} />
+                    </div>
+                  </div>
+
+                  <div className={classes.__mobilefooter}>
+                    <div
+                      style={getBackgroundImageWithStyle()}
+                      className={classes.__mobilefooterimage}
+                    ></div>
+
+                    <ContestColumn title="" widthClass={classes.width_200}>
+                      <div className={classes.column_body}>
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              <span>$100,000</span> Prize Pool
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Live-play <span>Powers</span> included with <br />
+                              entry fee
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Pick players from any teams scheduled to play on{" "}
+                              <span>July 19, 2021</span>
+                            </p>
+                          }
+                        />
+                      </div>
+                    </ContestColumn>
+
+                    <div className={classes.__see_full_rules}>
+                      <ContestRulesPopUp
+                        component={({ showPopUp }) => (
+                          <button
+                            onClick={showPopUp}
+                            className={classes.footer_full_rules}
+                            href="#"
+                          >
+                            See Full Rules <img src={RightArrow} />
+                          </button>
+                        )}
                       />
                     </div>
-                  </ContestColumn>
-                  <ContestRulesPopUp
-                    component={({ showPopUp }) => (
-                      <button
-                        onClick={showPopUp}
-                        className={classes.footer_full_rules}
-                        href="#"
-                      >
-                        See Full Rules <img src={RightArrow} />
-                      </button>
-                    )}
-                  />
+                  </div>
                 </div>
-                <div className={classes.second_column}>
-                  <ContestColumn title="Scoring">
-                    <div className={classes.contest_scoring_wrapper}>
-                      <ContestScoringColumn
-                        title=""
-                        data={contestScoring.data1}
-                      />
-                    </div>
-                  </ContestColumn>
+              </>
+            ) : (
+              <div className={classes.container_footer}>
+                <div className={classes.container_footer_header}>
+                  <ContestRulesIcon />
+                  <div className={classes.container_footer_title}>
+                    <h2>Contest Rules</h2>
+                    <span className={classes.separator} />
+                  </div>
                 </div>
-                <div className={classes.third_column}>
-                  <ContestScoringColumn
-                    title=""
-                    data={contestScoring.data2}
-                    styles={{ width: "235px", marginTop: 48 }}
-                  />
-                  <div className={classes.container_body_img_div}>
-                    <img
-                      src={NFLFooterImage}
-                      className={classes.container_body_img}
+                <div className={classes.container_footer_1}>
+                  <div className={classes.first_column}>
+                    <ContestColumn
+                      title="Summary"
+                      widthClass={classes.width_200}
+                    >
+                      <div className={classes.column_body}>
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              <span>$100,000</span> Prize Pool
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Live-play <span>Powers</span> included with entry
+                              fee
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Pick players from any teams scheduled to play on{" "}
+                              <span>July 19, 2021</span>
+                            </p>
+                          }
+                        />
+                      </div>
+                    </ContestColumn>
+                    <ContestRulesPopUp
+                      component={({ showPopUp }) => (
+                        <button
+                          onClick={showPopUp}
+                          className={classes.footer_full_rules}
+                          href="#"
+                        >
+                          See Full Rules <img src={RightArrow} />
+                        </button>
+                      )}
                     />
+                  </div>
+                  <div className={classes.second_column}>
+                    <ContestColumn title="Scoring">
+                      <div className={classes.contest_scoring_wrapper}>
+                        <ContestScoringColumn
+                          title=""
+                          data={contestScoring.data1}
+                        />
+                      </div>
+                    </ContestColumn>
+                  </div>
+                  <div className={classes.third_column}>
+                    <ContestScoringColumn
+                      title=""
+                      data={contestScoring.data2}
+                      styles={{ width: "235px", marginTop: 48 }}
+                    />
+                    <div className={classes.container_body_img_div}>
+                      <img
+                        src={NFLFooterImage}
+                        className={classes.container_body_img}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
 
           <div className={classes.sidebar_container}>
@@ -681,6 +920,109 @@ function NFLPowerdFs(props) {
         </div>
       </div>
       <Footer isBlack={true} />
+
+      {isMobile && (
+        <BottomSheet
+          open
+          skipInitialTransition
+          ref={sheetRef}
+          initialFocusRef={focusRef}
+          defaultSnap={({ maxHeight }) => maxHeight / 2}
+          snapPoints={({ maxHeight }) => [
+            maxHeight - maxHeight / 10,
+            maxHeight / 5.3,
+            // maxHeight * 0.6,
+          ]}
+          blocking={false}
+          expandOnContentDrag
+          onSpringStart={async (event) => {
+            console.log("Event Type: ", event.type);
+            if (event.type === "SNAP") {
+              setIsExpanded(!isExpanded);
+            }
+          }}
+        >
+          {/* <div className={classes.closeBottomSheet}>
+            <span
+              onClick={() =>
+                sheetRef.current.snapTo(({ snapPoints }) =>
+                  Math.min(...snapPoints)
+                )
+              }
+            >
+              X
+            </span>
+          </div> */}
+
+          {/* {!isExpanded && (
+            <div className={classes.sidebar_header}>
+              <p>
+                {selectedPlayerCount}/{data?.length} Starting Players Selected
+              </p>
+              <div className={classes.sidebar_header_1}>
+                <p>
+                  <span>
+                    <img src={StarImg} className={classes.smallImg} />
+                    Star Power
+                  </span>{" "}
+                  players selected
+                  <div className={classes.sidebar_circles}>
+                    <StarPlayersCheck
+                      totalStarPlayers={3}
+                      selectedCount={starPlayerCount}
+                    />
+                  </div>
+                </p>
+              </div>
+            </div>
+          )} */}
+
+          <div className={classes.sidebar_header}>
+            <h2>My Selections</h2>
+            <div className={classes.sidebar_header_1}>
+              <p>
+                <span>
+                  <img src={StarImg} className={classes.smallImg} />
+                  Star Power
+                </span>{" "}
+                players selected
+              </p>
+            </div>
+            <div className={classes.sidebar_circles}>
+              <StarPlayersCheck
+                totalStarPlayers={3}
+                selectedCount={starPlayerCount}
+              />
+            </div>
+          </div>
+
+          <SportsSidebarContent
+            data={playerList}
+            onDelete={(id, matchId) => onDelete(id, matchId)}
+            starIcon={StarImg}
+            selectedPlayerCount={selectedPlayerCount}
+          />
+
+          <button
+            className={classes.sidebar_button}
+            onClick={() => redirectTo(props, { path: "/nfl-live-powerdfs" })}
+          >
+            Submit!
+          </button>
+        </BottomSheet>
+      )}
+
+      {isMobile && (
+        <ButtonFloating
+          isRounded
+          transparent
+          icon={<img src={MenuIcon} width="58" height="58" alt="" />}
+          iconOnly={true}
+          onClick={() => setShowPowerInfoModal(true)}
+        />
+      )}
+
+      {showPowerInfoModal && powerInfoModal()}
 
       <PrizeModal
         visible={showPrizeModal}
