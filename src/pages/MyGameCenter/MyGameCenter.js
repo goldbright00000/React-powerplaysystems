@@ -32,7 +32,6 @@ const MyGameCenter = (props) => {
               My Game Center
             </div>
           </div>
-          {printLog('local storage', CONSTANTS.LOCAL_STORAGE_KEYS.USER)}
           {isMobile ? null : (
             <>
               {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (

@@ -5,6 +5,7 @@ import {
   getLocalStorage,
   setLocalStorage,
   removeLocalStorage,
+  printLog,
 } from "../utility/shared";
 import jwtDecode from "jwt-decode";
 import { createAlert } from "./notificationActions";
@@ -22,16 +23,19 @@ export function authenticate(user) {
       const request = await http.post(URLS.AUTH.LOGIN, user);
       if (request.data.status === true) {
         //save in local storage.
-        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, request?.data?.token);
+        setLocalStorage(
+          CONSTANTS.LOCAL_STORAGE_KEYS.USER,
+          request?.data?.token
+        );
         return dispatch({
-          type: GET_AUTH, payload: request?.data
+          type: GET_AUTH,
+          payload: request?.data,
         });
       }
+    } catch (err) {
+      console.log("login error");
     }
-    catch (err) {
-      console.log('login error');
-    }
-  }
+  };
 }
 
 export function register(user) {
