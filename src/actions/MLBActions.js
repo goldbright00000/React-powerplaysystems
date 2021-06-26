@@ -9,8 +9,8 @@ export const MLB_DATA = "[MLB] GET_SET_DATA";
 export const MLB_LIVE_DATA = "[MLB] MLB_LIVE_DATA";
 export const MLB_STAR_PLAYER_COUNT = "[MLB] STAR_PLAYER_COUNT";
 export const MLB_EDIT_PLAYERS = "[MLB] MLB_EDIT_PLAYERS";
-export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES"
-export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES"
+export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES";
+export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES";
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -231,11 +231,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {
-        }
+        } catch (er) {}
       }
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 }
 
@@ -280,7 +278,9 @@ export function getMlbLivePlayPlayerTeamData(payload) {
   };
 }
 
-export function getAndSetEditPlayers(payload = { game_id: 0, sport_id: 0, user_id: 0 }) {
+export function getAndSetEditPlayers(
+  payload = { game_id: 0, sport_id: 0, user_id: 0 }
+) {
   return async (dispatch) => {
     const teamPlayers = await getSavedTeamPlayers(payload);
     const players = teamPlayers?.players || [];
@@ -311,14 +311,16 @@ export function getAndSetEditPlayers(payload = { game_id: 0, sport_id: 0, user_i
   };
 }
 
-export function setEditPlayers(payload = { data: [], isEdit: false, team_id: 0 }) {
+export function setEditPlayers(
+  payload = { data: [], isEdit: false, team_id: 0 }
+) {
   return (dispatch) => {
     dispatch({
       type: MLB_EDIT_PLAYERS,
       payload: {
         data: payload?.data,
         isEdit: payload?.isEdit,
-        team_id: payload?.team_id
+        team_id: payload?.team_id,
       },
     });
     // dispatch({
@@ -333,34 +335,36 @@ export function setEditPlayers(payload = { data: [], isEdit: false, team_id: 0 }
 export function getUserGames(user_id) {
   return async (dispatch) => {
     try {
-      const userGamesResponse = await http.post(URLS.DFS.MLB_USER_GAMES, { user_id: user_id });
+      printLog(`User: ${user_id}`);
+      const userGamesResponse = await http.post(URLS.DFS.MLB_USER_GAMES, {
+        user_id: user_id,
+      });
       const { data = {} } = userGamesResponse || {};
-
+      printLog(`UserGames: ${JSON.stringify(userGamesResponse)}`);
       await dispatch({
         type: MLB_USER_SAVED_GAMES,
         payload: data?.data,
       });
-
-    }
-    catch (err) {
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 }
 
 export function editDfsTeamPlayer(payload) {
   return async (dispatch) => {
     try {
-      const userEditedGame = await http.post(URLS.DFS.MLB_EDIT_TEAM_PLAYER, { payload })
+      const userEditedGame = await http.post(URLS.DFS.MLB_EDIT_TEAM_PLAYER, {
+        payload,
+      });
       const { data = {} } = userEditedGame || {};
 
       await dispatch({
         type: MLB_USER_EDITED_GAMES,
         payload: data?.data,
-      })
-    }
-    catch (err) {
+      });
+    } catch (err) {
       console.log(err);
     }
-  }
+  };
 }

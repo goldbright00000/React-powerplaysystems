@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import queryString from 'query-string';
 
 import { isEmpty, cloneDeep } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
@@ -305,14 +304,14 @@ function MLBPowerdFs(props) {
           pls.push({
             team_id: element?.team_id,
             matchId: element?.match_id,
-          })
+          });
         } else {
           pls.push({
             playerId: element?.playerId,
             matchId: element?.matchId,
-          })
+          });
         }
-      })
+      });
 
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];
@@ -568,7 +567,7 @@ function MLBPowerdFs(props) {
   };
 
   const onSubmitMLbSelection = async () => {
-    if (!user) {
+    if (isEmpty(user)) {
       return redirectTo(props, { path: "/login" });
     }
 
@@ -722,8 +721,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                      ? "Edit your team"
-                      : "Select your team"}
+                    ? "Edit your team"
+                    : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -794,11 +793,11 @@ function MLBPowerdFs(props) {
                                   onSelectDeselect={onPlayerSelectDeselect}
                                   pageType={PAGE_TYPES.MLB}
                                   type={selectedData?.type}
-                                // disabled={
-                                //   item.isStarPlayer &&
-                                //   item.isStarPlayer &&
-                                //   starPlayerCount >= 3
-                                // }
+                                  // disabled={
+                                  //   item.isStarPlayer &&
+                                  //   item.isStarPlayer &&
+                                  //   starPlayerCount >= 3
+                                  // }
                                 />
                               </>
                             )}
@@ -906,8 +905,9 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                              }`}
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
                           >
                             Powers Available
                           </Tab>

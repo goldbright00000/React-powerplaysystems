@@ -55,6 +55,7 @@ import MLBPowerLevels from "./pages/MLBPowerLevels";
 import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
 import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
 import MLBRecharge from "./pages/MLBRecharge";
+import { isEmpty } from "lodash";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -69,11 +70,13 @@ const App = (props) => {
   const { addToast } = useToasts();
 
   const toastData = useSelector((state) => state.ui?.toastData);
-  const loading = useSelector((state) => state.user?.loading);
+  const { loading, user } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    dispatch(setupUser());
-  }, []);
+    if (isEmpty(user)) {
+      dispatch(setupUser());
+    }
+  }, [user]);
 
   useEffect(() => {
     if (toastData !== null) {
