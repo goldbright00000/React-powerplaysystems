@@ -11,6 +11,7 @@ import nflReducer from "./nflReducer";
 import uiReducer from "./uiReducer";
 import notificationReducer from "./notificationReducer";
 import powerCenterReducer from "./powerCenterReducer";
+import nbaReducer from "./nbaReducer";
 
 export const reducers = {
   cardGame: CardGameReducer,
@@ -22,8 +23,9 @@ export const reducers = {
   nhl: nhlReducer,
   mlb: mlbReducer,
   nfl: nflReducer,
+  nba: nbaReducer,
   user: userReducer,
   ui: uiReducer,
   notifications: notificationReducer,
-  powerCenter: powerCenterReducer
+  powerCenter: powerCenterReducer,
 };
