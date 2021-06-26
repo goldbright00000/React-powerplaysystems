@@ -1026,7 +1026,7 @@ function NFLPowerdFs(props) {
 
       <PrizeModal
         visible={showPrizeModal}
-        sportsName="MLB"
+        sportsName="NFL"
         data={prizeData}
         onClose={() => setPrizeModalState(false)}
       />
