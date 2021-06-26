@@ -59,19 +59,18 @@ const INITIAL_STATE = {
   message: "",
 };
 
-    
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
   return {
-      width,
-      height
+    width,
+    height,
   };
-}
-
+};
 
 const GetUserInfoPage = (props) => {
-  
-  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = React.useState(
+    getWindowDimensions()
+  );
   const [user, setUser] = useState({
     ...INITIAL_STATE,
     username: props.location.state.username,
@@ -165,6 +164,13 @@ const GetUserInfoPage = (props) => {
         errorMsg: "Please agree to terms and conditions",
       });
     }
+    if (!updatesCheck) {
+      return setUser({
+        ...user,
+        isFailed: true,
+        errorMsg: "Please agree to receive email about games status",
+      });
+    }
 
     const data = {
       username,
@@ -204,13 +210,12 @@ const GetUserInfoPage = (props) => {
 
   React.useEffect(() => {
     const handleResize = () => {
-        setWindowDimensions(getWindowDimensions);
-    }
+      setWindowDimensions(getWindowDimensions);
+    };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-}, []);
-
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -230,26 +235,39 @@ const GetUserInfoPage = (props) => {
               30 <img src={powerplayicon} alt="" align="center" /> Powerplay
               tokens!
             </span> */}
-            Provide a few more details to finish creating your Defy Games account
+            Provide a few more details to finish creating your Defy Games
+            account
           </>
         }
       />
       <main className={styles.root}>
-      <section className={`${styles.leftSection}`}>
-                <div className={styles.titleWrapper}>
-                  <h3 className="fw-bold mb-2">10 Power Tokens</h3>
-                  <h4>will be added to your account</h4>
-                </div>
-                {
-                    windowDimensions.width <= 550 ? <img alt="" src={img1} /> : <img alt="" src={img2} />
-                }
-            </section>
+        <section className={`${styles.leftSection}`}>
+          <div className={styles.titleWrapper}>
+            <h3 className="fw-bold mb-2">10 Power Tokens</h3>
+            <h4>will be added to your account</h4>
+          </div>
+          {windowDimensions.width <= 550 ? (
+            <img alt="" src={img1} />
+          ) : (
+            <img alt="" src={img2} />
+          )}
+        </section>
 
-        <form className={`${formStyles.root2} pt-4`} action={null} onSubmit={onSubmit}>
-        <div className={`${formStyles.header} text-center d-block my-sm-0 my-3`}>
-                    <h2 className={`${styles.formTitle} fw-bold`}>Receive up to 10 Power Tokens</h2>
-                    <h6 className={styles.formSubTitle} style={{fontWeight: '500'}}>at this step</h6>
-                </div>
+        <form
+          className={`${formStyles.root2} pt-4`}
+          action={null}
+          onSubmit={onSubmit}
+        >
+          <div
+            className={`${formStyles.header} text-center d-block my-sm-0 my-3`}
+          >
+            <h2 className={`${styles.formTitle} fw-bold`}>
+              Receive up to 10 Power Tokens
+            </h2>
+            <h6 className={styles.formSubTitle} style={{ fontWeight: "500" }}>
+              at this step
+            </h6>
+          </div>
           {!user?.isFailed && !isEmpty(user.errorMsg) && (
             <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
           )}
@@ -346,7 +364,7 @@ const GetUserInfoPage = (props) => {
             title={
               <>
                 I have read agree to the
-                <Link to="/"> terms and conditions </Link>for using this
+                <Link to="/terms" target="_blank"> terms and conditions </Link>for using this
                 website.
               </>
             }
@@ -372,7 +390,9 @@ const GetUserInfoPage = (props) => {
               </>
             }
           />
-          <button className={formStyles.button}>
+          <button className={formStyles.button} disabled={
+            ( user.ageCheck && user.termsAndConditions && user.updatesCheck ) === true ? false : true
+          }>
             {user?.isLoading ? "LOADING..." : "NEXT"}
           </button>
         </form>

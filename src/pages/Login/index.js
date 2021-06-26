@@ -70,18 +70,18 @@ function LoginPage(props) {
       where you have the Power to control your destiny!
     </>
   );
+  const title = isSignedUp ? (
+    <>ALL SET!</>
+  ) : (
+    <>
+      Get Ready <br /> to Power-Up!
+    </>
+  );
 
   return (
     <div className={styles.root}>
       <Header isStick={true} />
-      <HeroSection
-        title={
-          <>
-            Get Ready <br /> to Power-Up!
-          </>
-        }
-        subTitle={subTitle}
-      />
+      <HeroSection title={title} subTitle={subTitle} />
       <div className={styles.container}>
         <form onSubmit={onLoginSubmit} className={formStyles.root}>
           {!isEmpty(authUser) && !loggedIn && (
