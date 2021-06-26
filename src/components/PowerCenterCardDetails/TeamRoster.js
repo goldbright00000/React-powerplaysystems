@@ -47,47 +47,39 @@ const TeamRoster = (props) => {
       {isMobile ? (
         <>
           <div className={classes.__my_game_center_card_powerdfs}>
-            <p className={classes.__my_game_center_card_powerdfs_title}>
-              <span
-                className={classes.__my_game_center_card_powerdfs_title_first}
-              >
+            <p className={`text-left`}>
+              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
                 {title}
-              </span>{" "}
-              PowerdFS{" "}
-              <span className={classes.__my_game_center_card_powerdfs_subtitle}>
+              </span>
+              <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
+              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px' }}>
                 Team Roster
               </span>
             </p>
           </div>
-
           {data.map((d, i) => {
             return (
               <>
                 <div className={classes.__team_roster_heading}>{d.heading}</div>
                 <div className={classes.__team_roster_data2}>
-                  <div className={classes.__team_roster_data1}>
+                  <div className={`${classes.__team_roster_data1} text-left`}>
                     {d.teamRoster.map((item, index) => {
                       return (
                         d.teamRoster.length / 2 <= index && (
-                          <div className={classes.__team_roster_data}>
-                            <div
-                              className={classes.__team_roster_data_count_div}
-                            >
-                              <p className={classes.__team_roster_data_count}>
+                          <div className={`${classes.__team_roster_data}`}>
+                            <div className={classes.__team_roster_data_count_div}>
+                              <p className={`${classes.__team_roster_data_count}`}>
                                 {item.count}
                               </p>
                             </div>
                             <div
-                              className={classes.__team_roster_data_title_div}
-                            >
-                              <p className={classes.__team_roster_data_title}>
+                              className={classes.__team_roster_data_title_div}>
+                              <p className={`${classes.__team_roster_data_title} mr-1`}>
                                 {item.title}
                               </p>
                             </div>
-                            <div
-                              className={classes.__team_roster_data_value_div}
-                            >
-                              <p className={classes.__team_roster_data_value}>
+                            <div className={classes.__team_roster_data_value_div}>
+                              <p className={`${classes.__team_roster_data_value} ml-1`}>
                                 {item.value}
                               </p>
                             </div>
@@ -97,11 +89,11 @@ const TeamRoster = (props) => {
                     })}
                   </div>
 
-                  <div className={classes.__team_roster_data1}>
+                  <div className={`${classes.__team_roster_data1} text-right`}>
                     {d.teamRoster.map((item, index) => {
                       return (
                         d.teamRoster.length / 2 > index && (
-                          <div className={classes.__team_roster_data}>
+                          <div className={`${classes.__team_roster_data} ml-4`}>
                             <div
                               className={classes.__team_roster_data_count_div}
                             >
@@ -112,14 +104,14 @@ const TeamRoster = (props) => {
                             <div
                               className={classes.__team_roster_data_title_div}
                             >
-                              <p className={classes.__team_roster_data_title}>
+                              <p className={`${classes.__team_roster_data_title}`}>
                                 {item.title}
                               </p>
                             </div>
                             <div
                               className={classes.__team_roster_data_value_div}
                             >
-                              <p className={classes.__team_roster_data_value}>
+                              <p className={`${classes.__team_roster_data_value}`}>
                                 {item.value}
                               </p>
                             </div>

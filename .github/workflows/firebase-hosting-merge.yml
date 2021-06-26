@@ -15,8 +15,8 @@ jobs:
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEFY_GAMES }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_DEFY_GAMES_PROD }}'
           channelId: live
-          projectId: defy-games
+          projectId: defy-games-prod
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels

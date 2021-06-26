@@ -69,7 +69,7 @@ const HomePage = (props) => {
           </div>
           <div className={classes.__home_page_first_section_main}>
             <div className={classes.__home_page_first_section_cell_phones}>
-              <img src={CellPhones} />
+              <img src={CellPhones} alt="" />
             </div>
             <div className={classes.__home_page_first_section_body}>
               <div className={classes.__home_page_first_section_body_data}>
@@ -139,7 +139,7 @@ const HomePage = (props) => {
                   className={
                     classes.__home_page_first_section_body_explore_games_text
                   }
-                  onClick={() => redirectTo(props, { path: "/power-center" })}
+                  onClick={() => redirectTo(props, { path: "/" })}
                 >
                   Explore Games
                 </div>
@@ -292,7 +292,7 @@ const HomePage = (props) => {
               </div>
               <div className={classes.__home_page_third_section_body_text_2}>
                 We are giving Power to the People! Sign-up today and{" "}
-                <span>get up to 130 Power tokens!</span>
+                <span>get 20 tokens!</span>
               </div>
               <div
                 className={`${classes.__home_page_third_section_body_text_common} ${classes.hide} ${classes.__note_style}`}

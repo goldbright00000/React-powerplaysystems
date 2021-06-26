@@ -1,8 +1,7 @@
 export function getApi() {
   if (process.env.NODE_ENV === "development") {
-    // return 'http://api.powerplaysystems.com'
-    return "http://localhost:4000";
+    return "http://api.powerplaysystems.com";
   }
 
-  return "your server api";
+  return "https://api.powerplaysystems.com";
 }

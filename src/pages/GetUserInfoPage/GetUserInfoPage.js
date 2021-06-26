@@ -26,7 +26,8 @@ import Footer from "../../components/Footer/Footer";
 import Alert from "../../components/Alert";
 //imgs
 import powerplayicon from "../../assets/powerplay-icon.png";
-import img1 from "../../assets/group-14.png";
+import img1 from "../../assets/group-141.png";
+import img2 from "../../assets/group-14.png";
 //css
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 import formStyles from "../../scss/formstyles.module.scss";
@@ -58,7 +59,19 @@ const INITIAL_STATE = {
   message: "",
 };
 
+    
+const getWindowDimensions = () => {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+      width,
+      height
+  };
+}
+
+
 const GetUserInfoPage = (props) => {
+  
+  const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
   const [user, setUser] = useState({
     ...INITIAL_STATE,
     username: props.location.state.username,
@@ -175,7 +188,6 @@ const GetUserInfoPage = (props) => {
         errorMsg: response.data.message,
       });
     } else {
-      console.log(response?.data?.user?.user_id);
       savePersonaUserId(response?.data?.user?.user_id);
     }
 
@@ -188,6 +200,17 @@ const GetUserInfoPage = (props) => {
 
     props.history.replace("/verify-your-identity");
   };
+
+  React.useEffect(() => {
+    const handleResize = () => {
+        setWindowDimensions(getWindowDimensions);
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+}, []);
+
+
   return (
     <>
       <Header isStick={true} />
@@ -200,33 +223,32 @@ const GetUserInfoPage = (props) => {
         }
         subTitle={
           <>
-            Complete the fields below to create your PowerPlay Account. <br />{" "}
+            {/* Complete the fields below to create your PowerPlay Account. <br />{" "}
             As a bonus you can receive up to{" "}
             <span style={{color: '#fb6e00'}}>
               30 <img src={powerplayicon} alt="" align="center" /> Powerplay
               tokens!
-            </span>
+            </span> */}
+            Provide a few more details to finish creating your Defy Games account
           </>
         }
       />
       <main className={styles.root}>
-        <div className={`${styles.titleWrappersForMobileOnly}`}>
-          <h2>Receive 20 Powerplay tokens</h2>
-          <h3>just for signing up!</h3>
-        </div>
-        <section className={styles.leftSection}>
-          <div className={styles.titleWrapper}>
-            <h3>20 Powerplay tokens</h3>
-            <h4>will be added to your account!</h4>
-          </div>
-          <img alt="" src={img1} />
-        </section>
+      <section className={`${styles.leftSection}`}>
+                <div className={styles.titleWrapper}>
+                  <h3 className="fw-bold mb-2">10 Power Tokens</h3>
+                  <h4>will be added to your account</h4>
+                </div>
+                {
+                    windowDimensions.width <= 550 ? <img alt="" src={img1} /> : <img alt="" src={img2} />
+                }
+            </section>
 
-        <form className={formStyles.root2} action={null} onSubmit={onSubmit}>
-          <div className={`${formStyles.header} text-center`}>
-            <h2 className={styles.formTitle}>Receive 20 Powerplay tokens</h2>
-            <h6 className={styles.formSubTitle}>just for signing up!</h6>
-          </div>
+        <form className={`${formStyles.root2} pt-4`} action={null} onSubmit={onSubmit}>
+        <div className={`${formStyles.header} text-center d-block my-sm-0 my-3`}>
+                    <h2 className={`${styles.formTitle} fw-bold`}>Receive up to 10 Power Tokens</h2>
+                    <h6 className={styles.formSubTitle} style={{fontWeight: '500'}}>at this step</h6>
+                </div>
           {!user?.isFailed && !isEmpty(user.errorMsg) && (
             <Alert renderMsg={() => <p>{user.errorMsg}</p>} danger />
           )}
@@ -300,7 +322,7 @@ const GetUserInfoPage = (props) => {
               onChange={(e) => {
                 setUser({ ...user, dateOfBirth: e?.target?.value });
               }}
-              extraClass={styles.dob}
+              extraclass={styles.dob}
               extra={
                 <div className={styles.bonus}>
                   <p>+ 5 bonus tokens</p>

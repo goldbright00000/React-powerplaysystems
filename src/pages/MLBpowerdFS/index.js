@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 import { isEmpty, cloneDeep } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useHistory } from "react-router-dom";
@@ -250,6 +251,9 @@ function MLBPowerdFs(props) {
     allData = [],
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
+
+  const selector_team_id = useSelector((state) => state?.mlb?.team_id);
+
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
   const { token = "", user_id } = user || {};
@@ -286,6 +290,7 @@ function MLBPowerdFs(props) {
     // await dispatch(MLBActions.mlbData());
     data = dummyData;
     allData = dummyData;
+    // await dispatch(MLBActions.mlbData(history.location?.state?.game_id));
     setLoading(false);
   };
 
@@ -314,17 +319,21 @@ function MLBPowerdFs(props) {
   }, [isEdit, loading, selected]);
 
   const autoSelectOnEdit = () => {
-    if (isEdit == true && !loading && selected.entries().next().done) {
-      const pls = [
-        { playerId: 10440, matchId: 5656 },
-        { playerId: 11063, matchId: 5656 },
-        { playerId: 10737, matchId: 5656 },
-        { playerId: 10559, matchId: 5656 },
-        { playerId: 10767, matchId: 5656 },
-        { playerId: 10647, matchId: 5656 },
-        { playerId: 10797, matchId: 5656 },
-        { team_id: 11281, match_id: 5656 },
-      ];
+    if (isEdit === true && !loading && selected.entries().next().done) {
+      const pls = [];
+      savedPlayers.forEach((element) => {
+        if (element.team_id) {
+          pls.push({
+            team_id: element?.team_id,
+            matchId: element?.match_id,
+          });
+        } else {
+          pls.push({
+            playerId: element?.playerId,
+            matchId: element?.matchId,
+          });
+        }
+      });
 
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];
@@ -345,7 +354,6 @@ function MLBPowerdFs(props) {
         );
         onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
       }
-
       setSelected(_selected);
       setSidebarList(_playerList);
     }
@@ -605,13 +613,15 @@ function MLBPowerdFs(props) {
       setSelectedFilter(_selectedFilter);
     }
 
-    filter.remaining = _remaining;
-    const filterIndex = filters?.findIndex(
-      (filter) => filter?.id === _selectedFilter?.id
-    );
-    const _filters = [...filters];
-    _filters[filterIndex] = filter;
-    setFilters(_filters);
+    if (filter) {
+      filter.remaining = _remaining;
+      const filterIndex = filters?.findIndex(
+        (filter) => filter?.id === _selectedFilter?.id
+      );
+      const _filters = [...filters];
+      _filters[filterIndex] = filter;
+      setFilters(_filters);
+    }
   };
 
   const onDelete = (id, matchId) => {
@@ -662,7 +672,7 @@ function MLBPowerdFs(props) {
   };
 
   const onSubmitMLbSelection = async () => {
-    if (!user) {
+    if (isEmpty(user)) {
       return redirectTo(props, { path: "/login" });
     }
 
@@ -682,6 +692,7 @@ function MLBPowerdFs(props) {
     const { team = {} } = teamD || {};
 
     if (!isEmpty(team) && players?.length === 7) {
+      // TODO: Fix user_id issue
       const payload = {
         game_id: game_id,
         sport_id: sport_id,
@@ -689,11 +700,15 @@ function MLBPowerdFs(props) {
         players: [...players],
         team_d_id: team?.team_id,
         match_id: teamD?.team?.match_id,
+        team_id: selector_team_id,
       };
-      //dispatch(MLBActions.mlbLiveData(sideBarList));
 
-      await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-      redirectTo(props, { path: "/mlb-live-powerdfs" });
+      if (isEdit) {
+        await dispatch(MLBActions.editDfsTeamPlayer(payload));
+      } else {
+        await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+      }
+      redirectTo(props, { path: "/my-game-center" });
     }
   };
 
@@ -761,7 +776,7 @@ function MLBPowerdFs(props) {
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
     <div className={classes.body_card}>
       <span>{count}</span>
-      <img src={Icon} />
+      <img src={Icon} alt="" />
       <p>{title}</p>
     </div>
   );
@@ -968,20 +983,22 @@ function MLBPowerdFs(props) {
                                 mlbCard
                               />
                             ) : (
-                              <SelectionCard3
-                                player={item}
-                                isSelected={!!selected.get(item.playerId)}
-                                key={item.playerId + " - " + item?.match_id}
-                                loading={loading}
-                                onSelectDeselect={onPlayerSelectDeselect}
-                                pageType={PAGE_TYPES.MLB}
-                                type={selectedData?.type}
-                                // disabled={
-                                //   item.isStarPlayer &&
-                                //   item.isStarPlayer &&
-                                //   starPlayerCount >= 3
-                                // }
-                              />
+                              <>
+                                <SelectionCard3
+                                  player={item}
+                                  isSelected={!!selected.get(item.playerId)}
+                                  key={item.playerId + " - " + item?.match_id}
+                                  loading={loading}
+                                  onSelectDeselect={onPlayerSelectDeselect}
+                                  pageType={PAGE_TYPES.MLB}
+                                  type={selectedData?.type}
+                                  // disabled={
+                                  //   item.isStarPlayer &&
+                                  //   item.isStarPlayer &&
+                                  //   starPlayerCount >= 3
+                                  // }
+                                />
+                              </>
                             )}
                           </>
                         ))

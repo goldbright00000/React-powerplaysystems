@@ -11,23 +11,23 @@ class TermsOfUse extends Component {
     this.state = {
       error: null,
       isLoaded: false,
-      content: ""
+      content: "",
     };
   }
   componentDidMount() {
     fetch("https://" + Constants.URL + "/api/website_footer/getone.php?id=1")
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(
-        result => {
+        (result) => {
           result = result.records;
           this.setState({
-            content: result[0].content
+            content: result[0].content,
           });
         },
-        error => {
+        (error) => {
           this.setState({
             hasError: true,
-            error: error
+            error: error,
           });
         }
       );

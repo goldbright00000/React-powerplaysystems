@@ -3,14 +3,14 @@
   padding: 0;
 }
 h1 {
-  font-family: "Teko", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 42px;
   line-height: 45px;
   font-weight: bold;
   color: #f2f2f2;
 }
 h2 {
-  font-family: "Teko", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 20px;
   line-height: 24px;
   font-weight: 600;
@@ -33,9 +33,13 @@ h4 {
 p {
   font-family: "Poppins", sans-serif;
   font-size: 12px;
+  font-weight: normal !important;
   line-height: 1.67;
-  font-weight: 600;
-  color: #979797;
+  color: #f2f2f2;
+}
+
+a:hover {
+  color: #fb6e00 !important;
 }
 
 /* **********************************  */

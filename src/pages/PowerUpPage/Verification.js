@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 
-import Input from "../../ui/Input/Input";
-import Alert from "../../components/Alert";
+import { VerificationInput as Input } from "../../ui/Input/Input";
 import styles from "./styles.module.scss";
 
 import formStyles from "../../scss/formstyles.module.scss";
@@ -24,14 +23,20 @@ const Verification = (props) => {
       history.replace("power-up");
     }
 
-    const response = await http.post(URLS.USER.VERIFY_CONFIRMATION_CODE, {
-      email: props?.data?.email,
-      code,
-    });
-
-    if (response.status) {
-      redirectTo({ history }, { path: "user-profile-info", state: props.data });
-    } else {
+    try {
+      const response = await http.post(URLS.USER.VERIFY_CONFIRMATION_CODE, {
+        email: props?.data?.email,
+        code,
+      });
+      if (response.status) {
+        redirectTo(
+          { history },
+          { path: "user-profile-info", state: props.data }
+        );
+      } else {
+        setError(true);
+      }
+    } catch (error) {
       setError(true);
     }
   };
@@ -69,7 +74,7 @@ const Verification = (props) => {
           </p>
         </div>
 
-        <Timer minutes={5} seconds={0} setError={setError} />
+        <Timer minutes={5} seconds={0} setError={setError} error={error} />
 
         {!error && (
           <Input
@@ -80,12 +85,19 @@ const Verification = (props) => {
           />
         )}
 
-        <button className={formStyles.button}>
+        <button
+          className={formStyles.button}
+          disabled={!code}
+          style={{
+            backgroundColor: !code ? "#874008" : "#fb6e00",
+          }}
+        >
           {error ? "Start Over" : "Next"}
         </button>
       </form>
-      <p className={styles.blogSection}>
-        Didn't get any email? <Link to="/power-up">Resend Email!</Link>
+      {/* style={{ left: '25%', bottom: '-12%' }} */}
+      <p className="text-center my-5 py-3">
+        Didn't get any email? <Link to="/power-up" className="text-decoration-underline">Resend Email!</Link>
       </p>
     </div>
   );
