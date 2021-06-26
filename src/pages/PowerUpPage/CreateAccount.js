@@ -2,17 +2,29 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import { isEmpty, isEqual } from "lodash";
 
-import Input from "../../ui/Input/Input";
+import Input, { PasswordInput } from "../../ui/Input/Input";
 import Alert from "../../components/Alert";
 import { redirectTo } from "../../utility/shared";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
+import img1 from "../../assets/group-141.png";
+import img2 from "../../assets/group-14.png";
 import styles from "./styles.module.scss";
 import formStyles from "../../scss/formstyles.module.scss";
+
+
+const getWindowDimensions = () => {
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+        width,
+        height
+    };
+}
 
 const CreateAccount = (props) => {
 
     const history = useHistory();
+    const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -60,12 +72,41 @@ const CreateAccount = (props) => {
             });
         }
 
-        redirectTo({history}, { path: "email-verification", state: data });
+        redirectTo({ history }, { path: "email-verification", state: data });
     };
 
+    React.useEffect(() => {
+        const handleResize = () => {
+            setWindowDimensions(getWindowDimensions);
+        }
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
     return (
-        <div className={styles.container}>
-            <form className={formStyles.root} action={null} onSubmit={onSubmit}>
+
+        <main className={styles.root101}>
+            <section className={`${styles.leftSection}`}>
+                <div className={styles.titleWrapper}>
+                    {
+                        windowDimensions.width <= 550 ?
+                            <h3 className="fw-bold mb-2" style={{ whiteSpace: 'nowrap' }}>Earn up to <br /> 130 Power Tokens</h3> :
+                            <h3 className="fw-bold mb-2">Earn up to 130 Power Tokens</h3>
+                    }
+                    <h4>during Sign-up!</h4>
+                </div>
+                {
+                    windowDimensions.width <= 550 ? <img alt="" src={img1} /> : <img alt="" src={img2} />
+                }
+            </section>
+
+            <form className={`${formStyles.root2} pt-4`} action={null} onSubmit={onSubmit}>
+                <div className={`${formStyles.header} text-center d-block my-sm-0 my-3`}>
+                    <h2 className={`${styles.formTitle} fw-bold`}>Earn 20 Powerplay Tokens</h2>
+                    <h6 className={styles.formSubTitle} style={{ fontWeight: '500' }}>just for signing up</h6>
+                </div>
                 {!props.user?.isFailed && !isEmpty(props.user.errorMsg) && (
                     <Alert renderMsg={() => <p>{props.user.errorMsg}</p>} danger />
                 )}
@@ -95,8 +136,7 @@ const CreateAccount = (props) => {
                         props.setUser({ ...props.user, email: e?.target?.value });
                     }}
                 />
-                <Input
-                    type="password"
+                <PasswordInput
                     title="Create-a-password"
                     id="password"
                     value={props.user.password}
@@ -104,8 +144,7 @@ const CreateAccount = (props) => {
                         props.setUser({ ...props.user, password: e?.target?.value });
                     }}
                 />
-                <Input
-                    type="password"
+                <PasswordInput
                     title="Confirm your password"
                     id="confirmpassword"
                     value={props.user.cPassword}
@@ -116,11 +155,11 @@ const CreateAccount = (props) => {
                 <button className={formStyles.button} disabled={props.user.isLoading}>
                     {props.user.isLoading ? "Loading..." : "Next"}
                 </button>
+                <p className="position-absolute" style={{ left: '25%', bottom: '-12%' }}>
+                    Already have an account? <Link to="/login" className="text-decoration-underline">Log in!</Link>
+                </p>
             </form>
-            <p className={styles.blogSection}>
-                Already have an account? <Link to="/login">Log in!</Link>
-            </p>
-        </div>
+        </main>
     );
 };
 

@@ -30,6 +30,13 @@ const Timer = (props) => {
   });
 
   useEffect(() => {
+    if (props.error) {
+      setMinutes(0);
+      setSeconds(0);
+    }
+  }, [props.error]);
+
+  useEffect(() => {
     if (minutes === 0 && seconds === 0) {
       props.setError(true);
     }

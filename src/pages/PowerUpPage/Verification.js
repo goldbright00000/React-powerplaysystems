@@ -34,10 +34,10 @@ const Verification = (props) => {
           { path: "user-profile-info", state: props.data }
         );
       } else {
-        setCode("");
+        setError(true);
       }
     } catch (error) {
-      setCode("");
+      setError(true);
     }
   };
 
@@ -74,7 +74,7 @@ const Verification = (props) => {
           </p>
         </div>
 
-        <Timer minutes={5} seconds={0} setError={setError} />
+        <Timer minutes={5} seconds={0} setError={setError} error={error} />
 
         {!error && (
           <Input
@@ -95,8 +95,9 @@ const Verification = (props) => {
           {error ? "Start Over" : "Next"}
         </button>
       </form>
-      <p className={styles.blogSection}>
-        Didn't get any email? <Link to="/power-up">Resend Email!</Link>
+      {/* style={{ left: '25%', bottom: '-12%' }} */}
+      <p className="text-center my-5 py-3">
+        Didn't get any email? <Link to="/power-up" className="text-decoration-underline">Resend Email!</Link>
       </p>
     </div>
   );

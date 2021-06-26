@@ -72,19 +72,19 @@ const DepositAmountPopUp = (props) => {
                         <h6 className={styles.title2}>
                           Credit / Debit / PayPal / eCheck
                         </h6>
-                        <p className="__mt-1 __mb-sm">
+                        <p className="__mt-1 __mb-sm text-dark">
                           Minimum Deposit: <b>No Minimum</b>
                         </p>
-                        <p>
+                        <p className=" text-dark">
                           Maximum Deposit: <b>$1000.00 USD</b>
                         </p>
                       </div>
                       <div>
                         <h6 className={styles.title2}>BTC / ETH</h6>
-                        <p className="__mt-1 __mb-sm">
+                        <p className="__mt-1 __mb-sm  text-dark">
                           Minimum Deposit: <b>No Minimum</b>
                         </p>
-                        <p>
+                        <p className=" text-dark">
                           Maximum Deposit: <b>No Maximum</b>
                         </p>
                       </div>
@@ -92,7 +92,7 @@ const DepositAmountPopUp = (props) => {
                         <h4 className="__mb-0 __mt-5 __primary-color ">
                           Update Deposit Limits
                         </h4>
-                        <p className="__mt-1">
+                        <p className="__mt-1 text-dark">
                           View more information about how to control your game play
                           settings on our{" "}
                           <b className="__primary-color">Responsible Gaming</b> page.
@@ -166,7 +166,7 @@ const DepositAmountPopUp = (props) => {
       {
         depositInfo &&
         <div className={`modal fade show d-block ${styles.blur}`}>
-          <div className="modal-dialog modal-dialog-centered" style={{ alignItems: 'flex-end' }} role="document">
+          <div className="modal-dialog modal-dialog-centered mb-0 mx-0" style={{ alignItems: 'flex-end' }} role="document">
             <div className="modal-content" style={{ backgroundColor: '#2d2f33', borderRadius: '12px'}}>
               <div className="modal-body">
                 <div className={`${styles.crossicon} position-absolute`} onClick={() => setDepositInfo(false)} style={{
