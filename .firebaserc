@@ -1,6 +1,5 @@
 {
   "projects": {
-    "default": "defy-games-prod",
-    "test": "defy-games"
+    "default": "defy-games"
   }
 }
