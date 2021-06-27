@@ -104,7 +104,7 @@ const CreateAccount = (props) => {
 
             <form className={`${formStyles.root2} pt-4`} action={null} onSubmit={onSubmit}>
                 <div className={`${formStyles.header} text-center d-block my-sm-0 my-3`}>
-                    <h2 className={`${styles.formTitle} fw-bold`}>Earn 20 Powerplay Tokens</h2>
+                    <h2 className={`${styles.formTitle} fw-bold`}>Earn 20 Power Tokens</h2>
                     <h6 className={styles.formSubTitle} style={{ fontWeight: '500' }}>just for signing up</h6>
                 </div>
                 {!props.user?.isFailed && !isEmpty(props.user.errorMsg) && (
