@@ -9,7 +9,7 @@ import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import PowerCenterCard from "../../components/PowerCenterCard";
-import { getDaysFromToday, printLog, redirectTo } from "../../utility/shared";
+import { getDaysFromToday, redirectTo } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import FilledArrow from "../../components/FilledArrow";
 import PowerCenterMobileCard from "../../components/PowerCenterMobileCard";
@@ -223,7 +223,7 @@ const InteractiveContests = (props) => {
             game_id: item?.game_id,
             sport_id: item?.sports_id,
             start_date: item?.start_date,
-            end_date: item?.end_date
+            end_date: item?.end_date,
           },
         });
 
@@ -235,7 +235,6 @@ const InteractiveContests = (props) => {
   const powerCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
-        {printLog(item)}
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
@@ -306,9 +305,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                          powerCenterCardData.filter(
-                            (cardItem) => cardItem.league === item.title
-                          );
+                            powerCenterCardData.filter(
+                              (cardItem) => cardItem.league === item.title
+                            );
 
                       setFilteredData(filteredData);
                     }}
@@ -379,11 +378,12 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item} 
-                                                ${selectedCurrencies?.includes(
-                          item.value
-                        ) &&
-                          classes.__currency_menu_selected
-                          }`}
+                                                ${
+                                                  selectedCurrencies?.includes(
+                                                    item.value
+                                                  ) &&
+                                                  classes.__currency_menu_selected
+                                                }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
@@ -501,7 +501,9 @@ const InteractiveContests = (props) => {
               Power-Up to experience our ground-breaking live-play games where
               you have the Power to control your team’s destiny. *
             </div>
-            <button className={`${classes.__power_up_btn} w-100 mx-0`}>Power Up!</button>
+            <button className={`${classes.__power_up_btn} w-100 mx-0`}>
+              Power Up!
+            </button>
           </>
         )}
       </div>

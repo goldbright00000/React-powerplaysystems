@@ -329,12 +329,10 @@ export function setEditPlayers(
 export function getUserGames(user_id) {
   return async (dispatch) => {
     try {
-      printLog(`User: ${user_id}`);
       const userGamesResponse = await http.post(URLS.DFS.MLB_USER_GAMES, {
         user_id: user_id,
       });
       const { data = {} } = userGamesResponse || {};
-      printLog(`UserGames: ${JSON.stringify(userGamesResponse)}`);
       await dispatch({
         type: MLB_USER_SAVED_GAMES,
         payload: data?.data,

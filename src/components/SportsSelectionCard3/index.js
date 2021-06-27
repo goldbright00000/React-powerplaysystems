@@ -30,7 +30,7 @@ function SportsSelectionCard3(props) {
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => { },
+    onSelectDeselect = (playerId, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -40,7 +40,7 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
-    name = "",
+    playerName = "",
     homeTeam = "",
     awayTeam = "",
     date = "",
@@ -104,11 +104,12 @@ function SportsSelectionCard3(props) {
       )}
       <div className={classes.container_body_card_header}>
         <p
-          className={`${classes.container_selected_p} ${isSelected ? classes.active : ""
-            }`}
+          className={`${classes.container_selected_p} ${
+            isSelected ? classes.active : ""
+          }`}
         >
           <span>{position}</span>
-          {name}
+          {playerName}
         </p>
         {injured && !isMobile && (
           <div className={classes.injured}>
