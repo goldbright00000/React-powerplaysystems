@@ -9,7 +9,7 @@ import img2 from "../../assets/group-14.png";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import personaLogo from "../../assets/persona-logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { redirectTo } from "../../utility/shared";
 import {
   getPersonaUserId,
@@ -32,6 +32,7 @@ const getWindowDimensions = () => {
 
 
 const VerifyIdentityPage = (props) => {
+  const history = useHistory();
   const [windowDimensions, setWindowDimensions] = React.useState(getWindowDimensions());
   const dispatch = useDispatch();
   const onVerifyLater = () => {
@@ -98,6 +99,7 @@ const VerifyIdentityPage = (props) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+
   return (
     <>
       <Header isStick={true} />
@@ -130,13 +132,13 @@ const VerifyIdentityPage = (props) => {
         </section>
         <section>
           <div className={formStyles.root2}>
-            <div className={`${formStyles.header} d-block`}>
+            {/* <div className={`${formStyles.header} d-block`}> */}
               {/* <button className={styles.backButton}>Back</button> */}
-              <button className={`btn btn-default ${styles.customizeBackBtn} ${styles.btnFlat}`}>
+              {/* <button className={`btn btn-default ${styles.customizeBackBtn} ${styles.btnFlat}`} onClick={handleBackBtn}>
                 <span> <ArrowLeft /> </span>
                 <span className={`ml-3`}> Back </span>
               </button>
-            </div>
+            </div> */}
             <div className={styles.cardTitleWrapper}>
               <h2 className="text-dark">Verify your identity today and receive</h2>
               <h1>100 bonus Power Tokens!</h1>

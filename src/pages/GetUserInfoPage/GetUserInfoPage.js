@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
 import {
@@ -68,6 +68,7 @@ const getWindowDimensions = () => {
 };
 
 const GetUserInfoPage = (props) => {
+  const history = useHistory();
   const [windowDimensions, setWindowDimensions] = React.useState(
     getWindowDimensions()
   );
@@ -79,6 +80,7 @@ const GetUserInfoPage = (props) => {
   });
 
   useEffect(() => {
+    console.log(props.location.state);
     if (user.isSuccess || isEmpty(props.location.state.email)) {
       // redirectTo(props, { path: "login" });
       redirectTo(props, { path: "verify-your-identity" });
@@ -204,8 +206,11 @@ const GetUserInfoPage = (props) => {
       isSuccess: true,
       errorMsg: response.data.message,
     });
-
-    props.history.replace("/verify-your-identity");
+    
+    redirectTo(
+      { history },
+      { path: "verify-your-identity", state: props.data }
+    );
   };
 
   React.useEffect(() => {
@@ -216,6 +221,13 @@ const GetUserInfoPage = (props) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  React.useEffect(() => {
+    setUser({
+      ...user,
+      isLoading: false,
+    });
+  }, [])
 
   return (
     <>
@@ -391,8 +403,10 @@ const GetUserInfoPage = (props) => {
             }
           />
           <button className={formStyles.button} disabled={
-            ( user.ageCheck && user.termsAndConditions && user.updatesCheck ) === true ? false : true
-          }>
+            (user.ageCheck && user.termsAndConditions && user.updatesCheck) === true ? false : true
+          } style={{
+            backgroundColor: (user.ageCheck && user.termsAndConditions && user.updatesCheck) === true ? "#fb6e00" : "#874008",
+          }}>
             {user?.isLoading ? "LOADING..." : "NEXT"}
           </button>
         </form>
