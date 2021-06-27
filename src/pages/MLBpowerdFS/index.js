@@ -49,7 +49,7 @@ import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 
 import { useMediaQuery } from "react-responsive";
-import { redirectTo } from "../../utility/shared";
+import { printLog, redirectTo } from "../../utility/shared";
 import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
@@ -287,10 +287,8 @@ function MLBPowerdFs(props) {
 
   const getData = async () => {
     setLoading(true);
-    // await dispatch(MLBActions.mlbData());
-    data = dummyData;
-    allData = dummyData;
-    // await dispatch(MLBActions.mlbData(history.location?.state?.game_id));
+    printLog(history.location?.state?.game_id);
+    await dispatch(MLBActions.mlbData(history.location?.state?.game_id));
     setLoading(false);
   };
 
@@ -316,7 +314,7 @@ function MLBPowerdFs(props) {
 
   useEffect(() => {
     autoSelectOnEdit();
-  }, [isEdit, loading, selected]);
+  }, [isEdit, loading]);
 
   const autoSelectOnEdit = () => {
     if (isEdit === true && !loading && selected.entries().next().done) {
@@ -425,10 +423,6 @@ function MLBPowerdFs(props) {
             return obj?.player?.playerId === playerOrTeam?.playerId;
           }
         });
-
-        console.log("test");
-        console.log(existingPlayerIndex);
-        console.log(_playersList[existingPlayerIndex]);
 
         if (existingPlayerIndex !== -1) {
           _selected.set(id, !selected.get(id));

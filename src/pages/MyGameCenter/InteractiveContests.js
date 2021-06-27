@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import classes from './interactiveContests.module.scss';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUserBalance } from '../../actions/userActions';
-import Ball from '../../icons/Ball';
-import BasketBall from '../../icons/BasketBall';
-import Hockeys from '../../icons/Hockeys';
-import SuperBall from '../../icons/SuperBall';
-import CashPowerBalance from '../../components/CashPowerBalance';
-import { redirectTo, getDaysFromToday, printLog } from '../../utility/shared';
-import CustomDropDown from '../../components/CustomDropDown';
-import MyGameCenterCard from '../../components/MyGameCenterCard';
-import { URLS } from '../../config/urls';
-import http from '../../config/http';
+import React, { useState, useEffect } from "react";
+import classes from "./interactiveContests.module.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserBalance } from "../../actions/userActions";
+import Ball from "../../icons/Ball";
+import BasketBall from "../../icons/BasketBall";
+import Hockeys from "../../icons/Hockeys";
+import SuperBall from "../../icons/SuperBall";
+import CashPowerBalance from "../../components/CashPowerBalance";
+import { redirectTo, getDaysFromToday, printLog } from "../../utility/shared";
+import CustomDropDown from "../../components/CustomDropDown";
+import MyGameCenterCard from "../../components/MyGameCenterCard";
+import { URLS } from "../../config/urls";
+import http from "../../config/http";
 import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
-import _ from 'underscore';
+import _ from "underscore";
 
 // TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
 
@@ -116,7 +116,7 @@ const InteractiveContests = (props) => {
   const [finalStandingsModal, setFinalStandingsModal] = useState(-1);
   const [days, setDays] = useState([{}]);
   const { user } = useSelector((state) => state?.auth);
-  const [userGames, setUserGames] = useState({})
+  const [userGames, setUserGames] = useState({});
   const { getUserSavedGames } = useSelector((state) => state?.mlb);
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const InteractiveContests = (props) => {
 
   useEffect(() => {
     dispatch(MLbActions.getUserGames(user.user_id));
-  }, [dispatch, user])
+  }, [dispatch, user]);
 
   useEffect(() => {
     setMyGameCenterCardData(getUserSavedGames);
@@ -142,7 +142,7 @@ const InteractiveContests = (props) => {
     setDays(getDaysFromToday());
     getUserBalance();
     setUserGames(getUserSavedGames);
-  }, [getUserSavedGames])
+  }, [getUserSavedGames]);
 
   const getUserBalance = async () => {
     const response = await http.get(URLS.USER.BALANCE);
@@ -153,26 +153,33 @@ const InteractiveContests = (props) => {
   const onEdit = (item) => {
     switch (item?.game?.league) {
       case "MLB":
-        dispatch(MLbActions.getAndSetEditPlayers({ game_id: item?.game_id, sport_id: item?.sport_id, user_id: item?.user_id }));
+        dispatch(
+          MLbActions.getAndSetEditPlayers({
+            game_id: item?.game_id,
+            sport_id: item?.sport_id,
+            user_id: item?.user_id,
+          })
+        );
 
         return redirectTo(props, {
           path: `/mlb-powerdfs`,
           state: {
-            game_id: item?.game_id
+            game_id: item?.game_id,
           },
         });
-
     }
   };
 
   const myGameCenterCard = (item, redirectUri) => {
     return (
-      <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}>
+      <div
+        className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
+      >
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
           title={item?.game?.league}
-          prize={_.sortBy(item?.game?.PrizePayouts, 'from')[0]?.amount}
+          prize={_.sortBy(item?.game?.PrizePayouts, "from")[0]?.amount}
           outOf={item?.game?.outOf}
           total={item?.game?.target}
           percent={item?.game?.percent}
@@ -181,7 +188,7 @@ const InteractiveContests = (props) => {
           start_time={item?.game?.start_time}
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
-          PrizePayout={_.sortBy(item?.game?.PrizePayouts, 'from')}
+          PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
           inProgress={item.inProgress}
           completed={item.completed}
           teamManager={item.teamManager}
@@ -214,7 +221,7 @@ const InteractiveContests = (props) => {
         <div className={`__flex ${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
             <div className="__badges-wrapper __text-in-one-line __mediam">
-              {myGameCenterCardData && (
+              {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
                     <div
@@ -227,7 +234,11 @@ const InteractiveContests = (props) => {
                         const filteredData =
                           item.id === 1
                             ? myGameCenterCardData
-                            : myGameCenterCardData?.length > 0 && myGameCenterCardData.filter(cardItem => cardItem?.game?.league === item.title);
+                            : myGameCenterCardData?.length > 0 &&
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -235,8 +246,7 @@ const InteractiveContests = (props) => {
                       {item.title}
                     </div>
                   );
-                })
-              )}
+                })}
             </div>
           </div>
           <div style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}>
@@ -284,7 +294,7 @@ const InteractiveContests = (props) => {
           </div>
         </div>
 
-        {myGameCenterCardData && (
+        {myGameCenterCardData &&
           (() => {
             const itemsInaRow = 4;
             const numberOfRows = Math.ceil(
@@ -301,7 +311,9 @@ const InteractiveContests = (props) => {
                   <>
                     {isMobile ? (
                       <div>
-                        {items.map((power) => myGameCenterCard(power, power.url))}
+                        {items.map((power) =>
+                          myGameCenterCard(power, power.url)
+                        )}
                       </div>
                     ) : (
                       <>
@@ -320,8 +332,7 @@ const InteractiveContests = (props) => {
                 );
               });
             return myGameCenterCardView;
-          })()
-        )}
+          })()}
       </div>
     </>
   );

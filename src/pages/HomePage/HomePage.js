@@ -139,7 +139,7 @@ const HomePage = (props) => {
                   className={
                     classes.__home_page_first_section_body_explore_games_text
                   }
-                  onClick={() => redirectTo(props, { path: "/" })}
+                  onClick={() => redirectTo(props, { path: "/power-center" })}
                 >
                   Explore Games
                 </div>
