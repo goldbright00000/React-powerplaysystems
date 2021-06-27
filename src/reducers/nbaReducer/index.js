@@ -1,4 +1,4 @@
-import * as Actions from "../../actions/NFLActions";
+import * as Actions from "../../actions/NBAActions";
 
 const INITIAL_STATE = {
   data: [],
@@ -11,9 +11,9 @@ const INITIAL_STATE = {
   game_id: 0,
 };
 
-const nflReducer = (state = INITIAL_STATE, actions) => {
+const nbaReducer = (state = INITIAL_STATE, actions) => {
   switch (actions.type) {
-    case Actions.NFL_DATA:
+    case Actions.NBA_DATA:
       return {
         ...state,
         data: actions.payload.filterdList,
@@ -22,19 +22,19 @@ const nflReducer = (state = INITIAL_STATE, actions) => {
         sport_id: actions.sport_id,
       };
 
-    case Actions.NFL_LIVE_DATA:
+    case Actions.NBA_LIVE_DATA:
       return {
         ...state,
         live_data: actions.payload,
       };
 
-    case Actions.NFL_STAR_PLAYER_COUNT:
+    case Actions.NBA_STAR_PLAYER_COUNT:
       return {
         ...state,
         starPlayerCount: actions.payload,
       };
 
-    case Actions.NFL_EDIT_PLAYERS:
+    case Actions.NBA_EDIT_PLAYERS:
       return {
         ...state,
         savedPlayers: actions.payload.data,
@@ -46,4 +46,4 @@ const nflReducer = (state = INITIAL_STATE, actions) => {
   }
 };
 
-export default nflReducer;
+export default nbaReducer;
