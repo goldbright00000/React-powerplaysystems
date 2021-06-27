@@ -8,24 +8,15 @@ import BoosterPopUp from "../BoosterPopUp/BoosterPopUp";
 import PrizeGrid from "../PrizeGrid/PrizeGrid";
 import SwapStarter from "../SwapStarter/SwapStarter";
 import "./live_match.scss";
-const LiveMatch = () => {
+const LiveMatch = ({ swap, secondModal, boostModal, swapModal }) => {
   const [modal, setModal] = useState(false);
-  const [secondModal, setSecondModal] = useState(false);
+
   const [priceGrid, setPriceGrid] = useState(false);
-  const [swap, setSwap] = useState(false);
-  const boostModal = value => {
-    setModal(value);
-    setSecondModal(!secondModal);
-  };
+
   const toggle = () => setModal(!modal);
   const priceModal = value => {
     setModal(value);
     setPriceGrid(!priceGrid);
-  };
-
-  const swapModal = value => {
-    setModal(value);
-    setSwap(!swap);
   };
 
   return (

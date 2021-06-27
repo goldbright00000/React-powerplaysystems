@@ -3,10 +3,12 @@ import ContestRules from "../../../../components/mobilecomponents/ContestRules";
 import PoweredBy from "../../../../components/mobilecomponents/PoweredBy";
 import ScoreBoard from "../../../../components/mobilecomponents/ScoreBoard";
 
-const TeamManager = ({ state, setState }) => {
+const TeamManager = ({ state, setState, setSwap, boostModal, swapModal }) => {
   return (
     <>
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         showTagLine={true}
         tagLine="Sp"
         firstTeam="Toronto Blue Jays 10"
@@ -23,6 +25,8 @@ const TeamManager = ({ state, setState }) => {
         secondShow={true}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="IF 1"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"
@@ -38,6 +42,8 @@ const TeamManager = ({ state, setState }) => {
         secondShow={false}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="IF 2"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"
@@ -54,6 +60,8 @@ const TeamManager = ({ state, setState }) => {
         secondShow={true}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="OF 1"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"
@@ -70,6 +78,8 @@ const TeamManager = ({ state, setState }) => {
         secondShow={true}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="OF 2"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"
@@ -86,6 +96,8 @@ const TeamManager = ({ state, setState }) => {
         secondShow={true}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="DH"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"
@@ -103,6 +115,8 @@ const TeamManager = ({ state, setState }) => {
         imageTochanged={true}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="RP"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"
@@ -119,6 +133,8 @@ const TeamManager = ({ state, setState }) => {
         notShow={true}
       />
       <ScoreBoard
+        boostModal={boostModal}
+        swapModal={swapModal}
         tagLine="DH"
         firstTeam="Toronto Blue Jays 10"
         secondTeam="Detroit Tigers 2"

@@ -21,6 +21,8 @@ const ScoreBoard = ({
   notShow,
   otherIcons,
   setstate,
+  boostModal,
+  swapModal,
 }) => {
   return (
     <section className="transparent board__wrapper">
@@ -31,6 +33,8 @@ const ScoreBoard = ({
           secondTeam={secondTeam}
         />
         <Slider
+          swapModal={swapModal}
+          boostModal={boostModal}
           double={double}
           featured={featured}
           icons={icons}

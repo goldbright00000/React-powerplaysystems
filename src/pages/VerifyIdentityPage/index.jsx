@@ -119,8 +119,8 @@ const VerifyIdentityPage = (props) => {
           <div className={styles.titleWrapper}>
             {
               windowDimensions.width <= 550 ?
-                <h3 className="fw-bold mb-2" style={{ whiteSpace: 'nowrap' }}>100 bonus <br /> Powerplay Tokens</h3> :
-                <h3 className="fw-bold mb-2">100 bonus Powerplay Tokens</h3>
+                <h3 className="fw-bold mb-2" style={{ whiteSpace: 'nowrap' }}>100 bonus <br /> Power Tokens</h3> :
+                <h3 className="fw-bold mb-2">100 bonus Power Tokens</h3>
             }
             <h4>will be added to your account</h4>
           </div>
