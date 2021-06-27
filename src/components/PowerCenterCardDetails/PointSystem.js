@@ -1,5 +1,6 @@
 import React from "react";
 import classes from "./pointSystem.module.scss";
+import _ from 'underscore';
 
 const data = [
   {
@@ -88,7 +89,11 @@ const data = [
 ];
 
 const PointSystem = (props) => {
-  const { title = "", isMobile = false } = props || {};
+
+  const {
+    title = "",
+    isMobile = false,
+  } = props || {};
 
   return (
     <div className={`${classes.__point_system}`}>
@@ -113,7 +118,6 @@ const PointSystem = (props) => {
                   <div className={classes.__point_system_heading}>
                     {d.heading}
                   </div>
-
                   <div className={classes.__points_grid_data2}>
                     <div className={classes.__points_grid_data1}>
                       {d.points.map((item, index) => {

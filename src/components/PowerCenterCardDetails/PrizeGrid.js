@@ -4,7 +4,10 @@ import CurrencyFormat from 'react-currency-format';
 import classes from './prizeGrid.module.scss';
 import ordinal from 'ordinal';
 
-const PrizeGrid = ({ PrizePayout }) => {
+const PrizeGrid = (props) => {
+  const {
+    PrizePayout,
+  } = props;
   const data = [
     {
       title: '1st',

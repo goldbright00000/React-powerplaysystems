@@ -9,7 +9,6 @@ import NFLPlayerMobile from "../../assets/nfl-player-mobile.png";
 import NBAPlayerMobile from "../../assets/nba-player-mobile.png";
 import NHLPlayerMobile from "../../assets/nhl-player-mobile-left.png";
 import BlueTick from "../../assets/blue_tick.png";
-import PencilIcon from "../../assets/pencil_icon.png";
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
 import OutlineButton from "../OutlineButton";
 import ViewResults from "../../pages/MyGameCenter/ViewResults";
@@ -21,8 +20,6 @@ import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
-import Hitters from "../PowerCenterCardDetails/Hitters";
-import { printLog } from "../../utility/shared";
 
 const MyGameCenterCard = (props) => {
   const {
@@ -33,7 +30,6 @@ const MyGameCenterCard = (props) => {
     outOf = null,
     total = null,
     percent = null,
-    PrizePayout = [],
     showDetails = false,
     inProgress = false,
     completed = false,
@@ -43,17 +39,20 @@ const MyGameCenterCard = (props) => {
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    onDetailsClick = () => {},
-    onBackClick = () => {},
-    onNextClick = () => {},
-    onEnter = () => {},
-    onEdit = () => {},
-    onViewResults = () => {},
-    onViewResultsBack = () => {},
-    onFinalStandings = () => {},
+    game_set_end = '',
+    start_time = '',
+    PointsSystem = [],
+    Power = [],
+    PrizePayout = [],
+    onDetailsClick = () => { },
+    onBackClick = () => { },
+    onNextClick = () => { },
+    onEnter = () => { },
+    onEdit = () => { },
+    onViewResults = () => { },
+    onViewResultsBack = () => { },
+    onFinalStandings = () => { },
   } = props || {};
-
-  printLog("props", props);
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
@@ -141,12 +140,12 @@ const MyGameCenterCard = (props) => {
                     }}
                   >
                     <div className={classes.__my_game_center_card_date_time}>
-                      Oct 24, 2020 | 8:00PM ET
+                      {game_set_end} | {start_time} ET
                     </div>
                     {inProgress || completed || timeToStart != "" ? (
                       <div className={classes.__my_game_center_card_full}>
                         <div className={classes.__my_game_center_card_full_img}>
-                          <img src={BlueTick} width="18" height="18" />
+                          <img src={BlueTick} width="18" height="18" alt="" />
                         </div>
                         <div
                           className={classes.__my_game_center_card_full_text}
@@ -237,7 +236,7 @@ const MyGameCenterCard = (props) => {
                       title="Edit Picks"
                       onClick={onEdit}
                       styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
-                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -324,6 +323,7 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
                 <PowersAvailable
+                  Power={Power}
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
@@ -360,6 +360,7 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
                 <PointSystem
+                  PointsSystem={PointsSystem}
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
@@ -466,7 +467,7 @@ const MyGameCenterCard = (props) => {
               ></span>
             </div>
             <div className={classes.__my_game_center_card_date_time}>
-              Oct 24, 2020 | 8:00PM ET
+              {/* {userGames?.game?.game_set_end} | {userGames?.game?.start_time} ET */}
             </div>
             <div className={classes.__my_game_center_card_prize_pool}>
               <p
@@ -517,7 +518,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 
@@ -549,7 +550,7 @@ const MyGameCenterCard = (props) => {
               {inProgress || completed || timeToStart != "" ? (
                 <div className={classes.__my_game_center_card_full}>
                   <div className={classes.__my_game_center_card_full_img}>
-                    <img src={BlueTick} width="18" height="18" />
+                    <img src={BlueTick} width="18" height="18" alt="" />
                   </div>
                   <div className={classes.__my_game_center_card_full_text}>
                     Full 200,000
@@ -608,12 +609,17 @@ const MyGameCenterCard = (props) => {
           />
         )
       ) : (
-        <PowerCenterCardDetails
-          title={title}
-          onBackClick={() => onBackClick()}
-          onNextClick={() => onNextClick()}
-          myGameCenter={true}
-        />
+        <>
+          <PowerCenterCardDetails
+            Power={Power}
+            PrizePayout={PrizePayout}
+            PointsSystem={PointsSystem}
+            title={title}
+            onBackClick={() => onBackClick()}
+            onNextClick={() => onNextClick()}
+            myGameCenter={true}
+          />
+        </>
       )}
     </>
   );

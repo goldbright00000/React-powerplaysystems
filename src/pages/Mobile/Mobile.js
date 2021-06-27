@@ -12,11 +12,27 @@ import TeamManager from "./views/TeamManager";
 
 function App() {
   const [state, setState] = useState(1);
+  const [swap, setSwap] = useState(false);
+  const [secondModal, setSecondModal] = useState(false);
+  const boostModal = value => {
+    setSecondModal(!secondModal);
+  };
 
+  const swapModal = value => {
+    setSwap(!swap);
+  };
   const changeComponent = state => {
     switch (state) {
       case 1:
-        return <TeamManager state={state} setState={setState} />;
+        return (
+          <TeamManager
+            state={state}
+            setState={setState}
+            swap={setSwap}
+            boostModal={boostModal}
+            swapModal={swapModal}
+          />
+        );
       case 2:
         return <ScoreDetails state={state} setState={setState} />;
       default:
@@ -31,7 +47,14 @@ function App() {
       <ThreeBoxes state={state} showTime={true} />
       <Tabs state={state} setState={setState} />
       {changeComponent(state)}
-      <LiveMatch />
+      <LiveMatch
+        swap={swap}
+        setSwap={setSwap}
+        secondModal={secondModal}
+        setSecondModal={setSecondModal}
+        boostModal={boostModal}
+        swapModal={swapModal}
+      />
     </section>
   );
 }

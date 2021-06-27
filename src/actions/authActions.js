@@ -5,6 +5,7 @@ import {
   getLocalStorage,
   setLocalStorage,
   removeLocalStorage,
+  printLog,
 } from "../utility/shared";
 import jwtDecode from "jwt-decode";
 import { createAlert } from "./notificationActions";
@@ -16,20 +17,24 @@ export const SET_AUTH = "[AUTH] SET AUTH";
 export const GET_USER_INFO = "[AUTH] GET USER INFO";
 
 export function authenticate(user) {
-  const request = http.post(URLS.AUTH.LOGIN, user);
-
-  return (dispatch) => {
-    dispatch({
-      type: AUTH_LOADING,
-    });
-
-    return request.then((response) => {
-      if (response.data.status === true) {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: AUTH_LOADING });
+      const request = await http.post(URLS.AUTH.LOGIN, user);
+      if (request.data.status === true) {
         //save in local storage.
-        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER, response.data.token);
+        setLocalStorage(
+          CONSTANTS.LOCAL_STORAGE_KEYS.USER,
+          request?.data?.token
+        );
+        return dispatch({
+          type: GET_AUTH,
+          payload: request?.data,
+        });
       }
-      return dispatch({ type: GET_AUTH, payload: response.data });
-    });
+    } catch (err) {
+      console.log("login error");
+    }
   };
 }
 

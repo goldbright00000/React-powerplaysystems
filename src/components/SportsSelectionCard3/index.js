@@ -12,12 +12,20 @@ import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
 import MLBPlayerStat from "./MLBPlayerStat";
 import NFLPlayerStat from "./NLFPlayerStats";
+import StarterStats from "./StarterStats";
 import { PAGE_TYPES } from "./PageTypes";
 import MLBDetailStats from "./MLBDetailStats";
 import AdImage from "../../assets/img.jpg";
 
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from "react-responsive-carousel";
+import "./carousel.scss";
+
+import { useMediaQuery } from "react-responsive";
+
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
+  const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   const {
     player = {},
@@ -32,7 +40,7 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
-    playerName: name = "",
+    playerName = "",
     homeTeam = "",
     awayTeam = "",
     date = "",
@@ -84,7 +92,11 @@ function SportsSelectionCard3(props) {
   };
 
   return (
-    <div className={classes.container_body_card}>
+    <div
+      className={`${classes.container_body_card} ${
+        isStarPlayer ? classes.container_body_card_start_power_background : ``
+      }`}
+    >
       {isStarPlayer && (
         <span className={classes.container_body_card_start_power}>
           <StarIcon solidcolor="#000" /> <p>Star Power</p>
@@ -96,10 +108,10 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{primary_position}</span>
-          {name}
+          <span>{position}</span>
+          {playerName}
         </p>
-        {injured && (
+        {injured && !isMobile && (
           <div className={classes.injured}>
             <AidIcon />
             <span>Injured</span>
@@ -126,43 +138,115 @@ function SportsSelectionCard3(props) {
         )}
       </div>
 
-      <div className={classes.card_state_main_container}>
-        {currentStep === 0 ? (
-          renderStats()
-        ) : currentStep === 1 ? (
-          <MLBDetailStats position={primary_position} />
+      <div
+        className={
+          classes.card_state_main_container + " sports_selection_card_carousel"
+        }
+      >
+        {isMobile ? (
+          <Carousel
+            showArrows={false}
+            showStatus={false}
+            showThumbs={false}
+            autoPlay={false}
+            infiniteLoop={false}
+            interval={300000}
+            // className=".carousel .control-dots"
+          >
+            <>
+              {renderStats()}
+              <div className={classes.container_card_footer_main}>
+                <div className={classes.card_footer_left}>
+                  <p>
+                    <span className={classes.teamA}>{homeTeam}</span> VS{" "}
+                    <span className={classes.teamB}>{awayTeam}</span>
+                  </p>
+
+                  <div className={classes.divider}></div>
+                  <p className={classes.container_body_footer}>
+                    <span>
+                      <ClockIcon /> {time}
+                    </span>
+                    <span>
+                      <CalenderIcon /> {date}
+                    </span>
+                    <span>
+                      <StadiumIcon /> {stadium}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </>
+
+            <MLBDetailStats position={primary_position} />
+
+            <>
+              <StarterStats position={primary_position} />
+              <div
+                className={classes.container_card_footer_main}
+                style={{ marginTop: "10px" }}
+              >
+                <div className={classes.card_footer_left}>
+                  <div className={classes.divider}></div>
+                  <p className={classes.container_body_footer}>
+                    <span>
+                      <ClockIcon /> {time}
+                    </span>
+                    <span>
+                      <CalenderIcon /> {date}
+                    </span>
+                    <span>
+                      <StadiumIcon /> {stadium}
+                    </span>
+                  </p>
+                </div>
+              </div>
+            </>
+
+            <img src={AdImage} />
+          </Carousel>
         ) : (
-          <img src={AdImage} />
+          <>
+            {currentStep === 0 ? (
+              renderStats()
+            ) : currentStep === 1 ? (
+              <MLBDetailStats position={primary_position} />
+            ) : (
+              <img src={AdImage} />
+            )}
+          </>
         )}
       </div>
 
-      <div className={classes.container_card_footer_main}>
-        {currentStep === 0 && (
-          <div className={classes.card_footer_left}>
-            <p>
-              <span className={classes.teamA}>{homeTeam}</span> VS{" "}
-              <span className={classes.teamB}>{awayTeam}</span>
-            </p>
+      {isMobile ? null : (
+        <div className={classes.container_card_footer_main}>
+          {currentStep === 0 && (
+            <div className={classes.card_footer_left}>
+              <p>
+                <span className={classes.teamA}>{homeTeam}</span> VS{" "}
+                <span className={classes.teamB}>{awayTeam}</span>
+              </p>
 
-            <div className={classes.divider}></div>
-            <p className={classes.container_body_footer}>
-              <span>
-                <ClockIcon /> {time}
-              </span>
-              <span>
-                <CalenderIcon /> {date}
-              </span>
-              <span>
-                <StadiumIcon /> {stadium}
-              </span>
-            </p>
+              <div className={classes.divider}></div>
+              <p className={classes.container_body_footer}>
+                <span>
+                  <ClockIcon /> {time}
+                </span>
+                <span>
+                  <CalenderIcon /> {date}
+                </span>
+                <span>
+                  <StadiumIcon /> {stadium}
+                </span>
+              </p>
+            </div>
+          )}
+
+          <div className={classes.card_footer_right} onClick={nextStep}>
+            <ForwardArrow color={"#fb6e00"} />
           </div>
-        )}
-
-        <div className={classes.card_footer_right} onClick={nextStep}>
-          <ForwardArrow color={"#fb6e00"} />
         </div>
-      </div>
+      )}
     </div>
   );
 }

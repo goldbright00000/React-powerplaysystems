@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { isEmpty, isEqual } from "lodash";
 import { useSelector, useDispatch } from "react-redux";
 import { cloneDeep } from "lodash";
@@ -19,22 +19,58 @@ import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
 import SportsSidebarContent from "../../components/SportsSidebarContent";
 import SelectionCard from "../../components/SportsSelectionCard";
-import SelectionCard2 from "../../components/SportsSelectionCard2";
+import SelectionCard3 from "../../components/SportsSelectionCard3";
+import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCard";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
 import { CONSTANTS } from "../../utility/constants";
 import SportsContestRules from "../../components/SportsContestRules";
 import { redirectTo } from "../../utility/shared";
+import PrizeModal from "../../components/PrizeModal";
+import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
 
 import { dummyData } from "./dummyData";
 import SearchInput from "../../components/SearchInput";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
-import Header5 from "../../components/Header5";
+import Header4 from "../../components/Header4";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
+
+import StarImg from "../../assets/star.png";
+import ContestRuleIcon from "../../assets/icons/contest-rules.png";
+import PrizeCupIcon from "../../assets/icons/prize-cup.png";
+import CloseIconGrey from "../../assets/close-icon-grey.png";
+import MenuIcon from "../../assets/icons/menu.png";
+import SwapPlayerIcon from "../../assets/swap-player-icon.png";
+import PointMultiplierIcon from "../../assets/point-multiplier-icon.png";
+import VideoReviewIcon from "../../assets/video-review-icon.png";
+import DWallIcon from "../../assets/d-wall-icon.png";
+import UndoIcon from "../../assets/undo-icon.png";
+import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+
+import Button from "../../components/Button";
+import ButtonFloating from "../../components/ButtonFloating";
+import ModalBottom from "../../components/ModalBottom";
+import { BottomSheet } from "react-spring-bottom-sheet";
+import "./bottomSheetStyles.scss";
+
+import { useMediaQuery } from "react-responsive";
+
+const prizeData = [
+  { place: "1st", payout: "$2,0000.00" },
+  { place: "2nd", payout: "$750.00" },
+  { place: "3rd", payout: "$350.00" },
+  { place: "4th", payout: "$200.00" },
+  { place: "5th", payout: "$150.00" },
+  { place: "6th - 7th", payout: "$100.00" },
+  { place: "8th - 10th", payout: "$80.00" },
+  { place: "11th - 15th", payout: "$60.00" },
+  { place: "16th - 20th", payout: "$50.00" },
+  { place: "21st - 30th", payout: "$40.00" },
+];
 
 const INITIAL_PLAYER_LIST = [
   {
@@ -142,7 +178,38 @@ const dropDown = [
   { title: "Team D" },
 ];
 
+const headerText = [
+  {
+    id: 1,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team.`,
+  },
+  {
+    id: 2,
+    text: `Select 1 Catcher.`,
+  },
+  {
+    id: 3,
+    text: `Select 1 Shortstop.`,
+  },
+  {
+    id: 4,
+    text: `Select 2 players from the pool of players at First Base (1B), Second Base (2B), and Third Base (3B). You may only select one Star player from the XB pool.`,
+  },
+  {
+    id: 5,
+    text: `Select 2 Outfielders (OF) from the pool of players at Left Field (LF), Center Field (CF), and Right Field (RF). You may select only one Star player from the OF pool.`,
+  },
+  {
+    id: 6,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team. You can see the Average Runs Against (ARA) for each team below. Click the Arrow icon to see starting Pitchers.`,
+  },
+];
+
+let starPowerIndex = 0;
+let selectedPlayerCount = 0;
+
 function NHLPowerdFs(props) {
+  const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -153,15 +220,24 @@ function NHLPowerdFs(props) {
   const [filterdData, setFilterdData] = useState();
   const [selectedDropDown, setSelectedDropDown] = useState();
   const [activeTab, setActiveTab] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [showPrizeModal, setPrizeModalState] = useState(false);
 
-  const { data = [] } = useSelector((state) => state.nhl);
-  const { auth: { user: { token = '' } } = {} } = useSelector((state) => state);
+  const {
+    data = [],
+    starPlayerCount = 0,
+    game_id,
+    sport_id,
+    isEdit = false,
+    allData = [],
+    savedPlayers = [],
+  } = useSelector((state) => state.nhl);
+  const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
 
   const dispatch = useDispatch();
 
   //reset the states
   useEffect(() => {
-    starPlayerCount = 0;
     dispatch(NHLActions.setNhlData(dummyData));
     dispatch(NHLActions.starPlayerCount(starPlayerCount));
     setPlayerList(cloneDeep(INITIAL_PLAYER_LIST));
@@ -359,11 +435,128 @@ function NHLPowerdFs(props) {
     </div>
   );
 
+  const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
+    <div className={classes.body_card}>
+      <span>{count}</span>
+      <img src={Icon} />
+      <p>{title}</p>
+    </div>
+  );
+
+  const getBackgroundImageWithStyle = () => {
+    let backgroundImageStyle = {
+      backgroundRepeat: "no-repeat",
+      backgroundAttachment: "inherit",
+      backgroundColor: "#17181a",
+      backgroundImage: `url(${NHLFooterImage})`,
+      backgroundSize: "cover",
+      opacity: 0.6,
+    };
+
+    // backgroundImageStyle.backgroundPosition = "-16px -13px";
+
+    return backgroundImageStyle;
+  };
+
+  const [showPowerInfoModal, setShowPowerInfoModal] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const focusRef = useRef();
+  const sheetRef = useRef();
+
+  const powerInfoModal = () => {
+    return (
+      <>
+        <ModalBottom visible={showPowerInfoModal}>
+          <div className={classes.__info_modal}>
+            <div className={classes.__close_icon}>
+              <img
+                src={CloseIconGrey}
+                width="20px"
+                height="20px"
+                onClick={() => setShowPowerInfoModal(false)}
+              />
+            </div>
+            <div className={classes.__powerInfoModalTitle}>
+              <span>MY</span> POWERS
+            </div>
+            <br />
+            <div className={classes.__powers_available}>
+              <RenderIcon
+                title="Point Booster"
+                Icon={PointMultiplierIcon}
+                iconSize={54}
+                count={2}
+              />
+
+              <RenderIcon
+                title="Swap Player"
+                Icon={SwapPlayerIcon}
+                iconSize={54}
+                count={2}
+              />
+
+              <RenderIcon
+                title="Undo"
+                Icon={UndoIcon}
+                iconSize={54}
+                count={2}
+              />
+            </div>
+            <div className={classes.__powers_available}>
+              <RenderIcon
+                title="Retro Boost"
+                Icon={RetroBoostIcon}
+                iconSize={24}
+                count={1}
+              />
+
+              <RenderIcon
+                title="D-Wall"
+                Icon={DWallIcon}
+                iconSize={54}
+                count={1}
+              />
+
+              <RenderIcon
+                title="Video Review"
+                Icon={VideoReviewIcon}
+                iconSize={54}
+                count={1}
+              />
+            </div>
+
+            <div className={classes.__buttons_div}>
+              <Button
+                title={"Contest Rules"}
+                icon={
+                  <img src={ContestRuleIcon} width="18" height="18" alt="" />
+                }
+                styles={{
+                  marginRight: "10px",
+                  backgroundColor: "rgba(242, 242, 242, 0.1)",
+                  border: "0px",
+                }}
+              />
+              <Button
+                title={"Prize Grid"}
+                icon={<img src={PrizeCupIcon} width="18" height="18" alt="" />}
+                styles={{
+                  backgroundColor: "rgba(242, 242, 242, 0.1)",
+                  border: "0px",
+                }}
+              />
+            </div>
+          </div>
+        </ModalBottom>
+      </>
+    );
+  };
+
   return (
     <>
       <Header />
       <div className={classes.wrapper}>
-        <Header5
+        <Header4
           titleMain1="NHL 2021"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
@@ -377,17 +570,29 @@ function NHLPowerdFs(props) {
           prizeBtnTitle="Prize Grid"
           bgImageUri={NHLBG}
           token={token}
+          onClickPrize={() => setPrizeModalState(true)}
+          isMobile={isMobile}
         />
 
         <div className={classes.container}>
           <div className={classes.container_left}>
-            <h2>Select your team</h2>
-            <div className={classes.container_left_header_2}>
-              <p>7 starters + 1 team D</p> <span className={classes.line} />
-            </div>
+            {!isMobile && (
+              <>
+                <h2>
+                  {loading
+                    ? "Loading..."
+                    : isEdit
+                    ? "Edit your team"
+                    : "Select your team"}
+                </h2>
+                <div className={classes.container_left_header_2}>
+                  <p>7 starters + 1 team D</p> <span className={classes.line} />
+                </div>
+              </>
+            )}
 
             <div className={classes.container_top}>
-              <p>Select Position</p>
+              {!isMobile && <p>Select Position</p>}
               <div className={classes.container_top_1}>
                 <SportsFilters
                   data={filters}
@@ -404,153 +609,231 @@ function NHLPowerdFs(props) {
                 />
               </div>
             </div>
+            {isMobile && (
+              <div className={classes.select_team_info}>
+                Select 1 Team Defense, Goals against result in negative points
+                for your team.
+              </div>
+            )}
 
             <div className={classes.container_body}>
               <Card>
-                {filterdData && filterdData?.data?.length ? (
-                  filterdData?.data?.map((item, index) =>
-                    selectedFilter?.title === CONSTANTS.FILTERS.NHL.TD ? (
-                      <SelectionCard2
-                        title={item.title}
-                        avgVal={item.avgVal}
-                        teamA={item.teamA}
-                        teamB={item.teamB}
-                        time={item.time}
-                        date={item.date}
-                        stadium={item.stadium}
-                        isSelected={!!selected.get(item.id)}
-                        key={item.id}
-                        onSelectDeselect={onSelectDeselect}
-                        id={item.id}
-                        steps={item?.steps && item?.steps}
-                        isStarPlayer={item.isStarPlayer && item.isStarPlayer}
-                        disabled={
-                          item.isStarPlayer &&
-                          item.isStarPlayer &&
-                          starPlayerCount >= 3
-                        }
-                      />
-                    ) : (
-                      <SelectionCard
-                        item={item}
-                        isSelected={!!selected.get(item.id)}
-                        key={item.id}
-                        onSelectDeselect={onSelectDeselect}
-                        disabled={
-                          item.isStarPlayer &&
-                          item.isStarPlayer &&
-                          starPlayerCount >= 3
-                        }
-                      />
-                    )
-                  )
+                {loading ? (
+                  <p className={classes.loading_view}>Loading...</p>
                 ) : (
-                  <>No Data</>
+                  <>
+                    {!isMobile && (
+                      <div className={classes.card_header}>
+                        <p>{headerText[selectedFilter?.id - 1]?.text}</p>
+                      </div>
+                    )}
+
+                    <div className={classes.card_body}>
+                      {filterdData && filterdData?.data?.length ? (
+                        filterdData?.data?.map((item, index) =>
+                          selectedFilter?.title === CONSTANTS.FILTERS.NHL.TD ? (
+                            <SportsTeamSelectionCard
+                              item={item}
+                              isSelected={!!selected.get(item.team_id)}
+                              key={item?.team_id + " - " + item?.match_id}
+                              onSelectDeselect={onSelectDeselect}
+                              disabled={
+                                item.isStarPlayer &&
+                                item.isStarPlayer &&
+                                starPowerIndex >= 3
+                              }
+                              mlbCard
+                            />
+                          ) : (
+                            <SelectionCard3
+                              player={item}
+                              isSelected={!!selected.get(item.playerId)}
+                              key={item.playerId}
+                              loading={loading}
+                              onSelectDeselect={onSelectDeselect}
+                              pageType={PAGE_TYPES.NHL}
+                              // disabled={
+                              //   item.isStarPlayer &&
+                              //   item.isStarPlayer &&
+                              //   starPlayerCount >= 3
+                              // }
+                            />
+                          )
+                        )
+                      ) : (
+                        <p>No Data</p>
+                      )}
+                    </div>
+                  </>
                 )}
               </Card>
-              <img src={AcceleRadar} className={classes.partner_logo} />
+              {!isMobile && (
+                <img src={AcceleRadar} className={classes.partner_logo} />
+              )}
             </div>
 
-            {/* <SportsContestRules
-              img={NHLFooterImage}
-              basicRules={basicRules}
-              detailRules={detailRules}
-            /> */}
-            <div className={classes.container_footer}>
-              <div className={classes.container_footer_header}>
-                <ContestRulesIcon />
-                <div className={classes.container_footer_title}>
-                  <h2>Contest Rules</h2>
-                  <span className={classes.separator} />
-                </div>
-              </div>
-              <div className={classes.container_footer_1}>
-                <div className={classes.container_footer_2}>
-                  <div className={classes.container_tabs}>
-                    <Tabs
-                      selectedIndex={activeTab}
-                      onSelect={(tabIndex) => {
-                        setActiveTab(tabIndex);
-                      }}
-                    >
-                      <TabList className={classes.tabs_header}>
-                        <Tab className={`${activeTab === 0 && classes.active}`}>
-                          Summary
-                        </Tab>
-                        <Tab className={`${activeTab === 1 && classes.active}`}>
-                          Scoring
-                        </Tab>
-                        <Tab className={`${activeTab === 2 && classes.active}`}>
-                          Powers Available
-                        </Tab>
-                      </TabList>
+            {isMobile ? (
+              <>
+                <div className={classes.container_footer}>
+                  <div className={classes.container_footer_header}>
+                    <div className={classes.container_footer_title}>
+                      <h2>Contest Rules</h2>
+                      <span className={classes.separator} />
+                    </div>
+                  </div>
 
-                      <div className={classes.tab_body}>
-                        <TabPanel>
-                        <ContestColumn title="" widthClass={classes.width_200}>
-                          <div className={classes.column_body}>
-                            <ContestSummaryRow
-                              text={
-                                <p>
-                                  <span>$100,000</span> Prize Pool
-                                </p>
-                              }
-                            />
-                            <ContestSummaryRow
-                              text={
-                                <p>
-                                  Live-play <span>Powers</span> included with entry
-                                  fee
-                                </p>
-                              }
-                            />
-                            <ContestSummaryRow
-                              text={
-                                <p>
-                                  Pick players from any teams scheduled to play on{" "}
-                                  <span>July 19, 2021</span>
-                                </p>
-                              }
-                            />
-                          </div>
-                        </ContestColumn>
-                        </TabPanel>
-                        <TabPanel>
-                        
-                        </TabPanel>
-                        <TabPanel>
-                          
-                        </TabPanel>
+                  <div className={classes.__mobilefooter}>
+                    <div
+                      style={getBackgroundImageWithStyle()}
+                      className={classes.__mobilefooterimage}
+                    ></div>
+
+                    <ContestColumn title="" widthClass={classes.width_200}>
+                      <div className={classes.column_body}>
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              <span>$100,000</span> Prize Pool
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Live-play <span>Powers</span> included with <br />
+                              entry fee
+                            </p>
+                          }
+                        />
+                        <ContestSummaryRow
+                          text={
+                            <p>
+                              Pick players from any teams scheduled to play on{" "}
+                              <span>July 19, 2021</span>
+                            </p>
+                          }
+                        />
                       </div>
-                    </Tabs>
+                    </ContestColumn>
+
+                    <div className={classes.__see_full_rules}>
+                      <ContestRulesPopUp
+                        component={({ showPopUp }) => (
+                          <button
+                            onClick={showPopUp}
+                            className={classes.footer_full_rules}
+                            href="#"
+                          >
+                            See Full Rules <img src={RightArrow} />
+                          </button>
+                        )}
+                      />
+                    </div>
                   </div>
                 </div>
-                <ContestRulesPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      className={classes.footer_full_rules}
-                      href="#"
-                    >
-                      See Full Rules <img src={RightArrow} />
-                    </button>
-                  )}
+              </>
+            ) : (
+              <div className={classes.container_footer}>
+                <div className={classes.container_footer_header}>
+                  <ContestRulesIcon />
+                  <div className={classes.container_footer_title}>
+                    <h2>Contest Rules</h2>
+                    <span className={classes.separator} />
+                  </div>
+                </div>
+                <div className={classes.container_footer_1}>
+                  <div className={classes.container_footer_2}>
+                    <div className={classes.container_tabs}>
+                      <Tabs
+                        selectedIndex={activeTab}
+                        onSelect={(tabIndex) => {
+                          setActiveTab(tabIndex);
+                        }}
+                      >
+                        <TabList className={classes.tabs_header}>
+                          <Tab
+                            className={`${activeTab === 0 && classes.active}`}
+                          >
+                            Summary
+                          </Tab>
+                          <Tab
+                            className={`${activeTab === 1 && classes.active}`}
+                          >
+                            Scoring
+                          </Tab>
+                          <Tab
+                            className={`${activeTab === 2 && classes.active}`}
+                          >
+                            Powers Available
+                          </Tab>
+                        </TabList>
+
+                        <div className={classes.tab_body}>
+                          <TabPanel>
+                            <ContestColumn
+                              title=""
+                              widthClass={classes.width_200}
+                            >
+                              <div className={classes.column_body}>
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      <span>$100,000</span> Prize Pool
+                                    </p>
+                                  }
+                                />
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      Live-play <span>Powers</span> included
+                                      with entry fee
+                                    </p>
+                                  }
+                                />
+                                <ContestSummaryRow
+                                  text={
+                                    <p>
+                                      Pick players from any teams scheduled to
+                                      play on <span>July 19, 2021</span>
+                                    </p>
+                                  }
+                                />
+                              </div>
+                            </ContestColumn>
+                          </TabPanel>
+                          <TabPanel></TabPanel>
+                          <TabPanel></TabPanel>
+                        </div>
+                      </Tabs>
+                    </div>
+                  </div>
+                  <ContestRulesPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        onClick={showPopUp}
+                        className={classes.footer_full_rules}
+                        href="#"
+                      >
+                        See Full Rules <img src={RightArrow} />
+                      </button>
+                    )}
+                  />
+                </div>
+                <img
+                  src={NHLFooterImage}
+                  className={classes.container_body_img}
                 />
               </div>
-              <img
-                src={NHLFooterImage}
-                className={classes.container_body_img}
-              />
-            </div>
+            )}
           </div>
+
           <div className={classes.sidebar_container}>
-            <Sidebar styles={{ padding: 20}}>
+            <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
                 powerBalance={50000}
                 cashBalance={200000}
                 styles={{
-                  width: "100%",
                   marginTop: "-40px",
                 }}
                 cashTitle="Prize Pool"
@@ -561,8 +844,13 @@ function NHLPowerdFs(props) {
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>
                 <div className={classes.sidebar_header_1}>
-                  <img src={PowerPlayIcon} />
-                  <p>0/3 Star Power Players Selected</p>
+                  <p>
+                    <span>
+                      <img src={StarImg} className={classes.smallImg} />
+                      Star Power
+                    </span>{" "}
+                    players selected
+                  </p>
                 </div>
                 <div className={classes.sidebar_circles}>
                   <StarPlayersCheck
@@ -573,7 +861,9 @@ function NHLPowerdFs(props) {
               </div>
               <SportsSidebarContent
                 data={playerList}
-                onDelete={(playerId) => onDelete(playerId)}
+                onDelete={(playerId, matchId) => onDelete(playerId, matchId)}
+                starIcon={StarImg}
+                selectedPlayerCount={selectedPlayerCount}
               />
               <button
                 onClick={() =>
@@ -588,6 +878,116 @@ function NHLPowerdFs(props) {
         </div>
       </div>
       <Footer isBlack={true} />
+
+      {isMobile && (
+        <BottomSheet
+          open
+          skipInitialTransition
+          ref={sheetRef}
+          initialFocusRef={focusRef}
+          defaultSnap={({ maxHeight }) => maxHeight / 2}
+          snapPoints={({ maxHeight }) => [
+            maxHeight - maxHeight / 10,
+            maxHeight / 5.3,
+            // maxHeight * 0.6,
+          ]}
+          blocking={false}
+          expandOnContentDrag
+          onSpringStart={async (event) => {
+            console.log("Event Type: ", event.type);
+            if (event.type === "SNAP") {
+              setIsExpanded(!isExpanded);
+            }
+          }}
+        >
+          {/* <div className={classes.closeBottomSheet}>
+            <span
+              onClick={() =>
+                sheetRef.current.snapTo(({ snapPoints }) =>
+                  Math.min(...snapPoints)
+                )
+              }
+            >
+              X
+            </span>
+          </div> */}
+
+          {/* {!isExpanded && (
+            <div className={classes.sidebar_header}>
+              <p>
+                {selectedPlayerCount}/{data?.length} Starting Players Selected
+              </p>
+              <div className={classes.sidebar_header_1}>
+                <p>
+                  <span>
+                    <img src={StarImg} className={classes.smallImg} />
+                    Star Power
+                  </span>{" "}
+                  players selected
+                  <div className={classes.sidebar_circles}>
+                    <StarPlayersCheck
+                      totalStarPlayers={3}
+                      selectedCount={starPlayerCount}
+                    />
+                  </div>
+                </p>
+              </div>
+            </div>
+          )} */}
+
+          <div className={classes.sidebar_header}>
+            <h2>My Selections</h2>
+            <div className={classes.sidebar_header_1}>
+              <p>
+                <span>
+                  <img src={StarImg} className={classes.smallImg} />
+                  Star Power
+                </span>{" "}
+                players selected
+              </p>
+            </div>
+            <div className={classes.sidebar_circles}>
+              <StarPlayersCheck
+                totalStarPlayers={3}
+                selectedCount={starPlayerCount}
+              />
+            </div>
+          </div>
+
+          <SportsSidebarContent
+            data={playerList}
+            onDelete={(id, matchId) => onDelete(id, matchId)}
+            starIcon={StarImg}
+            selectedPlayerCount={selectedPlayerCount}
+          />
+
+          <button
+            className={classes.sidebar_button}
+            onClick={() => redirectTo(props, { path: "/nfl-live-powerdfs" })}
+          >
+            Submit!
+          </button>
+        </BottomSheet>
+      )}
+
+      {isMobile && (
+        <ButtonFloating
+          isRounded
+          transparent
+          icon={<img src={MenuIcon} width="58" height="58" alt="" />}
+          iconOnly={true}
+          onClick={() => setShowPowerInfoModal(true)}
+        />
+      )}
+
+      {showPowerInfoModal && powerInfoModal()}
+
+      <PrizeModal
+        visible={showPrizeModal}
+        sportsName="NHL"
+        data={prizeData}
+        onClose={() => setPrizeModalState(false)}
+      />
     </>
   );
 }

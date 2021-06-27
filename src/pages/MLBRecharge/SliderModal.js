@@ -17,6 +17,7 @@ function SliderModal(props) {
     player = {},
     onChange = (value) => {},
     onClose = () => {},
+    type = "",
   } = props || {};
 
   if (!visible) return <></>;
@@ -50,30 +51,30 @@ function SliderModal(props) {
             }}
           />
           <div className={classes.cell_steps}>
-            <span>
-              <div className={classes.cell_short_line} /> 5x
-            </span>
-            <span>
-              <div className={classes.cell_long_line} /> 4.5x
-            </span>
-            <span>
-              <div className={classes.cell_short_line} /> 4x
-            </span>
-            <span>
-              <div className={classes.cell_long_line} /> 3.5x
-            </span>
-            <span>
-              <div className={classes.cell_short_line} /> 3x
-            </span>
-            <span>
-              <div className={classes.cell_long_line} /> 2.5x
-            </span>
-            <span>
-              <i className={classes.cell_short_line}></i> 2x
-            </span>
-            <span>
-              <i className={classes.cell_long_line}></i> 1.5x
-            </span>
+            <div className={classes.cell_step1}>
+              <i></i> <span>5x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>4.5x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>4x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>3.5x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>3x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>2.5x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>2x</span>
+            </div>
+            <div className={classes.cell_step1}>
+              <i></i> <span>1.5x</span>
+            </div>
           </div>
         </div>
       </div>
@@ -93,6 +94,7 @@ SliderModal.propTypes = {
   visible: PropTypes.bool,
   onClose: PropTypes.func,
   player: PropTypes.object,
+  type: PropTypes.string,
 };
 
 export default SliderModal;

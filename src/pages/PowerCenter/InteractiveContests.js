@@ -9,7 +9,7 @@ import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import PowerCenterCard from "../../components/PowerCenterCard";
-import { getDaysFromToday, printLog, redirectTo } from "../../utility/shared";
+import { getDaysFromToday, redirectTo } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import FilledArrow from "../../components/FilledArrow";
 import PowerCenterMobileCard from "../../components/PowerCenterMobileCard";
@@ -218,7 +218,7 @@ const InteractiveContests = (props) => {
     switch (item?.league) {
       case "MLB":
         return redirectTo(props, {
-          path: "/mlb-powerdfs",
+          path: `/mlb-powerdfs`,
           state: {
             game_id: item?.game_id,
             sport_id: item?.sports_id,
@@ -235,7 +235,6 @@ const InteractiveContests = (props) => {
   const powerCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
-        {printLog(item)}
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
@@ -502,7 +501,9 @@ const InteractiveContests = (props) => {
               Power-Up to experience our ground-breaking live-play games where
               you have the Power to control your team’s destiny. *
             </div>
-            <button className={`${classes.__power_up_btn} w-100 mx-0`}>Power Up!</button>
+            <button className={`${classes.__power_up_btn} w-100 mx-0`}>
+              Power Up!
+            </button>
           </>
         )}
       </div>

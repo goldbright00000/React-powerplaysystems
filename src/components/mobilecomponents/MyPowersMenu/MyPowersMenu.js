@@ -46,14 +46,12 @@ const MyPowersMenu = ({
             unlock={false}
             src="xpLocked.svg"
             heading="Point Booster"
-            popUp={boostModal}
           />
           <SingleBooster
             unlock={true}
             src="repeat.svg"
             heading="Swap player"
             number="1"
-            popUp={swapModal}
           />
           <SingleBooster
             unlock={true}

@@ -69,7 +69,7 @@ const HomePage = (props) => {
           </div>
           <div className={classes.__home_page_first_section_main}>
             <div className={classes.__home_page_first_section_cell_phones}>
-              <img src={CellPhones} />
+              <img src={CellPhones} alt="" />
             </div>
             <div className={classes.__home_page_first_section_body}>
               <div className={classes.__home_page_first_section_body_data}>

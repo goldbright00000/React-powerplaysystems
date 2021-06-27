@@ -196,7 +196,6 @@ const GetUserInfoPage = (props) => {
         errorMsg: response.data.message,
       });
     } else {
-      console.log(response?.data?.user?.user_id);
       savePersonaUserId(response?.data?.user?.user_id);
     }
 
