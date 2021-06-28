@@ -16,6 +16,7 @@ import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
 import _ from "underscore";
+import moment from 'moment';
 
 // TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
 
@@ -189,10 +190,10 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={item.inProgress}
-          completed={item.completed}
+          inProgress={moment(new Date()).isBetween(item?.game?.game_set_start, item?.game?.game_set_end)}
+          completed={moment(new Date()).isAfter(item?.game?.game_set_end)}
           teamManager={item.teamManager}
-          editPicks={item?.players?.length > 0}
+          editPicks={item?.players?.length > 0 && !moment(new Date()).isAfter(item?.game?.game_set_end)}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}
@@ -235,10 +236,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  cardItem?.game?.league === item.title
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                cardItem?.game?.league === item.title
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
