@@ -47,8 +47,7 @@ const Verification = (props) => {
         <div className={formStyles.header}>
           {/* <button className={styles.backButton}>Back</button> */}
           <button
-            className={`btn btn-default ${styles.customizeBackBtn} ${styles.btnFlat}`}
-          >
+            className={`btn btn-default ${styles.customizeBackBtn} ${styles.btnFlat}`} onClick={() => history.goBack()}>
             <span>
               <ArrowLeft />
             </span>
@@ -87,9 +86,9 @@ const Verification = (props) => {
 
         <button
           className={formStyles.button}
-          disabled={!code}
+          disabled={(!code && !error)}
           style={{
-            backgroundColor: !code ? "#874008" : "#fb6e00",
+            backgroundColor: (!code && !error) ? "#874008" : "#fb6e00",
           }}
         >
           {error ? "Start Over" : "Next"}
