@@ -361,7 +361,7 @@ function MLBPowerdFs(props) {
     (id, matchId) => {
       const _data = filterdData?.listData?.filter((player) => {
         if (selectedData?.type === D) {
-          return player?.playerId === id && matchId === player?.match_id;
+          return player?.team_id === id && matchId === player?.match_id;
         } else {
           return player?.playerId === id && matchId === player?.match_id;
         }
@@ -374,7 +374,6 @@ function MLBPowerdFs(props) {
 
       //selected players
       const _playersList = [...sideBarList];
-
       if (!_selected.get(id)) {
         const [_player] = _playersList?.filter((player) => {
           if (selectedData?.type === D) {
@@ -387,6 +386,7 @@ function MLBPowerdFs(props) {
             );
           }
         });
+
         if (!isEmpty(_player)) {
           let _playerOrTeam = {};
           if (selectedData?.type === D) {
@@ -418,7 +418,7 @@ function MLBPowerdFs(props) {
       } else {
         let existingPlayerIndex = _playersList?.findIndex((obj) => {
           if (selectedData?.type === D) {
-            return obj?.team?.playerId === playerOrTeam?.playerId;
+            return obj?.team?.team_id === playerOrTeam?.team_id;
           } else {
             return obj?.player?.playerId === playerOrTeam?.playerId;
           }
@@ -441,9 +441,6 @@ function MLBPowerdFs(props) {
           }
         }
         selectedPlayerCount--;
-
-        console.log("check subtraction");
-        console.log(_starPlayerCount);
       }
 
       dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
@@ -914,8 +911,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -986,11 +983,11 @@ function MLBPowerdFs(props) {
                                   onSelectDeselect={onPlayerSelectDeselect}
                                   pageType={PAGE_TYPES.MLB}
                                   type={selectedData?.type}
-                                  // disabled={
-                                  //   item.isStarPlayer &&
-                                  //   item.isStarPlayer &&
-                                  //   starPlayerCount >= 3
-                                  // }
+                                // disabled={
+                                //   item.isStarPlayer &&
+                                //   item.isStarPlayer &&
+                                //   starPlayerCount >= 3
+                                // }
                                 />
                               </>
                             )}
@@ -1098,9 +1095,8 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${
-                              classes.__last_tab_header
-                            }`}
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
                           >
                             Powers Available
                           </Tab>
@@ -1289,7 +1285,6 @@ function MLBPowerdFs(props) {
           blocking={false}
           expandOnContentDrag
           onSpringStart={async (event) => {
-            console.log("Event Type: ", event.type);
             if (event.type === "SNAP") {
               setIsExpanded(!isExpanded);
             }

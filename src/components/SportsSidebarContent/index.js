@@ -14,7 +14,7 @@ function SportsSidebarContent(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {
     data = [],
-    onDelete = (id, matchId) => {},
+    onDelete = (id, matchId) => { },
     starIcon = "",
     selectedPlayerCount = 0,
   } = props || {};
@@ -39,12 +39,17 @@ function SportsSidebarContent(props) {
         {isMobile && (
           <span className={name ? classes.active : ""}>{title}</span>
         )}
-        {isStarPlayer && <img src={starIcon ? starIcon : PowerIcon} />}
+        {isStarPlayer && <img src={starIcon ? starIcon : PowerIcon} alt="" />}
         {SvgIcon && <SvgIcon size={svgSize} />}
         {name ? (
           <div className={classes.sidebar_body_value}>
             {name}{" "}
-            <span onClick={() => onDelete(playerId, matchId)}>
+            <span onClick={() => {
+              console.log('playerId --> ', playerId);
+              console.log('matchId --> ', matchId);
+              onDelete(playerId, matchId);
+            }
+            }>
               <DeleteIcon />
             </span>
           </div>
@@ -61,6 +66,7 @@ function SportsSidebarContent(props) {
         {selectedPlayerCount}/{data?.length} Starting Players Selected
       </p>
       <div className={classes.sidebar_body_1}>
+
         {data?.length ? (
           data?.map((item, index) => (
             <SideBarSection
