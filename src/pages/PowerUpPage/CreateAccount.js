@@ -44,6 +44,7 @@ const CreateAccount = (props) => {
         ) {
             return props.setUser({
                 ...props.user,
+                isLoading: false,
                 isFailed: true,
                 errorMsg: "All fields are required",
             });
@@ -52,6 +53,7 @@ const CreateAccount = (props) => {
         if (!isEqual(password, cPassword)) {
             return props.setUser({
                 ...props.user,
+                isLoading: false,
                 isFailed: true,
                 errorMsg: "Password did not match",
             });
@@ -84,6 +86,12 @@ const CreateAccount = (props) => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    React.useEffect(() => {
+        props.setUser({
+            ...props.user,
+            isLoading: false,
+        });
+    }, [])
 
     return (
 
