@@ -137,6 +137,30 @@ let nbaData = [];
 let nhlData = [];
 
 const InteractiveContests = (props) => {
+  // return (
+  //   <div
+  //     style={{
+  //       fontWeight: "bold",
+  //       fontSize: 2.5 + "rem",
+  //       textAlign: "center",
+  //       display: "flex",
+  //       flexDirection: "column",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       height: 30 + "rem",
+  //     }}
+  //   >
+  //     <div>Games will be live july 19th!</div>
+  //     <div
+  //       style={{
+  //         marginTop: 2 + "rem",
+  //         width: 80 + "%",
+  //       }}
+  //     >
+  //       Create Your Account Now and get ready to Power-up!
+  //     </div>
+  //   </div>
+  // );
   const dispatch = useDispatch();
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
@@ -377,7 +401,7 @@ const InteractiveContests = (props) => {
                     return (
                       <div
                         key={index}
-                        className={`${classes.__currency_menu_item} 
+                        className={`${classes.__currency_menu_item}
                                                 ${
                                                   selectedCurrencies?.includes(
                                                     item.value
