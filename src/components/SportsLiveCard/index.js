@@ -60,7 +60,7 @@ function SportsLiveCard(props) {
   const {
     name = "",
     type = "",
-    points = 0,
+    points = 6,
     homeTeam = "",
     awayTeam = "",
     stats = {},
@@ -75,7 +75,8 @@ function SportsLiveCard(props) {
     boost = {},
   } = player || {};
 
-  const { away_team = {}, home_team = {}, status = "" } = match || {};
+  const { away_team = {}, home_team = {}, status = "", boxscore = [] } =
+    match || {};
 
   const {
     hits = 0,
@@ -88,11 +89,13 @@ function SportsLiveCard(props) {
     wins = 0,
     losses = 0,
     innings_pitched = 0,
-    strike_outs = 0,
+    strikes = 0,
     earned_runs_average = 0,
     base_on_balls = 0,
     walks_hits_per_innings_pitched = 0,
-  } = mlb_player_stats[0] || {};
+    hitter = {},
+    pitcher = {},
+  } = boxscore[0] || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
@@ -162,7 +165,7 @@ function SportsLiveCard(props) {
             {stats?.val1}
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            K:{strike_outs} | W:{wins}
+            K:{strikes} | W:{wins}
           </p>
         </div>
       </div>
@@ -340,11 +343,10 @@ function SportsLiveCard(props) {
                       />
                     )}
 
-                    {cardType !== CardType.NFL &&
-                    !isEmpty(playerStats) &&
-                    !singleView ? (
+                    {cardType !== CardType.NFL && !singleView ? (
                       <RenderMLBPlayerStats
-                        playerStats={playerStats}
+                        hitter={hitter}
+                        pitcher={pitcher}
                         {...props}
                       />
                     ) : (
