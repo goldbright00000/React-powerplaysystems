@@ -25,7 +25,6 @@ import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
-
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";

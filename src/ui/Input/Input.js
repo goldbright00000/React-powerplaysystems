@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Eye from "../../icons/Eye";
 import "./Input.scss";
 
@@ -12,11 +12,11 @@ const Input = (props) => {
     setValue(value);
     if (props.onChange) props.onChange(e);
   };
-  const showPasswordHandler = () => { 
+  const showPasswordHandler = () => {
     console.log(type);
     setType(type === "password" ? "text" : "password");
     console.log(type);
-  }
+  };
   return (
     <div className={`__text-field-style-2 ${props.className}`}>
       <div className={props.extraclass}>
@@ -69,8 +69,6 @@ export const VerificationInput = (props) => {
   );
 };
 
-
-
 export const PasswordInput = (props) => {
   const id = props.id || props.name;
   const [type, setType] = useState(false);
@@ -80,22 +78,28 @@ export const PasswordInput = (props) => {
     setValue(value);
     if (props.onChange) props.onChange(e);
   };
-  const showPasswordHandler = () => { 
+  const showPasswordHandler = () => {
     setType(type ? false : true);
-  }
+  };
   return (
     <div className={`__text-field-style-2 ${props.className}`}>
       <div className={props.extraclass}>
         <label htmlFor={id}>
           {props.title}{" "}
           <Eye
-              className={`__eye-icon ${type ? "active" : ""}`}
-              onClick={showPasswordHandler}
-            />
+            className={`__eye-icon ${type ? "active" : ""}`}
+            onClick={showPasswordHandler}
+          />
         </label>
         {props?.extra}
       </div>
-      <input type={type ? "text" : "password"} id={id} {...props} value={value} onChange={onChange} />
+      <input
+        type={type ? "text" : "password"}
+        id={id}
+        {...props}
+        value={value}
+        onChange={onChange}
+      />
     </div>
   );
 };

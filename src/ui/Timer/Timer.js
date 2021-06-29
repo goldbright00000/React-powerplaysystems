@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import Alert from "../../components/Alert";
 
 const Timer = (props) => {
   // const { initialMinute = 0, initialSeconds = 0 } = props.time;
