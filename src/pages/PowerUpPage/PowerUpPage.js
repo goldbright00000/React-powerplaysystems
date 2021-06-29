@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { isEmpty, isEqual } from "lodash";
 
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
-import Input from "../../ui/Input/Input";
-import Alert from "../../components/Alert";
 import { redirectTo } from "../../utility/shared";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
 import styles from "./styles.module.scss";
-import formStyles from "../../scss/formstyles.module.scss";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 import CreateAccount from "./CreateAccount";
 import Verification from "./Verification";
@@ -35,7 +29,7 @@ const PowerUpPage = (props) => {
     if (user.isSuccess) {
       redirectTo(props, { path: "login" });
     }
-  }, [user]);
+  }, [user, props]);
 
   useEffect(() => {
     async function sendVerificationEmail() {
@@ -53,7 +47,7 @@ const PowerUpPage = (props) => {
     }
 
     sendVerificationEmail();
-  }, [props.verification]);
+  }, [props, props.verification]);
 
   return (
     <div className={styles.root}>
