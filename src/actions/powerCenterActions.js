@@ -6,7 +6,7 @@ export const GET_ALL_POWER_GAMES = "GET_ALL_POWER_GAMES";
 
 export function getAllGames() {
   return (dispatch) => {
-    const api = `${process.env.REACT_APP_API_URL}/${URLS.GAMES.ALL_POWER_GAMES}`;
+    const api = `${process.env.REACT_APP_API_URL}/${URLS.GAMES.ALL_POWER_GAMES}?status=true`;
     axios
       .get(api)
       .then((res) => {
