@@ -262,7 +262,7 @@ const InteractiveContests = (props) => {
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.sortBy(item?.PrizePayouts, "from")[0]?.amount}
+          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
           outOf={item?.outOf}
           total={item?.target}
           percent={item?.percent}
@@ -289,7 +289,7 @@ const InteractiveContests = (props) => {
         <PowerCenterMobileCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.sortBy(item?.PrizePayouts, "from")[0]?.amount}
+          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
           outOf={item?.outOf}
           total={item?.target}
           percent={item?.percent}
@@ -329,9 +329,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
 
                       setFilteredData(filteredData);
                     }}
@@ -402,12 +402,11 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array

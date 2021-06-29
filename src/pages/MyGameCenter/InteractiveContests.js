@@ -198,7 +198,7 @@ const InteractiveContests = (props) => {
           isMobile={isMobile}
           id={item?.team_id}
           title={item?.game?.league}
-          prize={_.sortBy(item?.game?.PrizePayouts, "from")[0]?.amount}
+          prize={_.reduce(item?.game?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
           outOf={item?.game?.outOf}
           total={item?.game?.target}
           percent={item?.game?.percent}
@@ -257,10 +257,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  cardItem?.game?.league === item.title
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                cardItem?.game?.league === item.title
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
