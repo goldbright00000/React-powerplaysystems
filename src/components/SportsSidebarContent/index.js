@@ -45,8 +45,6 @@ function SportsSidebarContent(props) {
           <div className={classes.sidebar_body_value}>
             {name}{" "}
             <span onClick={() => {
-              console.log('playerId --> ', playerId);
-              console.log('matchId --> ', matchId);
               onDelete(playerId, matchId);
             }
             }>
