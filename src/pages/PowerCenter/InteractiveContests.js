@@ -262,7 +262,13 @@ const InteractiveContests = (props) => {
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
+          prize={_.reduce(
+            item?.PrizePayouts,
+            function (memo, num) {
+              return memo + parseInt(num.amount);
+            },
+            0
+          )}
           outOf={item?.outOf}
           total={item?.target}
           percent={item?.percent}
@@ -289,7 +295,13 @@ const InteractiveContests = (props) => {
         <PowerCenterMobileCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
+          prize={_.reduce(
+            item?.PrizePayouts,
+            function (memo, num) {
+              return memo + parseInt(num.amount);
+            },
+            0
+          )}
           outOf={item?.outOf}
           total={item?.target}
           percent={item?.percent}
@@ -301,7 +313,7 @@ const InteractiveContests = (props) => {
           Power={item?.Powers}
           PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
           showDetails={showCardDetails === item?.game_id}
-          onEnter={() => redirectTo(props, { path: redirectUri || "/" })}
+          onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
@@ -329,9 +341,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                          powerCenterCardData.filter(
-                            (cardItem) => cardItem.league === item.title
-                          );
+                            powerCenterCardData.filter(
+                              (cardItem) => cardItem.league === item.title
+                            );
 
                       setFilteredData(filteredData);
                     }}
@@ -402,11 +414,12 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${selectedCurrencies?.includes(
-                          item.value
-                        ) &&
-                          classes.__currency_menu_selected
-                          }`}
+                                                ${
+                                                  selectedCurrencies?.includes(
+                                                    item.value
+                                                  ) &&
+                                                  classes.__currency_menu_selected
+                                                }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
