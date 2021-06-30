@@ -21,7 +21,6 @@ import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
-import { printLog } from "../../utility/shared";
 
 const MyGameCenterCard = (props) => {
   const {
@@ -57,8 +56,6 @@ const MyGameCenterCard = (props) => {
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
-
-  printLog(completed);
 
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {

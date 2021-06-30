@@ -17,11 +17,12 @@ function NHLLiveSportsHeader(props) {
     buttonIcon = "",
     teamManagerLink = "",
     scoreDetailLink = "",
-    onPress = () => { },
-    onFullView = () => { },
-    onCompressedView = () => { },
-    onSingleView = () => { },
+    onPress = () => {},
+    onFullView = () => {},
+    onCompressedView = () => {},
+    onSingleView = () => {},
     className = {},
+    onGoBack = () => {},
   } = props || {};
 
   const renderActiveButton = () => (
@@ -54,7 +55,10 @@ function NHLLiveSportsHeader(props) {
 
   return (
     <div className={`${classes.container_header} ${className}`}>
-      <button className={`${classes.button_back} ${classes.bg_transparent}`}>
+      <button
+        onClick={onGoBack}
+        className={`${classes.button_back} ${classes.bg_transparent}`}
+      >
         <BackArrow /> Go to My Game center
       </button>
 
@@ -106,6 +110,7 @@ NHLLiveSportsHeader.propTypes = {
   onFullView: PropTypes.func,
   onCompressedView: PropTypes.func,
   onSingleView: PropTypes.func,
+  onGoBack: PropTypes.func,
 };
 
 export default NHLLiveSportsHeader;
