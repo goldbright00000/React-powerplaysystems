@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import CurrencyFormat from "react-currency-format";
 import classes from "./myGameCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
@@ -33,25 +34,24 @@ const MyGameCenterCard = (props) => {
     showDetails = false,
     inProgress = false,
     completed = false,
-    teamManager = false,
     editPicks = false,
     makePicks = false,
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    game_set_end = '',
-    start_time = '',
+    game_set_end = "",
+    start_time = "",
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
-    onDetailsClick = () => { },
-    onBackClick = () => { },
-    onNextClick = () => { },
-    onEnter = () => { },
-    onEdit = () => { },
-    onViewResults = () => { },
-    onViewResultsBack = () => { },
-    onFinalStandings = () => { },
+    onDetailsClick = () => {},
+    onBackClick = () => {},
+    onNextClick = () => {},
+    onEnter = () => {},
+    onEdit = () => {},
+    onViewResults = () => {},
+    onViewResultsBack = () => {},
+    onFinalStandings = () => {},
   } = props || {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
@@ -183,7 +183,14 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_prize_pool_price
                     }
                   >
-                    ${prize}
+                    <CurrencyFormat
+                      value={prize}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$"}
+                      renderText={(value) => <div>{value}</div>}
+                    />
+                    {/* ${prize} */}
                   </p>
                   <p
                     className={
@@ -222,12 +229,18 @@ const MyGameCenterCard = (props) => {
                     240,051 <span>Your Current Rank</span>
                   </div>
                 )}
-                <div className={`${classes.__my_game_center_card_buttons} d-flex align-items-center justify-content-between`}>
-                  {teamManager && (
+                <div
+                  className={`${classes.__my_game_center_card_buttons} d-flex align-items-center justify-content-between`}
+                >
+                  {!completed && (
                     <OutlineButton
                       title="Team Manager"
                       onClick={onEnter}
-                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
+                      styles={{
+                        width: "140px",
+                        fontSize: "12px",
+                        margin: ".25rem",
+                      }}
                     />
                   )}
 
@@ -235,8 +248,12 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Edit Picks"
                       onClick={onEdit}
-                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
-                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                      styles={{
+                        width: "140px",
+                        fontSize: "12px",
+                        margin: ".25rem",
+                      }}
+                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -244,7 +261,11 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Make Picks"
                       onClick={onEnter}
-                      styles={{ width: "140px", fontSize: "12px", margin: '.25rem' }}
+                      styles={{
+                        width: "140px",
+                        fontSize: "12px",
+                        margin: ".25rem",
+                      }}
                     />
                   )}
 
@@ -252,7 +273,11 @@ const MyGameCenterCard = (props) => {
                     <OutlineButton
                       title="Final Standings"
                       onClick={() => onFinalStandings(id)}
-                      styles={{ marginTop: 14, margin: '.25rem', fontSize: '12px' }}
+                      styles={{
+                        marginTop: 14,
+                        margin: ".25rem",
+                        fontSize: "12px",
+                      }}
                     />
                   )}
                 </div>
@@ -423,7 +448,8 @@ const MyGameCenterCard = (props) => {
         !viewResults ? (
           <div
             className={classes.__my_game_center_card}
-            style={getBackgroundImageWithStyle()}>
+            style={getBackgroundImageWithStyle()}
+          >
             {inProgress && (
               <div className={classes.__my_game_center_card_in_progress}>
                 <div className={classes.__in_progress}>
@@ -477,7 +503,13 @@ const MyGameCenterCard = (props) => {
                   classes.__my_game_center_card_prize_pool_price
                 }
               >
-                ${prize}
+                <CurrencyFormat
+                  value={prize}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                  renderText={(value) => <div>{value}</div>}
+                />
               </p>
               <p
                 className={
@@ -509,7 +541,7 @@ const MyGameCenterCard = (props) => {
                   Your Current Rank: 240,051
                 </div>
               )}
-              {teamManager && (
+              {!completed && (
                 <OutlineButton title="Team Manager" onClick={onEnter} />
               )}
 
@@ -518,7 +550,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 

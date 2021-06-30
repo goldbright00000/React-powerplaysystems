@@ -137,6 +137,30 @@ let nbaData = [];
 let nhlData = [];
 
 const InteractiveContests = (props) => {
+  // return (
+  //   <div
+  //     style={{
+  //       fontWeight: "bold",
+  //       fontSize: 2.5 + "rem",
+  //       textAlign: "center",
+  //       display: "flex",
+  //       flexDirection: "column",
+  //       justifyContent: "center",
+  //       alignItems: "center",
+  //       height: 30 + "rem",
+  //     }}
+  //   >
+  //     <div>Games will be live july 19th!</div>
+  //     <div
+  //       style={{
+  //         marginTop: 2 + "rem",
+  //         width: 80 + "%",
+  //       }}
+  //     >
+  //       Create Your Account Now and get ready to Power-up!
+  //     </div>
+  //   </div>
+  // );
   const dispatch = useDispatch();
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
@@ -238,7 +262,7 @@ const InteractiveContests = (props) => {
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.sortBy(item?.PrizePayouts, "from")[0]?.amount}
+          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
           outOf={item?.outOf}
           total={item?.target}
           percent={item?.percent}
@@ -265,7 +289,7 @@ const InteractiveContests = (props) => {
         <PowerCenterMobileCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.sortBy(item?.PrizePayouts, "from")[0]?.amount}
+          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
           outOf={item?.outOf}
           total={item?.target}
           percent={item?.percent}
@@ -305,9 +329,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
 
                       setFilteredData(filteredData);
                     }}
@@ -377,13 +401,12 @@ const InteractiveContests = (props) => {
                     return (
                       <div
                         key={index}
-                        className={`${classes.__currency_menu_item} 
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                        className={`${classes.__currency_menu_item}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array

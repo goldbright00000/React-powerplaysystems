@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
+import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./index.module.scss";
@@ -25,7 +25,6 @@ import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
-
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
@@ -56,6 +55,8 @@ function MLBPowerdFsLive(props) {
   const [playerIds, setPlayerIds] = useState([]);
   const [data, setData] = useState([]);
 
+  const history = useHistory();
+
   const {
     live_data: selectedData = [],
     data: mlbData = [],
@@ -73,7 +74,8 @@ function MLBPowerdFsLive(props) {
 
     return function cleanUP() {
       //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB, () => {
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
         _socket?.disconnect();
         _socket = null;
       });
@@ -90,9 +92,10 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
+    const { gameId, userId, teamId, sportId } = history.location.state || {};
     _socket.emit(ON_ROOM_SUB, {
-      gameId: 7,
-      userId: 113,
+      gameId: gameId,
+      userId: userId,
     });
 
     //On Power applied
@@ -105,7 +108,7 @@ function MLBPowerdFsLive(props) {
 
     //ON_GLOBAL_RANKING_REQUEST
     _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
-      gameId: 1,
+      gameId: gameId,
     });
 
     //ON_FANTASY_LOGS_REQUEST
@@ -127,9 +130,7 @@ function MLBPowerdFsLive(props) {
         team_id = "",
         defense = [],
         players = [],
-      } = res || {};
-
-      printLog(res);
+      } = res?.data || {};
 
       const teamD = defense[0] || {};
       if (players && players?.length) {
@@ -150,9 +151,7 @@ function MLBPowerdFsLive(props) {
     });
 
     //FANTASY_TEAM_UPDATE
-    _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      printLog("FANTASY_TEAM_UPDATE: ", res);
-    });
+    _socket?.on(FANTASY_TEAM_UPDATE, (res) => {});
   };
 
   const getPlayers = async (players = [], teamD = {}) => {
@@ -328,7 +327,7 @@ function MLBPowerdFsLive(props) {
             <SportsLiveCardTeamD
               data={item}
               compressedView={compressedView}
-              key={index + ""}
+              key={index + "" + item?.team_d_mlb_team?.type}
             />
           ) : (
             <SportsLiveCard
@@ -397,6 +396,9 @@ function MLBPowerdFsLive(props) {
                   onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
                   teamManagerLink="/mlb-live-powerdfs"
                   scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                  onGoBack={() =>
+                    redirectTo(props, { path: "/my-game-center" })
+                  }
                 />
                 <Card>{RenderView()}</Card>
                 <div className={classes.left_side_footer}>
