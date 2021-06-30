@@ -16,7 +16,7 @@ import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
 import _ from "underscore";
-import moment from 'moment';
+import moment from "moment";
 
 // TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
 
@@ -171,6 +171,24 @@ const InteractiveContests = (props) => {
     }
   };
 
+  const onEnter = (item) => {
+    printLog(item);
+    const { game = {}, sport_id, team_id, user_id, game_id } = item || {};
+    const { league = "" } = game || {};
+    switch (league) {
+      case "MLB":
+        return redirectTo(props, {
+          path: "/mlb-live-powerdfs",
+          state: {
+            gameId: game_id,
+            userId: user_id,
+            teamId: team_id,
+            sportId: sport_id,
+          },
+        });
+    }
+  };
+
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div
@@ -180,7 +198,7 @@ const InteractiveContests = (props) => {
           isMobile={isMobile}
           id={item?.team_id}
           title={item?.game?.league}
-          prize={_.sortBy(item?.game?.PrizePayouts, "from")[0]?.amount}
+          prize={_.reduce(item?.game?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
           outOf={item?.game?.outOf}
           total={item?.game?.target}
           percent={item?.game?.percent}
@@ -190,18 +208,21 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={moment(new Date()).isBetween(item?.game?.game_set_start, item?.game?.game_set_end)}
+          inProgress={moment(new Date()).isBetween(
+            item?.game?.game_set_start,
+            item?.game?.game_set_end
+          )}
           completed={moment(new Date()).isAfter(item?.game?.game_set_end)}
-          teamManager={item.teamManager}
-          editPicks={item?.players?.length > 0 && !moment(new Date()).isAfter(item?.game?.game_set_end)}
+          editPicks={
+            item?.players?.length > 0 &&
+            !moment(new Date()).isAfter(item?.game?.game_set_end)
+          }
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}
           viewResults={viewResults === item?.team_id}
           finalStandingsModal={finalStandingsModal === item?.team_id}
-          onEnter={() => {
-            redirectTo(props, { path: redirectUri || "/" });
-          }}
+          onEnter={() => onEnter(item)}
           onEdit={() => {
             onEdit(item);
           }}

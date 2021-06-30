@@ -768,7 +768,7 @@ function MLBPowerLevels(props) {
                         className={classes.footer_full_rules}
                         href="#"
                       >
-                        See Full Rules <img src={RightArrow} />
+                        See Full Rules <img src={RightArrow} alt="" />
                       </button>
                     )}
                   />
@@ -777,6 +777,7 @@ function MLBPowerLevels(props) {
               <img
                 src={MLBFooterImage}
                 className={classes.container_body_img}
+                alt=""
               />
             </div>
           </div>

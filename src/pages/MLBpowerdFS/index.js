@@ -224,7 +224,6 @@ const prizeData = [
 
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
-const sidebarObj = {};
 
 function MLBPowerdFs(props) {
   const [selected, setSelected] = useState(new Map());
@@ -359,97 +358,21 @@ function MLBPowerdFs(props) {
 
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
-      const _data = filterdData?.listData?.filter((player) => {
-        if (selectedData?.type === D) {
-          return player?.team_id === id && matchId === player?.match_id;
-        } else {
-          return player?.playerId === id && matchId === player?.match_id;
-        }
-      });
-
-      const playerOrTeam = _data?.[0] || [];
+      if (loading) return;
 
       const _selected = new Map(selected);
-      let _starPlayerCount = starPlayerCount;
+      const res = setPlayerSelection(id, matchId, _selected, sideBarList);
 
-      //selected players
-      const _playersList = [...sideBarList];
-      if (!_selected.get(id)) {
-        const [_player] = _playersList?.filter((player) => {
-          if (selectedData?.type === D) {
-            return (
-              player?.filter === selectedData?.type && isEmpty(player.team)
-            );
-          } else {
-            return (
-              player?.filter === selectedData?.type && isEmpty(player.player)
-            );
-          }
-        });
-
-        if (!isEmpty(_player)) {
-          let _playerOrTeam = {};
-          if (selectedData?.type === D) {
-            _playerOrTeam = _player?.team;
-          } else {
-            _playerOrTeam = _player?.player;
-          }
-
-          if (isEmpty(_playerOrTeam)) {
-            const playerListIndex = _playersList?.indexOf(_player);
-            const player = { ..._player };
-            if (selectedData?.type === D) {
-              player.team = playerOrTeam;
-            } else {
-              player.player = playerOrTeam;
-            }
-
-            player.matchId = playerOrTeam?.match_id;
-            _playersList[playerListIndex] = player;
-
-            _selected.set(id, !selected.get(id));
-            //Star Power Player selection (sidebar)
-            if (starPlayerCount < 3 && playerOrTeam?.isStarPlayer) {
-              _starPlayerCount++;
-            }
-            selectedPlayerCount++;
-          }
-        }
-      } else {
-        let existingPlayerIndex = _playersList?.findIndex((obj) => {
-          if (selectedData?.type === D) {
-            return obj?.team?.team_id === playerOrTeam?.team_id;
-          } else {
-            return obj?.player?.playerId === playerOrTeam?.playerId;
-          }
-        });
-
-        if (existingPlayerIndex !== -1) {
-          _selected.set(id, !selected.get(id));
-          if (
-            starPlayerCount > 0 &&
-            _playersList[existingPlayerIndex].isStarPlayer
-          ) {
-            // console.log("Did Substration")
-            _starPlayerCount--;
-          }
-
-          if (selectedData?.type === D) {
-            _playersList[existingPlayerIndex].team = {};
-          } else {
-            _playersList[existingPlayerIndex].player = {};
-          }
-        }
-        selectedPlayerCount--;
-      }
-
-      dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
-      // console.log("Dispatched setStarPlayerCount");
-      setSelected(_selected);
-      setSidebarList(_playersList);
-      activateFilter(playerOrTeam, selectedData?.type);
+      dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+      setSelected(res.selected);
+      setSidebarList(res._playersList);
+      activateFilter(
+        res.currentPlayer,
+        res.currentPlayer?.type?.toLocaleLowerCase()
+      );
+      onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
     },
-    [selected, selectedFilter, selectedData]
+    [selected, selectedFilter, selectedData, isEdit]
   );
 
   const setPlayerSelection = (
