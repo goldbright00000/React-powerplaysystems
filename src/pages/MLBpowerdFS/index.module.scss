@@ -2881,7 +2881,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
-        padding: 16px;
+        // padding: 16px;
         margin: 0px 0 0px 0em;
         flex: 1;
 
@@ -2893,6 +2893,11 @@
           font-size: 20px;
           margin: 25px 0;
           align-items: center;
+          position: sticky;
+          top: 50px;
+          z-index: 10;
+          background-color: $lightBlack;
+          padding: 20px 0px;
 
           .container_top_1 {
             display: flex;
