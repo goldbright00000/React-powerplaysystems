@@ -8,7 +8,8 @@ import MLBLiveIcon from "../../icons/MLBLiveIcon";
 import { isEmpty } from "lodash";
 
 function RenderMLBPlayerStats(props) {
-  const { hitter = {}, pitcher = {}, largeView = false } = props || {};
+  const { hitter = {}, pitcher = {}, type = "", largeView = false } =
+    props || {};
 
   const {
     active: isHitterActive = false,
@@ -55,7 +56,7 @@ function RenderMLBPlayerStats(props) {
           </div>
         )}
 
-        {!isEmpty(pitcher) && (
+        {!isEmpty(pitcher) && type !== "P" && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
               <Baseball />
@@ -74,6 +75,7 @@ RenderMLBPlayerStats.propTypes = {
   hitter: PropTypes.object,
   pitcher: PropTypes.object,
   largeView: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 export default RenderMLBPlayerStats;
