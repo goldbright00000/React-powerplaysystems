@@ -165,6 +165,7 @@ const InteractiveContests = (props) => {
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
   );
+  const { user } = useSelector((state) => state?.auth);
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
   const currencyMenuRef = useRef(null);
@@ -221,12 +222,18 @@ const InteractiveContests = (props) => {
     }
   }, []);
 
-  useEffect(async () => {
-    await dispatch(getAllGames());
+  useEffect(() => {
+    async function getData() {
+      await dispatch(getAllGames(user?.user_id));
+    }
+    getData();
   }, []);
 
-  useEffect(async () => {
-    setFilteredData(powerCenterCardData);
+  useEffect(() => {
+    async function getFilteredData() {
+      setFilteredData(powerCenterCardData);
+    }
+    getFilteredData();
   }, [powerCenterCardData]);
 
   const handleClick = (e) => {
@@ -262,8 +269,8 @@ const InteractiveContests = (props) => {
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
-          outOf={item?.outOf}
+          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0)}
+          outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
@@ -273,6 +280,7 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
           PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
+          userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
           onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
@@ -289,8 +297,8 @@ const InteractiveContests = (props) => {
         <PowerCenterMobileCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + parseInt(num.amount); }, 0)}
-          outOf={item?.outOf}
+          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0)}
+          outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
@@ -300,8 +308,9 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
           PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
+          userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
-          onEnter={() => redirectTo(props, { path: redirectUri || "/" })}
+          onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}

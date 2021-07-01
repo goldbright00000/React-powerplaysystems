@@ -1,3 +1,4 @@
+/* eslint-disable default-case */
 import React, { useState, useEffect } from "react";
 import classes from "./interactiveContests.module.scss";
 import { useDispatch, useSelector } from "react-redux";
@@ -197,14 +198,8 @@ const InteractiveContests = (props) => {
           isMobile={isMobile}
           id={item?.team_id}
           title={item?.game?.league}
-          prize={_.reduce(
-            item?.game?.PrizePayouts,
-            function (memo, num) {
-              return memo + parseInt(num.amount);
-            },
-            0
-          )}
-          outOf={item?.game?.outOf}
+          prize={_.reduce(item?.game?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0)}
+          outOf={item?.enrolled_users}
           total={item?.game?.target}
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
@@ -266,10 +261,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  cardItem?.game?.league === item.title
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                cardItem?.game?.league === item.title
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
