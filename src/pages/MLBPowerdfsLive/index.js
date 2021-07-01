@@ -30,6 +30,7 @@ import { printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
+import { union } from "lodash";
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 const {
   ON_ROOM_SUB,
@@ -133,7 +134,7 @@ function MLBPowerdFsLive(props) {
         players = [],
       } = res?.data || {};
 
-      console.log(res.data);
+      printLog(res.data);
 
       const teamD = defense[0] || {};
       if (players && players?.length) {
@@ -145,7 +146,27 @@ function MLBPowerdFsLive(props) {
 
     //MATCH_UPDATE
     _socket?.on(MATCH_UPDATE, (res) => {
-      printLog("MATCH_UPDATE: ", res);
+      printLog(res);
+      // if (data && data?.length && res && res?.data) {
+      const { match_id } = res?.data || {};
+      const dataToUpdate = data?.filter(
+        (match) => match?.match_id === match_id
+      );
+      console.log("DATA::::: ", dataToUpdate, data);
+      if (dataToUpdate.length) {
+        for (let i = 0; i < dataToUpdate.length; i++) {
+          const { match = {} } = dataToUpdate[i] || {};
+          const updateMatch = {
+            ...match,
+            boxscore: [{ ...match?.boxscore[0], ...res?.data }],
+          };
+
+          dataToUpdate[i].match = updateMatch;
+        }
+
+        setData(union(data, dataToUpdate));
+      }
+      // }
     });
 
     //GLOBAL_RANKING
