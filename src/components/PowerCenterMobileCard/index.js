@@ -34,6 +34,7 @@ const PowerCenterMobileCard = (props) => {
     onBackClick = () => { },
     onNextClick = () => { },
     onEnter = () => { },
+    userHasEntered = false,
   } = props || {};
 
   const getBackgroundImageWithStyle = () => {
@@ -113,7 +114,18 @@ const PowerCenterMobileCard = (props) => {
               </p>
             </div>
             <div className={classes.__power_center_card_enter}>
-              <OutlineButton title={`Enter  •  $${entry_fee}`} onClick={onEnter} />
+              {userHasEntered ? (
+                <>
+                  <OutlineButton
+                    title={`Entered`}
+                  />
+                </>
+              ) : (
+                <OutlineButton
+                  title={`Enter  •  $${entry_fee}`}
+                  onClick={onEnter}
+                />
+              )}
             </div>
           </div>
         </div>
