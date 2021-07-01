@@ -310,7 +310,7 @@ const InteractiveContests = (props) => {
           PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
-          onEnter={() => redirectTo(props, { path: redirectUri || "/" })}
+          onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}

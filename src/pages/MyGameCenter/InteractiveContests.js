@@ -8,7 +8,7 @@ import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import { redirectTo, getDaysFromToday, printLog } from "../../utility/shared";
+import { redirectTo, getDaysFromToday } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
 import { URLS } from "../../config/urls";
@@ -173,7 +173,6 @@ const InteractiveContests = (props) => {
   };
 
   const onEnter = (item) => {
-    printLog(item);
     const { game = {}, sport_id, team_id, user_id, game_id } = item || {};
     const { league = "" } = game || {};
     switch (league) {
@@ -209,14 +208,18 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={moment(new Date()).isBetween(
+          inProgress={moment(moment().format("YYYY-MM-DD")).isBetween(
             item?.game?.game_set_start,
             item?.game?.game_set_end
           )}
-          completed={moment(new Date()).isAfter(item?.game?.game_set_end)}
+          completed={moment(moment().format("YYYY-MM-DD")).isAfter(
+            item?.game?.game_set_end
+          )}
           editPicks={
             item?.players?.length > 0 &&
-            !moment(new Date()).isAfter(item?.game?.game_set_end)
+            !moment(moment().format("YYYY-MM-DD")).isAfter(
+              item?.game?.game_set_end
+            )
           }
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}

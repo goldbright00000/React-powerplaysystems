@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import CurrencyFormat from 'react-currency-format';
+import CurrencyFormat from "react-currency-format";
 import classes from "./myGameCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
@@ -21,7 +21,6 @@ import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
-import { printLog } from "../../utility/shared";
 
 const MyGameCenterCard = (props) => {
   const {
@@ -45,14 +44,14 @@ const MyGameCenterCard = (props) => {
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
-    onDetailsClick = () => { },
-    onBackClick = () => { },
-    onNextClick = () => { },
-    onEnter = () => { },
-    onEdit = () => { },
-    onViewResults = () => { },
-    onViewResultsBack = () => { },
-    onFinalStandings = () => { },
+    onDetailsClick = () => {},
+    onBackClick = () => {},
+    onNextClick = () => {},
+    onEnter = () => {},
+    onEdit = () => {},
+    onViewResults = () => {},
+    onViewResultsBack = () => {},
+    onFinalStandings = () => {},
   } = props || {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
@@ -184,7 +183,13 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_prize_pool_price
                     }
                   >
-                    <CurrencyFormat value={prize} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}</div>} />
+                    <CurrencyFormat
+                      value={prize}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      prefix={"$"}
+                      renderText={(value) => <div>{value}</div>}
+                    />
                     {/* ${prize} */}
                   </p>
                   <p
@@ -248,7 +253,7 @@ const MyGameCenterCard = (props) => {
                         fontSize: "12px",
                         margin: ".25rem",
                       }}
-                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -498,7 +503,13 @@ const MyGameCenterCard = (props) => {
                   classes.__my_game_center_card_prize_pool_price
                 }
               >
-                <CurrencyFormat value={prize} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}</div>} />
+                <CurrencyFormat
+                  value={prize}
+                  displayType={"text"}
+                  thousandSeparator={true}
+                  prefix={"$"}
+                  renderText={(value) => <div>{value}</div>}
+                />
               </p>
               <p
                 className={
@@ -539,7 +550,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 

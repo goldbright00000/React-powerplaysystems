@@ -1,5 +1,4 @@
 import * as Actions from "../../actions/MLBActions";
-import { printLog } from "../../utility/shared";
 
 const INITIAL_STATE = {
   data: [],
@@ -41,14 +40,14 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
         ...state,
         savedPlayers: actions.payload.data,
         isEdit: actions.payload.isEdit,
-        team_id: actions.payload.team_id
+        team_id: actions.payload.team_id,
       };
 
     case Actions.MLB_USER_SAVED_GAMES:
       return {
         ...state,
-        getUserSavedGames: actions.payload
-      }
+        getUserSavedGames: actions.payload,
+      };
 
     default:
       return state;

@@ -150,7 +150,7 @@ function SportsSelectionCard3(props) {
             showThumbs={false}
             autoPlay={false}
             infiniteLoop={false}
-            interval={300000}
+            interval={1e11}
             // className=".carousel .control-dots"
           >
             <>

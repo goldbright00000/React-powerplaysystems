@@ -25,7 +25,6 @@ import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
-
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
@@ -397,6 +396,9 @@ function MLBPowerdFsLive(props) {
                   onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
                   teamManagerLink="/mlb-live-powerdfs"
                   scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                  onGoBack={() =>
+                    redirectTo(props, { path: "/my-game-center" })
+                  }
                 />
                 <Card>{RenderView()}</Card>
                 <div className={classes.left_side_footer}>
