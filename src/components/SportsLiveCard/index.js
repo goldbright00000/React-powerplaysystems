@@ -96,6 +96,9 @@ function SportsLiveCard(props) {
     walks_hits_per_innings_pitched = 0,
     hitter = {},
     pitcher = {},
+    outs = 0,
+    home_team_runs = 0,
+    away_team_runs = 0,
   } = boxscore[0] || {};
 
   useEffect(() => {
@@ -238,7 +241,13 @@ function SportsLiveCard(props) {
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
-        <p>{away_team?.name} 0</p> vs <span>{home_team?.name} 0</span>
+        <p>
+          {away_team?.name} {away_team_runs}
+        </p>{" "}
+        vs{" "}
+        <span>
+          {home_team?.name} {home_team_runs}
+        </span>
       </div>
     </div>
   );
