@@ -5,6 +5,7 @@ import { Link, NavLink } from "react-router-dom";
 import classes from "./index.module.scss";
 import BackArrow from "../../icons/BackArrow";
 import { CONSTANTS } from "../../utility/constants";
+import { redirectTo } from "../../utility/shared";
 
 function NHLLiveSportsHeader(props) {
   const {
@@ -23,6 +24,7 @@ function NHLLiveSportsHeader(props) {
     onSingleView = () => {},
     className = {},
     onGoBack = () => {},
+    state = {},
   } = props || {};
 
   const renderActiveButton = () => (
@@ -78,6 +80,13 @@ function NHLLiveSportsHeader(props) {
               exact
               to={scoreDetailLink || "/nhl-live-powerdfs/my-score-details"}
               activeClassName={classes.active}
+              onClick={() =>
+                redirectTo(props, {
+                  path:
+                    scoreDetailLink || "/nhl-live-powerdfs/my-score-details",
+                  state: state,
+                })
+              }
             >
               My Score Details
             </NavLink>
@@ -111,6 +120,7 @@ NHLLiveSportsHeader.propTypes = {
   onCompressedView: PropTypes.func,
   onSingleView: PropTypes.func,
   onGoBack: PropTypes.func,
+  state: PropTypes.object,
 };
 
 export default NHLLiveSportsHeader;

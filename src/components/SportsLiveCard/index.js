@@ -60,6 +60,7 @@ function SportsLiveCard(props) {
   const {
     name = "",
     type = "",
+    type1 = "",
     points = 6,
     homeTeam = "",
     awayTeam = "",
@@ -234,10 +235,10 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        {type}
+        {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
-        <p>{home_team?.name} 0</p> vs <span>{away_team?.name} 0</span>
+        <p>{away_team?.name} 0</p> vs <span>{home_team?.name} 0</span>
       </div>
     </div>
   );
@@ -347,6 +348,7 @@ function SportsLiveCard(props) {
                       <RenderMLBPlayerStats
                         hitter={hitter}
                         pitcher={pitcher}
+                        type={type}
                         {...props}
                       />
                     ) : (

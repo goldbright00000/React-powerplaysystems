@@ -93,6 +93,7 @@ function MLBPowerdFsLive(props) {
   //All Emit Events
   const onSocketEmit = () => {
     const { gameId, userId, teamId, sportId } = history.location.state || {};
+    printLog(history.location.state);
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -131,6 +132,8 @@ function MLBPowerdFsLive(props) {
         defense = [],
         players = [],
       } = res?.data || {};
+
+      console.log(res.data);
 
       const teamD = defense[0] || {};
       if (players && players?.length) {
@@ -381,7 +384,7 @@ function MLBPowerdFsLive(props) {
               prizeBtnTitle="Prize Grid"
               bgImageUri={BaseballImage}
               compressedView
-              currentState={<RenderLiveState />}
+              currentState={<RenderLiveState isLive />}
             />
 
             <div className={classes.container}>
@@ -399,6 +402,8 @@ function MLBPowerdFsLive(props) {
                   onGoBack={() =>
                     redirectTo(props, { path: "/my-game-center" })
                   }
+                  state={history.location.state}
+                  {...props}
                 />
                 <Card>{RenderView()}</Card>
                 <div className={classes.left_side_footer}>
