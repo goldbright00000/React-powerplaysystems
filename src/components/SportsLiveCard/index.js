@@ -90,6 +90,7 @@ function SportsLiveCard(props) {
     wins = 0,
     losses = 0,
     innings_pitched = 0,
+    pitch_count = 0,
     strikes = 0,
     earned_runs_average = 0,
     base_on_balls = 0,
@@ -165,12 +166,20 @@ function SportsLiveCard(props) {
           Stats
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {stats?.val1}
-          </p>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            K:{strikes} | W:{wins}
-          </p>
+          {type === "P" ? (
+            <>
+              <p className={`${classes.p} ${largeView && classes.large_view}`}>
+                IP: {innings_pitched} | PC: {pitch_count}
+              </p>
+              <p className={`${classes.p} ${largeView && classes.large_view}`}>
+                K:{strikes} | W:{wins}
+              </p>
+            </>
+          ) : (
+            <>
+              RBI: {runs_batted_in} | R: {0}
+            </>
+          )}
         </div>
       </div>
 

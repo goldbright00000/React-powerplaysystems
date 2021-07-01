@@ -147,26 +147,26 @@ function MLBPowerdFsLive(props) {
     //MATCH_UPDATE
     _socket?.on(MATCH_UPDATE, (res) => {
       printLog(res);
-      if (data && data?.length && res && res?.data) {
-        const { match_id } = res?.data || {};
-        const dataToUpdate = data?.filter(
-          (match) => match?.match_id === match_id
-        );
-        console.log("DATA::::: ", dataToUpdate);
-        if (dataToUpdate.length) {
-          for (let i = 0; i < dataToUpdate.length; i++) {
-            const { match = {} } = dataToUpdate[i] || {};
-            const updateMatch = {
-              ...match,
-              boxscore: [{ ...match?.boxscore[0], ...res?.data }],
-            };
+      // if (data && data?.length && res && res?.data) {
+      const { match_id } = res?.data || {};
+      const dataToUpdate = data?.filter(
+        (match) => match?.match_id === match_id
+      );
+      console.log("DATA::::: ", dataToUpdate, data);
+      if (dataToUpdate.length) {
+        for (let i = 0; i < dataToUpdate.length; i++) {
+          const { match = {} } = dataToUpdate[i] || {};
+          const updateMatch = {
+            ...match,
+            boxscore: [{ ...match?.boxscore[0], ...res?.data }],
+          };
 
-            dataToUpdate[i].match = updateMatch;
-          }
-
-          setData(union(data, dataToUpdate));
+          dataToUpdate[i].match = updateMatch;
         }
+
+        setData(union(data, dataToUpdate));
       }
+      // }
     });
 
     //GLOBAL_RANKING
