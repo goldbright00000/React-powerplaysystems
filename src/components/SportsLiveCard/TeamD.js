@@ -31,7 +31,8 @@ function SportsLiveCardTeamD(props) {
 
   const { team_d_mlb_team: team = {}, match = {} } = data || {};
 
-  const { away_team = {}, home_team = {}, status = "" } = match || {};
+  const { away_team = {}, home_team = {}, status = "", boxscore = [] } =
+    match || {};
 
   const {
     name = "",
@@ -55,6 +56,28 @@ function SportsLiveCardTeamD(props) {
     team_id,
     wins: teamWins = 0,
   } = mlb_team_stats[0] || {};
+
+  const {
+    hits = 0,
+    doubles = 0,
+    triples = 0,
+    home_runs = 0,
+    stolen_bases = 0,
+    runs_batted_in = 0,
+    batting_average = 0,
+    wins = 0,
+    losses = 0,
+    innings_pitched = 0,
+    strikes = 0,
+    earned_runs_average = 0,
+    base_on_balls = 0,
+    walks_hits_per_innings_pitched = 0,
+    hitter = {},
+    pitcher = {},
+    outs = 0,
+    home_team_runs = 0,
+    away_team_runs = 0,
+  } = boxscore[0] || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
@@ -140,7 +163,13 @@ function SportsLiveCardTeamD(props) {
         {type}
       </p>
       <div className={classes.header_teams}>
-        <p>{home_team?.name} 0</p> vs <span>{away_team?.name} 0</span>
+        <p>
+          {away_team?.name} {away_team_runs}
+        </p>{" "}
+        vs{" "}
+        <span>
+          {home_team?.name} {home_team_runs}
+        </span>
       </div>
     </div>
   );

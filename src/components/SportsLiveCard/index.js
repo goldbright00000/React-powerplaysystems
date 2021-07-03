@@ -60,6 +60,7 @@ function SportsLiveCard(props) {
   const {
     name = "",
     type = "",
+    type1 = "",
     points = 6,
     homeTeam = "",
     awayTeam = "",
@@ -89,12 +90,16 @@ function SportsLiveCard(props) {
     wins = 0,
     losses = 0,
     innings_pitched = 0,
+    pitch_count = 0,
     strikes = 0,
     earned_runs_average = 0,
     base_on_balls = 0,
     walks_hits_per_innings_pitched = 0,
     hitter = {},
     pitcher = {},
+    outs = 0,
+    home_team_runs = 0,
+    away_team_runs = 0,
   } = boxscore[0] || {};
 
   useEffect(() => {
@@ -161,12 +166,20 @@ function SportsLiveCard(props) {
           Stats
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {stats?.val1}
-          </p>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            K:{strikes} | W:{wins}
-          </p>
+          {type === "P" ? (
+            <>
+              <p className={`${classes.p} ${largeView && classes.large_view}`}>
+                IP: {innings_pitched} | PC: {pitch_count}
+              </p>
+              <p className={`${classes.p} ${largeView && classes.large_view}`}>
+                K:{strikes} | W:{wins}
+              </p>
+            </>
+          ) : (
+            <>
+              RBI: {runs_batted_in} | R: {0}
+            </>
+          )}
         </div>
       </div>
 
@@ -234,10 +247,16 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        {type}
+        {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
-        <p>{home_team?.name} 0</p> vs <span>{away_team?.name} 0</span>
+        <p>
+          {away_team?.name} {away_team_runs}
+        </p>{" "}
+        vs{" "}
+        <span>
+          {home_team?.name} {home_team_runs}
+        </span>
       </div>
     </div>
   );
@@ -347,6 +366,7 @@ function SportsLiveCard(props) {
                       <RenderMLBPlayerStats
                         hitter={hitter}
                         pitcher={pitcher}
+                        type={type}
                         {...props}
                       />
                     ) : (

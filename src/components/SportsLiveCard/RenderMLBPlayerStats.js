@@ -8,7 +8,8 @@ import MLBLiveIcon from "../../icons/MLBLiveIcon";
 import { isEmpty } from "lodash";
 
 function RenderMLBPlayerStats(props) {
-  const { hitter = {}, pitcher = {}, largeView = false } = props || {};
+  const { hitter = {}, pitcher = {}, type = "", largeView = false } =
+    props || {};
 
   const {
     active: isHitterActive = false,
@@ -42,6 +43,12 @@ function RenderMLBPlayerStats(props) {
     type: pType = "P",
   } = pitcher || {};
 
+  const formatName = (name) => {
+    const n = `${name}`.split(" ");
+
+    return `${n[0]?.substring(0, 1)}`?.toUpperCase() + ". " + `${n[1]}`;
+  };
+
   return (
     <div className={classes.mlbPlayerStats}>
       <div className={classes.mlbPlayerStats_left}>
@@ -49,17 +56,21 @@ function RenderMLBPlayerStats(props) {
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
               <BaseballStick />
-              <p className={largeView && classes.large_view}>{hitterName}</p>
+              <p className={largeView && classes.large_view}>
+                {formatName(hitterName)}
+              </p>
             </div>
             <span>{0}</span>
           </div>
         )}
 
-        {!isEmpty(pitcher) && (
+        {!isEmpty(pitcher) && type !== "P" && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
               <Baseball />
-              <p className={largeView && classes.large_view}>{pitcherName}</p>
+              <p className={largeView && classes.large_view}>
+                {formatName(pitcherName)}
+              </p>
             </div>
             <span>{0}</span>
           </div>
@@ -74,6 +85,7 @@ RenderMLBPlayerStats.propTypes = {
   hitter: PropTypes.object,
   pitcher: PropTypes.object,
   largeView: PropTypes.bool,
+  type: PropTypes.string,
 };
 
 export default RenderMLBPlayerStats;
