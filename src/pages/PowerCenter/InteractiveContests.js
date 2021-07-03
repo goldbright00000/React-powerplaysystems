@@ -341,7 +341,6 @@ const InteractiveContests = (props) => {
                           powerCenterCardData.filter(
                             (cardItem) => cardItem.league === item.title
                           );
-
                       setFilteredData(filteredData);
                     }}
                   >
