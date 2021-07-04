@@ -28,8 +28,12 @@ const CreateAccount = (props) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    const { username = "", email = "", password = "", cPassword = "" } =
-      props.user || {};
+    const {
+      username = "",
+      email = "",
+      password = "",
+      cPassword = "",
+    } = props.user || {};
     props.setUser({ ...props.user, isLoading: true });
 
     if (
@@ -87,7 +91,7 @@ const CreateAccount = (props) => {
       ...props.user,
       isLoading: false,
     });
-  }, [props]);
+  }, []);
 
   return (
     <main className={styles.root101}>
