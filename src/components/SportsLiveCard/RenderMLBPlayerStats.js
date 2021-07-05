@@ -8,8 +8,16 @@ import MLBLiveIcon from "../../icons/MLBLiveIcon";
 import { isEmpty } from "lodash";
 
 function RenderMLBPlayerStats(props) {
-  const { hitter = {}, pitcher = {}, type = "", largeView = false } =
-    props || {};
+  const {
+    hitter = {},
+    pitcher = {},
+    type = "",
+    largeView = false,
+    baserunner_1 = null,
+    baserunner_2 = null,
+    baserunner_3 = null,
+    baserunner_4 = null,
+  } = props || {};
 
   const {
     active: isHitterActive = false,
@@ -49,6 +57,138 @@ function RenderMLBPlayerStats(props) {
     return `${n[0]?.substring(0, 1)}`?.toUpperCase() + ". " + `${n[1]}`;
   };
 
+  const RenderBaseRunner1 = () => {
+    if (
+      !isEmpty(baserunner_1) &&
+      isEmpty(baserunner_2) &&
+      isEmpty(baserunner_3) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 1 icon
+    }
+  };
+
+  const RenderBaseRunner2 = () => {
+    if (
+      !isEmpty(baserunner_2) &&
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_3) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderBaseRunner3 = () => {
+    if (
+      !isEmpty(baserunner_3) &&
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_2) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 3 icon
+    }
+  };
+
+  const RenderBaseRunner4 = () => {
+    if (
+      !isEmpty(baserunner_4) &&
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_2) &&
+      isEmpty(baserunner_3)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderBaseRunner1_2 = () => {
+    if (
+      !isEmpty(baserunner_1) &&
+      !isEmpty(baserunner_2) &&
+      isEmpty(baserunner_3) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 1 & 2 icon
+    }
+  };
+
+  const RenderBaseRunner1_3 = () => {
+    if (
+      !isEmpty(baserunner_1) &&
+      !isEmpty(baserunner_3) &&
+      isEmpty(baserunner_2) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 1 & 3 icon
+    }
+  };
+
+  const RenderBaseRunner1_4 = () => {
+    if (
+      !isEmpty(baserunner_1) &&
+      !isEmpty(baserunner_4) &&
+      isEmpty(baserunner_2) &&
+      isEmpty(baserunner_3)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderBaseRunner2_3 = () => {
+    if (
+      !isEmpty(baserunner_2) &&
+      !isEmpty(baserunner_3) &&
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderBaseRunner2_4 = () => {
+    if (
+      !isEmpty(baserunner_2) &&
+      !isEmpty(baserunner_4) &&
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_3)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderBaseRunner3_4 = () => {
+    if (
+      !isEmpty(baserunner_3) &&
+      !isEmpty(baserunner_4) &&
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_2)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderBaseRunner1_2_3 = () => {
+    if (
+      !isEmpty(baserunner_1) &&
+      !isEmpty(baserunner_2) &&
+      !isEmpty(baserunner_3) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //base runner 2 icon
+    }
+  };
+
+  const RenderEmptyBaseRunner = () => {
+    if (
+      isEmpty(baserunner_1) &&
+      isEmpty(baserunner_2) &&
+      isEmpty(baserunner_3) &&
+      isEmpty(baserunner_4)
+    ) {
+      return; //empty icon
+    }
+  };
+
   return (
     <div className={classes.mlbPlayerStats}>
       <div className={classes.mlbPlayerStats_left}>
@@ -76,7 +216,22 @@ function RenderMLBPlayerStats(props) {
           </div>
         )}
       </div>
-      <MLBLiveIcon size={largeView && 79} className={classes.svg_icon} />
+      {largeView && (
+        <>
+          <RenderEmptyBaseRunner />
+          <RenderBaseRunner1 />
+          <RenderBaseRunner2 />
+          <RenderBaseRunner3 />
+          <RenderBaseRunner4 />
+          <RenderBaseRunner1_2 />
+          <RenderBaseRunner1_3 />
+          <RenderBaseRunner1_4 />
+          <RenderBaseRunner2_3 />
+          <RenderBaseRunner2_4 />
+          <RenderBaseRunner3_4 />
+          <RenderBaseRunner1_2_3 />
+        </>
+      )}
     </div>
   );
 }
@@ -86,6 +241,10 @@ RenderMLBPlayerStats.propTypes = {
   pitcher: PropTypes.object,
   largeView: PropTypes.bool,
   type: PropTypes.string,
+  baserunner_1: PropTypes.number,
+  baserunner_2: PropTypes.number,
+  baserunner_3: PropTypes.number,
+  baserunner_4: PropTypes.number,
 };
 
 export default RenderMLBPlayerStats;

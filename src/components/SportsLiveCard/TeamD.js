@@ -124,7 +124,7 @@ function SportsLiveCardTeamD(props) {
         {cardType === CardType.MLBR ? (
           <Challenge size={largeView ? 28 : 24} />
         ) : (
-          <VideoIcon size={largeView ? 28 : 24} />
+          <Challenge size={largeView ? 28 : 24} />
         )}
         <ShieldIcon size={largeView ? 28 : 24} />
       </div>
