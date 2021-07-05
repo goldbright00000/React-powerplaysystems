@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 
+import * as mlbActions from "../../actions/MLBActions";
 import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
@@ -36,7 +37,9 @@ function SportsLiveCard(props) {
   const [showReplaceModal, setReplaceModalState] = useState(false);
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
   const [playerList, setPlayerList] = useState({});
+  const [loadingPlayerList, setLoadingPlayerList] = useState(false);
 
+  const dispatch = useDispatch();
   const { data: mlbData = [] } = useSelector((state) => state.mlb);
 
   const {
@@ -52,10 +55,12 @@ function SportsLiveCard(props) {
     updateReduxState = (currentPlayer, newPlayer) => {},
     cardType = CardType.MLB,
     isHomeRun = false,
-    match_id,
+    gameInfo = {},
   } = props || {};
 
-  const { player = {}, match = {} } = data || {};
+  const { gameId, userId, teamId, sportId } = gameInfo || {};
+
+  const { player = {}, match = {}, match_id, xp = {} } = data || {};
 
   const {
     name = "",
@@ -71,7 +76,6 @@ function SportsLiveCard(props) {
     isStarPlayer = false,
     range = "",
     id = "",
-    xp = {},
     mlb_player_stats = [],
     boost = {},
   } = player || {};
@@ -100,11 +104,62 @@ function SportsLiveCard(props) {
     outs = 0,
     home_team_runs = 0,
     away_team_runs = 0,
+    baserunner_1 = null,
+    baserunner_2 = null,
+    baserunner_3 = null,
+    baserunner_4 = null,
+    current_inning = 0,
+    current_inning_half = null,
   } = boxscore[0] || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
+
+  const footerTitle = () => {
+    if (isEmpty(current_inning_half)) {
+      return ``;
+    }
+
+    const currentInningHalf = `${current_inning_half}`.toLocaleLowerCase();
+    if (currentInningHalf === "b") {
+      return `Bot ${current_inning}`;
+    }
+
+    return `Top ${current_inning}`;
+  };
+
+  const toggleReplaceModal = useCallback(async () => {
+    if (cardType === CardType.MLB) {
+      setLoadingPlayerList(true);
+      setReplaceModalState(!showReplaceModal);
+      await dispatch(mlbActions.mlbData(gameId));
+      const _mlbData = [...mlbData];
+      const [swapablePlayerData] = _mlbData?.filter(
+        (data) => data?.type === `${type}`?.toLocaleLowerCase()
+      );
+
+      setPlayerList(swapablePlayerData);
+      setLoadingPlayerList(false);
+    }
+  }, [mlbData]);
+
+  const onSwap = (playerId, match_id) => {
+    const [swapablePlayer] =
+      !isEmpty(playerList) &&
+      playerList?.listData?.length &&
+      playerList?.listData?.filter(
+        (player) =>
+          player?.playerId === playerId && player?.match_id === match_id
+      );
+
+    console.log(data, swapablePlayer);
+
+    // if (swapablePlayer) {
+    //   updateReduxState(data, swapablePlayer);
+    //   toggleReplaceModal();
+    // }
+  };
 
   const renderXp = () => {
     let svgSize = singleView ? 14 : largeView ? 28 : 24;
@@ -135,7 +190,7 @@ function SportsLiveCard(props) {
       {cardType === CardType.MLBR ? (
         <div
           className={classes.stat_xp_mlbr}
-          onClick={() => onChangeXp(0, player)}
+          onClick={() => onChangeXp(0, data)}
         >
           <XPIcon size={singleView ? 14 : largeView ? 28 : 24} />
         </div>
@@ -143,9 +198,9 @@ function SportsLiveCard(props) {
         <Tooltip
           toolTipContent={
             <div className={classes.xp_icons}>
-              <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, player)} />
-              <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, player)} />
-              <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, player)} />
+              <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
+              <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
+              <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
             </div>
           }
         >
@@ -284,36 +339,6 @@ function SportsLiveCard(props) {
     <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
   );
 
-  const toggleReplaceModal = () => {
-    if (cardType === CardType.MLB) {
-      const [_playerList] =
-        mlbData &&
-        mlbData?.length &&
-        mlbData?.filter(
-          (data) => data?.type === `${type}`?.toLocaleLowerCase()
-        );
-
-      if (_playerList) {
-        setPlayerList(_playerList);
-        setReplaceModalState(!showReplaceModal);
-      }
-    }
-  };
-
-  const onSwap = (playerId, match_id) => {
-    const [swapablePlayer] =
-      !isEmpty(playerList) &&
-      playerList?.listData?.length &&
-      playerList?.listData?.filter(
-        (player) =>
-          player?.playerId === playerId && player?.match_id === match_id
-      );
-    if (swapablePlayer) {
-      updateReduxState(player, swapablePlayer);
-      toggleReplaceModal();
-    }
-  };
-
   return (
     <>
       <div className={classes.card_wrapper}>
@@ -367,6 +392,10 @@ function SportsLiveCard(props) {
                         hitter={hitter}
                         pitcher={pitcher}
                         type={type}
+                        baserunner_1={baserunner_1}
+                        baserunner_2={baserunner_2}
+                        baserunner_3={baserunner_3}
+                        baserunner_4={baserunner_4}
                         {...props}
                       />
                     ) : (
@@ -392,7 +421,7 @@ function SportsLiveCard(props) {
               showSummary={showSummary}
               onClickBack={() => setSummaryState(false)}
               onClickDetails={() => setSummaryState(true)}
-              title="Bot 1st | 2 Out"
+              title={footerTitle()}
               largeView={largeView}
             />
           )}
@@ -405,6 +434,7 @@ function SportsLiveCard(props) {
         onSwap={onSwap}
         playerList={playerList}
         starPlayerCount={starPlayerCount}
+        loading={loadingPlayerList}
       />
     </>
   );
@@ -424,6 +454,7 @@ SportsLiveCard.propTypes = {
   onSelectCard: PropTypes.func,
   onChangeXp: PropTypes.func,
   updateReduxState: PropTypes.func,
+  gameInfo: PropTypes.object,
 };
 
 export default SportsLiveCard;
