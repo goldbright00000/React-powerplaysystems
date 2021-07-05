@@ -20,10 +20,10 @@ let currentCard = 0;
 function SingleView(props) {
   const {
     data = [],
-    playerList = [],
     onChangeXp = (xp, player) => {},
     updateReduxState = () => {},
     starPlayerCount = 0,
+    gameInfo = {},
   } = props || {};
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
@@ -81,9 +81,9 @@ function SingleView(props) {
                   onSelectCard={onSelectCard}
                   singleView
                   onChangeXp={onChangeXp}
-                  playerList={playerList}
                   updateReduxState={updateReduxState}
                   starPlayerCount={starPlayerCount}
+                  gameInfo={gameInfo}
                 />
               )}
             </>
@@ -98,7 +98,6 @@ function SingleView(props) {
             largeView
             data={selectedCard}
             onChangeXp={onChangeXp}
-            playerList={playerList}
             updateReduxState={updateReduxState}
             starPlayerCount={starPlayerCount}
           />
@@ -107,9 +106,9 @@ function SingleView(props) {
             largeView
             data={selectedCard}
             onChangeXp={onChangeXp}
-            playerList={playerList}
             updateReduxState={updateReduxState}
             starPlayerCount={starPlayerCount}
+            gameInfo={gameInfo}
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
@@ -122,8 +121,8 @@ SingleView.propTypes = {
   showModal: PropTypes.bool,
   starPlayerCount: PropTypes.number,
   data: PropTypes.array,
-  playerList: PropTypes.array,
   updateReduxState: PropTypes.func,
+  gameInfo: PropTypes.object,
 };
 
 export default SingleView;

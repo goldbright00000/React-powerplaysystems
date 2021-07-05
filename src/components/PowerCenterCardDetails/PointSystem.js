@@ -101,11 +101,11 @@ const PointSystem = (props) => {
         <>
           <div className={classes.__my_game_center_card_powerdfs}>
             <p className={`text-left`}>
-              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{fontSize: '18px', color: 'white'}}>
+              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
                 {title}
               </span>
-              <span  className={classes.__my_game_center_card_powerdfs_title} style={{fontSize: '18px'}}> PowerdFS </span>
-              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{fontSize: '14px'}}>
+              <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
+              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px' }}>
                 Point System
               </span>
             </p>
