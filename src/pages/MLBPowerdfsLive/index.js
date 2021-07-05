@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { union } from "lodash";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -18,7 +19,7 @@ import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 import ReplaceAllIcon from "../../icons/Replace";
 import ShieldIcon from "../../icons/ShieldIcon";
-import CamIcon from "../../icons/CamIcon";
+import ChallengeIcon from "../../icons/Challenge";
 import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
 import FooterImage from "../../assets/NHL-live-footer.png";
 import RankCard from "../../components/RankCard";
@@ -30,7 +31,7 @@ import { printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
-import { union } from "lodash";
+
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 const {
   ON_ROOM_SUB,
@@ -59,8 +60,7 @@ function MLBPowerdFsLive(props) {
   const history = useHistory();
 
   const {
-    live_data: selectedData = [],
-    data: mlbData = [],
+    live_data = [],
     starPlayerCount = 0,
     sport_id = 0,
     game_id = 0,
@@ -134,8 +134,6 @@ function MLBPowerdFsLive(props) {
         players = [],
       } = res?.data || {};
 
-      printLog(res.data);
-
       const teamD = defense[0] || {};
       if (players && players?.length) {
         getPlayers(players, teamD);
@@ -149,10 +147,10 @@ function MLBPowerdFsLive(props) {
       printLog(res);
       // if (data && data?.length && res && res?.data) {
       const { match_id } = res?.data || {};
-      const dataToUpdate = data?.filter(
+      const dataToUpdate = live_data?.filter(
         (match) => match?.match_id === match_id
       );
-      console.log("DATA::::: ", dataToUpdate, data);
+      console.log("DATA::::: ", dataToUpdate, live_data);
       if (dataToUpdate.length) {
         for (let i = 0; i < dataToUpdate.length; i++) {
           const { match = {} } = dataToUpdate[i] || {};
@@ -164,7 +162,8 @@ function MLBPowerdFsLive(props) {
           dataToUpdate[i].match = updateMatch;
         }
 
-        setData(union(data, dataToUpdate));
+        const liveData = union(live_data, dataToUpdate);
+        dispatch(MLBActions.mlbLiveData(liveData));
       }
       // }
     });
@@ -175,7 +174,9 @@ function MLBPowerdFsLive(props) {
     });
 
     //FANTASY_TEAM_UPDATE
-    _socket?.on(FANTASY_TEAM_UPDATE, (res) => {});
+    _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
+      console.log("Player updates: ", res);
+    });
   };
 
   const getPlayers = async (players = [], teamD = {}) => {
@@ -217,7 +218,7 @@ function MLBPowerdFsLive(props) {
     playersArr[7] = teamD;
     playersArr[7].team_d_mlb_team.type = D;
 
-    setData(playersArr);
+    dispatch(MLBActions.mlbLiveData(playersArr));
   };
 
   const onChangeXp = (xp, player) => {
@@ -228,13 +229,49 @@ function MLBPowerdFsLive(props) {
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
 
-    const indexOfPlayer = selectedData?.indexOf(player);
+    const indexOfPlayer = live_data?.indexOf(player);
 
     if (indexOfPlayer) {
       player.xp = _selectedXp;
-      selectedData[indexOfPlayer] = player;
-      return dispatch(MLBActions.mlbLiveData(selectedData));
+      live_data[indexOfPlayer] = player;
+      return dispatch(MLBActions.mlbLiveData(live_data));
     }
+  };
+
+  const updateReduxState = (currentPlayer, newPlayer) => {
+    if (!currentPlayer || !newPlayer) return;
+    const _data = [...live_data];
+    const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
+    let _starPlayerCount = starPlayerCount;
+
+    if (starPlayerCount >= 3 && !newPlayer?.isStarPlayer) {
+      return;
+    } else if (
+      starPlayerCount >= 3 &&
+      newPlayer?.isStarPlayer &&
+      currentPlayer?.isStarPlayer
+    ) {
+      _data[indexOfPlayer].player = newPlayer;
+    } else if (
+      starPlayerCount < 3 &&
+      newPlayer?.isStarPlayer &&
+      !currentPlayer?.isStarPlayer
+    ) {
+      _data[indexOfPlayer] = newPlayer;
+      _starPlayerCount++;
+    } else if (
+      currentPlayer?.isStarPlayer &&
+      !newPlayer?.isStarPlayer &&
+      starPlayerCount > 0
+    ) {
+      _data[indexOfPlayer] = newPlayer;
+      _starPlayerCount--;
+    } else if (!newPlayer?.isStarPlayer && !currentPlayer?.isStarPlayer) {
+      _data[indexOfPlayer] = newPlayer;
+    }
+
+    dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
+    dispatch(MLBActions.mlbLiveData(_data));
   };
 
   const RenderPower = ({
@@ -293,42 +330,6 @@ function MLBPowerdFsLive(props) {
     setSelectedView(viewType);
   };
 
-  const updateReduxState = (currentPlayer, newPlayer) => {
-    if (!currentPlayer || !newPlayer) return;
-    const _data = [...selectedData];
-    const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
-    let _starPlayerCount = starPlayerCount;
-
-    if (starPlayerCount >= 3 && !newPlayer?.isStarPlayer) {
-      return;
-    } else if (
-      starPlayerCount >= 3 &&
-      newPlayer?.isStarPlayer &&
-      currentPlayer?.isStarPlayer
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-    } else if (
-      starPlayerCount < 3 &&
-      newPlayer?.isStarPlayer &&
-      !currentPlayer?.isStarPlayer
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-      _starPlayerCount++;
-    } else if (
-      currentPlayer?.isStarPlayer &&
-      !newPlayer?.isStarPlayer &&
-      starPlayerCount > 0
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-      _starPlayerCount--;
-    } else if (!newPlayer?.isStarPlayer && !currentPlayer?.isStarPlayer) {
-      _data[indexOfPlayer] = newPlayer;
-    }
-
-    dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
-    dispatch(MLBActions.mlbLiveData(_data));
-  };
-
   const RenderView = () => {
     if (loading) {
       return <p>Loading...</p>;
@@ -337,15 +338,15 @@ function MLBPowerdFsLive(props) {
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
         <SingleView
-          data={data}
-          playerList={mlbData?.[0]?.players}
+          data={live_data}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
+          gameInfo={history.location.state}
         />
       );
-    } else if (data && data?.length) {
-      return data?.map((item, index) => (
+    } else if (live_data && live_data?.length) {
+      return live_data?.map((item, index) => (
         <>
           {item?.team_d_mlb_team && item?.team_d_mlb_team?.type === D ? (
             <SportsLiveCardTeamD
@@ -359,9 +360,9 @@ function MLBPowerdFsLive(props) {
               compressedView={compressedView}
               key={index + ""}
               onChangeXp={onChangeXp}
-              playerList={mlbData?.[0]?.players}
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
+              gameInfo={history.location.state}
             />
           )}
         </>
@@ -472,9 +473,9 @@ function MLBPowerdFsLive(props) {
                         count={0}
                       />
                       <RenderPower
-                        title="Video Review"
+                        title="Challenge"
                         isSvgIcon
-                        Icon={CamIcon}
+                        Icon={ChallengeIcon}
                         count={4}
                       />
                     </div>
