@@ -123,10 +123,10 @@ function SportsLiveCard(props) {
 
     const currentInningHalf = `${current_inning_half}`.toLocaleLowerCase();
     if (currentInningHalf === "b") {
-      return `Bot ${current_inning}`;
+      return `Bot ${current_inning} | ${outs} outs`;
     }
 
-    return `Top ${current_inning}`;
+    return `Top ${current_inning} | ${outs} outs`;
   };
 
   const toggleReplaceModal = useCallback(async () => {
