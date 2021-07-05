@@ -208,9 +208,9 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={moment(moment().format("YYYY-MM-DD")).isBetween(
-            item?.game?.game_set_start,
-            item?.game?.game_set_end
+          inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+            item?.game?.game_set_start + ' ' + item?.game?.start_time,
+            item?.game?.game_set_end + ' 11:59 AM'
           )}
           completed={moment(moment().format("YYYY-MM-DD")).isAfter(
             item?.game?.game_set_end
