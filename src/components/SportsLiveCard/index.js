@@ -80,25 +80,47 @@ function SportsLiveCard(props) {
     boost = {},
   } = player || {};
 
+  const {
+    base_on_balls = 0,
+    batting_average = 0,
+    doubles = 0,
+    earned_runs_average = 0,
+    hits = 0,
+    home_runs = 0,
+    innings_pitched = 0,
+    losses = 0,
+    ops = 0,
+    player_id = 0,
+    runs_batted_in = 0,
+    season_id = 1,
+    stats_id = 0,
+    stolen_bases = 0,
+    strike_outs = 0,
+    triples = 0,
+    type: playerStatType = "",
+    walks_hits_per_innings_pitched = 0,
+    wins = 0,
+  } = mlb_player_stats[0] || {};
+
   const { away_team = {}, home_team = {}, status = "", boxscore = [] } =
     match || {};
 
   const {
-    hits = 0,
-    doubles = 0,
-    triples = 0,
-    home_runs = 0,
-    stolen_bases = 0,
-    runs_batted_in = 0,
-    batting_average = 0,
-    wins = 0,
-    losses = 0,
-    innings_pitched = 0,
+    // hits = 0,
+    // doubles = 0,
+    // triples = 0,
+    // home_runs = 0,
+    // stolen_bases = 0,
+    // runs_batted_in = 0,
+    // batting_average = 0,
+    // wins = 0,
+    // losses = 0,
+    // innings_pitched = 0,
     pitch_count = 0,
     strikes = 0,
-    earned_runs_average = 0,
-    base_on_balls = 0,
-    walks_hits_per_innings_pitched = 0,
+    // earned_runs_average = 0,
+    // base_on_balls = 0,
+    // walks_hits_per_innings_pitched = 0,
     hitter = {},
     pitcher = {},
     outs = 0,
@@ -153,12 +175,19 @@ function SportsLiveCard(props) {
           player?.playerId === playerId && player?.match_id === match_id
       );
 
-    console.log(data, swapablePlayer);
+    if (swapablePlayer) {
+      updateReduxState(data, swapablePlayer);
+      toggleReplaceModal();
+    }
+  };
 
-    // if (swapablePlayer) {
-    //   updateReduxState(data, swapablePlayer);
-    //   toggleReplaceModal();
-    // }
+  const removeZeroBeforeDecimalPoint = (value) => {
+    const nonDecimalValue = value.toString().split(".")[1];
+    if (nonDecimalValue) {
+      return `.${nonDecimalValue}`;
+    }
+
+    return "";
   };
 
   const renderXp = () => {
@@ -232,7 +261,10 @@ function SportsLiveCard(props) {
             </>
           ) : (
             <>
-              RBI: {runs_batted_in} | R: {0}
+              <p>{removeZeroBeforeDecimalPoint(batting_average)}</p>
+              <p>
+                RBI: {runs_batted_in} | R: {0}
+              </p>
             </>
           )}
         </div>
@@ -396,7 +428,8 @@ function SportsLiveCard(props) {
                         baserunner_2={baserunner_2}
                         baserunner_3={baserunner_3}
                         baserunner_4={baserunner_4}
-                        {...props}
+                        largeView={compressedView || !compressedView}
+                        // {...props}
                       />
                     ) : (
                       cardType === CardType.NFL && <NFLFooterStats />

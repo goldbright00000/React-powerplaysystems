@@ -1,11 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { isEmpty } from "lodash";
 
 import classes from "./index.module.scss";
 import BaseballStick from "../../icons/BaseballStick";
 import Baseball from "../../icons/Baseball";
-import MLBLiveIcon from "../../icons/MLBLiveIcon";
-import { isEmpty } from "lodash";
+import EmptyRunner from "../../icons/Runners/EmptyRunner";
+import RunnerRight from "../../icons/Runners/RunnerRight";
+import RunnerTop from "../../icons/Runners/RunnerTop";
+import RunnerLeft from "../../icons/Runners/RunnerLeft";
+import RunnerTopRight from "../../icons/Runners/RunnerTopRight";
+import RunnerTopLeft from "../../icons/Runners/RunnerLeftRight";
+import RunnerTopRightLeft from "../../icons/Runners/RunnerTopRightLeft";
+import RunnerLeftRight from "../../icons/Runners/RunnerLeftRight";
 
 function RenderMLBPlayerStats(props) {
   const {
@@ -64,8 +71,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 1 icon
+      return <RunnerRight />; //base runner 1 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner2 = () => {
@@ -75,8 +84,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 2 icon
+      return <RunnerTop />; //base runner 2 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner3 = () => {
@@ -86,8 +97,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_2) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 3 icon
+      return <RunnerLeft />; //base runner 3 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner4 = () => {
@@ -97,8 +110,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_2) &&
       isEmpty(baserunner_3)
     ) {
-      return; //base runner 2 icon
+      return <></>; //base runner 2 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner1_2 = () => {
@@ -108,8 +123,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 1 & 2 icon
+      return <RunnerTopRight />; //base runner 1 & 2 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner1_3 = () => {
@@ -119,8 +136,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_2) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 1 & 3 icon
+      return <RunnerLeftRight />; //base runner 1 & 3 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner1_4 = () => {
@@ -130,8 +149,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_2) &&
       isEmpty(baserunner_3)
     ) {
-      return; //base runner 2 icon
+      return <RunnerLeftRight />; //base runner 1 and 4 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner2_3 = () => {
@@ -141,8 +162,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_1) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 2 icon
+      return <RunnerTopLeft />; //base runner 2 and 3 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner2_4 = () => {
@@ -152,8 +175,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_1) &&
       isEmpty(baserunner_3)
     ) {
-      return; //base runner 2 icon
+      return <></>; //base runner 2 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner3_4 = () => {
@@ -163,8 +188,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_1) &&
       isEmpty(baserunner_2)
     ) {
-      return; //base runner 2 icon
+      return <></>; //base runner 2 icon
     }
+
+    return <></>;
   };
 
   const RenderBaseRunner1_2_3 = () => {
@@ -174,8 +201,10 @@ function RenderMLBPlayerStats(props) {
       !isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      return; //base runner 2 icon
+      return <RunnerTopRightLeft />; //base runner 2 icon
     }
+
+    return <></>;
   };
 
   const RenderEmptyBaseRunner = () => {
@@ -185,8 +214,10 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      return; //empty icon
+      return <EmptyRunner />; //empty icon
     }
+
+    return <></>;
   };
 
   return (
