@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import { isEmpty, cloneDeep } from "lodash";
+import { isEmpty, cloneDeep, uniqBy } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useHistory } from "react-router-dom";
 
@@ -142,13 +142,6 @@ const FILTERS_INITIAL_VALUES = [
   },
 ];
 
-const dropDown = [
-  { title: "Team A" },
-  { title: "Team B" },
-  { title: "Team C" },
-  { title: "Team D" },
-];
-
 const contestScoring = {
   data1: [
     {
@@ -239,7 +232,7 @@ function MLBPowerdFs(props) {
   const [selectedType, setSelectedType] = useState();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
-  const [dropDownState, setDropDownTeam] = useState(dropDown);
+  const [dropDownState, setDropDownTeam] = useState([]);
 
   let {
     data = [],
@@ -307,7 +300,8 @@ function MLBPowerdFs(props) {
         },
         ..._dropDownlist?.[0]?.listData,
       ];
-      setDropDownTeam(dropDownTeams);
+      const noDuplicatedTeam = uniqBy(dropDownTeams, (team) => team.team_id);
+      setDropDownTeam(noDuplicatedTeam);
     }
   }, [data]);
 
@@ -349,7 +343,7 @@ function MLBPowerdFs(props) {
           res.currentPlayer,
           res.currentPlayer?.type?.toLocaleLowerCase()
         );
-        onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
+        onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase(), false);
       }
       setSelected(_selected);
       setSidebarList(_playerList);
@@ -370,7 +364,7 @@ function MLBPowerdFs(props) {
         res.currentPlayer,
         res.currentPlayer?.type?.toLocaleLowerCase()
       );
-      onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase());
+      onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase(), false);
     },
     [selected, selectedFilter, selectedData, isEdit]
   );
@@ -478,8 +472,12 @@ function MLBPowerdFs(props) {
   };
 
   const onSelectFilter = useCallback(
-    (type) => {
+    (type, isFilterSelected = true) => {
       if (loading) return;
+
+      // reset search filter
+      if (isFilterSelected)
+        onSelectSearchDropDown({ team_id: "all", name: "All Teams" });
 
       const [_selectedFilter] = filters?.filter(
         (filter) => filter.title === type
@@ -490,10 +488,12 @@ function MLBPowerdFs(props) {
           `${_selectedFilter?.title}`?.toLocaleLowerCase()
       );
 
-      setSelectedType(_selectedFilter?.title);
-      setSelectedData(_selectedData);
-      setSelectedFilter(_selectedFilter);
-      setFilterdData(_selectedData);
+      if (isFilterSelected || isEdit) {
+        setSelectedType(_selectedFilter?.title);
+        setSelectedData(_selectedData);
+        setSelectedFilter(_selectedFilter);
+        setFilterdData(_selectedData);
+      }
     },
     [
       selectedFilter,
@@ -834,8 +834,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                      ? "Edit your team"
-                      : "Select your team"}
+                    ? "Edit your team"
+                    : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -906,11 +906,11 @@ function MLBPowerdFs(props) {
                                   onSelectDeselect={onPlayerSelectDeselect}
                                   pageType={PAGE_TYPES.MLB}
                                   type={selectedData?.type}
-                                // disabled={
-                                //   item.isStarPlayer &&
-                                //   item.isStarPlayer &&
-                                //   starPlayerCount >= 3
-                                // }
+                                  // disabled={
+                                  //   item.isStarPlayer &&
+                                  //   item.isStarPlayer &&
+                                  //   starPlayerCount >= 3
+                                  // }
                                 />
                               </>
                             )}
@@ -1018,8 +1018,9 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                              }`}
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
                           >
                             Powers Available
                           </Tab>

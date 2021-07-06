@@ -30,3 +30,4 @@ yarn.lock
 .eslintcache
 .github
 .github/workflows
+.firebaserc

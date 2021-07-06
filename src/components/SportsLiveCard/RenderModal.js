@@ -19,6 +19,7 @@ function RenderModal(props) {
     onSwap = (playerId, match_id) => {},
     playerList = {},
     starPlayerCount = 0,
+    loading = false,
   } = props || {};
 
   const { name: playerName = "", category = "" } = currentPlayer || {};
@@ -28,6 +29,8 @@ function RenderModal(props) {
     { title: "Team C" },
     { title: "Team D" },
   ];
+
+  if (!visible) return <></>;
 
   return (
     <Modal visible={visible} scrollable={false}>
@@ -67,7 +70,19 @@ function RenderModal(props) {
           </div>
 
           <div className={classes.modal_list}>
-            {playerList?.listData?.length &&
+            {loading ? (
+              <p
+                style={{
+                  alignSelf: "center",
+                  justifyContent: "center",
+                  display: "flex",
+                  flex: 1,
+                }}
+              >
+                Loading
+              </p>
+            ) : (
+              playerList?.listData?.length &&
               playerList?.listData?.map((player, ind) =>
                 starPlayerCount >= 3 &&
                 player?.isStarPlayer &&
@@ -81,7 +96,8 @@ function RenderModal(props) {
                     }
                   />
                 )
-              )}
+              )
+            )}
           </div>
         </div>
       </div>
@@ -96,6 +112,7 @@ RenderModal.propTypes = {
   playerList: PropTypes.object,
   onSwap: PropTypes.func,
   onClose: PropTypes.func,
+  loading: PropTypes.bool,
 };
 
 export default RenderModal;
