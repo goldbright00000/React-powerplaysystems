@@ -44,14 +44,14 @@ const MyGameCenterCard = (props) => {
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
-    onDetailsClick = () => {},
-    onBackClick = () => {},
-    onNextClick = () => {},
-    onEnter = () => {},
-    onEdit = () => {},
-    onViewResults = () => {},
-    onViewResultsBack = () => {},
-    onFinalStandings = () => {},
+    onDetailsClick = () => { },
+    onBackClick = () => { },
+    onNextClick = () => { },
+    onEnter = () => { },
+    onEdit = () => { },
+    onViewResults = () => { },
+    onViewResultsBack = () => { },
+    onFinalStandings = () => { },
   } = props || {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
@@ -253,7 +253,7 @@ const MyGameCenterCard = (props) => {
                         fontSize: "12px",
                         margin: ".25rem",
                       }}
-                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -312,6 +312,7 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
                 <PrizeGrid
+                  getBackgroundImageWithStyle={getBackgroundImageWithStyle()}
                   PrizePayout={PrizePayout}
                   isMobile={isMobile}
                   title={title}
@@ -550,7 +551,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 

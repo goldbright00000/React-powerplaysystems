@@ -100,14 +100,6 @@ function MLBPowerdFsLive(props) {
       userId: userId,
     });
 
-    //On Power applied
-    _socket.emit(ON_POWER_APPLIED, {
-      fantasyTeamId: 172,
-      matchId: 7052,
-      playerId: 10790,
-      powerId: 1,
-    });
-
     //ON_GLOBAL_RANKING_REQUEST
     _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
       gameId: gameId,
@@ -150,7 +142,7 @@ function MLBPowerdFsLive(props) {
       const dataToUpdate = live_data?.filter(
         (match) => match?.match_id === match_id
       );
-      console.log("DATA::::: ", dataToUpdate, live_data);
+
       if (dataToUpdate.length) {
         for (let i = 0; i < dataToUpdate.length; i++) {
           const { match = {} } = dataToUpdate[i] || {};
@@ -238,8 +230,24 @@ function MLBPowerdFsLive(props) {
     }
   };
 
+  const onPowerApplied = (fantasyTeamId, matchId, playerId, powerId) => {
+    //On Power applied
+    _socket.emit(ON_POWER_APPLIED, {
+      fantasyTeamId: fantasyTeamId,
+      matchId: matchId,
+      playerId: playerId,
+      powerId: powerId,
+    });
+  };
+
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
+
+    const { gameId, sportId, teamId, userId } = history.location.state || {};
+
+    console.log(currentPlayer, newPlayer);
+
+    return;
     const _data = [...live_data];
     const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
     let _starPlayerCount = starPlayerCount;
