@@ -77,9 +77,8 @@ const Balance = (props) => {
               </div>
             )}
             <div
-              className={`${classes.__balance_cash_and_balance_outer} ${
-                displayCurrency.length > 0 && classes.__border_right
-              }`}
+              className={`${classes.__balance_cash_and_balance_outer} ${displayCurrency.length > 0 && classes.__border_right
+                }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
                 <img src={PowerBalanceGrey} />
@@ -96,11 +95,10 @@ const Balance = (props) => {
             </div>
             {displayCurrency.includes("cash") && (
               <div
-                className={`${classes.__balance_cash_and_balance_outer} ${
-                  (displayCurrency.includes("bitcoin") ||
+                className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("bitcoin") ||
                     displayCurrency.includes("ethereum")) &&
                   classes.__border_right
-                }`}
+                  }`}
               >
                 <div className={classes.__balance_cash_and_balance_icon}>
                   <img src={CashBalanceGrey} />
@@ -133,11 +131,10 @@ const Balance = (props) => {
           <div className={classes.__balance}>
             {displayCurrency.includes("bitcoin") && (
               <div
-                className={`${classes.__balance_cash_and_balance_outer} ${
-                  (displayCurrency.includes("cash") ||
+                className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("cash") ||
                     displayCurrency.includes("ethereum")) &&
                   classes.__border_right
-                }`}
+                  }`}
               >
                 <div className={classes.__balance_cash_and_balance_icon}>
                   <img src={BitcoinGrey} />
@@ -203,9 +200,8 @@ const Balance = (props) => {
             Deposit
           </div>
           <div
-            className={`${classes.__balance_cash_and_balance_outer} ${
-              displayCurrency.length > 0 && classes.__border_right
-            }`}
+            className={`${classes.__balance_cash_and_balance_outer} ${displayCurrency.length > 0 && classes.__border_right
+              }`}
           >
             <div className={classes.__balance_cash_and_balance_icon}>
               <img src={PowerBalanceGrey} />
@@ -222,11 +218,10 @@ const Balance = (props) => {
           </div>
           {displayCurrency.includes("cash") && (
             <div
-              className={`${classes.__balance_cash_and_balance_outer} ${
-                (displayCurrency.includes("bitcoin") ||
+              className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("bitcoin") ||
                   displayCurrency.includes("ethereum")) &&
                 classes.__border_right
-              }`}
+                }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
                 <img src={CashBalanceGrey} />
@@ -240,18 +235,17 @@ const Balance = (props) => {
                     ).toFixed(2)}
                 </div>
                 <div className={classes.__balance_power_and_cash_balance_title}>
-                  Cash Balance
+                  Cash Balancedsds
                 </div>
               </div>
             </div>
           )}
           {displayCurrency.includes("bitcoin") && (
             <div
-              className={`${classes.__balance_cash_and_balance_outer} ${
-                (displayCurrency.includes("cash") ||
+              className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("cash") ||
                   displayCurrency.includes("ethereum")) &&
                 classes.__border_right
-              }`}
+                }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
                 <img src={BitcoinGrey} />
@@ -295,10 +289,9 @@ const Balance = (props) => {
                   <div
                     key={index}
                     className={`${classes.__currency_menu_item} 
-                                    ${
-                                      displayCurrency.includes(item.value) &&
-                                      classes.__currency_menu_selected
-                                    }`}
+                                    ${displayCurrency.includes(item.value) &&
+                      classes.__currency_menu_selected
+                      }`}
                     onClick={() => {
                       const newDisplayCurreny = [...displayCurrency];
                       // Check if currency exist in array
