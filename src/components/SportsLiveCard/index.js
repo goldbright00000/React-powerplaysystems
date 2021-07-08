@@ -181,8 +181,9 @@ function SportsLiveCard(props) {
     }
   };
 
-  const removeZeroBeforeDecimalPoint = (value) => {
-    const nonDecimalValue = value.toString().split(".")[1];
+  const removeZeroBeforeDecimalPoint = (value = 0) => {
+    const toThreeDecimal = value.toFixed(3);
+    const nonDecimalValue = toThreeDecimal.toString().split(".")[1];
     if (nonDecimalValue) {
       return `.${nonDecimalValue}`;
     }
@@ -429,6 +430,9 @@ function SportsLiveCard(props) {
                         baserunner_3={baserunner_3}
                         baserunner_4={baserunner_4}
                         largeView={compressedView || !compressedView}
+                        batting_average={removeZeroBeforeDecimalPoint(
+                          batting_average
+                        )}
                         // {...props}
                       />
                     ) : (
