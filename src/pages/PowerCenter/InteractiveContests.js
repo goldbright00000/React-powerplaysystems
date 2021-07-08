@@ -3,6 +3,8 @@ import classes from "./interactiveContests.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
+import { getLocalStorage } from "../../utility/shared";
+import { CONSTANTS } from "../../utility/constants";
 
 import Ball from "../../icons/Ball";
 import BasketBall from "../../icons/BasketBall";
@@ -14,6 +16,10 @@ import CustomDropDown from "../../components/CustomDropDown";
 import FilledArrow from "../../components/FilledArrow";
 import PowerCenterMobileCard from "../../components/PowerCenterMobileCard";
 import { getAllGames } from "../../actions/powerCenterActions";
+import { hideDepositForm, showDepositForm } from "../../actions/uiActions";
+import { fetchUserBalance } from '../../actions/userActions';
+import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmountPopUp";
+import Header from "../../components/Header/Header";
 
 const powerCenterCardData1 = [
   {
@@ -137,30 +143,6 @@ let nbaData = [];
 let nhlData = [];
 
 const InteractiveContests = (props) => {
-  // return (
-  //   <div
-  //     style={{
-  //       fontWeight: "bold",
-  //       fontSize: 2.5 + "rem",
-  //       textAlign: "center",
-  //       display: "flex",
-  //       flexDirection: "column",
-  //       justifyContent: "center",
-  //       alignItems: "center",
-  //       height: 30 + "rem",
-  //     }}
-  //   >
-  //     <div>Games will be live july 19th!</div>
-  //     <div
-  //       style={{
-  //         marginTop: 2 + "rem",
-  //         width: 80 + "%",
-  //       }}
-  //     >
-  //       Create Your Account Now and get ready to Power-up!
-  //     </div>
-  //   </div>
-  // );
   const dispatch = useDispatch();
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
@@ -184,6 +166,14 @@ const InteractiveContests = (props) => {
     "ethereum",
   ]);
   const [days, setDays] = useState([{}]);
+  const [cashBalance, setCashBalance] = useState(0);
+  const [tokenBalance, setTokenBalance] = useState(0);
+  const [btcBalance, setBtcBalance] = useState(0);
+  const [ethBalance, setEthBalance] = useState(0);
+
+  const [haveBalance, setHaveBalance] = useState(true);
+
+  const setShowDepositModal = () => dispatch(showDepositForm());
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -191,6 +181,15 @@ const InteractiveContests = (props) => {
     maxWidth.addEventListener("change", responsiveHandler);
     return () => maxWidth.removeEventListener("change", responsiveHandler);
   }, []);
+
+  useEffect(() => {
+    // get user balance
+    dispatch(fetchUserBalance());
+    setCashBalance(parseFloat(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)));
+    setTokenBalance(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE));
+    setBtcBalance(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE));
+    setEthBalance(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE));
+  }, [dispatch])
 
   useEffect(() => {
     setDays(getDaysFromToday());
@@ -245,21 +244,59 @@ const InteractiveContests = (props) => {
     }
   };
 
-  const onEnter = (item) => {
-    switch (item?.league) {
-      case "MLB":
-        return redirectTo(props, {
-          path: `/mlb-powerdfs`,
-          state: {
-            game_id: item?.game_id,
-            sport_id: item?.sports_id,
-            start_date: item?.start_date,
-            end_date: item?.end_date,
-          },
-        });
+  const checkBalace = (item, entry_fee) => {
+    switch (item?.currency) {
+      case "USD":
+        if (cashBalance >= entry_fee)
+          return true;
+        else
+          return false;
+
+      case "BTC":
+        if (btcBalance >= entry_fee)
+          return true;
+        else
+          return false;
+
+      case "ETH":
+        if (ethBalance >= entry_fee)
+          return true;
+        else
+          return false;
+
+      case "PWRS":
+        if (tokenBalance >= entry_fee)
+          return true;
+        else
+          return false;
 
       default:
         return redirectTo(props, { path: "/" });
+    }
+  }
+
+  const onEnter = async (item) => {
+    const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
+
+    if (enoughBalance) {
+      switch (item?.league) {
+        case "MLB":
+          return redirectTo(props, {
+            path: `/mlb-powerdfs`,
+            state: {
+              game_id: item?.game_id,
+              sport_id: item?.sports_id,
+              start_date: item?.start_date,
+              end_date: item?.end_date,
+            },
+          });
+        default:
+          return redirectTo(props, { path: "/" });
+      }
+    }
+    else {
+      setHaveBalance(false);
+      setShowDepositModal();
     }
   };
 
@@ -282,7 +319,9 @@ const InteractiveContests = (props) => {
           PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
-          onEnter={() => onEnter(item)}
+          onEnter={() => {
+            onEnter(item)
+          }}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
@@ -355,6 +394,9 @@ const InteractiveContests = (props) => {
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}
           ></div>
         </div>
+        {!haveBalance && (
+          <Header />
+        )}
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
