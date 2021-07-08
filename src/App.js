@@ -48,6 +48,7 @@ import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
 
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
+import UsersPaymentGateway from "./pages/UsersPaymentGateway/UsersGateway";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
@@ -158,6 +159,7 @@ const App = (props) => {
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
+          <Route path="/users-gateway" component={UsersPaymentGateway} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}
