@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
+import { isEmpty } from "lodash";
 import classes from "./index.module.scss";
 import Modal from "../Modal";
 import CloseIcon from "../../icons/Close";
-import PowerPlayIcon from "../../assets/token.png";
+import PowerPlayIcon from "../../assets/star.svg";
 import StarPlayer from "../StarPlayersCheck";
 import Search from "../SearchInput";
 import SportsSelectionCard3 from "../SportsSelectionCard3";
 
 function RenderModal(props) {
   const [replaceData, setReplaceData] = useState([]);
-
+  const [selectedData, setSelectedData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [filterString, setFilterString] = useState("");
   const {
     visible = false,
     player: currentPlayer = {},
@@ -21,14 +23,67 @@ function RenderModal(props) {
     starPlayerCount = 0,
     loading = false,
   } = props || {};
-
-  const { name: playerName = "", category = "" } = currentPlayer || {};
+  //setSelectedData(playerList);
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    console.log("test", filterString);
+    if(filterString === "") {
+      console.log("1");
+      setSelectedData(playerList);
+    }
+    else {
+      console.log("2");
+      setSelectedData(filteredData);
+    }
+  });
+  const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
   const playerTeam = [
     { title: "Team A" },
     { title: "Team B" },
     { title: "Team C" },
     { title: "Team D" },
   ];
+
+  const onSearch = (e) => {
+    const { value } = e.target;
+    if (!isEmpty(value)) {
+      setFilterString(value);
+      const _filterdData = playerList?.listData?.filter((data) =>
+        data?.playerName?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+      );
+      const _filterdDataHomeTeam = playerList?.listData?.filter((data) =>
+        data?.homeTeam?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+      );
+      var tempObj = [];
+      var tempIds = [];
+      for(var i = 0; i < _filterdData.length; i++)
+      {
+        var id = _filterdData[i].playerId;
+        if(tempIds.indexOf(id) == -1)
+        {
+          tempIds.push(id);
+          tempObj.push(_filterdData[i]);
+        }
+      }
+      for(var i = 0; i < _filterdDataHomeTeam.length; i++)
+      {
+        var id = _filterdDataHomeTeam[i].playerId;
+        if(tempIds.indexOf(id) == -1)
+        {
+          tempIds.push(id);
+          tempObj.push(_filterdDataHomeTeam[i]);
+        }
+      }
+      const _filterdDataObj = {
+        type: playerList?.type,
+        listData: tempObj,
+      };
+      setFilteredData(_filterdDataObj);
+    } else {
+      setFilterString("");
+      setSelectedData(playerList);
+    }
+  };
 
   if (!visible) return <></>;
 
@@ -41,7 +96,7 @@ function RenderModal(props) {
           </div>
           <div className={classes.modal_header_bottom}>
             <p className={classes.modal_title}>
-              Swap Your <span>{category}</span>
+              Swap Your <span>{type1?type1:type}</span>
             </p>
 
             <div className={classes.modal_star_player_container}>
@@ -66,7 +121,7 @@ function RenderModal(props) {
                 {playerName}
               </p>
             </div>
-            <Search dropDown={playerTeam} />
+            <Search placeholder={"Search by player or team name..."} onSearch={onSearch}/>
           </div>
 
           <div className={classes.modal_list}>
@@ -82,8 +137,8 @@ function RenderModal(props) {
                 Loading
               </p>
             ) : (
-              playerList?.listData?.length &&
-              playerList?.listData?.map((player, ind) =>
+              selectedData?.listData?.length &&
+              selectedData?.listData?.map((player, ind) =>
                 starPlayerCount >= 3 &&
                 player?.isStarPlayer &&
                 !currentPlayer?.isStarPlayer ? null : (

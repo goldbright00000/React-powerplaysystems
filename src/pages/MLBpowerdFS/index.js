@@ -559,9 +559,34 @@ function MLBPowerdFs(props) {
           ?.toLocaleLowerCase()
           ?.includes(value?.toLocaleLowerCase())
       );
+      const _filterdDataHomeTeam = filterdData?.listData?.filter((player) =>
+        player?.homeTeam
+          ?.toLocaleLowerCase()
+          ?.includes(value?.toLocaleLowerCase())
+      );
+      var tempObj = [];
+      var tempIds = [];
+      for(var i = 0; i < _filterdData.length; i++)
+      {
+        var id = _filterdData[i].playerId;
+        if(tempIds.indexOf(id) == -1)
+        {
+          tempIds.push(id);
+          tempObj.push(_filterdData[i]);
+        }
+      }
+      for(var i = 0; i < _filterdDataHomeTeam.length; i++)
+      {
+        var id = _filterdDataHomeTeam[i].playerId;
+        if(tempIds.indexOf(id) == -1)
+        {
+          tempIds.push(id);
+          tempObj.push(_filterdDataHomeTeam[i]);
+        }
+      }
       const _filterdDataObj = {
         type: selectedData?.type,
-        listData: _filterdData,
+        listData: tempObj,
       };
       setFilterdData(_filterdDataObj);
     } else {
@@ -864,7 +889,7 @@ function MLBPowerdFs(props) {
                 <Search
                   onSearch={onSearch}
                   onSelect={onSelectSearchDropDown}
-                  dropDown={dropDownState}
+                  //dropDown={dropDownState}
                   selected={selectedDropDown}
                 />
               </div>
