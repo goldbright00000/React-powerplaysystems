@@ -10,7 +10,7 @@ import RunnerRight from "../../icons/Runners/RunnerRight";
 import RunnerTop from "../../icons/Runners/RunnerTop";
 import RunnerLeft from "../../icons/Runners/RunnerLeft";
 import RunnerTopRight from "../../icons/Runners/RunnerTopRight";
-import RunnerTopLeft from "../../icons/Runners/RunnerLeftRight";
+import RunnerTopLeft from "../../icons/Runners/RunnerTopLeft";
 import RunnerTopRightLeft from "../../icons/Runners/RunnerTopRightLeft";
 import RunnerLeftRight from "../../icons/Runners/RunnerLeftRight";
 
@@ -41,7 +41,31 @@ function RenderMLBPlayerStats(props) {
     primary_position: hPrimaryPos = "LF",
     throw_hand: hThrowHand = "R",
     type: hitterType = "OF",
+    mlb_player_stats: hitterStats = [],
   } = hitter || {};
+
+  const {
+    base_on_balls: hBOB = 0,
+    batting_average: hbBA = 0,
+    doubles: Hdoubles = 0,
+    earned_runs_average: hERA = 0,
+    hits: hHits = 0,
+    home_runs: hHomeRuns = 0,
+    innings_pitched: hIp = 0,
+    losses: hLosses = 0,
+    ops: HOPS = 0,
+    player_id: hPlayerId = 0,
+    runs_batted_in: hRBI = 0,
+    season_id: hSeasonId = 0,
+    stats_id: hStatId = 0,
+    stolen_bases: hStolenBases = 0,
+    strike_outs: hStrikeOuts = 0,
+    triples: hTriples = 0,
+    type: hType = "",
+    updated_at: hUpdateAt = "",
+    walks_hits_per_innings_pitched: hWHPIP = 0,
+    wins: hWins = 0,
+  } = hitterStats[0] || {};
 
   const {
     active: isPittcherActive = true,
@@ -57,7 +81,30 @@ function RenderMLBPlayerStats(props) {
     primary_position: pPrimaryPos = "RP",
     throw_hand: pThrowHand = "R",
     type: pType = "P",
+    mlb_player_stats: pitcherStats = [],
   } = pitcher || {};
+
+  const {
+    base_on_balls: pBOB = 0,
+    batting_average: pbBA = 0,
+    doubles: pdoubles = 0,
+    earned_runs_average: pERA = 0,
+    hits: pHits = 0,
+    home_runs: pHomeRuns = 0,
+    innings_pitched: pIp = 0,
+    losses: pLosses = 0,
+    ops: pOPS = 0,
+    player_id: pPlayerId = 0,
+    runs_batted_in: pRBI = 0,
+    season_id: pSeasonId = 0,
+    stats_id: pStatId = 0,
+    stolen_bases: pStolenBases = 0,
+    strike_outs: pStrikeOuts = 0,
+    triples: pTriples = 0,
+    updated_at: pUpdateAt = "",
+    walks_hits_per_innings_pitched: pWHPIP = 0,
+    wins: pWins = 0,
+  } = pitcherStats[0] || {};
 
   const formatName = (name) => {
     const n = `${name}`.split(" ");

@@ -124,6 +124,7 @@ function MLBPowerdFsLive(props) {
     //fetch data first time
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
+      console.log(res);
       const {
         game_id = "",
         score = 0,
@@ -159,6 +160,7 @@ function MLBPowerdFsLive(props) {
             boxscore: [{ ...match?.boxscore[0], ...res?.data }],
           };
 
+          delete dataToUpdate[i].match;
           dataToUpdate[i].match = updateMatch;
         }
 
@@ -432,101 +434,101 @@ function MLBPowerdFsLive(props) {
           <Header />
           <div className="teamManagerDiv">
             <div className={classes.wrapper}>
-            <Header4
-              titleMain1="MLB 2021"
-              titleMain2="PowerdFS"
-              subHeader1="Introducing Live-Play Fantasy Baseball"
-              subHeader2={
-                <>
-                  Use your <span>Powers</span> during the live game to drive
-                  your team up the standings
-                </>
-              }
-              contestBtnTitle="Contest Rules"
-              prizeBtnTitle="Prize Grid"
-              bgImageUri={BaseballImage}
-              compressedView
-              currentState={<RenderLiveState isLive />}
-            />
+              <Header4
+                titleMain1="MLB 2021"
+                titleMain2="PowerdFS"
+                subHeader1="Introducing Live-Play Fantasy Baseball"
+                subHeader2={
+                  <>
+                    Use your <span>Powers</span> during the live game to drive
+                    your team up the standings
+                  </>
+                }
+                contestBtnTitle="Contest Rules"
+                prizeBtnTitle="Prize Grid"
+                bgImageUri={BaseballImage}
+                compressedView
+                currentState={<RenderLiveState isLive />}
+              />
 
-            <div className={classes.container}>
-              <div className={classes.container_left_side}>
-                <NHLLiveSportsHeader
-                  btnTitle1="Full View"
-                  btnTitle2="Compressed"
-                  btnTitle3="Single"
-                  selectedView={selectedView}
-                  onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
-                  onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
-                  onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
-                  teamManagerLink="/mlb-live-powerdfs"
-                  scoreDetailLink="/mlb-live-powerdfs/my-score-details"
-                  onGoBack={() =>
-                    redirectTo(props, { path: "/my-game-center" })
-                  }
-                  state={history.location.state}
-                  {...props}
-                />
-                <Card>{RenderView()}</Card>
-                <div className={classes.left_side_footer}>
-                  <img src={FooterImage} alt="" />
+              <div className={classes.container}>
+                <div className={classes.container_left_side}>
+                  <NHLLiveSportsHeader
+                    btnTitle1="Full View"
+                    btnTitle2="Compressed"
+                    btnTitle3="Single"
+                    selectedView={selectedView}
+                    onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
+                    onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
+                    onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
+                    teamManagerLink="/mlb-live-powerdfs"
+                    scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                    onGoBack={() =>
+                      redirectTo(props, { path: "/my-game-center" })
+                    }
+                    state={history.location.state}
+                    {...props}
+                  />
+                  <Card>{RenderView()}</Card>
+                  <div className={classes.left_side_footer}>
+                    <img src={FooterImage} alt="" />
+                  </div>
+                </div>
+
+                <div className={classes.sidebar_container}>
+                  <Sidebar>
+                    <CashPowerBalance
+                      powerBalance={50000}
+                      cashBalance={200000}
+                      styles={{
+                        width: "100%",
+                        marginTop: "-40px",
+                      }}
+                      cashTitle="Prize Pool"
+                      powerTitle="Top Prize"
+                      centered
+                      showIcons={false}
+                    />
+                    <RankCard currentWin={100000} {...props} />
+
+                    <div className={classes.sidebar_content}>
+                      <p>
+                        <span>My</span> Powers
+                      </p>
+                      <div className={classes.sidebar_content_1}>
+                        <RenderPower
+                          title="Point Multiplier"
+                          isSvgIcon
+                          Icon={XPIcon}
+                          count={1}
+                        />
+                        <RenderPower
+                          title="Swap Player"
+                          isSvgIcon
+                          Icon={ReplaceAllIcon}
+                          count={0}
+                        />
+                        <RenderPower
+                          title="D-Wall"
+                          isSvgIcon
+                          Icon={ShieldIcon}
+                          count={0}
+                        />
+                        <RenderPower
+                          title="Challenge"
+                          isSvgIcon
+                          Icon={ChallengeIcon}
+                          count={4}
+                        />
+                      </div>
+                      <button onClick={() => setLearnMoreModal(true)}>
+                        Learn more
+                      </button>
+                    </div>
+                  </Sidebar>
                 </div>
               </div>
-
-              <div className={classes.sidebar_container}>
-                <Sidebar>
-                  <CashPowerBalance
-                    powerBalance={50000}
-                    cashBalance={200000}
-                    styles={{
-                      width: "100%",
-                      marginTop: "-40px",
-                    }}
-                    cashTitle="Prize Pool"
-                    powerTitle="Top Prize"
-                    centered
-                    showIcons={false}
-                  />
-                  <RankCard currentWin={100000} {...props} />
-
-                  <div className={classes.sidebar_content}>
-                    <p>
-                      <span>My</span> Powers
-                    </p>
-                    <div className={classes.sidebar_content_1}>
-                      <RenderPower
-                        title="Point Multiplier"
-                        isSvgIcon
-                        Icon={XPIcon}
-                        count={1}
-                      />
-                      <RenderPower
-                        title="Swap Player"
-                        isSvgIcon
-                        Icon={ReplaceAllIcon}
-                        count={0}
-                      />
-                      <RenderPower
-                        title="D-Wall"
-                        isSvgIcon
-                        Icon={ShieldIcon}
-                        count={0}
-                      />
-                      <RenderPower
-                        title="Challenge"
-                        isSvgIcon
-                        Icon={ChallengeIcon}
-                        count={4}
-                      />
-                    </div>
-                    <button onClick={() => setLearnMoreModal(true)}>
-                      Learn more
-                    </button>
-                  </div>
-                </Sidebar>
-              </div>
             </div>
-          </div>
           </div>
           <Footer isBlack={true} />
           <LearnMoreModal
