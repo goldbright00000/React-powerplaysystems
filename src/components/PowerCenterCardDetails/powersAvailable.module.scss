@@ -14,6 +14,22 @@
       flex: 1;
       justify-content: center;
 
+      .__power_info_main{
+        display: flex;
+        position: relative;
+        align-items: center;
+
+        .__info_icon_mobile{
+          width: 14px;
+          height: 14px;
+          & img {
+            max-width: 14px !important;
+            margin-left: 48px !important;
+          }
+        }
+      
+      }
+      
       .__powers_available_title {
         height: 23px;
         font-family: Poppins;
@@ -26,12 +42,15 @@
         color: $grey2;
         text-decoration: underline;
       }
+
+
     }
   }
 
   .__power_scroll_bar {
     height: 240px;
     overflow-y: scroll;
+    margin-top: 18px;
 }
 .__power_scroll_bar::-webkit-scrollbar {
     width: 8px;

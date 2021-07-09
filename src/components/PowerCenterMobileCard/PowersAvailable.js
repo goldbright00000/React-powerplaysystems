@@ -8,6 +8,8 @@ import DWall from '../../assets/d-wall-mobile.png';
 import VideoReview from '../../assets/video-review-mobile.png';
 import PointMultipliers from '../../assets/point-multipliers.png';
 import PlayerSwaps from '../../assets/player-swaps.png';
+import InfoIcon from '../../assets/info-icon@3x.png';
+import Challange from '../../assets/challenge.svg';
 
 const data1 = [
     {
@@ -64,6 +66,12 @@ const getIcon = (powerName) => {
 
         else if (powerName.toLowerCase().match(/multi|boost/g))
             return PointMultipliers;
+
+        else if (powerName.toLowerCase().match(/retro/g))
+            return RetroBoost;
+
+        else if (powerName.toLowerCase().match(/challenge/g))
+            return Challange;
     }
 }
 
@@ -81,10 +89,15 @@ const PowersAvailable = (props) => {
                 {game_set_end} | {start_time} ET
             </div>
             <div className={classes.__powers_available_powerdfs}>
-                <div>
-                    <p className={classes.__powers_available_powerdfs_title}>
-                        <span className={classes.__powers_available_powerdfs_title_first}>{title}</span> PowerdFS
-                    </p>
+                <div className={classes.__power_info_main}>
+                    <div className={classes.__info_main_title}>
+                        <p className={classes.__powers_available_title}>
+                            Powers Available
+                        </p>
+                    </div>
+                    {/* <div className={classes.__info_icon_mobile}>
+                        < img src={InfoIcon} className={classes.__info_icon} alt="" srcset="" />
+                    </div> */}
                 </div>
                 <div className={classes.__powers_available_title}>
                     Powers Available
