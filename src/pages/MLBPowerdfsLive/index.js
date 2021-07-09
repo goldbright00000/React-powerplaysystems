@@ -11,7 +11,7 @@ import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/mlb_compress_header.jpg";
 import Card from "../../components/PowerpickCard";
-import Sidebar from "../../components/Sidebar";
+import Sidebar from "../../components/SidebarNew";
 import CashPowerBalance from "../../components/CashPowerBalance";
 import XPIcon from "../../icons/XPIcon";
 import LockIcon from "../../icons/Lock";
@@ -401,6 +401,7 @@ function MLBPowerdFsLive(props) {
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
               gameInfo={history.location.state}
+              customClass="responsivemode"
             />
           )}
         </>
@@ -429,7 +430,8 @@ function MLBPowerdFsLive(props) {
       {screenSize > 550 ? (
         <>
           <Header />
-          <div className={classes.wrapper}>
+          <div className="teamManagerDiv">
+            <div className={classes.wrapper}>
             <Header4
               titleMain1="MLB 2021"
               titleMain2="PowerdFS"
@@ -524,6 +526,7 @@ function MLBPowerdFsLive(props) {
                 </Sidebar>
               </div>
             </div>
+          </div>
           </div>
           <Footer isBlack={true} />
           <LearnMoreModal

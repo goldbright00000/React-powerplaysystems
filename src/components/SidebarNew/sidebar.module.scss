@@ -1,8 +1,8 @@
 @import "../../scss/colors.scss";
 
 .__sidebar_container {
-  position: absolute;
-  //flex: 1;
+  // position: absolute;
+  flex: 1;
   height: 100%;
   right: 0;
   flex-direction: column;

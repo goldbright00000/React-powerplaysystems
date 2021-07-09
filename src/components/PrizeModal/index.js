@@ -7,7 +7,7 @@ import CloseIcon from "../../icons/Close";
 import CupIcon from "../../icons/Cup";
 
 function PrizeModal(props) {
-  const { visible = false, sportsName = "", data = [], onClose = () => {} } =
+  const { visible = false, sportsName = "", data = [], onClose = () => { } } =
     props || {};
 
   const Item = ({ place, payout }) => (

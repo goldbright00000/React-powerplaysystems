@@ -24,6 +24,9 @@
     .__hitters_data {
         display: flex;
         flex-direction: row;
+        width: 100%;
+        max-width: 180px;
+        margin: auto;
 
         .__hitters_data_title_div {
             display: flex;
@@ -59,10 +62,31 @@
                 line-height: 1.29;
                 letter-spacing: normal;
                 color: $lightBlue;
+                text-align: center;
             }
         }
     }
 
+    .__hitters_scroll_bar {
+        height: 240px;
+        overflow-y: scroll;
+    }
+    .__hitters_scroll_bar::-webkit-scrollbar {
+        width: 8px;
+        border-radius: 100px;
+        overflow: hidden;
+    }
+    .__hitters_scroll_bar::-webkit-scrollbar-track {
+        background: #202124;
+        border-radius: 100px;
+    }
+    .__hitters_scroll_bar::-webkit-scrollbar-thumb {
+        background: rgba(242, 242, 242, 0.06);
+        border-radius: 100px;
+    }
+    .__hitters_scroll_bar::-webkit-scrollbar-thumb:hover {
+        background: rgba(242, 242, 242, 0.06);
+    }
     .__hitters_heading {
         width: 61px;
         height: 23px;
@@ -75,5 +99,6 @@
         line-height: normal;
         letter-spacing: normal;
         color: $lightBlue;
+        margin-left: 30px;
     }
 }

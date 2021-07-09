@@ -5,6 +5,9 @@ import PlayerSwaps from '../../assets/player-swaps.png';
 import VideoReview from '../../assets/video-review.png';
 import DWall from '../../assets/d-wall.png';
 import LearnMoreModal from './LearnMoreModal';
+import RetroBoost from '../../assets/retro-boost-icon.png';
+import Challange from '../../assets/challenge.svg';
+import InfoIcon from '../../assets/info-icon@3x.png';
 
 const data = [
   {
@@ -44,8 +47,14 @@ const getIcon = (powerName) => {
     else if (powerName.toLowerCase().match(/swap/g))
       return PlayerSwaps;
 
-    else if (powerName.toLowerCase().match(/multi|boost/g))
+    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
       return PointMultipliers;
+
+    else if (powerName.toLowerCase().match(/retro/g))
+      return RetroBoost;
+
+    else if (powerName.toLowerCase().match(/challenge/g))
+      return Challange;
   }
 }
 
@@ -72,14 +81,14 @@ const PowersAvailable = (props) => {
               onCloseModal={onCloseModal}
             />
           )} */}
-          
+
           <div className={classes.__my_game_center_card_powerdfs}>
             <p className={`text-left`}>
-              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{fontSize: '18px', color: 'white'}}>
+              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
                 {title}
               </span>
-              <span  className={classes.__my_game_center_card_powerdfs_title} style={{fontSize: '18px'}}> PowerdFS </span>
-              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{fontSize: '14px'}}>
+              <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
+              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px' }}>
                 Available Powers
               </span>
             </p>
@@ -109,6 +118,7 @@ const PowersAvailable = (props) => {
                               width="28"
                               height="28"
                               className={classes.__powers_available_data_icon}
+                              alt=""
                             />
                             <div
                               className={
@@ -130,7 +140,7 @@ const PowersAvailable = (props) => {
                             </p>
                           </div>
                           {
-                            Power.length == index + 1 && (
+                            Power.length === index + 1 && (
                               <div
                                 className={
                                   classes.__powers_available_learn_more_div
@@ -160,9 +170,16 @@ const PowersAvailable = (props) => {
         <>
           <div className={classes.__powers_available_title_and_learn_more_div}>
             <div className={classes.__powers_available_title_div}>
-              <p className={classes.__powers_available_title}>
-                Powers Available
-              </p>
+              <div className={classes.__power_info_main}>
+                <div className={classes.__info_main_title}>
+                  <p className={classes.__powers_available_title}>
+                    Powers Available
+                  </p>
+                </div>
+                <div className={classes.__info_icon_mobile} onClick={() => onOpenModal()}>
+                  <img src={InfoIcon} className={classes.__info_icon} alt="" srcset="" />
+                </div>
+              </div>
             </div>
             {learnMoreModal && (
               <LearnMoreModal
@@ -173,38 +190,41 @@ const PowersAvailable = (props) => {
             )}
           </div>
 
-          {Power.map((item, index) => {
-            return (
-              <div className={classes.__powers_available_data}>
-                <div className={classes.__powers_available_data_icon_div}>
-                  <img
-                    src={getIcon(item?.powerName)}
-                    width="36"
-                    height="36"
-                    className={classes.__powers_available_data_icon}
-                  />
-                  <div className={classes.__powers_available_data_power_count}>
-                    {item.amount}
+          <div className={classes.__power_scroll_bar}>
+            {Power.map((item, index) => {
+              return (
+                <div className={classes.__powers_available_data}>
+                  <div className={classes.__powers_available_data_icon_div}>
+                    <img
+                      src={getIcon(item?.powerName)}
+                      width="36"
+                      height="36"
+                      className={classes.__powers_available_data_icon}
+                      alt=""
+                    />
+                    <div className={classes.__powers_available_data_power_count}>
+                      {item.amount}
+                    </div>
                   </div>
-                </div>
-                <div className={classes.__powers_available_data_value_div}>
-                  <p className={classes.__powers_available_data_value}>
-                    {item?.powerName}
-                  </p>
-                </div>
-                {Power.length == index + 1 && (
-                  <div
-                    className={classes.__powers_available_learn_more_div}
-                    onClick={() => onOpenModal()}
-                  >
-                    <p className={classes.__powers_available_learn_more_text}>
-                      Learn more
+                  <div className={classes.__powers_available_data_value_div}>
+                    <p className={classes.__powers_available_data_value}>
+                      {item?.powerName}
                     </p>
                   </div>
-                )}
-              </div>
-            );
-          })}
+                  {/* {Power.length === index + 1 && (
+                    <div
+                      className={classes.__powers_available_learn_more_div}
+                      onClick={() => onOpenModal()}
+                    >
+                      <p className={classes.__powers_available_learn_more_text}>
+                        Learn more
+                      </p>
+                    </div>
+                  )} */}
+                </div>
+              );
+            })}
+          </div>
         </>
       )}
     </div >
