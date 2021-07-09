@@ -10,7 +10,7 @@ import RunnerRight from "../../icons/Runners/RunnerRight";
 import RunnerTop from "../../icons/Runners/RunnerTop";
 import RunnerLeft from "../../icons/Runners/RunnerLeft";
 import RunnerTopRight from "../../icons/Runners/RunnerTopRight";
-import RunnerTopLeft from "../../icons/Runners/RunnerLeftRight";
+import RunnerTopLeft from "../../icons/Runners/RunnerTopLeft";
 import RunnerTopRightLeft from "../../icons/Runners/RunnerTopRightLeft";
 import RunnerLeftRight from "../../icons/Runners/RunnerLeftRight";
 
