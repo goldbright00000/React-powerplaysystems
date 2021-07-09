@@ -77,26 +77,11 @@ function SportsLiveCardTeamD(props) {
     outs = 0,
     home_team_runs = 0,
     away_team_runs = 0,
-    current_inning = 0,
-    current_inning_half = "",
   } = boxscore[0] || {};
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
-
-  const footerTitle = () => {
-    if (isEmpty(current_inning_half)) {
-      return ``;
-    }
-
-    const currentInningHalf = `${current_inning_half}`.toLocaleLowerCase();
-    if (currentInningHalf === "b") {
-      return `Bot ${current_inning} | ${outs} outs`;
-    }
-
-    return `Top ${current_inning} | ${outs} outs`;
-  };
 
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
@@ -283,7 +268,7 @@ function SportsLiveCardTeamD(props) {
               showSummary={showSummary}
               onClickBack={() => setSummaryState(false)}
               onClickDetails={() => setSummaryState(true)}
-              title={footerTitle()}
+              title="Bot 1st | 2 Out"
               largeView={largeView}
             />
           )}

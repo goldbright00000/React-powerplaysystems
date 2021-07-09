@@ -181,9 +181,8 @@ function SportsLiveCard(props) {
     }
   };
 
-  const removeZeroBeforeDecimalPoint = (value = 0) => {
-    const toThreeDecimal = value.toFixed(3);
-    const nonDecimalValue = toThreeDecimal.toString().split(".")[1];
+  const removeZeroBeforeDecimalPoint = (value) => {
+    const nonDecimalValue = value.toString().split(".")[1];
     if (nonDecimalValue) {
       return `.${nonDecimalValue}`;
     }

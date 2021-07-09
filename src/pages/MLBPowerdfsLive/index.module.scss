@@ -49,7 +49,7 @@
     position: relative;
 
     .container_left_side {
-      flex: 0.8;
+      flex: 0.68;
       margin-bottom: 50px;
       margin-left: 80px;
 
@@ -76,9 +76,6 @@
     }
 
     .sidebar_container {
-      display: flex;
-      flex: initial;
-      padding-left: 30px;
       > div {
         padding: 0px 40px;
         display: flex;
@@ -256,7 +253,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.74;
         margin-left: 80px;
 
         > div {
@@ -310,7 +307,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.72;
         margin-left: 80px;
 
         > div {
@@ -364,7 +361,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.7;
         margin-left: 70px;
 
         > div {
@@ -418,7 +415,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.7;
         margin-left: 60px;
 
         > div {
@@ -472,7 +469,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.68;
         margin-left: 55px;
 
         > div {
@@ -526,7 +523,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.68;
         margin-left: 45px;
 
         > div {
@@ -580,7 +577,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.7;
         margin-left: 15px;
 
         > div {
@@ -635,7 +632,7 @@
       padding: 0;
 
       .container_left_side {
-        flex: 1;
+        flex: 0.95;
         margin: 0 auto;
 
         > div {

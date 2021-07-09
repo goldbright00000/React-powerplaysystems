@@ -11,7 +11,7 @@ import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import BaseballImage from "../../assets/mlb_compress_header.jpg";
 import Card from "../../components/PowerpickCard";
-import Sidebar from "../../components/SidebarNew";
+import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
 import XPIcon from "../../icons/XPIcon";
 import LockIcon from "../../icons/Lock";
@@ -46,14 +46,6 @@ const {
 } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
 
 let _socket = null;
-
-const POWER_IDS = {
-  SWAP: 4,
-  D_WALL: 5,
-  CHALLENGE: 6,
-  POINT_BOOSTER: 9,
-  RETRO_BOOST: 10,
-};
 
 function MLBPowerdFsLive(props) {
   const [loading, setLoading] = useState(false);
@@ -175,7 +167,7 @@ function MLBPowerdFsLive(props) {
 
     //FANTASY_TEAM_UPDATE
     _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      console.log(`FANTASY_TEAM_UPDATE: ${JSON.stringify(res)}`);
+      console.log("Player updates: ", res);
     });
   };
 
@@ -253,29 +245,7 @@ function MLBPowerdFsLive(props) {
 
     const { gameId, sportId, teamId, userId } = history.location.state || {};
 
-    // const playerToSwap = {
-    //   name: newPlayer.playerName,
-    //   mlb_player_stats: [newPlayer.playerStats],
-    //   type1: currentPlayer?.type1,
-    //   player_id: newPlayer.playerId,
-    //   is_injured: newPlayer.isInjured,
-    //   match_id: newPlayer.match_id,
-    //   team_id: newPlayer.team_id,
-    //   ...newPlayer,
-    // };
-    // console.log(currentPlayer, newPlayer);
-
-    onPowerApplied(
-      teamId,
-      newPlayer.match_id,
-      newPlayer.playerId,
-      POWER_IDS.SWAP
-    );
-
-    // delete currentPlayer.player;
-    // currentPlayer.player = playerToSwap;
-
-    // console.log(currentPlayer);
+    console.log(currentPlayer, newPlayer);
 
     return;
     const _data = [...live_data];
@@ -401,7 +371,6 @@ function MLBPowerdFsLive(props) {
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
               gameInfo={history.location.state}
-              customClass="responsivemode"
             />
           )}
         </>
@@ -430,8 +399,7 @@ function MLBPowerdFsLive(props) {
       {screenSize > 550 ? (
         <>
           <Header />
-          <div className="teamManagerDiv">
-            <div className={classes.wrapper}>
+          <div className={classes.wrapper}>
             <Header4
               titleMain1="MLB 2021"
               titleMain2="PowerdFS"
@@ -526,7 +494,6 @@ function MLBPowerdFsLive(props) {
                 </Sidebar>
               </div>
             </div>
-          </div>
           </div>
           <Footer isBlack={true} />
           <LearnMoreModal
