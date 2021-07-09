@@ -24,6 +24,7 @@ function RenderMLBPlayerStats(props) {
     baserunner_2 = null,
     baserunner_3 = null,
     baserunner_4 = null,
+    batting_average = 0,
   } = props || {};
 
   const {
@@ -231,7 +232,9 @@ function RenderMLBPlayerStats(props) {
                 {formatName(hitterName)}
               </p>
             </div>
-            <span>{0}</span>
+            <span>
+              {batting_average} | {0}
+            </span>
           </div>
         )}
 
@@ -276,6 +279,7 @@ RenderMLBPlayerStats.propTypes = {
   baserunner_2: PropTypes.number,
   baserunner_3: PropTypes.number,
   baserunner_4: PropTypes.number,
+  batting_average: PropTypes.number,
 };
 
 export default RenderMLBPlayerStats;

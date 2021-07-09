@@ -429,6 +429,9 @@ function SportsLiveCard(props) {
                         baserunner_3={baserunner_3}
                         baserunner_4={baserunner_4}
                         largeView={compressedView || !compressedView}
+                        batting_average={removeZeroBeforeDecimalPoint(
+                          batting_average
+                        )}
                         // {...props}
                       />
                     ) : (

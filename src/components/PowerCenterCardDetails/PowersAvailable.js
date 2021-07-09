@@ -7,6 +7,7 @@ import DWall from '../../assets/d-wall.png';
 import LearnMoreModal from './LearnMoreModal';
 import RetroBoost from '../../assets/retro-boost-icon.png';
 import Challange from '../../assets/challenge.svg';
+import InfoIcon from '../../assets/info-icon@3x.png';
 
 const data = [
   {
@@ -169,9 +170,16 @@ const PowersAvailable = (props) => {
         <>
           <div className={classes.__powers_available_title_and_learn_more_div}>
             <div className={classes.__powers_available_title_div}>
-              <p className={classes.__powers_available_title}>
-                Powers Available
-              </p>
+              <div className={classes.__power_info_main}>
+                <div className={classes.__info_main_title}>
+                  <p className={classes.__powers_available_title}>
+                    Powers Available
+                  </p>
+                </div>
+                {/* <div className={classes.__info_icon_mobile}>
+                  < img src={InfoIcon} className={classes.__info_icon} alt="" srcset="" />
+                </div> */}
+              </div>
             </div>
             {learnMoreModal && (
               <LearnMoreModal
