@@ -822,8 +822,8 @@
         right: 5px;
 
         img {
-          width: 68px;
-          height: 68px;
+          width: 50px;
+          height: 50px;
         }
 
         .star_player_right {
@@ -834,6 +834,7 @@
             font-size: 16px;
             font-weight: 600;
             margin-bottom: 5px;
+            color: #fa3800;
           }
 
           svg {
@@ -1357,10 +1358,13 @@
   }
 
   .modal_container {
-    width: 1437px;
-    height: 72%;
+    //width: 1437px;
+    //height: 72%;
     padding: 38px 39px 51px 40px;
-
+    overflow-y: auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .modal_header {
       width: 100%;
       transform: translateY(5px);
@@ -1860,7 +1864,7 @@
   }
 
   .modal_container {
-    width: 1337px;
+    //width: 1337px;
     height: 72%;
     padding: 38px 39px 51px 40px;
 
@@ -1961,7 +1965,7 @@
 
 @media (max-width: 1600px) {
   .modal_container {
-    width: 1237px;
+    //width: 1237px;
     height: 67%;
     padding: 38px 39px 51px 40px;
 
@@ -2453,7 +2457,7 @@
   }
 
   .modal_container {
-    width: 1137px;
+    //width: 1137px;
     height: 67%;
     padding: 38px 39px 51px 40px;
 
@@ -2941,7 +2945,7 @@
   }
 
   .modal_container {
-    width: 1037px;
+    //width: 1037px;
     height: 95%;
     padding: 28px 39px 51px 40px;
 
@@ -3042,7 +3046,7 @@
 
 @media (max-width: 1280px) {
   .modal_container {
-    width: 1037px;
+    //width: 1037px;
     height: 72%;
     padding: 28px 39px 51px 40px;
 
@@ -3892,9 +3896,9 @@
                   font-size: 12px;
               }
               .stat {
-                  width: 86px;
-                  .p {
-                      font-size: 12px;
+                  width: 80px;
+                  .p, p {
+                      font-size: 10px;
                   }
               }
               .points {
