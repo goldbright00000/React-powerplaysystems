@@ -100,6 +100,8 @@ function MLBPowerdFsLive(props) {
     }
   }, [_socket]);
 
+  useEffect(() => {}, [live_data]); //sometime we don't updates so need to trigger on this
+
   //All Emit Events
   const onSocketEmit = () => {
     const { gameId, userId, teamId, sportId } = history.location.state || {};
