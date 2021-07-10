@@ -552,6 +552,7 @@ function MLBPowerdFs(props) {
   };
 
   const onSearch = (e) => {
+    e.preventDefault();
     const { value } = e.target;
     if (!isEmpty(value)) {
       const _filterdData = filterdData?.listData?.filter((player) =>
@@ -566,20 +567,16 @@ function MLBPowerdFs(props) {
       );
       var tempObj = [];
       var tempIds = [];
-      for(var i = 0; i < _filterdData.length; i++)
-      {
+      for (var i = 0; i < _filterdData.length; i++) {
         var id = _filterdData[i].playerId;
-        if(tempIds.indexOf(id) == -1)
-        {
+        if (tempIds.indexOf(id) == -1) {
           tempIds.push(id);
           tempObj.push(_filterdData[i]);
         }
       }
-      for(var i = 0; i < _filterdDataHomeTeam.length; i++)
-      {
+      for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
         var id = _filterdDataHomeTeam[i].playerId;
-        if(tempIds.indexOf(id) == -1)
-        {
+        if (tempIds.indexOf(id) == -1) {
           tempIds.push(id);
           tempObj.push(_filterdDataHomeTeam[i]);
         }

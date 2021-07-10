@@ -57,6 +57,7 @@ const POWER_IDS = {
 
 function MLBPowerdFsLive(props) {
   const [loading, setLoading] = useState(false);
+  const [updatesLoaded, setUpdatesLoading] = useState(false);
   const [screenSize, setScreenSize] = useState(window.screen.width);
 
   const [compressedView, setCompressedView] = useState(false);
@@ -100,7 +101,39 @@ function MLBPowerdFsLive(props) {
     }
   }, [_socket]);
 
-  useEffect(() => {}, [live_data]); //sometime we don't updates so need to trigger on this
+  useEffect(() => {
+    if (live_data?.length && !updatesLoaded) {
+      //MATCH_UPDATE
+      setUpdatesLoading(true);
+      _socket?.on(MATCH_UPDATE, (res) => {
+        printLog(res);
+        // if (data && data?.length && res && res?.data) {
+        const { match_id } = res?.data || {};
+        const dataToUpdate = live_data?.filter(
+          (match) => match?.match_id === match_id
+        );
+
+        if (dataToUpdate.length) {
+          for (let i = 0; i < dataToUpdate.length; i++) {
+            const { match = {} } = dataToUpdate[i] || {};
+            const updateMatch = {
+              ...match,
+              boxscore: [{ ...match?.boxscore[0], ...res?.data }],
+            };
+
+            delete dataToUpdate[i].match;
+            dataToUpdate[i].match = updateMatch;
+          }
+
+          const liveData = union(live_data, dataToUpdate);
+
+          setUpdatesLoading(false);
+          dispatch(MLBActions.mlbLiveData(liveData));
+        }
+        // }
+      });
+    }
+  }, [live_data]); //sometime we don't updates so need to trigger on this
 
   //All Emit Events
   const onSocketEmit = () => {
@@ -127,7 +160,6 @@ function MLBPowerdFsLive(props) {
     //fetch data first time
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
-      console.log(res);
       const {
         game_id = "",
         score = 0,
@@ -146,34 +178,6 @@ function MLBPowerdFsLive(props) {
       setLoading(false);
     });
 
-    //MATCH_UPDATE
-    _socket?.on(MATCH_UPDATE, (res) => {
-      printLog(res);
-      // if (data && data?.length && res && res?.data) {
-      const { match_id } = res?.data || {};
-      const dataToUpdate = live_data?.filter(
-        (match) => match?.match_id === match_id
-      );
-
-      if (dataToUpdate.length) {
-        for (let i = 0; i < dataToUpdate.length; i++) {
-          const { match = {} } = dataToUpdate[i] || {};
-          const updateMatch = {
-            ...match,
-            boxscore: [{ ...match?.boxscore[0], ...res?.data }],
-          };
-
-          delete dataToUpdate[i].match;
-          dataToUpdate[i].match = updateMatch;
-        }
-
-        const liveData = union(live_data, dataToUpdate);
-
-        dispatch(MLBActions.mlbLiveData(liveData));
-      }
-      // }
-    });
-
     //GLOBAL_RANKING
     _socket?.on(GLOBAL_RANKING, (res) => {
       printLog("GLOBAL_RANKING: ", res);
@@ -181,7 +185,7 @@ function MLBPowerdFsLive(props) {
 
     //FANTASY_TEAM_UPDATE
     _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      console.log(`FANTASY_TEAM_UPDATE: `, res);
+      // console.log(`FANTASY_TEAM_UPDATE: `, JSON.stringify(res));
       onFantasyTeamUpdate(res);
     });
   };
@@ -229,12 +233,12 @@ function MLBPowerdFsLive(props) {
   };
 
   const onFantasyTeamUpdate = (res) => {
-    const { log: { fantasy_points_after = 0 } = {} } = res || {};
+    const { log: { data: { fantasy_points_after = 0 } = {} } = {} } = res || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
 
     const liveData = [...live_data];
-    console.log("FANTASY_TEAM_UPDATE_2: ", liveData, fantasy_points_after);
+    // console.log("FANTASY_TEAM_UPDATE_2: ", liveData, fantasy_points_after);
     // for (let i = 0; i < liveData?.length; i++) {
     //   liveData[i].player.points = fantasy_points_after || 0;
     // }

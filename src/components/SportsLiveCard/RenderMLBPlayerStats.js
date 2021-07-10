@@ -30,6 +30,8 @@ function RenderMLBPlayerStats(props) {
     batting_average = 0,
   } = props || {};
 
+  console.log(baserunner_1, baserunner_2, baserunner_3, baserunner_4);
+
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",
@@ -45,20 +47,21 @@ function RenderMLBPlayerStats(props) {
     throw_hand: hThrowHand = "",
     type: hitterType = "",
     mlb_player_stats: hitterStats = [],
+    match_stats: hMatchStats = [],
   } = hitter || {};
 
   const {
     base_on_balls: hBOB = 0,
-    batting_average: hbBA = 0,
+    // batting_average: hbBA = 0,
     doubles: Hdoubles = 0,
-    earned_runs_average: hERA = 0,
-    hits: hHits = 0,
+    // earned_runs_average: hERA = 0,
+    // hits: hHits = 0,
     home_runs: hHomeRuns = 0,
     innings_pitched: hIp = 0,
     losses: hLosses = 0,
     ops: HOPS = 0,
     player_id: hPlayerId = 0,
-    runs_batted_in: hRBI = 0,
+    // runs_batted_in: hRBI = 0,
     season_id: hSeasonId = 0,
     stats_id: hStatId = 0,
     stolen_bases: hStolenBases = 0,
@@ -67,8 +70,27 @@ function RenderMLBPlayerStats(props) {
     type: hType = "",
     updated_at: hUpdateAt = "",
     walks_hits_per_innings_pitched: hWHPIP = 0,
-    wins: hWins = 0,
+    // wins: hWins = 0,
   } = hitterStats[0] || {};
+
+  const {
+    batting_average: hbBA = 0,
+    // created_at=  "2021-07-09T23:50:14.751Z",
+    // data_id= 1164,
+    earned_runs_average: hERA = 0,
+    hits: hHits = 0,
+    innings_pitched: hIP = null,
+    // match_id= 6692,
+    outs: hOuts = null,
+    pitch_count: hPC = null,
+    plate_appearances: hPA = 0,
+    // player_id= 10801,
+    runs: hRuns = 0,
+    runs_batted_in: hRBI = 0,
+    strike_outs: hSO = 0,
+    // updated_at= "2021-07-09T23:50:14.751Z",
+    walks: hWalks = 0,
+  } = hMatchStats[0] || {};
 
   const {
     active: isPittcherActive = false,
@@ -135,6 +157,7 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
+      console.log("baserunner_2: ", baserunner_2);
       return <RunnerTop />; //base runner 2 icon
     }
 
@@ -265,10 +288,35 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
+      console.log(isEmpty(baserunner_2));
       return <EmptyRunner />; //empty icon
     }
 
     return <></>;
+  };
+
+  const renderBaseRunner = () => {
+    if (!isEmpty(baserunner_1)) {
+      return <RunnerRight />;
+    } else if (!isEmpty(baserunner_2)) {
+      return <RunnerTop />;
+    } else if (!isEmpty(baserunner_3)) {
+      return <RunnerLeft />;
+    } else if (!isEmpty(baserunner_1) && !isEmpty(baserunner_2)) {
+      return <RunnerTopRight />;
+    } else if (!isEmpty(baserunner_2) && !isEmpty(baserunner_3)) {
+      return <RunnerTopLeft />;
+    } else if (!isEmpty(baserunner_1) && !isEmpty(baserunner_3)) {
+      return <RunnerLeftRight />;
+    } else if (
+      !isEmpty(baserunner_1) &&
+      !isEmpty(baserunner_2) &&
+      !isEmpty(baserunner_3)
+    ) {
+      return <RunnerTopRightLeft />;
+    }
+
+    return <EmptyRunner />;
   };
 
   return (
@@ -283,8 +331,8 @@ function RenderMLBPlayerStats(props) {
               </p>
             </div>
             <span>
-              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{0} | S: {strikes}{" "}
-              | B: {balls}
+              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{hPA} | S:{" "}
+              {strikes} | B: {balls}
             </span>
           </div>
         )}
@@ -301,22 +349,7 @@ function RenderMLBPlayerStats(props) {
           </div>
         )}
       </div>
-      {largeView && (
-        <>
-          <RenderEmptyBaseRunner />
-          <RenderBaseRunner1 />
-          <RenderBaseRunner2 />
-          <RenderBaseRunner3 />
-          <RenderBaseRunner4 />
-          <RenderBaseRunner1_2 />
-          <RenderBaseRunner1_3 />
-          <RenderBaseRunner1_4 />
-          <RenderBaseRunner2_3 />
-          <RenderBaseRunner2_4 />
-          <RenderBaseRunner3_4 />
-          <RenderBaseRunner1_2_3 />
-        </>
-      )}
+      {largeView && <>{renderBaseRunner()}</>}
     </div>
   );
 }
