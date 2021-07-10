@@ -52,7 +52,7 @@ function RenderMLBPlayerStats(props) {
 
   const {
     base_on_balls: hBOB = 0,
-    // batting_average: hbBA = 0,
+    batting_average: hbBA = 0,
     doubles: Hdoubles = 0,
     // earned_runs_average: hERA = 0,
     // hits: hHits = 0,
@@ -74,7 +74,7 @@ function RenderMLBPlayerStats(props) {
   } = hitterStats[0] || {};
 
   const {
-    batting_average: hbBA = 0,
+    // batting_average: hbBA = 0,
     // created_at=  "2021-07-09T23:50:14.751Z",
     // data_id= 1164,
     earned_runs_average: hERA = 0,
