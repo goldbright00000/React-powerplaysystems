@@ -7,7 +7,7 @@ import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
 import StarPower from "../../assets/star_power.png";
-import { hasText } from "../../utility/shared";
+import { hasText, removeZeroBeforeDecimalPoint } from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
 import XP1_5 from "../../icons/XP1_5";
@@ -180,16 +180,6 @@ function SportsLiveCard(props) {
       updateReduxState(data, swapablePlayer);
       toggleReplaceModal();
     }
-  };
-
-  const removeZeroBeforeDecimalPoint = (value = 0) => {
-    const toThreeDecimal = value.toFixed(3);
-    const nonDecimalValue = toThreeDecimal.toString().split(".")[1];
-    if (nonDecimalValue) {
-      return `.${nonDecimalValue}`;
-    }
-
-    return "";
   };
 
   const renderXp = () => {
