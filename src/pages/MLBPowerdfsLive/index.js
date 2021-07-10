@@ -62,6 +62,7 @@ function MLBPowerdFsLive(props) {
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
+  const [points, setPoints] = useState(0);
   const [playerIds, setPlayerIds] = useState([]);
   const [data, setData] = useState([]);
 
@@ -165,6 +166,7 @@ function MLBPowerdFsLive(props) {
         }
 
         const liveData = union(live_data, dataToUpdate);
+
         dispatch(MLBActions.mlbLiveData(liveData));
       }
       // }
@@ -177,7 +179,8 @@ function MLBPowerdFsLive(props) {
 
     //FANTASY_TEAM_UPDATE
     _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      console.log(`FANTASY_TEAM_UPDATE: ${JSON.stringify(res)}`);
+      console.log(`FANTASY_TEAM_UPDATE: ${res}`);
+      onFantasyTeamUpdate(res);
     });
   };
 
@@ -221,6 +224,20 @@ function MLBPowerdFsLive(props) {
     playersArr[7].team_d_mlb_team.type = D;
 
     dispatch(MLBActions.mlbLiveData(playersArr));
+  };
+
+  const onFantasyTeamUpdate = (res) => {
+    const { log: { fantasy_points_after = 0 } = {} } = res || {};
+    setPoints(fantasy_points_after);
+    if (!live_data?.length) return;
+
+    const liveData = [...live_data];
+
+    for (let i = 0; i < liveData?.length; i++) {
+      liveData[i].player.points = fantasy_points_after;
+    }
+
+    dispatch(MLBActions.mlbLiveData(liveData));
   };
 
   const onChangeXp = (xp, player) => {
