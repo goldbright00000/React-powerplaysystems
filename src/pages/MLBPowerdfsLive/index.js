@@ -181,7 +181,7 @@ function MLBPowerdFsLive(props) {
 
     //FANTASY_TEAM_UPDATE
     _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      console.log(`FANTASY_TEAM_UPDATE: ${res}`);
+      console.log(`FANTASY_TEAM_UPDATE: `, res);
       onFantasyTeamUpdate(res);
     });
   };
@@ -234,10 +234,10 @@ function MLBPowerdFsLive(props) {
     if (!live_data?.length) return;
 
     const liveData = [...live_data];
-
-    for (let i = 0; i < liveData?.length; i++) {
-      liveData[i].player.points = fantasy_points_after;
-    }
+    console.log("FANTASY_TEAM_UPDATE_2: ", liveData, fantasy_points_after);
+    // for (let i = 0; i < liveData?.length; i++) {
+    //   liveData[i].player.points = fantasy_points_after || 0;
+    // }
 
     dispatch(MLBActions.mlbLiveData(liveData));
   };
