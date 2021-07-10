@@ -102,9 +102,8 @@ function MLBPowerdFsLive(props) {
   }, [_socket]);
 
   useEffect(() => {
-    if (live_data?.length && !updatesLoaded) {
+    if (live_data?.length) {
       //MATCH_UPDATE
-      setUpdatesLoading(true);
       _socket?.on(MATCH_UPDATE, (res) => {
         printLog(res);
         // if (data && data?.length && res && res?.data) {
@@ -127,7 +126,6 @@ function MLBPowerdFsLive(props) {
 
           const liveData = union(live_data, dataToUpdate);
 
-          setUpdatesLoading(false);
           dispatch(MLBActions.mlbLiveData(liveData));
         }
         // }
