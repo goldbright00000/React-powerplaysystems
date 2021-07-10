@@ -13,6 +13,7 @@ import RunnerTopRight from "../../icons/Runners/RunnerTopRight";
 import RunnerTopLeft from "../../icons/Runners/RunnerTopLeft";
 import RunnerTopRightLeft from "../../icons/Runners/RunnerTopRightLeft";
 import RunnerLeftRight from "../../icons/Runners/RunnerLeftRight";
+import { removeZeroBeforeDecimalPoint } from "../../utility/shared";
 
 function RenderMLBPlayerStats(props) {
   const {
@@ -282,7 +283,8 @@ function RenderMLBPlayerStats(props) {
               </p>
             </div>
             <span>
-              {hbBA} | {hHits}/{0} | {strikes} | {balls}
+              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{0} | S: {strikes}{" "}
+              | B: {balls}
             </span>
           </div>
         )}
