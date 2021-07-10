@@ -24,6 +24,8 @@ function RenderMLBPlayerStats(props) {
     baserunner_2 = null,
     baserunner_3 = null,
     baserunner_4 = null,
+    strikes = 0,
+    balls = 0,
     batting_average = 0,
   } = props || {};
 
@@ -280,7 +282,7 @@ function RenderMLBPlayerStats(props) {
               </p>
             </div>
             <span>
-              {hbBA} | {hHits}/{0} | {hStrikeOuts} | {hBOB}
+              {hbBA} | {hHits}/{0} | {strikes} | {balls}
             </span>
           </div>
         )}
@@ -327,6 +329,8 @@ RenderMLBPlayerStats.propTypes = {
   baserunner_3: PropTypes.number,
   baserunner_4: PropTypes.number,
   batting_average: PropTypes.number,
+  strikes: PropTypes.number,
+  balls: PropTypes.number,
 };
 
 export default RenderMLBPlayerStats;

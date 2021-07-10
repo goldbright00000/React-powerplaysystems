@@ -118,6 +118,7 @@ function SportsLiveCard(props) {
     // innings_pitched = 0,
     pitch_count = 0,
     strikes = 0,
+    balls = 0,
     // earned_runs_average = 0,
     // base_on_balls = 0,
     // walks_hits_per_innings_pitched = 0,
@@ -429,6 +430,8 @@ function SportsLiveCard(props) {
                         baserunner_2={baserunner_2}
                         baserunner_3={baserunner_3}
                         baserunner_4={baserunner_4}
+                        strikes={strikes}
+                        balls={balls}
                         largeView={compressedView || !compressedView}
                         batting_average={removeZeroBeforeDecimalPoint(
                           batting_average
