@@ -30,8 +30,6 @@ function RenderMLBPlayerStats(props) {
     batting_average = 0,
   } = props || {};
 
-  console.log(baserunner_1, baserunner_2, baserunner_3, baserunner_4);
-
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",
@@ -157,7 +155,6 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      console.log("baserunner_2: ", baserunner_2);
       return <RunnerTop />; //base runner 2 icon
     }
 
@@ -288,7 +285,6 @@ function RenderMLBPlayerStats(props) {
       isEmpty(baserunner_3) &&
       isEmpty(baserunner_4)
     ) {
-      console.log(isEmpty(baserunner_2));
       return <EmptyRunner />; //empty icon
     }
 

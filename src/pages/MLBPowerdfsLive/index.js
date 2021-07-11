@@ -46,6 +46,7 @@ const {
 } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
 
 let _socket = null;
+let isMatchUpdate = false;
 
 const POWER_IDS = {
   SWAP: 4,
@@ -84,6 +85,8 @@ function MLBPowerdFsLive(props) {
     _socket = socket();
 
     return function cleanUP() {
+      isMatchUpdate = false;
+
       //disconnect the socket
       _socket?.emit(ON_ROOM_UN_SUB);
       _socket?.on(ON_ROOM_UN_SUB, () => {
@@ -102,7 +105,9 @@ function MLBPowerdFsLive(props) {
   }, [_socket]);
 
   useEffect(() => {
-    if (live_data?.length) {
+    if (live_data?.length && !isMatchUpdate) {
+      isMatchUpdate = true;
+
       //MATCH_UPDATE
       _socket?.on(MATCH_UPDATE, (res) => {
         printLog(res);
@@ -128,6 +133,7 @@ function MLBPowerdFsLive(props) {
 
           dispatch(MLBActions.mlbLiveData(liveData));
         }
+        isMatchUpdate = false;
         // }
       });
     }
