@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { union } from "lodash";
+import { isEmpty, union } from "lodash";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -66,7 +66,7 @@ function MLBPowerdFsLive(props) {
   const [learnMoreModal, setLearnMoreModal] = useState(false);
   const [points, setPoints] = useState(0);
   const [playerIds, setPlayerIds] = useState([]);
-  const [data, setData] = useState([]);
+  const [matchUpdateData, setMatchUpdateData] = useState({});
 
   const history = useHistory();
 
@@ -105,39 +105,10 @@ function MLBPowerdFsLive(props) {
   }, [_socket]);
 
   useEffect(() => {
-    if (live_data?.length && !isMatchUpdate) {
-      isMatchUpdate = true;
+    if (isEmpty(matchUpdateData) && isEmpty(matchUpdateData.data)) return;
 
-      //MATCH_UPDATE
-      _socket?.on(MATCH_UPDATE, (res) => {
-        printLog(res);
-        // if (data && data?.length && res && res?.data) {
-        const { match_id } = res?.data || {};
-        const dataToUpdate = live_data?.filter(
-          (match) => match?.match_id === match_id
-        );
-
-        if (dataToUpdate.length) {
-          for (let i = 0; i < dataToUpdate.length; i++) {
-            const { match = {} } = dataToUpdate[i] || {};
-            const updateMatch = {
-              ...match,
-              boxscore: [{ ...match?.boxscore[0], ...res?.data }],
-            };
-
-            delete dataToUpdate[i].match;
-            dataToUpdate[i].match = updateMatch;
-          }
-
-          const liveData = union(live_data, dataToUpdate);
-
-          dispatch(MLBActions.mlbLiveData(liveData));
-        }
-        isMatchUpdate = false;
-        // }
-      });
-    }
-  }, [live_data]); //sometime we don't updates so need to trigger on this
+    setMatchUpdates();
+  }, [matchUpdateData]);
 
   //All Emit Events
   const onSocketEmit = () => {
@@ -180,6 +151,12 @@ function MLBPowerdFsLive(props) {
       }
 
       setLoading(false);
+    });
+
+    //MATCH_UPDATE
+    _socket?.on(MATCH_UPDATE, (res) => {
+      printLog(res);
+      setMatchUpdateData(res);
     });
 
     //GLOBAL_RANKING
@@ -234,6 +211,32 @@ function MLBPowerdFsLive(props) {
     playersArr[7].team_d_mlb_team.type = D;
 
     dispatch(MLBActions.mlbLiveData(playersArr));
+  };
+
+  const setMatchUpdates = () => {
+    const { match_id } = matchUpdateData?.data || {};
+    const dataToUpdate = live_data?.filter(
+      (match) => match?.match_id === match_id
+    );
+
+    console.log("LIVE DATE: ", live_data, dataToUpdate, match_id);
+
+    if (dataToUpdate.length) {
+      for (let i = 0; i < dataToUpdate.length; i++) {
+        const { match = {} } = dataToUpdate[i] || {};
+        const updateMatch = {
+          ...match,
+          boxscore: [{ ...match?.boxscore[0], ...matchUpdateData?.data }],
+        };
+
+        delete dataToUpdate[i].match;
+        dataToUpdate[i].match = updateMatch;
+      }
+
+      const liveData = union(live_data, dataToUpdate);
+
+      dispatch(MLBActions.mlbLiveData(liveData));
+    }
   };
 
   const onFantasyTeamUpdate = (res) => {
