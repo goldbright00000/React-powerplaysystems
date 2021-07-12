@@ -22,7 +22,7 @@ const PowerCenterMobileCard = (props) => {
     outOf = null,
     total = null,
     game_type = '',
-    game_set_end = '',
+    game_set_start = '',
     start_time = '',
     entry_fee = null,
     percent = null,
@@ -76,7 +76,7 @@ const PowerCenterMobileCard = (props) => {
           <div style={{ flex: 1 }}></div>
           <div className={classes.__power_center_card_content}>
             <div className={classes.__power_center_card_date_time}>
-              {game_set_end} | {start_time} ET
+              {game_set_start} | {start_time} ET
             </div>
             <div className={classes.__power_center_card_powerdfs}>
               <p className={classes.__power_center_card_powerdfs_title}>
@@ -110,7 +110,7 @@ const PowerCenterMobileCard = (props) => {
             </div>
             <div className={classes.__power_center_card_total}>
               <p>
-                {outOf} of <span>{total}</span>
+                {outOf} <span>of  {total}</span>
               </p>
             </div>
             <div className={classes.__power_center_card_enter}>
@@ -129,10 +129,10 @@ const PowerCenterMobileCard = (props) => {
             </div>
           </div>
         </div>
-        <PrizeGrid PrizePayout={PrizePayout} game_set_end={game_set_end} start_time={start_time} />
-        <PowersAvailable title={title} Power={Power} game_set_end={game_set_end} start_time={start_time} />
-        <PointSystem title={title} PointsSystem={PointsSystem} game_set_end={game_set_end} start_time={start_time} />
-        <TeamRoster title={title} game_set_end={game_set_end} start_time={start_time} />
+        <PrizeGrid PrizePayout={PrizePayout} game_set_start={game_set_start} start_time={start_time} />
+        <PowersAvailable title={title} Power={Power} game_set_start={game_set_start} start_time={start_time} />
+        <PointSystem title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} />
+        <TeamRoster title={title} game_set_start={game_set_start} start_time={start_time} />
       </Carousel>
     </div>
   ) : (
