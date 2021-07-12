@@ -16,7 +16,7 @@ const PowerCenterCard = (props) => {
         total = null,
         percent = null,
         game_type = '',
-        game_set_end = '',
+        game_set_start = '',
         start_time = '',
         entry_fee = null,
         showDetails = false,
@@ -88,12 +88,12 @@ const PowerCenterCard = (props) => {
                     )}
                 </div>
                 <div className={classes.__power_center_card_date_time}>
-                    {game_set_end} | {start_time} ET
+                    {game_set_start} | {start_time} ET
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
                     <div className={classes.__power_center_card_total}>
                         <p>
-                            {outOf} of <span>{total}</span>
+                            {outOf} <span>of {total}</span>
                         </p>
                     </div>
                     <div className={classes.__power_center_card_details}>

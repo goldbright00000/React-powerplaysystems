@@ -843,8 +843,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -923,11 +923,11 @@ function MLBPowerdFs(props) {
                                   onSelectDeselect={onPlayerSelectDeselect}
                                   pageType={PAGE_TYPES.MLB}
                                   type={selectedData?.type}
-                                  // disabled={
-                                  //   item.isStarPlayer &&
-                                  //   item.isStarPlayer &&
-                                  //   starPlayerCount >= 3
-                                  // }
+                                // disabled={
+                                //   item.isStarPlayer &&
+                                //   item.isStarPlayer &&
+                                //   starPlayerCount >= 3
+                                // }
                                 />
                               </>
                             )}
@@ -941,7 +941,7 @@ function MLBPowerdFs(props) {
                 )}
               </Card>
               {!isMobile && (
-                <img src={AcceleRadar} className={classes.partner_logo} />
+                <img src={AcceleRadar} className={classes.partner_logo} alt="" />
               )}
             </div>
 
@@ -1035,9 +1035,8 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${
-                              classes.__last_tab_header
-                            }`}
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
                           >
                             Powers Available
                           </Tab>
@@ -1207,119 +1206,123 @@ function MLBPowerdFs(props) {
               </button>
             </Sidebar>
           </div>
-        </div>
-      </div>
+        </div >
+      </div >
       <Footer isBlack={true} />
 
-      {isMobile && (
-        <BottomSheet
-          open
-          skipInitialTransition
-          ref={sheetRef}
-          initialFocusRef={focusRef}
-          defaultSnap={({ maxHeight }) => maxHeight / 2}
-          snapPoints={({ maxHeight }) => [
-            maxHeight - maxHeight / 10,
-            selectedPlayerCount === sideBarList.length
-              ? maxHeight / 5.3
-              : maxHeight / 8,
-            // maxHeight * 0.6,
-          ]}
-          blocking={false}
-          expandOnContentDrag
-          onSpringEnd={(event) => {
-            if (event.type === "SNAP") {
-              if (sheetRef.current.height > window.innerHeight / 5.3) {
-                setIsExpanded(true);
-              } else {
-                setIsExpanded(false);
+      {
+        isMobile && (
+          <BottomSheet
+            open
+            skipInitialTransition
+            ref={sheetRef}
+            initialFocusRef={focusRef}
+            defaultSnap={({ maxHeight }) => maxHeight / 2}
+            snapPoints={({ maxHeight }) => [
+              maxHeight - maxHeight / 10,
+              selectedPlayerCount === sideBarList.length
+                ? maxHeight / 5.3
+                : maxHeight / 8,
+              // maxHeight * 0.6,
+            ]}
+            blocking={false}
+            expandOnContentDrag
+            onSpringEnd={(event) => {
+              if (event.type === "SNAP") {
+                if (sheetRef.current.height > window.innerHeight / 5.3) {
+                  setIsExpanded(true);
+                } else {
+                  setIsExpanded(false);
+                }
               }
-            }
-          }}
-        >
-          {!isExpanded && (
-            <>
-              <div className={classes.sidebar_header}>
-                <p className={classes.sidebar_player_count_text}>
-                  {selectedPlayerCount}/{sideBarList?.length} Starting Players
-                  Selected
-                </p>
-                <div className={classes.sidebar_header_1}>
-                  <p>
-                    <span>
-                      <img src={StarImg} className={classes.smallImg} />
-                      Star Power
-                    </span>{" "}
-                    players
-                    <span className={classes.sidebar_circles_snap_half}>
-                      <StarPlayersCheck
-                        totalStarPlayers={3}
-                        selectedCount={starPlayerCount}
-                      />
-                    </span>
+            }}
+          >
+            {!isExpanded && (
+              <>
+                <div className={classes.sidebar_header}>
+                  <p className={classes.sidebar_player_count_text}>
+                    {selectedPlayerCount}/{sideBarList?.length} Starting Players
+                    Selected
                   </p>
+                  <div className={classes.sidebar_header_1}>
+                    <p>
+                      <span>
+                        <img src={StarImg} className={classes.smallImg} />
+                        Star Power
+                      </span>{" "}
+                      players
+                      <span className={classes.sidebar_circles_snap_half}>
+                        <StarPlayersCheck
+                          totalStarPlayers={3}
+                          selectedCount={starPlayerCount}
+                        />
+                      </span>
+                    </p>
+                  </div>
                 </div>
-              </div>
 
-              {selectedPlayerCount === sideBarList.length && (
+                {selectedPlayerCount === sideBarList.length && (
+                  <button
+                    className={classes.sidebar_button}
+                    onClick={onSubmitMLbSelection}
+                  >
+                    Submit!
+                  </button>
+                )}
+              </>
+            )}
+
+            {isExpanded && (
+              <>
+                <div className={classes.sidebar_header}>
+                  <h2>My Selections</h2>
+                  <div className={classes.sidebar_header_1}>
+                    <p>
+                      <span>
+                        <img src={StarImg} className={classes.smallImg} />
+                        Star Power
+                      </span>{" "}
+                      players selected
+                    </p>
+                  </div>
+                  <div className={classes.sidebar_circles}>
+                    <StarPlayersCheck
+                      totalStarPlayers={3}
+                      selectedCount={starPlayerCount}
+                    />
+                  </div>
+                </div>
+
+                <SportsSidebarContent
+                  data={sideBarList}
+                  onDelete={(id, matchId) => onDelete(id, matchId)}
+                  starIcon={StarImg}
+                  selectedPlayerCount={selectedPlayerCount}
+                />
+
                 <button
                   className={classes.sidebar_button}
                   onClick={onSubmitMLbSelection}
                 >
                   Submit!
                 </button>
-              )}
-            </>
-          )}
+              </>
+            )}
+          </BottomSheet>
+        )
+      }
 
-          {isExpanded && (
-            <>
-              <div className={classes.sidebar_header}>
-                <h2>My Selections</h2>
-                <div className={classes.sidebar_header_1}>
-                  <p>
-                    <span>
-                      <img src={StarImg} className={classes.smallImg} />
-                      Star Power
-                    </span>{" "}
-                    players selected
-                  </p>
-                </div>
-                <div className={classes.sidebar_circles}>
-                  <StarPlayersCheck
-                    totalStarPlayers={3}
-                    selectedCount={starPlayerCount}
-                  />
-                </div>
-              </div>
-
-              <SportsSidebarContent
-                data={sideBarList}
-                onDelete={(id, matchId) => onDelete(id, matchId)}
-                starIcon={StarImg}
-                selectedPlayerCount={selectedPlayerCount}
-              />
-
-              <button
-                className={classes.sidebar_button}
-                onClick={onSubmitMLbSelection}
-              >
-                Submit!
-              </button>
-            </>
-          )}
-        </BottomSheet>
-      )}
-
-      {isMobile && (
-        <ButtonFloating
-          isRounded
-          transparent
-          icon={<img src={MenuIcon} width="58" height="58" alt="" />}
-          iconOnly={true}
-          onClick={() => setShowPowerInfoModal(true)}
-        />
-      )}
+      {
+        isMobile && (
+          <ButtonFloating
+            isRounded
+            transparent
+            icon={<img src={MenuIcon} width="58" height="58" alt="" />}
+            iconOnly={true}
+            onClick={() => setShowPowerInfoModal(true)}
+          />
+        )
+      }
 
       {showPowerInfoModal && powerInfoModal()}
 

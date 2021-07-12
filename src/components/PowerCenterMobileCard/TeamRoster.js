@@ -38,11 +38,16 @@ const data2 = [
 ];
 
 const TeamRoster = (props) => {
-    const {title = ''} = props || {};
+
+    const {
+        title = '',
+        game_set_start = '',
+        start_time = '',
+    } = props || {};
     return (
         <div className={classes.__team_roster}>
             <div className={classes.__team_roster_date_time}>
-                Oct 24, 2020  |  8:00PM ET
+                {game_set_start} | {start_time} ET
             </div>
             <div className={classes.__team_roster_powerdfs}>
                 <div>
@@ -54,7 +59,7 @@ const TeamRoster = (props) => {
                     Team Roster
                 </div>
             </div>
-            <div className={classes.__team_roster_heading}>The 8 roster positions:</div>    
+            <div className={classes.__team_roster_heading}>The 8 roster positions:</div>
 
             <div className={classes.__team_roster_data_container}>
                 <div className={classes.__team_roster_data_content}>
