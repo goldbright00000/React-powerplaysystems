@@ -320,3 +320,13 @@ export function addTrailingZerons(num) {
     minimumFractionDigits: 3,
   });
 }
+
+export const removeZeroBeforeDecimalPoint = (value = 0) => {
+  const toThreeDecimal = value.toFixed(3);
+  const nonDecimalValue = toThreeDecimal.toString().split(".")[1];
+  if (nonDecimalValue) {
+    return `.${nonDecimalValue}`;
+  }
+
+  return "";
+};

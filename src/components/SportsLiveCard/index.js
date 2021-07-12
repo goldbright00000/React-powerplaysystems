@@ -7,7 +7,7 @@ import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
 import StarPower from "../../assets/star_power.png";
-import { hasText } from "../../utility/shared";
+import { hasText, removeZeroBeforeDecimalPoint } from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
 import XP1_5 from "../../icons/XP1_5";
@@ -66,7 +66,7 @@ function SportsLiveCard(props) {
     name = "",
     type = "",
     type1 = "",
-    points = 6,
+    points = 0,
     homeTeam = "",
     awayTeam = "",
     stats = {},
@@ -91,7 +91,7 @@ function SportsLiveCard(props) {
     losses = 0,
     ops = 0,
     player_id = 0,
-    runs_batted_in = 0,
+    // runs_batted_in = 0,
     season_id = 1,
     stats_id = 0,
     stolen_bases = 0,
@@ -111,13 +111,14 @@ function SportsLiveCard(props) {
     // triples = 0,
     // home_runs = 0,
     // stolen_bases = 0,
-    // runs_batted_in = 0,
+    runs_batted_in = 0,
     // batting_average = 0,
     // wins = 0,
     // losses = 0,
     // innings_pitched = 0,
     pitch_count = 0,
     strikes = 0,
+    balls = 0,
     // earned_runs_average = 0,
     // base_on_balls = 0,
     // walks_hits_per_innings_pitched = 0,
@@ -179,16 +180,6 @@ function SportsLiveCard(props) {
       updateReduxState(data, swapablePlayer);
       toggleReplaceModal();
     }
-  };
-
-  const removeZeroBeforeDecimalPoint = (value = 0) => {
-    const toThreeDecimal = value.toFixed(3);
-    const nonDecimalValue = toThreeDecimal.toString().split(".")[1];
-    if (nonDecimalValue) {
-      return `.${nonDecimalValue}`;
-    }
-
-    return "";
   };
 
   const renderXp = () => {
@@ -429,6 +420,8 @@ function SportsLiveCard(props) {
                         baserunner_2={baserunner_2}
                         baserunner_3={baserunner_3}
                         baserunner_4={baserunner_4}
+                        strikes={strikes}
+                        balls={balls}
                         largeView={compressedView || !compressedView}
                         batting_average={removeZeroBeforeDecimalPoint(
                           batting_average

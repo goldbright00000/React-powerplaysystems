@@ -153,12 +153,12 @@ const Header = (props) => {
   }, []);
 
   const handleClick = (e) => {
-    if (
-      myAccountMenuRef.current &&
-      !myAccountMenuRef.current.contains(e.target)
-    ) {
-      setMyAccountMenu(false);
-    }
+    // if (
+    //   myAccountMenuRef.current &&
+    //   !myAccountMenuRef.current.contains(e.target)
+    // ) {
+    //   setMyAccountMenu(false);
+    // }
   };
 
   let [openMenu, setOpenMenu] = useState(false);
