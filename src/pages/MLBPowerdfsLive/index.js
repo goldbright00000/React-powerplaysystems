@@ -67,6 +67,7 @@ function MLBPowerdFsLive(props) {
   const [points, setPoints] = useState(0);
   const [playerIds, setPlayerIds] = useState([]);
   const [matchUpdateData, setMatchUpdateData] = useState({});
+  const [ranks, setRanks] = useState({});
 
   const history = useHistory();
 
@@ -144,9 +145,11 @@ function MLBPowerdFsLive(props) {
         team_id = "",
         defense = [],
         players = [],
+        power_dfs_team_rankings = [],
       } = res?.data || {};
 
       const teamD = defense[0] || {};
+      setRanks(power_dfs_team_rankings[0] || {});
       if (players && players?.length) {
         getPlayers(players, teamD);
       }
@@ -520,7 +523,7 @@ function MLBPowerdFsLive(props) {
                       centered
                       showIcons={false}
                     />
-                    <RankCard currentWin={100000} {...props} />
+                    <RankCard ranks={ranks} currentWin={100000} {...props} />
 
                     <div className={classes.sidebar_content}>
                       <p>
