@@ -135,6 +135,7 @@ function MLBPowerdFsLive(props) {
     //fetch data first time
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
+      console.log("EMIT_ROOM: ", res);
       const {
         game_id = "",
         score = 0,
