@@ -110,7 +110,8 @@ function SportsLiveCardTeamD(props) {
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            Avg Runs Against:{average_runs_against}
+            Runs Against:{average_runs_against}
+            HR Against:{2}
           </p>
         </div>
       </div>
