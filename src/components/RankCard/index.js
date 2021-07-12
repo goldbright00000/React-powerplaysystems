@@ -9,7 +9,9 @@ import LiveStandings from "../LiveStandings";
 
 function RankCard(props) {
   const [showModal, setModalState] = useState(false);
-  const { showButton = true } = props || {};
+  const { showButton = true, ranks = {} } = props || {};
+
+  const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
 
   const toggleLiveStandingModal = useCallback(() => {
     setModalState(!showModal);
@@ -78,6 +80,7 @@ function RankCard(props) {
 RankCard.propTypes = {
   showButton: PropTypes.bool,
   currentWin: PropTypes.number,
+  ranks: PropTypes.number,
 };
 
 export default RankCard;
