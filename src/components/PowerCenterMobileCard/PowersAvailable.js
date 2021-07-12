@@ -79,14 +79,14 @@ const PowersAvailable = (props) => {
     const {
         title = '',
         Power = [],
-        game_set_end = '',
+        game_set_start = '',
         start_time = '',
     } = props || {};
 
     return (
         <div className={classes.__powers_available}>
             <div className={classes.__powers_available_date_time}>
-                {game_set_end} | {start_time} ET
+                {game_set_start} | {start_time} ET
             </div>
             <div className={classes.__powers_available_powerdfs}>
                 <div className={classes.__power_info_main}>

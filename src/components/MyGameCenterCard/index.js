@@ -39,7 +39,7 @@ const MyGameCenterCard = (props) => {
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    game_set_end = "",
+    game_set_start = "",
     start_time = "",
     PointsSystem = [],
     Power = [],
@@ -140,7 +140,7 @@ const MyGameCenterCard = (props) => {
                     }}
                   >
                     <div className={classes.__my_game_center_card_date_time}>
-                      {game_set_end} | {start_time} ET
+                      {game_set_start} | {start_time} ET
                     </div>
                     {/* {inProgress || completed || timeToStart != "" ? ( */}
                     {total == outOf ? (

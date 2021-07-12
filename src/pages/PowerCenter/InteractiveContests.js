@@ -222,8 +222,9 @@ const InteractiveContests = (props) => {
   }, []);
 
   useEffect(() => {
+    const user_id = getLocalStorage('PERSONA_USER_ID');
     async function getData() {
-      await dispatch(getAllGames(user?.user_id));
+      await dispatch(getAllGames(user?.user_id || user_id));
     }
     getData();
   }, []);
@@ -311,12 +312,14 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_end={item?.game_set_end}
+          game_set_start={item?.game_set_start}
           start_time={item?.start_time}
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
-          PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
+          PrizePayout={item?.PrizePayouts.sort(function (a, b) {
+            return parseInt(a.from) - parseInt(b.from);
+          })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
           onEnter={() => {
@@ -341,12 +344,14 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_end={item?.game_set_end}
+          game_set_start={item?.game_set_start}
           start_time={item?.start_time}
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
-          PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
+          PrizePayout={item?.PrizePayouts.sort(function (a, b) {
+            return parseInt(a.from) - parseInt(b.from);
+          })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
           onEnter={() => onEnter(item)}

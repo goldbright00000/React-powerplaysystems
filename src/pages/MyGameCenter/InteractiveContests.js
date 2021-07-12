@@ -203,7 +203,7 @@ const InteractiveContests = (props) => {
           total={item?.game?.target}
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
-          game_set_end={item?.game?.game_set_end}
+          game_set_start={item?.game?.game_set_start}
           start_time={item?.game?.start_time}
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
