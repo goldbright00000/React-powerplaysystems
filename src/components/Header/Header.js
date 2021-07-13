@@ -17,6 +17,7 @@ import {
 } from "../../actions/userActions";
 import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
+import { removePersonaUserId } from "../../actions/personaActions";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
 import FilledArrow from "../FilledArrow";
@@ -88,6 +89,7 @@ const Header = (props) => {
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+    removePersonaUserId();
     dispatch(setUserBalance({}));
     return dispatch(resetAuth());
   };

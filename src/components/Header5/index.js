@@ -12,8 +12,8 @@ import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
 function Header5(props) {
   const {
-    onClickContest = () => {},
-    onClickPrize = () => {},
+    onClickContest = () => { },
+    onClickPrize = () => { },
     titleMain1 = "",
     titleMain2 = "",
     subHeader1 = "",
@@ -38,9 +38,8 @@ function Header5(props) {
 
   const RenderHeader = () => (
     <div
-      className={`${classes.header_container} ${
-        compressedView && classes.compressedView
-      }`}
+      className={`${classes.header_container} ${compressedView && classes.compressedView
+        }`}
       style={{ backgroundImage: "url(" + bgImageUri + ")" }}
     >
       <div className={classes.header_top}>
@@ -57,9 +56,8 @@ function Header5(props) {
         )}
 
         <div
-          className={`${classes.header_buttons} ${
-            compressedView && classes.compressedView
-          }`}
+          className={`${classes.header_buttons} ${compressedView && classes.compressedView
+            }`}
         >
           {contestBtnTitle && (
             <ContestRulesPopUp

@@ -224,7 +224,7 @@ const InteractiveContests = (props) => {
   useEffect(() => {
     const user_id = getLocalStorage('PERSONA_USER_ID');
     async function getData() {
-      await dispatch(getAllGames(user?.user_id || user_id));
+      await dispatch(getAllGames(user_id));
     }
     getData();
   }, []);
@@ -280,6 +280,7 @@ const InteractiveContests = (props) => {
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
+      console.log('item --> ', item);
       switch (item?.league) {
         case "MLB":
           return redirectTo(props, {
@@ -289,6 +290,14 @@ const InteractiveContests = (props) => {
               sport_id: item?.sports_id,
               start_date: item?.start_date,
               end_date: item?.end_date,
+              outOf: item?.target,
+              enrolledUsers: item?.enrolled_users,
+              prizePool: _.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0),
+              topPrize: parseFloat(_.max(item?.PrizePayouts, function (ele) { return ele.amount; }).amount),
+              game_set_start: item?.game_set_start,
+              PointsSystem: item?.PointsSystems,
+              Power: item?.Powers,
+              prizes: item?.PrizePayouts,
             },
           });
         default:

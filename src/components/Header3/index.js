@@ -8,8 +8,8 @@ import ContestRulesPopUp from "../ContestRulesPopUp";
 
 function Header3(props) {
   const {
-    onClickContest = () => {},
-    onClickPrize = () => {},
+    onClickContest = () => { },
+    onClickPrize = () => { },
     titleMain1 = "",
     titleMain2 = "",
     subHeader1 = "",
