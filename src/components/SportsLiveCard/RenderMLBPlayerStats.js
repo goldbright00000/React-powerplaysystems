@@ -171,8 +171,8 @@ function RenderMLBPlayerStats(props) {
               </p>
             </div>
             <span>
-              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{hPA} | S:{" "}
-              {strikes} | B: {balls}
+              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{hPA} | B: {balls}|
+              S: {strikes}
             </span>
           </div>
         )}

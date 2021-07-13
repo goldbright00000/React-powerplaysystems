@@ -13,15 +13,21 @@ function RankIcon(props) {
     "#F2F2F2",
   ]);
   const primary = "#FB6E00";
+  const normal = "#F2F2F2";
 
   useEffect(() => {
     setRankColors();
   }, [rank]);
 
+  useEffect(() => {}, [colors]);
+
   const setRankColors = () => {
     const _colors = [...colors];
-    for (let i = 0; i < rank; i++) {
-      _colors[i] = primary;
+
+    for (let i = 0; i <= 5; i++) {
+      if (i <= rank) {
+        _colors[i] = primary;
+      } else if (i > rank) _colors[i] = normal;
     }
 
     setColors(_colors);
@@ -48,29 +54,20 @@ function RankIcon(props) {
             />
             <rect
               width="10"
-              height="12"
-              x="32"
-              y="40"
+              height="8"
+              x="16"
+              y="44"
               fill={colors[1]}
               opacity={colors[1] === primary ? "1" : "0.3"}
               rx="2"
             />
             <rect
               width="10"
-              height="32"
-              x="64"
-              y="20"
+              height="12"
+              x="32"
+              y="40"
               fill={colors[2]}
               opacity={colors[2] === primary ? "1" : "0.3"}
-              rx="2"
-            />
-            <rect
-              width="10"
-              height="8"
-              x="16"
-              y="44"
-              fill={colors[3]}
-              opacity={colors[3] === primary ? "1" : "0.3"}
               rx="2"
             />
             <rect
@@ -78,6 +75,15 @@ function RankIcon(props) {
               height="20"
               x="48"
               y="32"
+              fill={colors[3]}
+              opacity={colors[3] === primary ? "1" : "0.3"}
+              rx="2"
+            />
+            <rect
+              width="10"
+              height="32"
+              x="64"
+              y="20"
               fill={colors[4]}
               opacity={colors[4] === primary ? "1" : "0.3"}
               rx="2"

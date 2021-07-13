@@ -68,6 +68,12 @@ function MLBPowerdFsLive(props) {
   const [playerIds, setPlayerIds] = useState([]);
   const [matchUpdateData, setMatchUpdateData] = useState({});
   const [ranks, setRanks] = useState({});
+  const [powersInventory, setPowersInventory] = useState({
+    swap: 1,
+    point_multiplier: 0,
+    d_wall: 1,
+    challenge: 1,
+  });
 
   const history = useHistory();
 
@@ -534,25 +540,25 @@ function MLBPowerdFsLive(props) {
                           title="Point Multiplier"
                           isSvgIcon
                           Icon={XPIcon}
-                          count={1}
+                          count={powersInventory.point_multiplier}
                         />
                         <RenderPower
                           title="Swap Player"
                           isSvgIcon
                           Icon={ReplaceAllIcon}
-                          count={0}
+                          count={powersInventory.swap}
                         />
                         <RenderPower
                           title="D-Wall"
                           isSvgIcon
                           Icon={ShieldIcon}
-                          count={0}
+                          count={powersInventory.d_wall}
                         />
                         <RenderPower
                           title="Challenge"
                           isSvgIcon
                           Icon={ChallengeIcon}
-                          count={4}
+                          count={powersInventory.challenge}
                         />
                       </div>
                       <button onClick={() => setLearnMoreModal(true)}>
