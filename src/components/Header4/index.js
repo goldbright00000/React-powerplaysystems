@@ -12,6 +12,8 @@ import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
 function Header4(props) {
   const {
+    outof = '',
+    enrolledUsers = '',
     onClickContest = () => { },
     onClickPrize = () => { },
     titleMain1 = "",
@@ -24,7 +26,9 @@ function Header4(props) {
     compressedView = false,
     currentState = <></>,
     token = "",
-    isMobile = false
+    isMobile = false,
+    points = [],
+    powers = [],
   } = props || {};
 
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
@@ -76,6 +80,8 @@ function Header4(props) {
             >
               {contestBtnTitle && (
                 <ContestRulesPopUp
+                  points={points}
+                  powers={powers}
                   component={({ showPopUp }) => (
                     <button onClick={showPopUp}>
                       <DocIcon /> {contestBtnTitle}
@@ -100,7 +106,7 @@ function Header4(props) {
         &&
         !isMobile
         &&
-        <Balance entries="10,000" totalEntries="100,000" />
+        <Balance entries={enrolledUsers} totalEntries={outof} />
       }
     </div>
   );

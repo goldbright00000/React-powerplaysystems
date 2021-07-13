@@ -176,9 +176,9 @@ const PowersAvailable = (props) => {
                     Powers Available
                   </p>
                 </div>
-                {/* <div className={classes.__info_icon_mobile}>
-                  < img src={InfoIcon} className={classes.__info_icon} alt="" srcset="" />
-                </div> */}
+                <div className={classes.__info_icon_mobile} onClick={() => onOpenModal()}>
+                  <img src={InfoIcon} className={classes.__info_icon} alt="" srcset="" />
+                </div>
               </div>
             </div>
             {learnMoreModal && (
@@ -211,7 +211,7 @@ const PowersAvailable = (props) => {
                       {item?.powerName}
                     </p>
                   </div>
-                  {Power.length === index + 1 && (
+                  {/* {Power.length === index + 1 && (
                     <div
                       className={classes.__powers_available_learn_more_div}
                       onClick={() => onOpenModal()}
@@ -220,7 +220,7 @@ const PowersAvailable = (props) => {
                         Learn more
                       </p>
                     </div>
-                  )}
+                  )} */}
                 </div>
               );
             })}

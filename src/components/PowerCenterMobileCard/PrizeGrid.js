@@ -7,7 +7,7 @@ const PrizeGrid = (props) => {
     const {
         title = '',
         PrizePayout = [],
-        game_set_end = '',
+        game_set_start = '',
         start_time = '',
     } = props || {};
 
@@ -61,7 +61,7 @@ const PrizeGrid = (props) => {
 
         <div className={classes.__prize_grid}>
             <div className={classes.__prize_grid_date_time}>
-                {game_set_end} | {start_time} ET
+                {game_set_start} | {start_time} ET
             </div>
             <div className={classes.__prize_grid_powerdfs}>
                 <div>

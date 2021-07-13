@@ -222,8 +222,9 @@ const InteractiveContests = (props) => {
   }, []);
 
   useEffect(() => {
+    const user_id = getLocalStorage('PERSONA_USER_ID');
     async function getData() {
-      await dispatch(getAllGames(user?.user_id));
+      await dispatch(getAllGames(user_id));
     }
     getData();
   }, []);
@@ -279,6 +280,7 @@ const InteractiveContests = (props) => {
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
+      console.log('item --> ', item);
       switch (item?.league) {
         case "MLB":
           return redirectTo(props, {
@@ -288,6 +290,14 @@ const InteractiveContests = (props) => {
               sport_id: item?.sports_id,
               start_date: item?.start_date,
               end_date: item?.end_date,
+              outOf: item?.target,
+              enrolledUsers: item?.enrolled_users,
+              prizePool: _.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0),
+              topPrize: parseFloat(_.max(item?.PrizePayouts, function (ele) { return ele.amount; }).amount),
+              game_set_start: item?.game_set_start,
+              PointsSystem: item?.PointsSystems,
+              Power: item?.Powers,
+              prizes: item?.PrizePayouts,
             },
           });
         default:
@@ -311,12 +321,14 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_end={item?.game_set_end}
+          game_set_start={item?.game_set_start}
           start_time={item?.start_time}
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
-          PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
+          PrizePayout={item?.PrizePayouts.sort(function (a, b) {
+            return parseInt(a.from) - parseInt(b.from);
+          })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
           onEnter={() => {
@@ -341,12 +353,14 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_end={item?.game_set_end}
+          game_set_start={item?.game_set_start}
           start_time={item?.start_time}
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
-          PrizePayout={_.sortBy(item?.PrizePayouts, "from")}
+          PrizePayout={item?.PrizePayouts.sort(function (a, b) {
+            return parseInt(a.from) - parseInt(b.from);
+          })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
           onEnter={() => onEnter(item)}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { union } from "lodash";
+import { isEmpty, union } from "lodash";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -46,16 +46,26 @@ const {
 } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
 
 let _socket = null;
+let isMatchUpdate = false;
 
 function MLBPowerdFsLive(props) {
   const [loading, setLoading] = useState(false);
+  const [updatesLoaded, setUpdatesLoading] = useState(false);
   const [screenSize, setScreenSize] = useState(window.screen.width);
 
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
+  const [points, setPoints] = useState(0);
   const [playerIds, setPlayerIds] = useState([]);
-  const [data, setData] = useState([]);
+  const [matchUpdateData, setMatchUpdateData] = useState({});
+  const [ranks, setRanks] = useState({});
+  const [powersInventory, setPowersInventory] = useState({
+    swap: 1,
+    point_multiplier: 0,
+    d_wall: 1,
+    challenge: 1,
+  });
 
   const history = useHistory();
 
@@ -74,6 +84,8 @@ function MLBPowerdFsLive(props) {
     _socket = socket();
 
     return function cleanUP() {
+      isMatchUpdate = false;
+
       //disconnect the socket
       _socket?.emit(ON_ROOM_UN_SUB);
       _socket?.on(ON_ROOM_UN_SUB, () => {
@@ -90,6 +102,12 @@ function MLBPowerdFsLive(props) {
       onSocketListen();
     }
   }, [_socket]);
+
+  useEffect(() => {
+    if (isEmpty(matchUpdateData) && isEmpty(matchUpdateData.data)) return;
+
+    setMatchUpdates();
+  }, [matchUpdateData]);
 
   //All Emit Events
   const onSocketEmit = () => {
@@ -116,6 +134,7 @@ function MLBPowerdFsLive(props) {
     //fetch data first time
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
+      console.log("EMIT_ROOM: ", res);
       const {
         game_id = "",
         score = 0,
@@ -124,9 +143,11 @@ function MLBPowerdFsLive(props) {
         team_id = "",
         defense = [],
         players = [],
+        power_dfs_team_rankings = [],
       } = res?.data || {};
 
       const teamD = defense[0] || {};
+      setRanks(power_dfs_team_rankings[0] || {});
       if (players && players?.length) {
         getPlayers(players, teamD);
       }
@@ -137,27 +158,7 @@ function MLBPowerdFsLive(props) {
     //MATCH_UPDATE
     _socket?.on(MATCH_UPDATE, (res) => {
       printLog(res);
-      // if (data && data?.length && res && res?.data) {
-      const { match_id } = res?.data || {};
-      const dataToUpdate = live_data?.filter(
-        (match) => match?.match_id === match_id
-      );
-
-      if (dataToUpdate.length) {
-        for (let i = 0; i < dataToUpdate.length; i++) {
-          const { match = {} } = dataToUpdate[i] || {};
-          const updateMatch = {
-            ...match,
-            boxscore: [{ ...match?.boxscore[0], ...res?.data }],
-          };
-
-          dataToUpdate[i].match = updateMatch;
-        }
-
-        const liveData = union(live_data, dataToUpdate);
-        dispatch(MLBActions.mlbLiveData(liveData));
-      }
-      // }
+      setMatchUpdateData(res);
     });
 
     //GLOBAL_RANKING
@@ -168,6 +169,8 @@ function MLBPowerdFsLive(props) {
     //FANTASY_TEAM_UPDATE
     _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
       console.log("Player updates: ", res);
+      // console.log(`FANTASY_TEAM_UPDATE: `, JSON.stringify(res));
+      onFantasyTeamUpdate(res);
     });
   };
 
@@ -211,6 +214,46 @@ function MLBPowerdFsLive(props) {
     playersArr[7].team_d_mlb_team.type = D;
 
     dispatch(MLBActions.mlbLiveData(playersArr));
+  };
+
+  const setMatchUpdates = () => {
+    const { match_id } = matchUpdateData?.data || {};
+    const dataToUpdate = live_data?.filter(
+      (match) => match?.match_id === match_id
+    );
+
+    console.log("LIVE DATE: ", live_data, dataToUpdate, match_id);
+
+    if (dataToUpdate.length) {
+      for (let i = 0; i < dataToUpdate.length; i++) {
+        const { match = {} } = dataToUpdate[i] || {};
+        const updateMatch = {
+          ...match,
+          boxscore: [{ ...match?.boxscore[0], ...matchUpdateData?.data }],
+        };
+
+        delete dataToUpdate[i].match;
+        dataToUpdate[i].match = updateMatch;
+      }
+
+      const liveData = union(live_data, dataToUpdate);
+
+      dispatch(MLBActions.mlbLiveData(liveData));
+    }
+  };
+
+  const onFantasyTeamUpdate = (res) => {
+    const { log: { data: { fantasy_points_after = 0 } = {} } = {} } = res || {};
+    setPoints(fantasy_points_after);
+    if (!live_data?.length) return;
+
+    const liveData = [...live_data];
+    // console.log("FANTASY_TEAM_UPDATE_2: ", liveData, fantasy_points_after);
+    // for (let i = 0; i < liveData?.length; i++) {
+    //   liveData[i].player.points = fantasy_points_after || 0;
+    // }
+
+    dispatch(MLBActions.mlbLiveData(liveData));
   };
 
   const onChangeXp = (xp, player) => {
@@ -399,99 +442,101 @@ function MLBPowerdFsLive(props) {
       {screenSize > 550 ? (
         <>
           <Header />
-          <div className={classes.wrapper}>
-            <Header4
-              titleMain1="MLB 2021"
-              titleMain2="PowerdFS"
-              subHeader1="Introducing Live-Play Fantasy Baseball"
-              subHeader2={
-                <>
-                  Use your <span>Powers</span> during the live game to drive
-                  your team up the standings
-                </>
-              }
-              contestBtnTitle="Contest Rules"
-              prizeBtnTitle="Prize Grid"
-              bgImageUri={BaseballImage}
-              compressedView
-              currentState={<RenderLiveState isLive />}
-            />
+          <div className="teamManagerDiv">
+            <div className={classes.wrapper}>
+              <Header4
+                titleMain1="MLB 2021"
+                titleMain2="PowerdFS"
+                subHeader1="Introducing Live-Play Fantasy Baseball"
+                subHeader2={
+                  <>
+                    Use your <span>Powers</span> during the live game to drive
+                    your team up the standings
+                  </>
+                }
+                contestBtnTitle="Contest Rules"
+                prizeBtnTitle="Prize Grid"
+                bgImageUri={BaseballImage}
+                compressedView
+                currentState={<RenderLiveState isLive />}
+              />
 
-            <div className={classes.container}>
-              <div className={classes.container_left_side}>
-                <NHLLiveSportsHeader
-                  btnTitle1="Full View"
-                  btnTitle2="Compressed"
-                  btnTitle3="Single"
-                  selectedView={selectedView}
-                  onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
-                  onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
-                  onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
-                  teamManagerLink="/mlb-live-powerdfs"
-                  scoreDetailLink="/mlb-live-powerdfs/my-score-details"
-                  onGoBack={() =>
-                    redirectTo(props, { path: "/my-game-center" })
-                  }
-                  state={history.location.state}
-                  {...props}
-                />
-                <Card>{RenderView()}</Card>
-                <div className={classes.left_side_footer}>
-                  <img src={FooterImage} alt="" />
-                </div>
-              </div>
-
-              <div className={classes.sidebar_container}>
-                <Sidebar>
-                  <CashPowerBalance
-                    powerBalance={50000}
-                    cashBalance={200000}
-                    styles={{
-                      width: "100%",
-                      marginTop: "-40px",
-                    }}
-                    cashTitle="Prize Pool"
-                    powerTitle="Top Prize"
-                    centered
-                    showIcons={false}
+              <div className={classes.container}>
+                <div className={classes.container_left_side}>
+                  <NHLLiveSportsHeader
+                    btnTitle1="Full View"
+                    btnTitle2="Compressed"
+                    btnTitle3="Single"
+                    selectedView={selectedView}
+                    onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
+                    onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
+                    onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
+                    teamManagerLink="/mlb-live-powerdfs"
+                    scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                    onGoBack={() =>
+                      redirectTo(props, { path: "/my-game-center" })
+                    }
+                    state={history.location.state}
+                    {...props}
                   />
-                  <RankCard currentWin={100000} {...props} />
-
-                  <div className={classes.sidebar_content}>
-                    <p>
-                      <span>My</span> Powers
-                    </p>
-                    <div className={classes.sidebar_content_1}>
-                      <RenderPower
-                        title="Point Multiplier"
-                        isSvgIcon
-                        Icon={XPIcon}
-                        count={1}
-                      />
-                      <RenderPower
-                        title="Swap Player"
-                        isSvgIcon
-                        Icon={ReplaceAllIcon}
-                        count={0}
-                      />
-                      <RenderPower
-                        title="D-Wall"
-                        isSvgIcon
-                        Icon={ShieldIcon}
-                        count={0}
-                      />
-                      <RenderPower
-                        title="Challenge"
-                        isSvgIcon
-                        Icon={ChallengeIcon}
-                        count={4}
-                      />
-                    </div>
-                    <button onClick={() => setLearnMoreModal(true)}>
-                      Learn more
-                    </button>
+                  <Card>{RenderView()}</Card>
+                  <div className={classes.left_side_footer}>
+                    <img src={FooterImage} alt="" />
                   </div>
-                </Sidebar>
+                </div>
+
+                <div className={classes.sidebar_container}>
+                  <Sidebar>
+                    <CashPowerBalance
+                      powerBalance={50000}
+                      cashBalance={200000}
+                      styles={{
+                        width: "100%",
+                        marginTop: "-40px",
+                      }}
+                      cashTitle="Prize Pool"
+                      powerTitle="Top Prize"
+                      centered
+                      showIcons={false}
+                    />
+                    <RankCard ranks={ranks} currentWin={100000} {...props} />
+
+                    <div className={classes.sidebar_content}>
+                      <p>
+                        <span>My</span> Powers
+                      </p>
+                      <div className={classes.sidebar_content_1}>
+                        <RenderPower
+                          title="Point Multiplier"
+                          isSvgIcon
+                          Icon={XPIcon}
+                          count={powersInventory.point_multiplier}
+                        />
+                        <RenderPower
+                          title="Swap Player"
+                          isSvgIcon
+                          Icon={ReplaceAllIcon}
+                          count={powersInventory.swap}
+                        />
+                        <RenderPower
+                          title="D-Wall"
+                          isSvgIcon
+                          Icon={ShieldIcon}
+                          count={powersInventory.d_wall}
+                        />
+                        <RenderPower
+                          title="Challenge"
+                          isSvgIcon
+                          Icon={ChallengeIcon}
+                          count={powersInventory.challenge}
+                        />
+                      </div>
+                      <button onClick={() => setLearnMoreModal(true)}>
+                        Learn more
+                      </button>
+                    </div>
+                  </Sidebar>
+                </div>
               </div>
             </div>
           </div>

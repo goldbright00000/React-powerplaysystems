@@ -203,7 +203,7 @@ const InteractiveContests = (props) => {
           total={item?.game?.target}
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
-          game_set_end={item?.game?.game_set_end}
+          game_set_start={item?.game?.game_set_start}
           start_time={item?.game?.start_time}
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
@@ -219,6 +219,10 @@ const InteractiveContests = (props) => {
             item?.players?.length > 0 &&
             !moment(moment().format("YYYY-MM-DD")).isAfter(
               item?.game?.game_set_end
+            ) &&
+            !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+              item?.game?.game_set_start + ' ' + item?.game?.start_time,
+              item?.game?.game_set_end + ' 11:59 AM'
             )
           }
           makePicks={item.makePicks}

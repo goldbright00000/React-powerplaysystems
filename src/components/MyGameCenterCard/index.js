@@ -39,7 +39,7 @@ const MyGameCenterCard = (props) => {
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    game_set_end = "",
+    game_set_start = "",
     start_time = "",
     PointsSystem = [],
     Power = [],
@@ -140,9 +140,10 @@ const MyGameCenterCard = (props) => {
                     }}
                   >
                     <div className={classes.__my_game_center_card_date_time}>
-                      {game_set_end} | {start_time} ET
+                      {game_set_start} | {start_time} ET
                     </div>
-                    {inProgress || completed || timeToStart != "" ? (
+                    {/* {inProgress || completed || timeToStart != "" ? ( */}
+                    {total == outOf ? (
                       <div className={classes.__my_game_center_card_full}>
                         <div className={classes.__my_game_center_card_full_img}>
                           <img src={BlueTick} width="18" height="18" alt="" />
@@ -150,7 +151,12 @@ const MyGameCenterCard = (props) => {
                         <div
                           className={classes.__my_game_center_card_full_text}
                         >
-                          Full 200,000
+                          Full {<CurrencyFormat
+                            value={total}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            renderText={(value) => <div>{value}</div>}
+                          />}
                         </div>
                       </div>
                     ) : null}
@@ -580,13 +586,20 @@ const MyGameCenterCard = (props) => {
               )}
             </div>
             <div className={classes.__my_game_center_card_status_and_details}>
-              {inProgress || completed || timeToStart != "" ? (
+              {/* {inProgress || completed || timeToStart != "" ? ( */}
+              {total == outOf ? (
+
                 <div className={classes.__my_game_center_card_full}>
                   <div className={classes.__my_game_center_card_full_img}>
                     <img src={BlueTick} width="18" height="18" alt="" />
                   </div>
                   <div className={classes.__my_game_center_card_full_text}>
-                    Full 200,000
+                    Full  <CurrencyFormat
+                      value={total}
+                      displayType={"text"}
+                      thousandSeparator={true}
+                      renderText={(value) => <div>{value}</div>}
+                    />
                   </div>
                 </div>
               ) : (
