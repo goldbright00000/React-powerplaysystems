@@ -174,13 +174,17 @@ function SportsLiveCard(props) {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      await dispatch(mlbActions.mlbData(gameId));
-      const _mlbData = [...mlbData];
-      const [swapablePlayerData] = _mlbData?.filter(
-        (data) => data?.type === `${type}`?.toLocaleLowerCase()
-      );
+      const response = await dispatch(mlbActions.mlbData(gameId));
 
-      setPlayerList(swapablePlayerData);
+      if (response?.filterdList && response?.filterdList?.length) {
+        // const _mlbData = [...mlbData];
+        const _mlbData = [...response?.filterdList];
+        const [swapablePlayerData] = _mlbData?.filter(
+          (data) => data?.type === `${type}`?.toLocaleLowerCase()
+        );
+
+        setPlayerList(swapablePlayerData);
+      }
       setLoadingPlayerList(false);
     }
   }, [mlbData]);
