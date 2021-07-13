@@ -6,11 +6,35 @@ import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
+import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+import ChallengeIcon from "../../assets/challenge.svg"
+
+const getIcon = (powerName) => {
+  if (powerName) {
+    if (powerName.toLowerCase().match(/wall/g))
+      return ShieldIcon;
+
+    else if (powerName.toLowerCase().match(/video|review/g))
+      return VideoIcon;
+
+    else if (powerName.toLowerCase().match(/swap/g))
+      return ReplaceIcon;
+
+    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
+      return XpIcon;
+
+    else if (powerName.toLowerCase().match(/retro/g))
+      return RetroBoostIcon;
+
+    else if (powerName.toLowerCase().match(/challenge/g))
+      return ChallengeIcon;
+  }
+}
 
 function PowerCollapesible(props) {
   const [collapsed, setCollapseState] = useState(true);
 
-  const { styles = {} } = props || {};
+  const { styles = {}, powers = [] } = props || {};
 
   const RenderIcon = ({ title, count, Icon, iconSize = 24 }) => (
     <div className={classes.body_card}>
@@ -33,28 +57,20 @@ function PowerCollapesible(props) {
       </div>
 
       <div className={`${classes.body} ${collapsed && classes.collapse}`}>
-        <RenderIcon
-          title="Swap Player"
-          Icon={ReplaceIcon}
-          iconSize={54}
-          count={2}
-        />
-
-        <RenderIcon
-          title="Point Booster"
-          Icon={XpIcon}
-          iconSize={54}
-          count={2}
-        />
-
-        <RenderIcon
-          title="Video Review"
-          Icon={VideoIcon}
-          iconSize={54}
-          count={0}
-        />
-
-        <RenderIcon title="D-Wall" Icon={ShieldIcon} iconSize={54} count={1} />
+        {powers && powers.length > 0 && powers.map((item, index) => {
+          return (
+            <>
+              {index < 3 && (
+                <RenderIcon
+                  title={item?.powerName}
+                  Icon={getIcon(item?.powerName)}
+                  iconSize={54}
+                  count={2}
+                />
+              )}
+            </>
+          )
+        })}
         <button>Learn more</button>
       </div>
     </div>

@@ -204,6 +204,13 @@ function SportsLiveCard(props) {
     }
   };
 
+  const removeZeroBeforeDecimalPoint = (value) => {
+    const nonDecimalValue = value.toString().split(".")[1];
+    if (nonDecimalValue) {
+      return `.${nonDecimalValue}`;
+    }
+  };
+
   const getStatus = () => {
     if (`${status}`?.toLocaleLowerCase() === "scheduled") {
       return `${moment(date_time).format("MMM Do")} - ${moment(

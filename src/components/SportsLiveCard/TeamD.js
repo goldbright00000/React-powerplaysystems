@@ -13,6 +13,8 @@ import { isEmpty } from "lodash";
 import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
 import { CardType } from "./CardType";
+import ChallengePopUp from "../ChallengePopup";
+import { nodeName } from "jquery";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -163,9 +165,24 @@ function SportsLiveCardTeamD(props) {
         className={`${classes.team_d_icons} ${largeView && classes.large_view}`}
       >
         {cardType === CardType.MLBR ? (
-          <Challenge size={largeView ? 28 : 24} />
+          <ChallengePopUp
+            component={({ showPopUp }) => (
+              <button
+                onClick={showPopUp}
+                className={classes.team_d_icon_button}
+              >
+                <Challenge size={largeView ? 28 : 24} />
+              </button>
+            )}
+          />
         ) : (
-          <Challenge size={largeView ? 28 : 24} />
+          <ChallengePopUp
+            component={({ showPopUp }) => (
+              <button onClick={showPopUp}>
+                <Challenge size={largeView ? 28 : 24} />
+              </button>
+            )}
+          />
         )}
         <ShieldIcon size={largeView ? 28 : 24} />
       </div>
@@ -320,7 +337,7 @@ function SportsLiveCardTeamD(props) {
               showSummary={showSummary}
               onClickBack={() => setSummaryState(false)}
               onClickDetails={() => setSummaryState(true)}
-              title={footerTitle()}
+              title="Bot 1st | 2 Out"
               largeView={largeView}
             />
           )}

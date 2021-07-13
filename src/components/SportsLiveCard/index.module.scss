@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   min-width: 236px;
-  margin: 5px;
+  margin: 10px;
 
   .card_header {
     display: flex;
@@ -37,18 +37,12 @@
         font-family: Poppins;
         font-size: 12px;
         font-weight: normal;
-        font-family: Poppins;
-        font-size: 12px;
-        font-weight: normal;
       }
 
       span {
         font-weight: bold;
         font-style: italic;
         font-size: 14px;
-        font-family: Poppins;
-        font-size: 12px;
-        font-weight: normal;
       }
     }
   }
@@ -219,8 +213,7 @@
             padding: 3px 11px 0 11px;
             // text-transform: capitalize;
             border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+
             &.large_view {
               width: 120px;
               height: 50px;
@@ -308,7 +301,10 @@
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-
+          button {
+            background-color: transparent;
+            border: 0px;
+          }
           &.large_view {
             min-height: 30px;
             justify-content: flex-end;
@@ -922,7 +918,7 @@
 
 @media (max-width: 1900px) {
   .card_wrapper {
-    // min-width: 296px;
+    min-width: 296px;
 
     .card_header {
       .card_header_title {
@@ -1121,7 +1117,10 @@
 
           .team_d_icons {
             justify-content: flex-end;
-
+            button {
+              background-color: transparent;
+              border: 0px;
+            }
             svg {
               margin: 5px 0;
               padding: 0;
@@ -1418,7 +1417,7 @@
 
     .modal_body {
       width: 100%;
-      height: 81%;
+      height: 79%;
       background-color: $black2;
       margin-bottom: 20px;
       border-radius: 11px;
@@ -1652,7 +1651,10 @@
 
           .team_d_icons {
             justify-content: flex-end;
-
+            button {
+              background-color: transparent;
+              border: 0px;
+            }
             svg {
               margin: 5px 0;
               padding: 0;
@@ -1874,7 +1876,7 @@
 
       .modal_header_top {
         width: 100%;
-        margin-bottom: 35px;
+        margin-bottom: 10px;
         padding: 0 12px 0 0;
 
         svg {
@@ -1921,7 +1923,7 @@
 
     .modal_body {
       width: 100%;
-      height: 81%;
+      height: 79%;
       background-color: $black2;
       margin-bottom: 20px;
       border-radius: 11px;
@@ -1975,7 +1977,7 @@
 
       .modal_header_top {
         width: 100%;
-        margin-bottom: 35px;
+        margin-bottom: 10px;
         padding: 0 12px 0 0;
 
         svg {
@@ -2022,7 +2024,7 @@
 
     .modal_body {
       width: 100%;
-      height: 81%;
+      height: 76%;
       background-color: $black2;
       margin-bottom: 20px;
       border-radius: 11px;
@@ -2245,7 +2247,10 @@
 
           .team_d_icons {
             justify-content: flex-end;
-
+            button {
+              background-color: transparent;
+              border: 0px;
+            }
             svg {
               margin: 5px 0;
               padding: 0;
@@ -2467,7 +2472,7 @@
 
       .modal_header_top {
         width: 100%;
-        margin-bottom: 35px;
+        margin-bottom: 10px;
         padding: 0 12px 0 0;
 
         svg {
@@ -2514,7 +2519,7 @@
 
     .modal_body {
       width: 100%;
-      height: 81%;
+      height: 76%;
       background-color: $black2;
       margin-bottom: 20px;
       border-radius: 11px;
@@ -2730,7 +2735,10 @@
 
           .team_d_icons {
             justify-content: flex-end;
-
+            button {
+              background-color: transparent;
+              border: 0px;
+            }
             svg {
               margin: 3px 0;
               padding: 0;
@@ -3319,7 +3327,10 @@
 
           .team_d_icons {
             justify-content: flex-end;
-
+            button {
+              background-color: transparent;
+              border: 0px;
+            }
             svg {
               margin: 3px 0;
               padding: 0;

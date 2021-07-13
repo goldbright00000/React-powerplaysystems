@@ -4,9 +4,57 @@ import DWallIcon from '../../assets/d-wall-main.png';
 import XPIcon from '../../assets/point-multipliers-main.png';
 import SwapIcon from '../../assets/player-swaps-main.png';
 import VideoReviewIcon from '../../assets/video-review-main.png';
+import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+import ChallengeIcon from "../../assets/challenge.svg"
 import CreatePopUpPortal from '../../utility/CreatePopUpPortal';
 
+const getIconAndDesc = (powerName) => {
+    if (powerName) {
+        if (powerName.toLowerCase().match(/wall/g))
+            return {
+                icon: DWallIcon,
+                desc: 'Any Runs scored against the Contest Participants Team Defence will not count while the D-Wall power is active.  D-walls will last for the duration of the current or upcoming half-inning.'
+            };
+
+        else if (powerName.toLowerCase().match(/video|review/g))
+            return {
+                icon: VideoReviewIcon,
+                desc: 'Seeing Runs scored against the Team Defence result in negative points for the Contest Participants fantasy team, they can use a video review for a 50/50 chance to negate any runs scored against. If the Team Defense just allowed a Grand Slam, use Video Review for a chance to have it reversed.'
+            }
+
+        else if (powerName.toLowerCase().match(/swap/g))
+            return {
+                icon: SwapIcon,
+                desc: 'Provides ability to swap any roster player with another player of the same position whose team started playing at the same time as the current roster player. For example, if Player A and Player B both had their games start at 8:00PM, they are eligible to be swapped for one another. If Player A’s game started at 8:00pm but Player B’s game started at 9:00PM, the two players cannot be swapped for one another, even though will be an overlap in playing time.'
+            }
+
+        else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
+            return {
+                icon: XPIcon,
+                desc: 'Point Boosters can be activated for any player at any time. They will remain active for the duration of the current or upcoming half-inning. Contest Participants can choose to boost players points by 1.5x, 2x, or 3x. For example, a home run is normally 10 fantasy points, but with a 3x booster, a HR is worth 30. A bases loaded situation might be a good time to activate a 3x point booster.'
+            }
+
+        else if (powerName.toLowerCase().match(/retro/g))
+            return {
+                icon: RetroBoostIcon,
+                desc: ''
+            }
+
+        else if (powerName.toLowerCase().match(/challenge/g))
+            return {
+                icon: ChallengeIcon,
+                desc: ''
+            }
+    }
+}
+
 const ContestRulesPopUp = props => {
+
+    const {
+        points,
+        powers
+    } = props;
+
     const h3Class = 'title-2 __primary-text __bold __m-0  __font-family-teko __line-height-1'
     const [showPopUp, setShowPopUp] = useState(false);
     return (
@@ -28,60 +76,38 @@ const ContestRulesPopUp = props => {
                         <section className='__mb-3 __mt-3'>
                             <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko'>Scoring</h3>
                             <div className={styles.cardWrapper}>
-                                <div className={styles.card}>
-                                    <h5 className='__title-5 __mt-0 __mb-s'>Hitters</h5>
-                                    <ul>
-                                        <li>Single</li>
-                                        <li>+ 3 Pts</li>
-                                        <li>Double</li>
-                                        <li>+ 5 Pts</li>
-                                        <li>Triple</li>
-                                        <li>+ 8 Pts</li>
-                                        <li>Home Run</li>
-                                        <li>+ 10 Pts</li>
-                                        <li>Run</li>
-                                        <li>+ 2 Pts</li>
-                                        <li>Base on Balls</li>
-                                        <li>+ 1 Pts</li>
-                                        <li>Stolen Base</li>
-                                        <li>+ 5 Pts</li>
-                                    </ul>
-                                </div>
-                                <div className={styles.card}>
-                                    <h5 className='__title-5 __mt-0 __mb-s'>Pitchers</h5>
-                                    <ul>
-                                        <li>Outs</li>
-                                        <li>+ 1 Pt per Out</li>
-                                        <li>Strikeout</li>
-                                        <li>+ 2 Pts</li>
-                                    </ul>
-                                </div>
+                                {Object.keys(points).map((data, index) => {
+                                    return (
+                                        <div className={styles.card}>
+                                            <h5 className='__title-5 __mt-0 __mb-s'>{data}</h5>
+                                            <ul>
+                                                {points[data]?.map((item, i) => {
+                                                    return (
+                                                        <>
+                                                            <li>{item.plays}</li>
+                                                            <li>+ {item.points} Pts</li>
+                                                        </>
+                                                    )
+                                                })}
+                                            </ul>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </section>
                         <section className='__mt-3 __mb-3'>
                             <h3 className={h3Class}>Powers</h3>
                             <p>Powers are available to be used in this Contest and are included with the Contest Participants entry fee. Powers enable Contest Participants to enhance their fantasy team’s performance. The following powers will be made available for this contest:</p>
                             <div className={styles.powersSubSectionsWrapper}>
-                                <section className={styles.powersSubSection}>
-                                    <img src={SwapIcon} alt='' />
-                                    <h4>Player Swaps</h4>
-                                    <p>Provides ability to swap any roster player with another player of the same position whose team started playing at the same time as the current roster player. For example, if Player A and Player B both had their games start at 8:00PM, they are eligible to be swapped for one another. If Player A’s game started at 8:00pm but Player B’s game started at 9:00PM, the two players cannot be swapped for one another, even though will be an overlap in playing time.</p>
-                                </section>
-                                <section className={styles.powersSubSection}>
-                                    <img src={XPIcon} alt='' />
-                                    <h4>Point Boosters</h4>
-                                    <p>Point Boosters can be activated for any player at any time. They will remain active for the duration of the current or upcoming half-inning. Contest Participants can choose to boost players points by 1.5x, 2x, or 3x. For example, a home run is normally 10 fantasy points, but with a 3x booster, a HR is worth 30. A bases loaded situation might be a good time to activate a 3x point booster.</p>
-                                </section>
-                                <section>
-                                    <img src={VideoReviewIcon} alt='' />
-                                    <h4>Video Review</h4>
-                                    <p>Seeing Runs scored against the Team Defence result in negative points for the Contest Participants fantasy team, they can use a video review for a 50/50 chance to negate any runs scored against. If the Team Defense just allowed a Grand Slam, use Video Review for a chance to have it reversed.</p>
-                                </section>
-                                <section>
-                                    <img src={DWallIcon} alt='' />
-                                    <h4>D-Wall</h4>
-                                    <p>Any Runs scored against the Contest Participants Team Defence will not count while the D-Wall power is active.  D-walls will last for the duration of the current or upcoming half-inning.</p>
-                                </section>
+                                {powers && powers.length > 0 && powers.map((item, index) => {
+                                    return (
+                                        <section className={styles.powersSubSection}>
+                                            <img src={getIconAndDesc(item?.powerName).icon} alt='' />
+                                            <h4>{item?.powerName}</h4>
+                                            <p>{getIconAndDesc(item?.powerName).desc}</p>
+                                        </section>
+                                    )
+                                })}
                             </div>
                         </section>
                         <section className='__mt-3 __mb-3'>
