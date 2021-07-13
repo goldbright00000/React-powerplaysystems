@@ -23,19 +23,20 @@ function RenderModal(props) {
     starPlayerCount = 0,
     loading = false,
   } = props || {};
-  //setSelectedData(playerList);
+
+  useEffect(() => {
+    setSelectedData(playerList);
+  }, []);
+
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {
-    console.log("test", filterString);
-    if(filterString === "") {
-      console.log("1");
+    if (filterString === "") {
       setSelectedData(playerList);
-    }
-    else {
-      console.log("2");
+    } else {
       setSelectedData(filteredData);
     }
-  });
+  }, [filterString]);
+
   const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
   const playerTeam = [
     { title: "Team A" },
@@ -49,27 +50,27 @@ function RenderModal(props) {
     if (!isEmpty(value)) {
       setFilterString(value);
       const _filterdData = playerList?.listData?.filter((data) =>
-        data?.playerName?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+        data?.playerName
+          ?.toLocaleLowerCase()
+          ?.includes(value?.toLocaleLowerCase())
       );
       const _filterdDataHomeTeam = playerList?.listData?.filter((data) =>
-        data?.homeTeam?.toLocaleLowerCase()?.includes(value?.toLocaleLowerCase())
+        data?.homeTeam
+          ?.toLocaleLowerCase()
+          ?.includes(value?.toLocaleLowerCase())
       );
       var tempObj = [];
       var tempIds = [];
-      for(var i = 0; i < _filterdData.length; i++)
-      {
+      for (var i = 0; i < _filterdData.length; i++) {
         var id = _filterdData[i].playerId;
-        if(tempIds.indexOf(id) == -1)
-        {
+        if (tempIds.indexOf(id) == -1) {
           tempIds.push(id);
           tempObj.push(_filterdData[i]);
         }
       }
-      for(var i = 0; i < _filterdDataHomeTeam.length; i++)
-      {
+      for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
         var id = _filterdDataHomeTeam[i].playerId;
-        if(tempIds.indexOf(id) == -1)
-        {
+        if (tempIds.indexOf(id) == -1) {
           tempIds.push(id);
           tempObj.push(_filterdDataHomeTeam[i]);
         }
@@ -96,7 +97,7 @@ function RenderModal(props) {
           </div>
           <div className={classes.modal_header_bottom}>
             <p className={classes.modal_title}>
-              Swap Your <span>{type1?type1:type}</span>
+              Swap Your <span>{type1 ? type1 : type}</span>
             </p>
 
             <div className={classes.modal_star_player_container}>
@@ -121,7 +122,10 @@ function RenderModal(props) {
                 {playerName}
               </p>
             </div>
-            <Search placeholder={"Search by player or team name..."} onSearch={onSearch}/>
+            <Search
+              placeholder={"Search by player or team name..."}
+              onSearch={onSearch}
+            />
           </div>
 
           <div className={classes.modal_list}>
