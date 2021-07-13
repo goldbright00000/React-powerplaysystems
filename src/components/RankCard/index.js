@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import classes from "./index.module.scss";
 import SidebarBtnIcon from "../../assets/nhl-sidebar-icon.png";
-import RankIcon from "../../icons/Rank";
+import RankIcon from "../../icons/Ranks/RankIcon";
 import { redirectTo, setNumberComma } from "../../utility/shared";
 import LiveStandings from "../LiveStandings";
 
@@ -44,7 +44,7 @@ function RankCard(props) {
               <div className={classes.sidebar_left}>
                 <div>
                   <p>My Score:</p>
-                  <p className={classes.sidebar_header_p2}>30</p>
+                  <p className={classes.sidebar_header_p2}>{score}</p>
                 </div>
                 <div>
                   <p className={classes.sidebar_header_p1}>Leader:</p>
@@ -55,7 +55,7 @@ function RankCard(props) {
                   </p>
                 </div>
               </div>
-              <RankIcon />
+              <RankIcon rank={ranking} />
             </div>
           </div>
         </div>
