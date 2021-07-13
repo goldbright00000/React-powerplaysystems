@@ -7,6 +7,9 @@ import {
   removeLocalStorage,
   printLog,
 } from "../utility/shared";
+
+import { savePersonaUserId } from "./personaActions";
+
 import jwtDecode from "jwt-decode";
 import { createAlert } from "./notificationActions";
 export const AUTH_LOADING = "[AUTH] AUTH LOADING";
@@ -27,6 +30,7 @@ export function authenticate(user) {
           CONSTANTS.LOCAL_STORAGE_KEYS.USER,
           request?.data?.token
         );
+        savePersonaUserId(request?.data?.user_id)
         return dispatch({
           type: GET_AUTH,
           payload: request?.data,

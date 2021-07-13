@@ -1,10 +1,13 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
+import CurrencyFormat from 'react-currency-format';
+
 import { isEmpty, cloneDeep, uniqBy } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useHistory } from "react-router-dom";
-
+import dateFormat from "dateformat";
+import _ from "underscore";
 import * as MLBActions from "../../actions/MLBActions";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -47,6 +50,7 @@ import VideoReviewIcon from "../../assets/video-review-icon.png";
 import DWallIcon from "../../assets/d-wall-icon.png";
 import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
+import ChallengeIcon from "../../assets/challenge.svg"
 
 import { useMediaQuery } from "react-responsive";
 import { printLog, redirectTo } from "../../utility/shared";
@@ -54,6 +58,30 @@ import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "./bottomSheetStyles.scss";
+
+
+const getIcon = (powerName) => {
+  if (powerName) {
+    if (powerName.toLowerCase().match(/wall/g))
+      return DWallIcon;
+
+    else if (powerName.toLowerCase().match(/video|review/g))
+      return VideoReviewIcon;
+
+    else if (powerName.toLowerCase().match(/swap/g))
+      return SwapPlayerIcon;
+
+    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
+      return PointMultiplierIcon;
+
+    else if (powerName.toLowerCase().match(/retro/g))
+      return RetroBoostIcon;
+
+    else if (powerName.toLowerCase().match(/challenge/g))
+      return ChallengeIcon;
+  }
+}
+
 
 const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
 
@@ -233,6 +261,14 @@ function MLBPowerdFs(props) {
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [dropDownState, setDropDownTeam] = useState([]);
+  const [outOf, setOutOf] = useState('10000');
+  const [enrolledUsers, setEnrolledUsers] = useState(9999);
+  const [prizePool, setPrizePool] = useState(0);
+  const [gameStartTime, setGameStartTime] = useState('');
+  const [powers, setPowers] = useState([]);
+  const [points, setPoints] = useState([]);
+  const [topPrize, setTopPrize] = useState(0);
+  const [prizes, setPrizes] = useState([]);
 
   let {
     data = [],
@@ -265,6 +301,14 @@ function MLBPowerdFs(props) {
     setFilterdData(null);
     setSelectedData(null);
 
+    setOutOf(history?.location?.state?.outOf);
+    setEnrolledUsers(history?.location?.state?.enrolledUsers);
+    setPrizePool(history?.location?.state?.prizePool);
+    setGameStartTime(history?.location?.state?.game_set_start);
+    setPoints(_.groupBy(history?.location?.state?.PointsSystem, 'type'));
+    setPowers(history?.location?.state?.Power);
+    setTopPrize(history?.location?.state?.topPrize)
+    setPrizes(history?.location?.state?.prizes)
     //unmount
     return function cleanUp() {
       starPowerIndex = 0;
@@ -659,39 +703,32 @@ function MLBPowerdFs(props) {
 
   const ContestScoringRow = ({ item = {}, width = {} }) => (
     <div className={classes.scoring_row}>
-      <p>{item?.title}</p>{" "}
-      <span className={width && width}>{item?.points}</span>
+      <p>{item?.plays}</p>{" "}
+      <span className={width && width}>+{item?.points} pts</span>
     </div>
   );
 
-  const ContestScoringColumn = ({ data = [], styles = {} }) => (
+  const ContestScoringColumn = ({ data = [], styles = {}, title = "" }) => (
     <div className={classes.scoring_column} style={styles}>
-      {data.map((mainItem, mainIndex) => {
-        return (
-          <>
-            <div
-              className={classes.scoring_title}
-              style={{
-                marginTop: mainItem.title == "Team Defence" && 38,
-                marginBottom: 6,
-              }}
-              key={mainIndex}
-            >
-              <p>{mainItem.title}</p>
+      <div
+        className={classes.scoring_title}
+        style={{
+          marginTop: title == "Team Defence" && 38,
+          marginBottom: 6,
+        }}
+      >
+        <p>{title}</p>
+      </div>
+      {data &&
+        data?.length &&
+        data.map((item, index) => {
+          return (
+            <div className={classes.scoring_body}>
+              <ContestScoringRow item={item} key={index + "-"} />
             </div>
-            {data &&
-              data?.length &&
-              mainItem.data.map((item, index) => {
-                return (
-                  <div className={classes.scoring_body}>
-                    <ContestScoringRow item={item} key={index + "-"} />
-                  </div>
-                );
-              })}
-          </>
-        );
-      })}
-    </div>
+          );
+        })}
+    </div >
   );
 
   const ContestSummaryRow = ({ text = <></> }) => (
@@ -757,6 +794,7 @@ function MLBPowerdFs(props) {
                 width="20px"
                 height="20px"
                 onClick={() => setShowPowerInfoModal(false)}
+                alt=""
               />
             </div>
             <div className={classes.__powerInfoModalTitle}>
@@ -840,6 +878,10 @@ function MLBPowerdFs(props) {
       <Header />
       <div className={classes.wrapper}>
         <Header4
+          outof={outOf}
+          enrolledUsers={enrolledUsers}
+          points={points}
+          powers={powers}
           titleMain1="MLB 2021"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
@@ -988,7 +1030,9 @@ function MLBPowerdFs(props) {
                         <ContestSummaryRow
                           text={
                             <p>
-                              <span>$100,000</span> Prize Pool
+                              <span>
+                                <CurrencyFormat value={prizePool} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}</div>} />
+                              </span> Prize Pool
                             </p>
                           }
                         />
@@ -1004,7 +1048,9 @@ function MLBPowerdFs(props) {
                           text={
                             <p>
                               Pick players from any teams scheduled to play on{" "}
-                              <span>July 19, 2021</span>
+                              <span>
+                                {dateFormat(gameStartTime, "mmmm dS, yyyy")}
+                              </span>
                             </p>
                           }
                         />
@@ -1013,13 +1059,15 @@ function MLBPowerdFs(props) {
 
                     <div className={classes.__see_full_rules}>
                       <ContestRulesPopUp
+                        points={points}
+                        powers={powers}
                         component={({ showPopUp }) => (
                           <button
                             onClick={showPopUp}
                             className={classes.footer_full_rules}
                             href="#"
                           >
-                            See Full Rules <img src={RightArrow} />
+                            See Full Rules <img src={RightArrow} alt="" />
                           </button>
                         )}
                       />
@@ -1074,7 +1122,9 @@ function MLBPowerdFs(props) {
                                 <ContestSummaryRow
                                   text={
                                     <p>
-                                      <span>$100,000</span> Prize Pool
+                                      <span>
+                                        <CurrencyFormat value={prizePool} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}</div>} />
+                                      </span> Prize Pool
                                     </p>
                                   }
                                 />
@@ -1090,69 +1140,67 @@ function MLBPowerdFs(props) {
                                   text={
                                     <p>
                                       Pick players from any teams scheduled to
-                                      play on <span>July 19, 2021</span>
+                                      play on{" "}
+                                      <span>
+                                        {dateFormat(gameStartTime, "mmmm dS, yyyy")}
+                                      </span>
                                     </p>
                                   }
                                 />
                               </div>
                             </ContestColumn>
                           </TabPanel>
+
+
                           <TabPanel>
                             <ContestColumn title="">
                               <div className={classes.contest_scoring_wrapper}>
-                                <ContestScoringColumn
-                                  data={contestScoring.data1}
-                                />
-                                <ContestScoringColumn
-                                  data={contestScoring.data2}
-                                />
+                                {Object.keys(points).map((data, index) => {
+                                  return (
+                                    <>
+                                      <ContestScoringColumn
+                                        title={Object.keys(points)[index]}
+                                        data={points[Object.keys(points)[index]]}
+                                      />
+                                    </>
+                                  );
+                                })}
                               </div>
                             </ContestColumn>
                           </TabPanel>
                           <TabPanel>
+
                             <div className={classes.__powers_available}>
-                              <RenderIcon
-                                title="Point Multiplier"
-                                Icon={PointMultiplierIcon}
-                                iconSize={54}
-                                count={2}
-                              />
-
-                              <RenderIcon
-                                title="Swap Player"
-                                Icon={SwapPlayerIcon}
-                                iconSize={54}
-                                count={2}
-                              />
-
-                              <RenderIcon
-                                title="Undo"
-                                Icon={UndoIcon}
-                                iconSize={54}
-                                count={2}
-                              />
+                              {powers && powers.length > 0 && powers.map((item, index) => {
+                                return (
+                                  <>
+                                    {index < 3 && (
+                                      <RenderIcon
+                                        title={item?.powerName}
+                                        Icon={getIcon(item?.powerName)}
+                                        iconSize={54}
+                                        count={2}
+                                      />
+                                    )}
+                                  </>
+                                )
+                              })}
                             </div>
                             <div className={classes.__powers_available}>
-                              <RenderIcon
-                                title="Retro Boost"
-                                Icon={RetroBoostIcon}
-                                iconSize={24}
-                                count={1}
-                              />
-
-                              <RenderIcon
-                                title="D-Wall"
-                                Icon={DWallIcon}
-                                iconSize={54}
-                                count={1}
-                              />
-
-                              <RenderIcon
-                                title="Video Review"
-                                Icon={VideoReviewIcon}
-                                iconSize={54}
-                                count={1}
-                              />
+                              {powers && powers.length > 0 && powers.map((item, index) => {
+                                return (
+                                  <>
+                                    {index >= 3 && (
+                                      <RenderIcon
+                                        title="Swap Player"
+                                        Icon={SwapPlayerIcon}
+                                        iconSize={54}
+                                        count={2}
+                                      />
+                                    )}
+                                  </>
+                                )
+                              })}
                             </div>
                           </TabPanel>
                         </div>
@@ -1161,13 +1209,15 @@ function MLBPowerdFs(props) {
                   </div>
                   <div className={classes.__see_full_rules}>
                     <ContestRulesPopUp
+                      points={points}
+                      powers={powers}
                       component={({ showPopUp }) => (
                         <button
                           onClick={showPopUp}
                           className={classes.footer_full_rules}
                           href="#"
                         >
-                          See Full Rules <img src={RightArrow} />
+                          See Full Rules <img src={RightArrow} alt="" />
                         </button>
                       )}
                     />
@@ -1177,17 +1227,17 @@ function MLBPowerdFs(props) {
                 <img
                   src={MLBFooterImage}
                   className={classes.container_body_img}
+                  alt=""
                 />
               </div>
             )}
           </div>
-
           <div className={classes.sidebar_container}>
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
-                powerBalance={50000}
-                cashBalance={200000}
+                powerBalance={topPrize}
+                cashBalance={prizePool}
                 styles={{
                   marginTop: "-40px",
                 }}
@@ -1195,13 +1245,17 @@ function MLBPowerdFs(props) {
                 powerTitle="Top Prize"
                 centered
               />
-              <PowerCollapesible />
+
+              <PowerCollapesible
+                powers={powers}
+              />
+
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>
                 <div className={classes.sidebar_header_1}>
                   <p>
                     <span>
-                      <img src={StarImg} className={classes.smallImg} />
+                      <img src={StarImg} className={classes.smallImg} alt="" />
                       Star Power
                     </span>{" "}
                     players selected
@@ -1347,11 +1401,10 @@ function MLBPowerdFs(props) {
       }
 
       {showPowerInfoModal && powerInfoModal()}
-
       <PrizeModal
         visible={showPrizeModal}
         sportsName="MLB"
-        data={prizeData}
+        data={prizes}
         onClose={() => setPrizeModalState(false)}
       />
     </>
