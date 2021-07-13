@@ -217,7 +217,7 @@
             background-color: $lightBlue3;
             height: 40px;
             padding: 3px 11px 0 11px;
-            text-transform: uppercase;
+            // text-transform: capitalize;
             border-radius: 6px;
             font-size: 12px;
             font-weight: 600;
@@ -228,7 +228,7 @@
 
             .p {
               font-family: Poppins;
-              font-size: 12px;
+              font-size: 10px;
               font-weight: 600;
               color: $grey2;
 
@@ -1593,7 +1593,7 @@
               }
 
               .p {
-                font-size: 14px;
+                font-size: 13px;
 
                 &.large_view {
                   font-size: 14px;
@@ -2190,7 +2190,7 @@
               }
 
               .p {
-                font-size: 12px;
+                font-size: 10px;
 
                 &.large_view {
                   font-size: 12px;
@@ -3739,18 +3739,18 @@
     min-width: unset !important;
     .card_header {
       .header_teams {
-          p {
-              font-size: 12px;
-          }
-          span {
-              font-size: 14px;
-          }
+        p {
+          font-size: 12px;
+        }
+        span {
+          font-size: 14px;
+        }
       }
     }
     .card_container {
       .container_header {
         .container_title {
-            font-size: 14px;
+          font-size: 14px;
         }
       }
       &.height_284 {
@@ -3760,18 +3760,18 @@
         padding: 0 10px;
         .stat_points {
           .stat_points_container {
-              .stat_points_title {
-                  font-size: 12px;
+            .stat_points_title {
+              font-size: 12px;
+            }
+            .stat {
+              width: 90px;
+              .p {
+                font-size: 12px;
               }
-              .stat {
-                  width: 90px;
-                  .p {
-                      font-size: 12px;
-                  }
-              }
-              .points {
-                  width: 75px;
-              }
+            }
+            .points {
+              width: 75px;
+            }
           }
         }
       }
@@ -3783,18 +3783,18 @@
     min-width: unset !important;
     .card_header {
       .header_teams {
-          p {
-              font-size: 12px;
-          }
-          span {
-              font-size: 14px;
-          }
+        p {
+          font-size: 12px;
+        }
+        span {
+          font-size: 14px;
+        }
       }
     }
     .card_container {
       .container_header {
         .container_title {
-            font-size: 14px;
+          font-size: 14px;
         }
       }
       &.height_284 {
@@ -3804,18 +3804,18 @@
         padding: 0 10px;
         .stat_points {
           .stat_points_container {
-              .stat_points_title {
-                  font-size: 12px;
+            .stat_points_title {
+              font-size: 12px;
+            }
+            .stat {
+              width: 90px;
+              .p {
+                font-size: 12px;
               }
-              .stat {
-                  width: 90px;
-                  .p {
-                      font-size: 12px;
-                  }
-              }
-              .points {
-                  width: 75px;
-              }
+            }
+            .points {
+              width: 75px;
+            }
           }
         }
       }
@@ -3827,18 +3827,18 @@
     min-width: unset !important;
     .card_header {
       .header_teams {
-          p {
-              font-size: 12px;
-          }
-          span {
-              font-size: 14px;
-          }
+        p {
+          font-size: 12px;
+        }
+        span {
+          font-size: 14px;
+        }
       }
     }
     .card_container {
       .container_header {
         .container_title {
-            font-size: 14px;
+          font-size: 14px;
         }
       }
       &.height_284 {
@@ -3848,18 +3848,18 @@
         padding: 0 10px;
         .stat_points {
           .stat_points_container {
-              .stat_points_title {
-                  font-size: 12px;
+            .stat_points_title {
+              font-size: 12px;
+            }
+            .stat {
+              width: 86px;
+              .p {
+                font-size: 12px;
               }
-              .stat {
-                  width: 86px;
-                  .p {
-                      font-size: 12px;
-                  }
-              }
-              .points {
-                  width: 60px;
-              }
+            }
+            .points {
+              width: 60px;
+            }
           }
         }
       }
@@ -3871,18 +3871,18 @@
     min-width: unset !important;
     .card_header {
       .header_teams {
-          p {
-              font-size: 12px;
-          }
-          span {
-              font-size: 12px;
-          }
+        p {
+          font-size: 12px;
+        }
+        span {
+          font-size: 12px;
+        }
       }
     }
     .card_container {
       .container_header {
         .container_title {
-            font-size: 11px;
+          font-size: 11px;
         }
       }
       &.height_284 {
@@ -3892,18 +3892,19 @@
         padding: 0 5px;
         .stat_points {
           .stat_points_container {
-              .stat_points_title {
-                  font-size: 12px;
+            .stat_points_title {
+              font-size: 12px;
+            }
+            .stat {
+              width: 80px;
+              .p,
+              p {
+                font-size: 10px;
               }
-              .stat {
-                  width: 80px;
-                  .p, p {
-                      font-size: 10px;
-                  }
-              }
-              .points {
-                  width: 55px;
-              }
+            }
+            .points {
+              width: 55px;
+            }
           }
         }
       }

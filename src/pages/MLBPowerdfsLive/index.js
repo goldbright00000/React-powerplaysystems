@@ -67,6 +67,13 @@ function MLBPowerdFsLive(props) {
   const [points, setPoints] = useState(0);
   const [playerIds, setPlayerIds] = useState([]);
   const [matchUpdateData, setMatchUpdateData] = useState({});
+  const [ranks, setRanks] = useState({});
+  const [powersInventory, setPowersInventory] = useState({
+    swap: 1,
+    point_multiplier: 0,
+    d_wall: 1,
+    challenge: 1,
+  });
 
   const history = useHistory();
 
@@ -135,6 +142,7 @@ function MLBPowerdFsLive(props) {
     //fetch data first time
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
+      console.log("EMIT_ROOM: ", res);
       const {
         game_id = "",
         score = 0,
@@ -143,9 +151,11 @@ function MLBPowerdFsLive(props) {
         team_id = "",
         defense = [],
         players = [],
+        power_dfs_team_rankings = [],
       } = res?.data || {};
 
       const teamD = defense[0] || {};
+      setRanks(power_dfs_team_rankings[0] || {});
       if (players && players?.length) {
         getPlayers(players, teamD);
       }
@@ -519,7 +529,7 @@ function MLBPowerdFsLive(props) {
                       centered
                       showIcons={false}
                     />
-                    <RankCard currentWin={100000} {...props} />
+                    <RankCard ranks={ranks} currentWin={100000} {...props} />
 
                     <div className={classes.sidebar_content}>
                       <p>
@@ -530,25 +540,25 @@ function MLBPowerdFsLive(props) {
                           title="Point Multiplier"
                           isSvgIcon
                           Icon={XPIcon}
-                          count={1}
+                          count={powersInventory.point_multiplier}
                         />
                         <RenderPower
                           title="Swap Player"
                           isSvgIcon
                           Icon={ReplaceAllIcon}
-                          count={0}
+                          count={powersInventory.swap}
                         />
                         <RenderPower
                           title="D-Wall"
                           isSvgIcon
                           Icon={ShieldIcon}
-                          count={0}
+                          count={powersInventory.d_wall}
                         />
                         <RenderPower
                           title="Challenge"
                           isSvgIcon
                           Icon={ChallengeIcon}
-                          count={4}
+                          count={powersInventory.challenge}
                         />
                       </div>
                       <button onClick={() => setLearnMoreModal(true)}>

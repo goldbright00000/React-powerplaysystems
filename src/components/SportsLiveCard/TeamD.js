@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 import classes from "./index.module.scss";
-import { hasText } from "../../utility/shared";
+import { hasText, removeZeroBeforeDecimalPoint } from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
 import VideoIcon from "../../icons/VideoIcon";
@@ -29,10 +30,20 @@ function SportsLiveCardTeamD(props) {
     cardType = CardType.MLB,
   } = props || {};
 
-  const { team_d_mlb_team: team = {}, match = {} } = data || {};
+  const {
+    team_d: team_id = "",
+    match_id = "",
+    match = {},
+    team_d_mlb_team: team = {},
+  } = data || {};
 
-  const { away_team = {}, home_team = {}, status = "", boxscore = [] } =
-    match || {};
+  const {
+    away_team = {},
+    home_team = {},
+    status = "",
+    date_time = "",
+    boxscore = [],
+  } = match || {};
 
   const {
     name = "",
@@ -53,7 +64,6 @@ function SportsLiveCardTeamD(props) {
     season_id = 0,
     stats_id = 0,
     status: teamStatus = null,
-    team_id,
     wins: teamWins = 0,
   } = mlb_team_stats[0] || {};
 
@@ -68,6 +78,7 @@ function SportsLiveCardTeamD(props) {
     wins = 0,
     losses = 0,
     innings_pitched = 0,
+    balls = 0,
     strikes = 0,
     earned_runs_average = 0,
     base_on_balls = 0,
@@ -79,6 +90,10 @@ function SportsLiveCardTeamD(props) {
     away_team_runs = 0,
     current_inning = 0,
     current_inning_half = "",
+    baserunner_1 = null,
+    baserunner_2 = null,
+    baserunner_3 = null,
+    baserunner_4 = null,
   } = boxscore[0] || {};
 
   useEffect(() => {
@@ -98,6 +113,16 @@ function SportsLiveCardTeamD(props) {
     return `Top ${current_inning} | ${outs} outs`;
   };
 
+  const getStatus = () => {
+    if (`${status}`?.toLocaleLowerCase() === "scheduled") {
+      return `${moment(date_time).format("MMM Do")} - ${moment(
+        date_time
+      ).format("hh:mm A")}`;
+    }
+
+    return status;
+  };
+
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
       <div className={classes.stat_points_container}>
@@ -110,7 +135,8 @@ function SportsLiveCardTeamD(props) {
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            Avg Runs Against:{average_runs_against}
+            Runs Against:{average_runs_against} <br />
+            HR Against:{2}
           </p>
         </div>
       </div>
@@ -158,7 +184,7 @@ function SportsLiveCardTeamD(props) {
         ${success && classes.success} 
         ${danger && classes.danger}`}
       >
-        {status}
+        {getStatus()}
       </span>
     </p>
   );
@@ -175,7 +201,7 @@ function SportsLiveCardTeamD(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        {type}
+        Team {type}
       </p>
       <div className={classes.header_teams}>
         <p>
@@ -259,8 +285,19 @@ function SportsLiveCardTeamD(props) {
 
                     {!isEmpty(playerStats) && !singleView && (
                       <RenderMLBPlayerStats
-                        playerStats={playerStats}
-                        {...props}
+                        hitter={hitter}
+                        pitcher={pitcher}
+                        type={type}
+                        baserunner_1={baserunner_1}
+                        baserunner_2={baserunner_2}
+                        baserunner_3={baserunner_3}
+                        baserunner_4={baserunner_4}
+                        strikes={strikes}
+                        balls={balls}
+                        largeView={compressedView || !compressedView}
+                        batting_average={removeZeroBeforeDecimalPoint(
+                          batting_average
+                        )}
                       />
                     )}
                   </>
