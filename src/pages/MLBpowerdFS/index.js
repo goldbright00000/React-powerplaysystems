@@ -598,31 +598,60 @@ function MLBPowerdFs(props) {
   const onSearch = (e) => {
     e.preventDefault();
     const { value } = e.target;
+    console.log("selectedData", selectedData);
+    var tempObj = [];
+    var tempIds = [];
     if (!isEmpty(value)) {
-      const _filterdData = filterdData?.listData?.filter((player) =>
-        player?.playerName
-          ?.toLocaleLowerCase()
-          ?.includes(value?.toLocaleLowerCase())
-      );
-      const _filterdDataHomeTeam = filterdData?.listData?.filter((player) =>
-        player?.homeTeam
-          ?.toLocaleLowerCase()
-          ?.includes(value?.toLocaleLowerCase())
-      );
-      var tempObj = [];
-      var tempIds = [];
-      for (var i = 0; i < _filterdData.length; i++) {
-        var id = _filterdData[i].playerId;
-        if (tempIds.indexOf(id) == -1) {
-          tempIds.push(id);
-          tempObj.push(_filterdData[i]);
+      if(selectedData?.type=="d"){
+        var _filterdData = selectedData?.listData?.filter((player) =>
+          player?.city
+            ?.toLocaleLowerCase()
+            ?.includes(value?.toLocaleLowerCase())
+        );
+        var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
+          player?.name
+            ?.toLocaleLowerCase()
+            ?.includes(value?.toLocaleLowerCase())
+        );
+        for (var i = 0; i < _filterdData.length; i++) {
+          var id = _filterdData[i].match_id;
+          if (tempIds.indexOf(id) == -1) {
+            tempIds.push(id);
+            tempObj.push(_filterdData[i]);
+          }
+        }
+        for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
+          var id = _filterdDataHomeTeam[i].match_id;
+          if (tempIds.indexOf(id) == -1) {
+            tempIds.push(id);
+            tempObj.push(_filterdDataHomeTeam[i]);
+          }
         }
       }
-      for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
-        var id = _filterdDataHomeTeam[i].playerId;
-        if (tempIds.indexOf(id) == -1) {
-          tempIds.push(id);
-          tempObj.push(_filterdDataHomeTeam[i]);
+      else {
+        var _filterdData = selectedData?.listData?.filter((player) =>
+          player?.playerName
+            ?.toLocaleLowerCase()
+            ?.includes(value?.toLocaleLowerCase())
+        );
+        var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
+          player?.homeTeam
+            ?.toLocaleLowerCase()
+            ?.includes(value?.toLocaleLowerCase())
+        );
+        for (var i = 0; i < _filterdData.length; i++) {
+          var id = _filterdData[i].playerId;
+          if (tempIds.indexOf(id) == -1) {
+            tempIds.push(id);
+            tempObj.push(_filterdData[i]);
+          }
+        }
+        for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
+          var id = _filterdDataHomeTeam[i].playerId;
+          if (tempIds.indexOf(id) == -1) {
+            tempIds.push(id);
+            tempObj.push(_filterdDataHomeTeam[i]);
+          }
         }
       }
       const _filterdDataObj = {
@@ -927,9 +956,10 @@ function MLBPowerdFs(props) {
 
                 <Search
                   onSearch={onSearch}
-                  onSelect={onSelectSearchDropDown}
+                  //onSelect={onSelectSearchDropDown}
                   //dropDown={dropDownState}
                   selected={selectedDropDown}
+                  placeholder={"Search by player or team name..."}
                 />
               </div>
             </div>
