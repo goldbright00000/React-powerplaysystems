@@ -188,14 +188,17 @@ function SportsLiveCard(props) {
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
-          const _time = moment(date_time).clone().format("hh:mm A");
+          const _time = moment(date_time).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
             (data) => `${data?.time}` === _time
           );
 
-          console.log(swapablePlayerData, newListData, _time);
+          const _dataToRender = {
+            type: swapablePlayerData.type,
+            listData: newListData,
+          };
 
-          setPlayerList(swapablePlayerData);
+          setPlayerList(_dataToRender);
         }
       }
       setLoadingPlayerList(false);
