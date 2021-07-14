@@ -183,7 +183,20 @@ function SportsLiveCard(props) {
           (data) => data?.type === `${type}`?.toLocaleLowerCase()
         );
 
-        setPlayerList(swapablePlayerData);
+        if (
+          swapablePlayerData &&
+          swapablePlayerData?.listData &&
+          swapablePlayerData?.listData?.length
+        ) {
+          const _time = moment(date_time).clone().format("hh:mm A");
+          const newListData = swapablePlayerData?.listData?.filter(
+            (data) => `${data?.time}` === _time
+          );
+
+          console.log(swapablePlayerData, newListData, _time);
+
+          setPlayerList(swapablePlayerData);
+        }
       }
       setLoadingPlayerList(false);
     }
