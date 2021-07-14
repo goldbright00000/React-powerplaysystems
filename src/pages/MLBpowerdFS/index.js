@@ -417,11 +417,12 @@ function MLBPowerdFs(props) {
     });
 
     let _starPlayerCount = starPlayerCount;
+    const selectionId = `${id} - ${matchId}`;
 
     //selected players
     const _playersList = [...playerList];
 
-    if (!selected.get(id)) {
+    if (!selected.get(selectionId)) {
       const [_player] = _playersList?.filter((player) => {
         let obj = {};
         if (currentPlayer?.type?.toLocaleLowerCase() === D) {
@@ -457,7 +458,7 @@ function MLBPowerdFs(props) {
           player.isStarPlayer = currentPlayer?.isStarPlayer;
           _playersList[playerListIndex] = player;
 
-          selected.set(id, !selected.get(id));
+          selected.set(selectionId, !selected.get(selectionId));
           //Star Power Player selection (sidebar)
           if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
             _starPlayerCount++;
@@ -468,14 +469,19 @@ function MLBPowerdFs(props) {
     } else {
       let existingPlayerIndex = _playersList?.findIndex((player) => {
         if (currentPlayer?.type?.toLocaleLowerCase() === D) {
-          return player?.team?.team_id === id;
+          return (
+            player?.team?.team_id === id && player?.team?.match_id === matchId
+          );
         } else {
-          return player?.player?.playerId === id;
+          return (
+            player?.player?.playerId === id &&
+            player?.player?.match_id === matchId
+          );
         }
       });
 
       if (existingPlayerIndex !== -1) {
-        selected.set(id, !selected.get(id));
+        selected.set(selectionId, !selected.get(selectionId));
         if (
           starPlayerCount > 0 &&
           _playersList[existingPlayerIndex].isStarPlayer
@@ -546,15 +552,16 @@ function MLBPowerdFs(props) {
     const filter = _selectedFilter;
     let _remaining = filter?.remaining;
     let id = type === D ? player?.team_id : player?.playerId;
+    const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
-      if (!!!selected.get(id)) _remaining -= 1;
+      if (!!!selected.get(selectionId)) _remaining -= 1;
       else if (_remaining < 2) _remaining += 1;
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
       }
-    } else if (!!selected.get(id) && _remaining < 2) {
+    } else if (!!selected.get(selectionId) && _remaining < 2) {
       _remaining++;
     } else {
       setSelectedFilter(_selectedFilter);
@@ -968,7 +975,11 @@ function MLBPowerdFs(props) {
                             {selectedFilter?.title === D ? (
                               <SportsTeamSelectionCard
                                 item={item}
-                                isSelected={!!selected.get(item.team_id)}
+                                isSelected={
+                                  !!selected.get(
+                                    `${item.team_id} - ${item.match_id}`
+                                  )
+                                }
                                 key={item?.team_id + " - " + item?.match_id}
                                 onSelectDeselect={onPlayerSelectDeselect}
                                 disabled={
@@ -982,7 +993,11 @@ function MLBPowerdFs(props) {
                               <>
                                 <SelectionCard3
                                   player={item}
-                                  isSelected={!!selected.get(item.playerId)}
+                                  isSelected={
+                                    !!selected.get(
+                                      `${item.playerId} - ${item?.match_id}`
+                                    )
+                                  }
                                   key={item.playerId + " - " + item?.match_id}
                                   loading={loading}
                                   onSelectDeselect={onPlayerSelectDeselect}
