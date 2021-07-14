@@ -100,12 +100,19 @@ export function mlbData(gameId) {
       filterdList.push(dTypePlayers);
       mlbPlayerList.push(...mlbTeams);
 
-      return dispatch({
+      dispatch({
         type: MLB_DATA,
         payload: { filterdList: filterdList, allData: mlbPlayerList },
         game_id,
         sport_id,
       });
+
+      return {
+        filterdList: filterdList,
+        allData: mlbPlayerList,
+        game_id,
+        sport_id,
+      };
     } catch (err) {
       return err;
     }

@@ -25,8 +25,9 @@ function RenderModal(props) {
   } = props || {};
 
   useEffect(() => {
+    if (loading) return;
     setSelectedData(playerList);
-  }, []);
+  }, [loading]);
 
   // Similar to componentDidMount and componentDidUpdate:
   useEffect(() => {

@@ -174,13 +174,33 @@ function SportsLiveCard(props) {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      await dispatch(mlbActions.mlbData(gameId));
-      const _mlbData = [...mlbData];
-      const [swapablePlayerData] = _mlbData?.filter(
-        (data) => data?.type === `${type}`?.toLocaleLowerCase()
-      );
+      const response = await dispatch(mlbActions.mlbData(gameId));
 
-      setPlayerList(swapablePlayerData);
+      if (response?.filterdList && response?.filterdList?.length) {
+        // const _mlbData = [...mlbData];
+        const _mlbData = [...response?.filterdList];
+        const [swapablePlayerData] = _mlbData?.filter(
+          (data) => data?.type === `${type}`?.toLocaleLowerCase()
+        );
+
+        if (
+          swapablePlayerData &&
+          swapablePlayerData?.listData &&
+          swapablePlayerData?.listData?.length
+        ) {
+          const _time = moment(date_time).clone().format("h:mm A");
+          const newListData = swapablePlayerData?.listData?.filter(
+            (data) => `${data?.time}` === _time
+          );
+
+          const _dataToRender = {
+            type: swapablePlayerData.type,
+            listData: newListData,
+          };
+
+          setPlayerList(_dataToRender);
+        }
+      }
       setLoadingPlayerList(false);
     }
   }, [mlbData]);
@@ -197,6 +217,13 @@ function SportsLiveCard(props) {
     if (swapablePlayer) {
       updateReduxState(data, swapablePlayer);
       toggleReplaceModal();
+    }
+  };
+
+  const removeZeroBeforeDecimalPoint = (value) => {
+    const nonDecimalValue = value.toString().split(".")[1];
+    if (nonDecimalValue) {
+      return `.${nonDecimalValue}`;
     }
   };
 
