@@ -695,6 +695,7 @@ function MLBPowerdFs(props) {
       if (isEdit) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
       } else {
+        await dispatch(MLBActions.calculateAdminFee(user_id, game_id));
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
       }
       redirectTo(props, { path: "/my-game-center" });

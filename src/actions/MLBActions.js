@@ -231,9 +231,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
@@ -359,4 +359,17 @@ export function editDfsTeamPlayer(payload) {
       console.log(err);
     }
   };
+}
+
+export function calculateAdminFee(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.CALCULATE_ADMIN_FEE}`, {
+        user_id,
+        game_id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 }
