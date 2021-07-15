@@ -82,6 +82,7 @@ function SportsLiveCard(props) {
     mlb_player_stats = [],
     boost = {},
     current_team = "",
+    player_id = "",
   } = player || {};
 
   const {
@@ -93,7 +94,7 @@ function SportsLiveCard(props) {
     home_runs = 0,
     losses = 0,
     ops = 0,
-    player_id = 0,
+    // player_id = 0,
     // runs_batted_in = 0,
     season_id = 1,
     stats_id = 0,
@@ -193,7 +194,7 @@ function SportsLiveCard(props) {
         ) {
           const _time = moment(date_time).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
-            (data) => `${data?.time}` === _time
+            (data) => `${data?.time}` === _time && data?.playerId !== player_id
           );
 
           const _dataToRender = {
