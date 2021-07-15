@@ -371,7 +371,7 @@ export function editDfsTeamPlayer(payload) {
 export function calculateAdminFee(user_id, game_id) {
   return async (dispatch) => {
     try {
-      const response = await http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.CALCULATE_ADMIN_FEE}`, {
+      http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.CALCULATE_ADMIN_FEE}`, {
         user_id,
         game_id,
       });
