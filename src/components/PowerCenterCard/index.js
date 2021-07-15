@@ -72,7 +72,9 @@ const PowerCenterCard = (props) => {
                         Prize Pool
                     </p>
                 </div>
+
                 <div className={classes.__power_center_card_enter}>
+
                     {userHasEntered ? (
                         <>
                             <OutlineButton
@@ -80,12 +82,20 @@ const PowerCenterCard = (props) => {
                             />
                         </>
                     ) : (
-                        <OutlineButton
-                            title={`Enter  •  $${entry_fee}`}
-                            onClick={onEnter}
-
-                        />
+                        total == outOf ? (
+                            <>
+                                <OutlineButton
+                                    title={`Full ${total}`}
+                                />
+                            </>
+                        ) : (
+                            <OutlineButton
+                                title={`Enter  •  $${entry_fee}`}
+                                onClick={onEnter}
+                            />
+                        )
                     )}
+
                 </div>
                 <div className={classes.__power_center_card_date_time}>
                     {game_set_start} | {start_time} ET
@@ -107,7 +117,7 @@ const PowerCenterCard = (props) => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
             :
             <PowerCenterCardDetails
                 Power={Power}

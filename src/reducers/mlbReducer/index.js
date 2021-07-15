@@ -10,6 +10,7 @@ const INITIAL_STATE = {
   sport_id: 0,
   game_id: 0,
   team_id: 0,
+  is_loading: false,
 };
 
 const mlbReducer = (state = INITIAL_STATE, actions) => {

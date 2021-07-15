@@ -155,7 +155,7 @@ const MyGameCenterCard = (props) => {
                             value={total}
                             displayType={"text"}
                             thousandSeparator={true}
-                            renderText={(value) => <div>{value}</div>}
+                            renderText={(value) => value}
                           />}
                         </div>
                       </div>
@@ -594,11 +594,11 @@ const MyGameCenterCard = (props) => {
                     <img src={BlueTick} width="18" height="18" alt="" />
                   </div>
                   <div className={classes.__my_game_center_card_full_text}>
-                    Full  <CurrencyFormat
+                    Full <CurrencyFormat
                       value={total}
                       displayType={"text"}
                       thousandSeparator={true}
-                      renderText={(value) => <div>{value}</div>}
+                      renderText={(value) => value}
                     />
                   </div>
                 </div>

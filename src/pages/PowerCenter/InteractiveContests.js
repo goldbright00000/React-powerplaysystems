@@ -280,7 +280,6 @@ const InteractiveContests = (props) => {
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
-      console.log('item --> ', item);
       switch (item?.league) {
         case "MLB":
           return redirectTo(props, {
