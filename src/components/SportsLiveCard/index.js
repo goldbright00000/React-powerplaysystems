@@ -30,6 +30,8 @@ import { CardType } from "./CardType";
 import HomeRun from "./HomeRun";
 import ActivatedBoost from "./ActivatedBoost";
 import NFLFooterStats from "./NFLFooterStats";
+import BaseballStick from "../../icons/BaseballStick";
+import Baseball from "../../icons/Baseball";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -79,6 +81,7 @@ function SportsLiveCard(props) {
     id = "",
     mlb_player_stats = [],
     boost = {},
+    current_team = "",
   } = player || {};
 
   const {
@@ -237,6 +240,12 @@ function SportsLiveCard(props) {
     return status;
   };
 
+  const getCurrentInningHalf = () => {
+    if (isEmpty(current_inning_half)) return null;
+
+    return `${current_inning_half}`.toLocaleLowerCase();
+  };
+
   const renderXp = () => {
     let svgSize = singleView ? 14 : largeView ? 28 : 24;
     if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
@@ -384,11 +393,20 @@ function SportsLiveCard(props) {
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
-        <p>
+        <p
+          className={current_team === away_team.team_id && classes.current_team}
+        >
+          {getCurrentInningHalf() === "b" ? (
+            <BaseballStick style={{ marginRight: "5px" }} />
+          ) : (
+            <Baseball style={{ marginRight: "5px" }} />
+          )}
           {away_team?.name} {away_team_runs}
         </p>{" "}
         vs{" "}
-        <span>
+        <span
+          className={current_team === home_team.team_id && classes.current_team}
+        >
           {home_team?.name} {home_team_runs}
         </span>
       </div>
