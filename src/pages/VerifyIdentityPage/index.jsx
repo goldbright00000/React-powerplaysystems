@@ -39,7 +39,7 @@ const VerifyIdentityPage = (props) => {
 
   const redirectToPerson = () => {
     let url = `https://withpersona.com/verify?template-id=${process.env.REACT_APP_PERSONA_TEMPLATE_ID}&`.concat(
-      `environment=sandbox&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`
+      `environment=production&redirect-uri=${process.env.REACT_APP_PERSONA_REDIRECT_URL}`
     );
     window.open(url);
   };
