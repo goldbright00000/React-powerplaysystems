@@ -11,7 +11,8 @@ function SportsFilters(props) {
     activeFilter = {},
     selectedFilter = {},
   } = props || {};
-
+  console.log("data", data);
+  console.log("selectedFilter", selectedFilter);
   return (
     <div className={classes.container_top_2}>
       {data?.length ? (

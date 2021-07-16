@@ -53,12 +53,12 @@ function RenderModal(props) {
       const _filterdData = playerList?.listData?.filter((data) =>
         data?.playerName
           ?.toLocaleLowerCase()
-          ?.includes(value?.toLocaleLowerCase())
+          ?.startsWith(value?.toLocaleLowerCase())
       );
       const _filterdDataHomeTeam = playerList?.listData?.filter((data) =>
         data?.homeTeam
           ?.toLocaleLowerCase()
-          ?.includes(value?.toLocaleLowerCase())
+          ?.startsWith(value?.toLocaleLowerCase())
       );
       var tempObj = [];
       var tempIds = [];

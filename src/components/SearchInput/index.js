@@ -19,6 +19,7 @@ function SearchInput(props) {
     dropDown = [],
     selected = "",
     placeholder = "",
+    searchText = "" 
   } = props || {};
 
   const onChange = (e) => {
@@ -41,6 +42,7 @@ function SearchInput(props) {
           placeholder={placeholder || "Search by Player name ..."}
           name="playerSearch"
           required
+          id={"searchInput"}
         />
       </span>
 

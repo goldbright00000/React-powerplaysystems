@@ -19,6 +19,7 @@ const CustomDropDown = (props) => {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
+    
   }, []);
 
   const handleClick = (e) => {
@@ -66,6 +67,7 @@ const CustomDropDown = (props) => {
                                          }
                                         `}
                 onClick={() => {
+                  console.log("item.value", item.value);
                   onChange(item.value);
                   setIsVisible(!isVisible);
                 }}

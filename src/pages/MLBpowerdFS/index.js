@@ -259,7 +259,7 @@ function MLBPowerdFs(props) {
   const [topPrize, setTopPrize] = useState(0);
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
   let {
     data = [],
     starPlayerCount = 0,
@@ -345,6 +345,7 @@ function MLBPowerdFs(props) {
 
   const autoSelectOnEdit = () => {
     if (isEdit === true && !loading && selected.entries().next().done) {
+      console.log('2',selected);
       const pls = [];
       savedPlayers.forEach((element) => {
         if (element.team_id) {
@@ -514,7 +515,7 @@ function MLBPowerdFs(props) {
   const onSelectFilter = useCallback(
     (type, isFilterSelected = true) => {
       if (loading) return;
-
+      
       // reset search filter
       if (isFilterSelected)
         onSelectSearchDropDown({ team_id: "all", name: "All Teams" });
@@ -527,7 +528,6 @@ function MLBPowerdFs(props) {
           `${_data?.type}`?.toLocaleLowerCase() ===
           `${_selectedFilter?.title}`?.toLocaleLowerCase()
       );
-
       if (isFilterSelected || isEdit) {
         setSelectedType(_selectedFilter?.title);
         setSelectedData(_selectedData);
@@ -589,16 +589,17 @@ function MLBPowerdFs(props) {
     var tempObj = [];
     var tempIds = [];
     if (!isEmpty(value)) {
+      setSearchText(value);
       if (selectedData?.type == "d") {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.city
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
           player?.name
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         for (var i = 0; i < _filterdData.length; i++) {
           var id = _filterdData[i].match_id;
@@ -618,7 +619,7 @@ function MLBPowerdFs(props) {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.playerName
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
           player?.homeTeam

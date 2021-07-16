@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   min-width: 236px;
-  margin: 10px;
+  margin: 5px;
 
   .card_header {
     display: flex;
@@ -944,7 +944,7 @@
 
 @media (max-width: 1900px) {
   .card_wrapper {
-    min-width: 296px;
+    //min-width: 296px;
 
     .card_header {
       .card_header_title {
@@ -3874,7 +3874,7 @@
         }
       }
       &.height_284 {
-        width: 193px !important;
+        width: 190px !important;
       }
       .container_body {
         padding: 0 10px;
