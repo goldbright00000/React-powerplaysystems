@@ -258,6 +258,7 @@ function MLBPowerdFs(props) {
   const [points, setPoints] = useState([]);
   const [topPrize, setTopPrize] = useState(0);
   const [prizes, setPrizes] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   let {
     data = [],
@@ -676,11 +677,14 @@ function MLBPowerdFs(props) {
   };
 
   const onSubmitMLbSelection = async () => {
+    setIsLoading(true);
     if (isEmpty(user)) {
+      setIsLoading(false);
       return redirectTo(props, { path: "/login" });
     }
 
     if (selectedPlayerCount < 8) {
+      setIsLoading(false);
       return;
     }
 
@@ -709,10 +713,14 @@ function MLBPowerdFs(props) {
 
       if (isEdit) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
+        setIsLoading(false);
       } else {
+        dispatch(MLBActions.calculateAdminFee(user_id, game_id));
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+        setIsLoading(false);
       }
       redirectTo(props, { path: "/my-game-center" });
+      setIsLoading(false);
     }
   };
 
@@ -922,8 +930,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1003,11 +1011,11 @@ function MLBPowerdFs(props) {
                                   onSelectDeselect={onPlayerSelectDeselect}
                                   pageType={PAGE_TYPES.MLB}
                                   type={selectedData?.type}
-                                  // disabled={
-                                  //   item.isStarPlayer &&
-                                  //   item.isStarPlayer &&
-                                  //   starPlayerCount >= 3
-                                  // }
+                                // disabled={
+                                //   item.isStarPlayer &&
+                                //   item.isStarPlayer &&
+                                //   starPlayerCount >= 3
+                                // }
                                 />
                               </>
                             )}
@@ -1132,9 +1140,8 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${
-                              classes.__last_tab_header
-                            }`}
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
                           >
                             Powers Available
                           </Tab>
@@ -1316,12 +1323,20 @@ function MLBPowerdFs(props) {
                 starIcon={StarImg}
                 selectedPlayerCount={selectedPlayerCount}
               />
-              <button
-                className={classes.sidebar_button}
-                onClick={onSubmitMLbSelection}
-              >
-                Submit!
-              </button>
+              {isLoading ? (
+                <button
+                  className={classes.sidebar_button}
+                >
+                  Submitting...
+                </button>
+              ) : (
+                <button
+                  className={classes.sidebar_button}
+                  onClick={onSubmitMLbSelection}
+                >
+                  Submit!
+                </button>
+              )}
             </Sidebar>
           </div>
         </div>
