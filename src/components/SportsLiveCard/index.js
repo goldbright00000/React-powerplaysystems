@@ -8,7 +8,11 @@ import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
 import StarPower from "../../assets/star_power.png";
-import { hasText, removeZeroBeforeDecimalPoint } from "../../utility/shared";
+import {
+  hasText,
+  printLog,
+  removeZeroBeforeDecimalPoint,
+} from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
 import XP1_5 from "../../icons/XP1_5";
@@ -59,11 +63,14 @@ function SportsLiveCard(props) {
     cardType = CardType.MLB,
     isHomeRun = false,
     gameInfo = {},
+    pointXpCount = {},
   } = props || {};
 
   const { gameId, userId, teamId, sportId } = gameInfo || {};
 
   const { player = {}, match = {}, xp = {} } = data || {};
+
+  const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   const {
     name = "",
@@ -202,6 +209,8 @@ function SportsLiveCard(props) {
             listData: newListData,
           };
 
+          printLog(newListData);
+
           setPlayerList(_dataToRender);
         }
       }
@@ -221,13 +230,6 @@ function SportsLiveCard(props) {
     if (swapablePlayer) {
       updateReduxState(data, swapablePlayer);
       toggleReplaceModal();
-    }
-  };
-
-  const removeZeroBeforeDecimalPoint = (value) => {
-    const nonDecimalValue = value.toString().split(".")[1];
-    if (nonDecimalValue) {
-      return `.${nonDecimalValue}`;
     }
   };
 
@@ -284,9 +286,36 @@ function SportsLiveCard(props) {
         <Tooltip
           toolTipContent={
             <div className={classes.xp_icons}>
-              <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
-              <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
-              <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
+              <div
+                className={`${classes.xp_block} ${
+                  xp1 <= 0 && classes.disabled
+                }`}
+              >
+                <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
+                <p>
+                  <span>{xp1}</span> left
+                </p>
+              </div>
+              <div
+                className={`${classes.xp_block} ${
+                  xp2 <= 0 && classes.disabled
+                }`}
+              >
+                <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
+                <p>
+                  <span>{xp2}</span> left
+                </p>
+              </div>
+              <div
+                className={`${classes.xp_block} ${
+                  xp3 <= 0 && classes.disabled
+                }`}
+              >
+                <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
+                <p>
+                  <span>{xp3}</span> left
+                </p>
+              </div>
             </div>
           }
         >
@@ -559,6 +588,7 @@ SportsLiveCard.propTypes = {
   onChangeXp: PropTypes.func,
   updateReduxState: PropTypes.func,
   gameInfo: PropTypes.object,
+  pointXpCount: PropTypes.object,
 };
 
 export default SportsLiveCard;
