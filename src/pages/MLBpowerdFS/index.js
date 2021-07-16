@@ -259,7 +259,7 @@ function MLBPowerdFs(props) {
   const [topPrize, setTopPrize] = useState(0);
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [searchText, setSearchText] = useState("");
   let {
     data = [],
     starPlayerCount = 0,
@@ -514,9 +514,8 @@ function MLBPowerdFs(props) {
 
   const onSelectFilter = useCallback(
     (type, isFilterSelected = true) => {
-      console.log("1", type);
       if (loading) return;
-
+      
       // reset search filter
       if (isFilterSelected)
         onSelectSearchDropDown({ team_id: "all", name: "All Teams" });
@@ -590,6 +589,7 @@ function MLBPowerdFs(props) {
     var tempObj = [];
     var tempIds = [];
     if (!isEmpty(value)) {
+      setSearchText(value);
       if (selectedData?.type == "d") {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.city
