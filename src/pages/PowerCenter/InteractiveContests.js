@@ -147,6 +147,7 @@ const InteractiveContests = (props) => {
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
   );
+  console.log("powerCenterCardData", powerCenterCardData);
   const { user } = useSelector((state) => state?.auth);
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);

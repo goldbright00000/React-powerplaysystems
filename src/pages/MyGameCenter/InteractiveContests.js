@@ -326,6 +326,7 @@ const InteractiveContests = (props) => {
 
         {myGameCenterCardData &&
           (() => {
+            console.log("myGameCenterCardData", myGameCenterCardData);
             const itemsInaRow = 4;
             const numberOfRows = Math.ceil(
               myGameCenterCardData.length / itemsInaRow
@@ -336,13 +337,22 @@ const InteractiveContests = (props) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
                 const items = filteredData.slice(start, end);
-
+                
+                // console.log("item?.game?.game_set_start", items);
+                // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+                //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
+                //   item?.game?.game_set_end + ' 11:59 AM'
+                // ));
                 return (
                   <>
                     {isMobile ? (
                       <div>
-                        {items.map((power) =>
-                          myGameCenterCard(power, power.url)
+                        {items?.length > 0 ? (
+                          items.map((power) =>
+                            myGameCenterCard(power, power.url)
+                          )
+                        ):(
+                          <h1>No games</h1>
                         )}
                       </div>
                     ) : (
@@ -352,9 +362,20 @@ const InteractiveContests = (props) => {
                             classes.__interactive_contests_power_center_card_row
                           }
                         >
-                          {items.map((power) => {
-                            return myGameCenterCard(power, power.url);
-                          })}
+                          {items?.length > 0 ? (
+                            items.map((power) => {
+                              var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+                                power?.game?.game_set_start + ' ' + power?.game?.start_time,
+                                power?.game?.game_set_end + ' 11:59 AM'
+                              );
+                              if(a) {
+                                return myGameCenterCard(power, power.url);
+                              }
+                                return;
+                            })
+                          ):(
+                            <h1>No games</h1>
+                          )}
                         </div>
                       </>
                     )}

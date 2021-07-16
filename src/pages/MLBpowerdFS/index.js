@@ -344,6 +344,7 @@ function MLBPowerdFs(props) {
 
   const autoSelectOnEdit = () => {
     if (isEdit === true && !loading && selected.entries().next().done) {
+      console.log('2',selected);
       const pls = [];
       savedPlayers.forEach((element) => {
         if (element.team_id) {
@@ -512,6 +513,7 @@ function MLBPowerdFs(props) {
 
   const onSelectFilter = useCallback(
     (type, isFilterSelected = true) => {
+      console.log("1", type);
       if (loading) return;
 
       // reset search filter
@@ -526,7 +528,6 @@ function MLBPowerdFs(props) {
           `${_data?.type}`?.toLocaleLowerCase() ===
           `${_selectedFilter?.title}`?.toLocaleLowerCase()
       );
-
       if (isFilterSelected || isEdit) {
         setSelectedType(_selectedFilter?.title);
         setSelectedData(_selectedData);
@@ -585,7 +586,6 @@ function MLBPowerdFs(props) {
   const onSearch = (e) => {
     e.preventDefault();
     const { value } = e.target;
-    console.log("selectedData", selectedData);
     var tempObj = [];
     var tempIds = [];
     if (!isEmpty(value)) {
@@ -593,12 +593,12 @@ function MLBPowerdFs(props) {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.city
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
           player?.name
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         for (var i = 0; i < _filterdData.length; i++) {
           var id = _filterdData[i].match_id;
@@ -618,7 +618,7 @@ function MLBPowerdFs(props) {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.playerName
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
           player?.homeTeam

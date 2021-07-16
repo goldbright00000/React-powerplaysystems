@@ -154,7 +154,9 @@
     }
 
     .__currency_menu_selected {
-      background-color: $lightBlue6;
+      background-color: #262728;
+      color: $primary;
+      width: 100%;
     }
   }
 }
