@@ -20,7 +20,7 @@ import { hideDepositForm, showDepositForm } from "../../actions/uiActions";
 import { fetchUserBalance } from '../../actions/userActions';
 import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmountPopUp";
 import Header from "../../components/Header/Header";
-
+import moment from "moment";
 const powerCenterCardData1 = [
   {
     id: 1,
@@ -174,6 +174,13 @@ const InteractiveContests = (props) => {
 
   const [haveBalance, setHaveBalance] = useState(true);
 
+  const [sortedBy, setSortedBy] = useState("Most Popular");
+  const [sortedByMPAction, setsortedByMPAction] = useState("des");
+  const [sortedByTPAction, setsortedByTPAction] = useState("des");
+  const [sortedByMEAction, setsortedByMEAction] = useState("des");
+  const [sortedByPPAction, setsortedByPPAction] = useState("des");
+  const [subFilter, setSubFilter] = useState("");
+
   const setShowDepositModal = () => dispatch(showDepositForm());
 
   useEffect(() => {
@@ -309,7 +316,123 @@ const InteractiveContests = (props) => {
       setShowDepositModal();
     }
   };
+  const Sorter = (type) => {
+    setSortedBy(type);
+    if(type === "Most Popular") {
+      console.log("sortedByMPAction", sortedByMPAction);
+      if(sortedByMPAction == "asc") {
+        setsortedByMPAction("des");
+      }
+      if(sortedByMPAction == "des") {
+        setsortedByMPAction("asc");
+      }
+    }
+    if(type === "Prize Total") {
+      console.log("sortedByPPAction", sortedByPPAction);
+      if(sortedByPPAction == "asc") {
+        setsortedByPPAction("des");
+      }
+      if(sortedByPPAction == "des") {
+        setsortedByPPAction("asc");
+      }
+    }
+    if(type === "Top Prize") {
+      if(sortedByTPAction == "asc") {
+        setsortedByTPAction("des");
+      }
+      if(sortedByTPAction == "des") {
+        setsortedByTPAction("asc");
+      }
+    }
+    if(type === "Min Entry") {
+      if(sortedByMEAction == "asc") {
+        setsortedByMEAction("des");
+      }
+      if(sortedByMEAction == "des") {
+        setsortedByMEAction("asc");
+      }
+    }
+  };
+  function getPriceTotal (rec) {
+    var prize = 0;
+    if(rec.PrizePayouts.length > 0)
+    {
+      for(var i = 0; i < rec.PrizePayouts.length; i++)
+      {
+        prize = prize + parseFloat(rec.PrizePayouts[i].amount);
+      }
+    }
+    return prize;
+  }
+  function sortArray(arr) {
+    var type = sortedBy;
+    console.log("sortArray", type);
+    if(type === "Most Popular") {
+      if(sortedByMPAction === "des")
+      {
+        return arr.sort((a,b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? -1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? 1 : 0));
+      }
+      else {
+        return arr.sort((a,b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? 1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? -1 : 0));
+      }
+    }
 
+    if(type === "Min Entry") {
+      if(sortedByMEAction === "des")
+      {
+        return arr.sort((a,b) => (parseFloat(a.target) > parseFloat(b.target)) ? -1 : ((parseFloat(b.target) > parseFloat(a.target)) ? 1 : 0));
+      }
+      else {
+        return arr.sort((a,b) => (parseFloat(a.target) > parseFloat(b.target)) ? 1 : ((parseFloat(b.target) > parseFloat(a.target)) ? -1 : 0));
+      }
+    }
+
+    if(type === "Prize Total") {
+      if(sortedByPPAction === "des")
+      {
+        return arr.sort((a,b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? -1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? 1 : 0));
+      }
+      else {
+        return arr.sort((a,b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? 1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? -1 : 0));
+      }
+    }
+
+    if(type === "Top Prize") {
+      if(sortedByTPAction === "des")
+      {
+        return arr.sort((a,b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? -1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? 1 : 0));
+      }
+      else {
+        return arr.sort((a,b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? 1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? -1 : 0));
+      }
+    }
+  }
+  function filterCurrency(arr) {
+    console.log("currency", selectedCurrencies);
+    
+    var newArr = [];
+    for(var i = 0; i < arr.length; i++)
+    {
+      
+      var power = arr[i];
+      console.log(power);
+     // console.log("selectedDate", selectedDate, power?.game?.start_date + ' ' + power?.game?.start_time);
+      if(selectedDate === "Today") {
+        var m = moment();
+      }
+      else {
+        var m = (moment(selectedDate + " " + moment().format('YYYY')));
+      }
+      var startDate = moment(power?.start_date + ' ' + power?.start_time);
+      var endDate = moment(power?.end_date + ' 11:59 AM');
+      var isBetween = m.isBetween(startDate, endDate);
+      if((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween)
+      {
+        newArr.push(arr[i]);
+      }
+    }
+    return newArr;
+  }
   const powerCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
@@ -429,23 +552,34 @@ const InteractiveContests = (props) => {
           </div>
         ) : (
           <div className={classes.__interactive_contests_filter}>
-            <div className={classes.__interactive_contests_most_popular}>
-              <p>Most Popular</p>
+            <div className={sortedBy === "Most Popular" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
+              <p onClick={() => {
+                Sorter("Most Popular");
+              }}>Most Popular <FilledArrow down={sortedByMPAction === "asc"?false:true} up={sortedByMPAction === "asc"?true:false}/></p>
+              
             </div>
-            <div className={classes.__interactive_contests_prize_total}>
-              <p>
+            <div className={sortedBy === "Prize Total" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
+              <p onClick={() => {
+                Sorter("Prize Total");
+              }}>
                 Prize Total
-                <FilledArrow down={true} />
+                <FilledArrow down={sortedByPPAction === "asc"?false:true} up={sortedByPPAction === "asc"?true:false}/>
               </p>
             </div>
-            <div className={classes.__interactive_contests_top_prize}>
-              <p>
+            <div className={sortedBy === "Top Prize" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
+              <p onClick={() => {
+                Sorter("Top Prize");
+              }}>
                 Top Prize
-                <FilledArrow down={true} />
+                <FilledArrow down={sortedByTPAction === "asc"?false:true} up={sortedByTPAction === "asc"?true:false}/>
               </p>
             </div>
-            <div className={classes.__interactive_contests_min_entry}>
-              <p>Min Entry</p>
+            <div className={sortedBy === "Min Entry" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
+              <p onClick={() => {
+                Sorter("Min Entry");
+              }}>Min Entry
+                <FilledArrow down={sortedByMEAction === "asc"?false:true} up={sortedByMEAction === "asc"?true:false}/>
+              </p>
             </div>
             <div
               className={`${classes.__interactive_contests_top_prize} ${classes.__drop_down_menu}`}
@@ -499,7 +633,8 @@ const InteractiveContests = (props) => {
             </div>
           </div>
         )}
-        {filteredData && filteredData?.length > 0 ? (
+        {filteredData && filterCurrency(filteredData)?.length > 0 ? (
+         
           isMobile ? (
             (() => {
               const itemsInaRow = 1;
@@ -558,12 +693,15 @@ const InteractiveContests = (props) => {
               const numberOfRows = Math.ceil(
                 powerCenterCardData.length / itemsInaRow
               );
+              var filterByCurrency = filterCurrency(filteredData);
+              var a1 = sortArray(filterByCurrency);
               const powerCenterCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
+                  
                   const start = (i + 1) * itemsInaRow - 4;
                   const end = (i + 1) * itemsInaRow;
-                  const items = filteredData.slice(start, end);
+                  const items = a1.slice(start, end);
                   return (
                     <div
                       className={

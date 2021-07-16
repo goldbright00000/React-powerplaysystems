@@ -101,6 +101,7 @@ const contentTypes = [
   },
 ];
 
+
 const InteractiveContests = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const dispatch = useDispatch();
@@ -121,6 +122,9 @@ const InteractiveContests = (props) => {
   const [userGames, setUserGames] = useState({});
   const { getUserSavedGames } = useSelector((state) => state?.mlb);
 
+  const applyFilter = (type) => {
+    setContentType(type);
+  }
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
     responsiveHandler(maxWidth);
@@ -299,16 +303,24 @@ const InteractiveContests = (props) => {
             </div>
           ) : (
             <>
-              <div className={classes.__interactive_contests_most_popular}>
+              <div className={(contentType === "All Active")?classes.__interactive_contests_most_popular:classes.__interactive_contests_prize_total} onClick={() => {
+                applyFilter("All Active")
+              }}>
                 <p>All Active</p>
               </div>
-              <div className={classes.__interactive_contests_prize_total}>
+              <div className={(contentType === "Not Started")?classes.__interactive_contests_most_popular:classes.__interactive_contests_prize_total} onClick={() => {
+                applyFilter("Not Started")
+              }}>
                 <p>Not Started</p>
               </div>
-              <div className={classes.__interactive_contests_top_prize}>
+              <div className={(contentType === "In Progress")?classes.__interactive_contests_most_popular:classes.__interactive_contests_prize_total} onClick={() => {
+                applyFilter("In Progress")
+              }}>
                 <p>In Progress</p>
               </div>
-              <div className={classes.__interactive_contests_min_entry}>
+              <div className={(contentType === "Completed")?classes.__interactive_contests_most_popular:classes.__interactive_contests_prize_total} onClick={() => {
+                applyFilter("Completed")
+              }}>
                 <p>Completed</p>
               </div>
             </>
@@ -319,24 +331,64 @@ const InteractiveContests = (props) => {
               dropdownClassName={classes.__interactive_contests_date_dropdown}
               value={selectedDate}
               options={days}
-              onChange={(selectedOption) => setSelectedDate(selectedOption)}
+              onChange={(selectedOption) => {
+                console.log("selectedOption", selectedOption);
+                setSelectedDate(selectedOption)
+              }}
             />
           </div>
         </div>
 
         {myGameCenterCardData &&
           (() => {
-            console.log("myGameCenterCardData", myGameCenterCardData);
             const itemsInaRow = 4;
             const numberOfRows = Math.ceil(
               myGameCenterCardData.length / itemsInaRow
             );
+            var subFiltered = [];
+            if(filteredData.length > 0) {
+              filteredData.map(function(power){
+                if(selectedDate === "Today") {
+                  var m = moment();
+                }
+                else {
+                  var m = (moment(selectedDate + " " + moment().format('YYYY')));
+                }
+                var startDate = moment(power?.game?.start_date + ' ' + power?.game?.start_time);
+                var endDate = moment(power?.game?.end_date + ' 11:59 AM');
+                var isBetween = m.isBetween(startDate, endDate);
+                if(isBetween)
+                {
+                  var a = true;
+                  if(contentType === "In Progress") {
+                    var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+                      power?.game?.game_set_start + ' ' + power?.game?.start_time,
+                      power?.game?.game_set_end + ' 11:59 AM'
+                    );
+                  }
+                  else if(contentType === "Completed") {
+                    var a = moment(moment().format("YYYY-MM-DD")).isAfter(
+                      power?.game?.game_set_end
+                    )
+                  }
+                  else if(contentType === "Not Started") {
+                    var a = moment(moment().format("YYYY-MM-DD")).isBefore(
+                      power?.game?.game_set_start
+                    )
+                  }
+                  if(a) {
+                    subFiltered.push(power);
+                  }
+                }
+                
+              })
+            }
             const myGameCenterCardView = Array(numberOfRows)
               .fill(undefined)
               .map((item, i) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
-                const items = filteredData.slice(start, end);
+                const items = subFiltered.slice(start, end);
                 
                 // console.log("item?.game?.game_set_start", items);
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
@@ -364,14 +416,7 @@ const InteractiveContests = (props) => {
                         >
                           {items?.length > 0 ? (
                             items.map((power) => {
-                              var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-                                power?.game?.game_set_start + ' ' + power?.game?.start_time,
-                                power?.game?.game_set_end + ' 11:59 AM'
-                              );
-                              if(a) {
                                 return myGameCenterCard(power, power.url);
-                              }
-                                return;
                             })
                           ):(
                             <h1>No games</h1>
