@@ -380,3 +380,29 @@ export function calculateAdminFee(user_id, game_id) {
     }
   }
 }
+
+export function deductUserBalance(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.DEDUCT_USER_BALANCE}`, {
+        user_id,
+        game_id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
+
+export function savePrizePool(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.SAVE_PRIZE_POOL}`, {
+        user_id,
+        game_id,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+}
