@@ -48,6 +48,16 @@ const {
 let _socket = null;
 let isMatchUpdate = false;
 
+const POWER_IDs = {
+  SWAP_POWER: 4,
+  D_WALL: 5,
+  CHALLENGE: 6,
+  RETRO_BOOST: 10,
+  POINT_BOOSTER_1_5X: 11,
+  POINT_BOOSTER_2X: 12,
+  POINT_BOOSTER_3X: 13,
+};
+
 function MLBPowerdFsLive(props) {
   const [loading, setLoading] = useState(false);
   const [updatesLoaded, setUpdatesLoading] = useState(false);
@@ -62,7 +72,7 @@ function MLBPowerdFsLive(props) {
   const [ranks, setRanks] = useState({});
   const [powersInventory, setPowersInventory] = useState({
     swap: 1,
-    point_multiplier: 0,
+    point_multiplier: 1,
     d_wall: 1,
     challenge: 1,
   });
@@ -290,6 +300,13 @@ function MLBPowerdFsLive(props) {
 
     console.log(currentPlayer, newPlayer);
 
+    onPowerApplied(
+      teamId,
+      newPlayer.match_id,
+      newPlayer.playerId,
+      POWER_IDs.SWAP
+    );
+
     return;
     const _data = [...live_data];
     const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
@@ -338,9 +355,11 @@ function MLBPowerdFsLive(props) {
         ) : (
           <img src={Icon} width={54} height={54} />
         )}
-        <div className={classes.sidebar_lock_icon}>
-          <LockIcon />
-        </div>
+        {count <= 0 && (
+          <div className={classes.sidebar_lock_icon}>
+            <LockIcon />
+          </div>
+        )}
       </div>
       <p className={classes.power_title}>{title}</p>
       <div className={classes.power_footer}>

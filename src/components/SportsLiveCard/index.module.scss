@@ -284,12 +284,35 @@
                 display: flex;
                 flex-direction: row;
 
-                svg {
-                  margin: -5px 5px 5px 5px;
-                  padding: 0 !important;
+                .xp_block {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
 
-                  &:hover {
-                    cursor: pointer;
+                  &.disabled {
+                    opacity: 0.4;
+                    pointer-events: none;
+                  }
+
+                  p {
+                    font-family: Poppins;
+                    font-size: 12px;
+                    text-transform: lowercase;
+
+                    span {
+                      font-size: 16px;
+                      font-weight: 600;
+                    }
+                  }
+
+                  svg {
+                    margin: -5px 5px 5px 5px;
+                    padding: 0 !important;
+
+                    &:hover {
+                      cursor: pointer;
+                    }
                   }
                 }
               }
@@ -742,7 +765,6 @@
         text-align: center;
         width: 52px;
         font-size: 12px;
-        background-color: aliceblue;
       }
     }
   }
@@ -1104,14 +1126,21 @@
 
               .stat_xp {
                 .xp_icons {
-                  svg {
-                    margin: -5px 5px 5px 5px;
-                    padding: 0 !important;
-                    width: 40px;
-                    height: 40px;
+                  .xp_block {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
 
-                    &:hover {
-                      cursor: pointer;
+                    svg {
+                      margin: -5px 5px 5px 5px;
+                      padding: 0 !important;
+                      width: 40px;
+                      height: 40px;
+
+                      &:hover {
+                        cursor: pointer;
+                      }
                     }
                   }
                 }
@@ -1638,14 +1667,21 @@
 
               .stat_xp {
                 .xp_icons {
-                  svg {
-                    margin: -5px 5px 5px 5px;
-                    padding: 0 !important;
-                    width: 35px;
-                    height: 35px;
+                  .xp_block {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
 
-                    &:hover {
-                      cursor: pointer;
+                    svg {
+                      margin: -5px 5px 5px 5px;
+                      padding: 0 !important;
+                      width: 35px;
+                      height: 35px;
+
+                      &:hover {
+                        cursor: pointer;
+                      }
                     }
                   }
                 }
@@ -2238,11 +2274,22 @@
 
               .stat_xp {
                 .xp_icons {
-                  svg {
-                    margin: -5px 5px 5px 5px;
-                    padding: 0 !important;
-                    width: 32px;
-                    height: 32px;
+                  .xp_block {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                      margin: -5px 5px 5px 5px;
+                      padding: 0 !important;
+                      width: 32px;
+                      height: 32px;
+
+                      &:hover {
+                        cursor: pointer;
+                      }
+                    }
                   }
                 }
               }
@@ -2726,11 +2773,18 @@
 
               .stat_xp {
                 .xp_icons {
-                  svg {
-                    margin: -5px 5px 5px 5px;
-                    padding: 0 !important;
-                    width: 30px;
-                    height: 30px;
+                  .xp_block {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                      margin: -5px 5px 5px 5px;
+                      padding: 0 !important;
+                      width: 30px;
+                      height: 30px;
+                    }
                   }
                 }
               }
@@ -3318,11 +3372,18 @@
 
               .stat_xp {
                 .xp_icons {
-                  svg {
-                    margin: -5px 5px 5px 5px;
-                    padding: 0 !important;
-                    width: 30px;
-                    height: 30px;
+                  .xp_block {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                      margin: -5px 5px 5px 5px;
+                      padding: 0 !important;
+                      width: 30px;
+                      height: 30px;
+                    }
                   }
                 }
               }
