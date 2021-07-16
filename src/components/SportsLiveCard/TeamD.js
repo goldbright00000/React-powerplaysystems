@@ -32,12 +32,7 @@ function SportsLiveCardTeamD(props) {
     cardType = CardType.MLB,
   } = props || {};
 
-  const {
-    team_d: team_id = "",
-    match_id = "",
-    match = {},
-    team_d_mlb_team: team = {},
-  } = data || {};
+  const { match_id = "", match = {}, team_d_mlb_team: team = {} } = data || {};
 
   const {
     away_team = {},
@@ -57,6 +52,7 @@ function SportsLiveCardTeamD(props) {
     range = "",
     xp = {},
     mlb_team_stats = [],
+    team_id,
   } = team || {};
 
   const {
@@ -221,11 +217,11 @@ function SportsLiveCardTeamD(props) {
         Team {type}
       </p>
       <div className={classes.header_teams}>
-        <p>
+        <p className={team_id === away_team.team_id && classes.current_team}>
           {away_team?.name} {away_team_runs}
         </p>{" "}
         vs{" "}
-        <span>
+        <span className={team_id === home_team.team_id && classes.current_team}>
           {home_team?.name} {home_team_runs}
         </span>
       </div>

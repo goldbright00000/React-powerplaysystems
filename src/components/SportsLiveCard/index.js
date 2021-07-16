@@ -8,7 +8,11 @@ import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
 import StarPower from "../../assets/star_power.png";
-import { hasText, removeZeroBeforeDecimalPoint } from "../../utility/shared";
+import {
+  hasText,
+  printLog,
+  removeZeroBeforeDecimalPoint,
+} from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
 import XP1_5 from "../../icons/XP1_5";
@@ -30,6 +34,8 @@ import { CardType } from "./CardType";
 import HomeRun from "./HomeRun";
 import ActivatedBoost from "./ActivatedBoost";
 import NFLFooterStats from "./NFLFooterStats";
+import BaseballStick from "../../icons/BaseballStick";
+import Baseball from "../../icons/Baseball";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -57,11 +63,14 @@ function SportsLiveCard(props) {
     cardType = CardType.MLB,
     isHomeRun = false,
     gameInfo = {},
+    pointXpCount = {},
   } = props || {};
 
   const { gameId, userId, teamId, sportId } = gameInfo || {};
 
   const { player = {}, match = {}, xp = {} } = data || {};
+
+  const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   const {
     name = "",
@@ -79,6 +88,8 @@ function SportsLiveCard(props) {
     id = "",
     mlb_player_stats = [],
     boost = {},
+    current_team = "",
+    player_id = "",
   } = player || {};
 
   const {
@@ -90,7 +101,7 @@ function SportsLiveCard(props) {
     home_runs = 0,
     losses = 0,
     ops = 0,
-    player_id = 0,
+    // player_id = 0,
     // runs_batted_in = 0,
     season_id = 1,
     stats_id = 0,
@@ -190,13 +201,15 @@ function SportsLiveCard(props) {
         ) {
           const _time = moment(date_time).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
-            (data) => `${data?.time}` === _time
+            (data) => `${data?.time}` === _time && data?.playerId !== player_id
           );
 
           const _dataToRender = {
             type: swapablePlayerData.type,
             listData: newListData,
           };
+
+          printLog(newListData);
 
           setPlayerList(_dataToRender);
         }
@@ -220,13 +233,6 @@ function SportsLiveCard(props) {
     }
   };
 
-  const removeZeroBeforeDecimalPoint = (value) => {
-    const nonDecimalValue = value.toString().split(".")[1];
-    if (nonDecimalValue) {
-      return `.${nonDecimalValue}`;
-    }
-  };
-
   const getStatus = () => {
     if (`${status}`?.toLocaleLowerCase() === "scheduled") {
       return `${moment(date_time).format("MMM Do")} - ${moment(
@@ -235,6 +241,12 @@ function SportsLiveCard(props) {
     }
 
     return status;
+  };
+
+  const getCurrentInningHalf = () => {
+    if (isEmpty(current_inning_half)) return null;
+
+    return `${current_inning_half}`.toLocaleLowerCase();
   };
 
   const renderXp = () => {
@@ -274,9 +286,36 @@ function SportsLiveCard(props) {
         <Tooltip
           toolTipContent={
             <div className={classes.xp_icons}>
-              <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
-              <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
-              <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
+              <div
+                className={`${classes.xp_block} ${
+                  xp1 <= 0 && classes.disabled
+                }`}
+              >
+                <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
+                <p>
+                  <span>{xp1}</span> left
+                </p>
+              </div>
+              <div
+                className={`${classes.xp_block} ${
+                  xp2 <= 0 && classes.disabled
+                }`}
+              >
+                <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
+                <p>
+                  <span>{xp2}</span> left
+                </p>
+              </div>
+              <div
+                className={`${classes.xp_block} ${
+                  xp3 <= 0 && classes.disabled
+                }`}
+              >
+                <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
+                <p>
+                  <span>{xp3}</span> left
+                </p>
+              </div>
             </div>
           }
         >
@@ -384,11 +423,20 @@ function SportsLiveCard(props) {
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
-        <p>
+        <p
+          className={current_team === away_team.team_id && classes.current_team}
+        >
+          {getCurrentInningHalf() === "b" ? (
+            <BaseballStick style={{ marginRight: "5px" }} />
+          ) : (
+            <Baseball style={{ marginRight: "5px" }} />
+          )}
           {away_team?.name} {away_team_runs}
         </p>{" "}
         vs{" "}
-        <span>
+        <span
+          className={current_team === home_team.team_id && classes.current_team}
+        >
           {home_team?.name} {home_team_runs}
         </span>
       </div>
@@ -540,6 +588,7 @@ SportsLiveCard.propTypes = {
   onChangeXp: PropTypes.func,
   updateReduxState: PropTypes.func,
   gameInfo: PropTypes.object,
+  pointXpCount: PropTypes.object,
 };
 
 export default SportsLiveCard;
