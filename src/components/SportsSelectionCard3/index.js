@@ -108,7 +108,7 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{position}</span>
+          <span>{primary_position}</span>
           {playerName}
         </p>
         {injured && !isMobile && (

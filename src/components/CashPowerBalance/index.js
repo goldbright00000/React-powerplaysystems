@@ -25,9 +25,8 @@ const CashPowerBalance = (props) => {
             <img src={PointsCollectedIcon} width="40" height="30" />
           )}
           <div
-            className={`${classes.__sidebar_text_wrapper} ${
-              centered && classes.__centered
-            }`}
+            className={`${classes.__sidebar_text_wrapper} ${centered && classes.__centered
+              }`}
           >
             <div className={classes.__sidebar_cash_and_deposit_wrapper}>
               <div>
@@ -35,11 +34,6 @@ const CashPowerBalance = (props) => {
                   ${setNumberComma(cashBalance)}
                 </h1>
               </div>
-              {cashBalance == 0 && (
-                <div className={classes.__sidebar_deposit_wrapper}>
-                  <button onClick={onDepositClick}>Deposit</button>
-                </div>
-              )}
             </div>
             <span className={classes.__sidebar_cash_balance_title}>
               {cashTitle || "Cash Balance"}
@@ -51,9 +45,8 @@ const CashPowerBalance = (props) => {
         <div className={classes.__sidebar_cash_balance_wrapper}>
           {showIcons && <img src={PowerBalanceIcon} width="40" height="40" />}
           <div
-            className={`${classes.__sidebar_text_wrapper} ${
-              centered && classes.__centered
-            }`}
+            className={`${classes.__sidebar_text_wrapper} ${centered && classes.__centered
+              }`}
           >
             <h1 className={classes.__sidebar_cash}>
               {powerBalance && setNumberComma(powerBalance)}

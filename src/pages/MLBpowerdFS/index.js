@@ -715,8 +715,10 @@ function MLBPowerdFs(props) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
-        dispatch(MLBActions.calculateAdminFee(user_id, game_id));
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+        dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+        dispatch(MLBActions.deductUserBalance(user_id, game_id));
+        dispatch(MLBActions.savePrizePool(user_id, game_id));
         setIsLoading(false);
       }
       redirectTo(props, { path: "/my-game-center" });
