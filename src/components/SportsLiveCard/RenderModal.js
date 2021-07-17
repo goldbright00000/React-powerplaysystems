@@ -30,13 +30,13 @@ function RenderModal(props) {
   }, [loading]);
 
   // Similar to componentDidMount and componentDidUpdate:
-  useEffect(() => {
-    if (filterString === "") {
-      setSelectedData(playerList);
-    } else {
-      setSelectedData(filteredData);
-    }
-  }, [filterString]);
+  // useEffect(() => {
+  //   if (filterString === "") {
+  //     setSelectedData(playerList);
+  //   } else {
+  //     setSelectedData(filteredData);
+  //   }
+  // }, [filterString]);
 
   const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
   const playerTeam = [
