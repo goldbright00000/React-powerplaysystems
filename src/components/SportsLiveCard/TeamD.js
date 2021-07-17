@@ -217,11 +217,15 @@ function SportsLiveCardTeamD(props) {
         Team {type}
       </p>
       <div className={classes.header_teams}>
-        <p className={team_id === away_team.team_id && classes.current_team}>
+        <p
+          className={team_id === away_team.team_id ? classes.current_team : ""}
+        >
           {away_team?.name} {away_team_runs}
         </p>{" "}
         vs{" "}
-        <span className={team_id === home_team.team_id && classes.current_team}>
+        <span
+          className={team_id === home_team.team_id ? classes.current_team : ""}
+        >
           {home_team?.name} {home_team_runs}
         </span>
       </div>
