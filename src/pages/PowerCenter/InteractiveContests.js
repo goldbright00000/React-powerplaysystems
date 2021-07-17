@@ -147,7 +147,6 @@ const InteractiveContests = (props) => {
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
   );
-  console.log("powerCenterCardData", powerCenterCardData);
   const { user } = useSelector((state) => state?.auth);
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
@@ -319,7 +318,6 @@ const InteractiveContests = (props) => {
   const Sorter = (type) => {
     setSortedBy(type);
     if (type === "Most Popular") {
-      console.log("sortedByMPAction", sortedByMPAction);
       if (sortedByMPAction == "asc") {
         setsortedByMPAction("des");
       }
@@ -328,7 +326,6 @@ const InteractiveContests = (props) => {
       }
     }
     if (type === "Prize Total") {
-      console.log("sortedByPPAction", sortedByPPAction);
       if (sortedByPPAction == "asc") {
         setsortedByPPAction("des");
       }
@@ -405,8 +402,6 @@ const InteractiveContests = (props) => {
     for (var i = 0; i < arr.length; i++) {
 
       var power = arr[i];
-      console.log(power);
-      // console.log("selectedDate", selectedDate, power?.game?.start_date + ' ' + power?.game?.start_time);
       if (selectedDate === "Today") {
         var m = moment();
       }
@@ -416,7 +411,9 @@ const InteractiveContests = (props) => {
       var startDate = moment(power?.start_date + ' ' + power?.start_time);
       var endDate = moment(power?.end_date + ' 11:59 PM');
       var isBetween = m.isBetween(startDate, endDate);
-      if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween) {
+
+      const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
+      if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBefore) {
         newArr.push(arr[i]);
       }
     }

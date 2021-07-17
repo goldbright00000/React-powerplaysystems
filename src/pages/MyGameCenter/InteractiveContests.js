@@ -332,7 +332,6 @@ const InteractiveContests = (props) => {
               value={selectedDate}
               options={days}
               onChange={(selectedOption) => {
-                console.log("selectedOption", selectedOption);
                 setSelectedDate(selectedOption)
               }}
             />
