@@ -17,9 +17,11 @@ export function getAllGames(user_id) {
           type: GET_ALL_POWER_GAMES,
           payload: res?.data,
         });
+        return res?.data;
       })
       .catch((er) => {
         console.log(er);
+        return er?.message;
       });
   };
 }

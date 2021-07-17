@@ -232,7 +232,7 @@ const InteractiveContests = (props) => {
   useEffect(() => {
     const user_id = getLocalStorage('PERSONA_USER_ID');
     async function getData() {
-      await dispatch(getAllGames(user_id));
+      return await dispatch(getAllGames(user_id));
     }
     getData();
   }, []);
@@ -318,47 +318,45 @@ const InteractiveContests = (props) => {
   };
   const Sorter = (type) => {
     setSortedBy(type);
-    if(type === "Most Popular") {
+    if (type === "Most Popular") {
       console.log("sortedByMPAction", sortedByMPAction);
-      if(sortedByMPAction == "asc") {
+      if (sortedByMPAction == "asc") {
         setsortedByMPAction("des");
       }
-      if(sortedByMPAction == "des") {
+      if (sortedByMPAction == "des") {
         setsortedByMPAction("asc");
       }
     }
-    if(type === "Prize Total") {
+    if (type === "Prize Total") {
       console.log("sortedByPPAction", sortedByPPAction);
-      if(sortedByPPAction == "asc") {
+      if (sortedByPPAction == "asc") {
         setsortedByPPAction("des");
       }
-      if(sortedByPPAction == "des") {
+      if (sortedByPPAction == "des") {
         setsortedByPPAction("asc");
       }
     }
-    if(type === "Top Prize") {
-      if(sortedByTPAction == "asc") {
+    if (type === "Top Prize") {
+      if (sortedByTPAction == "asc") {
         setsortedByTPAction("des");
       }
-      if(sortedByTPAction == "des") {
+      if (sortedByTPAction == "des") {
         setsortedByTPAction("asc");
       }
     }
-    if(type === "Min Entry") {
-      if(sortedByMEAction == "asc") {
+    if (type === "Min Entry") {
+      if (sortedByMEAction == "asc") {
         setsortedByMEAction("des");
       }
-      if(sortedByMEAction == "des") {
+      if (sortedByMEAction == "des") {
         setsortedByMEAction("asc");
       }
     }
   };
-  function getPriceTotal (rec) {
+  function getPriceTotal(rec) {
     var prize = 0;
-    if(rec.PrizePayouts.length > 0)
-    {
-      for(var i = 0; i < rec.PrizePayouts.length; i++)
-      {
+    if (rec.PrizePayouts.length > 0) {
+      for (var i = 0; i < rec.PrizePayouts.length; i++) {
         prize = prize + parseFloat(rec.PrizePayouts[i].amount);
       }
     }
@@ -366,68 +364,59 @@ const InteractiveContests = (props) => {
   }
   function sortArray(arr) {
     var type = sortedBy;
-    console.log("sortArray", type);
-    if(type === "Most Popular") {
-      if(sortedByMPAction === "des")
-      {
-        return arr.sort((a,b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? -1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? 1 : 0));
+    if (type === "Most Popular") {
+      if (sortedByMPAction === "des") {
+        return arr.sort((a, b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? -1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? 1 : 0));
       }
       else {
-        return arr.sort((a,b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? 1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? -1 : 0));
+        return arr.sort((a, b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? 1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? -1 : 0));
       }
     }
 
-    if(type === "Min Entry") {
-      if(sortedByMEAction === "des")
-      {
-        return arr.sort((a,b) => (parseFloat(a.target) > parseFloat(b.target)) ? -1 : ((parseFloat(b.target) > parseFloat(a.target)) ? 1 : 0));
+    if (type === "Min Entry") {
+      if (sortedByMEAction === "des") {
+        return arr.sort((a, b) => (parseFloat(a.target) > parseFloat(b.target)) ? -1 : ((parseFloat(b.target) > parseFloat(a.target)) ? 1 : 0));
       }
       else {
-        return arr.sort((a,b) => (parseFloat(a.target) > parseFloat(b.target)) ? 1 : ((parseFloat(b.target) > parseFloat(a.target)) ? -1 : 0));
+        return arr.sort((a, b) => (parseFloat(a.target) > parseFloat(b.target)) ? 1 : ((parseFloat(b.target) > parseFloat(a.target)) ? -1 : 0));
       }
     }
 
-    if(type === "Prize Total") {
-      if(sortedByPPAction === "des")
-      {
-        return arr.sort((a,b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? -1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? 1 : 0));
+    if (type === "Prize Total") {
+      if (sortedByPPAction === "des") {
+        return arr.sort((a, b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? -1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? 1 : 0));
       }
       else {
-        return arr.sort((a,b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? 1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? -1 : 0));
+        return arr.sort((a, b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? 1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? -1 : 0));
       }
     }
 
-    if(type === "Top Prize") {
-      if(sortedByTPAction === "des")
-      {
-        return arr.sort((a,b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? -1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? 1 : 0));
+    if (type === "Top Prize") {
+      if (sortedByTPAction === "des") {
+        return arr.sort((a, b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? -1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? 1 : 0));
       }
       else {
-        return arr.sort((a,b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? 1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? -1 : 0));
+        return arr.sort((a, b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? 1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? -1 : 0));
       }
     }
   }
   function filterCurrency(arr) {
-    console.log("currency", selectedCurrencies);
-    
     var newArr = [];
-    for(var i = 0; i < arr.length; i++)
-    {
-      
+    for (var i = 0; i < arr.length; i++) {
+
       var power = arr[i];
       console.log(power);
-     // console.log("selectedDate", selectedDate, power?.game?.start_date + ' ' + power?.game?.start_time);
-      if(selectedDate === "Today") {
+      // console.log("selectedDate", selectedDate, power?.game?.start_date + ' ' + power?.game?.start_time);
+      if (selectedDate === "Today") {
         var m = moment();
       }
       else {
         var m = (moment(selectedDate + " " + moment().format('YYYY')));
       }
       var startDate = moment(power?.start_date + ' ' + power?.start_time);
-      var endDate = moment(power?.end_date + ' 11:59 AM');
+      var endDate = moment(power?.end_date + ' 11:59 PM');
       var isBetween = m.isBetween(startDate, endDate);
-      if((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween)
-      {
+      if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween) {
         newArr.push(arr[i]);
       }
     }
@@ -555,15 +544,15 @@ const InteractiveContests = (props) => {
             <div className={sortedBy === "Most Popular" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
               <p onClick={() => {
                 Sorter("Most Popular");
-              }}>Most Popular <FilledArrow down={sortedByMPAction === "asc"?false:true} up={sortedByMPAction === "asc"?true:false}/></p>
-              
+              }}>Most Popular <FilledArrow down={sortedByMPAction === "asc" ? false : true} up={sortedByMPAction === "asc" ? true : false} /></p>
+
             </div>
             <div className={sortedBy === "Prize Total" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
               <p onClick={() => {
                 Sorter("Prize Total");
               }}>
                 Prize Total
-                <FilledArrow down={sortedByPPAction === "asc"?false:true} up={sortedByPPAction === "asc"?true:false}/>
+                <FilledArrow down={sortedByPPAction === "asc" ? false : true} up={sortedByPPAction === "asc" ? true : false} />
               </p>
             </div>
             <div className={sortedBy === "Top Prize" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
@@ -571,14 +560,14 @@ const InteractiveContests = (props) => {
                 Sorter("Top Prize");
               }}>
                 Top Prize
-                <FilledArrow down={sortedByTPAction === "asc"?false:true} up={sortedByTPAction === "asc"?true:false}/>
+                <FilledArrow down={sortedByTPAction === "asc" ? false : true} up={sortedByTPAction === "asc" ? true : false} />
               </p>
             </div>
             <div className={sortedBy === "Min Entry" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
               <p onClick={() => {
                 Sorter("Min Entry");
               }}>Min Entry
-                <FilledArrow down={sortedByMEAction === "asc"?false:true} up={sortedByMEAction === "asc"?true:false}/>
+                <FilledArrow down={sortedByMEAction === "asc" ? false : true} up={sortedByMEAction === "asc" ? true : false} />
               </p>
             </div>
             <div
@@ -634,7 +623,7 @@ const InteractiveContests = (props) => {
           </div>
         )}
         {filteredData && filterCurrency(filteredData)?.length > 0 ? (
-         
+
           isMobile ? (
             (() => {
               const itemsInaRow = 1;
@@ -698,7 +687,7 @@ const InteractiveContests = (props) => {
               const powerCenterCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
-                  
+
                   const start = (i + 1) * itemsInaRow - 4;
                   const end = (i + 1) * itemsInaRow;
                   const items = a1.slice(start, end);
