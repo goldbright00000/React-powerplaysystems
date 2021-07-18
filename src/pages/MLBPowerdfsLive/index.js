@@ -348,49 +348,54 @@ function MLBPowerdFsLive(props) {
     Icon = "",
     isSvgIcon = false,
     count = 0,
-  }) => (
-    <div className={classes.sidebar_content_p}>
-      <div className={classes.sidebar_power_header}>
-        {isSvgIcon ? (
-          <Icon size={54} />
-        ) : (
-          <img src={Icon} width={54} height={54} />
-        )}
-        {count <= 0 && (
-          <div className={classes.sidebar_lock_icon}>
-            <LockIcon />
-          </div>
-        )}
-      </div>
-      <p className={classes.power_title}>{title}</p>
-      <div className={classes.power_footer}>
-        {count <= 0 ? (
-          <>
-            <p>Share to unlock:</p>
-            <div>
-              <a href="https://www.facebook.com/dialog/share?app_id=347081160399029&display=popup&href=http://defygames.io&quote=I am playing live-play fantasy sports on defygames.io. The best part is I can swap out players in real-time!&redirect_uri=http://defygames.io">
-                <button>
-                  <FacebookIcon />
-                </button>
-              </a>
-              <a
-                href="https://twitter.com/intent/tweet?text=I am playing live-play fantasy sports on defygames.io. The best part is I can swap out players in real-time!&hashtags=defy"
-                target="_blank"
-              >
-                <button>
-                  <TwitterIcon />
-                </button>
-              </a>
+  }) => {
+    const text = process.env.REACT_APP_POST_SHARING_TEXT;
+    return (
+      <div className={classes.sidebar_content_p}>
+        <div className={classes.sidebar_power_header}>
+          {isSvgIcon ? (
+            <Icon size={54} />
+          ) : (
+            <img src={Icon} width={54} height={54} />
+          )}
+          {count <= 0 && (
+            <div className={classes.sidebar_lock_icon}>
+              <LockIcon />
             </div>
-          </>
-        ) : (
-          <p className={classes.power_footer_count}>
-            {count} <span>left</span>
-          </p>
-        )}
+          )}
+        </div>
+        <p className={classes.power_title}>{title}</p>
+        <div className={classes.power_footer}>
+          {count <= 0 ? (
+            <>
+              <p>Share to unlock:</p>
+              <div>
+                <a
+                  href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                >
+                  <button>
+                    <FacebookIcon />
+                  </button>
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${text}`}
+                  target="_blank"
+                >
+                  <button>
+                    <TwitterIcon />
+                  </button>
+                </a>
+              </div>
+            </>
+          ) : (
+            <p className={classes.power_footer_count}>
+              {count} <span>left</span>
+            </p>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const setView = (viewType = CONSTANTS.NHL_VIEW.FV) => {
     switch (viewType) {
