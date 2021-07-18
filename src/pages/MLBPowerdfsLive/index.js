@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
+import { Link } from "react-router-dom";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -72,7 +73,7 @@ function MLBPowerdFsLive(props) {
   const [ranks, setRanks] = useState({});
   const [powersInventory, setPowersInventory] = useState({
     swap: 1,
-    point_multiplier: 1,
+    point_multiplier: 0,
     d_wall: 1,
     challenge: 1,
   });
@@ -367,12 +368,16 @@ function MLBPowerdFsLive(props) {
           <>
             <p>Share to unlock:</p>
             <div>
-              <button>
-                <FacebookIcon />
-              </button>
-              <button>
-                <TwitterIcon />
-              </button>
+              <a href="https://www.facebook.com/dialog/share?app_id=398988938044731&display=popup&href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&quote=Sharing the specific icons on the wheelchare.">
+                <button>
+                  <FacebookIcon />
+                </button>
+              </a>
+              <a href="https://twitter.com/intent/tweet?text=Hello%20world&url=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&hashtags=defy" target="_blank">
+                <button>
+                  <TwitterIcon />
+                </button>
+              </a>
             </div>
           </>
         ) : (
