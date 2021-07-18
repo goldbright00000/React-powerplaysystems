@@ -368,12 +368,15 @@ function MLBPowerdFsLive(props) {
           <>
             <p>Share to unlock:</p>
             <div>
-              <a href="https://www.facebook.com/dialog/share?app_id=398988938044731&display=popup&href=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&quote=Sharing the specific icons on the wheelchare.">
+              <a href="https://www.facebook.com/dialog/share?app_id=347081160399029&display=popup&href=http://defygames.io&quote=I am playing live-play fantasy sports on defygames.io. The best part is I can swap out players in real-time!&redirect_uri=http://defygames.io">
                 <button>
                   <FacebookIcon />
                 </button>
               </a>
-              <a href="https://twitter.com/intent/tweet?text=Hello%20world&url=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2F&hashtags=defy" target="_blank">
+              <a
+                href="https://twitter.com/intent/tweet?text=I am playing live-play fantasy sports on defygames.io. The best part is I can swap out players in real-time!&hashtags=defy"
+                target="_blank"
+              >
                 <button>
                   <TwitterIcon />
                 </button>
