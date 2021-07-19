@@ -359,6 +359,18 @@ const InteractiveContests = (props) => {
     }
     return prize;
   }
+  function getTopPrize(rec) {
+    var topPrize = 0;
+    if (rec.PrizePayouts.length > 0) {
+      for (var i = 0; i < rec.PrizePayouts.length; i++) {
+        if(topPrize < parseFloat(rec.PrizePayouts[i].amount))
+        {
+          topPrize = parseFloat(rec.PrizePayouts[i].amount);
+        }
+      }
+    }
+    return topPrize;
+  }
   function sortArray(arr) {
     var type = sortedBy;
     if (type === "Most Popular") {
@@ -390,10 +402,10 @@ const InteractiveContests = (props) => {
 
     if (type === "Top Prize") {
       if (sortedByTPAction === "des") {
-        return arr.sort((a, b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? -1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? 1 : 0));
+        return arr.sort((a, b) => (parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))) ? -1 : ((parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))) ? 1 : 0));
       }
       else {
-        return arr.sort((a, b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? 1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? -1 : 0));
+        return arr.sort((a, b) => (parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))) ? 1 : ((parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))) ? -1 : 0));
       }
     }
   }
