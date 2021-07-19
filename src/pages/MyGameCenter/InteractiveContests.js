@@ -346,7 +346,6 @@ const InteractiveContests = (props) => {
             );
             var subFiltered = [];
             if (filteredData.length > 0) {
-              console.log("filteredData", filteredData);
               filteredData.map(function (power) {
                 if (selectedDate === "Today") {
                   var m = moment().format("YYYY-MM-DD");
@@ -381,8 +380,6 @@ const InteractiveContests = (props) => {
                     )
                   }
                   else if (contentType === "Not Started") {
-                    console.log("not started", moment().format("YYYY-MM-DD hh:mm A"));
-                    console.log("not started 1", power?.game?.game_set_start);
                     var s = power?.game?.start_time;
                     s = "0" + s;
                     s = s.slice(-8);
@@ -414,7 +411,6 @@ const InteractiveContests = (props) => {
                 
               })
             }
-            console.log("filteredData", filteredData);
             const myGameCenterCardView = Array(numberOfRows)
               .fill(undefined)
               .map((item, i) => {
