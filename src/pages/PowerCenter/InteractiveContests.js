@@ -418,7 +418,6 @@ const InteractiveContests = (props) => {
       var endDate = moment(power?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
       var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
 
-      console.log("muki",sDate, eDate, startDate, endDate);
 
       //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
       if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween1) {
