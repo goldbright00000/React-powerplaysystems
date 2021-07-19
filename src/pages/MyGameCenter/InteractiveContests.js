@@ -348,16 +348,26 @@ const InteractiveContests = (props) => {
             if (filteredData.length > 0) {
               filteredData.map(function (power) {
                 if (selectedDate === "Today") {
-                  var m = moment();
+                  var m = moment().format("YYYY-MM-DD");
                 }
                 else {
-                  var m = (moment(selectedDate + " " + moment().format('YYYY')));
+                  var m = (moment(selectedDate + " " + moment().format('YYYY')).format("YYYY-MM-DD"));
                 }
-                var startDate = moment(power?.game?.start_date + ' ' + power?.game?.start_time);
-                var endDate = moment(power?.game?.end_date + ' 11:59 PM');
-                var isBetween = m.isBetween(startDate, endDate);
-                if (isBetween) {
-                  var a = true;
+                var sDate = (m + " 00:00");
+                var eDate = (m + " 23:59");
+                var s = power?.game?.start_time;
+                s = "0" + s;
+                s = s.slice(-8);
+                s = s.split(/(?=[A-Z]{2})/).join(" ")
+                var startDate = moment(power?.game?.start_date + ' ' + s).format("YYYY-MM-DD hh:mm A");
+                var endDate = moment(power?.game?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
+                var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
+                if(contentType === "Completed")
+                {
+                  isBetween1 = 1;
+                }
+                if (isBetween1) {
+                  var a = false;
                   if (contentType === "In Progress") {
                     var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                       power?.game?.game_set_start + ' ' + power?.game?.start_time,
@@ -370,15 +380,35 @@ const InteractiveContests = (props) => {
                     )
                   }
                   else if (contentType === "Not Started") {
-                    var a = moment(moment().format("YYYY-MM-DD")).isBefore(
-                      power?.game?.game_set_start
+                    var s = power?.game?.start_time;
+                    s = "0" + s;
+                    s = s.slice(-8);
+                    var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBefore(
+                      power?.game?.game_set_start + ' ' + s
                     )
+                  }
+                  else if (contentType === "All Active") {
+                    var a1 = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+                      power?.game?.game_set_start + ' ' + power?.game?.start_time,
+                      power?.game?.game_set_end + ' 11:59 PM'
+                    );
+                    var a2 = power?.game?.status === "Activated";
+                    var a3 = moment(moment().format("YYYY-MM-DD")).isAfter(
+                      power?.game?.game_set_end
+                    )
+                    if(a3 === true) {
+                      a = false
+                    }
+                    else {
+                      var a = (a1 === true || a2 === true);
+                    }
+                    
                   }
                   if (a) {
                     subFiltered.push(power);
                   }
                 }
-
+                
               })
             }
             const myGameCenterCardView = Array(numberOfRows)
@@ -386,8 +416,7 @@ const InteractiveContests = (props) => {
               .map((item, i) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
-                const items = subFiltered.slice(start, end);
-
+                var items = subFiltered.slice(start, end);
                 // console.log("item?.game?.game_set_start", items);
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                 //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
@@ -402,7 +431,7 @@ const InteractiveContests = (props) => {
                             myGameCenterCard(power, power.url)
                           )
                         ) : (
-                          <h1>No games</h1>
+                          <h1 className="nogamesmessage">No games</h1>
                         )}
                       </div>
                     ) : (
@@ -417,7 +446,8 @@ const InteractiveContests = (props) => {
                               return myGameCenterCard(power, power.url);
                             })
                           ) : (
-                            <h1>No games</h1>
+                            i == 0 ? 
+                            <h1 className="nogamesmessage">No games</h1> : ""
                           )}
                         </div>
                       </>
