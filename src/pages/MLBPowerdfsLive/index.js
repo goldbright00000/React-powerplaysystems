@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
+import { Link } from "react-router-dom";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -72,7 +73,7 @@ function MLBPowerdFsLive(props) {
   const [ranks, setRanks] = useState({});
   const [powersInventory, setPowersInventory] = useState({
     swap: 1,
-    point_multiplier: 1,
+    point_multiplier: 0,
     d_wall: 1,
     challenge: 1,
   });
@@ -347,42 +348,54 @@ function MLBPowerdFsLive(props) {
     Icon = "",
     isSvgIcon = false,
     count = 0,
-  }) => (
-    <div className={classes.sidebar_content_p}>
-      <div className={classes.sidebar_power_header}>
-        {isSvgIcon ? (
-          <Icon size={54} />
-        ) : (
-          <img src={Icon} width={54} height={54} />
-        )}
-        {count <= 0 && (
-          <div className={classes.sidebar_lock_icon}>
-            <LockIcon />
-          </div>
-        )}
-      </div>
-      <p className={classes.power_title}>{title}</p>
-      <div className={classes.power_footer}>
-        {count <= 0 ? (
-          <>
-            <p>Share to unlock:</p>
-            <div>
-              <button>
-                <FacebookIcon />
-              </button>
-              <button>
-                <TwitterIcon />
-              </button>
+  }) => {
+    const text = process.env.REACT_APP_POST_SHARING_TEXT;
+    return (
+      <div className={classes.sidebar_content_p}>
+        <div className={classes.sidebar_power_header}>
+          {isSvgIcon ? (
+            <Icon size={54} />
+          ) : (
+            <img src={Icon} width={54} height={54} />
+          )}
+          {count <= 0 && (
+            <div className={classes.sidebar_lock_icon}>
+              <LockIcon />
             </div>
-          </>
-        ) : (
-          <p className={classes.power_footer_count}>
-            {count} <span>left</span>
-          </p>
-        )}
+          )}
+        </div>
+        <p className={classes.power_title}>{title}</p>
+        <div className={classes.power_footer}>
+          {count <= 0 ? (
+            <>
+              <p>Share to unlock:</p>
+              <div>
+                <a
+                  href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                >
+                  <button>
+                    <FacebookIcon />
+                  </button>
+                </a>
+                <a
+                  href={`https://twitter.com/intent/tweet?text=${text}`}
+                  target="_blank"
+                >
+                  <button>
+                    <TwitterIcon />
+                  </button>
+                </a>
+              </div>
+            </>
+          ) : (
+            <p className={classes.power_footer_count}>
+              {count} <span>left</span>
+            </p>
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   const setView = (viewType = CONSTANTS.NHL_VIEW.FV) => {
     switch (viewType) {
