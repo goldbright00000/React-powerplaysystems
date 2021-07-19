@@ -420,8 +420,7 @@ const InteractiveContests = (props) => {
               .map((item, i) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
-                const items = subFiltered.slice(start, end);
-
+                var items = subFiltered.slice(start, end);
                 // console.log("item?.game?.game_set_start", items);
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                 //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
@@ -436,7 +435,7 @@ const InteractiveContests = (props) => {
                             myGameCenterCard(power, power.url)
                           )
                         ) : (
-                          <h1 className="nogamesmessage">>No games</h1>
+                          <h1 className="nogamesmessage">No games</h1>
                         )}
                       </div>
                     ) : (
@@ -451,7 +450,8 @@ const InteractiveContests = (props) => {
                               return myGameCenterCard(power, power.url);
                             })
                           ) : (
-                            <h1 className="nogamesmessage">No games</h1>
+                            i == 0 ? 
+                            <h1 className="nogamesmessage">No games</h1> : ""
                           )}
                         </div>
                       </>
