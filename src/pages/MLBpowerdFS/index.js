@@ -345,7 +345,6 @@ function MLBPowerdFs(props) {
 
   const autoSelectOnEdit = () => {
     if (isEdit === true && !loading && selected.entries().next().done) {
-      console.log('2',selected);
       const pls = [];
       savedPlayers.forEach((element) => {
         if (element.team_id) {
@@ -515,7 +514,7 @@ function MLBPowerdFs(props) {
   const onSelectFilter = useCallback(
     (type, isFilterSelected = true) => {
       if (loading) return;
-      
+
       // reset search filter
       if (isFilterSelected)
         onSelectSearchDropDown({ team_id: "all", name: "All Teams" });
@@ -932,8 +931,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                      ? "Edit your team"
-                      : "Select your team"}
+                    ? "Edit your team"
+                    : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1013,11 +1012,11 @@ function MLBPowerdFs(props) {
                                   onSelectDeselect={onPlayerSelectDeselect}
                                   pageType={PAGE_TYPES.MLB}
                                   type={selectedData?.type}
-                                // disabled={
-                                //   item.isStarPlayer &&
-                                //   item.isStarPlayer &&
-                                //   starPlayerCount >= 3
-                                // }
+                                  // disabled={
+                                  //   item.isStarPlayer &&
+                                  //   item.isStarPlayer &&
+                                  //   starPlayerCount >= 3
+                                  // }
                                 />
                               </>
                             )}
@@ -1142,8 +1141,9 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                              }`}
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
                           >
                             Powers Available
                           </Tab>
@@ -1326,9 +1326,7 @@ function MLBPowerdFs(props) {
                 selectedPlayerCount={selectedPlayerCount}
               />
               {isLoading ? (
-                <button
-                  className={classes.sidebar_button}
-                >
+                <button className={classes.sidebar_button}>
                   Submitting...
                 </button>
               ) : (
