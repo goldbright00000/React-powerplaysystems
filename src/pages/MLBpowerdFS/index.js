@@ -753,10 +753,15 @@ function MLBPowerdFs(props) {
     const isSameDay = moment(moment().clone().format("YYYY-MM-DD"))
       .clone()
       .isSame(moment(`${date}`).clone().format("YYYY-MM-DD"), "day");
+
+    const isAfterOldDate = moment(
+      moment(date).clone().format("YYYY-MM-DD")
+    ).isBefore(moment(), "day");
     const isAfterCurrentTime = moment(
       moment().clone().format("hh:mm A")
     ).isAfter(moment(`${time}`).clone().format("hh:mm A"));
-    return isSameDay && isAfterCurrentTime;
+
+    return isSameDay && isAfterCurrentTime && isAfterOldDate;
   };
 
   const ContestScoringRow = ({ item = {}, width = {} }) => (
