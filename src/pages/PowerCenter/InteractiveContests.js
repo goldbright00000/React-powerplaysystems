@@ -359,6 +359,18 @@ const InteractiveContests = (props) => {
     }
     return prize;
   }
+  function getTopPrize(rec) {
+    var topPrize = 0;
+    if (rec.PrizePayouts.length > 0) {
+      for (var i = 0; i < rec.PrizePayouts.length; i++) {
+        if(topPrize < parseFloat(rec.PrizePayouts[i].amount))
+        {
+          topPrize = parseFloat(rec.PrizePayouts[i].amount);
+        }
+      }
+    }
+    return topPrize;
+  }
   function sortArray(arr) {
     var type = sortedBy;
     if (type === "Most Popular") {
@@ -390,10 +402,10 @@ const InteractiveContests = (props) => {
 
     if (type === "Top Prize") {
       if (sortedByTPAction === "des") {
-        return arr.sort((a, b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? -1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? 1 : 0));
+        return arr.sort((a, b) => (parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))) ? -1 : ((parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))) ? 1 : 0));
       }
       else {
-        return arr.sort((a, b) => (parseFloat(a.entry_fee) > parseFloat(b.entry_fee)) ? 1 : ((parseFloat(b.entry_fee) > parseFloat(a.entry_fee)) ? -1 : 0));
+        return arr.sort((a, b) => (parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))) ? 1 : ((parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))) ? -1 : 0));
       }
     }
   }
@@ -403,17 +415,24 @@ const InteractiveContests = (props) => {
 
       var power = arr[i];
       if (selectedDate === "Today") {
-        var m = moment();
+        var m = moment().format("YYYY-MM-DD");
       }
       else {
-        var m = (moment(selectedDate + " " + moment().format('YYYY')));
+        var m = (moment(selectedDate + " " + moment().format('YYYY')).format("YYYY-MM-DD"));
       }
-      var startDate = moment(power?.start_date + ' ' + power?.start_time);
-      var endDate = moment(power?.end_date + ' 11:59 PM');
-      var isBetween = m.isBetween(startDate, endDate);
+      var sDate = (m + " 00:00");
+      var eDate = (m + " 23:59");
+      var s = power?.start_time;
+      s = "0" + s;
+      s = s.slice(-8);
+      s = s.split(/(?=[A-Z]{2})/).join(" ")
+      var startDate = moment(power?.start_date + ' ' + s).format("YYYY-MM-DD hh:mm A");
+      var endDate = moment(power?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
+      var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
 
-      const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
-      if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBefore) {
+
+      //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
+      if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween1) {
         newArr.push(arr[i]);
       }
     }
