@@ -584,6 +584,14 @@
   }
 }
 
+.button_back {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  width: 245px;
+  margin-bottom: 20px;
+}
+
 @media (max-width: 1680px) {
   .wrapper {
     display: flex;

@@ -299,7 +299,7 @@ const InteractiveContests = (props) => {
                 value={contentType}
                 options={contentTypes}
                 onChange={(selectedOption) => setContentType(selectedOption)}
-              />
+              />123
             </div>
           ) : (
             <>
@@ -362,7 +362,7 @@ const InteractiveContests = (props) => {
                 var startDate = moment(power?.game?.start_date + ' ' + s).format("YYYY-MM-DD hh:mm A");
                 var endDate = moment(power?.game?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
                 var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
-                if(contentType === "Completed")
+                if(contentType === "Completed" || selectedDate === "All")
                 {
                   isBetween1 = 1;
                 }

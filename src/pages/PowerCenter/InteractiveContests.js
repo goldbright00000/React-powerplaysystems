@@ -496,6 +496,9 @@ const InteractiveContests = (props) => {
       var isBetween1 = moment(startDate).isBetween(sDate, eDate);
 
       //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
+      if(selectedDate === "All") {
+        isBetween1 = 1;
+      }
       if (
         selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1 &&
         isBetween1
