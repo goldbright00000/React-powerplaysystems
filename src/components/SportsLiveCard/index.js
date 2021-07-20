@@ -97,7 +97,6 @@ function SportsLiveCard(props) {
     batting_average = 0,
     doubles = 0,
     earned_runs_average = 0,
-    hits = 0,
     home_runs = 0,
     losses = 0,
     ops = 0,
@@ -118,11 +117,12 @@ function SportsLiveCard(props) {
     match_id = 0,
     pitch_count = 0,
     walks = 0,
-    // hits = 0,
-    // runs = 0,
+    hits = 0,
+    runs = 0,
     runs_batted_in = 0,
     innings_pitched = 0,
     strike_outs = 0,
+    plate_appearances = 0,
     // batting_average = 0,
     // earned_runs_average = 0,
   } = match_stats || {};
@@ -347,7 +347,10 @@ function SportsLiveCard(props) {
             </>
           ) : (
             <>
-              <p>{removeZeroBeforeDecimalPoint(batting_average)}</p>
+              <p>
+                {removeZeroBeforeDecimalPoint(batting_average)} |{" "}
+                {hits / plate_appearances}
+              </p>
               <p>
                 RBI: {runs_batted_in} | R: {0}
               </p>
