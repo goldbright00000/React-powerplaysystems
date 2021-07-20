@@ -762,13 +762,6 @@ function MLBPowerdFs(props) {
       "hour"
     );
 
-    console.log(
-      isAfterCurrentTime,
-      now.format("YYYY-MM-DD hh:mm A"),
-      `${date} ${time}`,
-      isAfterOldDate
-    );
-
     return isSameDay && isAfterCurrentTime;
   };
 
@@ -1028,10 +1021,6 @@ function MLBPowerdFs(props) {
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
-                            {console.log(
-                              "iSAFTER: ",
-                              isAfterTime(item?.date, item?.time)
-                            )}
                             {selectedFilter?.title === D ? (
                               !isAfterTime(item?.date, item?.time) && (
                                 <SportsTeamSelectionCard
