@@ -746,11 +746,13 @@ function MLBPowerdFs(props) {
   };
 
   const isAfterTime = (date, time) => {
-    return moment(
-      moment(`${date} ${time}`).clone().format("YYYY-MM-DD hh:mm A")
-    )
+    const isSameDay = moment(moment().clone().format("YYYY-MM-DD"))
       .clone()
-      .isAfter(`${game_set_start} ${start_time}`);
+      .isSame(moment(`${date}`).clone().format("YYYY-MM-DD"), "day");
+    const isAfterCurrentTime = moment(
+      moment().clone().format("hh:mm A")
+    ).isAfter(moment(`${time}`).clone().format("hh:mm A"));
+    return isSameDay && isAfterCurrentTime;
   };
 
   const ContestScoringRow = ({ item = {}, width = {} }) => (
