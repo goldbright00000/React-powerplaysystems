@@ -21,6 +21,8 @@ import { fetchUserBalance } from '../../actions/userActions';
 import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmountPopUp";
 import Header from "../../components/Header/Header";
 import moment from "moment";
+import { useHistory } from "react-router-dom";
+
 const powerCenterCardData1 = [
   {
     id: 1,
@@ -143,6 +145,8 @@ let nbaData = [];
 let nhlData = [];
 
 const InteractiveContests = (props) => {
+  let isAuthenticated = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+  const history = useHistory()
   const dispatch = useDispatch();
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
@@ -284,6 +288,14 @@ const InteractiveContests = (props) => {
   }
 
   const onEnter = async (item) => {
+
+    
+   
+    if(!isAuthenticated) {
+      history.push("/login") 
+      return;
+    }
+    
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {

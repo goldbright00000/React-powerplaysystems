@@ -6,8 +6,8 @@ import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
-import RetroBoostIcon from "../../assets/retro-boost-icon.png";
-import ChallengeIcon from "../../assets/challenge.svg"
+import RetroBoostIcon from "../../icons/RetroBoostIcon";
+import ChallengeIcon from "../../icons/Challenge"
 
 const getIcon = (powerName) => {
   if (powerName) {
