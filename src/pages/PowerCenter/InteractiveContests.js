@@ -17,7 +17,7 @@ import FilledArrow from "../../components/FilledArrow";
 import PowerCenterMobileCard from "../../components/PowerCenterMobileCard";
 import { getAllGames } from "../../actions/powerCenterActions";
 import { hideDepositForm, showDepositForm } from "../../actions/uiActions";
-import { fetchUserBalance } from '../../actions/userActions';
+import { fetchUserBalance } from "../../actions/userActions";
 import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmountPopUp";
 import Header from "../../components/Header/Header";
 import moment from "moment";
@@ -196,11 +196,15 @@ const InteractiveContests = (props) => {
   useEffect(() => {
     // get user balance
     dispatch(fetchUserBalance());
-    setCashBalance(parseFloat(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE)));
-    setTokenBalance(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE));
+    setCashBalance(
+      parseFloat(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.CASH_BALANCE))
+    );
+    setTokenBalance(
+      getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.TOKEN_BALANCE)
+    );
     setBtcBalance(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE));
     setEthBalance(getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE));
-  }, [dispatch])
+  }, [dispatch]);
 
   useEffect(() => {
     setDays(getDaysFromToday());
@@ -233,7 +237,7 @@ const InteractiveContests = (props) => {
   }, []);
 
   useEffect(() => {
-    const user_id = getLocalStorage('PERSONA_USER_ID');
+    const user_id = getLocalStorage("PERSONA_USER_ID");
     async function getData() {
       return await dispatch(getAllGames(user_id));
     }
@@ -259,33 +263,25 @@ const InteractiveContests = (props) => {
   const checkBalace = (item, entry_fee) => {
     switch (item?.currency) {
       case "USD":
-        if (cashBalance >= entry_fee)
-          return true;
-        else
-          return false;
+        if (cashBalance >= entry_fee) return true;
+        else return false;
 
       case "BTC":
-        if (btcBalance >= entry_fee)
-          return true;
-        else
-          return false;
+        if (btcBalance >= entry_fee) return true;
+        else return false;
 
       case "ETH":
-        if (ethBalance >= entry_fee)
-          return true;
-        else
-          return false;
+        if (ethBalance >= entry_fee) return true;
+        else return false;
 
       case "PWRS":
-        if (tokenBalance >= entry_fee)
-          return true;
-        else
-          return false;
+        if (tokenBalance >= entry_fee) return true;
+        else return false;
 
       default:
         return redirectTo(props, { path: "/" });
     }
-  }
+  };
 
   const onEnter = async (item) => {
 
@@ -308,10 +304,21 @@ const InteractiveContests = (props) => {
               sport_id: item?.sports_id,
               start_date: item?.start_date,
               end_date: item?.end_date,
+              start_time: item?.start_time,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
-              prizePool: _.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0),
-              topPrize: parseFloat(_.max(item?.PrizePayouts, function (ele) { return ele.amount; }).amount),
+              prizePool: _.reduce(
+                item?.PrizePayouts,
+                function (memo, num) {
+                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                },
+                0
+              ),
+              topPrize: parseFloat(
+                _.max(item?.PrizePayouts, function (ele) {
+                  return ele.amount;
+                }).amount
+              ),
               game_set_start: item?.game_set_start,
               PointsSystem: item?.PointsSystems,
               Power: item?.Powers,
@@ -321,8 +328,7 @@ const InteractiveContests = (props) => {
         default:
           return redirectTo(props, { path: "/" });
       }
-    }
-    else {
+    } else {
       setHaveBalance(false);
       setShowDepositModal();
     }
@@ -375,8 +381,7 @@ const InteractiveContests = (props) => {
     var topPrize = 0;
     if (rec.PrizePayouts.length > 0) {
       for (var i = 0; i < rec.PrizePayouts.length; i++) {
-        if(topPrize < parseFloat(rec.PrizePayouts[i].amount))
-        {
+        if (topPrize < parseFloat(rec.PrizePayouts[i].amount)) {
           topPrize = parseFloat(rec.PrizePayouts[i].amount);
         }
       }
@@ -387,64 +392,114 @@ const InteractiveContests = (props) => {
     var type = sortedBy;
     if (type === "Most Popular") {
       if (sortedByMPAction === "des") {
-        return arr.sort((a, b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? -1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? 1 : 0));
-      }
-      else {
-        return arr.sort((a, b) => (parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)) ? 1 : ((parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)) ? -1 : 0));
+        return arr.sort((a, b) =>
+          parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
+            ? -1
+            : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
+            ? 1
+            : 0
+        );
+      } else {
+        return arr.sort((a, b) =>
+          parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
+            ? 1
+            : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
+            ? -1
+            : 0
+        );
       }
     }
 
     if (type === "Min Entry") {
       if (sortedByMEAction === "des") {
-        return arr.sort((a, b) => (parseFloat(a.target) > parseFloat(b.target)) ? -1 : ((parseFloat(b.target) > parseFloat(a.target)) ? 1 : 0));
-      }
-      else {
-        return arr.sort((a, b) => (parseFloat(a.target) > parseFloat(b.target)) ? 1 : ((parseFloat(b.target) > parseFloat(a.target)) ? -1 : 0));
+        return arr.sort((a, b) =>
+          parseFloat(a.target) > parseFloat(b.target)
+            ? -1
+            : parseFloat(b.target) > parseFloat(a.target)
+            ? 1
+            : 0
+        );
+      } else {
+        return arr.sort((a, b) =>
+          parseFloat(a.target) > parseFloat(b.target)
+            ? 1
+            : parseFloat(b.target) > parseFloat(a.target)
+            ? -1
+            : 0
+        );
       }
     }
 
     if (type === "Prize Total") {
       if (sortedByPPAction === "des") {
-        return arr.sort((a, b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? -1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? 1 : 0));
-      }
-      else {
-        return arr.sort((a, b) => (parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))) ? 1 : ((parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))) ? -1 : 0));
+        return arr.sort((a, b) =>
+          parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
+            ? -1
+            : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
+            ? 1
+            : 0
+        );
+      } else {
+        return arr.sort((a, b) =>
+          parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
+            ? 1
+            : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
+            ? -1
+            : 0
+        );
       }
     }
 
     if (type === "Top Prize") {
       if (sortedByTPAction === "des") {
-        return arr.sort((a, b) => (parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))) ? -1 : ((parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))) ? 1 : 0));
-      }
-      else {
-        return arr.sort((a, b) => (parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))) ? 1 : ((parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))) ? -1 : 0));
+        return arr.sort((a, b) =>
+          parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
+            ? -1
+            : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
+            ? 1
+            : 0
+        );
+      } else {
+        return arr.sort((a, b) =>
+          parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
+            ? 1
+            : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
+            ? -1
+            : 0
+        );
       }
     }
   }
   function filterCurrency(arr) {
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
-
       var power = arr[i];
       if (selectedDate === "Today") {
         var m = moment().format("YYYY-MM-DD");
+      } else {
+        var m = moment(selectedDate + " " + moment().format("YYYY")).format(
+          "YYYY-MM-DD"
+        );
       }
-      else {
-        var m = (moment(selectedDate + " " + moment().format('YYYY')).format("YYYY-MM-DD"));
-      }
-      var sDate = (m + " 00:00");
-      var eDate = (m + " 23:59");
+      var sDate = m + " 00:00";
+      var eDate = m + " 23:59";
       var s = power?.start_time;
       s = "0" + s;
       s = s.slice(-8);
-      s = s.split(/(?=[A-Z]{2})/).join(" ")
-      var startDate = moment(power?.start_date + ' ' + s).format("YYYY-MM-DD hh:mm A");
-      var endDate = moment(power?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
-      var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
-
+      s = s.split(/(?=[A-Z]{2})/).join(" ");
+      var startDate = moment(power?.start_date + " " + s).format(
+        "YYYY-MM-DD hh:mm A"
+      );
+      var endDate = moment(power?.end_date + " 11:59 PM").format(
+        "YYYY-MM-DD hh:mm A"
+      );
+      var isBetween1 = moment(startDate).isBetween(sDate, eDate);
 
       //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
-      if ((selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1) && isBetween1) {
+      if (
+        selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1 &&
+        isBetween1
+      ) {
         newArr.push(arr[i]);
       }
     }
@@ -456,7 +511,13 @@ const InteractiveContests = (props) => {
         <PowerCenterCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0)}
+          prize={_.reduce(
+            item?.PrizePayouts,
+            function (memo, num) {
+              return memo + parseInt(num.amount) * parseInt(num.prize);
+            },
+            0
+          )}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
@@ -472,7 +533,7 @@ const InteractiveContests = (props) => {
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
           onEnter={() => {
-            onEnter(item)
+            onEnter(item);
           }}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
@@ -488,7 +549,13 @@ const InteractiveContests = (props) => {
         <PowerCenterMobileCard
           id={item?.game_id}
           title={item?.league}
-          prize={_.reduce(item?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0)}
+          prize={_.reduce(
+            item?.PrizePayouts,
+            function (memo, num) {
+              return memo + parseInt(num.amount) * parseInt(num.prize);
+            },
+            0
+          )}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
@@ -531,9 +598,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                          powerCenterCardData.filter(
-                            (cardItem) => cardItem.league === item.title
-                          );
+                            powerCenterCardData.filter(
+                              (cardItem) => cardItem.league === item.title
+                            );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -548,9 +615,7 @@ const InteractiveContests = (props) => {
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}
           ></div>
         </div>
-        {!haveBalance && (
-          <Header />
-        )}
+        {!haveBalance && <Header />}
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
@@ -569,33 +634,80 @@ const InteractiveContests = (props) => {
           </div>
         ) : (
           <div className={classes.__interactive_contests_filter}>
-            <div className={sortedBy === "Most Popular" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
-              <p onClick={() => {
-                Sorter("Most Popular");
-              }}>Most Popular <FilledArrow down={sortedByMPAction === "asc" ? false : true} up={sortedByMPAction === "asc" ? true : false} /></p>
-
+            <div
+              className={
+                sortedBy === "Most Popular"
+                  ? classes.__interactive_contests_most_popular
+                  : classes.__interactive_contests_prize_total
+              }
+            >
+              <p
+                onClick={() => {
+                  Sorter("Most Popular");
+                }}
+              >
+                Most Popular{" "}
+                <FilledArrow
+                  down={sortedByMPAction === "asc" ? false : true}
+                  up={sortedByMPAction === "asc" ? true : false}
+                />
+              </p>
             </div>
-            <div className={sortedBy === "Prize Total" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
-              <p onClick={() => {
-                Sorter("Prize Total");
-              }}>
+            <div
+              className={
+                sortedBy === "Prize Total"
+                  ? classes.__interactive_contests_most_popular
+                  : classes.__interactive_contests_prize_total
+              }
+            >
+              <p
+                onClick={() => {
+                  Sorter("Prize Total");
+                }}
+              >
                 Prize Total
-                <FilledArrow down={sortedByPPAction === "asc" ? false : true} up={sortedByPPAction === "asc" ? true : false} />
+                <FilledArrow
+                  down={sortedByPPAction === "asc" ? false : true}
+                  up={sortedByPPAction === "asc" ? true : false}
+                />
               </p>
             </div>
-            <div className={sortedBy === "Top Prize" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
-              <p onClick={() => {
-                Sorter("Top Prize");
-              }}>
+            <div
+              className={
+                sortedBy === "Top Prize"
+                  ? classes.__interactive_contests_most_popular
+                  : classes.__interactive_contests_prize_total
+              }
+            >
+              <p
+                onClick={() => {
+                  Sorter("Top Prize");
+                }}
+              >
                 Top Prize
-                <FilledArrow down={sortedByTPAction === "asc" ? false : true} up={sortedByTPAction === "asc" ? true : false} />
+                <FilledArrow
+                  down={sortedByTPAction === "asc" ? false : true}
+                  up={sortedByTPAction === "asc" ? true : false}
+                />
               </p>
             </div>
-            <div className={sortedBy === "Min Entry" ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total}>
-              <p onClick={() => {
-                Sorter("Min Entry");
-              }}>Min Entry
-                <FilledArrow down={sortedByMEAction === "asc" ? false : true} up={sortedByMEAction === "asc" ? true : false} />
+            <div
+              className={
+                sortedBy === "Min Entry"
+                  ? classes.__interactive_contests_most_popular
+                  : classes.__interactive_contests_prize_total
+              }
+            >
+              <p
+                onClick={() => {
+                  Sorter("Min Entry");
+                }}
+              >
+                Min Entry
+                <FilledArrow
+                  down={sortedByMEAction === "asc" ? false : true}
+                  up={sortedByMEAction === "asc" ? true : false}
+                />
               </p>
             </div>
             <div
@@ -617,11 +729,12 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${selectedCurrencies?.includes(
-                          item.value
-                        ) &&
-                          classes.__currency_menu_selected
-                          }`}
+                                                ${
+                                                  selectedCurrencies?.includes(
+                                                    item.value
+                                                  ) &&
+                                                  classes.__currency_menu_selected
+                                                }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
@@ -651,7 +764,6 @@ const InteractiveContests = (props) => {
           </div>
         )}
         {filteredData && filterCurrency(filteredData)?.length > 0 ? (
-
           isMobile ? (
             (() => {
               const itemsInaRow = 1;
@@ -715,7 +827,6 @@ const InteractiveContests = (props) => {
               const powerCenterCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
-
                   const start = (i + 1) * itemsInaRow - 4;
                   const end = (i + 1) * itemsInaRow;
                   const items = a1.slice(start, end);
