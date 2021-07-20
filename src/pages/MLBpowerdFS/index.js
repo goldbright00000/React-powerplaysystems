@@ -51,6 +51,7 @@ import DWallIcon from "../../assets/d-wall-icon.png";
 import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 import ChallengeIcon from "../../assets/challenge.svg";
+import BackArrow from "../../icons/BackArrow";
 
 import { useMediaQuery } from "react-responsive";
 import { printLog, redirectTo } from "../../utility/shared";
@@ -236,6 +237,9 @@ let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
 function MLBPowerdFs(props) {
+  const onGoBack = () => {
+    redirectTo(props, { path: "/my-game-center" })
+  }
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -333,7 +337,6 @@ function MLBPowerdFs(props) {
     );
 
     if (response) {
-      console.log(response?.filterdList);
       setData(response?.filterdList);
 
       const { filterdList = [], allData = [] } = response || {};
@@ -401,6 +404,7 @@ function MLBPowerdFs(props) {
       }
       setSelected(_selected);
       setSidebarList(_playerList);
+      document.getElementById('p-filter').click(); // Patch to activate P Tab in Edit Mode instead of D Tab
     }
   };
 
@@ -575,8 +579,8 @@ function MLBPowerdFs(props) {
     const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
-      if (!!!selected.get(selectionId)) _remaining -= 1;
-      else if (_remaining < 2) _remaining += 1;
+      if (!!!selected.get(selectionId)){ _remaining -= 1; }
+      else if (_remaining < 2) {_remaining += 1;}
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
@@ -957,6 +961,16 @@ function MLBPowerdFs(props) {
           <div className={classes.container_left}>
             {!isMobile && (
               <>
+                {isEdit ? (
+                  <button
+                    onClick={onGoBack}
+                    className={`${classes.button_back}`}
+                  >
+                    <BackArrow /> &nbsp; Go to My Game center
+                  </button>
+                ) : (
+                  ""
+                )}
                 <h2>
                   {loading
                     ? "Loading..."

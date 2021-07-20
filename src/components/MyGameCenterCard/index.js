@@ -155,6 +155,7 @@ const MyGameCenterCard = (props) => {
                             value={total}
                             displayType={"text"}
                             thousandSeparator={true}
+                            thousandSeparator={total>=10000?true:false}
                             renderText={(value) => value}
                           />}
                         </div>
@@ -193,6 +194,7 @@ const MyGameCenterCard = (props) => {
                       value={prize}
                       displayType={"text"}
                       thousandSeparator={true}
+                      thousandSeparator={prize>=10000?true:false}
                       prefix={"$"}
                       renderText={(value) => <div>{value}</div>}
                     />
@@ -205,7 +207,7 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_prize_pool_text
                     }
                   >
-                    {inProgress ? "Currently Winning" : "Prize Pool"}
+                    {inProgress ? "Currently Winning" : "Prize Pool1"}
                   </p>
                 </div>
 
@@ -513,7 +515,7 @@ const MyGameCenterCard = (props) => {
                 <CurrencyFormat
                   value={prize}
                   displayType={"text"}
-                  thousandSeparator={true}
+                  thousandSeparator={prize>=10000?true:false}
                   prefix={"$"}
                   renderText={(value) => <div>{value}</div>}
                 />
@@ -525,7 +527,7 @@ const MyGameCenterCard = (props) => {
                   classes.__my_game_center_card_prize_pool_text
                 }
               >
-                {inProgress ? "Currently Winning" : "Prize Pool"}
+                {inProgress ? "Currently Winning" : "Prize Pool2"}
               </p>
             </div>
             <div className={classes.__my_game_center_card_buttons}>
@@ -597,7 +599,7 @@ const MyGameCenterCard = (props) => {
                     Full <CurrencyFormat
                       value={total}
                       displayType={"text"}
-                      thousandSeparator={true}
+                      thousandSeparator={total>=10000?true:false}
                       renderText={(value) => value}
                     />
                   </div>
