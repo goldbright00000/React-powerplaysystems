@@ -746,6 +746,10 @@ function MLBPowerdFs(props) {
   };
 
   const isAfterTime = (date, time) => {
+    const now = moment();
+    const timeNow = now.format("hh:mm A");
+    const timeOfDB = moment(`${date} ${time}`).clone().format("hh:mm A");
+
     const isSameDay = moment(moment().clone().format("YYYY-MM-DD"))
       .clone()
       .isSame(moment(`${date}`).clone().format("YYYY-MM-DD"), "day");
@@ -753,11 +757,19 @@ function MLBPowerdFs(props) {
     const isAfterOldDate = moment(
       moment(date).clone().format("YYYY-MM-DD")
     ).isBefore(moment(), "day");
-    const isAfterCurrentTime = moment(
-      moment().clone().format("hh:mm A")
-    ).isAfter(moment(`${time}`).clone().format("hh:mm A"));
+    const isAfterCurrentTime = moment(now.format("YYYY-MM-DD hh:mm A")).isAfter(
+      `${date} ${time}`,
+      "hour"
+    );
 
-    return isSameDay && isAfterCurrentTime && isAfterOldDate;
+    console.log(
+      isAfterCurrentTime,
+      now.format("YYYY-MM-DD hh:mm A"),
+      `${date} ${time}`,
+      isAfterOldDate
+    );
+
+    return isSameDay && isAfterCurrentTime;
   };
 
   const ContestScoringRow = ({ item = {}, width = {} }) => (
@@ -1016,6 +1028,10 @@ function MLBPowerdFs(props) {
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
+                            {console.log(
+                              "iSAFTER: ",
+                              isAfterTime(item?.date, item?.time)
+                            )}
                             {selectedFilter?.title === D ? (
                               !isAfterTime(item?.date, item?.time) && (
                                 <SportsTeamSelectionCard
