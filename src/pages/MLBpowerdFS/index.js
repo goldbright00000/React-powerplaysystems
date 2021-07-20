@@ -53,7 +53,7 @@ import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 import ChallengeIcon from "../../assets/challenge.svg";
 
 import { useMediaQuery } from "react-responsive";
-import { parseWithOffset, printLog, redirectTo } from "../../utility/shared";
+import { printLog, redirectTo } from "../../utility/shared";
 import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
