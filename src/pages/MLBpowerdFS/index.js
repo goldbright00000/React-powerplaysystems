@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
+import moment from "moment";
 import CurrencyFormat from "react-currency-format";
-
 import { isEmpty, cloneDeep, uniqBy } from "lodash";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useHistory } from "react-router-dom";
 import dateFormat from "dateformat";
 import _ from "underscore";
+
 import * as MLBActions from "../../actions/MLBActions";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -53,7 +53,7 @@ import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 import ChallengeIcon from "../../assets/challenge.svg";
 
 import { useMediaQuery } from "react-responsive";
-import { printLog, redirectTo } from "../../utility/shared";
+import { parseWithOffset, printLog, redirectTo } from "../../utility/shared";
 import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
@@ -260,8 +260,10 @@ function MLBPowerdFs(props) {
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState([]);
+
   let {
-    data = [],
+    // data = [],
     starPlayerCount = 0,
     game_id,
     sport_id,
@@ -279,6 +281,18 @@ function MLBPowerdFs(props) {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  const {
+    outOf: OutOf = "",
+    enrolledUsers: EnrolledUsers = 0,
+    prizePool: PrizePool = 0,
+    game_set_start = "",
+    PointsSystem = [],
+    Power = [],
+    topPrize: TopPrize = 0,
+    prizes: Prizes = [],
+    start_time = "",
+  } = history?.location?.state || {};
+
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   //reset the states
@@ -291,14 +305,15 @@ function MLBPowerdFs(props) {
     setFilterdData(null);
     setSelectedData(null);
 
-    setOutOf(history?.location?.state?.outOf);
-    setEnrolledUsers(history?.location?.state?.enrolledUsers);
-    setPrizePool(history?.location?.state?.prizePool);
-    setGameStartTime(history?.location?.state?.game_set_start);
-    setPoints(_.groupBy(history?.location?.state?.PointsSystem, "type"));
-    setPowers(history?.location?.state?.Power);
-    setTopPrize(history?.location?.state?.topPrize);
-    setPrizes(history?.location?.state?.prizes);
+    setOutOf(OutOf);
+    setEnrolledUsers(EnrolledUsers);
+    setPrizePool(PrizePool);
+    setGameStartTime(game_set_start);
+    setPoints(_.groupBy(PointsSystem, "type"));
+    setPowers(Power);
+    setTopPrize(TopPrize);
+    setPrizes(Prizes);
+
     //unmount
     return function cleanUp() {
       starPowerIndex = 0;
@@ -313,18 +328,21 @@ function MLBPowerdFs(props) {
 
   const getData = async () => {
     setLoading(true);
-    printLog(history.location?.state?.game_id);
-    await dispatch(MLBActions.mlbData(history.location?.state?.game_id));
-    setLoading(false);
-  };
+    const response = await dispatch(
+      MLBActions.mlbData(history.location?.state?.game_id)
+    );
 
-  useEffect(() => {
-    if (data?.length) {
-      setFilterdData(data[0]);
-      setSelectedData(data[0]);
+    if (response) {
+      console.log(response?.filterdList);
+      setData(response?.filterdList);
+
+      const { filterdList = [], allData = [] } = response || {};
+
+      setFilterdData(filterdList[0]);
+      setSelectedData(filterdList[0]);
 
       //set dropdown
-      const _dropDownlist = data?.filter(
+      const _dropDownlist = filterdList?.filter(
         (list) => list?.type === "d" || list?.type === "D"
       );
       const dropDownTeams = [
@@ -337,7 +355,9 @@ function MLBPowerdFs(props) {
       const noDuplicatedTeam = uniqBy(dropDownTeams, (team) => team.team_id);
       setDropDownTeam(noDuplicatedTeam);
     }
-  }, [data]);
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     autoSelectOnEdit();
@@ -725,6 +745,14 @@ function MLBPowerdFs(props) {
     }
   };
 
+  const isAfterTime = (date, time) => {
+    return moment(
+      moment(`${date} ${time}`).clone().format("YYYY-MM-DD hh:mm A")
+    )
+      .clone()
+      .isAfter(`${game_set_start} ${start_time}`);
+  };
+
   const ContestScoringRow = ({ item = {}, width = {} }) => (
     <div className={classes.scoring_row}>
       <p>{item?.plays}</p>{" "}
@@ -982,42 +1010,46 @@ function MLBPowerdFs(props) {
                         filterdData?.listData?.map((item, index) => (
                           <>
                             {selectedFilter?.title === D ? (
-                              <SportsTeamSelectionCard
-                                item={item}
-                                isSelected={
-                                  !!selected.get(
-                                    `${item.team_id} - ${item.match_id}`
-                                  )
-                                }
-                                key={item?.team_id + " - " + item?.match_id}
-                                onSelectDeselect={onPlayerSelectDeselect}
-                                disabled={
-                                  item.isStarPlayer &&
-                                  item.isStarPlayer &&
-                                  starPowerIndex >= 3
-                                }
-                                mlbCard
-                              />
-                            ) : (
-                              <>
-                                <SelectionCard3
-                                  player={item}
+                              !isAfterTime(item?.date, item?.time) && (
+                                <SportsTeamSelectionCard
+                                  item={item}
                                   isSelected={
                                     !!selected.get(
-                                      `${item.playerId} - ${item?.match_id}`
+                                      `${item.team_id} - ${item.match_id}`
                                     )
                                   }
-                                  key={item.playerId + " - " + item?.match_id}
-                                  loading={loading}
+                                  key={item?.team_id + " - " + item?.match_id}
                                   onSelectDeselect={onPlayerSelectDeselect}
-                                  pageType={PAGE_TYPES.MLB}
-                                  type={selectedData?.type}
-                                  // disabled={
-                                  //   item.isStarPlayer &&
-                                  //   item.isStarPlayer &&
-                                  //   starPlayerCount >= 3
-                                  // }
+                                  disabled={
+                                    item.isStarPlayer &&
+                                    item.isStarPlayer &&
+                                    starPowerIndex >= 3
+                                  }
+                                  mlbCard
                                 />
+                              )
+                            ) : (
+                              <>
+                                {!isAfterTime(item?.date, item?.time) && (
+                                  <SelectionCard3
+                                    player={item}
+                                    isSelected={
+                                      !!selected.get(
+                                        `${item.playerId} - ${item?.match_id}`
+                                      )
+                                    }
+                                    key={item.playerId + " - " + item?.match_id}
+                                    loading={loading}
+                                    onSelectDeselect={onPlayerSelectDeselect}
+                                    pageType={PAGE_TYPES.MLB}
+                                    type={selectedData?.type}
+                                    // disabled={
+                                    //   item.isStarPlayer &&
+                                    //   item.isStarPlayer &&
+                                    //   starPlayerCount >= 3
+                                    // }
+                                  />
+                                )}
                               </>
                             )}
                           </>
