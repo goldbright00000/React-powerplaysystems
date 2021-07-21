@@ -352,7 +352,7 @@ function SportsLiveCard(props) {
                 {plate_appearances}
               </p>
               <p>
-                RBI: {runs_batted_in} | R: {0}
+                RBI: {runs_batted_in} | R: {runs}
               </p>
             </>
           )}
