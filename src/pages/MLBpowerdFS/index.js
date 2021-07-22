@@ -260,6 +260,8 @@ function MLBPowerdFs(props) {
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [isPaid, setIsPaid] = useState(true);
+
   let {
     data = [],
     starPlayerCount = 0,
@@ -299,6 +301,8 @@ function MLBPowerdFs(props) {
     setPowers(history?.location?.state?.Power);
     setTopPrize(history?.location?.state?.topPrize);
     setPrizes(history?.location?.state?.prizes);
+    setIsPaid(history?.location?.state?.paid_game);
+
     //unmount
     return function cleanUp() {
       starPowerIndex = 0;
@@ -345,7 +349,6 @@ function MLBPowerdFs(props) {
 
   const autoSelectOnEdit = () => {
     if (isEdit === true && !loading && selected.entries().next().done) {
-      console.log('2',selected);
       const pls = [];
       savedPlayers.forEach((element) => {
         if (element.team_id) {
@@ -515,7 +518,7 @@ function MLBPowerdFs(props) {
   const onSelectFilter = useCallback(
     (type, isFilterSelected = true) => {
       if (loading) return;
-      
+
       // reset search filter
       if (isFilterSelected)
         onSelectSearchDropDown({ team_id: "all", name: "All Teams" });
@@ -715,10 +718,13 @@ function MLBPowerdFs(props) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
+
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-        dispatch(MLBActions.calculateAdminFee(user_id, game_id));
-        dispatch(MLBActions.deductUserBalance(user_id, game_id));
-        dispatch(MLBActions.savePrizePool(user_id, game_id));
+        if (isPaid || isPaid === null) {
+          dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+          dispatch(MLBActions.deductUserBalance(user_id, game_id));
+          dispatch(MLBActions.savePrizePool(user_id, game_id));
+        }
         setIsLoading(false);
       }
       redirectTo(props, { path: "/my-game-center" });

@@ -255,6 +255,7 @@ const InteractiveContests = (props) => {
         <div className={`__flex ${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
             <div className="__badges-wrapper __text-in-one-line __mediam">
+
               {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
@@ -362,8 +363,7 @@ const InteractiveContests = (props) => {
                 var startDate = moment(power?.game?.start_date + ' ' + s).format("YYYY-MM-DD hh:mm A");
                 var endDate = moment(power?.game?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
                 var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
-                if(contentType === "Completed")
-                {
+                if (contentType === "Completed") {
                   isBetween1 = 1;
                 }
                 if (isBetween1) {
@@ -396,19 +396,19 @@ const InteractiveContests = (props) => {
                     var a3 = moment(moment().format("YYYY-MM-DD")).isAfter(
                       power?.game?.game_set_end
                     )
-                    if(a3 === true) {
+                    if (a3 === true) {
                       a = false
                     }
                     else {
                       var a = (a1 === true || a2 === true);
                     }
-                    
+
                   }
                   if (a) {
                     subFiltered.push(power);
                   }
                 }
-                
+
               })
             }
             const myGameCenterCardView = Array(numberOfRows)
@@ -446,8 +446,8 @@ const InteractiveContests = (props) => {
                               return myGameCenterCard(power, power.url);
                             })
                           ) : (
-                            i == 0 ? 
-                            <h1 className="nogamesmessage">No games</h1> : ""
+                            i == 0 ?
+                              <h1 className="nogamesmessage">No games</h1> : ""
                           )}
                         </div>
                       </>

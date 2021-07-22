@@ -6,6 +6,7 @@ import MLBPlayer from "../../assets/mlb-player-mobile.png";
 import NFLPlayer from "../../assets/nfl-player-mobile.png";
 import NBAPlayer from "../../assets/nba-player-mobile.png";
 import NHLPlayer from "../../assets/nhl-player-mobile.png";
+import InfiniteEntry from '../../assets/invalid-name.svg';
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
 import OutlineButton from "../OutlineButton";
 import PrizeGrid from "./PrizeGrid";
@@ -25,6 +26,8 @@ const PowerCenterMobileCard = (props) => {
     game_set_start = '',
     start_time = '',
     entry_fee = null,
+    paid_game = false,
+    targeted_game = false,
     percent = null,
     PointsSystem = [],
     Power = [],
@@ -109,9 +112,15 @@ const PowerCenterMobileCard = (props) => {
               </p>
             </div>
             <div className={classes.__power_center_card_total}>
-              <p>
-                {outOf} <span>of  {total}</span>
-              </p>
+              {targeted_game || targeted_game == null ? (
+                <p>
+                  {outOf} <span>of {total}</span>
+                </p>
+              ) : (
+                <p>
+                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                </p>
+              )}
             </div>
             <div className={classes.__power_center_card_enter}>
               {userHasEntered ? (
@@ -121,10 +130,18 @@ const PowerCenterMobileCard = (props) => {
                   />
                 </>
               ) : (
-                <OutlineButton
-                  title={`Enter  •  $${entry_fee}`}
-                  onClick={onEnter}
-                />
+                paid_game || paid_game === null ? (
+                  < OutlineButton
+                    title={`Enter  •  $${entry_fee}`}
+                    onClick={onEnter}
+                  />
+                ) : (
+                  < OutlineButton
+                    title={`Enter  •  Free`}
+                    onClick={onEnter}
+                  />
+                )
+
               )}
             </div>
           </div>

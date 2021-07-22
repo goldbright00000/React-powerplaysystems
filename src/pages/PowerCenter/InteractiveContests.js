@@ -285,8 +285,7 @@ const InteractiveContests = (props) => {
 
   const onEnter = async (item) => {
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
-
-    if (enoughBalance) {
+    if (enoughBalance || !item?.is_game_paid || item?.is_game_paid == null) {
       switch (item?.league) {
         case "MLB":
           return redirectTo(props, {
@@ -304,6 +303,7 @@ const InteractiveContests = (props) => {
               PointsSystem: item?.PointsSystems,
               Power: item?.Powers,
               prizes: item?.PrizePayouts,
+              paid_game: item?.is_game_paid
             },
           });
         default:
@@ -363,8 +363,7 @@ const InteractiveContests = (props) => {
     var topPrize = 0;
     if (rec.PrizePayouts.length > 0) {
       for (var i = 0; i < rec.PrizePayouts.length; i++) {
-        if(topPrize < parseFloat(rec.PrizePayouts[i].amount))
-        {
+        if (topPrize < parseFloat(rec.PrizePayouts[i].amount)) {
           topPrize = parseFloat(rec.PrizePayouts[i].amount);
         }
       }
@@ -451,6 +450,8 @@ const InteractiveContests = (props) => {
           game_type={item?.game_type}
           game_set_start={item?.game_set_start}
           start_time={item?.start_time}
+          paid_game={item?.is_game_paid}
+          targeted_game={item?.is_game_targeted}
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
@@ -481,6 +482,8 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
+          paid_game={item?.is_game_paid}
+          targeted_game={item?.is_game_targeted}
           game_set_start={item?.game_set_start}
           start_time={item?.start_time}
           entry_fee={item?.entry_fee}
