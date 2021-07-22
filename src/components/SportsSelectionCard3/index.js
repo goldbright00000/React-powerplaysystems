@@ -95,6 +95,8 @@ function SportsSelectionCard3(props) {
     <div
       className={`${classes.container_body_card} ${
         isStarPlayer ? classes.container_body_card_start_power_background : ``
+      } ${
+        isSelected ? classes.activeBorder : ""
       }`}
     >
       {isStarPlayer && (

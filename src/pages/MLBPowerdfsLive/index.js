@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
-
+import _ from "underscore";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
@@ -32,7 +32,7 @@ import { printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
-
+import PowerCollapesible from "../../components/PowerCollapesible";
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 const {
   ON_ROOM_SUB,
@@ -60,6 +60,8 @@ const POWER_IDs = {
 };
 
 function MLBPowerdFsLive(props) {
+  
+  
   const [loading, setLoading] = useState(false);
   const [updatesLoaded, setUpdatesLoading] = useState(false);
   const [screenSize, setScreenSize] = useState(window.screen.width);
@@ -72,7 +74,7 @@ function MLBPowerdFsLive(props) {
   const [matchUpdateData, setMatchUpdateData] = useState({});
   const [ranks, setRanks] = useState({});
   const [powersInventory, setPowersInventory] = useState({
-    swap: 1,
+    swap: 2,
     point_multiplier: 0,
     d_wall: 1,
     challenge: 1,
@@ -90,9 +92,41 @@ function MLBPowerdFsLive(props) {
   const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
+  let item = props.location.state.item;
+  
+  let prizePool, topPrize = 0;
+  let powers = item?.game?.Powers;
+  
+  prizePool = _.reduce(
+    item?.game?.PrizePayouts,
+    function (memo, num) {
+      return memo + parseInt(num.amount) * parseInt(num.prize);
+    },
+    0
+  );
+  topPrize= parseFloat(
+    _.max(item?.game?.PrizePayouts, function (ele) {
+      return ele.amount;
+    }).amount
+  );
 
+
+  function powerVal(type) {
+    let powerss = item?.game?.Powers;
+    let val = 0;
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        val = powerss[i].amount;
+      }
+    }
+    return val;
+  }
   useEffect(() => {
     _socket = socket();
+
+    
 
     return function cleanUP() {
       isMatchUpdate = false;
@@ -520,8 +554,8 @@ function MLBPowerdFsLive(props) {
                 <div className={classes.sidebar_container}>
                   <Sidebar>
                     <CashPowerBalance
-                      powerBalance={50000}
-                      cashBalance={200000}
+                      powerBalance={topPrize}
+                      cashBalance={prizePool}
                       styles={{
                         width: "100%",
                         marginTop: "-40px",
@@ -548,25 +582,27 @@ function MLBPowerdFsLive(props) {
                           title="Swap Player"
                           isSvgIcon
                           Icon={ReplaceAllIcon}
-                          count={powersInventory.swap}
+                          count={powerVal("Swap")}
                         />
                         <RenderPower
                           title="D-Wall"
                           isSvgIcon
                           Icon={ShieldIcon}
-                          count={powersInventory.d_wall}
+                          count={powerVal("D-Wall")}
                         />
                         <RenderPower
                           title="Challenge"
                           isSvgIcon
                           Icon={ChallengeIcon}
-                          count={powersInventory.challenge}
+                          count={powerVal("Challenge")}
                         />
                       </div>
                       <button onClick={() => setLearnMoreModal(true)}>
                         Learn more
                       </button>
                     </div>
+                  
+                    {/* <PowerCollapesible powers={powers} /> */}
                   </Sidebar>
                 </div>
               </div>
