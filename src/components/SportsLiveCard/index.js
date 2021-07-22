@@ -90,6 +90,7 @@ function SportsLiveCard(props) {
     boost = {},
     current_team = "",
     player_id = "",
+    match_stats = [],
   } = player || {};
 
   const {
@@ -109,7 +110,6 @@ function SportsLiveCard(props) {
     type: playerStatType = "",
     walks_hits_per_innings_pitched = 0,
     wins = 0,
-    match_stats = {},
   } = mlb_player_stats[0] || {};
 
   const {
@@ -125,7 +125,7 @@ function SportsLiveCard(props) {
     plate_appearances = 0,
     // batting_average = 0,
     // earned_runs_average = 0,
-  } = match_stats || {};
+  } = match_stats?.[0] || {};
 
   const {
     away_team = {},
@@ -348,11 +348,11 @@ function SportsLiveCard(props) {
           ) : (
             <>
               <p>
-                {removeZeroBeforeDecimalPoint(batting_average)} |{" "}
-                {hits / plate_appearances}
+                {removeZeroBeforeDecimalPoint(batting_average)} | {hits} /{" "}
+                {plate_appearances}
               </p>
               <p>
-                RBI: {runs_batted_in} | R: {0}
+                RBI: {runs_batted_in} | R: {runs}
               </p>
             </>
           )}
