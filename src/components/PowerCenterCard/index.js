@@ -54,6 +54,13 @@ const PowerCenterCard = (props) => {
         return backgroundImageStyle;
     }
 
+    const numberWithCommas = (x) => {
+        if(x >= 10000)
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        else
+            return x;
+    }
+
     return (
         !showDetails
             ?
@@ -68,7 +75,7 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_prize_pool}>
                     <p
                         className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_price}>
-                        ${prize}
+                        ${numberWithCommas(prize)}
                     </p>
                     <p
                         className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>

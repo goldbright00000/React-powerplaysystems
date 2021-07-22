@@ -185,6 +185,7 @@ export function getMonthDays() {
 
 export function getDaysFromToday() {
   let daysFromToday = [];
+  daysFromToday.push({ value: "All", label: "All" });
   for (let i = 0; i < 6; i++) {
     if (i === 0) {
       daysFromToday.push({ value: "Today", label: "Today" });
