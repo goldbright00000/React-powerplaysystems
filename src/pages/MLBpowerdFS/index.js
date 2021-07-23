@@ -264,6 +264,7 @@ function MLBPowerdFs(props) {
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
 
   let {
@@ -295,6 +296,7 @@ function MLBPowerdFs(props) {
     topPrize: TopPrize = 0,
     prizes: Prizes = [],
     start_time = "",
+    paid_game = true,
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -309,6 +311,7 @@ function MLBPowerdFs(props) {
     setFilterdData(null);
     setSelectedData(null);
 
+    setIsPaid(paid_game);
     setOutOf(OutOf);
     setEnrolledUsers(EnrolledUsers);
     setPrizePool(PrizePool);
@@ -579,8 +582,8 @@ function MLBPowerdFs(props) {
     const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
-      if (!!!selected.get(selectionId)){ _remaining -= 1; }
-      else if (_remaining < 2) {_remaining += 1;}
+      if (!!!selected.get(selectionId)) { _remaining -= 1; }
+      else if (_remaining < 2) { _remaining += 1; }
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
@@ -738,10 +741,13 @@ function MLBPowerdFs(props) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
+
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
-        dispatch(MLBActions.calculateAdminFee(user_id, game_id));
-        dispatch(MLBActions.deductUserBalance(user_id, game_id));
-        dispatch(MLBActions.savePrizePool(user_id, game_id));
+        if (isPaid || isPaid === null) {
+          dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+          dispatch(MLBActions.deductUserBalance(user_id, game_id));
+          dispatch(MLBActions.savePrizePool(user_id, game_id));
+        }
         setIsLoading(false);
       }
       redirectTo(props, { path: "/my-game-center" });
@@ -983,8 +989,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1067,11 +1073,11 @@ function MLBPowerdFs(props) {
                                     onSelectDeselect={onPlayerSelectDeselect}
                                     pageType={PAGE_TYPES.MLB}
                                     type={selectedData?.type}
-                                    // disabled={
-                                    //   item.isStarPlayer &&
-                                    //   item.isStarPlayer &&
-                                    //   starPlayerCount >= 3
-                                    // }
+                                  // disabled={
+                                  //   item.isStarPlayer &&
+                                  //   item.isStarPlayer &&
+                                  //   starPlayerCount >= 3
+                                  // }
                                   />
                                 )}
                               </>
@@ -1197,9 +1203,8 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${
-                              classes.__last_tab_header
-                            }`}
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
                           >
                             Powers Available
                           </Tab>

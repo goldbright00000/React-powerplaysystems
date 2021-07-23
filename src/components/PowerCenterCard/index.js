@@ -4,6 +4,7 @@ import MLBPlayer from '../../assets/mlb-player.png';
 import NFLPlayer from '../../assets/nfl-player.png';
 import NBAPlayer from '../../assets/nba-player.png';
 import NHLPlayer from '../../assets/nhl-player.png';
+import InfiniteEntry from '../../assets/invalid-name.svg';
 import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
 
@@ -18,7 +19,9 @@ const PowerCenterCard = (props) => {
         game_type = '',
         game_set_start = '',
         start_time = '',
+        paid_game = false,
         entry_fee = null,
+        targeted_game = false,
         showDetails = false,
         onDetailsClick = () => { },
         onBackClick = () => { },
@@ -81,7 +84,6 @@ const PowerCenterCard = (props) => {
                 </div>
 
                 <div className={classes.__power_center_card_enter}>
-
                     {userHasEntered ? (
                         <>
                             <OutlineButton
@@ -89,17 +91,24 @@ const PowerCenterCard = (props) => {
                             />
                         </>
                     ) : (
-                        total == outOf ? (
+                        total == outOf && targeted_game ? (
                             <>
                                 <OutlineButton
                                     title={`Full ${total}`}
                                 />
                             </>
                         ) : (
-                            <OutlineButton
-                                title={`Enter  •  $${entry_fee}`}
-                                onClick={onEnter}
-                            />
+                            paid_game || paid_game === null ? (
+                                < OutlineButton
+                                    title={`Enter  •  $${entry_fee}`}
+                                    onClick={onEnter}
+                                />
+                            ) : (
+                                < OutlineButton
+                                    title={`Enter  •  Free`}
+                                    onClick={onEnter}
+                                />
+                            )
                         )
                     )}
 
@@ -109,9 +118,15 @@ const PowerCenterCard = (props) => {
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
                     <div className={classes.__power_center_card_total}>
-                        <p>
-                            {outOf} <span>of {total}</span>
-                        </p>
+                        {targeted_game || targeted_game == null ? (
+                            <p>
+                                {outOf} <span>of {total}</span>
+                            </p>
+                        ) : (
+                            <p>
+                                {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                            </p>
+                        )}
                     </div>
                     <div className={classes.__power_center_card_details}>
                         <div className={classes.__power_center_card_details_link} onClick={() => {
