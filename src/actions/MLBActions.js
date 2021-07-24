@@ -22,6 +22,8 @@ export function mlbData(gameId) {
       const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
         response.data || {};
 
+      // console.log('mlbSchedule---> ', mlbSchedule)
+
       const mlbPlayerList = [];
       const mlbTeams = [];
       for (let i = 0; i < mlbSchedule?.length; i++) {
@@ -106,6 +108,9 @@ export function mlbData(gameId) {
         game_id,
         sport_id,
       });
+
+      // console.log('mlbPlayerList', mlbPlayerList)
+      // console.log('filterdList', filterdList)
 
       return {
         filterdList: filterdList,

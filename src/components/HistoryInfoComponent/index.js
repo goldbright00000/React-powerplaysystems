@@ -67,7 +67,7 @@ const HistoryInfoComponent = (props) => {
                 </span>
               </div>
               <div className={classes.col_details}>
-                <img src={TickIcon} width="30px" height="30px" />
+                <img src={TickIcon} width="30px" height="30px" alt="" />
               </div>
             </div>
           </>
@@ -88,7 +88,7 @@ const HistoryInfoComponent = (props) => {
   };
 
   return (
-    <div className={`${classes.table_wrapper} w-100`} style={{transform: 'none'}}>
+    <div className={`${classes.table_wrapper} w-100`} style={{ transform: 'none' }}>
       <div className={`${classes.table_header} w-100`}>
         <div className={classes.row}>
           <div className="mx-1 text-left">Date</div>

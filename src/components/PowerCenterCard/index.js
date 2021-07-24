@@ -55,7 +55,7 @@ const PowerCenterCard = (props) => {
     }
 
     const numberWithCommas = (x) => {
-        if(x >= 10000)
+        if (x >= 10000)
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         else
             return x;
@@ -118,14 +118,17 @@ const PowerCenterCard = (props) => {
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
                     <div className={classes.__power_center_card_total}>
-                        {targeted_game || targeted_game == null ? (
-                            <p>
-                                {outOf} <span>of {total}</span>
-                            </p>
-                        ) : (
+                        {game_type === 'PowerdFs_open' ? (
                             <p>
                                 {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
                             </p>
+                        ) : (
+                            !targeted_game ?
+                                null : (
+                                    <p>
+                                        {outOf} <span>of {total}</span>
+                                    </p>
+                                )
                         )}
                     </div>
                     <div className={classes.__power_center_card_details}>

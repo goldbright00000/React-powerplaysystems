@@ -285,13 +285,13 @@ const InteractiveContests = (props) => {
 
   const onEnter = async (item) => {
 
-    
-   
-    if(!isAuthenticated) {
-      history.push("/login") 
+
+
+    if (!isAuthenticated) {
+      history.push("/login")
       return;
     }
-    
+
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
     if (enoughBalance || !item?.is_game_paid || item?.is_game_paid == null) {
       switch (item?.league) {
@@ -396,16 +396,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -416,16 +416,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.target) > parseFloat(b.target)
             ? -1
             : parseFloat(b.target) > parseFloat(a.target)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.target) > parseFloat(b.target)
             ? 1
             : parseFloat(b.target) > parseFloat(a.target)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -436,16 +436,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -456,16 +456,16 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -496,7 +496,7 @@ const InteractiveContests = (props) => {
       var isBetween1 = moment(startDate).isBetween(sDate, eDate);
 
       //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
-      if(selectedDate === "All") {
+      if (selectedDate === "All") {
         isBetween1 = 1;
       }
       if (
@@ -605,9 +605,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -736,12 +736,11 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
