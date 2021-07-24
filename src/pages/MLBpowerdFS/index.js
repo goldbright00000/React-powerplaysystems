@@ -63,11 +63,9 @@ import "./bottomSheetStyles.scss";
 const getIcon = (powerName) => {
   if (powerName) {
     if (powerName.toLowerCase().match(/wall/g)) return DWallIcon;
-    else if (powerName.toLowerCase().match(/video|review/g))
-      return VideoReviewIcon;
+    else if (powerName.toLowerCase().match(/video|review/g)) return VideoReviewIcon;
     else if (powerName.toLowerCase().match(/swap/g)) return SwapPlayerIcon;
-    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
-      return PointMultiplierIcon;
+    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g)) return PointMultiplierIcon;
     else if (powerName.toLowerCase().match(/retro/g)) return RetroBoostIcon;
     else if (powerName.toLowerCase().match(/challenge/g)) return ChallengeIcon;
   }
@@ -1036,6 +1034,7 @@ function MLBPowerdFs(props) {
                     )}
 
                     <div className={classes.card_body}>
+                      {console.log('filterdData', filterdData)}
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
