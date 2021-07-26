@@ -179,8 +179,6 @@ function MLBPowerdFsLive(props) {
 
     //FANTASY_TEAM_UPDATE
     _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      console.log("Player updates: ", res);
-      // console.log(`FANTASY_TEAM_UPDATE: `, JSON.stringify(res));
       onFantasyTeamUpdate(res);
     });
   };
@@ -254,6 +252,7 @@ function MLBPowerdFsLive(props) {
   };
 
   const onFantasyTeamUpdate = (res) => {
+    console.log("FANTAY TEAM UPDATE: ", res);
     const { log: { data: { fantasy_points_after = 0 } = {} } = {} } = res || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
@@ -580,7 +579,7 @@ function MLBPowerdFsLive(props) {
           />
         </>
       ) : (
-        <Mobile />
+        <Mobile data={live_data} />
       )}
     </>
   );

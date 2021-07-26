@@ -2,6 +2,8 @@ import React from "react";
 import { Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./score_board.scss";
+import { removeZeroBeforeDecimalPoint } from "../../../utility/shared";
+import { isEmpty } from "lodash";
 const Slider = ({
   icons,
   double,
@@ -12,6 +14,11 @@ const Slider = ({
   points,
   fieldText,
   secondShow,
+  hitter,
+  pitcher,
+  strikes,
+  balls,
+  footerText,
   fieldColor,
   imageTochanged,
   notShow,
@@ -19,6 +26,111 @@ const Slider = ({
   boostModal,
   swapModal,
 }) => {
+  const {
+    active: isHitterActive = false,
+    bat_hand: hBatHand = "",
+    current_position: hCurrentPos = "",
+    current_team: hCurrenTeam = 0,
+    datafeed_id: hDataFeedId = "",
+    height: hHeight = "",
+    is_injured: isHInjured = true,
+    jersey_number: jJersyNumber = 0,
+    name: hitterName = "",
+    player_id: hId = 0,
+    primary_position: hPrimaryPos = "",
+    throw_hand: hThrowHand = "",
+    type: hitterType = "",
+    mlb_player_stats: hitterStats = [],
+    match_stats: hMatchStats = [],
+  } = hitter || {};
+
+  const {
+    base_on_balls: hBOB = 0,
+    batting_average: hbBA = 0,
+    doubles: Hdoubles = 0,
+    // earned_runs_average: hERA = 0,
+    // hits: hHits = 0,
+    home_runs: hHomeRuns = 0,
+    innings_pitched: hIp = 0,
+    losses: hLosses = 0,
+    ops: HOPS = 0,
+    player_id: hPlayerId = 0,
+    // runs_batted_in: hRBI = 0,
+    season_id: hSeasonId = 0,
+    stats_id: hStatId = 0,
+    stolen_bases: hStolenBases = 0,
+    strike_outs: hStrikeOuts = 0,
+    triples: hTriples = 0,
+    type: hType = "",
+    updated_at: hUpdateAt = "",
+    walks_hits_per_innings_pitched: hWHPIP = 0,
+    // wins: hWins = 0,
+  } = hitterStats[0] || {};
+
+  const {
+    // batting_average: hbBA = 0,
+    // created_at=  "2021-07-09T23:50:14.751Z",
+    // data_id= 1164,
+    earned_runs_average: hERA = 0,
+    hits: hHits = 0,
+    innings_pitched: hIP = null,
+    // match_id= 6692,
+    outs: hOuts = null,
+    pitch_count: hPC = null,
+    plate_appearances: hPA = 0,
+    // player_id= 10801,
+    runs: hRuns = 0,
+    runs_batted_in: hRBI = 0,
+    strike_outs: hSO = 0,
+    // updated_at= "2021-07-09T23:50:14.751Z",
+    walks: hWalks = 0,
+  } = hMatchStats[0] || {};
+
+  const {
+    active: isPittcherActive = false,
+    bat_hand: pBatHand = "",
+    current_position: pCurrentPos = "",
+    current_team: pCurrentTeam = 0,
+    datafeed_id: pDataFeedId = "",
+    height: pHeight = "",
+    is_injured: isPInjured = false,
+    jersey_number: pJersyNumber = 0,
+    name: pitcherName = "",
+    player_id: pId = 0,
+    primary_position: pPrimaryPos = "",
+    throw_hand: pThrowHand = "",
+    type: pType = "",
+    mlb_player_stats: pitcherStats = [],
+  } = pitcher || {};
+
+  const {
+    base_on_balls: pBOB = 0,
+    batting_average: pbBA = 0,
+    doubles: pdoubles = 0,
+    earned_runs_average: pERA = 0,
+    hits: pHits = 0,
+    home_runs: pHomeRuns = 0,
+    innings_pitched: pIp = 0,
+    losses: pLosses = 0,
+    ops: pOPS = 0,
+    player_id: pPlayerId = 0,
+    runs_batted_in: pRBI = 0,
+    season_id: pSeasonId = 0,
+    stats_id: pStatId = 0,
+    stolen_bases: pStolenBases = 0,
+    strike_outs: pStrikeOuts = 0,
+    triples: pTriples = 0,
+    updated_at: pUpdateAt = "",
+    walks_hits_per_innings_pitched: pWHPIP = 0,
+    wins: pWins = 0,
+  } = pitcherStats[0] || {};
+
+  const formatName = (name) => {
+    const n = `${name}`.split(" ");
+
+    return `${n[0]?.substring(0, 1)}`?.toUpperCase() + ". " + `${n[1]}`;
+  };
+
   return (
     <Row className="pb-3">
       <Col xs={10} className="pe-0">
@@ -91,19 +203,28 @@ const Slider = ({
 
                       <div className="col-8 roger">
                         <div>
-                          <p>
-                            <img src="/images/bat.svg" alt="" />{" "}
-                            <span>J. Rogers</span>
-                          </p>
-                          <p>IP: 3.1 | PC:34 | K:4 | W:3</p>
-                          {notShow ? null : <h4 className="mt-1">SINGLE</h4>}
-                          {baseBall && (
+                          {!isEmpty(hitter) && (
+                            <>
+                              <p>
+                                <img src="/images/bat.svg" alt="" />{" "}
+                                <span>{formatName(hitterName)}</span>
+                              </p>
+                              <p>
+                                {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/
+                                {hPA} | B: {balls}| S: {strikes}
+                              </p>
+                              {notShow ? null : (
+                                <h4 className="mt-1">SINGLE</h4>
+                              )}
+                            </>
+                          )}
+                          {!isEmpty(pitcher) && (
                             <>
                               <p>
                                 <img src="/images/baseball.svg" alt="" />{" "}
-                                <span>J. Rogers</span>
+                                <span>{formatName(pitcherName)}</span>
                               </p>
-                              <p className="mb-3">ERA: 3.23</p>
+                              <p className="mb-3">ERA: {pERA}</p>
                             </>
                           )}
                         </div>
@@ -235,7 +356,7 @@ const Slider = ({
 
           <div className="endTag">
             {" "}
-            <p className="pt-1">Bot 1st | 2 Out</p>
+            <p className="pt-1">{footerText}</p>
           </div>
         </div>
       </Col>
