@@ -14,7 +14,7 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal }) => {
   const [priceGrid, setPriceGrid] = useState(false);
 
   const toggle = () => setModal(!modal);
-  const priceModal = value => {
+  const priceModal = (value) => {
     setModal(value);
     setPriceGrid(!priceGrid);
   };
