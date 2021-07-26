@@ -51,6 +51,14 @@
 
       .team_vs {
         margin-bottom: 0px;
+        &.selectedColor {
+          p {
+            color: $primary !important;
+          }
+        }
+        p {
+          color: #688fbd;
+        }
       }
 
       .container_body_card_header {
@@ -448,6 +456,11 @@
 
         .team_vs {
           margin-bottom: 0px;
+          &.selectedColor {
+            p {
+              color: $primary !important;
+            }
+          }
         }
 
         .container_body_card_header {
@@ -625,6 +638,9 @@
 
         .team_vs {
           margin-bottom: 0px;
+          p {
+            color: #688fbd;
+          }
         }
 
         .container_body_card_header {
@@ -717,7 +733,7 @@
 
     p {
       font-size: 16px;
-
+      
       span {
         font-weight: 600;
         font-size: 20px;
