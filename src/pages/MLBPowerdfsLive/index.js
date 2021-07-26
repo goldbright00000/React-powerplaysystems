@@ -79,7 +79,10 @@ function MLBPowerdFsLive(props) {
     d_wall: 1,
     challenge: 1,
   });
-
+  const [swapCounts, setSwapCounts] = useState(0);
+  const [dwallCounts, setDwallCounts] = useState(0);
+  const [challengeCounts, setChallengeCounts] = useState(0);
+  const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
   const history = useHistory();
 
   const {
@@ -112,6 +115,7 @@ function MLBPowerdFsLive(props) {
 
 
   function powerVal(type) {
+    console.log("type", type);
     let powerss = item?.game?.Powers;
     let val = 0;
     for(var i = 0; i < powerss.length; i++)
@@ -121,12 +125,78 @@ function MLBPowerdFsLive(props) {
         val = powerss[i].amount;
       }
     }
+    switch(type)
+    {
+      case "Swap":
+        if(val !== swapCounts)
+          setSwapCounts(val);
+        break;
+      case "D-Wall":
+        val = 1;
+        if(val !== dwallCounts){
+          console.log("type1", type);
+          setDwallCounts(1);
+        }
+        break;
+      case "Challenge":
+        val = 1;
+        if(val !== challengeCounts)
+          setChallengeCounts(1);
+        break;
+      case "Point Miltiplier":
+        if(val !== pointMultiplierCounts)
+          setPointMultiplierCounts(val);
+        break;
+    }
     return val;
+  }
+  function useSwap(action) {
+    if(action)
+    {
+      var oldCount = swapCounts;
+      if(oldCount > 0)
+      {
+        oldCount = oldCount - 1;
+        setSwapCounts(oldCount);
+        return;
+      }
+      setSwapCounts(0);
+    }
+  }
+  function useDwall(action)
+  {
+    if(action)
+    {
+      var oldCount = dwallCounts;
+      if(oldCount > 0)
+      {
+        oldCount = oldCount - 1;
+        setDwallCounts(oldCount);
+        return;
+      }
+      setDwallCounts(0);
+    }
+  }
+  function useChallenge(action)
+  {
+    if(action)
+    {
+      var oldCount = challengeCounts;
+      if(oldCount > 0)
+      {
+        oldCount = oldCount - 1;
+        setChallengeCounts(oldCount);
+        return;
+      }
+      setChallengeCounts(0);
+    }
   }
   useEffect(() => {
     _socket = socket();
 
-    
+    powerVal("Swap");
+    powerVal("Challenge");
+    powerVal("D-Wall");
 
     return function cleanUP() {
       isMatchUpdate = false;
@@ -412,7 +482,7 @@ function MLBPowerdFsLive(props) {
                   </button>
                 </a>
                 <a
-                  href={`https://twitter.com/intent/tweet?text=${text}`}
+                  href={`https://twitter.com/intent/tweet?text=${text}${count}`}
                   target="_blank"
                 >
                   <button>
@@ -470,6 +540,10 @@ function MLBPowerdFsLive(props) {
               data={item}
               compressedView={compressedView}
               key={index + "" + item?.team_d_mlb_team?.type}
+              dwall={dwallCounts}
+              challenge={challengeCounts}
+              useDwall={useDwall}
+              useChallenge={useChallenge}
             />
           ) : (
             <SportsLiveCard
@@ -480,6 +554,8 @@ function MLBPowerdFsLive(props) {
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
               gameInfo={history.location.state}
+              useSwap={useSwap}
+              swapCount={swapCounts}
             />
           )}
         </>
@@ -573,7 +649,7 @@ function MLBPowerdFsLive(props) {
                       </p>
                       <div className={classes.sidebar_content_1}>
                         <RenderPower
-                          title="Point Multiplier"
+                          title="Point Booster"
                           isSvgIcon
                           Icon={XPIcon}
                           count={powersInventory.point_multiplier}
@@ -582,19 +658,19 @@ function MLBPowerdFsLive(props) {
                           title="Swap Player"
                           isSvgIcon
                           Icon={ReplaceAllIcon}
-                          count={powerVal("Swap")}
+                          count={swapCounts}
                         />
                         <RenderPower
                           title="D-Wall"
                           isSvgIcon
                           Icon={ShieldIcon}
-                          count={powerVal("D-Wall")}
+                          count={dwallCounts}
                         />
                         <RenderPower
                           title="Challenge"
                           isSvgIcon
                           Icon={ChallengeIcon}
-                          count={powerVal("Challenge")}
+                          count={challengeCounts}
                         />
                       </div>
                       <button onClick={() => setLearnMoreModal(true)}>
