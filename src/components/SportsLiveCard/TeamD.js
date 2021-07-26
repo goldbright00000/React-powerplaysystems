@@ -14,6 +14,7 @@ import RenderPointsSummary from "./RenderPointsSummary";
 import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
 import { CardType } from "./CardType";
 import ChallengePopUp from "../ChallengePopup";
+import DwallPopUp from "../DwallPopup";
 import { nodeName } from "jquery";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
@@ -161,26 +162,55 @@ function SportsLiveCardTeamD(props) {
         className={`${classes.team_d_icons} ${largeView && classes.large_view}`}
       >
         {cardType === CardType.MLBR ? (
-          <ChallengePopUp
-            component={({ showPopUp }) => (
-              <button
-                onClick={showPopUp}
-                className={classes.team_d_icon_button}
-              >
-                <Challenge size={largeView ? 28 : 24} />
-              </button>
-            )}
-          />
+          <>
+            <ChallengePopUp
+              component={({ showPopUp }) => (
+                <button
+                  onClick={showPopUp}
+                  className={classes.team_d_icon_button}
+                >
+                  <Challenge size={largeView ? 28 : 24} />
+                </button>
+              )}
+              challenge={props.challenge}
+              useChallenge={props.useChallenge}
+            />
+            <DwallPopUp
+              component={({ showPopUp }) => (
+                <button
+                  onClick={showPopUp}
+                  className={classes.team_d_icon_button}
+                >
+                  <ShieldIcon size={largeView ? 28 : 24} />
+                </button>
+              )}
+              dwall={props.dwall}
+              useDwall={props.useDwall}
+            />
+          </>
         ) : (
-          <ChallengePopUp
-            component={({ showPopUp }) => (
-              <button onClick={showPopUp}>
-                <Challenge size={largeView ? 28 : 24} />
-              </button>
-            )}
-          />
+          <>
+            <ChallengePopUp
+              component={({ showPopUp }) => (
+                <button onClick={showPopUp}>
+                  <Challenge size={largeView ? 28 : 24} />
+                </button>
+              )}
+              challenge={props.challenge}
+              useChallenge={props.useChallenge}
+            />
+            <DwallPopUp
+              component={({ showPopUp }) => (
+                <button onClick={showPopUp}>
+                  <ShieldIcon size={largeView ? 28 : 24} />
+                </button>
+              )}
+              dwall={props.dwall}
+              useDwall={props.useDwall}
+            />
+          </>
         )}
-        <ShieldIcon size={largeView ? 28 : 24} />
+        
       </div>
     </div>
   );
@@ -255,7 +285,9 @@ function SportsLiveCardTeamD(props) {
 
   return (
     <>
-      <div className={classes.card_wrapper}>
+      <div className={`${classes.card_wrapper} ${
+        singleView ? classes.singleViewCardWrapper : ""
+      }`}>
         {!singleView && <RenderHeader />}
 
         <div

@@ -95,7 +95,7 @@ function SingleView(props) {
         {selectedCard?.team_d_mlb_team &&
         selectedCard?.team_d_mlb_team?.type === D ? (
           <SportsLiveCardTeamD
-            largeView
+            
             data={selectedCard}
             onChangeXp={onChangeXp}
             updateReduxState={updateReduxState}
@@ -103,7 +103,7 @@ function SingleView(props) {
           />
         ) : (
           <SportsLiveCard
-            largeView
+            
             data={selectedCard}
             onChangeXp={onChangeXp}
             updateReduxState={updateReduxState}

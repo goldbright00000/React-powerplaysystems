@@ -6,6 +6,8 @@
   min-width: 236px;
   margin: 5px;
 
+  
+
   .card_header {
     display: flex;
     width: 100%;
@@ -952,7 +954,9 @@
 @media (max-width: 1900px) {
   .card_wrapper {
     //min-width: 296px;
-
+    &.singleViewCardWrapper {
+      margin: 5px 5px 5px 30px;
+    }
     .card_header {
       .card_header_title {
         font-size: 28px;
@@ -1503,6 +1507,10 @@
 @media (max-width: 1680px) {
   .card_wrapper {
     min-width: 245px;
+
+    &.singleViewCardWrapper {
+      margin: 5px 5px 5px 10px !important;
+    }
 
     .card_header {
       .card_header_title {
@@ -3222,7 +3230,9 @@
 @media (max-width: 1200px) {
   .card_wrapper {
     min-width: 200px;
-
+    &.singleViewCardWrapper {
+      min-width: 200px !important;
+    }
     .card_header {
       .card_header_title {
         font-size: 16px;
@@ -3816,11 +3826,22 @@
       }
     }
   }
+  .card_wrapper {
+    &.singleViewCardWrapper {
+      min-width: 245px !important;
+    }
+  }
 }
 
 @media (max-width: 1535px) and (min-width: 1290px) {
   .card_wrapper {
     min-width: unset !important;
+    &.singleViewCardWrapper {
+      min-width: 245px !important;
+      .card_container {
+        width: 245px !important;
+      }
+    }
     .card_header {
       .header_teams {
         p {
@@ -3865,6 +3886,9 @@
 @media (max-width: 1289px) and (min-width: 1248px) {
   .card_wrapper {
     min-width: unset !important;
+    &.singleViewCardWrapper {
+      min-width: 200px !important;
+    }
     .card_header {
       .header_teams {
         p {
@@ -3909,6 +3933,9 @@
 @media (max-width: 1247px) and (min-width: 1154px) {
   .card_wrapper {
     min-width: unset !important;
+    &.singleViewCardWrapper {
+      min-width: 200px !important;
+    }
     .card_header {
       .header_teams {
         p {

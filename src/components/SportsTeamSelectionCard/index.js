@@ -6,7 +6,7 @@ import ClockIcon from "../../icons/Clock2";
 import CalenderIcon from "../../icons/Calendar2";
 import StadiumIcon from "../../icons/Stadium2";
 import Tick2 from "../../icons/Tick2";
-import DeleteIcon from "../../assets/delete.png";
+import DeleteIcon from "../../assets/group-4.svg";
 import PowerPlayIcon from "../../assets/token.png";
 import StarIcon from "../../icons/Star";
 import TDShirtImage from "../../assets/td.png";
@@ -52,7 +52,7 @@ function SportsTeamSelectionCard(props) {
     <div
       className={`${classes.card_state_mlb} ${isSelected && classes.active}`}
     >
-      <div>
+      {/* <div>
         <span>Toronto SP</span>
         <p>N. Eovaldi</p>
         <span>(1-2, 3.00 ERA)</span>
@@ -62,6 +62,9 @@ function SportsTeamSelectionCard(props) {
         <span>Baltimore SP</span>
         <p>J. Means</p>
         <span>(3-1, 2.89 ERA)</span>
+      </div> */}
+      <div>
+        <p>N. Eovaldi <span>1-2, 3.00 ERA</span></p>
       </div>
     </div>
   );
@@ -97,6 +100,9 @@ function SportsTeamSelectionCard(props) {
   return (
     <div
       className={`${classes.container_body_card} ${mlbCard && classes.inset}`}
+      className={`${classes.container_body_card} ${mlbCard && classes.inset} ${
+        isSelected ? classes.activeBorder : ""
+      }`}
     >
       <div className={classes.container_body_card_1}>
         <div className={classes.container_body_left}>
@@ -115,7 +121,9 @@ function SportsTeamSelectionCard(props) {
               Star Power{" "}
             </span>
           )} */}
-          <div className={classes.container_body_card_header}>
+          <div className={`${classes.container_body_card_header} ${
+            isSelected ? classes.header_flex : ""
+          }`}>
             <p
               className={`${classes.container_selected_p} ${
                 isSelected ? classes.active : ""
@@ -135,12 +143,12 @@ function SportsTeamSelectionCard(props) {
             ) : (
               <div className={classes.container_selected}>
                 <p className={classes.container_selected_p_1}>
-                  <Tick2 /> Selected{" "}
-                  <img
-                    src={DeleteIcon}
-                    onClick={() => onSelectDeselect(team_id, match_id)}
-                  />
+                  <Tick2 /> {" "}
                 </p>
+                <img
+                  src={DeleteIcon}
+                  onClick={() => onSelectDeselect(team_id, match_id)}
+                />
               </div>
             )}
           </div>
@@ -158,18 +166,34 @@ function SportsTeamSelectionCard(props) {
             {mlbCard && currentStep === 1 ? (
               <RenderMLBState />
             ) : isEmpty(playerStats) ? (
-              <RenderOtherState />
+              <RenderMLBState />
             ) : (
               <p>No Data</p>
             )}
           </div>
 
           {currentStep === 0 && (
-            <div className={classes.team_vs}>
+            <>
+            <div className={`${classes.team_vs} ${
+              isSelected ? classes.selectedColor : ""
+            }`}>
               <p>Vs {teamBCity + " " + teamBName}</p>
             </div>
+            <div
+            className={`
+                ${classes.container_body_card_state} 
+                ${isSelected && classes.active}`}
+          >
+            {mlbCard && currentStep === 1 ? (
+              <RenderMLBState />
+            ) : isEmpty(playerStats) ? (
+              <RenderMLBState />
+            ) : (
+              <p>No Data</p>
+            )}
+          </div></>
           )}
-          <div className={classes.divider}></div>
+          {/* <div className={classes.divider}></div> */}
         </div>
 
         <div className={classes.container_body_right}>

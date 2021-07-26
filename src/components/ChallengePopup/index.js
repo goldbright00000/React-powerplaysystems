@@ -29,21 +29,31 @@ const ChallengePopUp = props => {
                                             },2000);
                                         }}>Cancel</button>
                                         <button className={styles.challengePlayButton} onClick={() => {
-                                            setPopupMode(1);
-                                            setTimers(5);
-                                            var t = 5;
-                                            var a = setInterval(function() {
-                                                console.log("t", t);
-                                                t = t - 1;
-                                                setTimers(t);
-                                                if(t === -1) {
-                                                    clearInterval(a);
-                                                    setPopupMode(2);
-                                                    setTimeout(function() {
-                                                        setShowPopUp(false);
-                                                    },2000);
-                                                }
-                                            },1000);
+                                            
+                                            if(props.challenge > 0)
+                                            {
+                                                setPopupMode(1);
+                                                setTimers(5);
+                                                var t = 5;
+                                                var a = setInterval(function() {
+                                                    console.log("t", t);
+                                                    t = t - 1;
+                                                    setTimers(t);
+                                                    if(t === -1) {
+                                                        clearInterval(a);
+                                                        setPopupMode(2);
+                                                        setTimeout(function() {
+                                                            props.useChallenge(true);
+                                                            setShowPopUp(false);
+                                                        },2000);
+                                                    }
+                                                },1000);
+                                            }
+                                            else {
+                                                alert("You cannot use this power");
+                                                setShowPopUp(false);
+                                                return;
+                                            }
                                         }}>Challenge Play</button>
                                     </div>
                                 </>
