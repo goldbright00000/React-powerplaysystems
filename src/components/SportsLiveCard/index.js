@@ -68,7 +68,7 @@ function SportsLiveCard(props) {
 
   const { gameId, userId, teamId, sportId } = gameInfo || {};
 
-  const { player = {}, match = {}, xp = {} } = data || {};
+  const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -373,7 +373,7 @@ function SportsLiveCard(props) {
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {points}
+            {score}
           </p>
           <RenderXpToolTip />
         </div>
