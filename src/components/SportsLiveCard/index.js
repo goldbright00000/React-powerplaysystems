@@ -120,7 +120,7 @@ function SportsLiveCard(props) {
     hits = 0,
     runs = 0,
     runs_batted_in = 0,
-    innings_pitched = 0,
+    // innings_pitched = 0,
     strike_outs = 0,
     plate_appearances = 0,
     // batting_average = 0,
@@ -145,7 +145,7 @@ function SportsLiveCard(props) {
     // batting_average = 0,
     // wins = 0,
     // losses = 0,
-    // innings_pitched = 0,
+    innings_pitched = 0,
     strikes = 0,
     balls = 0,
     // earned_runs_average = 0,
@@ -163,6 +163,10 @@ function SportsLiveCard(props) {
     current_inning = 0,
     current_inning_half = null,
   } = boxscore[0] || {};
+
+  // if (type === "P") {
+  //   console.log(boxscore[0]);
+  // }
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
@@ -438,9 +442,11 @@ function SportsLiveCard(props) {
           className={current_team === away_team.team_id && classes.current_team}
         >
           {getCurrentInningHalf() === "b" ? (
-            <BaseballStick style={{ marginRight: "5px" }} />
-          ) : (
             <Baseball style={{ marginRight: "5px" }} />
+          ) : (
+            getCurrentInningHalf() === "t" && (
+              <BaseballStick style={{ marginRight: "5px" }} />
+            )
           )}
           {away_team?.name} {away_team_runs}
         </p>{" "}

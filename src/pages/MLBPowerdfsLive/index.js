@@ -70,9 +70,15 @@ function MLBPowerdFsLive(props) {
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
   const [points, setPoints] = useState(0);
+
   const [playerIds, setPlayerIds] = useState([]);
   const [matchUpdateData, setMatchUpdateData] = useState({});
-  const [ranks, setRanks] = useState({});
+  const [ranks, setRanks] = useState({
+    ranking: 0,
+    score: 0,
+    game_id: 0,
+    team_id: 0,
+  });
   const [powersInventory, setPowersInventory] = useState({
     swap: 2,
     point_multiplier: 0,
@@ -325,6 +331,18 @@ function MLBPowerdFsLive(props) {
     }
     playersArr[7] = teamD;
     playersArr[7].team_d_mlb_team.type = D;
+
+    let _totalScore = 0;
+    for (let i = 0; i < playersArr?.length - 1; i++) {
+      _totalScore += playersArr[i]?.score;
+    }
+
+    const _ranks = { ...ranks };
+
+    setRanks({
+      ..._ranks,
+      score: _totalScore,
+    });
 
     dispatch(MLBActions.mlbLiveData(playersArr));
   };
