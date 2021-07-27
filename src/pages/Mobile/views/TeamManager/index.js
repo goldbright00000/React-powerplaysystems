@@ -6,6 +6,7 @@ import PoweredBy from "../../../../components/mobilecomponents/PoweredBy";
 import ScoreBoard from "../../../../components/mobilecomponents/ScoreBoard";
 import { removeZeroBeforeDecimalPoint } from "../../../../utility/shared";
 import { isEmpty } from "lodash";
+import { CONSTANTS } from "../../../../utility/constants";
 
 const TeamManager = ({
   state,
@@ -91,6 +92,7 @@ const TeamManager = ({
           current_team = "",
           player_id = "",
           match_stats = [],
+          primary_position = "",
         } = player || {};
 
         const {
@@ -169,7 +171,18 @@ const TeamManager = ({
             boostModal={boostModal}
             swapModal={swapModal}
             showTagLine={true}
-            tagLine={type === "XB" || type === "OF" ? type1 : type}
+            tagLine={
+              data?.team_d_mlb_team?.type === CONSTANTS.FILTERS.MLB.D
+                ? `${data?.team_d_mlb_team?.type}`.toLocaleUpperCase()
+                : type === "XB" || type === "OF"
+                ? type1
+                : type
+            }
+            // tagLine={
+            //   data?.team_d_mlb_team?.type === CONSTANTS.FILTERS.MLB.D
+            //     ? `${data?.team_d_mlb_team?.type}`.toLocaleUpperCase()
+            //     : primary_position
+            // }
             firstTeam={`${away_team?.name} ${away_team_runs}`}
             secondTeam={`${home_team?.name} ${home_team_runs}`}
             double={false}
