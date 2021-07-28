@@ -49,7 +49,7 @@ const CashPowerBalance = (props) => {
               }`}
           >
             <h1 className={classes.__sidebar_cash}>
-              {powerBalance && setNumberComma(powerBalance)}
+              ${powerBalance && setNumberComma(powerBalance)}
             </h1>
             <span className={classes.__sidebar_cash_balance_title}>
               {powerTitle || "Power Balance"}

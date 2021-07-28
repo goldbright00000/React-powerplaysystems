@@ -26,6 +26,10 @@
     display: none;
   }
 
+  &.activeBorder {
+    border: 1px solid $primary;
+  }
+
   .container_body_card_header {
     display: flex;
     justify-content: space-between;

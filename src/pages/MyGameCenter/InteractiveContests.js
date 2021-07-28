@@ -188,6 +188,7 @@ const InteractiveContests = (props) => {
             userId: user_id,
             teamId: team_id,
             sportId: sport_id,
+            item: item
           },
         });
     }

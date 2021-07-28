@@ -210,6 +210,7 @@ function SportsLiveCard(props) {
           };
 
           setPlayerList(_dataToRender);
+          
         }
       }
       setLoadingPlayerList(false);
@@ -217,6 +218,12 @@ function SportsLiveCard(props) {
   }, [mlbData]);
 
   const onSwap = (playerId, match_id) => {
+    console.log("props.swapCount", props.swapCount);
+    if(props.swapCount === 0)
+    {
+      alert("You cannot swap the players.");
+      return;
+    }
     const [swapablePlayer] =
       !isEmpty(playerList) &&
       playerList?.listData?.length &&
@@ -228,6 +235,7 @@ function SportsLiveCard(props) {
     if (swapablePlayer) {
       updateReduxState(data, swapablePlayer);
       toggleReplaceModal();
+      props.useSwap(true);
     }
   };
 
@@ -471,7 +479,9 @@ function SportsLiveCard(props) {
 
   return (
     <>
-      <div className={classes.card_wrapper}>
+      <div className={`${classes.card_wrapper} ${
+        singleView ? classes.singleViewCardWrapper : ""
+      }`}>
         {!singleView && <RenderHeader />}
 
         <div
