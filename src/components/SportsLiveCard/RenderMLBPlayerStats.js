@@ -136,22 +136,52 @@ function RenderMLBPlayerStats(props) {
   };
 
   const renderBaseRunner = () => {
-    if (!isEmpty(baserunner_1)) {
+    if (
+      baserunner_1 !== null &&
+      baserunner_2 === null &&
+      baserunner_3 === null &&
+      baserunner_4 === null
+    ) {
       return <RunnerRight />;
-    } else if (!isEmpty(baserunner_2)) {
+    } else if (
+      baserunner_2 !== null &&
+      baserunner_1 === null &&
+      baserunner_3 === null &&
+      baserunner_4 === null
+    ) {
       return <RunnerTop />;
-    } else if (!isEmpty(baserunner_3)) {
+    } else if (
+      baserunner_3 !== null &&
+      baserunner_1 === null &&
+      baserunner_2 === null &&
+      baserunner_4 === null
+    ) {
       return <RunnerLeft />;
-    } else if (!isEmpty(baserunner_1) && !isEmpty(baserunner_2)) {
+    } else if (
+      baserunner_1 !== null &&
+      baserunner_2 !== null &&
+      baserunner_3 === null &&
+      baserunner_4 === null
+    ) {
       return <RunnerTopRight />;
-    } else if (!isEmpty(baserunner_2) && !isEmpty(baserunner_3)) {
+    } else if (
+      baserunner_2 !== null &&
+      baserunner_3 !== null &&
+      baserunner_1 === null &&
+      baserunner_4 === null
+    ) {
       return <RunnerTopLeft />;
-    } else if (!isEmpty(baserunner_1) && !isEmpty(baserunner_3)) {
+    } else if (
+      baserunner_1 !== null &&
+      baserunner_3 !== null &&
+      baserunner_2 === null &&
+      baserunner_4 === null
+    ) {
       return <RunnerLeftRight />;
     } else if (
-      !isEmpty(baserunner_1) &&
-      !isEmpty(baserunner_2) &&
-      !isEmpty(baserunner_3)
+      baserunner_1 !== null &&
+      baserunner_2 !== null &&
+      baserunner_3 !== null
     ) {
       return <RunnerTopRightLeft />;
     }

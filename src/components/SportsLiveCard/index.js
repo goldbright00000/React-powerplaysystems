@@ -164,10 +164,6 @@ function SportsLiveCard(props) {
     current_inning_half = null,
   } = boxscore[0] || {};
 
-  // if (type === "P") {
-  //   console.log(boxscore[0]);
-  // }
-
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
@@ -212,8 +208,6 @@ function SportsLiveCard(props) {
             type: swapablePlayerData.type,
             listData: newListData,
           };
-
-          printLog(newListData);
 
           setPlayerList(_dataToRender);
         }
@@ -352,7 +346,7 @@ function SportsLiveCard(props) {
           ) : (
             <>
               <p>
-                {removeZeroBeforeDecimalPoint(batting_average)} | {hits} /{" "}
+                {removeZeroBeforeDecimalPoint(batting_average)} | {hits}/
                 {plate_appearances}
               </p>
               <p>

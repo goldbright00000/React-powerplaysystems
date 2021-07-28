@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
@@ -83,6 +83,7 @@ function MLBPowerdFsLive(props) {
     d_wall: 1,
     challenge: 1,
   });
+  const [playerToSwap, setPlayerToSwap] = useState({});
 
   const history = useHistory();
 
@@ -113,6 +114,7 @@ function MLBPowerdFsLive(props) {
   }, []);
 
   useEffect(() => {
+    setPlayerToSwap({});
     if (_socket) {
       onSocketEmit();
 
@@ -271,17 +273,28 @@ function MLBPowerdFsLive(props) {
 
   const onFantasyTeamUpdate = (res) => {
     console.log("FANTAY TEAM UPDATE: ", res);
-    const { log: { data: { fantasy_points_after = 0 } = {} } = {} } = res || {};
+    const {
+      log = {},
+      event = {},
+      fantasy_team = {},
+      updated_player = {},
+      updated_team_defense = {},
+    } = res?.data || {};
+    const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
 
     const liveData = [...live_data];
-    // console.log("FANTASY_TEAM_UPDATE_2: ", liveData, fantasy_points_after);
-    // for (let i = 0; i < liveData?.length; i++) {
-    //   liveData[i].player.points = fantasy_points_after || 0;
-    // }
+    console.log(isEmpty(playerToSwap), playerToSwap);
+    if (!isEmpty(playerToSwap)) {
+      const updatedPlayerIndex = liveData?.indexOf(playerToSwap);
+      console.log("UPDATED PLAYER INDEX: ", updatedPlayerIndex);
+      if (updatedPlayerIndex !== -1) {
+        liveData[updatedPlayerIndex] = updated_player;
+      }
 
-    dispatch(MLBActions.mlbLiveData(liveData));
+      dispatch(MLBActions.mlbLiveData(liveData));
+    }
   };
 
   const onChangeXp = (xp, player) => {
@@ -317,6 +330,7 @@ function MLBPowerdFsLive(props) {
     const { gameId, sportId, teamId, userId } = history.location.state || {};
 
     console.log(currentPlayer, newPlayer);
+    setPlayerToSwap(currentPlayer);
 
     onPowerApplied(
       teamId,
