@@ -65,7 +65,7 @@ function AccountPage(props) {
           date_time: element?.game?.createdAt,
           description: 'Entered into Game',
           transaction_amount: element?.game?.entry_fee,
-          transaction_type_details: { type: "Entered - Game" }
+          transaction_type_details: { type: "Game Entry" }
         });
       });
       setUserAccount(obj);
