@@ -68,7 +68,7 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_powerdfs}>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
                     <p className={classes.__power_center_card_powerdfs_title}>
-                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> {game_type}
+                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
                     </p>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_right}></span>
                 </div>
@@ -123,7 +123,7 @@ const PowerCenterCard = (props) => {
                                 {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
                             </p>
                         ) : (
-                            !targeted_game ?
+                            !targeted_game || targeted_game === null || targeted_game === undefined ?
                                 null : (
                                     <p>
                                         {outOf} <span>of {total}</span>
