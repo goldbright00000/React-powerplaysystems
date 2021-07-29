@@ -117,6 +117,8 @@ function SportsLiveCardTeamD(props) {
       return `${moment(date_time).format("MMM Do")} - ${moment(
         date_time
       ).format("hh:mm A")}`;
+    } else if (`${status}`?.toLocaleLowerCase() === "closed") {
+      return "Game Over";
     }
 
     return status;
@@ -210,7 +212,6 @@ function SportsLiveCardTeamD(props) {
             />
           </>
         )}
-        
       </div>
     </div>
   );
@@ -224,7 +225,11 @@ function SportsLiveCardTeamD(props) {
       <span
         className={`
         ${largeView && classes.large_view}
-        ${success && classes.success} 
+        ${
+          success ||
+          getStatus() === "Pitching" ||
+          (getStatus() === "Hitting" && classes.success)
+        } 
         ${danger && classes.danger}`}
       >
         {getStatus()}
@@ -285,9 +290,11 @@ function SportsLiveCardTeamD(props) {
 
   return (
     <>
-      <div className={`${classes.card_wrapper} ${
-        singleView ? classes.singleViewCardWrapper : ""
-      }`}>
+      <div
+        className={`${classes.card_wrapper} ${
+          singleView ? classes.singleViewCardWrapper : ""
+        }`}
+      >
         {!singleView && <RenderHeader />}
 
         <div
