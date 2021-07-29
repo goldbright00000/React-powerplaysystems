@@ -215,19 +215,19 @@ const InteractiveContests = (props) => {
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
           inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
             item?.game?.game_set_start + ' ' + item?.game?.start_time,
-            item?.game?.game_set_end + ' 11:59 PM'
+            moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
           )}
           completed={moment(moment().format("YYYY-MM-DD")).isAfter(
-            item?.game?.game_set_end
+            moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
           )}
           editPicks={
             item?.players?.length > 0 &&
             !moment(moment().format("YYYY-MM-DD")).isAfter(
-              item?.game?.game_set_end
+              moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
             ) &&
             !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
               item?.game?.game_set_start + ' ' + item?.game?.start_time,
-              item?.game?.game_set_end + ' 11:59 PM'
+              moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
             )
           }
           makePicks={item.makePicks}

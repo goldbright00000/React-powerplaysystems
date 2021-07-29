@@ -5,18 +5,17 @@ import moment from "moment";
 import TickIcon from "../../assets/icons/correct-copy.png";
 
 const HistoryInfoComponent = (props) => {
-  const { isMobile = false, balance = {}, transactions = [] } = props || {};
+  const { isMobile = false, transactions = [] } = props || {};
 
   const TableRow = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
     const getDate = (timestamp) => {
-      return moment(timestamp).format("MMMM d");
+      return moment(timestamp).format("MMMM D");
     };
     const getTime = (timestamp) => {
       return moment(timestamp).format("hh:mm A");
     };
 
-    console.log(transaction);
     return (
       <>
         {isMobile ? (
@@ -78,8 +77,8 @@ const HistoryInfoComponent = (props) => {
               <div className="mx-1 text-left text-ellipsis">{getTime(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type || "--"} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
-              <div className="mx-1 text-left text-ellipsis">{transaction.transaction_amount || "--"}</div>
-              <div className="mx-1 text-left text-ellipsis">Verified</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount || "--"}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? `Verified` : 'Entered'}</div>
             </div>
           </>
         )}
