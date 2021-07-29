@@ -6,8 +6,6 @@
   min-width: 236px;
   margin: 5px;
 
-  
-
   .card_header {
     display: flex;
     width: 100%;
@@ -756,6 +754,28 @@
           cursor: pointer;
         }
       }
+    }
+  }
+
+  .card_footer_btn {
+    background-color: $primary;
+    border: none;
+    width: 90%;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    color: $black;
+    font-family: Poppins;
+    position: absolute;
+    bottom: 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 13px;
+
+    &:hover {
+      cursor: pointer;
     }
   }
 
