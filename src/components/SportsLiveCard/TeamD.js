@@ -119,12 +119,6 @@ function SportsLiveCardTeamD(props) {
       ).format("hh:mm A")}`;
     } else if (`${status}`?.toLocaleLowerCase() === "closed") {
       return "Game Over";
-    } else if (type === "P" || (type === "p" && isPitching())) {
-      return "Pitching";
-    } else if (type === "P" || (type === "p" && !isPitching())) {
-      return "Dugout";
-    } else if (player_id === pitcher?.player_id && pitcher) {
-      return "Hitting";
     }
 
     return status;
