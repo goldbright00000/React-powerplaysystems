@@ -242,13 +242,16 @@ function SportsLiveCard(props) {
       return `${moment(date_time).format("MMM Do")} - ${moment(
         date_time
       ).format("hh:mm A")}`;
-    } else if (`${status}`?.toLocaleLowerCase() === "closed") {
+    } else if (
+      `${status}`?.toLocaleLowerCase() === "closed" ||
+      `${status}`?.toLocaleLowerCase() === "completed"
+    ) {
       return "Game Over";
     } else if (type === "P" || (type === "p" && isPitching())) {
       return "Pitching";
     } else if (type === "P" || (type === "p" && !isPitching())) {
       return "Dugout";
-    } else if (player_id === pitcher?.player_id && pitcher) {
+    } else if (player_id === hitter?.player_id && hitter) {
       return "Hitting";
     }
 

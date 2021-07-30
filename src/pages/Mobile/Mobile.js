@@ -11,7 +11,7 @@ import ScoreDetails from "./views/ScoreDetails";
 import TeamManager from "./views/TeamManager";
 
 function App(props) {
-  const { data = [] } = props || {};
+  const { data = [], ranks = {} } = props || {};
 
   const [state, setState] = useState(1);
   const [swap, setSwap] = useState(false);
@@ -57,6 +57,7 @@ function App(props) {
         setSecondModal={setSecondModal}
         boostModal={boostModal}
         swapModal={swapModal}
+        ranks={ranks}
       />
     </section>
   );
