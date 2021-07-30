@@ -8,10 +8,13 @@ import BoosterPopUp from "../BoosterPopUp/BoosterPopUp";
 import PrizeGrid from "../PrizeGrid/PrizeGrid";
 import SwapStarter from "../SwapStarter/SwapStarter";
 import "./live_match.scss";
-const LiveMatch = ({ swap, secondModal, boostModal, swapModal }) => {
+import RankIcon from "../../../icons/Ranks/RankIcon";
+const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks }) => {
   const [modal, setModal] = useState(false);
 
   const [priceGrid, setPriceGrid] = useState(false);
+
+  const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
 
   const toggle = () => setModal(!modal);
   const priceModal = (value) => {
@@ -29,10 +32,10 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal }) => {
                 <WinningCash />
               </Col>
               <Col xs={4}>
-                <Chart />
+                <RankIcon rank={ranking} />
               </Col>
               <Col xs={4}>
-                <MyScore />
+                <MyScore score={score} />
               </Col>
             </Row>
           </Container>

@@ -9,13 +9,16 @@ import LiveStandings from "../LiveStandings";
 
 function RankCard(props) {
   const [showModal, setModalState] = useState(false);
-  const { showButton = true, ranks = {} } = props || {};
+  const { showButton = true, ranks = {}, onClickStandings = () => {} } =
+    props || {};
 
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
 
-  const toggleLiveStandingModal = useCallback(() => {
+  const toggleLiveStandingModal = () => {
+    onClickStandings();
+
     setModalState(!showModal);
-  }, [showModal]);
+  };
 
   return (
     <div className={classes.sidebar_header}>
