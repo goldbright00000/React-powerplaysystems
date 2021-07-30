@@ -118,17 +118,15 @@ const PowerCenterCard = (props) => {
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
                     <div className={classes.__power_center_card_total}>
-                        {game_type === 'PowerdFs_open' ? (
+                        {targeted_game ? (
+                            <p>
+                                {outOf} <span>of {total}</span>
+                            </p>
+
+                        ) : (
                             <p>
                                 {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
                             </p>
-                        ) : (
-                            !targeted_game || targeted_game === null || targeted_game === undefined ?
-                                null : (
-                                    <p>
-                                        {outOf} <span>of {total}</span>
-                                    </p>
-                                )
                         )}
                     </div>
                     <div className={classes.__power_center_card_details}>
