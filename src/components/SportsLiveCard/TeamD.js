@@ -33,7 +33,8 @@ function SportsLiveCardTeamD(props) {
     cardType = CardType.MLB,
   } = props || {};
 
-  const { match_id = "", match = {}, team_d_mlb_team: team = {} } = data || {};
+  const { match_id = "", match = {}, team_d_mlb_team: team = {}, score = 0 } =
+    data || {};
 
   const {
     away_team = {},
@@ -58,7 +59,6 @@ function SportsLiveCardTeamD(props) {
 
   const {
     abbr = 0,
-    average_runs_against = 0,
     loses = 0,
     season_id = 0,
     stats_id = 0,
@@ -73,6 +73,7 @@ function SportsLiveCardTeamD(props) {
     home_runs = 0,
     stolen_bases = 0,
     runs_batted_in = 0,
+    average_runs_against = 0,
     batting_average = 0,
     wins = 0,
     losses = 0,
@@ -117,7 +118,10 @@ function SportsLiveCardTeamD(props) {
       return `${moment(date_time).format("MMM Do")} - ${moment(
         date_time
       ).format("hh:mm A")}`;
-    } else if (`${status}`?.toLocaleLowerCase() === "closed") {
+    } else if (
+      `${status}`?.toLocaleLowerCase() === "closed" ||
+      `${status}`?.toLocaleLowerCase() === "completed"
+    ) {
       return "Game Over";
     }
 
@@ -156,7 +160,7 @@ function SportsLiveCardTeamD(props) {
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {points}
+            {score}
           </p>
         </div>
       </div>
@@ -339,7 +343,7 @@ function SportsLiveCardTeamD(props) {
                       />
                     )}
 
-                    {!isEmpty(playerStats) && !singleView && (
+                    {!singleView && (
                       <RenderMLBPlayerStats
                         hitter={hitter}
                         pitcher={pitcher}

@@ -41,6 +41,7 @@ const {
   ON_POWER_APPLIED,
   ON_GLOBAL_RANKING_REQUEST,
   ON_FANTASY_LOGS_REQUEST,
+  GET_GLOBAL_RANKING,
   MATCH_UPDATE,
   GLOBAL_RANKING,
   FANTASY_TEAM_UPDATE,
@@ -90,6 +91,8 @@ function MLBPowerdFsLive(props) {
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
   const history = useHistory();
+
+  const { gameId, userId, teamId, sportId } = history.location.state || {};
 
   const {
     live_data = [],
@@ -219,7 +222,6 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    const { gameId, userId, teamId, sportId } = history.location.state || {};
     printLog(history.location.state);
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
@@ -411,6 +413,17 @@ function MLBPowerdFsLive(props) {
       playerId: playerId,
       powerId: powerId,
     });
+  };
+
+  const onClickStandings = () => {
+    if (_socket) {
+      //GET_GLOBAL_RANKING -> Standings
+      _socket.emit(GET_GLOBAL_RANKING, {
+        gameId: gameId,
+        upperLimit: 0,
+        lowerLimit: 10,
+      });
+    }
   };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
@@ -657,7 +670,12 @@ function MLBPowerdFsLive(props) {
                       centered
                       showIcons={false}
                     />
-                    <RankCard ranks={ranks} currentWin={100000} {...props} />
+                    <RankCard
+                      ranks={ranks}
+                      currentWin={100000}
+                      onClickStandings={onClickStandings}
+                      {...props}
+                    />
 
                     <div className={classes.sidebar_content}>
                       <p>
@@ -708,7 +726,7 @@ function MLBPowerdFsLive(props) {
           />
         </>
       ) : (
-        <Mobile data={live_data} />
+        <Mobile data={live_data} ranks={ranks} />
       )}
     </>
   );
