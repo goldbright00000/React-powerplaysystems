@@ -37,7 +37,8 @@ function SportsLiveCardTeamD(props) {
     cardType = CardType.MLB,
   } = props || {};
 
-  const { match_id = "", match = {}, team_d_mlb_team: team = {} } = data || {};
+  const { match_id = "", match = {}, team_d_mlb_team: team = {}, score = 0 } =
+    data || {};
 
   const {
     away_team = {},
@@ -62,7 +63,6 @@ function SportsLiveCardTeamD(props) {
 
   const {
     abbr = 0,
-    average_runs_against = 0,
     loses = 0,
     season_id = 0,
     stats_id = 0,
@@ -77,6 +77,7 @@ function SportsLiveCardTeamD(props) {
     home_runs = 0,
     stolen_bases = 0,
     runs_batted_in = 0,
+    average_runs_against = 0,
     batting_average = 0,
     wins = 0,
     losses = 0,
@@ -160,6 +161,11 @@ function SportsLiveCardTeamD(props) {
       return `${moment(date_time).format("MMM Do")} - ${moment(
         date_time
       ).format("hh:mm A")}`;
+    } else if (
+      `${status}`?.toLocaleLowerCase() === "closed" ||
+      `${status}`?.toLocaleLowerCase() === "completed"
+    ) {
+      return "Game Over";
     }
 
     return status;
@@ -197,7 +203,7 @@ function SportsLiveCardTeamD(props) {
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {points}
+            {score}
           </p>
         </div>
       </div>
@@ -427,7 +433,6 @@ function SportsLiveCardTeamD(props) {
             )}
           </>
         )}
-        
       </div>
     </div>
   );
@@ -441,7 +446,11 @@ function SportsLiveCardTeamD(props) {
       <span
         className={`
         ${largeView && classes.large_view}
-        ${success && classes.success} 
+        ${
+          success ||
+          getStatus() === "Pitching" ||
+          (getStatus() === "Hitting" && classes.success)
+        } 
         ${danger && classes.danger}`}
       >
         {getStatus()}
@@ -502,9 +511,11 @@ function SportsLiveCardTeamD(props) {
 
   return (
     <>
-      <div className={`${classes.card_wrapper} ${
-        singleView ? classes.singleViewCardWrapper : ""
-      }`}>
+      <div
+        className={`${classes.card_wrapper} ${
+          singleView ? classes.singleViewCardWrapper : ""
+        }`}
+      >
         {!singleView && <RenderHeader />}
 
         <div
@@ -549,7 +560,7 @@ function SportsLiveCardTeamD(props) {
                       />
                     )}
 
-                    {!isEmpty(playerStats) && !singleView && (
+                    {!singleView && (
                       <RenderMLBPlayerStats
                         hitter={hitter}
                         pitcher={pitcher}

@@ -217,10 +217,7 @@ function SportsLiveCard(props) {
             listData: newListData,
           };
 
-          printLog(newListData);
-
           setPlayerList(_dataToRender);
-          
         }
       }
       setLoadingPlayerList(false);
@@ -268,8 +265,7 @@ function SportsLiveCard(props) {
 
   const onSwap = (playerId, match_id) => {
     console.log("props.swapCount", props.swapCount);
-    if(props.swapCount === 0)
-    {
+    if (props.swapCount === 0) {
       alert("You cannot swap the players.");
       return;
     }
@@ -293,6 +289,17 @@ function SportsLiveCard(props) {
       return `${moment(date_time).format("MMM Do")} - ${moment(
         date_time
       ).format("hh:mm A")}`;
+    } else if (
+      `${status}`?.toLocaleLowerCase() === "closed" ||
+      `${status}`?.toLocaleLowerCase() === "completed"
+    ) {
+      return "Game Over";
+    } else if (type === "P" || (type === "p" && isPitching())) {
+      return "Pitching";
+    } else if (type === "P" || (type === "p" && !isPitching())) {
+      return "Dugout";
+    } else if (player_id === hitter?.player_id && hitter) {
+      return "Hitting";
     }
 
     return status;
@@ -302,6 +309,47 @@ function SportsLiveCard(props) {
     if (isEmpty(current_inning_half)) return null;
 
     return `${current_inning_half}`.toLocaleLowerCase();
+  };
+
+  const isPitching = () => getCurrentInningHalf() === "t";
+
+  const showFooterStats = () => {
+    if (type === "P" || (type === "p" && isPitching())) {
+      return (
+        <RenderMLBPlayerStats
+          hitter={hitter}
+          pitcher={pitcher}
+          type={type}
+          baserunner_1={baserunner_1}
+          baserunner_2={baserunner_2}
+          baserunner_3={baserunner_3}
+          baserunner_4={baserunner_4}
+          strikes={strikes}
+          balls={balls}
+          largeView={compressedView || !compressedView}
+          batting_average={removeZeroBeforeDecimalPoint(batting_average)}
+          showImage={true}
+          // {...props}
+        />
+      );
+    } else if (type !== "P" || type !== "p") {
+      return (
+        <RenderMLBPlayerStats
+          hitter={hitter}
+          pitcher={pitcher}
+          type={type}
+          baserunner_1={baserunner_1}
+          baserunner_2={baserunner_2}
+          baserunner_3={baserunner_3}
+          baserunner_4={baserunner_4}
+          strikes={strikes}
+          balls={balls}
+          largeView={compressedView || !compressedView}
+          batting_average={removeZeroBeforeDecimalPoint(batting_average)}
+          // {...props}
+        />
+      );
+    }
   };
 
   const renderXp = () => {
@@ -423,16 +471,16 @@ function SportsLiveCard(props) {
           {type === "P" ? (
             <>
               <p className={`${classes.p} ${largeView && classes.large_view}`}>
-                IP: {innings_pitched} | PC: {pitch_count}
+                IP: {parseFloat(innings_pitched).toFixed(1)} | PC: {pitch_count}
               </p>
               <p className={`${classes.p} ${largeView && classes.large_view}`}>
-                K:{strike_outs} | W:{walks}
+                K:{strike_outs} | BB:{walks}
               </p>
             </>
           ) : (
             <>
               <p>
-                {removeZeroBeforeDecimalPoint(batting_average)} | {hits} /{" "}
+                {removeZeroBeforeDecimalPoint(batting_average)} | {hits}/
                 {plate_appearances}
               </p>
               <p>
@@ -474,7 +522,11 @@ function SportsLiveCard(props) {
       <span
         className={`
         ${largeView && classes.large_view}
-        ${success && classes.success} 
+        ${
+          success || getStatus() === "Pitching" || getStatus() === "Hitting"
+            ? classes.success
+            : ""
+        } 
         ${danger && classes.danger}`}
       >
         {getStatus()}
@@ -600,9 +652,11 @@ function SportsLiveCard(props) {
 
   return (
     <>
-      <div className={`${classes.card_wrapper} ${
-        singleView ? classes.singleViewCardWrapper : ""
-      }`}>
+      <div
+        className={`${classes.card_wrapper} ${
+          singleView ? classes.singleViewCardWrapper : ""
+        }`}
+      >
         {!singleView && <RenderHeader />}
 
         <div
@@ -648,23 +702,15 @@ function SportsLiveCard(props) {
                       />
                     )}
 
-                    {cardType !== CardType.NFL && !singleView ? (
-                      <RenderMLBPlayerStats
-                        hitter={hitter}
-                        pitcher={pitcher}
-                        type={type}
-                        baserunner_1={baserunner_1}
-                        baserunner_2={baserunner_2}
-                        baserunner_3={baserunner_3}
-                        baserunner_4={baserunner_4}
-                        strikes={strikes}
-                        balls={balls}
-                        largeView={compressedView || !compressedView}
-                        batting_average={removeZeroBeforeDecimalPoint(
-                          batting_average
-                        )}
-                        // {...props}
-                      />
+                    {getStatus() === "Game Over" ? (
+                      <>
+                        <button className={classes.card_footer_btn}>
+                          See your {!isEmpty(type1) ? type1 : type} scoring
+                          details
+                        </button>
+                      </>
+                    ) : cardType !== CardType.NFL && !singleView ? (
+                      showFooterStats()
                     ) : (
                       cardType === CardType.NFL && <NFLFooterStats />
                     )}
@@ -683,7 +729,7 @@ function SportsLiveCard(props) {
             )}
           </div>
 
-          {!compressedView && !singleView && (
+          {!compressedView && !singleView && getStatus() !== "Game Over" && (
             <SportsLiveCardFooter
               showSummary={showSummary}
               onClickBack={() => setSummaryState(false)}

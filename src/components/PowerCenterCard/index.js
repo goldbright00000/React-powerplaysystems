@@ -68,7 +68,7 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_powerdfs}>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
                     <p className={classes.__power_center_card_powerdfs_title}>
-                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> {game_type}
+                        <span className={classes.__power_center_card_powerdfs_title_first}>{title}</span> PowerdFS
                     </p>
                     <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_right}></span>
                 </div>
@@ -118,17 +118,15 @@ const PowerCenterCard = (props) => {
                 </div>
                 <div className={classes.__power_center_card_status_and_details}>
                     <div className={classes.__power_center_card_total}>
-                        {game_type === 'PowerdFs_open' ? (
+                        {targeted_game ? (
+                            <p>
+                                {outOf} <span>of {total}</span>
+                            </p>
+
+                        ) : (
                             <p>
                                 {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
                             </p>
-                        ) : (
-                            !targeted_game ?
-                                null : (
-                                    <p>
-                                        {outOf} <span>of {total}</span>
-                                    </p>
-                                )
                         )}
                     </div>
                     <div className={classes.__power_center_card_details}>
@@ -153,6 +151,8 @@ const PowerCenterCard = (props) => {
                 onBackClick={() => onBackClick()}
                 onNextClick={() => onNextClick()}
                 onEnter={onEnter}
+                game_set_start={game_set_start}
+                prize={numberWithCommas(prize)}
             />
     );
 };

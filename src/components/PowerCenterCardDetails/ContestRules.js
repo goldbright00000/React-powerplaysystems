@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./contest.module.scss";
 import correctcopy from "../../assets/correct-copy-2.svg";
-
+import ContestRulesPopUp from "../ContestRulesPopUp";
 const data = [
   {
     heading: "The 8 roster positions:",
@@ -42,16 +42,31 @@ const data = [
 
 const ContestRules = (props) => {
   const { title = "", isMobile = false } = props || {};
-
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+    ];
+    const d = new Date(props.game_set_start);
+ 
   return (
     <div className={classes.__contest_rules}>
       <p className={classes.__contest_rules_main_title}>Contest Rules</p>
       <ul>
-          <li><span>$100,000</span> Prize Pool</li>
+          <li><span>${props.prize}</span> Prize Pool</li>
           <li>Live Play <span>Powers</span> included with entry fee</li>
-          <li>Pick players from any teams scheduled to play on <span>July 19, 2021</span></li>
+          <li>Pick players from any teams scheduled to play on <span>{monthNames[d.getMonth()]} {("0" + d.getDate()).slice(-2)}, {d.getFullYear()}</span></li>
       </ul>
-      <a>See Full Gameplay Rules</a>
+      <ContestRulesPopUp
+        points={[]}
+        powers={[]}
+        component={({ showPopUp }) => (
+            <a
+            onClick={showPopUp}
+            href="#"
+            >
+                See Full Gameplay Rules
+            </a>
+        )}
+        />
     </div>
   );
 };

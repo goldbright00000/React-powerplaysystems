@@ -1,11 +1,11 @@
 import React from "react";
 
-const MyScore = () => {
+const MyScore = ({ score = 0 }) => {
   return (
     <div className="score">
       <div className="scoreFirst">
         <h2>My Score:</h2>
-        <span>30</span>
+        <span>{score}</span>
       </div>
       <div className="leader">
         <p>Leader:</p>

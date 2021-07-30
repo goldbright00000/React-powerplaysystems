@@ -20,6 +20,8 @@ const PowerCenterCardDetails = (props) => {
         Power = [],
         PrizePayout = [],
         onEnter = () => { },
+        game_set_start = '',
+        prize = ''
     } = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -54,7 +56,7 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 4 && title === 'MLB'
                 &&
-                <ContestRules/>
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem}/>
             }
             <Footer
                 onEnter={onEnter}

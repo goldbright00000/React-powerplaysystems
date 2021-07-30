@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
@@ -41,6 +41,7 @@ const {
   ON_POWER_APPLIED,
   ON_GLOBAL_RANKING_REQUEST,
   ON_FANTASY_LOGS_REQUEST,
+  GET_GLOBAL_RANKING,
   MATCH_UPDATE,
   GLOBAL_RANKING,
   FANTASY_TEAM_UPDATE,
@@ -60,8 +61,6 @@ const POWER_IDs = {
 };
 
 function MLBPowerdFsLive(props) {
-  
-  
   const [loading, setLoading] = useState(false);
   const [updatesLoaded, setUpdatesLoading] = useState(false);
   const [screenSize, setScreenSize] = useState(window.screen.width);
@@ -85,11 +84,15 @@ function MLBPowerdFsLive(props) {
     d_wall: 1,
     challenge: 1,
   });
+  const [playerToSwap, setPlayerToSwap] = useState({});
+
   const [swapCounts, setSwapCounts] = useState(0);
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
   const history = useHistory();
+
+  const { gameId, userId, teamId, sportId } = history.location.state || {};
 
   const {
     live_data = [],
@@ -102,10 +105,11 @@ function MLBPowerdFsLive(props) {
 
   const onCloseModal = () => setLearnMoreModal(false);
   let item = props.location.state.item;
-  
-  let prizePool, topPrize = 0;
+
+  let prizePool,
+    topPrize = 0;
   let powers = item?.game?.Powers;
-  
+
   prizePool = _.reduce(
     item?.game?.PrizePayouts,
     function (memo, num) {
@@ -113,45 +117,38 @@ function MLBPowerdFsLive(props) {
     },
     0
   );
-  topPrize= parseFloat(
+  topPrize = parseFloat(
     _.max(item?.game?.PrizePayouts, function (ele) {
       return ele.amount;
     }).amount
   );
 
-
   function powerVal(type) {
     console.log("type", type);
     let powerss = item?.game?.Powers;
     let val = 0;
-    for(var i = 0; i < powerss.length; i++)
-    {
-      if(powerss[i].powerName === type)
-      {
+    for (var i = 0; i < powerss.length; i++) {
+      if (powerss[i].powerName === type) {
         val = powerss[i].amount;
       }
     }
-    switch(type)
-    {
+    switch (type) {
       case "Swap":
-        if(val !== swapCounts)
-          setSwapCounts(val);
+        if (val !== swapCounts) setSwapCounts(val);
         break;
       case "D-Wall":
         val = 1;
-        if(val !== dwallCounts){
+        if (val !== dwallCounts) {
           console.log("type1", type);
           setDwallCounts(1);
         }
         break;
       case "Challenge":
         val = 1;
-        if(val !== challengeCounts)
-          setChallengeCounts(1);
+        if (val !== challengeCounts) setChallengeCounts(1);
         break;
       case "Point Miltiplier":
-        if(val !== pointMultiplierCounts)
-          setPointMultiplierCounts(val);
+        if (val !== pointMultiplierCounts) setPointMultiplierCounts(val);
         break;
     }
     return val;
@@ -195,11 +192,9 @@ function MLBPowerdFsLive(props) {
     return locked;
   }
   function useSwap(action) {
-    if(action)
-    {
+    if (action) {
       var oldCount = swapCounts;
-      if(oldCount > 0)
-      {
+      if (oldCount > 0) {
         oldCount = oldCount - 1;
         setSwapCounts(oldCount);
         return;
@@ -207,13 +202,10 @@ function MLBPowerdFsLive(props) {
       setSwapCounts(0);
     }
   }
-  function useDwall(action)
-  {
-    if(action)
-    {
+  function useDwall(action) {
+    if (action) {
       var oldCount = dwallCounts;
-      if(oldCount > 0)
-      {
+      if (oldCount > 0) {
         oldCount = oldCount - 1;
         setDwallCounts(oldCount);
         return;
@@ -221,13 +213,10 @@ function MLBPowerdFsLive(props) {
       setDwallCounts(0);
     }
   }
-  function useChallenge(action)
-  {
-    if(action)
-    {
+  function useChallenge(action) {
+    if (action) {
       var oldCount = challengeCounts;
-      if(oldCount > 0)
-      {
+      if (oldCount > 0) {
         oldCount = oldCount - 1;
         setChallengeCounts(oldCount);
         return;
@@ -255,6 +244,7 @@ function MLBPowerdFsLive(props) {
   }, []);
 
   useEffect(() => {
+    setPlayerToSwap({});
     if (_socket) {
       onSocketEmit();
 
@@ -270,7 +260,6 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    const { gameId, userId, teamId, sportId } = history.location.state || {};
     printLog(history.location.state);
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
@@ -413,17 +402,28 @@ function MLBPowerdFsLive(props) {
 
   const onFantasyTeamUpdate = (res) => {
     console.log("FANTAY TEAM UPDATE: ", res);
-    const { log: { data: { fantasy_points_after = 0 } = {} } = {} } = res || {};
+    const {
+      log = {},
+      event = {},
+      fantasy_team = {},
+      updated_player = {},
+      updated_team_defense = {},
+    } = res?.data || {};
+    const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
 
     const liveData = [...live_data];
-    // console.log("FANTASY_TEAM_UPDATE_2: ", liveData, fantasy_points_after);
-    // for (let i = 0; i < liveData?.length; i++) {
-    //   liveData[i].player.points = fantasy_points_after || 0;
-    // }
+    console.log(isEmpty(playerToSwap), playerToSwap);
+    if (!isEmpty(playerToSwap)) {
+      const updatedPlayerIndex = liveData?.indexOf(playerToSwap);
+      console.log("UPDATED PLAYER INDEX: ", updatedPlayerIndex);
+      if (updatedPlayerIndex !== -1) {
+        liveData[updatedPlayerIndex] = updated_player;
+      }
 
-    dispatch(MLBActions.mlbLiveData(liveData));
+      dispatch(MLBActions.mlbLiveData(liveData));
+    }
   };
 
   const onChangeXp = (xp, player) => {
@@ -453,12 +453,24 @@ function MLBPowerdFsLive(props) {
     });
   };
 
+  const onClickStandings = () => {
+    if (_socket) {
+      //GET_GLOBAL_RANKING -> Standings
+      _socket.emit(GET_GLOBAL_RANKING, {
+        gameId: gameId,
+        upperLimit: 0,
+        lowerLimit: 10,
+      });
+    }
+  };
+
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
 
     const { gameId, sportId, teamId, userId } = history.location.state || {};
 
     console.log(currentPlayer, newPlayer);
+    setPlayerToSwap(currentPlayer);
 
     onPowerApplied(
       teamId,
@@ -702,7 +714,12 @@ function MLBPowerdFsLive(props) {
                       centered
                       showIcons={false}
                     />
-                    <RankCard ranks={ranks} currentWin={100000} {...props} />
+                    <RankCard
+                      ranks={ranks}
+                      currentWin={100000}
+                      onClickStandings={onClickStandings}
+                      {...props}
+                    />
 
                     <div className={classes.sidebar_content}>
                       <p>
@@ -738,7 +755,7 @@ function MLBPowerdFsLive(props) {
                         Learn more
                       </button>
                     </div>
-                  
+
                     {/* <PowerCollapesible powers={powers} /> */}
                   </Sidebar>
                 </div>
@@ -753,7 +770,7 @@ function MLBPowerdFsLive(props) {
           />
         </>
       ) : (
-        <Mobile data={live_data} />
+        <Mobile data={live_data} ranks={ranks} />
       )}
     </>
   );
