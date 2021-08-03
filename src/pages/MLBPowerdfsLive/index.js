@@ -601,6 +601,13 @@ function MLBPowerdFsLive(props) {
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
           gameInfo={history.location.state}
+          dwall={dwallCounts}
+          challenge={challengeCounts}
+          useDwall={useDwall}
+          useChallenge={useChallenge}
+          dataMain={props.location.state.item}
+          useSwap={useSwap}
+          swapCount={swapCounts}
         />
       );
     } else if (live_data && live_data?.length) {
