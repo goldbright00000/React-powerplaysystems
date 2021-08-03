@@ -36,6 +36,8 @@ import ActivatedBoost from "./ActivatedBoost";
 import NFLFooterStats from "./NFLFooterStats";
 import BaseballStick from "../../icons/BaseballStick";
 import Baseball from "../../icons/Baseball";
+import TwitterIcon from "../../icons/TwitterIcon";
+import FacebookIcon from "../../icons/FacebookIcon";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
@@ -164,6 +166,12 @@ function SportsLiveCard(props) {
     current_inning_half = null,
   } = boxscore[0] || {};
 
+  // if (type === "P") {
+  //   console.log(boxscore[0]);
+  // }
+
+  const text = process.env.REACT_APP_POST_SHARING_TEXT;
+
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
@@ -215,6 +223,45 @@ function SportsLiveCard(props) {
       setLoadingPlayerList(false);
     }
   }, [mlbData]);
+
+  function isPowerAvailable(type) {
+    let powerss = props.dataMain?.game?.Powers;
+    
+    let available = 0;
+    if(type === "Swap Player")
+    {
+      type = "Swap";
+    }
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        available = 1;
+        break
+      }
+    }
+    return available;
+  }
+  function isPowerLocked(type) {
+    let powerss = props.dataMain?.game?.Powers;
+    let locked = 0;
+    if(type === "Swap Player")
+    {
+      type = "Swap";
+    }
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        if(powerss[i].SocialMediaUnlock !== null)
+        {
+          locked = 1;
+        }
+        break;
+      }
+    }
+    return locked;
+  }
 
   const onSwap = (playerId, match_id) => {
     console.log("props.swapCount", props.swapCount);
@@ -342,36 +389,65 @@ function SportsLiveCard(props) {
         <Tooltip
           toolTipContent={
             <div className={classes.xp_icons}>
-              <div
-                className={`${classes.xp_block} ${
-                  xp1 <= 0 && classes.disabled
-                }`}
-              >
-                <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
-                <p>
-                  <span>{xp1}</span> left
-                </p>
-              </div>
-              <div
-                className={`${classes.xp_block} ${
-                  xp2 <= 0 && classes.disabled
-                }`}
-              >
-                <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
-                <p>
-                  <span>{xp2}</span> left
-                </p>
-              </div>
-              <div
-                className={`${classes.xp_block} ${
-                  xp3 <= 0 && classes.disabled
-                }`}
-              >
-                <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
-                <p>
-                  <span>{xp3}</span> left
-                </p>
-              </div>
+              {isPowerAvailable("Point Booster") === 0 ? (
+                <div>Not Available</div>
+              ) : (
+                isPowerLocked("Point Booster") === 1 ? (
+                  <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                    <p>Share to unlock:</p>
+                    <div>
+                      <a
+                        href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                      >
+                        <button>
+                          <FacebookIcon />
+                        </button>
+                      </a>
+                      <a
+                        href={`https://twitter.com/intent/tweet?text=${text}`}
+                        target="_blank"
+                      >
+                        <button>
+                          <TwitterIcon />
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <div
+                        className={`${classes.xp_block} ${
+                          xp1 <= 0 && classes.disabled
+                        }`}
+                      >
+                        <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
+                        <p>
+                          <span>{xp1}</span> left
+                        </p>
+                      </div>
+                      <div
+                        className={`${classes.xp_block} ${
+                          xp2 <= 0 && classes.disabled
+                        }`}
+                      >
+                        <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
+                        <p>
+                          <span>{xp2}</span> left
+                        </p>
+                      </div>
+                      <div
+                        className={`${classes.xp_block} ${
+                          xp3 <= 0 && classes.disabled
+                        }`}
+                      >
+                        <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
+                        <p>
+                          <span>{xp3}</span> left
+                        </p>
+                      </div>
+                  </>
+                )
+              )} 
             </div>
           }
         >
@@ -528,8 +604,51 @@ function SportsLiveCard(props) {
     !singleView && <span className={classes.teamd_range}>{range}</span>;
 
   const RenderHeaderIcons = () => (
-    <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+    <>
+      {isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
+        <Tooltip
+        toolTipContent={
+          <div className={classes.xp_icons}>
+            {isPowerAvailable("Swap") === 0 ? (
+              <div>Not Available</div>
+            ) : (
+              isPowerLocked("Swap") === 1 ? (
+                <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                  <p>Share to unlock:</p>
+                  <div>
+                    <a
+                      href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                    >
+                      <button>
+                        <FacebookIcon />
+                      </button>
+                    </a>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${text}`}
+                      target="_blank"
+                    >
+                      <button>
+                        <TwitterIcon />
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )
+            )} 
+          </div>
+        }
+      >
+        <Replace size={singleView ? 23 : 22} />
+      </Tooltip>
+      ) : (
+        <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+      )}
+    </>
   );
+
+  
 
   return (
     <>

@@ -151,6 +151,8 @@ const PowerCenterCard = (props) => {
                 onBackClick={() => onBackClick()}
                 onNextClick={() => onNextClick()}
                 onEnter={onEnter}
+                game_set_start={game_set_start}
+                prize={numberWithCommas(prize)}
             />
     );
 };

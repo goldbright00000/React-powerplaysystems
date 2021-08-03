@@ -7,6 +7,7 @@ import PointSystem from './PointSystem';
 import PowersAvailable from './PowersAvailable';
 import PrizeGrid from './PrizeGrid';
 import TeamRoster from './TeamRoster';
+import ContestRules from './ContestRules';
 
 const PowerCenterCardDetails = (props) => {
     const {
@@ -19,6 +20,8 @@ const PowerCenterCardDetails = (props) => {
         Power = [],
         PrizePayout = [],
         onEnter = () => { },
+        game_set_start = '',
+        prize = ''
     } = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -50,6 +53,11 @@ const PowerCenterCardDetails = (props) => {
                 &&
                 <TeamRoster league={title} onEnter={onEnter} />
             }
+            {
+                currentIndex == 4 && title === 'MLB'
+                &&
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem}/>
+            }
             <Footer
                 onEnter={onEnter}
                 entry_fee={entry_fee}
@@ -61,9 +69,10 @@ const PowerCenterCardDetails = (props) => {
                     }
                 }}
                 onNext={() => {
+                    console.log("currentIndex", currentIndex);
                     if (currentIndex < 2) {
                         setCurrentIndex(currentIndex + 1);
-                    } else if (currentIndex < 3 && title === 'MLB') {
+                    } else if (currentIndex < 4 && title === 'MLB') {
                         setCurrentIndex(currentIndex + 1);
                     } else {
                         onNextClick();

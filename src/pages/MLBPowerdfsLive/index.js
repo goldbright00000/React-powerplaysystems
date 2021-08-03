@@ -153,6 +153,44 @@ function MLBPowerdFsLive(props) {
     }
     return val;
   }
+  function isPowerAvailable(type) {
+    let powerss = item?.game?.Powers;
+    console.log("powerss", powerss, item, type);
+    let available = 0;
+    if(type === "Swap Player")
+    {
+      type = "Swap";
+    }
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        available = 1;
+        break
+      }
+    }
+    return available;
+  }
+  function isPowerLocked(type) {
+    let powerss = item?.game?.Powers;
+    let locked = 0;
+    if(type === "Swap Player")
+    {
+      type = "Swap";
+    }
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        if(powerss[i].SocialMediaUnlock !== null)
+        {
+          locked = 1;
+        }
+        break;
+      }
+    }
+    return locked;
+  }
   function useSwap(action) {
     if (action) {
       var oldCount = swapCounts;
@@ -491,42 +529,46 @@ function MLBPowerdFsLive(props) {
           ) : (
             <img src={Icon} width={54} height={54} />
           )}
-          {count <= 0 && (
+          {isPowerAvailable(title) === 1 &&  isPowerLocked(title) === 1 && (
             <div className={classes.sidebar_lock_icon}>
               <LockIcon />
             </div>
           )}
         </div>
         <p className={classes.power_title}>{title}</p>
-        <div className={classes.power_footer}>
-          {count <= 0 ? (
-            <>
-              <p>Share to unlock:</p>
-              <div>
-                <a
-                  href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                >
-                  <button>
-                    <FacebookIcon />
-                  </button>
-                </a>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${text}${count}`}
-                  target="_blank"
-                >
-                  <button>
-                    <TwitterIcon />
-                  </button>
-                </a>
-              </div>
-            </>
-          ) : (
-            <p className={classes.power_footer_count}>
-              {count} <span>left</span>
-            </p>
-          )}
+        {isPowerAvailable(title) === 0 ? (
+          <div style={{opacity: 0.6,fontSize: "0.9rem"}}>Not Available</div>
+        ) : (
+          <div className={classes.power_footer}>
+            {isPowerLocked(title) === 1 ? (
+              <>
+                <p>Share to unlock:</p>
+                <div>
+                  <a
+                    href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                  >
+                    <button>
+                      <FacebookIcon />
+                    </button>
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${text}${count}`}
+                    target="_blank"
+                  >
+                    <button>
+                      <TwitterIcon />
+                    </button>
+                  </a>
+                </div>
+              </>
+            ) : (
+              <p className={classes.power_footer_count}>
+                {count} <span>left</span>
+              </p>
+            )}
+          </div>
+        )}
         </div>
-      </div>
     );
   };
 
@@ -573,6 +615,7 @@ function MLBPowerdFsLive(props) {
               challenge={challengeCounts}
               useDwall={useDwall}
               useChallenge={useChallenge}
+              dataMain={props.location.state.item}
             />
           ) : (
             <SportsLiveCard
@@ -585,6 +628,7 @@ function MLBPowerdFsLive(props) {
               gameInfo={history.location.state}
               useSwap={useSwap}
               swapCount={swapCounts}
+              dataMain={props.location.state.item}
             />
           )}
         </>
