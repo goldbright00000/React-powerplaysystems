@@ -343,22 +343,30 @@ function SportsLiveCardTeamD(props) {
                       />
                     )}
 
-                    {!singleView && (
-                      <RenderMLBPlayerStats
-                        hitter={hitter}
-                        pitcher={pitcher}
-                        type={type}
-                        baserunner_1={baserunner_1}
-                        baserunner_2={baserunner_2}
-                        baserunner_3={baserunner_3}
-                        baserunner_4={baserunner_4}
-                        strikes={strikes}
-                        balls={balls}
-                        largeView={compressedView || !compressedView}
-                        batting_average={removeZeroBeforeDecimalPoint(
-                          batting_average
-                        )}
-                      />
+                    {getStatus() === "Game Over" ? (
+                      <>
+                        <button className={classes.card_footer_btn}>
+                          See your {type} scoring details
+                        </button>
+                      </>
+                    ) : (
+                      !singleView && (
+                        <RenderMLBPlayerStats
+                          hitter={hitter}
+                          pitcher={pitcher}
+                          type={type}
+                          baserunner_1={baserunner_1}
+                          baserunner_2={baserunner_2}
+                          baserunner_3={baserunner_3}
+                          baserunner_4={baserunner_4}
+                          strikes={strikes}
+                          balls={balls}
+                          largeView={compressedView || !compressedView}
+                          batting_average={removeZeroBeforeDecimalPoint(
+                            batting_average
+                          )}
+                        />
+                      )
                     )}
                   </>
                 )}
@@ -375,7 +383,7 @@ function SportsLiveCardTeamD(props) {
             )}
           </div>
 
-          {!compressedView && !singleView && (
+          {getStatus() !== "Game Over" && !compressedView && !singleView && (
             <SportsLiveCardFooter
               showSummary={showSummary}
               onClickBack={() => setSummaryState(false)}
