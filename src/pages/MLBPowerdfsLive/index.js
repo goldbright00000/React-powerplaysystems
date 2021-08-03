@@ -237,6 +237,13 @@ function MLBPowerdFsLive(props) {
     _socket.emit(ON_FANTASY_LOGS_REQUEST, {
       fantasyTeamId: 172,
     });
+
+    //GET_GLOBAL_RANKING -> Standings
+    _socket.emit(GET_GLOBAL_RANKING, {
+      gameId: gameId,
+      upperLimit: 0,
+      lowerLimit: 10,
+    });
   };
 
   //All listen events
@@ -254,6 +261,7 @@ function MLBPowerdFsLive(props) {
         defense = [],
         players = [],
         power_dfs_team_rankings = [],
+        game_logs = [],
       } = res?.data || {};
 
       const teamD = defense[0] || {};
@@ -262,6 +270,7 @@ function MLBPowerdFsLive(props) {
         getPlayers(players, teamD);
       }
 
+      dispatch(MLBActions.setGameLogs(game_logs));
       setLoading(false);
     });
 
@@ -415,16 +424,7 @@ function MLBPowerdFsLive(props) {
     });
   };
 
-  const onClickStandings = () => {
-    if (_socket) {
-      //GET_GLOBAL_RANKING -> Standings
-      _socket.emit(GET_GLOBAL_RANKING, {
-        gameId: gameId,
-        upperLimit: 0,
-        lowerLimit: 10,
-      });
-    }
-  };
+  const onClickStandings = () => {};
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;

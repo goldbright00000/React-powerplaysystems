@@ -11,6 +11,7 @@ export const MLB_STAR_PLAYER_COUNT = "[MLB] STAR_PLAYER_COUNT";
 export const MLB_EDIT_PLAYERS = "[MLB] MLB_EDIT_PLAYERS";
 export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES";
 export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES";
+export const SET_GAME_LOGS = "[MLB] SET_GAME_LOGS";
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -243,9 +244,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) { }
+        } catch (er) {}
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 }
 
@@ -376,38 +377,56 @@ export function editDfsTeamPlayer(payload) {
 export function calculateAdminFee(user_id, game_id) {
   return async (dispatch) => {
     try {
-      http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.CALCULATE_ADMIN_FEE}`, {
-        user_id,
-        game_id,
-      });
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.CALCULATE_ADMIN_FEE}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 }
 
 export function deductUserBalance(user_id, game_id) {
   return async (dispatch) => {
     try {
-      http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.DEDUCT_USER_BALANCE}`, {
-        user_id,
-        game_id,
-      });
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.DEDUCT_USER_BALANCE}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
     } catch (err) {
       console.log(err);
     }
-  }
+  };
 }
 
 export function savePrizePool(user_id, game_id) {
   return async (dispatch) => {
     try {
-      http.post(`${process.env.REACT_APP_API_URL}/${URLS.DFS.SAVE_PRIZE_POOL}`, {
-        user_id,
-        game_id,
-      });
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.SAVE_PRIZE_POOL}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
     } catch (err) {
       console.log(err);
     }
-  }
+  };
+}
+
+export function setGameLogs(data) {
+  return (dispatch) => {
+    return dispatch({
+      type: SET_GAME_LOGS,
+      payload: data,
+    });
+  };
 }

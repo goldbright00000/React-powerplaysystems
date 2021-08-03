@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   live_data: [],
   savedPlayers: [],
   allData: [],
+  gameLogs: [],
   isEdit: false,
   starPlayerCount: 0,
   sport_id: 0,
@@ -48,6 +49,12 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         getUserSavedGames: actions.payload,
+      };
+
+    case Actions.SET_GAME_LOGS:
+      return {
+        ...state,
+        gameLogs: actions.payload,
       };
 
     default:

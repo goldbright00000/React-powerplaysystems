@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -36,6 +37,8 @@ function NHLLivePowerdFsScroeDetail(props) {
   const [showModal, setModalState] = useState(false);
   let tableRef = useRef();
 
+  const { gameLogs = [] } = useSelector((state) => state.mlb);
+
   useEffect(() => {
     tableRef?.current?.scrollIntoView();
   }, [tableRef]);
@@ -66,7 +69,7 @@ function NHLLivePowerdFsScroeDetail(props) {
   const Row = ({
     position,
     name,
-    time,
+    inning,
     plays,
     pts,
     totalPts,
@@ -75,15 +78,17 @@ function NHLLivePowerdFsScroeDetail(props) {
     runningTotal,
     rbi = {},
     runs = {},
+    isHit = false,
+    activePower = null,
   }) => (
     <div
       className={`${classes.card_row} ${classes.card_row_1} ${
-        score < 0 ? classes.primary_bg : ""
+        isHit ? classes.primary_bg : ""
       }`}
     >
       <span className={classes.child_1}>{position}</span>
       <span className={classes.child_2}>{name}</span>
-      <span className={classes.child_3}>{time}</span>
+      <span className={classes.child_3}>{inning}</span>
       <div className={classes.card_combine_row}>
         <span>
           <p className={classes.primary}>{plays}</p>
@@ -112,7 +117,9 @@ function NHLLivePowerdFsScroeDetail(props) {
       </div>
 
       {/* <span className={`${classes.child_4} ${classes.center}`}><p className={classes.secondary}>{totalPts}</p></span> */}
-      <span className={classes.center}>{RenderXP(powers)}</span>
+      <span className={classes.center}>
+        {activePower !== null && RenderXP(powers)}
+      </span>
       <span className={classes.center}>
         <p className={score < 0 ? classes.danger : classes.success}>
           {score < 0 ? `Reversed ${score}` : score}
@@ -164,7 +171,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                 <div className={classes.card_row}>
                   <span className={classes.child_1}>Position</span>
                   <span className={classes.child_2}>Name</span>
-                  <span className={classes.child_3}>Time</span>
+                  <span className={classes.child_3}>Innings</span>
                   <div className={classes.card_header_1}>
                     <p>Scoring Plays</p>
                     <div className={classes.card_combine_row}>
@@ -194,7 +201,95 @@ function NHLLivePowerdFsScroeDetail(props) {
               </div>
 
               <div className={classes.card_body}>
-                <Row
+                {gameLogs &&
+                  gameLogs?.length &&
+                  gameLogs?.map((row, ind) => {
+                    const {
+                      active_powerplay = null,
+                      effected_player = {},
+                      fantasy_points_occured = 0,
+                      play = {},
+                    } = row || {};
+
+                    const {
+                      active = true,
+                      bat_hand = "0",
+                      current_position = "0",
+                      current_team = 0,
+                      datafeed_id = "",
+                      height = "",
+                      is_injured = false,
+                      jersey_number = 0,
+                      name = "",
+                      player_id = 0,
+                      primary_position = "",
+                      throw_hand = "",
+                      type = "",
+                    } = effected_player || {};
+
+                    const {
+                      balls = 0,
+                      created_at = "",
+                      created_at_feed = "",
+                      // datafeed_id = "8850001a-fc26-4a9c-8fa8-482ef6184200",
+                      event_name = null,
+                      half = "",
+                      hitter_id = 0,
+                      inning_number = 0,
+                      inning_sequence = 0,
+                      is_ab_over = false,
+                      is_bunt = false,
+                      is_double_play = false,
+                      is_hit = false,
+                      is_passed_ball = false,
+                      is_triple_play = false,
+                      is_wild_pitch = false,
+                      match_id = 0,
+                      outcome_id = "",
+                      outs = 0,
+                      pitch_count = 0,
+                      pitch_speed = 0,
+                      pitch_type = null,
+                      pitch_zone = 0,
+                      pitcher_id = 0,
+                      play_id = 0,
+                      status = "",
+                      strikes = 0,
+                      type: pType = "",
+                      updated_at = "",
+                      updated_at_feed = "",
+                    } = play || {};
+
+                    return (
+                      <Row
+                        position={type}
+                        name={name}
+                        inning={
+                          `${half}`.toLocaleLowerCase() === "t"
+                            ? `Top ${inning_number}`
+                            : `Bot ${inning_number}`
+                        }
+                        plays={outcome_id}
+                        pts="6"
+                        totalPts="8"
+                        powers="1.5"
+                        score={fantasy_points_occured}
+                        runningTotal="16"
+                        runs={{
+                          rs: 2,
+                          pts: 4,
+                        }}
+                        rbi={{
+                          rbi: 8,
+                          pts: 1,
+                        }}
+                        isHit={is_hit}
+                        activePower={active_powerplay}
+                        key={ind?.toString()}
+                      />
+                    );
+                  })}
+                {/* <Row
                   position="P1"
                   name="Joe Burrow"
                   time="P1 | 11:52"
@@ -312,7 +407,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                     rbi: 8,
                     pts: 1,
                   }}
-                />
+                /> */}
               </div>
             </Card>
           </div>
