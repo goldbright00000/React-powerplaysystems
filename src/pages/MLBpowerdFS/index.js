@@ -295,6 +295,8 @@ function MLBPowerdFs(props) {
     prizes: Prizes = [],
     start_time = "",
     paid_game = true,
+    entry_fee = '',
+    currency = '',
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -739,10 +741,11 @@ function MLBPowerdFs(props) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
-
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
         if (isPaid || isPaid === null) {
-          dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+          if (currency !== 'PWRS') {
+            dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+          }
           dispatch(MLBActions.deductUserBalance(user_id, game_id));
           dispatch(MLBActions.savePrizePool(user_id, game_id));
         }
@@ -1346,14 +1349,18 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
+            {console.log('entry_fee', entry_fee)}
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
+                entryFee={entry_fee}
+                currency={currency}
                 powerBalance={topPrize}
                 cashBalance={prizePool}
                 styles={{
                   marginTop: "-40px",
                 }}
+                entryTitle="Entry Fee"
                 cashTitle="Prize Pool"
                 powerTitle="Top Prize"
                 centered

@@ -4,9 +4,11 @@ import classes from "./outlineButton.module.scss";
 const OutlineButton = (props) => {
   const {
     title = "",
-    onClick = () => {},
+    onClick = () => { },
     styles = {},
     icon = "",
+    title0 = "",
+    currency = "",
   } = props || {};
 
   return (
@@ -16,6 +18,13 @@ const OutlineButton = (props) => {
       style={styles}
     >
       {icon && <span className={classes.__outline_button_icon}>{icon}</span>}
+      {title0}
+      <img
+        src={currency}
+        alt=""
+        height="18"
+        width="14"
+      />
       {title}
     </button>
   );
