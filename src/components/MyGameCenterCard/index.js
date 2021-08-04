@@ -666,6 +666,8 @@ const MyGameCenterCard = (props) => {
             onBackClick={() => onBackClick()}
             onNextClick={() => onNextClick()}
             myGameCenter={true}
+            game_set_start={game_set_start}
+            prize={(prize)}
           />
         </>
       )}

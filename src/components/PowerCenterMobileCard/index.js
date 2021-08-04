@@ -161,6 +161,8 @@ const PowerCenterMobileCard = (props) => {
       onBackClick={() => onBackClick()}
       onNextClick={() => onNextClick()}
       onEnter={onEnter}
+      prize={prize}
+      game_set_start={game_set_start}
     />
   );
 };

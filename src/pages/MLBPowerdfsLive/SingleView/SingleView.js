@@ -16,7 +16,6 @@ import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 let currentCard = 0;
-
 function SingleView(props) {
   const {
     data = [],
@@ -70,6 +69,11 @@ function SingleView(props) {
                   }
                   singleView
                   onSelectCard={onSelectCard}
+                  dwall={props.dwallCounts}
+                  challenge={props.challengeCounts}
+                  useDwall={props.useDwall}
+                  useChallenge={props.useChallenge}
+                  dataMain={props.dataMain}
                 />
               ) : (
                 <SportsLiveCard
@@ -84,6 +88,9 @@ function SingleView(props) {
                   updateReduxState={updateReduxState}
                   starPlayerCount={starPlayerCount}
                   gameInfo={gameInfo}
+                  useSwap={props.useSwap}
+                  swapCount={props.swapCounts}
+                  dataMain={props.dataMain}
                 />
               )}
             </>
@@ -95,20 +102,26 @@ function SingleView(props) {
         {selectedCard?.team_d_mlb_team &&
         selectedCard?.team_d_mlb_team?.type === D ? (
           <SportsLiveCardTeamD
-            
             data={selectedCard}
             onChangeXp={onChangeXp}
             updateReduxState={updateReduxState}
             starPlayerCount={starPlayerCount}
+            dwall={props.dwallCounts}
+            challenge={props.challengeCounts}
+            useDwall={props.useDwall}
+            useChallenge={props.useChallenge}
+            dataMain={props.dataMain}
           />
         ) : (
           <SportsLiveCard
-            
             data={selectedCard}
             onChangeXp={onChangeXp}
             updateReduxState={updateReduxState}
             starPlayerCount={starPlayerCount}
             gameInfo={gameInfo}
+            useSwap={props.useSwap}
+            swapCount={props.swapCounts}
+            dataMain={props.dataMain}
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
