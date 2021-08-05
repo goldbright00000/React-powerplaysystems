@@ -69,7 +69,6 @@ const PowerCenterCardDetails = (props) => {
                     }
                 }}
                 onNext={() => {
-                    console.log("currentIndex", currentIndex);
                     if (currentIndex < 2) {
                         setCurrentIndex(currentIndex + 1);
                     } else if (currentIndex < 4 && title === 'MLB') {

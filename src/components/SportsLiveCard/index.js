@@ -234,10 +234,20 @@ function SportsLiveCard(props) {
     }
     for(var i = 0; i < powerss.length; i++)
     {
-      if(powerss[i].powerName === type)
+      if(type === "Point Booster")
       {
-        available = 1;
-        break
+        if(powerss[i].powerName === "1.5x Point Booster" || powerss[i].powerName === "2x Point Booster" || powerss[i].powerName === "3x Point Booster")
+        {
+          available = 1;
+          break
+        }
+      }
+      else {
+        if(powerss[i].powerName === type)
+        {
+          available = 1;
+          break
+        }
       }
     }
     return available;

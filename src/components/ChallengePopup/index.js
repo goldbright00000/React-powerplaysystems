@@ -38,14 +38,18 @@ const ChallengePopUp = props => {
                                                 var a = setInterval(function() {
                                                     console.log("t", t);
                                                     t = t - 1;
+                                                    console.log("t", t);
                                                     setTimers(t);
-                                                    if(t === -1) {
+                                                    console.log("t timers", t == -1);
+                                                    if(t == -1) {
+                                                        console.log("t in");
                                                         clearInterval(a);
-                                                        var a = [2,3];
-                                                        var random = a[Math.floor(Math.random()*a.length)]
+                                                        var a1 = [2,3];
+                                                        var random = a1[Math.floor(Math.random()*a1.length)];
                                                         setPopupMode(random);
                                                         setTimeout(function() {
-                                                            props.useChallenge(true);
+                                                            if(random === 2)
+                                                                props.useChallenge(true);
                                                             setShowPopUp(false);
                                                         },2000);
                                                     }

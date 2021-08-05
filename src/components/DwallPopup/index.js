@@ -30,7 +30,7 @@ const DwallPopup = props => {
                                             props.useDwall(true);
                                         }
                                         else {
-                                            alert("You cannot use this power");
+                                            alert("You cannot use D-Wall power");
                                         }
                                         setShowPopUp(false);
                                     }}>Activate D-Wall</button>

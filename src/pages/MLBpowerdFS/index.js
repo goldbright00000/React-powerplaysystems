@@ -1037,7 +1037,6 @@ function MLBPowerdFs(props) {
                     )}
 
                     <div className={classes.card_body}>
-                      {console.log('filterdData mukiiii', filterdData)}
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
@@ -1354,7 +1353,7 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
-            {console.log('entry_fee', entry_fee)}
+            
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
