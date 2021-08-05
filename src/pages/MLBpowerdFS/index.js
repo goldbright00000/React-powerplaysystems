@@ -338,10 +338,10 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
-
+    
     if (response) {
       setData(response?.filterdList);
-
+      
       const { filterdList = [], allData = [] } = response || {};
 
       setFilterdData(filterdList[0]);
@@ -413,7 +413,7 @@ function MLBPowerdFs(props) {
 
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
-      if (loading) return;
+      //if (loading) return;
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
@@ -1037,12 +1037,13 @@ function MLBPowerdFs(props) {
                     )}
 
                     <div className={classes.card_body}>
-                      {console.log('filterdData', filterdData)}
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
+                            
                             {selectedFilter?.title === D ? (
-                              isAfterTime(item?.date, item?.time) && (
+                              /*Remove isAfterTime function from here because edit picks was not working due to this function*/
+                              (item?.date, item?.time) && (
                                 <SportsTeamSelectionCard
                                   item={item}
                                   isSelected={
@@ -1061,9 +1062,11 @@ function MLBPowerdFs(props) {
                                 />
                               )
                             ) : (
+                              /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               <>
-                                {isAfterTime(item?.date, item?.time) && (
-                                  <SelectionCard3
+                                {(item?.date, item?.time) && (
+                                  <>
+                                    <SelectionCard3
                                     player={item}
                                     isSelected={
                                       !!selected.get(
@@ -1081,6 +1084,7 @@ function MLBPowerdFs(props) {
                                   //   starPlayerCount >= 3
                                   // }
                                   />
+                                  </>
                                 )}
                               </>
                             )}
@@ -1349,7 +1353,7 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
-            {console.log('entry_fee', entry_fee)}
+            
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}

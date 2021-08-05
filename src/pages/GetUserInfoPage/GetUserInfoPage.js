@@ -80,7 +80,6 @@ const GetUserInfoPage = (props) => {
   });
 
   useEffect(() => {
-    console.log(props.location.state);
     if (user.isSuccess || isEmpty(props.location.state.email)) {
       // redirectTo(props, { path: "login" });
       redirectTo(props, { path: "verify-your-identity" });
