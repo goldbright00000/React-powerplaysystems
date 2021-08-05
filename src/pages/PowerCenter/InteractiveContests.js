@@ -168,6 +168,9 @@ const InteractiveContests = (props) => {
     "usd",
     "bitcoin",
     "ethereum",
+    "usd",
+    "btc",
+    "eth"
   ]);
   const [days, setDays] = useState([{}]);
   const [cashBalance, setCashBalance] = useState(0);
@@ -322,7 +325,9 @@ const InteractiveContests = (props) => {
               PointsSystem: item?.PointsSystems,
               Power: item?.Powers,
               prizes: item?.PrizePayouts,
-              paid_game: item?.is_game_paid
+              paid_game: item?.is_game_paid,
+              entry_fee: item?.entry_fee,
+              currency: item?.currency
             },
           });
         default:
@@ -521,6 +526,7 @@ const InteractiveContests = (props) => {
             },
             0
           )}
+          currency={item?.currency}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
@@ -561,6 +567,7 @@ const InteractiveContests = (props) => {
             },
             0
           )}
+          currency={item?.currency}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}

@@ -7,12 +7,16 @@ import NHLPlayer from '../../assets/nhl-player.png';
 import InfiniteEntry from '../../assets/invalid-name.svg';
 import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
+import PowerCurrency from '../../assets/power-white.png';
+import BtcCurrency from '../../assets/btc-white.png';
+import EthCurrency from '../../assets/ethereum-white.png';
 
 const PowerCenterCard = (props) => {
     const {
         id = null,
         title = '',
         prize = null,
+        currency = '$',
         outOf = null,
         total = null,
         percent = null,
@@ -61,6 +65,16 @@ const PowerCenterCard = (props) => {
             return x;
     }
 
+    const getCurrency = (currency) => {
+        if (currency.toUpperCase() === 'PWRS') {
+            return PowerCurrency;
+        } else if (currency.toUpperCase() === 'BTC') {
+            return BtcCurrency;
+        } else if (currency.toUpperCase() === 'USD') {
+            return EthCurrency;
+        }
+    }
+
     return (
         !showDetails
             ?
@@ -75,7 +89,17 @@ const PowerCenterCard = (props) => {
                 <div className={classes.__power_center_card_prize_pool}>
                     <p
                         className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_price}>
-                        ${numberWithCommas(prize)}
+                        {currency === 'USD' ? (
+                            `$`
+                        ) : (
+                            <img
+                                src={getCurrency(currency)}
+                                width="20"
+                                height="28"
+                                alt=""
+                            />
+                        )}
+                        {numberWithCommas(prize)}
                     </p>
                     <p
                         className={classes.__power_center_card_prize_pool_common + ' ' + classes.__power_center_card_prize_pool_text}>
@@ -85,33 +109,37 @@ const PowerCenterCard = (props) => {
 
                 <div className={classes.__power_center_card_enter}>
                     {userHasEntered ? (
-                        <>
-                            <OutlineButton
-                                title={`Entered`}
-                            />
-                        </>
+                        <OutlineButton
+                            title={`Entered`}
+                        />
                     ) : (
                         total == outOf && targeted_game ? (
-                            <>
-                                <OutlineButton
-                                    title={`Full ${total}`}
-                                />
-                            </>
+                            <OutlineButton
+                                title={`Full ${total}`}
+                            />
                         ) : (
                             paid_game || paid_game === null ? (
-                                < OutlineButton
-                                    title={`Enter  •  $${entry_fee}`}
-                                    onClick={onEnter}
-                                />
+                                currency !== 'USD' ? (
+                                    <OutlineButton
+                                        title0={`Enter  •  `}
+                                        title={entry_fee}
+                                        onClick={onEnter}
+                                        currency={getCurrency(currency)}
+                                    />
+                                ) : (
+                                    <OutlineButton
+                                        title={`Enter  •  $${entry_fee}`}
+                                        onClick={onEnter}
+                                    />
+                                )
                             ) : (
-                                < OutlineButton
+                                <OutlineButton
                                     title={`Enter  •  Free`}
                                     onClick={onEnter}
                                 />
                             )
                         )
                     )}
-
                 </div>
                 <div className={classes.__power_center_card_date_time}>
                     {game_set_start} | {start_time} ET
