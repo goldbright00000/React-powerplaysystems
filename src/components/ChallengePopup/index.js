@@ -33,15 +33,17 @@ const ChallengePopUp = props => {
                                             if(props.challenge > 0)
                                             {
                                                 setPopupMode(1);
-                                                setTimers(5);
-                                                var t = 5;
+                                                setTimers(3);
+                                                var t = 3;
                                                 var a = setInterval(function() {
                                                     console.log("t", t);
                                                     t = t - 1;
                                                     setTimers(t);
                                                     if(t === -1) {
                                                         clearInterval(a);
-                                                        setPopupMode(2);
+                                                        var a = [2,3];
+                                                        var random = a[Math.floor(Math.random()*a.length)]
+                                                        setPopupMode(random);
                                                         setTimeout(function() {
                                                             props.useChallenge(true);
                                                             setShowPopUp(false);

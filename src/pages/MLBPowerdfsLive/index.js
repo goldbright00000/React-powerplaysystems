@@ -106,8 +106,7 @@ function MLBPowerdFsLive(props) {
   const onCloseModal = () => setLearnMoreModal(false);
   let item = props.location.state.item;
 
-  let prizePool,
-    topPrize = 0;
+  let prizePool, topPrize = 0;
   let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
