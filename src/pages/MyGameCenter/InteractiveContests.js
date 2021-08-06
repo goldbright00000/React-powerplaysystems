@@ -428,13 +428,13 @@ const InteractiveContests = (props) => {
                     {isMobile ? (
                       <div>
                         {items?.length > 0 ? (
-                            items.map((power) => {
-                              return myGameCenterCard(power, power.url);
-                            })
-                          ) : (
-                            i == 0 ?
-                              <h1 className="nogamesmessage">No games</h1> : ""
-                          )}
+                          items.map((power) => {
+                            return myGameCenterCard(power, power.url);
+                          })
+                        ) : (
+                          i == 0 ?
+                            <h1 className="nogamesmessage">No games</h1> : ""
+                        )}
                       </div>
                     ) : (
                       <>
