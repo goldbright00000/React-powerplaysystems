@@ -10,6 +10,7 @@ import PointMultipliers from '../../assets/point-multipliers.png';
 import PlayerSwaps from '../../assets/player-swaps.png';
 import InfoIcon from '../../assets/info-icon@3x.png';
 import Challange from '../../assets/challenge.svg';
+import PowerUpIcon from '../../assets/power-up-icon.svg';
 
 const data1 = [
     {
@@ -72,6 +73,9 @@ const getIcon = (powerName) => {
 
         else if (powerName.toLowerCase().match(/challenge/g))
             return Challange;
+
+        else if (powerName.toLowerCase().match(/power-up/g))
+            return PowerUpIcon
     }
 }
 

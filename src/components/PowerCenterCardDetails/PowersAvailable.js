@@ -8,6 +8,7 @@ import LearnMoreModal from './LearnMoreModal';
 import RetroBoost from '../../assets/retro-boost-icon.png';
 import Challange from '../../assets/challenge.svg';
 import InfoIcon from '../../assets/info-icon@3x.png';
+import PowerUpIcon from '../../assets/power-up-icon.svg';
 
 const data = [
   {
@@ -55,6 +56,9 @@ const getIcon = (powerName) => {
 
     else if (powerName.toLowerCase().match(/challenge/g))
       return Challange;
+
+    else if (powerName.toLowerCase().match(/power-up/g))
+      return PowerUpIcon
   }
 }
 
