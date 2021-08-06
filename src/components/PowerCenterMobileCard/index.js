@@ -131,17 +131,16 @@ const PowerCenterMobileCard = (props) => {
                 </>
               ) : (
                 paid_game || paid_game === null ? (
-                  < OutlineButton
+                  <OutlineButton
                     title={`Enter  •  $${entry_fee}`}
                     onClick={onEnter}
                   />
                 ) : (
-                  < OutlineButton
+                  <OutlineButton
                     title={`Enter  •  Free`}
                     onClick={onEnter}
                   />
                 )
-
               )}
             </div>
           </div>
@@ -162,6 +161,8 @@ const PowerCenterMobileCard = (props) => {
       onBackClick={() => onBackClick()}
       onNextClick={() => onNextClick()}
       onEnter={onEnter}
+      prize={prize}
+      game_set_start={game_set_start}
     />
   );
 };

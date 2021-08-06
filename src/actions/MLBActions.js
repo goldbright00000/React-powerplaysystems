@@ -430,3 +430,42 @@ export function setGameLogs(data) {
     });
   };
 }
+
+export function getUserRemainingPowers(game_id, user_id)
+{
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_USERS_POWERS}?game_id=${game_id}&user_id=${user_id}`
+      );
+     return dispatch({
+       "type": "userPowers",
+       "payload": response.data
+     });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function updateUserRemainingPowers(game_id, user_id, power_id)
+{
+  return async (dispatch) => {
+    try {
+      const response = await http.patch(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.UPDATE_USERS_POWERS}`,
+        {
+          game_id: game_id,
+          user_id: user_id,
+          power_id: power_id
+        }
+      );
+     return dispatch({
+       "type": "userPowers",
+       "payload": response.data
+     });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}

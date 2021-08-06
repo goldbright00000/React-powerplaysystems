@@ -123,76 +123,130 @@ function MLBPowerdFsLive(props) {
     }).amount
   );
 
-  function powerVal(type) {
-    // console.log("type", type);
+  async function setPowers() {
+    let a = await dispatch(
+      MLBActions.getUserRemainingPowers(item.game_id, item.user_id)
+    );
+    let remainingPowers = a.payload;
+    let challenge = 0;
+    let swap = 0;
+    let point_booster = 0;
+    let dwall = 0;
+    for (let i = 0; i < remainingPowers.length; i++) {
+      let rec = remainingPowers[i].fantasy_powers;
+      if (rec.name === "D-Wall") {
+        dwall = remainingPowers[i].remaining_amount;
+      } else if (rec.name === "Challenge") {
+        challenge = remainingPowers[i].remaining_amount;
+      } else if (
+        rec.name === "1.5x Point Booster" ||
+        rec.name === "2x Point Booster" ||
+        rec.name === "3x Point Booster"
+      ) {
+        point_booster =
+          point_booster + parseInt(remainingPowers[i].remaining_amount);
+      } else if (rec.name === "Swap") {
+        swap = remainingPowers[i].remaining_amount;
+      }
+    }
+    setChallengeCounts(challenge);
+    setSwapCounts(swap);
+    setDwallCounts(dwall);
+    setPointMultiplierCounts(point_booster);
+  }
+  function isPowerAvailable(type) {
     let powerss = item?.game?.Powers;
-    let val = 0;
+    let available = 0;
+    if (type === "Swap Player") {
+      type = "Swap";
+    }
     for (var i = 0; i < powerss.length; i++) {
-      if (powerss[i].powerName === type) {
-        val = powerss[i].amount;
-      }
-    }
-    switch (type) {
-      case "Swap":
-        if (val !== swapCounts) setSwapCounts(val);
-        break;
-      case "D-Wall":
-        val = 1;
-        if (val !== dwallCounts) {
-          // console.log("type1", type);
-          setDwallCounts(1);
+      if (type === "Point Booster") {
+        if (
+          powerss[i].powerName === "1.5x Point Booster" ||
+          powerss[i].powerName === "2x Point Booster" ||
+          powerss[i].powerName === "3x Point Booster"
+        ) {
+          available = 1;
+          break;
         }
-        break;
-      case "Challenge":
-        val = 1;
-        if (val !== challengeCounts) setChallengeCounts(1);
-        break;
-      case "Point Miltiplier":
-        if (val !== pointMultiplierCounts) setPointMultiplierCounts(val);
-        break;
-    }
-    return val;
-  }
-  function useSwap(action) {
-    if (action) {
-      var oldCount = swapCounts;
-      if (oldCount > 0) {
-        oldCount = oldCount - 1;
-        setSwapCounts(oldCount);
-        return;
+      } else {
+        if (powerss[i].powerName === type) {
+          available = 1;
+          break;
+        }
       }
-      setSwapCounts(0);
     }
+    return available;
   }
-  function useDwall(action) {
-    if (action) {
-      var oldCount = dwallCounts;
-      if (oldCount > 0) {
-        oldCount = oldCount - 1;
-        setDwallCounts(oldCount);
-        return;
+  function isPowerLocked(type) {
+    let powerss = item?.game?.Powers;
+    let locked = 0;
+    if (type === "Swap Player") {
+      type = "Swap";
+    }
+    for (var i = 0; i < powerss.length; i++) {
+      if (type === "Point Booster") {
+        if (
+          powerss[i].powerName === "1.5x Point Booster" ||
+          powerss[i].powerName === "2x Point Booster" ||
+          powerss[i].powerName === "3x Point Booster"
+        ) {
+          if (powerss[i].SocialMediaUnlock !== null) {
+            locked = 1;
+          }
+          break;
+        }
+      } else {
+        if (powerss[i].powerName === type) {
+          if (powerss[i].SocialMediaUnlock !== null) {
+            locked = 1;
+          }
+          break;
+        }
       }
-      setDwallCounts(0);
     }
+    return locked;
   }
-  function useChallenge(action) {
+  async function useSwap(action) {
     if (action) {
-      var oldCount = challengeCounts;
-      if (oldCount > 0) {
-        oldCount = oldCount - 1;
-        setChallengeCounts(oldCount);
-        return;
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 4)
+      );
+      if (requests.payload[0] == 1) {
+        setPowers();
+      } else {
+        alert("Something went wrong. Please try after sometime.");
       }
-      setChallengeCounts(0);
     }
   }
-  useEffect(() => {
+  async function useDwall(action) {
+    if (action) {
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 5)
+      );
+      if (requests.payload[0] == 1) {
+        setPowers();
+      } else {
+        alert("Something went wrong. Please try after sometime.");
+      }
+    }
+  }
+  async function useChallenge(action) {
+    if (action) {
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 6)
+      );
+      if (requests.payload[0] == 1) {
+        setPowers();
+      } else {
+        alert("Something went wrong. Please try after sometime.");
+      }
+    }
+  }
+  useEffect(async () => {
     _socket = socket();
-
-    powerVal("Swap");
-    powerVal("Challenge");
-    powerVal("D-Wall");
-
+    setPowers();
     return function cleanUP() {
       isMatchUpdate = false;
 
@@ -251,7 +305,6 @@ function MLBPowerdFsLive(props) {
     //fetch data first time
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
-      console.log("EMIT_ROOM: ", res);
       const {
         game_id = "",
         score = 0,
@@ -374,7 +427,6 @@ function MLBPowerdFsLive(props) {
   };
 
   const onFantasyTeamUpdate = (res) => {
-    console.log("FANTAY TEAM UPDATE: ", res);
     const {
       log = {},
       event = {},
@@ -387,10 +439,8 @@ function MLBPowerdFsLive(props) {
     if (!live_data?.length) return;
 
     const liveData = [...live_data];
-    console.log(isEmpty(playerToSwap), playerToSwap);
     if (!isEmpty(playerToSwap)) {
       const updatedPlayerIndex = liveData?.indexOf(playerToSwap);
-      console.log("UPDATED PLAYER INDEX: ", updatedPlayerIndex);
       if (updatedPlayerIndex !== -1) {
         liveData[updatedPlayerIndex] = updated_player;
       }
@@ -493,41 +543,45 @@ function MLBPowerdFsLive(props) {
           ) : (
             <img src={Icon} width={54} height={54} />
           )}
-          {count <= 0 && (
+          {isPowerAvailable(title) === 1 && isPowerLocked(title) === 1 && (
             <div className={classes.sidebar_lock_icon}>
               <LockIcon />
             </div>
           )}
         </div>
         <p className={classes.power_title}>{title}</p>
-        <div className={classes.power_footer}>
-          {count <= 0 ? (
-            <>
-              <p>Share to unlock:</p>
-              <div>
-                <a
-                  href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                >
-                  <button>
-                    <FacebookIcon />
-                  </button>
-                </a>
-                <a
-                  href={`https://twitter.com/intent/tweet?text=${text}${count}`}
-                  target="_blank"
-                >
-                  <button>
-                    <TwitterIcon />
-                  </button>
-                </a>
-              </div>
-            </>
-          ) : (
-            <p className={classes.power_footer_count}>
-              {count} <span>left</span>
-            </p>
-          )}
-        </div>
+        {isPowerAvailable(title) === 0 ? (
+          <div style={{ opacity: 0.6, fontSize: "0.9rem" }}>Not Available</div>
+        ) : (
+          <div className={classes.power_footer}>
+            {isPowerLocked(title) === 1 ? (
+              <>
+                <p>Share to unlock:</p>
+                <div>
+                  <a
+                    href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                  >
+                    <button>
+                      <FacebookIcon />
+                    </button>
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${text}${count}`}
+                    target="_blank"
+                  >
+                    <button>
+                      <TwitterIcon />
+                    </button>
+                  </a>
+                </div>
+              </>
+            ) : (
+              <p className={classes.power_footer_count}>
+                {count} <span>left</span>
+              </p>
+            )}
+          </div>
+        )}
       </div>
     );
   };
@@ -561,6 +615,14 @@ function MLBPowerdFsLive(props) {
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
           gameInfo={history.location.state}
+          dwall={dwallCounts}
+          challenge={challengeCounts}
+          useDwall={useDwall}
+          useChallenge={useChallenge}
+          dataMain={props.location.state.item}
+          useSwap={useSwap}
+          swapCount={swapCounts}
+          setPowers={setPowers}
         />
       );
     } else if (live_data && live_data?.length) {
@@ -575,6 +637,8 @@ function MLBPowerdFsLive(props) {
               challenge={challengeCounts}
               useDwall={useDwall}
               useChallenge={useChallenge}
+              dataMain={props.location.state.item}
+              setPowers={setPowers}
             />
           ) : (
             <SportsLiveCard
@@ -587,6 +651,8 @@ function MLBPowerdFsLive(props) {
               gameInfo={history.location.state}
               useSwap={useSwap}
               swapCount={swapCounts}
+              dataMain={props.location.state.item}
+              setPowers={setPowers}
             />
           )}
         </>
@@ -688,7 +754,7 @@ function MLBPowerdFsLive(props) {
                           title="Point Booster"
                           isSvgIcon
                           Icon={XPIcon}
-                          count={powersInventory.point_multiplier}
+                          count={pointMultiplierCounts}
                         />
                         <RenderPower
                           title="Swap Player"

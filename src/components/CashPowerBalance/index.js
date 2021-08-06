@@ -5,24 +5,63 @@ import classes from "./cashPowerBalance.module.scss";
 import PointsCollectedIcon from "../../assets/points-collected.png";
 import PowerBalanceIcon from "../../assets/power_balance_icon.png";
 import { setNumberComma } from "../../utility/shared";
+import PowerCurrency from '../../assets/power-blue.png';
+import BtcCurrency from '../../assets/btc-blue.png';
+import EthCurrency from '../../assets/ethereum-blue.png';
 
 const CashPowerBalance = (props) => {
   const {
     cashBalance = 0,
     powerBalance = 0,
+    entryFee = 0,
+    currency = '',
     showIcons = true,
     cashTitle = "",
     powerTitle = "",
+    entryTitle = "",
     centered = false,
     styles = {},
     onDepositClick = () => { },
   } = props || {};
+
+  const getCurrency = (currency) => {
+    if (currency.toUpperCase() === 'PWRS') {
+      return PowerCurrency;
+    } else if (currency.toUpperCase() === 'USD') {
+      return BtcCurrency;
+    } else if (currency.toUpperCase() === 'ETH') {
+      return EthCurrency;
+    }
+  }
+
   return (
     <div className={classes.__sidebar_cash_power_balance} style={styles}>
+      <div>
+        <div className={classes.__entry_fee_currency}>
+          {currency === 'USD' ? (
+            <p className={classes.__entry_fee_USD}>
+              {`$`}
+            </p>
+          ) : (
+            <img
+              style={{ marginRight: 4 }}
+              src={getCurrency(currency)}
+              width="18"
+              height="18"
+              alt=""
+            />
+          )}
+          <p className={classes.__entry_fee_amount}>{entryFee}</p>
+        </div>
+
+        <div className={classes.__entry_fee_title}>
+          {entryTitle}
+        </div>
+      </div>
       <div className={classes.__sidebar_cash_power_balance_wrapper}>
         <div className={classes.__sidebar_cash_balance_wrapper}>
           {showIcons && (
-            <img src={PointsCollectedIcon} width="40" height="30" />
+            <img src={PointsCollectedIcon} width="40" height="30" alt="" />
           )}
           <div
             className={`${classes.__sidebar_text_wrapper} ${centered && classes.__centered
@@ -43,7 +82,7 @@ const CashPowerBalance = (props) => {
       </div>
       <div className={classes.__sidebar_cash_power_balance_wrapper}>
         <div className={classes.__sidebar_cash_balance_wrapper}>
-          {showIcons && <img src={PowerBalanceIcon} width="40" height="40" />}
+          {showIcons && <img src={PowerBalanceIcon} width="40" height="40" alt="" />}
           <div
             className={`${classes.__sidebar_text_wrapper} ${centered && classes.__centered
               }`}

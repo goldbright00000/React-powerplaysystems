@@ -155,7 +155,7 @@ const MyGameCenterCard = (props) => {
                             value={total}
                             displayType={"text"}
                             thousandSeparator={true}
-                            thousandSeparator={total>=10000?true:false}
+                            thousandSeparator={total >= 10000 ? true : false}
                             renderText={(value) => value}
                           />}
                         </div>
@@ -194,7 +194,7 @@ const MyGameCenterCard = (props) => {
                       value={prize}
                       displayType={"text"}
                       thousandSeparator={true}
-                      thousandSeparator={prize>=10000?true:false}
+                      thousandSeparator={prize >= 10000 ? true : false}
                       prefix={"$"}
                       renderText={(value) => <div>{value}</div>}
                     />
@@ -515,7 +515,7 @@ const MyGameCenterCard = (props) => {
                 <CurrencyFormat
                   value={prize}
                   displayType={"text"}
-                  thousandSeparator={prize>=10000?true:false}
+                  thousandSeparator={prize >= 10000 ? true : false}
                   prefix={"$"}
                   renderText={(value) => <div>{value}</div>}
                 />
@@ -527,7 +527,7 @@ const MyGameCenterCard = (props) => {
                   classes.__my_game_center_card_prize_pool_text
                 }
               >
-                {inProgress ? "Currently Winning" : "Prize Pool2"}
+                {inProgress ? "Currently Winning" : "Prize Pool"}
               </p>
             </div>
             <div className={classes.__my_game_center_card_buttons}>
@@ -599,7 +599,7 @@ const MyGameCenterCard = (props) => {
                     Full <CurrencyFormat
                       value={total}
                       displayType={"text"}
-                      thousandSeparator={total>=10000?true:false}
+                      thousandSeparator={total >= 10000 ? true : false}
                       renderText={(value) => value}
                     />
                   </div>
@@ -666,6 +666,8 @@ const MyGameCenterCard = (props) => {
             onBackClick={() => onBackClick()}
             onNextClick={() => onNextClick()}
             myGameCenter={true}
+            game_set_start={game_set_start}
+            prize={(prize)}
           />
         </>
       )}

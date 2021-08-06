@@ -16,8 +16,12 @@ import { CardType } from "./CardType";
 import ChallengePopUp from "../ChallengePopup";
 import DwallPopUp from "../DwallPopup";
 import { nodeName } from "jquery";
+import Tooltip from "../ToolTip";
+import TwitterIcon from "../../icons/TwitterIcon";
+import FacebookIcon from "../../icons/FacebookIcon";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
+const text = process.env.REACT_APP_POST_SHARING_TEXT;
 
 function SportsLiveCardTeamD(props) {
   const [showSummary, setSummaryState] = useState(false);
@@ -98,6 +102,45 @@ function SportsLiveCardTeamD(props) {
     home_team_id = "",
   } = boxscore[0] || {};
 
+  const isPowerAvailable = (type) => {
+    let powerss = props.dataMain?.game?.Powers;
+    
+    let available = 0;
+    if(type === "Swap Player")
+    {
+      type = "Swap";
+    }
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        available = 1;
+        break
+      }
+    }
+    return available;
+  }
+  const isPowerLocked = (type) => {
+    let powerss = props.dataMain?.game?.Powers;
+    let locked = 0;
+    if(type === "Swap Player")
+    {
+      type = "Swap";
+    }
+    for(var i = 0; i < powerss.length; i++)
+    {
+      if(powerss[i].powerName === type)
+      {
+        if(powerss[i].SocialMediaUnlock !== null)
+        {
+          locked = 1;
+        }
+        break;
+      }
+    }
+    return locked;
+  }
+
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
@@ -174,51 +217,225 @@ function SportsLiveCardTeamD(props) {
       >
         {cardType === CardType.MLBR ? (
           <>
-            <ChallengePopUp
-              component={({ showPopUp }) => (
+            {(isPowerAvailable("Challenge") === 0 || isPowerLocked("Challenge") === 1) ? (
+              <Tooltip
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    {isPowerAvailable("Challenge") === 0 ? (
+                      <div>Not Available</div>
+                    ) : (
+                      isPowerLocked("Challenge") === 1 ? (
+                        <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                          <p>Share to unlock:</p>
+                          <div>
+                            <a
+                              href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                            >
+                              <button>
+                                <FacebookIcon />
+                              </button>
+                            </a>
+                            <a
+                              href={`https://twitter.com/intent/tweet?text=${text}`}
+                              target="_blank"
+                            >
+                              <button>
+                                <TwitterIcon />
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    )} 
+                  </div>
+                }
+              >
                 <button
-                  onClick={showPopUp}
                   className={classes.team_d_icon_button}
                 >
                   <Challenge size={largeView ? 28 : 24} />
                 </button>
-              )}
-              challenge={props.challenge}
-              useChallenge={props.useChallenge}
-            />
-            <DwallPopUp
-              component={({ showPopUp }) => (
+              </Tooltip>
+            ) : (
+              <ChallengePopUp
+                component={({ showPopUp }) => (
+                  <button
+                    onClick={showPopUp}
+                    className={classes.team_d_icon_button}
+                  >
+                    <Challenge size={largeView ? 28 : 24} />
+                  </button>
+                )}
+                challenge={props.challenge}
+                useChallenge={props.useChallenge}
+              />
+            )}
+
+            {(isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1) ? (
+              <Tooltip
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    {isPowerAvailable("D-Wall") === 0 ? (
+                      <div>Not Available</div>
+                    ) : (
+                      isPowerLocked("D-Wall") === 1 ? (
+                        <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                          <p>Share to unlock:</p>
+                          <div>
+                            <a
+                              href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                            >
+                              <button>
+                                <FacebookIcon />
+                              </button>
+                            </a>
+                            <a
+                              href={`https://twitter.com/intent/tweet?text=${text}`}
+                              target="_blank"
+                            >
+                              <button>
+                                <TwitterIcon />
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    )} 
+                  </div>
+                }
+              >
                 <button
-                  onClick={showPopUp}
                   className={classes.team_d_icon_button}
                 >
                   <ShieldIcon size={largeView ? 28 : 24} />
                 </button>
-              )}
-              dwall={props.dwall}
-              useDwall={props.useDwall}
-            />
+              </Tooltip>
+            ) : (
+              <DwallPopUp
+                component={({ showPopUp }) => (
+                  <button
+                    onClick={showPopUp}
+                    className={classes.team_d_icon_button}
+                  >
+                    <ShieldIcon size={largeView ? 28 : 24} />
+                  </button>
+                )}
+                dwall={props.dwall}
+                useDwall={props.useDwall}
+              />
+            )}
           </>
         ) : (
           <>
-            <ChallengePopUp
-              component={({ showPopUp }) => (
-                <button onClick={showPopUp}>
+            {(isPowerAvailable("Challenge") === 0 || isPowerLocked("Challenge") === 1) ? (
+              <Tooltip
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    {isPowerAvailable("Challenge") === 0 ? (
+                      <div>Not Available</div>
+                    ) : (
+                      isPowerLocked("Challenge") === 1 ? (
+                        <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                          <p>Share to unlock:</p>
+                          <div>
+                            <a
+                              href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                            >
+                              <button>
+                                <FacebookIcon />
+                              </button>
+                            </a>
+                            <a
+                              href={`https://twitter.com/intent/tweet?text=${text}`}
+                              target="_blank"
+                            >
+                              <button>
+                                <TwitterIcon />
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    )} 
+                  </div>
+                }
+              >
+                <button
+                  className={classes.team_d_icon_button}
+                >
                   <Challenge size={largeView ? 28 : 24} />
                 </button>
-              )}
-              challenge={props.challenge}
-              useChallenge={props.useChallenge}
-            />
-            <DwallPopUp
-              component={({ showPopUp }) => (
-                <button onClick={showPopUp}>
+              </Tooltip>
+            ) : (
+              <ChallengePopUp
+                component={({ showPopUp }) => (
+                  <button onClick={showPopUp}>
+                    <Challenge size={largeView ? 28 : 24} />
+                  </button>
+                )}
+                challenge={props.challenge}
+                useChallenge={props.useChallenge}
+              />
+            )}
+            
+            {(isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1) ? (
+              <Tooltip
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    {isPowerAvailable("D-Wall") === 0 ? (
+                      <div>Not Available</div>
+                    ) : (
+                      isPowerLocked("D-Wall") === 1 ? (
+                        <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                          <p>Share to unlock:</p>
+                          <div>
+                            <a
+                              href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                            >
+                              <button>
+                                <FacebookIcon />
+                              </button>
+                            </a>
+                            <a
+                              href={`https://twitter.com/intent/tweet?text=${text}`}
+                              target="_blank"
+                            >
+                              <button>
+                                <TwitterIcon />
+                              </button>
+                            </a>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )
+                    )} 
+                  </div>
+                }
+              >
+                <button
+                  className={classes.team_d_icon_button}
+                >
                   <ShieldIcon size={largeView ? 28 : 24} />
                 </button>
-              )}
-              dwall={props.dwall}
-              useDwall={props.useDwall}
-            />
+              </Tooltip>
+            ) : (
+              <DwallPopUp
+                component={({ showPopUp }) => (
+                  <button onClick={showPopUp}>
+                    <ShieldIcon size={largeView ? 28 : 24} />
+                  </button>
+                )}
+                dwall={props.dwall}
+                useDwall={props.useDwall}
+              />
+            )}
           </>
         )}
       </div>

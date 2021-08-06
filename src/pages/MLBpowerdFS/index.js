@@ -295,6 +295,8 @@ function MLBPowerdFs(props) {
     prizes: Prizes = [],
     start_time = "",
     paid_game = true,
+    entry_fee = '',
+    currency = '',
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -336,10 +338,10 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
-
+    
     if (response) {
       setData(response?.filterdList);
-
+      
       const { filterdList = [], allData = [] } = response || {};
 
       setFilterdData(filterdList[0]);
@@ -411,7 +413,7 @@ function MLBPowerdFs(props) {
 
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
-      if (loading) return;
+      //if (loading) return;
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
@@ -739,10 +741,11 @@ function MLBPowerdFs(props) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
-
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
         if (isPaid || isPaid === null) {
-          dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+          if (currency !== 'PWRS') {
+            dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+          }
           dispatch(MLBActions.deductUserBalance(user_id, game_id));
           dispatch(MLBActions.savePrizePool(user_id, game_id));
         }
@@ -1034,12 +1037,13 @@ function MLBPowerdFs(props) {
                     )}
 
                     <div className={classes.card_body}>
-                      {console.log('filterdData', filterdData)}
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
+                            
                             {selectedFilter?.title === D ? (
-                              isAfterTime(item?.date, item?.time) && (
+                              /*Remove isAfterTime function from here because edit picks was not working due to this function*/
+                              (item?.date, item?.time) && (
                                 <SportsTeamSelectionCard
                                   item={item}
                                   isSelected={
@@ -1058,9 +1062,11 @@ function MLBPowerdFs(props) {
                                 />
                               )
                             ) : (
+                              /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               <>
-                                {isAfterTime(item?.date, item?.time) && (
-                                  <SelectionCard3
+                                {(item?.date, item?.time) && (
+                                  <>
+                                    <SelectionCard3
                                     player={item}
                                     isSelected={
                                       !!selected.get(
@@ -1078,6 +1084,7 @@ function MLBPowerdFs(props) {
                                   //   starPlayerCount >= 3
                                   // }
                                   />
+                                  </>
                                 )}
                               </>
                             )}
@@ -1346,14 +1353,18 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
+            
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
+                entryFee={entry_fee}
+                currency={currency}
                 powerBalance={topPrize}
                 cashBalance={prizePool}
                 styles={{
                   marginTop: "-40px",
                 }}
+                entryTitle="Entry Fee"
                 cashTitle="Prize Pool"
                 powerTitle="Top Prize"
                 centered
