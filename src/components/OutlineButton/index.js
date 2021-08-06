@@ -18,13 +18,17 @@ const OutlineButton = (props) => {
       style={styles}
     >
       {icon && <span className={classes.__outline_button_icon}>{icon}</span>}
-      {title0}
-      <img
-        src={currency}
-        alt=""
-        height="18"
-        width="14"
-      />
+      {title0 && (
+        title0
+      )}
+      {currency && (
+        <img
+          src={currency}
+          alt=""
+          height="18"
+          width="14"
+        />
+      )}
       {title}
     </button>
   );

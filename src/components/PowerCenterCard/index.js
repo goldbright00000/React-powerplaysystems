@@ -70,7 +70,7 @@ const PowerCenterCard = (props) => {
             return PowerCurrency;
         } else if (currency.toUpperCase() === 'BTC') {
             return BtcCurrency;
-        } else if (currency.toUpperCase() === 'USD') {
+        } else if (currency.toUpperCase() === 'ETH') {
             return EthCurrency;
         }
     }

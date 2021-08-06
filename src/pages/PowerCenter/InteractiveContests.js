@@ -170,7 +170,8 @@ const InteractiveContests = (props) => {
     "ethereum",
     "usd",
     "btc",
-    "eth"
+    "eth",
+    "pwrs"
   ]);
   const [days, setDays] = useState([{}]);
   const [cashBalance, setCashBalance] = useState(0);
@@ -287,8 +288,6 @@ const InteractiveContests = (props) => {
   };
 
   const onEnter = async (item) => {
-
-
 
     if (!isAuthenticated) {
       history.push("/login")
