@@ -201,13 +201,14 @@ function NHLLivePowerdFsScroeDetail(props) {
               </div>
 
               <div className={classes.card_body}>
-                {gameLogs &&
-                  gameLogs?.length &&
+                {gameLogs && gameLogs?.length ? (
                   gameLogs?.map((row, ind) => {
                     const {
                       active_powerplay = null,
                       effected_player = {},
                       fantasy_points_occured = 0,
+                      fantasy_points_occured_without_powerplay = 0,
+                      fantasy_points_after = 0,
                       play = {},
                     } = row || {};
 
@@ -270,11 +271,11 @@ function NHLLivePowerdFsScroeDetail(props) {
                             : `Bot ${inning_number}`
                         }
                         plays={outcome_id}
-                        pts="6"
+                        pts={fantasy_points_occured_without_powerplay}
                         totalPts="8"
                         powers="1.5"
                         score={fantasy_points_occured}
-                        runningTotal="16"
+                        runningTotal={fantasy_points_after}
                         runs={{
                           rs: 2,
                           pts: 4,
@@ -283,131 +284,15 @@ function NHLLivePowerdFsScroeDetail(props) {
                           rbi: 8,
                           pts: 1,
                         }}
-                        isHit={is_hit}
+                        isHit={false}
                         activePower={active_powerplay}
                         key={ind?.toString()}
                       />
                     );
-                  })}
-                {/* <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="1.5"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="3"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={-1}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                /> */}
+                  })
+                ) : (
+                  <>No Data</>
+                )}
               </div>
             </Card>
           </div>

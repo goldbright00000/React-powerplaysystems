@@ -124,7 +124,7 @@ function MLBPowerdFsLive(props) {
   );
 
   function powerVal(type) {
-    console.log("type", type);
+    // console.log("type", type);
     let powerss = item?.game?.Powers;
     let val = 0;
     for (var i = 0; i < powerss.length; i++) {
@@ -139,7 +139,7 @@ function MLBPowerdFsLive(props) {
       case "D-Wall":
         val = 1;
         if (val !== dwallCounts) {
-          console.log("type1", type);
+          // console.log("type1", type);
           setDwallCounts(1);
         }
         break;
@@ -270,7 +270,9 @@ function MLBPowerdFsLive(props) {
         getPlayers(players, teamD);
       }
 
-      dispatch(MLBActions.setGameLogs(game_logs));
+      const _gameLogs = [...game_logs];
+      const sortedGameLogs = _gameLogs.sort((a, b) => b - a);
+      dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
 
@@ -351,7 +353,7 @@ function MLBPowerdFsLive(props) {
       (match) => match?.match_id === match_id
     );
 
-    console.log("LIVE DATE: ", live_data, dataToUpdate, match_id);
+    // console.log("LIVE DATE: ", live_data, dataToUpdate, match_id);
 
     if (dataToUpdate.length) {
       for (let i = 0; i < dataToUpdate.length; i++) {
@@ -431,7 +433,7 @@ function MLBPowerdFsLive(props) {
 
     const { gameId, sportId, teamId, userId } = history.location.state || {};
 
-    console.log(currentPlayer, newPlayer);
+    // console.log(currentPlayer, newPlayer);
     setPlayerToSwap(currentPlayer);
 
     onPowerApplied(

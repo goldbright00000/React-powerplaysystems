@@ -94,6 +94,8 @@ function SportsLiveCardTeamD(props) {
     baserunner_2 = null,
     baserunner_3 = null,
     baserunner_4 = null,
+    away_team_id = "",
+    home_team_id = "",
   } = boxscore[0] || {};
 
   useEffect(() => {
@@ -141,7 +143,10 @@ function SportsLiveCardTeamD(props) {
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             Runs Against:{average_runs_against} <br />
-            HR Against:{2}
+            HR Against:
+            {team_id === away_team_id
+              ? away_team_runs
+              : team_id === home_team_id && home_team_runs}
           </p>
         </div>
       </div>
