@@ -80,6 +80,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     runs = {},
     isHit = false,
     activePower = null,
+    timeStamp = "",
   }) => (
     <div
       className={`${classes.card_row} ${classes.card_row_1} ${
@@ -88,6 +89,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     >
       <span className={classes.child_1}>{position}</span>
       <span className={classes.child_2}>{name}</span>
+      <span className={`${classes.child_3} ${classes.space}`}>{timeStamp}</span>
       <span className={classes.child_3}>{inning}</span>
       <div className={classes.card_combine_row}>
         <span>
@@ -171,6 +173,9 @@ function NHLLivePowerdFsScroeDetail(props) {
                 <div className={classes.card_row}>
                   <span className={classes.child_1}>Position</span>
                   <span className={classes.child_2}>Name</span>
+                  <span className={`${classes.child_3} ${classes.space}`}>
+                    Time Stamp
+                  </span>
                   <span className={classes.child_3}>Innings</span>
                   <div className={classes.card_header_1}>
                     <p>Scoring Plays</p>
@@ -286,6 +291,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                         }}
                         isHit={false}
                         activePower={active_powerplay}
+                        timeStamp="7:07:32 PM"
                         key={ind?.toString()}
                       />
                     );
