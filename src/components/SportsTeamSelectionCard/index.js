@@ -166,7 +166,7 @@ function SportsTeamSelectionCard(props) {
             {mlbCard && currentStep === 1 ? (
               <RenderMLBState />
             ) : isEmpty(playerStats) ? (
-              <RenderMLBState />
+              <RenderOtherState />
             ) : (
               <p>No Data</p>
             )}
@@ -187,7 +187,7 @@ function SportsTeamSelectionCard(props) {
             {mlbCard && currentStep === 1 ? (
               <RenderMLBState />
             ) : isEmpty(playerStats) ? (
-              <RenderMLBState />
+              <RenderOtherState />
             ) : (
               <p>No Data</p>
             )}

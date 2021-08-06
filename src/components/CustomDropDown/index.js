@@ -67,7 +67,6 @@ const CustomDropDown = (props) => {
                                          }
                                         `}
                 onClick={() => {
-                  console.log("item.value", item.value);
                   onChange(item.value);
                   setIsVisible(!isVisible);
                 }}

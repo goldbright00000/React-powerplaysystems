@@ -46,14 +46,13 @@ const ContestRules = (props) => {
   "July", "August", "September", "October", "November", "December"
     ];
     const d = new Date(props.game_set_start);
- 
   return (
     <div className={classes.__contest_rules}>
       <p className={classes.__contest_rules_main_title}>Contest Rules</p>
       <ul>
           <li><span>${props.prize}</span> Prize Pool</li>
           <li>Live Play <span>Powers</span> included with entry fee</li>
-          <li>Pick players from any teams scheduled to play on <span>{monthNames[d.getMonth()]} {("0" + d.getDate()).slice(-2)}, {d.getFullYear()}</span></li>
+          <li>Pick players from any teams scheduled to play on <span>{monthNames[d.getUTCMonth()]} {("0" + d.getUTCDate()).slice(-2)}, {d.getUTCFullYear()}</span></li>
       </ul>
       <ContestRulesPopUp
         points={[]}

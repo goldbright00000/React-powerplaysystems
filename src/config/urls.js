@@ -28,6 +28,8 @@ export const URLS = {
     CALCULATE_ADMIN_FEE: "admin/save-admin-fee",
     DEDUCT_USER_BALANCE: "admin/deduct-user-balance",
     SAVE_PRIZE_POOL: "admin/save-prize-pool",
+    GET_USERS_POWERS: "/dfs/get-user-power",
+    UPDATE_USERS_POWERS: "/dfs/update-user-power"
   },
   GAMES: {
     ALL_POWER_GAMES: "admin/games",

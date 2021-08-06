@@ -113,7 +113,7 @@ function SportsSelectionCard3(props) {
           <span>{primary_position}</span>
           {playerName}
         </p>
-        {injured && !isMobile && (
+        {props.player.isInjured && !isMobile && (
           <div className={classes.injured}>
             <AidIcon />
             <span>Injured</span>

@@ -33,17 +33,23 @@ const ChallengePopUp = props => {
                                             if(props.challenge > 0)
                                             {
                                                 setPopupMode(1);
-                                                setTimers(5);
-                                                var t = 5;
+                                                setTimers(3);
+                                                var t = 3;
                                                 var a = setInterval(function() {
                                                     console.log("t", t);
                                                     t = t - 1;
+                                                    console.log("t", t);
                                                     setTimers(t);
-                                                    if(t === -1) {
+                                                    console.log("t timers", t == -1);
+                                                    if(t == -1) {
+                                                        console.log("t in");
                                                         clearInterval(a);
-                                                        setPopupMode(2);
+                                                        var a1 = [2,3];
+                                                        var random = a1[Math.floor(Math.random()*a1.length)];
+                                                        setPopupMode(random);
                                                         setTimeout(function() {
-                                                            props.useChallenge(true);
+                                                            if(random === 2)
+                                                                props.useChallenge(true);
                                                             setShowPopUp(false);
                                                         },2000);
                                                     }

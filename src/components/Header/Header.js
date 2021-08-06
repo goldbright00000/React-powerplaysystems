@@ -217,7 +217,7 @@ const Header = (props) => {
                     <li className="__my_account_li" ref={myAccountMenuRef}>
                       <NavLink
                         to="#"
-                        onClick={() => setMyAccountMenu(!myAccountMenu)}
+                        onClick={(e) => {e.preventDefault();setMyAccountMenu(!myAccountMenu)}}
                       >
                         My Account
                         {!myAccountMenu ? (
