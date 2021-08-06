@@ -59,15 +59,30 @@ import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "./bottomSheetStyles.scss";
+import PowerUpIcon from '../../assets/power-up-icon.svg';
 
 const getIcon = (powerName) => {
   if (powerName) {
-    if (powerName.toLowerCase().match(/wall/g)) return DWallIcon;
-    else if (powerName.toLowerCase().match(/video|review/g)) return VideoReviewIcon;
-    else if (powerName.toLowerCase().match(/swap/g)) return SwapPlayerIcon;
-    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g)) return PointMultiplierIcon;
-    else if (powerName.toLowerCase().match(/retro/g)) return RetroBoostIcon;
-    else if (powerName.toLowerCase().match(/challenge/g)) return ChallengeIcon;
+    if (powerName.toLowerCase().match(/wall/g))
+      return DWallIcon;
+
+    else if (powerName.toLowerCase().match(/video|review/g))
+      return VideoReviewIcon;
+
+    else if (powerName.toLowerCase().match(/swap/g))
+      return SwapPlayerIcon;
+
+    else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
+      return PointMultiplierIcon;
+
+    else if (powerName.toLowerCase().match(/retro/g))
+      return RetroBoostIcon;
+
+    else if (powerName.toLowerCase().match(/challenge/g))
+      return ChallengeIcon;
+
+    else if (powerName.toLowerCase().match(/power-up/g))
+      return PowerUpIcon
   }
 };
 
@@ -338,10 +353,10 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
-    
+
     if (response) {
       setData(response?.filterdList);
-      
+
       const { filterdList = [], allData = [] } = response || {};
 
       setFilterdData(filterdList[0]);
@@ -1040,7 +1055,7 @@ function MLBPowerdFs(props) {
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
-                            
+
                             {selectedFilter?.title === D ? (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               (item?.date, item?.time) && (
@@ -1067,23 +1082,23 @@ function MLBPowerdFs(props) {
                                 {(item?.date, item?.time) && (
                                   <>
                                     <SelectionCard3
-                                    player={item}
-                                    isSelected={
-                                      !!selected.get(
-                                        `${item.playerId} - ${item?.match_id}`
-                                      )
-                                    }
-                                    key={item.playerId + " - " + item?.match_id}
-                                    loading={loading}
-                                    onSelectDeselect={onPlayerSelectDeselect}
-                                    pageType={PAGE_TYPES.MLB}
-                                    type={selectedData?.type}
-                                  // disabled={
-                                  //   item.isStarPlayer &&
-                                  //   item.isStarPlayer &&
-                                  //   starPlayerCount >= 3
-                                  // }
-                                  />
+                                      player={item}
+                                      isSelected={
+                                        !!selected.get(
+                                          `${item.playerId} - ${item?.match_id}`
+                                        )
+                                      }
+                                      key={item.playerId + " - " + item?.match_id}
+                                      loading={loading}
+                                      onSelectDeselect={onPlayerSelectDeselect}
+                                      pageType={PAGE_TYPES.MLB}
+                                      type={selectedData?.type}
+                                    // disabled={
+                                    //   item.isStarPlayer &&
+                                    //   item.isStarPlayer &&
+                                    //   starPlayerCount >= 3
+                                    // }
+                                    />
                                   </>
                                 )}
                               </>
@@ -1353,7 +1368,7 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
-            
+
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
