@@ -101,7 +101,6 @@ const contentTypes = [
   },
 ];
 
-
 const InteractiveContests = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const dispatch = useDispatch();
@@ -124,7 +123,7 @@ const InteractiveContests = (props) => {
 
   const applyFilter = (type) => {
     setContentType(type);
-  }
+  };
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
     responsiveHandler(maxWidth);
@@ -176,21 +175,13 @@ const InteractiveContests = (props) => {
     }
   };
 
-  const onEnter = (item) => {
+  const onEnter = async (item) => {
     const { game = {}, sport_id, team_id, user_id, game_id } = item || {};
     const { league = "" } = game || {};
     switch (league) {
       case "MLB":
-        return redirectTo(props, {
-          path: "/mlb-live-powerdfs",
-          state: {
-            gameId: game_id,
-            userId: user_id,
-            teamId: team_id,
-            sportId: sport_id,
-            item: item
-          },
-        });
+        await dispatch(MLbActions.setSelectedTeam(item));
+        return redirectTo(props, { path: "/mlb-live-powerdfs" });
     }
   };
 
@@ -203,7 +194,13 @@ const InteractiveContests = (props) => {
           isMobile={isMobile}
           id={item?.team_id}
           title={item?.game?.league}
-          prize={_.reduce(item?.game?.PrizePayouts, function (memo, num) { return memo + ((parseInt(num.amount) * parseInt(num.prize))); }, 0)}
+          prize={_.reduce(
+            item?.game?.PrizePayouts,
+            function (memo, num) {
+              return memo + parseInt(num.amount) * parseInt(num.prize);
+            },
+            0
+          )}
           outOf={item?.enrolled_users}
           total={item?.game?.target}
           percent={item?.game?.percent}
@@ -214,20 +211,28 @@ const InteractiveContests = (props) => {
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
           inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-            item?.game?.game_set_start + ' ' + item?.game?.start_time,
-            moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
+            item?.game?.game_set_start + " " + item?.game?.start_time,
+            moment(item?.game?.game_set_end)
+              .add(1, "day")
+              .format("YYYY-MM-DD") + " 02:00 AM"
           )}
           completed={moment(moment().format("YYYY-MM-DD")).isAfter(
-            moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
+            moment(item?.game?.game_set_end)
+              .add(1, "day")
+              .format("YYYY-MM-DD") + " 02:00 AM"
           )}
           editPicks={
             item?.players?.length > 0 &&
             !moment(moment().format("YYYY-MM-DD")).isAfter(
-              moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
+              moment(item?.game?.game_set_end)
+                .add(1, "day")
+                .format("YYYY-MM-DD") + " 02:00 AM"
             ) &&
             !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-              item?.game?.game_set_start + ' ' + item?.game?.start_time,
-              moment(item?.game?.game_set_end).add(1, 'day').format("YYYY-MM-DD") + ' 02:00 AM'
+              item?.game?.game_set_start + " " + item?.game?.start_time,
+              moment(item?.game?.game_set_end)
+                .add(1, "day")
+                .format("YYYY-MM-DD") + " 02:00 AM"
             )
           }
           makePicks={item.makePicks}
@@ -256,7 +261,6 @@ const InteractiveContests = (props) => {
         <div className={`__flex ${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
             <div className="__badges-wrapper __text-in-one-line __mediam">
-
               {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
@@ -271,10 +275,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -301,28 +305,57 @@ const InteractiveContests = (props) => {
                 value={contentType}
                 options={contentTypes}
                 onChange={(selectedOption) => setContentType(selectedOption)}
-              />123
+              />
+              123
             </div>
           ) : (
             <>
-              <div className={(contentType === "All Active") ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total} onClick={() => {
-                applyFilter("All Active")
-              }}>
+              <div
+                className={
+                  contentType === "All Active"
+                    ? classes.__interactive_contests_most_popular
+                    : classes.__interactive_contests_prize_total
+                }
+                onClick={() => {
+                  applyFilter("All Active");
+                }}
+              >
                 <p>All Active</p>
               </div>
-              <div className={(contentType === "Not Started") ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total} onClick={() => {
-                applyFilter("Not Started")
-              }}>
+              <div
+                className={
+                  contentType === "Not Started"
+                    ? classes.__interactive_contests_most_popular
+                    : classes.__interactive_contests_prize_total
+                }
+                onClick={() => {
+                  applyFilter("Not Started");
+                }}
+              >
                 <p>Not Started</p>
               </div>
-              <div className={(contentType === "In Progress") ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total} onClick={() => {
-                applyFilter("In Progress")
-              }}>
+              <div
+                className={
+                  contentType === "In Progress"
+                    ? classes.__interactive_contests_most_popular
+                    : classes.__interactive_contests_prize_total
+                }
+                onClick={() => {
+                  applyFilter("In Progress");
+                }}
+              >
                 <p>In Progress</p>
               </div>
-              <div className={(contentType === "Completed") ? classes.__interactive_contests_most_popular : classes.__interactive_contests_prize_total} onClick={() => {
-                applyFilter("Completed")
-              }}>
+              <div
+                className={
+                  contentType === "Completed"
+                    ? classes.__interactive_contests_most_popular
+                    : classes.__interactive_contests_prize_total
+                }
+                onClick={() => {
+                  applyFilter("Completed");
+                }}
+              >
                 <p>Completed</p>
               </div>
             </>
@@ -334,7 +367,7 @@ const InteractiveContests = (props) => {
               value={selectedDate}
               options={days}
               onChange={(selectedOption) => {
-                setSelectedDate(selectedOption)
+                setSelectedDate(selectedOption);
               }}
             />
           </div>
@@ -351,66 +384,73 @@ const InteractiveContests = (props) => {
               filteredData.map(function (power) {
                 if (selectedDate === "Today") {
                   var m = moment().format("YYYY-MM-DD");
+                } else {
+                  var m = moment(
+                    selectedDate + " " + moment().format("YYYY")
+                  ).format("YYYY-MM-DD");
                 }
-                else {
-                  var m = (moment(selectedDate + " " + moment().format('YYYY')).format("YYYY-MM-DD"));
-                }
-                var sDate = (m + " 00:00");
-                var eDate = (m + " 23:59");
+                var sDate = m + " 00:00";
+                var eDate = m + " 23:59";
                 var s = power?.game?.start_time;
                 s = "0" + s;
                 s = s.slice(-8);
-                s = s.split(/(?=[A-Z]{2})/).join(" ")
-                var startDate = moment(power?.game?.start_date + ' ' + s).format("YYYY-MM-DD hh:mm A");
-                var endDate = moment(power?.game?.end_date + ' 11:59 PM').format("YYYY-MM-DD hh:mm A");
-                var isBetween1 = moment(startDate).isBetween((sDate), (eDate));
+                s = s.split(/(?=[A-Z]{2})/).join(" ");
+                var startDate = moment(
+                  power?.game?.start_date + " " + s
+                ).format("YYYY-MM-DD hh:mm A");
+                var endDate = moment(
+                  power?.game?.end_date + " 11:59 PM"
+                ).format("YYYY-MM-DD hh:mm A");
+                var isBetween1 = moment(startDate).isBetween(sDate, eDate);
                 if (contentType === "Completed" || selectedDate === "All") {
                   isBetween1 = 1;
                 }
                 if (isBetween1) {
                   var a = false;
                   if (contentType === "In Progress") {
-                    var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-                      power?.game?.game_set_start + ' ' + power?.game?.start_time,
-                      power?.game?.game_set_end + ' 11:59 PM'
+                    var a = moment(
+                      moment().format("YYYY-MM-DD hh:mm A")
+                    ).isBetween(
+                      power?.game?.game_set_start +
+                        " " +
+                        power?.game?.start_time,
+                      power?.game?.game_set_end + " 11:59 PM"
                     );
-                  }
-                  else if (contentType === "Completed") {
+                  } else if (contentType === "Completed") {
                     var a = moment(moment().format("YYYY-MM-DD")).isAfter(
                       power?.game?.game_set_end
-                    )
-                  }
-                  else if (contentType === "Not Started") {
+                    );
+                  } else if (contentType === "Not Started") {
                     var s = power?.game?.start_time;
                     s = "0" + s;
                     s = s.slice(-8);
-                    var a = moment(moment().format("YYYY-MM-DD hh:mm A")).isBefore(
-                      power?.game?.game_set_start + ' ' + s
-                    )
-                  }
-                  else if (contentType === "All Active") {
-                    var a1 = moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-                      power?.game?.game_set_start + ' ' + power?.game?.start_time,
-                      power?.game?.game_set_end + ' 11:59 PM'
+                    var a = moment(
+                      moment().format("YYYY-MM-DD hh:mm A")
+                    ).isBefore(power?.game?.game_set_start + " " + s);
+                  } else if (contentType === "All Active") {
+                    var a1 = moment(
+                      moment().format("YYYY-MM-DD hh:mm A")
+                    ).isBetween(
+                      power?.game?.game_set_start +
+                        " " +
+                        power?.game?.start_time,
+                      power?.game?.game_set_end + " 11:59 PM"
                     );
                     var a2 = power?.game?.status === "Activated";
                     var a3 = moment(moment().format("YYYY-MM-DD")).isAfter(
                       power?.game?.game_set_end
-                    )
+                    );
                     if (a3 === true) {
-                      a = false
+                      a = false;
+                    } else {
+                      var a = a1 === true || a2 === true;
                     }
-                    else {
-                      var a = (a1 === true || a2 === true);
-                    }
-
                   }
                   if (a) {
                     subFiltered.push(power);
                   }
                 }
-
-              })
+              });
             }
             const myGameCenterCardView = Array(numberOfRows)
               .fill(undefined)
@@ -431,9 +471,10 @@ const InteractiveContests = (props) => {
                           items.map((power) => {
                             return myGameCenterCard(power, power.url);
                           })
+                        ) : i == 0 ? (
+                          <h1 className="nogamesmessage">No games</h1>
                         ) : (
-                          i == 0 ?
-                            <h1 className="nogamesmessage">No games</h1> : ""
+                          ""
                         )}
                       </div>
                     ) : (
@@ -447,9 +488,10 @@ const InteractiveContests = (props) => {
                             items.map((power) => {
                               return myGameCenterCard(power, power.url);
                             })
+                          ) : i == 0 ? (
+                            <h1 className="nogamesmessage">No games</h1>
                           ) : (
-                            i == 0 ?
-                              <h1 className="nogamesmessage">No games</h1> : ""
+                            ""
                           )}
                         </div>
                       </>

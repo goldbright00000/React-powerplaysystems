@@ -12,6 +12,7 @@ const INITIAL_STATE = {
   game_id: 0,
   team_id: 0,
   is_loading: false,
+  selectedTeam: {},
 };
 
 const mlbReducer = (state = INITIAL_STATE, actions) => {
@@ -55,6 +56,12 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         gameLogs: actions.payload,
+      };
+
+    case Actions.SET_SELECTED_TEAM:
+      return {
+        ...state,
+        selectedTeam: actions.payload,
       };
 
     default:

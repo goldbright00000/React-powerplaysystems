@@ -12,6 +12,7 @@ export const MLB_EDIT_PLAYERS = "[MLB] MLB_EDIT_PLAYERS";
 export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES";
 export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES";
 export const SET_GAME_LOGS = "[MLB] SET_GAME_LOGS";
+export const SET_SELECTED_TEAM = "[MLB] SET_SELECTED_TEAM";
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -431,25 +432,23 @@ export function setGameLogs(data) {
   };
 }
 
-export function getUserRemainingPowers(game_id, user_id)
-{
+export function getUserRemainingPowers(game_id, user_id) {
   return async (dispatch) => {
     try {
       const response = await http.get(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_USERS_POWERS}?game_id=${game_id}&user_id=${user_id}`
       );
-     return dispatch({
-       "type": "userPowers",
-       "payload": response.data
-     });
+      return dispatch({
+        type: "userPowers",
+        payload: response.data,
+      });
     } catch (err) {
       console.log(err);
     }
   };
 }
 
-export function updateUserRemainingPowers(game_id, user_id, power_id)
-{
+export function updateUserRemainingPowers(game_id, user_id, power_id) {
   return async (dispatch) => {
     try {
       const response = await http.patch(
@@ -457,15 +456,24 @@ export function updateUserRemainingPowers(game_id, user_id, power_id)
         {
           game_id: game_id,
           user_id: user_id,
-          power_id: power_id
+          power_id: power_id,
         }
       );
-     return dispatch({
-       "type": "userPowers",
-       "payload": response.data
-     });
+      return dispatch({
+        type: "userPowers",
+        payload: response.data,
+      });
     } catch (err) {
       console.log(err);
     }
+  };
+}
+
+export function setSelectedTeam(payload) {
+  return async (dispatch) => {
+    return await dispatch({
+      type: SET_SELECTED_TEAM,
+      payload,
+    });
   };
 }
