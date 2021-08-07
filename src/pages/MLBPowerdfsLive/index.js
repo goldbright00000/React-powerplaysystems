@@ -92,7 +92,7 @@ function MLBPowerdFsLive(props) {
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
   const history = useHistory();
 
-  const { gameId, userId, teamId, sportId } = history.location.state || {};
+  // const { gameId, userId, teamId, sportId } = history.location.state || {};
 
   const {
     live_data = [],
@@ -101,32 +101,40 @@ function MLBPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.mlb);
   const { user = {} } = useSelector((state) => state.auth);
+  const { selectedTeam = {} } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
-  let item = props.location.state.item;
+  // let item = props.location.state.item;
+
+  const {
+    game_id: gameId = "",
+    user_id: userId = "",
+    team_id: teamId = "",
+    sport_id: sportId = "",
+    game = {},
+  } = selectedTeam || {};
+  // let item = selectedTeam.item;
 
   let prizePool,
     topPrize = 0;
-  let powers = item?.game?.Powers;
+  // let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
-    item?.game?.PrizePayouts,
+    game?.PrizePayouts,
     function (memo, num) {
       return memo + parseInt(num.amount) * parseInt(num.prize);
     },
     0
   );
   topPrize = parseFloat(
-    _.max(item?.game?.PrizePayouts, function (ele) {
+    _.max(game?.PrizePayouts, function (ele) {
       return ele.amount;
     }).amount
   );
 
   async function setPowers() {
-    let a = await dispatch(
-      MLBActions.getUserRemainingPowers(item.game_id, item.user_id)
-    );
+    let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
     let remainingPowers = a.payload;
     let challenge = 0;
     let swap = 0;
@@ -155,7 +163,7 @@ function MLBPowerdFsLive(props) {
     setPointMultiplierCounts(point_booster);
   }
   function isPowerAvailable(type) {
-    let powerss = item?.game?.Powers;
+    let powerss = game?.Powers;
     let available = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -180,7 +188,7 @@ function MLBPowerdFsLive(props) {
     return available;
   }
   function isPowerLocked(type) {
-    let powerss = item?.game?.Powers;
+    let powerss = game?.Powers;
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -211,7 +219,7 @@ function MLBPowerdFsLive(props) {
   async function useSwap(action) {
     if (action) {
       let requests = await dispatch(
-        MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 4)
+        MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
       if (requests.payload[0] == 1) {
         setPowers();
@@ -223,7 +231,7 @@ function MLBPowerdFsLive(props) {
   async function useDwall(action) {
     if (action) {
       let requests = await dispatch(
-        MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 5)
+        MLBActions.updateUserRemainingPowers(gameId, userId, 5)
       );
       if (requests.payload[0] == 1) {
         setPowers();
@@ -235,7 +243,7 @@ function MLBPowerdFsLive(props) {
   async function useChallenge(action) {
     if (action) {
       let requests = await dispatch(
-        MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 6)
+        MLBActions.updateUserRemainingPowers(gameId, userId, 6)
       );
       if (requests.payload[0] == 1) {
         setPowers();
@@ -244,7 +252,12 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
+
   useEffect(async () => {
+    if (isEmpty(selectedTeam)) {
+      return redirectTo(props, { path: "/my-game-center" });
+    }
+
     _socket = socket();
     setPowers();
     return function cleanUP() {
@@ -637,7 +650,7 @@ function MLBPowerdFsLive(props) {
               challenge={challengeCounts}
               useDwall={useDwall}
               useChallenge={useChallenge}
-              dataMain={props.location.state.item}
+              dataMain={selectedTeam}
               setPowers={setPowers}
             />
           ) : (
@@ -651,7 +664,7 @@ function MLBPowerdFsLive(props) {
               gameInfo={history.location.state}
               useSwap={useSwap}
               swapCount={swapCounts}
-              dataMain={props.location.state.item}
+              dataMain={selectedTeam}
               setPowers={setPowers}
             />
           )}
