@@ -26,7 +26,6 @@ const OutlineButton = (props) => {
           src={currency}
           alt=""
           height="18"
-          width="14"
         />
       )}
       {title}
