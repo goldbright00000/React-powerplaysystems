@@ -268,7 +268,9 @@ function NHLLivePowerdFsScroeDetail(props) {
 
                     if (
                       outcome_id !== "KKL" ||
-                      outcome_id?.toLocaleLowerCase() !== "kkl"
+                      outcome_id?.toLocaleLowerCase() !== "kkl" ||
+                      outcome_id !== "KKS" ||
+                      outcome_id?.toLocaleLowerCase() !== "kks"
                     ) {
                       return (
                         <Row
