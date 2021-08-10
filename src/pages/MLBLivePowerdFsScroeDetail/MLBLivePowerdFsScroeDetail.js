@@ -80,6 +80,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     runs = {},
     isHit = false,
     activePower = null,
+    timeStamp = "",
   }) => (
     <div
       className={`${classes.card_row} ${classes.card_row_1} ${
@@ -88,6 +89,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     >
       <span className={classes.child_1}>{position}</span>
       <span className={classes.child_2}>{name}</span>
+      <span className={`${classes.child_3} ${classes.space}`}>{timeStamp}</span>
       <span className={classes.child_3}>{inning}</span>
       <div className={classes.card_combine_row}>
         <span>
@@ -171,6 +173,9 @@ function NHLLivePowerdFsScroeDetail(props) {
                 <div className={classes.card_row}>
                   <span className={classes.child_1}>Position</span>
                   <span className={classes.child_2}>Name</span>
+                  <span className={`${classes.child_3} ${classes.space}`}>
+                    Time Stamp
+                  </span>
                   <span className={classes.child_3}>Innings</span>
                   <div className={classes.card_header_1}>
                     <p>Scoring Plays</p>
@@ -201,13 +206,14 @@ function NHLLivePowerdFsScroeDetail(props) {
               </div>
 
               <div className={classes.card_body}>
-                {gameLogs &&
-                  gameLogs?.length &&
+                {gameLogs && gameLogs?.length ? (
                   gameLogs?.map((row, ind) => {
                     const {
                       active_powerplay = null,
                       effected_player = {},
                       fantasy_points_occured = 0,
+                      fantasy_points_occured_without_powerplay = 0,
+                      fantasy_points_after = 0,
                       play = {},
                     } = row || {};
 
@@ -260,154 +266,46 @@ function NHLLivePowerdFsScroeDetail(props) {
                       updated_at_feed = "",
                     } = play || {};
 
-                    return (
-                      <Row
-                        position={type}
-                        name={name}
-                        inning={
-                          `${half}`.toLocaleLowerCase() === "t"
-                            ? `Top ${inning_number}`
-                            : `Bot ${inning_number}`
-                        }
-                        plays={outcome_id}
-                        pts="6"
-                        totalPts="8"
-                        powers="1.5"
-                        score={fantasy_points_occured}
-                        runningTotal="16"
-                        runs={{
-                          rs: 2,
-                          pts: 4,
-                        }}
-                        rbi={{
-                          rbi: 8,
-                          pts: 1,
-                        }}
-                        isHit={is_hit}
-                        activePower={active_powerplay}
-                        key={ind?.toString()}
-                      />
-                    );
-                  })}
-                {/* <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="1.5"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="3"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={-1}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                />
-
-                <Row
-                  position="P1"
-                  name="Joe Burrow"
-                  time="P1 | 11:52"
-                  plays="g"
-                  pts="6"
-                  totalPts="8"
-                  powers="2"
-                  score={16}
-                  runningTotal="16"
-                  runs={{
-                    rs: 2,
-                    pts: 4,
-                  }}
-                  rbi={{
-                    rbi: 8,
-                    pts: 1,
-                  }}
-                /> */}
+                    if (
+                      outcome_id !== "KKL" ||
+                      outcome_id?.toLocaleLowerCase() !== "kkl" ||
+                      outcome_id !== "KKS" ||
+                      outcome_id?.toLocaleLowerCase() !== "kks"
+                    ) {
+                      return (
+                        <Row
+                          position={type}
+                          name={name}
+                          inning={
+                            `${half}`.toLocaleLowerCase() === "t"
+                              ? `Top ${inning_number}`
+                              : `Bot ${inning_number}`
+                          }
+                          plays={outcome_id}
+                          pts={fantasy_points_occured_without_powerplay}
+                          totalPts="8"
+                          powers="1.5"
+                          score={fantasy_points_occured}
+                          runningTotal={fantasy_points_after}
+                          runs={{
+                            rs: 2,
+                            pts: 4,
+                          }}
+                          rbi={{
+                            rbi: 8,
+                            pts: 1,
+                          }}
+                          isHit={false}
+                          activePower={active_powerplay}
+                          timeStamp="7:07:32 PM"
+                          key={ind?.toString()}
+                        />
+                      );
+                    }
+                  })
+                ) : (
+                  <>No Data</>
+                )}
               </div>
             </Card>
           </div>

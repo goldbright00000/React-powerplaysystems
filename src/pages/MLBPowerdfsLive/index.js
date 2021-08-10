@@ -92,7 +92,7 @@ function MLBPowerdFsLive(props) {
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
   const history = useHistory();
 
-  const { gameId, userId, teamId, sportId } = history.location.state || {};
+  // const { gameId, userId, teamId, sportId } = history.location.state || {};
 
   const {
     live_data = [],
@@ -101,50 +101,60 @@ function MLBPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.mlb);
   const { user = {} } = useSelector((state) => state.auth);
+  const { selectedTeam = {} } = useSelector((state) => state.mlb);
   const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
-  let item = props.location.state.item;
+  // let item = props.location.state.item;
 
-  let prizePool, topPrize = 0;
-  let powers = item?.game?.Powers;
+  const {
+    game_id: gameId = "",
+    user_id: userId = "",
+    team_id: teamId = "",
+    sport_id: sportId = "",
+    game = {},
+  } = selectedTeam || {};
+  // let item = selectedTeam.item;
+
+  let prizePool,
+    topPrize = 0;
+  // let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
-    item?.game?.PrizePayouts,
+    game?.PrizePayouts,
     function (memo, num) {
       return memo + parseInt(num.amount) * parseInt(num.prize);
     },
     0
   );
   topPrize = parseFloat(
-    _.max(item?.game?.PrizePayouts, function (ele) {
+    _.max(game?.PrizePayouts, function (ele) {
       return ele.amount;
     }).amount
   );
 
-  
-  
   async function setPowers() {
-    let a = await dispatch(MLBActions.getUserRemainingPowers(item.game_id, item.user_id));
+    let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
     let remainingPowers = a.payload;
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
     let dwall = 0;
-    for(let i = 0; i < remainingPowers.length; i++)
-    {
+    for (let i = 0; i < remainingPowers.length; i++) {
       let rec = remainingPowers[i].fantasy_powers;
-      if(rec.name === "D-Wall") {
-        dwall = (remainingPowers[i].remaining_amount);
-      }
-      else if(rec.name === "Challenge") {
-        challenge = (remainingPowers[i].remaining_amount);
-      }
-      else if(rec.name === "1.5x Point Booster" || rec.name === "2x Point Booster" || rec.name === "3x Point Booster") {
-        point_booster = point_booster + parseInt(remainingPowers[i].remaining_amount);
-      }
-      else if(rec.name === "Swap") {
-        swap = (remainingPowers[i].remaining_amount);
+      if (rec.name === "D-Wall") {
+        dwall = remainingPowers[i].remaining_amount;
+      } else if (rec.name === "Challenge") {
+        challenge = remainingPowers[i].remaining_amount;
+      } else if (
+        rec.name === "1.5x Point Booster" ||
+        rec.name === "2x Point Booster" ||
+        rec.name === "3x Point Booster"
+      ) {
+        point_booster =
+          point_booster + parseInt(remainingPowers[i].remaining_amount);
+      } else if (rec.name === "Swap") {
+        swap = remainingPowers[i].remaining_amount;
       }
     }
     setChallengeCounts(challenge);
@@ -153,57 +163,51 @@ function MLBPowerdFsLive(props) {
     setPointMultiplierCounts(point_booster);
   }
   function isPowerAvailable(type) {
-    let powerss = item?.game?.Powers;
+    let powerss = game?.Powers;
     let available = 0;
-    if(type === "Swap Player")
-    {
+    if (type === "Swap Player") {
       type = "Swap";
     }
-    for(var i = 0; i < powerss.length; i++)
-    {
-      if(type === "Point Booster")
-      {
-        if(powerss[i].powerName === "1.5x Point Booster" || powerss[i].powerName === "2x Point Booster" || powerss[i].powerName === "3x Point Booster")
-        {
+    for (var i = 0; i < powerss.length; i++) {
+      if (type === "Point Booster") {
+        if (
+          powerss[i].powerName === "1.5x Point Booster" ||
+          powerss[i].powerName === "2x Point Booster" ||
+          powerss[i].powerName === "3x Point Booster"
+        ) {
           available = 1;
-          break
+          break;
         }
-      }
-      else {
-        if(powerss[i].powerName === type)
-        {
+      } else {
+        if (powerss[i].powerName === type) {
           available = 1;
-          break
+          break;
         }
       }
     }
     return available;
   }
   function isPowerLocked(type) {
-    let powerss = item?.game?.Powers;
+    let powerss = game?.Powers;
     let locked = 0;
-    if(type === "Swap Player")
-    {
+    if (type === "Swap Player") {
       type = "Swap";
     }
-    for(var i = 0; i < powerss.length; i++)
-    {
-      if(type === "Point Booster")
-      {
-        if(powerss[i].powerName === "1.5x Point Booster" || powerss[i].powerName === "2x Point Booster" || powerss[i].powerName === "3x Point Booster")
-        {
-          if(powerss[i].SocialMediaUnlock !== null)
-          {
+    for (var i = 0; i < powerss.length; i++) {
+      if (type === "Point Booster") {
+        if (
+          powerss[i].powerName === "1.5x Point Booster" ||
+          powerss[i].powerName === "2x Point Booster" ||
+          powerss[i].powerName === "3x Point Booster"
+        ) {
+          if (powerss[i].SocialMediaUnlock !== null) {
             locked = 1;
           }
           break;
         }
-      }
-      else {
-        if(powerss[i].powerName === type)
-        {
-          if(powerss[i].SocialMediaUnlock !== null)
-          {
+      } else {
+        if (powerss[i].powerName === type) {
+          if (powerss[i].SocialMediaUnlock !== null) {
             locked = 1;
           }
           break;
@@ -214,42 +218,47 @@ function MLBPowerdFsLive(props) {
   }
   async function useSwap(action) {
     if (action) {
-      let requests = await dispatch(MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 4));
-      if(requests.payload[0] == 1)
-      {
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(gameId, userId, 4)
+      );
+      if (requests.payload[0] == 1) {
         setPowers();
-      }
-      else {
+      } else {
         alert("Something went wrong. Please try after sometime.");
       }
     }
   }
   async function useDwall(action) {
     if (action) {
-      let requests = await dispatch(MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 5));
-      if(requests.payload[0] == 1)
-      {
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(gameId, userId, 5)
+      );
+      if (requests.payload[0] == 1) {
         setPowers();
-      }
-      else {
+      } else {
         alert("Something went wrong. Please try after sometime.");
       }
     }
   }
   async function useChallenge(action) {
     if (action) {
-      let requests = await dispatch(MLBActions.updateUserRemainingPowers(item.game_id, item.user_id, 6));
-      if(requests.payload[0] == 1)
-      {
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(gameId, userId, 6)
+      );
+      if (requests.payload[0] == 1) {
         setPowers();
-      }
-      else {
+      } else {
         alert("Something went wrong. Please try after sometime.");
       }
     }
   }
+
   useEffect(async () => {
-    _socket = socket(); 
+    if (isEmpty(selectedTeam)) {
+      return redirectTo(props, { path: "/my-game-center" });
+    }
+
+    _socket = socket();
     setPowers();
     return function cleanUP() {
       isMatchUpdate = false;
@@ -327,7 +336,9 @@ function MLBPowerdFsLive(props) {
         getPlayers(players, teamD);
       }
 
-      dispatch(MLBActions.setGameLogs(game_logs));
+      const _gameLogs = [...game_logs];
+      const sortedGameLogs = _gameLogs.sort((a, b) => b - a);
+      dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
 
@@ -408,6 +419,7 @@ function MLBPowerdFsLive(props) {
       (match) => match?.match_id === match_id
     );
 
+    // console.log("LIVE DATE: ", live_data, dataToUpdate, match_id);
 
     if (dataToUpdate.length) {
       for (let i = 0; i < dataToUpdate.length; i++) {
@@ -484,6 +496,7 @@ function MLBPowerdFsLive(props) {
 
     const { gameId, sportId, teamId, userId } = history.location.state || {};
 
+    // console.log(currentPlayer, newPlayer);
     setPlayerToSwap(currentPlayer);
 
     onPowerApplied(
@@ -543,7 +556,7 @@ function MLBPowerdFsLive(props) {
           ) : (
             <img src={Icon} width={54} height={54} />
           )}
-          {isPowerAvailable(title) === 1 &&  isPowerLocked(title) === 1 && (
+          {isPowerAvailable(title) === 1 && isPowerLocked(title) === 1 && (
             <div className={classes.sidebar_lock_icon}>
               <LockIcon />
             </div>
@@ -551,7 +564,7 @@ function MLBPowerdFsLive(props) {
         </div>
         <p className={classes.power_title}>{title}</p>
         {isPowerAvailable(title) === 0 ? (
-          <div style={{opacity: 0.6,fontSize: "0.9rem"}}>Not Available</div>
+          <div style={{ opacity: 0.6, fontSize: "0.9rem" }}>Not Available</div>
         ) : (
           <div className={classes.power_footer}>
             {isPowerLocked(title) === 1 ? (
@@ -582,7 +595,7 @@ function MLBPowerdFsLive(props) {
             )}
           </div>
         )}
-        </div>
+      </div>
     );
   };
 
@@ -637,7 +650,7 @@ function MLBPowerdFsLive(props) {
               challenge={challengeCounts}
               useDwall={useDwall}
               useChallenge={useChallenge}
-              dataMain={props.location.state.item}
+              dataMain={selectedTeam}
               setPowers={setPowers}
             />
           ) : (
@@ -651,7 +664,7 @@ function MLBPowerdFsLive(props) {
               gameInfo={history.location.state}
               useSwap={useSwap}
               swapCount={swapCounts}
-              dataMain={props.location.state.item}
+              dataMain={selectedTeam}
               setPowers={setPowers}
             />
           )}
