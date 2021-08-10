@@ -21,6 +21,8 @@ import FacebookIcon from "../../icons/FacebookIcon";
 import ReplaceAllIcon from "../../icons/Replace";
 import ShieldIcon from "../../icons/ShieldIcon";
 import ChallengeIcon from "../../icons/Challenge";
+import RetroIcon from "../../icons/RetroBoost";
+import PowerUpIcon from "../../icons/PowerUp";
 import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
 import FooterImage from "../../assets/NHL-live-footer.png";
 import RankCard from "../../components/RankCard";
@@ -90,6 +92,8 @@ function MLBPowerdFsLive(props) {
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
+  const [retroBoostCounts, setRetroBoostCounts] = useState(0);
+  const [powerUpCounts, setPowerUpCounts] = useState(0);
   const history = useHistory();
 
   // const { gameId, userId, teamId, sportId } = history.location.state || {};
@@ -136,10 +140,13 @@ function MLBPowerdFsLive(props) {
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
     let remainingPowers = a.payload;
+    console.log("powers a", a);
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
     let dwall = 0;
+    let retro_boost = 0;
+    let power_up = 0;
     for (let i = 0; i < remainingPowers.length; i++) {
       let rec = remainingPowers[i].fantasy_powers;
       if (rec.name === "D-Wall") {
@@ -155,18 +162,27 @@ function MLBPowerdFsLive(props) {
           point_booster + parseInt(remainingPowers[i].remaining_amount);
       } else if (rec.name === "Swap") {
         swap = remainingPowers[i].remaining_amount;
+      } else if (rec.name === "Retro Boost") {
+        retro_boost = remainingPowers[i].remaining_amount;
+      } else if (rec.name === "Power-Up") {
+        power_up = remainingPowers[i].remaining_amount;
       }
     }
     setChallengeCounts(challenge);
     setSwapCounts(swap);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
+    setRetroBoostCounts(retro_boost);
+    setPowerUpCounts(power_up);
   }
   function isPowerAvailable(type) {
     let powerss = game?.Powers;
     let available = 0;
     if (type === "Swap Player") {
       type = "Swap";
+    }
+    if (type === "Power Up") {
+      type = "Power-Up";
     }
     for (var i = 0; i < powerss.length; i++) {
       if (type === "Point Booster") {
@@ -192,6 +208,9 @@ function MLBPowerdFsLive(props) {
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
+    }
+    if (type === "Power Up") {
+      type = "Power-Up";
     }
     for (var i = 0; i < powerss.length; i++) {
       if (type === "Point Booster") {
@@ -639,6 +658,7 @@ function MLBPowerdFsLive(props) {
         />
       );
     } else if (live_data && live_data?.length) {
+      console.log("live_data", live_data);
       return live_data?.map((item, index) => (
         <>
           {item?.team_d_mlb_team && item?.team_d_mlb_team?.type === D ? (
@@ -786,6 +806,18 @@ function MLBPowerdFsLive(props) {
                           isSvgIcon
                           Icon={ChallengeIcon}
                           count={challengeCounts}
+                        />
+                        <RenderPower
+                          title="Retro Boost"
+                          isSvgIcon
+                          Icon={RetroIcon}
+                          count={retroBoostCounts}
+                        />
+                        <RenderPower
+                          title="Power Up"
+                          isSvgIcon
+                          Icon={PowerUpIcon}
+                          count={powerUpCounts}
                         />
                       </div>
                       <button onClick={() => setLearnMoreModal(true)}>
