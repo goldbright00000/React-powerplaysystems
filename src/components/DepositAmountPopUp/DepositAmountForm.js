@@ -176,7 +176,7 @@ class DepositAmountForm extends Component {
     ETH: {
       title: (
         <>
-          <img src={Ethereum} alt="" className={styles.EthereumImage} /> ETH
+          <img src={Ethereum} alt="" className={styles.EthereumImage} width={'15px'} height={'24px'} /> ETH
         </>
       ),
       values: [
@@ -414,13 +414,13 @@ class DepositAmountForm extends Component {
           //         onChange={this.onWalletAddressChange}
           //       />
           //     </div> */}
-              
+
           //   </div>
           // </section>
           <button className={`${styles.submitbtn} w-100 d-block`}>
-                Deposit • {currency === "$USD" && "$"}
-                {price} {currency.replace("$", "")}
-              </button>
+            Deposit • {currency === "$USD" && "$"}
+            {price} {currency.replace("$", "")}
+          </button>
         ) : (
           <button className={`${styles.submitbtn} w-100 d-block`}>
             Deposit • {currency === "$USD" && "$"}
