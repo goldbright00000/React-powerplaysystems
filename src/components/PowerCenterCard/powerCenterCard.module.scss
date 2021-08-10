@@ -42,6 +42,8 @@
             text-align: center;
             color: $primary;
 
+            font-weight: bold !important;
+
             .__power_center_card_powerdfs_title_first {
                 color: $grey2;
             }
@@ -68,10 +70,14 @@
         .__power_center_card_prize_pool_price {
             font-size: 34px;
             margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            font-weight: bold !important;
         }
 
         .__power_center_card_prize_pool_text {
             opacity: 0.6;
+            font-weight: bold !important;
         }
     }
 
