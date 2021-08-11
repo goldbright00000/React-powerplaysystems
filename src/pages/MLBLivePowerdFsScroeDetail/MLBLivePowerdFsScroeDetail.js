@@ -266,8 +266,6 @@ function NHLLivePowerdFsScroeDetail(props) {
                       updated_at_feed = "",
                     } = play || {};
 
-                    console.log("OUT COME: ", outcome_id);
-
                     if (
                       outcome_id === "KKL" ||
                       outcome_id === "kKL" ||
