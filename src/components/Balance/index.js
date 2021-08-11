@@ -81,7 +81,7 @@ const Balance = (props) => {
                 }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
-                <img src={PowerBalanceGrey} />
+                <img src={PowerBalanceGrey} alt="" />
               </div>
               <div className={classes.__balance_cash_and_balance_inner}>
                 <div className={classes.__balance_power_and_cash_balance}>

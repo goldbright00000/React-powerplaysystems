@@ -121,7 +121,9 @@ function MLBPowerdFsLive(props) {
   // let item = selectedTeam.item;
 
   let prizePool,
-    topPrize = 0;
+    topPrize = 0,
+    entry_fee = 0,
+    currency;
   // let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
@@ -136,6 +138,8 @@ function MLBPowerdFsLive(props) {
       return ele.amount;
     }).amount
   );
+  entry_fee = game?.entry_fee;
+  currency = game?.currency;
 
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
@@ -513,7 +517,7 @@ function MLBPowerdFsLive(props) {
     });
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -640,9 +644,16 @@ function MLBPowerdFsLive(props) {
   };
 
   const RenderView = () => {
+    // console.log('loading -> ', loading)
+
+    // console.log('selectedView -> ', selectedView)
+
+    // console.log('live_data -> ', live_data)
+
     if (loading) {
       return <p>Loading...</p>;
     }
+
 
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
@@ -765,12 +776,15 @@ function MLBPowerdFsLive(props) {
                 <div className={classes.sidebar_container}>
                   <Sidebar>
                     <CashPowerBalance
+                      entryFee={entry_fee}
+                      currency={currency}
                       powerBalance={topPrize}
                       cashBalance={prizePool}
                       styles={{
                         width: "100%",
                         marginTop: "-40px",
                       }}
+                      entryTitle="Entry Fee"
                       cashTitle="Prize Pool"
                       powerTitle="Top Prize"
                       centered

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { redirectTo } from "../../utility/shared";
+
 import ChooseItem from "../../ui/ChooseItem/ChooseItem";
 import styles from "./styles.module.scss";
 import PayPal from "../../assets/paypal.png";
@@ -218,6 +220,7 @@ class DepositAmountForm extends Component {
   };
 
   onSubmit = (e) => {
+    console.log('onDesposit click');
     e.preventDefault();
 
     if (this.state.form.currency === "USD")
@@ -235,6 +238,19 @@ class DepositAmountForm extends Component {
       } else {
         let { price, paymentMetod } = this.state.form;
         price = parseFloat((price * this.props.cad).toFixed(2));
+
+        // console.log('price ---> ', price);
+        // console.log('paymentMetod ---> ', paymentMetod);
+
+        // redirectTo(
+        //   {},
+        //   {
+        //     path: "/users-gateway",
+        //     state: { price },
+        //   }
+        // );
+
+        // // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
         this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
       }
     else {

@@ -34,6 +34,7 @@ const CashPowerBalance = (props) => {
     }
   }
 
+
   return (
     <div className={classes.__sidebar_cash_power_balance} style={styles}>
       <div>
