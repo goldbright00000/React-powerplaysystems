@@ -125,7 +125,9 @@ function MLBPowerdFsLive(props) {
   
 
   let prizePool,
-    topPrize = 0;
+    topPrize = 0,
+    entry_fee = 0,
+    currency;
   // let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
@@ -140,6 +142,8 @@ function MLBPowerdFsLive(props) {
       return ele.amount;
     }).amount
   );
+  entry_fee = game?.entry_fee;
+  currency = game?.currency;
 
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
@@ -196,6 +200,7 @@ function MLBPowerdFsLive(props) {
     setPointBooster2xCounts(p2);
     setPointBooster3xCounts(p3);
   }
+
   function isPowerAvailable(type) {
     let powerss = game?.Powers;
     let available = 0;
@@ -224,6 +229,7 @@ function MLBPowerdFsLive(props) {
     }
     return available;
   }
+
   function isPowerLocked(type) {
     let powerss = game?.Powers;
     let locked = 0;
@@ -256,6 +262,7 @@ function MLBPowerdFsLive(props) {
     }
     return locked;
   }
+
   async function useSwap(action) {
     if (action) {
       let requests = await dispatch(
@@ -268,6 +275,7 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
+
   async function useDwall(action) {
     if (action) {
       let requests = await dispatch(
@@ -330,7 +338,7 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    printLog(history.location.state);
+    printLog({ ...history.location.state, selectedTeam, gameId, userId });
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -378,7 +386,9 @@ function MLBPowerdFsLive(props) {
       }
 
       const _gameLogs = [...game_logs];
-      const sortedGameLogs = _gameLogs.sort((a, b) => b - a);
+      const sortedGameLogs = _gameLogs.sort(
+        (a, b) => a?.fantasy_points_after - b?.fantasy_points_after
+      );
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
@@ -488,6 +498,8 @@ function MLBPowerdFsLive(props) {
       updated_player = {},
       updated_team_defense = {},
     } = res?.data || {};
+    console.log("ON FANTASY UPDATES: ", res);
+
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
@@ -565,7 +577,7 @@ function MLBPowerdFsLive(props) {
     });
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -692,9 +704,16 @@ function MLBPowerdFsLive(props) {
   };
 
   const RenderView = () => {
+    // console.log('loading -> ', loading)
+
+    // console.log('selectedView -> ', selectedView)
+
+    // console.log('live_data -> ', live_data)
+
     if (loading) {
       return <p>Loading...</p>;
     }
+
 
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
@@ -703,7 +722,7 @@ function MLBPowerdFsLive(props) {
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
-          gameInfo={history.location.state}
+          gameInfo={selectedTeam}
           dwall={dwallCounts}
           challenge={challengeCounts}
           useDwall={useDwall}
@@ -738,7 +757,7 @@ function MLBPowerdFsLive(props) {
               onChangeXp={onChangeXp}
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
-              gameInfo={history.location.state}
+              gameInfo={selectedTeam}
               useSwap={useSwap}
               swapCount={swapCounts}
               dataMain={selectedTeam}
@@ -818,12 +837,15 @@ function MLBPowerdFsLive(props) {
                 <div className={classes.sidebar_container}>
                   <Sidebar>
                     <CashPowerBalance
+                      entryFee={entry_fee}
+                      currency={currency}
                       powerBalance={topPrize}
                       cashBalance={prizePool}
                       styles={{
                         width: "100%",
                         marginTop: "-40px",
                       }}
+                      entryTitle="Entry Fee"
                       cashTitle="Prize Pool"
                       powerTitle="Top Prize"
                       entryTitle="Entry Fee"

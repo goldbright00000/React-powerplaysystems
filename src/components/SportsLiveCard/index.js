@@ -68,7 +68,8 @@ function SportsLiveCard(props) {
     pointXpCount = {},
   } = props || {};
 
-  const { gameId, userId, teamId, sportId } = gameInfo || {};
+  const { game: { game_id: gameId } = {}, userId, teamId, sportId } =
+    gameInfo || {};
 
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
 
@@ -226,27 +227,25 @@ function SportsLiveCard(props) {
 
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
-    
+
     let available = 0;
-    if(type === "Swap Player")
-    {
+    if (type === "Swap Player") {
       type = "Swap";
     }
-    for(var i = 0; i < powerss.length; i++)
-    {
-      if(type === "Point Booster")
-      {
-        if(powerss[i].powerName === "1.5x Point Booster" || powerss[i].powerName === "2x Point Booster" || powerss[i].powerName === "3x Point Booster")
-        {
+    for (var i = 0; i < powerss.length; i++) {
+      if (type === "Point Booster") {
+        if (
+          powerss[i].powerName === "1.5x Point Booster" ||
+          powerss[i].powerName === "2x Point Booster" ||
+          powerss[i].powerName === "3x Point Booster"
+        ) {
           available = 1;
-          break
+          break;
         }
-      }
-      else {
-        if(powerss[i].powerName === type)
-        {
+      } else {
+        if (powerss[i].powerName === type) {
           available = 1;
-          break
+          break;
         }
       }
     }
@@ -255,16 +254,12 @@ function SportsLiveCard(props) {
   function isPowerLocked(type) {
     let powerss = props.dataMain?.game?.Powers;
     let locked = 0;
-    if(type === "Swap Player")
-    {
+    if (type === "Swap Player") {
       type = "Swap";
     }
-    for(var i = 0; i < powerss.length; i++)
-    {
-      if(powerss[i].powerName === type)
-      {
-        if(powerss[i].SocialMediaUnlock !== null)
-        {
+    for (var i = 0; i < powerss.length; i++) {
+      if (powerss[i].powerName === type) {
+        if (powerss[i].SocialMediaUnlock !== null) {
           locked = 1;
         }
         break;
@@ -620,50 +615,50 @@ function SportsLiveCard(props) {
 
   const RenderHeaderIcons = () => (
     <>
-      {isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
-        <Tooltip
-        toolTipContent={
-          <div className={classes.xp_icons}>
-            {isPowerAvailable("Swap") === 0 ? (
-              <div>Not Available</div>
-            ) : (
-              isPowerLocked("Swap") === 1 ? (
-                <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
-                  <p style={{paddingTop: "1px", paddingRight: "2px", paddingLeft: "5px"}}>Share to unlock:</p>
-                  <div>
-                    <a
-                      href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                    >
-                      <button style={{background: "none", borderWidth: 0, margin: "0px 10px"}}>
-                        <FacebookIcon />
-                      </button>
-                    </a>
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${text}`}
-                      target="_blank"
-                    >
-                      <button style={{background: "none", borderWidth: 0, margin: "0px 5px 10px 0px"}}>
-                        <TwitterIcon />
-                      </button>
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )
-            )} 
-          </div>
-        }
-      >
-        <Replace size={singleView ? 23 : 22} />
-      </Tooltip>
-      ) : (
+      {
+        //   isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
+        //   <Tooltip
+        //   toolTipContent={
+        //     <div className={classes.xp_icons}>
+        //       {isPowerAvailable("Swap") === 0 ? (
+        //         <div>Not Available</div>
+        //       ) : (
+        //         isPowerLocked("Swap") === 1 ? (
+        //           <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+        //             <p>Share to unlock:</p>
+        //             <div>
+        //               <a
+        //                 href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+        //               >
+        //                 <button>
+        //                   <FacebookIcon />
+        //                 </button>
+        //               </a>
+        //               <a
+        //                 href={`https://twitter.com/intent/tweet?text=${text}`}
+        //                 target="_blank"
+        //               >
+        //                 <button>
+        //                   <TwitterIcon />
+        //                 </button>
+        //               </a>
+        //             </div>
+        //           </div>
+        //         ) : (
+        //           ""
+        //         )
+        //       )}
+        //     </div>
+        //   }
+        // >
+        //   <Replace size={singleView ? 23 : 22} />
+        // </Tooltip>
+        // ) : (
         <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
-      )}
+        // )
+      }
     </>
   );
-
-  
 
   return (
     <>
