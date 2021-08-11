@@ -266,42 +266,46 @@ function NHLLivePowerdFsScroeDetail(props) {
                       updated_at_feed = "",
                     } = play || {};
 
+                    console.log("OUT COME: ", outcome_id);
+
                     if (
-                      outcome_id !== "KKL" ||
-                      outcome_id?.toLocaleLowerCase() !== "kkl" ||
-                      outcome_id !== "KKS" ||
-                      outcome_id?.toLocaleLowerCase() !== "kks"
+                      outcome_id === "KKL" ||
+                      outcome_id === "kKL" ||
+                      outcome_id === "KKS" ||
+                      outcome_id === "kKS"
                     ) {
-                      return (
-                        <Row
-                          position={type}
-                          name={name}
-                          inning={
-                            `${half}`.toLocaleLowerCase() === "t"
-                              ? `Top ${inning_number}`
-                              : `Bot ${inning_number}`
-                          }
-                          plays={outcome_id}
-                          pts={fantasy_points_occured_without_powerplay}
-                          totalPts="8"
-                          powers="1.5"
-                          score={fantasy_points_occured}
-                          runningTotal={fantasy_points_after}
-                          runs={{
-                            rs: 2,
-                            pts: 4,
-                          }}
-                          rbi={{
-                            rbi: 8,
-                            pts: 1,
-                          }}
-                          isHit={false}
-                          activePower={active_powerplay}
-                          timeStamp="7:07:32 PM"
-                          key={ind?.toString()}
-                        />
-                      );
+                      return <></>;
                     }
+
+                    return (
+                      <Row
+                        position={type}
+                        name={name}
+                        inning={
+                          `${half}`.toLocaleLowerCase() === "t"
+                            ? `Top ${inning_number}`
+                            : `Bot ${inning_number}`
+                        }
+                        plays={outcome_id}
+                        pts={fantasy_points_occured_without_powerplay}
+                        totalPts="8"
+                        powers="1.5"
+                        score={fantasy_points_occured}
+                        runningTotal={fantasy_points_after}
+                        runs={{
+                          rs: 2,
+                          pts: 4,
+                        }}
+                        rbi={{
+                          rbi: 8,
+                          pts: 1,
+                        }}
+                        isHit={false}
+                        activePower={active_powerplay}
+                        timeStamp="7:07:32 PM"
+                        key={ind?.toString()}
+                      />
+                    );
                   })
                 ) : (
                   <>No Data</>
