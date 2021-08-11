@@ -27,7 +27,6 @@ function SportsSelectionCard3(props) {
   console.log("propsss", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
-
   const {
     player = {},
     loading = false,

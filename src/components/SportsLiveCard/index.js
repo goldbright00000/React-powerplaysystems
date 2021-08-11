@@ -396,73 +396,78 @@ function SportsLiveCard(props) {
           <XPIcon size={singleView ? 14 : largeView ? 28 : 24} />
         </div>
       ) : (
-        <Tooltip
-          toolTipContent={
-            <div className={classes.xp_icons}>
-              {isPowerAvailable("Point Booster") === 0 ? (
-                <div>Not Available</div>
-              ) : (
-                isPowerLocked("Point Booster") === 1 ? (
-                  <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
-                  <p style={{paddingTop: "1px", paddingRight: "2px", paddingLeft: "5px"}}>Share to unlock:</p>
-                  <div>
-                    <a
-                      href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                    >
-                      <button style={{background: "none", borderWidth: 0, margin: "0px 10px"}}>
-                        <FacebookIcon />
-                      </button>
-                    </a>
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${text}`}
-                      target="_blank"
-                    >
-                      <button style={{background: "none", borderWidth: 0, margin: "0px 5px 10px 0px"}}>
-                        <TwitterIcon />
-                      </button>
-                    </a>
-                  </div>
-                </div>
+        <>
+        {(xp?.xp == CONSTANTS.XP.xp1_5 ||  xp?.xp == CONSTANTS.XP.xp2 || xp?.xp == CONSTANTS.XP.xp3) ? renderXp() : 
+          <Tooltip
+            toolTipContent={
+              <div className={classes.xp_icons}>
+                {isPowerAvailable("Point Booster") === 0 ? (
+                  <div>Not Available</div>
                 ) : (
-                  <>
-                    <div
-                        className={`${classes.xp_block} ${
-                          xp1 <= 0 && classes.disabled
-                        }`}
+                  isPowerLocked("Point Booster") === 1 ? (
+                    <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+                    <p style={{paddingTop: "1px", paddingRight: "2px", paddingLeft: "5px"}}>Share to unlock:</p>
+                    <div>
+                      <a
+                        href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
                       >
-                        <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
-                        <p>
-                          <span>{xp1}</span> left
-                        </p>
-                      </div>
+                        <button style={{background: "none", borderWidth: 0, margin: "0px 10px"}}>
+                          <FacebookIcon />
+                        </button>
+                      </a>
+                      <a
+                        href={`https://twitter.com/intent/tweet?text=${text}`}
+                        target="_blank"
+                      >
+                        <button style={{background: "none", borderWidth: 0, margin: "0px 5px 10px 0px"}}>
+                          <TwitterIcon />
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                  ) : (
+                    <>
                       <div
-                        className={`${classes.xp_block} ${
-                          xp2 <= 0 && classes.disabled
-                        }`}
-                      >
-                        <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
-                        <p>
-                          <span>{xp2}</span> left
-                        </p>
-                      </div>
-                      <div
-                        className={`${classes.xp_block} ${
-                          xp3 <= 0 && classes.disabled
-                        }`}
-                      >
-                        <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
-                        <p>
-                          <span>{xp3}</span> left
-                        </p>
-                      </div>
-                  </>
-                )
-              )} 
-            </div>
-          }
-        >
-          {renderXp()}
-        </Tooltip>
+                          className={`${classes.xp_block} ${
+                            xp1 <= 0 && classes.disabled
+                          }`}
+                        >
+                          <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
+                          <p>
+                            <span>{xp1}</span> left
+                          </p>
+                        </div>
+                        <div
+                          className={`${classes.xp_block} ${
+                            xp2 <= 0 && classes.disabled
+                          }`}
+                        >
+                          <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
+                          <p>
+                            <span>{xp2}</span> left
+                          </p>
+                        </div>
+                        <div
+                          className={`${classes.xp_block} ${
+                            xp3 <= 0 && classes.disabled
+                          }`}
+                        >
+                          <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
+                          <p>
+                            <span>{xp3}</span> left
+                          </p>
+                        </div>
+                    </>
+                  )
+                )} 
+              </div>
+            }
+          >
+            {renderXp()}
+          </Tooltip>
+        }
+        
+        </>
       )}
     </div>
   );
