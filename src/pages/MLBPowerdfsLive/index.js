@@ -92,10 +92,12 @@ function MLBPowerdFsLive(props) {
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
+  const [pointBooster15x, setPointBooster15xCounts] = useState(0);
+  const [pointBooster2x, setPointBooster2xCounts] = useState(0);
+  const [pointBooster3x, setPointBooster3xCounts] = useState(0);
   const [retroBoostCounts, setRetroBoostCounts] = useState(0);
   const [powerUpCounts, setPowerUpCounts] = useState(0);
   const history = useHistory();
-
   // const { gameId, userId, teamId, sportId } = history.location.state || {};
 
   const {
@@ -119,6 +121,8 @@ function MLBPowerdFsLive(props) {
     game = {},
   } = selectedTeam || {};
   // let item = selectedTeam.item;
+
+  
 
   let prizePool,
     topPrize = 0,
@@ -148,6 +152,9 @@ function MLBPowerdFsLive(props) {
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
+    let p15 = 0;
+    let p2 = 0;
+    let p3 = 0;
     let dwall = 0;
     let retro_boost = 0;
     let power_up = 0;
@@ -158,13 +165,24 @@ function MLBPowerdFsLive(props) {
       } else if (rec.name === "Challenge") {
         challenge = remainingPowers[i].remaining_amount;
       } else if (
-        rec.name === "1.5x Point Booster" ||
-        rec.name === "2x Point Booster" ||
-        rec.name === "3x Point Booster"
+        rec.name === "1.5x Point Booster"
       ) {
+        p15 = remainingPowers[i].remaining_amount;
         point_booster =
           point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "Swap") {
+      } else if (
+        rec.name === "2x Point Booster"
+      ) {
+        p2 = remainingPowers[i].remaining_amount;
+        point_booster =
+          point_booster + parseInt(remainingPowers[i].remaining_amount);
+      } else if (
+        rec.name === "3x Point Booster"
+      ) {
+        p3 = remainingPowers[i].remaining_amount;
+        point_booster =
+          point_booster + parseInt(remainingPowers[i].remaining_amount);
+      }else if (rec.name === "Swap") {
         swap = remainingPowers[i].remaining_amount;
       } else if (rec.name === "Retro Boost") {
         retro_boost = remainingPowers[i].remaining_amount;
@@ -178,6 +196,9 @@ function MLBPowerdFsLive(props) {
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
     setPowerUpCounts(power_up);
+    setPointBooster15xCounts(p15);
+    setPointBooster2xCounts(p2);
+    setPointBooster3xCounts(p3);
   }
 
   function isPowerAvailable(type) {
@@ -267,7 +288,7 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
-
+  
   async function useChallenge(action) {
     if (action) {
       let requests = await dispatch(
@@ -493,20 +514,55 @@ function MLBPowerdFsLive(props) {
       dispatch(MLBActions.mlbLiveData(liveData));
     }
   };
+  async function usePointBoosterPower(action, power) {
+    if (action) {
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(gameId, userId, power)
+      );
+      if (requests.payload[0] == 1) {
+        setPowers();
+      } else {
+        alert("Something went wrong. Please try after sometime.");
+      }
+    }
+  }
 
-  const onChangeXp = (xp, player) => {
+  const onChangeXp = async (xp, player) => {
+    console.log('onChangeXp');
     const _selectedXp = {
       xp,
     };
     if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
-
-    const indexOfPlayer = live_data?.indexOf(player);
-
-    if (indexOfPlayer) {
+    let indexOfPlayer = -1;
+    indexOfPlayer = live_data?.indexOf(player);
+    if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
       live_data[indexOfPlayer] = player;
+      let power = 0;
+      if(_selectedXp.xpVal == "1.5x")
+      {
+        power = 1;
+        
+      }
+      else if(_selectedXp.xpVal == "2x")
+      {
+        power = 2;
+      }
+      else if(_selectedXp.xpVal == "3x")
+      {
+        power = 3;
+      }
+      console.log("power", power, gameId, userId);
+      let requests = await dispatch(
+        MLBActions.updateUserRemainingPowers(gameId, userId, power)
+      );
+      if (requests.payload[0] == 1) {
+        setPowers();
+      } else {
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+      }
       return dispatch(MLBActions.mlbLiveData(live_data));
     }
   };
@@ -706,6 +762,7 @@ function MLBPowerdFsLive(props) {
               swapCount={swapCounts}
               dataMain={selectedTeam}
               setPowers={setPowers}
+              pointXpCount={{xp1:pointBooster15x,xp2:pointBooster2x,xp3:pointBooster3x}}
             />
           )}
         </>
@@ -791,8 +848,11 @@ function MLBPowerdFsLive(props) {
                       entryTitle="Entry Fee"
                       cashTitle="Prize Pool"
                       powerTitle="Top Prize"
+                      entryTitle="Entry Fee"
                       centered
                       showIcons={false}
+                      entryFee={selectedTeam?.game?.entry_fee}
+                      currency={'USD'}
                     />
                     <RankCard
                       ranks={ranks}
