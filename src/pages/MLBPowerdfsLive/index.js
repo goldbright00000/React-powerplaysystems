@@ -179,6 +179,7 @@ function MLBPowerdFsLive(props) {
     setRetroBoostCounts(retro_boost);
     setPowerUpCounts(power_up);
   }
+
   function isPowerAvailable(type) {
     let powerss = game?.Powers;
     let available = 0;
@@ -207,6 +208,7 @@ function MLBPowerdFsLive(props) {
     }
     return available;
   }
+
   function isPowerLocked(type) {
     let powerss = game?.Powers;
     let locked = 0;
@@ -239,6 +241,7 @@ function MLBPowerdFsLive(props) {
     }
     return locked;
   }
+
   async function useSwap(action) {
     if (action) {
       let requests = await dispatch(
@@ -251,6 +254,7 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
+
   async function useDwall(action) {
     if (action) {
       let requests = await dispatch(
@@ -263,6 +267,7 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
+
   async function useChallenge(action) {
     if (action) {
       let requests = await dispatch(
@@ -312,7 +317,7 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    printLog(history.location.state);
+    printLog({ ...history.location.state, selectedTeam, gameId, userId });
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -657,12 +662,12 @@ function MLBPowerdFsLive(props) {
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
-          gameInfo={history.location.state}
+          gameInfo={selectedTeam}
           dwall={dwallCounts}
           challenge={challengeCounts}
           useDwall={useDwall}
           useChallenge={useChallenge}
-          dataMain={props.location.state.item}
+          dataMain={selectedTeam}
           useSwap={useSwap}
           swapCount={swapCounts}
           setPowers={setPowers}
@@ -692,7 +697,7 @@ function MLBPowerdFsLive(props) {
               onChangeXp={onChangeXp}
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
-              gameInfo={history.location.state}
+              gameInfo={selectedTeam}
               useSwap={useSwap}
               swapCount={swapCounts}
               dataMain={selectedTeam}

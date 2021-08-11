@@ -68,7 +68,8 @@ function SportsLiveCard(props) {
     pointXpCount = {},
   } = props || {};
 
-  const { gameId, userId, teamId, sportId } = gameInfo || {};
+  const { game: { game_id: gameId } = {}, userId, teamId, sportId } =
+    gameInfo || {};
 
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
 
