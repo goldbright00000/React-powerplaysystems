@@ -215,7 +215,7 @@ function RenderMLBPlayerStats(props) {
                 {formatName(pitcherName)}
               </p>
             </div>
-            <span>ERA: {pERA}</span>
+            <span>ERA: {parseFloat(pERA).toFixed(2)}</span>
           </div>
         )}
       </div>
