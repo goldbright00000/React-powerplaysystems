@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -300,7 +301,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                         }}
                         isHit={false}
                         activePower={active_powerplay}
-                        timeStamp="7:07:32 PM"
+                        timeStamp={moment(created_at).format("hh:mm A")}
                         key={ind?.toString()}
                       />
                     );

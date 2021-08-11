@@ -361,7 +361,9 @@ function MLBPowerdFsLive(props) {
       }
 
       const _gameLogs = [...game_logs];
-      const sortedGameLogs = _gameLogs.sort((a, b) => b - a);
+      const sortedGameLogs = _gameLogs.sort(
+        (a, b) => a?.fantasy_points_after - b?.fantasy_points_after
+      );
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
@@ -471,6 +473,8 @@ function MLBPowerdFsLive(props) {
       updated_player = {},
       updated_team_defense = {},
     } = res?.data || {};
+    console.log("ON FANTASY UPDATES: ", res);
+
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
