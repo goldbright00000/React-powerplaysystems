@@ -561,7 +561,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
       return dispatch(MLBActions.mlbLiveData(live_data));
     }
