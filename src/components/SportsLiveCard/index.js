@@ -422,6 +422,53 @@ function SportsLiveCard(props) {
                     </a>
                   </div>
                 </div>
+              ) : isPowerLocked("Point Booster") === 1 ? (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <p
+                    style={{
+                      paddingTop: "1px",
+                      paddingRight: "2px",
+                      paddingLeft: "5px",
+                    }}
+                  >
+                    Share to unlock:
+                  </p>
+                  <div>
+                    <a
+                      href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                    >
+                      <button
+                        style={{
+                          background: "none",
+                          borderWidth: 0,
+                          margin: "0px 10px",
+                        }}
+                      >
+                        <FacebookIcon />
+                      </button>
+                    </a>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${text}`}
+                      target="_blank"
+                    >
+                      <button
+                        style={{
+                          background: "none",
+                          borderWidth: 0,
+                          margin: "0px 5px 10px 0px",
+                        }}
+                      >
+                        <TwitterIcon />
+                      </button>
+                    </a>
+                  </div>
+                </div>
               ) : (
                 <>
                   <div

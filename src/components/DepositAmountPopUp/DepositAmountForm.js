@@ -10,7 +10,7 @@ import EFTCard from "../../assets/eft.svg";
 import InteracCard from "../../assets/interac.png";
 import VisaCard from "../../assets/visa.svg";
 import ECheck from "../../assets/e-check.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum_small.png";
 import CVVImg from "../../assets/cvv.png";
 import { Link } from "react-router-dom";
 import QRCode from "../../assets/QRCode.png";
@@ -176,7 +176,7 @@ class DepositAmountForm extends Component {
     ETH: {
       title: (
         <>
-          <img src={Ethereum} alt="" className={styles.EthereumImage} /> ETH
+          <img src={Ethereum} alt="" className={styles.EthereumImage} width={'15px'} height={'24px'} /> ETH
         </>
       ),
       values: [
@@ -414,13 +414,13 @@ class DepositAmountForm extends Component {
           //         onChange={this.onWalletAddressChange}
           //       />
           //     </div> */}
-              
+
           //   </div>
           // </section>
           <button className={`${styles.submitbtn} w-100 d-block`}>
-                Deposit • {currency === "$USD" && "$"}
-                {price} {currency.replace("$", "")}
-              </button>
+            Deposit • {currency === "$USD" && "$"}
+            {price} {currency.replace("$", "")}
+          </button>
         ) : (
           <button className={`${styles.submitbtn} w-100 d-block`}>
             Deposit • {currency === "$USD" && "$"}

@@ -7,6 +7,7 @@ import VideoReviewIcon from '../../assets/video-review-main.png';
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 import ChallengeIcon from "../../assets/challenge.svg"
 import CreatePopUpPortal from '../../utility/CreatePopUpPortal';
+import PowerUpIcon from '../../assets/power-up-icon.svg';
 
 const getIconAndDesc = (powerName) => {
     if (powerName) {
@@ -43,6 +44,11 @@ const getIconAndDesc = (powerName) => {
         else if (powerName.toLowerCase().match(/challenge/g))
             return {
                 icon: ChallengeIcon,
+                desc: ''
+            }
+        else if (powerName.toLowerCase().match(/power-up/g))
+            return {
+                icon: PowerUpIcon,
                 desc: ''
             }
     }

@@ -11,6 +11,10 @@ import PowerCurrency from '../../assets/power-white.png';
 import BtcCurrency from '../../assets/btc-white.png';
 import EthCurrency from '../../assets/ethereum-white.png';
 
+import OrangePowerCurrency from '../../assets/power-orange.png';
+import OrangeBtcCurrency from '../../assets/btc-orange.png';
+import OrangeEthCurrency from '../../assets/ethereum-orange.png';
+
 const PowerCenterCard = (props) => {
     const {
         id = null,
@@ -75,6 +79,16 @@ const PowerCenterCard = (props) => {
         }
     }
 
+    const getEnterCurrency = (currency) => {
+        if (currency.toUpperCase() === 'PWRS') {
+            return OrangePowerCurrency;
+        } else if (currency.toUpperCase() === 'BTC') {
+            return OrangeBtcCurrency;
+        } else if (currency.toUpperCase() === 'ETH') {
+            return OrangeEthCurrency;
+        }
+    }
+
     return (
         !showDetails
             ?
@@ -95,7 +109,6 @@ const PowerCenterCard = (props) => {
                             <img
                                 src={getCurrency(currency)}
                                 width="20"
-                                height="28"
                                 alt=""
                             />
                         )}
@@ -124,7 +137,7 @@ const PowerCenterCard = (props) => {
                                         title0={`Enter  •  `}
                                         title={entry_fee}
                                         onClick={onEnter}
-                                        currency={getCurrency(currency)}
+                                        currency={getEnterCurrency(currency)}
                                     />
                                 ) : (
                                     <OutlineButton

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-
+import { useSelector } from "react-redux";
 import classes from "./index.module.scss";
 import ClockIcon from "../../icons/Clock2";
 import CalenderIcon from "../../icons/Calendar2";
@@ -15,6 +15,7 @@ import ForwardArrow from "../../icons/ForwardArrow";
 import { isEmpty } from "lodash";
 
 function SportsTeamSelectionCard(props) {
+  const selector_all_data = useSelector((state) => state?.mlb?.allData);
   const [currentStep, setCurrentStep] = useState(0);
 
   const {
@@ -43,31 +44,65 @@ function SportsTeamSelectionCard(props) {
     venue = {},
   } = item || {};
 
+  const mlbStates = item.mlb_team_stats;
+
   const { venue_id = "", name: stadium = "" } = venue || {};
 
   const { wins = 0, loses = 0, average_runs_against = 0 } =
     awayTeamStats[0] || {};
 
-  const RenderMLBState = () => (
+  const picherDetails = (match_id) => {
+    let temp = [];
+    for(let i = 0; i < selector_all_data.length; i++)
+    {
+      let rec = selector_all_data[i];
+      if(rec.match_id == match_id)
+      {
+        if(rec.type == "P" || rec.type == "p")
+        {
+          temp.push(rec);
+        }
+      }
+    }
+    return temp;
+  }
+
+  const RenderMLBState = (team_action) => {
+    let match_id = props?.item?.match_id;
+    let team_id = props?.item?.team_id
+    let pitcherDetailsArray = picherDetails(match_id);
+    let a;
+    if(team_action.team == "home")
+    {
+      if(pitcherDetailsArray[0].homeTeam == team_action.name)
+      {
+        a = pitcherDetailsArray[0];
+      }
+      if(pitcherDetailsArray[1].homeTeam == team_action.name)
+      {
+        a = pitcherDetailsArray[1];
+      }
+    }
+    if(team_action.team == "away")
+    {
+      if(pitcherDetailsArray[0].homeTeam == team_action.name)
+      {
+        a = pitcherDetailsArray[0];
+      }
+      if(pitcherDetailsArray[1].homeTeam == team_action.name)
+      {
+        a = pitcherDetailsArray[1];
+      }
+    }
+    return (
     <div
       className={`${classes.card_state_mlb} ${isSelected && classes.active}`}
     >
-      {/* <div>
-        <span>Toronto SP</span>
-        <p>N. Eovaldi</p>
-        <span>(1-2, 3.00 ERA)</span>
-      </div>
-
       <div>
-        <span>Baltimore SP</span>
-        <p>J. Means</p>
-        <span>(3-1, 2.89 ERA)</span>
-      </div> */}
-      <div>
-        <p>N. Eovaldi <span>1-2, 3.00 ERA</span></p>
+        <p>{a.playerName} <span>{a.playerStats.wins}-{a.playerStats.losses}, {parseFloat(a.playerStats.earned_runs_average).toFixed(2)} ERA</span></p>
       </div>
     </div>
-  );
+  )};
 
   const RenderOtherState = () => (
     <div className={`${classes.card_state} ${isSelected && classes.active}`}>
@@ -164,9 +199,9 @@ function SportsTeamSelectionCard(props) {
                 ${isSelected && classes.active}`}
           >
             {mlbCard && currentStep === 1 ? (
-              <RenderMLBState />
+              <RenderMLBState team="home" name={name}/>
             ) : isEmpty(playerStats) ? (
-              <RenderOtherState />
+              <RenderMLBState team="home" name={name}/>
             ) : (
               <p>No Data</p>
             )}
@@ -185,9 +220,9 @@ function SportsTeamSelectionCard(props) {
                 ${isSelected && classes.active}`}
           >
             {mlbCard && currentStep === 1 ? (
-              <RenderMLBState />
+              <RenderMLBState team="away" name={teamBName}/>
             ) : isEmpty(playerStats) ? (
-              <RenderOtherState />
+              <RenderMLBState team="away" name={teamBName}/>
             ) : (
               <p>No Data</p>
             )}

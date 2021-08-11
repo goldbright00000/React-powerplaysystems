@@ -8,6 +8,7 @@ import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
 import RetroBoostIcon from "../../icons/RetroBoostIcon";
 import ChallengeIcon from "../../icons/Challenge"
+import PowerUpIcon from '../../assets/power-up-icon.svg';
 
 const getIcon = (powerName) => {
   if (powerName) {
@@ -28,6 +29,9 @@ const getIcon = (powerName) => {
 
     else if (powerName.toLowerCase().match(/challenge/g))
       return ChallengeIcon;
+
+    else if (powerName.toLowerCase().match(/power-up/g))
+      return PowerUpIcon;
   }
 }
 
