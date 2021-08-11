@@ -170,6 +170,7 @@ function LivePlayPowerLevels(props) {
   };
 
   const RenderView = () => {
+    console.log("selectedData", selectedData);
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
         <SingleView

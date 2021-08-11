@@ -10,7 +10,7 @@ import EFTCard from "../../assets/eft.svg";
 import InteracCard from "../../assets/interac.png";
 import VisaCard from "../../assets/visa.svg";
 import ECheck from "../../assets/e-check.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum_small.png";
 import CVVImg from "../../assets/cvv.png";
 import { Link } from "react-router-dom";
 import QRCode from "../../assets/QRCode.png";
