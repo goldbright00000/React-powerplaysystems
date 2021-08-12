@@ -23,9 +23,12 @@ function SingleView(props) {
     updateReduxState = () => {},
     starPlayerCount = 0,
     gameInfo = {},
+    pointXpCount = {}
   } = props || {};
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
+
+  const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   useEffect(() => {
     setSelectedCard(data[currentCard]);
@@ -91,6 +94,7 @@ function SingleView(props) {
                   useSwap={props.useSwap}
                   swapCount={props.swapCounts}
                   dataMain={props.dataMain}
+                  pointXpCount={{xp1:xp1,xp2:xp2,xp3:xp3}}
                 />
               )}
             </>
@@ -122,6 +126,7 @@ function SingleView(props) {
             useSwap={props.useSwap}
             swapCount={props.swapCounts}
             dataMain={props.dataMain}
+            pointXpCount={{xp1:xp1,xp2:xp2,xp3:xp3}}
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />

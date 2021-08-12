@@ -222,19 +222,18 @@ const InteractiveContests = (props) => {
               .format("YYYY-MM-DD") + " 02:00 AM"
           )}
           editPicks={
-            // item?.players?.length > 0 &&
-            // !moment(moment().format("YYYY-MM-DD")).isAfter(
-            //   moment(item?.game?.game_set_end)
-            //     .add(1, "day")
-            //     .format("YYYY-MM-DD") + " 02:00 AM"
-            // ) &&
-            // !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-            //   item?.game?.game_set_start + " " + item?.game?.start_time,
-            //   moment(item?.game?.game_set_end)
-            //     .add(1, "day")
-            //     .format("YYYY-MM-DD") + " 02:00 AM"
-            // )
-            true
+            item?.players?.length > 0 &&
+            !moment(moment().format("YYYY-MM-DD")).isAfter(
+              moment(item?.game?.game_set_end)
+                .add(1, "day")
+                .format("YYYY-MM-DD") + " 02:00 AM"
+            ) &&
+            !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+              item?.game?.game_set_start + " " + item?.game?.start_time,
+              moment(item?.game?.game_set_end)
+                .add(1, "day")
+                .format("YYYY-MM-DD") + " 02:00 AM"
+            )
           }
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}

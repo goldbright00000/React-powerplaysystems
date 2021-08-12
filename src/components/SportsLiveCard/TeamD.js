@@ -59,7 +59,16 @@ function SportsLiveCardTeamD(props) {
     xp = {},
     mlb_team_stats = [],
     team_id,
+    team_match_stats = [],
   } = team || {};
+
+  const {
+    data_id = 0,
+    hr_against = 0,
+    // match_id = 0,
+    runs_against = 0,
+    // team_id = 0,
+  } = team_match_stats[0] || {};
 
   const {
     abbr = 0,
@@ -104,27 +113,23 @@ function SportsLiveCardTeamD(props) {
 
   const isPowerAvailable = (type) => {
     let powerss = props.dataMain?.game?.Powers;
-    
+
     let available = 0;
-    if(type === "Swap Player")
-    {
+    if (type === "Swap Player") {
       type = "Swap";
     }
-    for(var i = 0; i < powerss.length; i++)
-    {
-      if(powerss[i].powerName === type)
-      {
+    for (var i = 0; i < powerss.length; i++) {
+      if (powerss[i].powerName === type) {
         available = 1;
-        break
+        break;
       }
     }
     return available;
-  }
+  };
   const isPowerLocked = (type) => {
     let powerss = props.dataMain?.game?.Powers;
     let locked = 0;
-    if(type === "Swap Player")
-    {
+    if (type === "Swap Player") {
       type = "Swap";
     }
     for(var i = 0; i < powerss.length; i++)
@@ -138,7 +143,7 @@ function SportsLiveCardTeamD(props) {
       }
     }
     return locked;
-  }
+  };
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
@@ -184,11 +189,11 @@ function SportsLiveCardTeamD(props) {
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            Runs Against:{average_runs_against} <br />
-            HR Against:
-            {team_id === away_team_id
+            Runs Against:{runs_against} <br />
+            HR Against: {hr_against}
+            {/* {team_id === away_team_id
               ? away_team_runs
-              : team_id === home_team_id && home_team_runs}
+              : team_id === home_team_id && home_team_runs} */}
           </p>
         </div>
       </div>
@@ -216,7 +221,8 @@ function SportsLiveCardTeamD(props) {
       >
         {cardType === CardType.MLBR ? (
           <>
-            {(isPowerAvailable("Challenge") === 0 || isPowerLocked("Challenge") === 1) ? (
+            {isPowerAvailable("Challenge") === 0 ||
+            isPowerLocked("Challenge") === 1 ? (
               <Tooltip
                 toolTipContent={
                   <div className={classes.xp_icons}>
@@ -245,16 +251,14 @@ function SportsLiveCardTeamD(props) {
                             </button>
                           </div>
                         </div>
-                      ) : (
-                        ""
-                      )
-                    )} 
+                      
+                    ) : (
+                      ""
+                    ))}
                   </div>
                 }
               >
-                <button
-                  className={classes.team_d_icon_button}
-                >
+                <button className={classes.team_d_icon_button}>
                   <Challenge size={largeView ? 28 : 24} />
                 </button>
               </Tooltip>
@@ -273,12 +277,60 @@ function SportsLiveCardTeamD(props) {
               />
             )}
 
-            {(isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1) ? (
+            {isPowerAvailable("D-Wall") === 0 ||
+            isPowerLocked("D-Wall") === 1 ? (
               <Tooltip
                 toolTipContent={
                   <div className={classes.xp_icons}>
                     {isPowerAvailable("D-Wall") === 0 ? (
                       <div>Not Available</div>
+                    ) : isPowerLocked("D-Wall") === 1 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <p
+                          style={{
+                            paddingTop: "1px",
+                            paddingRight: "2px",
+                            paddingLeft: "5px",
+                          }}
+                        >
+                          Share to unlock:
+                        </p>
+                        <div>
+                          <a
+                            href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                          >
+                            <button
+                              style={{
+                                background: "none",
+                                borderWidth: 0,
+                                margin: "0px 10px",
+                              }}
+                            >
+                              <FacebookIcon />
+                            </button>
+                          </a>
+                          <a
+                            href={`https://twitter.com/intent/tweet?text=${text}`}
+                            target="_blank"
+                          >
+                            <button
+                              style={{
+                                background: "none",
+                                borderWidth: 0,
+                                margin: "0px 5px 10px 0px",
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </a>
+                        </div>
+                      </div>
                     ) : (
                       isPowerLocked("D-Wall") === 1 ? (
                         <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
@@ -309,9 +361,7 @@ function SportsLiveCardTeamD(props) {
                   </div>
                 }
               >
-                <button
-                  className={classes.team_d_icon_button}
-                >
+                <button className={classes.team_d_icon_button}>
                   <ShieldIcon size={largeView ? 28 : 24} />
                 </button>
               </Tooltip>
@@ -332,12 +382,60 @@ function SportsLiveCardTeamD(props) {
           </>
         ) : (
           <>
-            {(isPowerAvailable("Challenge") === 0 || isPowerLocked("Challenge") === 1) ? (
+            {isPowerAvailable("Challenge") === 0 ||
+            isPowerLocked("Challenge") === 1 ? (
               <Tooltip
                 toolTipContent={
                   <div className={classes.xp_icons}>
                     {isPowerAvailable("Challenge") === 0 ? (
                       <div>Not Available</div>
+                    ) : isPowerLocked("Challenge") === 1 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <p
+                          style={{
+                            paddingTop: "1px",
+                            paddingRight: "2px",
+                            paddingLeft: "5px",
+                          }}
+                        >
+                          Share to unlock:
+                        </p>
+                        <div>
+                          <a
+                            href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                          >
+                            <button
+                              style={{
+                                background: "none",
+                                borderWidth: 0,
+                                margin: "0px 10px",
+                              }}
+                            >
+                              <FacebookIcon />
+                            </button>
+                          </a>
+                          <a
+                            href={`https://twitter.com/intent/tweet?text=${text}`}
+                            target="_blank"
+                          >
+                            <button
+                              style={{
+                                background: "none",
+                                borderWidth: 0,
+                                margin: "0px 5px 10px 0px",
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </a>
+                        </div>
+                      </div>
                     ) : (
                       isPowerLocked("Challenge") === 1 ? (
                         <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
@@ -368,9 +466,7 @@ function SportsLiveCardTeamD(props) {
                   </div>
                 }
               >
-                <button
-                  className={classes.team_d_icon_button}
-                >
+                <button className={classes.team_d_icon_button}>
                   <Challenge size={largeView ? 28 : 24} />
                 </button>
               </Tooltip>
@@ -385,13 +481,61 @@ function SportsLiveCardTeamD(props) {
                 useChallenge={props.useChallenge}
               />
             )}
-            
-            {(isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1) ? (
+
+            {isPowerAvailable("D-Wall") === 0 ||
+            isPowerLocked("D-Wall") === 1 ? (
               <Tooltip
                 toolTipContent={
                   <div className={classes.xp_icons}>
                     {isPowerAvailable("D-Wall") === 0 ? (
                       <div>Not Available</div>
+                    ) : isPowerLocked("D-Wall") === 1 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <p
+                          style={{
+                            paddingTop: "1px",
+                            paddingRight: "2px",
+                            paddingLeft: "5px",
+                          }}
+                        >
+                          Share to unlock:
+                        </p>
+                        <div>
+                          <a
+                            href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                          >
+                            <button
+                              style={{
+                                background: "none",
+                                borderWidth: 0,
+                                margin: "0px 10px",
+                              }}
+                            >
+                              <FacebookIcon />
+                            </button>
+                          </a>
+                          <a
+                            href={`https://twitter.com/intent/tweet?text=${text}`}
+                            target="_blank"
+                          >
+                            <button
+                              style={{
+                                background: "none",
+                                borderWidth: 0,
+                                margin: "0px 5px 10px 0px",
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </a>
+                        </div>
+                      </div>
                     ) : (
                       isPowerLocked("D-Wall") === 1 ? (
                         <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
@@ -422,9 +566,7 @@ function SportsLiveCardTeamD(props) {
                   </div>
                 }
               >
-                <button
-                  className={classes.team_d_icon_button}
-                >
+                <button className={classes.team_d_icon_button}>
                   <ShieldIcon size={largeView ? 28 : 24} />
                 </button>
               </Tooltip>

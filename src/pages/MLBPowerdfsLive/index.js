@@ -191,8 +191,8 @@ function MLBPowerdFsLive(props) {
       }
     }
     setChallengeCounts(challenge);
-    setSwapCounts(swap);
-    setDwallCounts(dwall);
+    setSwapCounts(10 || swap);
+    setDwallCounts(10 || dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
     setPowerUpCounts(power_up);
@@ -742,6 +742,7 @@ function MLBPowerdFsLive(props) {
           useSwap={useSwap}
           swapCount={swapCounts}
           setPowers={setPowers}
+          pointXpCount={{xp1:pointBooster15x,xp2:pointBooster2x,xp3:pointBooster3x}}
         />
       );
     } else if (live_data && live_data?.length) {

@@ -292,12 +292,12 @@ function NHLLivePowerdFsScroeDetail(props) {
                         score={fantasy_points_occured}
                         runningTotal={fantasy_points_after}
                         runs={{
-                          rs: 2,
-                          pts: 4,
+                          rs: 0,
+                          pts: 0,
                         }}
                         rbi={{
-                          rbi: 8,
-                          pts: 1,
+                          rbi: 0,
+                          pts: 0,
                         }}
                         isHit={false}
                         activePower={active_powerplay}
