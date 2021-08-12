@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
-import styles from "./paymentFrame.module.scss";
-
 import {
   fetchUserBalance,
   REMOVE_ZUM_REDIRECT_URL,

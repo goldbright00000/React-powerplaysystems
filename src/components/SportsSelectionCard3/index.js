@@ -24,14 +24,13 @@ import "./carousel.scss";
 import { useMediaQuery } from "react-responsive";
 
 function SportsSelectionCard3(props) {
-  console.log("propsss", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => {},
+    onSelectDeselect = (playerId, matchId) => { },
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -94,11 +93,9 @@ function SportsSelectionCard3(props) {
 
   return (
     <div
-      className={`${classes.container_body_card} ${
-        isStarPlayer ? classes.container_body_card_start_power_background : ``
-      } ${
-        isSelected ? classes.activeBorder : ""
-      }`}
+      className={`${classes.container_body_card} ${isStarPlayer ? classes.container_body_card_start_power_background : ``
+        } ${isSelected ? classes.activeBorder : ""
+        }`}
     >
       {isStarPlayer && (
         <span className={classes.container_body_card_start_power}>
@@ -107,9 +104,8 @@ function SportsSelectionCard3(props) {
       )}
       <div className={classes.container_body_card_header}>
         <p
-          className={`${classes.container_selected_p} ${
-            isSelected ? classes.active : ""
-          }`}
+          className={`${classes.container_selected_p} ${isSelected ? classes.active : ""
+            }`}
         >
           <span>{primary_position}</span>
           {playerName}
@@ -154,7 +150,7 @@ function SportsSelectionCard3(props) {
             autoPlay={false}
             infiniteLoop={false}
             interval={1e11}
-            // className=".carousel .control-dots"
+          // className=".carousel .control-dots"
           >
             <>
               {renderStats()}

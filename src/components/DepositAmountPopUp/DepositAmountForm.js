@@ -220,7 +220,6 @@ class DepositAmountForm extends Component {
   };
 
   onSubmit = (e) => {
-    console.log('onDesposit click');
     e.preventDefault();
 
     if (this.state.form.currency === "USD")
@@ -239,19 +238,11 @@ class DepositAmountForm extends Component {
         let { price, paymentMetod } = this.state.form;
         price = parseFloat((price * this.props.cad).toFixed(2));
 
-        // console.log('price ---> ', price);
-        // console.log('paymentMetod ---> ', paymentMetod);
+        this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
 
-        // redirectTo(
-        //   {},
-        //   {
-        //     path: "/users-gateway",
-        //     state: { price },
-        //   }
-        // );
+        // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
 
-        // // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
-        this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+        // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
       }
     else {
       const { currency, price } = this.state.form;
