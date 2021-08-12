@@ -210,6 +210,10 @@ function MLBPowerdFsLive(props) {
     if (type === "Power Up") {
       type = "Power-Up";
     }
+    if(typeof powerss == "undefined")
+    {
+      return;
+    }
     for (var i = 0; i < powerss.length; i++) {
       if (type === "Point Booster") {
         if (
@@ -232,6 +236,10 @@ function MLBPowerdFsLive(props) {
 
   function isPowerLocked(type) {
     let powerss = game?.Powers;
+    if(typeof powerss == "undefined")
+    {
+      return;
+    }
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -246,14 +254,14 @@ function MLBPowerdFsLive(props) {
           powerss[i].powerName === "2x Point Booster" ||
           powerss[i].powerName === "3x Point Booster"
         ) {
-          if (powerss[i].SocialMediaUnlock !== null) {
+          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
             locked = 1;
           }
           break;
         }
       } else {
         if (powerss[i].powerName === type) {
-          if (powerss[i].SocialMediaUnlock !== null) {
+          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
             locked = 1;
           }
           break;
@@ -659,21 +667,24 @@ function MLBPowerdFsLive(props) {
               <>
                 <p>Share to unlock:</p>
                 <div>
-                  <a
-                    href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                  >
-                    <button>
-                      <FacebookIcon />
-                    </button>
-                  </a>
-                  <a
-                    href={`https://twitter.com/intent/tweet?text=${text}${count}`}
-                    target="_blank"
-                  >
-                    <button>
-                      <TwitterIcon />
-                    </button>
-                  </a>
+                
+                    <button onClick={() => {
+                      var left = (window.screen.width / 2) - (600 / 2),
+                      top = (window.screen.height / 2) - (600 / 2);
+                    window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                  }}>
+                    <FacebookIcon />
+                  </button>
+                
+                
+                  <button onClick={() => {
+                    var left = (window.screen.width / 2) - (600 / 2),
+                    top = (window.screen.height / 2) - (600 / 2);
+                    window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                  }}>
+                    <TwitterIcon />
+                  </button>
+                  
                 </div>
               </>
             ) : (
