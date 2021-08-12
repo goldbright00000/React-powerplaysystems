@@ -245,9 +245,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 

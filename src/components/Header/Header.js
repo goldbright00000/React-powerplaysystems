@@ -11,6 +11,7 @@ import {
   setUserBalance,
   payNowWithIpay,
   payWithZum,
+  payWithMyUserPay,
   setZumToken,
   getCoinbaseLink,
   removeCoinbaseLink,
@@ -140,6 +141,22 @@ const Header = (props) => {
     }
   };
 
+  const onMyUserPayment = (data) => {
+    if (data.amount < 1) {
+      alert("Please add amount at least more than 1.");
+    } else {
+      const { amount, paymentMethod } = data;
+      const obj = {
+        amount,
+        paymentMethod,
+        email: user?.email,
+      };
+
+      dispatch(payWithMyUserPay(obj, history));
+      setHideDepositModal();
+    }
+  };
+
   const coinbaseSubmitHandler = (amount, currency) => {
     dispatch(getCoinbaseLink(amount, currency));
     setHideDepositModal();
@@ -217,7 +234,7 @@ const Header = (props) => {
                     <li className="__my_account_li" ref={myAccountMenuRef}>
                       <NavLink
                         to="#"
-                        onClick={(e) => {e.preventDefault();setMyAccountMenu(!myAccountMenu)}}
+                        onClick={(e) => { e.preventDefault(); setMyAccountMenu(!myAccountMenu) }}
                       >
                         My Account
                         {!myAccountMenu ? (
@@ -263,6 +280,7 @@ const Header = (props) => {
                 user={user}
                 ipayFormSubmitted={onUpdateUserDetails}
                 zumFormSubmitted={onZumPayment}
+                myUserPayFormSubmitted={onMyUserPayment}
                 coinbaseFormSubmitted={coinbaseSubmitHandler}
               />
             )}

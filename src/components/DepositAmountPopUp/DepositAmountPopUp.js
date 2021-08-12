@@ -58,6 +58,7 @@ const DepositAmountPopUp = (props) => {
                       cad={rate}
                       ipaySubmitted={props.ipayFormSubmitted}
                       zumSubmitted={props.zumFormSubmitted}
+                      myUserPaySubmitted={props.myUserPayFormSubmitted}
                       coinbaseSubmitted={props.coinbaseFormSubmitted}
                       formCurrency={formCurrency}
                     />
@@ -150,6 +151,7 @@ const DepositAmountPopUp = (props) => {
                 cad={rate}
                 ipaySubmitted={props.ipayFormSubmitted}
                 zumSubmitted={props.zumFormSubmitted}
+                myUserPaySubmitted={props.myUserPayFormSubmitted}
                 coinbaseSubmitted={props.coinbaseFormSubmitted}
                 formCurrency={formCurrency} />
 
@@ -167,7 +169,7 @@ const DepositAmountPopUp = (props) => {
         depositInfo &&
         <div className={`modal fade show d-block ${styles.blur}`}>
           <div className="modal-dialog modal-dialog-centered mb-0 mx-0" style={{ alignItems: 'flex-end' }} role="document">
-            <div className="modal-content" style={{ backgroundColor: '#2d2f33', borderRadius: '12px'}}>
+            <div className="modal-content" style={{ backgroundColor: '#2d2f33', borderRadius: '12px' }}>
               <div className="modal-body">
                 <div className={`${styles.crossicon} position-absolute`} onClick={() => setDepositInfo(false)} style={{
                   top: '3%', right: '3%'
