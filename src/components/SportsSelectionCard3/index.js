@@ -26,7 +26,6 @@ import { useMediaQuery } from "react-responsive";
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
-
   const {
     player = {},
     loading = false,

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -291,16 +292,16 @@ function NHLLivePowerdFsScroeDetail(props) {
                         score={fantasy_points_occured}
                         runningTotal={fantasy_points_after}
                         runs={{
-                          rs: 2,
-                          pts: 4,
+                          rs: 0,
+                          pts: 0,
                         }}
                         rbi={{
-                          rbi: 8,
-                          pts: 1,
+                          rbi: 0,
+                          pts: 0,
                         }}
                         isHit={false}
                         activePower={active_powerplay}
-                        timeStamp="7:07:32 PM"
+                        timeStamp={moment(created_at).format("hh:mm A")}
                         key={ind?.toString()}
                       />
                     );

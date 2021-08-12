@@ -289,7 +289,8 @@ function MLBPowerdFs(props) {
     allData = [],
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
-
+  let a = useSelector((state) => state);
+  console.log("allData", a);
   const selector_team_id = useSelector((state) => state?.mlb?.team_id);
 
   const { auth: { user = {} } = {} } = useSelector((state) => state);
