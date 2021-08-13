@@ -1,8 +1,11 @@
 import React, { useEffect } from "react";
+import * as $ from 'jquery';
 
 const UsersGateway = (props) => {
 
   const { location: { state } } = props
+
+  const user_id = localStorage.getItem('PERSONA_USER_ID')
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -11,16 +14,23 @@ const UsersGateway = (props) => {
 
     document.body.appendChild(script);
 
+    setTimeout(async () => {
+      $('input[name="token"]').val("abc");
+      $('.myuserPay-Paybutton').click();
+
+    }, 1000);
+
     return () => {
       document.body.removeChild(script);
     };
   }, []);
 
   return (
-    <form action={`http://localhost:4000/api/v1/users/account/update-myuserpay-balance/${state.amount}`} method="post">
+    <form action={`http://localhost:4000/api/v1/users/account/update-myuserpay-balance/${user_id}/${state.amount}`} method="post">
+      <input type="hidden" name="headers[Authorization]" value="Bearer 123" />
       <script
         class="myuserPay-button"
-        data-public_key="pk_test_ec9f2b75856a42dfad48ed4e9e2481c1"
+        data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
         data-amount={state.amount * 100}
         data-description="description of item"
         data-name="Defy Games Demo"

@@ -17,6 +17,8 @@ import QRCode from "../../assets/QRCode.png";
 import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
 
+const paymentGateWay = 'MyUserPay';
+
 const formatePrice = (price, currencyValue, isCad, noSign) =>
     noSign
         ? (price * currencyValue).toFixed(2)
@@ -302,10 +304,9 @@ class DepositAmountFormMobile extends Component {
                         </div>
                     </section>
                 }
-
                 {this.props.nextForm === 3 &&
                     <div>
-                        {currency === "USD" ? (
+                        {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
                             <section className={`${styles.formSection} mb-4`}>
                                 <h6>Add Payment Details</h6>
                                 <div className="row align-items-center">
