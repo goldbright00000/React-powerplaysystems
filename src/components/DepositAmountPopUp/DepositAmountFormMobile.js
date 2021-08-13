@@ -304,7 +304,6 @@ class DepositAmountFormMobile extends Component {
                         </div>
                     </section>
                 }
-
                 {this.props.nextForm === 3 &&
                     <div>
                         {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
