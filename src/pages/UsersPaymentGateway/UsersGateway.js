@@ -3,7 +3,7 @@ import * as $ from 'jquery';
 
 const UsersGateway = (props) => {
 
-  const { location: { state }, history } = props
+  const { location: { state } } = props
 
   const user_id = localStorage.getItem('PERSONA_USER_ID')
 
