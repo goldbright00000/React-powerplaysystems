@@ -23,7 +23,6 @@ const UsersGateway = (props) => {
     return () => {
       document.body.removeChild(script);
     };
-
   }, []);
 
   return (
