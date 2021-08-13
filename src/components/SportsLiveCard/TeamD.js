@@ -302,33 +302,22 @@ function SportsLiveCardTeamD(props) {
                           Share to unlock:
                         </p>
                         <div>
-                          <a
-                            href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                          >
-                            <button
-                              style={{
-                                background: "none",
-                                borderWidth: 0,
-                                margin: "0px 10px",
-                              }}
-                            >
-                              <FacebookIcon />
-                            </button>
-                          </a>
-                          <a
-                            href={`https://twitter.com/intent/tweet?text=${text}`}
-                            target="_blank"
-                          >
-                            <button
-                              style={{
-                                background: "none",
-                                borderWidth: 0,
-                                margin: "0px 5px 10px 0px",
-                              }}
-                            >
-                              <TwitterIcon />
-                            </button>
-                          </a>
+                          <button onClick={() => {
+                                  var left = (window.screen.width / 2) - (600 / 2),
+                                  top = (window.screen.height / 2) - (600 / 2);
+                                window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                              }}>
+                                <FacebookIcon />
+                              </button>
+                            
+                            
+                              <button onClick={() => {
+                                var left = (window.screen.width / 2) - (600 / 2),
+                                top = (window.screen.height / 2) - (600 / 2);
+                                window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                              }}>
+                                <TwitterIcon />
+                              </button>
                         </div>
                       </div>
                     ) : (

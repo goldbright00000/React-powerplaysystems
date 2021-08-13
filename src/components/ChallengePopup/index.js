@@ -23,10 +23,7 @@ const ChallengePopUp = props => {
                                     </p>
                                     <div>
                                         <button className={styles.cancelButton} onClick={() => {
-                                            setPopupMode(3);
-                                            setTimeout(function() {
-                                                setShowPopUp(false);
-                                            },2000);
+                                            setShowPopUp(false);
                                         }}>Cancel</button>
                                         <button className={styles.challengePlayButton} onClick={() => {
                                             
@@ -48,8 +45,7 @@ const ChallengePopUp = props => {
                                                         var random = a1[Math.floor(Math.random()*a1.length)];
                                                         setPopupMode(random);
                                                         setTimeout(function() {
-                                                            if(random === 2)
-                                                                props.useChallenge(true);
+                                                            props.useChallenge(true);
                                                             setShowPopUp(false);
                                                         },2000);
                                                     }
