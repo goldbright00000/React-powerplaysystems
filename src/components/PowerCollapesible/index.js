@@ -99,8 +99,8 @@ function PowerCollapesible(props) {
       }
     }
     setChallengeCounts(challenge);
-    setSwapCounts(10 || swap);
-    setDwallCounts(10 || dwall);
+    setSwapCounts(swap);
+    setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
     setPowerUpCounts(power_up);
