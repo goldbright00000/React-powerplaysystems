@@ -53,56 +53,55 @@ function SportsTeamSelectionCard(props) {
 
   const picherDetails = (match_id) => {
     let temp = [];
-    for(let i = 0; i < selector_all_data.length; i++)
-    {
+    for (let i = 0; i < selector_all_data.length; i++) {
       let rec = selector_all_data[i];
-      if(rec.match_id == match_id)
-      {
-        if(rec.type == "P" || rec.type == "p")
-        {
+      if (rec.match_id == match_id) {
+        if (rec.type == "P" || rec.type == "p") {
           temp.push(rec);
         }
       }
     }
     return temp;
-  }
+  };
 
   const RenderMLBState = (team_action) => {
     let match_id = props?.item?.match_id;
-    let team_id = props?.item?.team_id
+    let team_id = props?.item?.team_id;
     let pitcherDetailsArray = picherDetails(match_id);
     let a;
-    if(team_action.team == "home")
-    {
-      if(pitcherDetailsArray[0].homeTeam == team_action.name)
-      {
+    console.log("PITCHER: ", pitcherDetailsArray[0]?.homeTeam, team_action);
+    if (team_action.team == "home") {
+      if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
         a = pitcherDetailsArray[0];
       }
-      if(pitcherDetailsArray[1].homeTeam == team_action.name)
-      {
+      if (pitcherDetailsArray[1]?.homeTeam == team_action.name) {
         a = pitcherDetailsArray[1];
       }
     }
-    if(team_action.team == "away")
-    {
-      if(pitcherDetailsArray[0].homeTeam == team_action.name)
-      {
+    if (team_action.team == "away") {
+      if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
         a = pitcherDetailsArray[0];
       }
-      if(pitcherDetailsArray[1].homeTeam == team_action.name)
-      {
+      if (pitcherDetailsArray[1]?.homeTeam == team_action.name) {
         a = pitcherDetailsArray[1];
       }
     }
     return (
-    <div
-      className={`${classes.card_state_mlb} ${isSelected && classes.active}`}
-    >
-      <div>
-        <p>{a.playerName} <span>{a.playerStats.wins}-{a.playerStats.losses}, {parseFloat(a.playerStats.earned_runs_average).toFixed(2)} ERA</span></p>
+      <div
+        className={`${classes.card_state_mlb} ${isSelected && classes.active}`}
+      >
+        <div>
+          <p>
+            {a?.playerName}{" "}
+            <span>
+              {a?.playerStats.wins}-{a?.playerStats.losses},{" "}
+              {parseFloat(a?.playerStats.earned_runs_average).toFixed(2)} ERA
+            </span>
+          </p>
+        </div>
       </div>
-    </div>
-  )};
+    );
+  };
 
   const RenderOtherState = () => (
     <div className={`${classes.card_state} ${isSelected && classes.active}`}>
@@ -156,9 +155,11 @@ function SportsTeamSelectionCard(props) {
               Star Power{" "}
             </span>
           )} */}
-          <div className={`${classes.container_body_card_header} ${
-            isSelected ? classes.header_flex : ""
-          }`}>
+          <div
+            className={`${classes.container_body_card_header} ${
+              isSelected ? classes.header_flex : ""
+            }`}
+          >
             <p
               className={`${classes.container_selected_p} ${
                 isSelected ? classes.active : ""
@@ -178,7 +179,7 @@ function SportsTeamSelectionCard(props) {
             ) : (
               <div className={classes.container_selected}>
                 <p className={classes.container_selected_p_1}>
-                  <Tick2 /> {" "}
+                  <Tick2 />{" "}
                 </p>
                 <img
                   src={DeleteIcon}
@@ -199,9 +200,9 @@ function SportsTeamSelectionCard(props) {
                 ${isSelected && classes.active}`}
           >
             {mlbCard && currentStep === 1 ? (
-              <RenderMLBState team="home" name={name}/>
+              <RenderMLBState team="home" name={name} />
             ) : isEmpty(playerStats) ? (
-              <RenderMLBState team="home" name={name}/>
+              <RenderMLBState team="home" name={name} />
             ) : (
               <p>No Data</p>
             )}
@@ -209,24 +210,27 @@ function SportsTeamSelectionCard(props) {
 
           {currentStep === 0 && (
             <>
-            <div className={`${classes.team_vs} ${
-              isSelected ? classes.selectedColor : ""
-            }`}>
-              <p>Vs {teamBCity + " " + teamBName}</p>
-            </div>
-            <div
-            className={`
+              <div
+                className={`${classes.team_vs} ${
+                  isSelected ? classes.selectedColor : ""
+                }`}
+              >
+                <p>Vs {teamBCity + " " + teamBName}</p>
+              </div>
+              <div
+                className={`
                 ${classes.container_body_card_state} 
                 ${isSelected && classes.active}`}
-          >
-            {mlbCard && currentStep === 1 ? (
-              <RenderMLBState team="away" name={teamBName}/>
-            ) : isEmpty(playerStats) ? (
-              <RenderMLBState team="away" name={teamBName}/>
-            ) : (
-              <p>No Data</p>
-            )}
-          </div></>
+              >
+                {mlbCard && currentStep === 1 ? (
+                  <RenderMLBState team="away" name={teamBName} />
+                ) : isEmpty(playerStats) ? (
+                  <RenderMLBState team="away" name={teamBName} />
+                ) : (
+                  <p>No Data</p>
+                )}
+              </div>
+            </>
           )}
           {/* <div className={classes.divider}></div> */}
         </div>
