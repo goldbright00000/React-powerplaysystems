@@ -47,6 +47,7 @@ function SportsLiveCard(props) {
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
   const [playerList, setPlayerList] = useState({});
   const [loadingPlayerList, setLoadingPlayerList] = useState(false);
+  const [isMatchOver, setIsMatchOver] = useState(false);
 
   const dispatch = useDispatch();
   const { data: mlbData = [] } = useSelector((state) => state.mlb);
@@ -167,6 +168,14 @@ function SportsLiveCard(props) {
     current_inning_half = null,
   } = boxscore[0] || {};
 
+  useEffect(() => {
+    if (boxscore?.length) {
+      setIsMatchOver(false);
+    } else {
+      setIsMatchOver(true);
+    }
+  }, [boxscore]);
+
   // if (type === "P") {
   //   console.log(boxscore[0]);
   // }
@@ -259,7 +268,10 @@ function SportsLiveCard(props) {
     }
     for (var i = 0; i < powerss.length; i++) {
       if (powerss[i].powerName === type) {
-        if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
+        if (
+          powerss[i].SocialMediaUnlock == true ||
+          powerss[i].SocialMediaUnlock == "true"
+        ) {
           locked = 1;
         }
         break;
@@ -388,81 +400,123 @@ function SportsLiveCard(props) {
           className={classes.stat_xp_mlbr}
           onClick={() => onChangeXp(0, data)}
         >
-          <XPIcon size={singleView ? 14 : largeView ? 28 : 24} />
+          <XPIcon
+            className={{ opacity: 0.1 }}
+            size={singleView ? 14 : largeView ? 28 : 24}
+          />
         </div>
       ) : (
         <>
-        {(xp?.xp == CONSTANTS.XP.xp1_5 ||  xp?.xp == CONSTANTS.XP.xp2 || xp?.xp == CONSTANTS.XP.xp3) ? renderXp() : 
-          <Tooltip
-            toolTipContent={
-              <div className={classes.xp_icons}>
-                {isPowerAvailable("Point Booster") === 0 ? (
-                  <div>Not Available</div>
-                ) : (
-                  isPowerLocked("Point Booster") === 1 ? (
-                    <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
-                    <p style={{paddingTop: "1px", paddingRight: "2px", paddingLeft: "5px"}}>Share to unlock:</p>
-                    <div>
-                    <button onClick={() => {
-                          var left = (window.screen.width / 2) - (600 / 2),
-                          top = (window.screen.height / 2) - (600 / 2);
-                        window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-                      }}>
-                        <FacebookIcon />
-                      </button>
-                    
-                    
-                      <button onClick={() => {
-                        var left = (window.screen.width / 2) - (600 / 2),
-                        top = (window.screen.height / 2) - (600 / 2);
-                        window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-                      }}>
-                        <TwitterIcon />
-                      </button>
+          {xp?.xp == CONSTANTS.XP.xp1_5 ||
+          xp?.xp == CONSTANTS.XP.xp2 ||
+          xp?.xp == CONSTANTS.XP.xp3 ? (
+            renderXp()
+          ) : (
+            <Tooltip
+              disabled={getStatus() === "Game Over"}
+              toolTipContent={
+                <div className={classes.xp_icons}>
+                  {isPowerAvailable("Point Booster") === 0 ? (
+                    <div>Not Available</div>
+                  ) : isPowerLocked("Point Booster") === 1 ? (
+                    <div
+                      style={{
+                        display: "flex",
+                        width: "100%",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <p
+                        style={{
+                          paddingTop: "1px",
+                          paddingRight: "2px",
+                          paddingLeft: "5px",
+                        }}
+                      >
+                        Share to unlock:
+                      </p>
+                      <div>
+                        <button
+                          onClick={() => {
+                            var left = window.screen.width / 2 - 600 / 2,
+                              top = window.screen.height / 2 - 600 / 2;
+                            window.open(
+                              `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                              "targetWindow",
+                              "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                left +
+                                ",top=" +
+                                top
+                            );
+                          }}
+                        >
+                          <FacebookIcon />
+                        </button>
+
+                        <button
+                          onClick={() => {
+                            var left = window.screen.width / 2 - 600 / 2,
+                              top = window.screen.height / 2 - 600 / 2;
+                            window.open(
+                              `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                              "targetWindow",
+                              "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                left +
+                                ",top=" +
+                                top
+                            );
+                          }}
+                        >
+                          <TwitterIcon />
+                        </button>
+                      </div>
                     </div>
-                  </div>
                   ) : (
                     <>
                       <div
-                          className={`${classes.xp_block} ${
-                            xp1 <= 0 && classes.disabled
-                          }`}
-                        >
-                          <XP1_5 onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)} />
-                          <p>
-                            <span>{xp1}</span> left
-                          </p>
-                        </div>
-                        <div
-                          className={`${classes.xp_block} ${
-                            xp2 <= 0 && classes.disabled
-                          }`}
-                        >
-                          <XP2Icon onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)} />
-                          <p>
-                            <span>{xp2}</span> left
-                          </p>
-                        </div>
-                        <div
-                          className={`${classes.xp_block} ${
-                            xp3 <= 0 && classes.disabled
-                          }`}
-                        >
-                          <XP3 onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)} />
-                          <p>
-                            <span>{xp3}</span> left
-                          </p>
-                        </div>
+                        className={`${classes.xp_block} ${
+                          xp1 <= 0 && classes.disabled
+                        }`}
+                      >
+                        <XP1_5
+                          onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)}
+                        />
+                        <p>
+                          <span>{xp1}</span> left
+                        </p>
+                      </div>
+                      <div
+                        className={`${classes.xp_block} ${
+                          xp2 <= 0 && classes.disabled
+                        }`}
+                      >
+                        <XP2Icon
+                          onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)}
+                        />
+                        <p>
+                          <span>{xp2}</span> left
+                        </p>
+                      </div>
+                      <div
+                        className={`${classes.xp_block} ${
+                          xp3 <= 0 && classes.disabled
+                        }`}
+                      >
+                        <XP3
+                          onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)}
+                        />
+                        <p>
+                          <span>{xp3}</span> left
+                        </p>
+                      </div>
                     </>
-                  )
-                )} 
-              </div>
-            }
-          >
-            {renderXp()}
-          </Tooltip>
-        }
-        
+                  )}
+                </div>
+              }
+            >
+              {renderXp()}
+            </Tooltip>
+          )}
         </>
       )}
     </div>
@@ -616,48 +670,55 @@ function SportsLiveCard(props) {
 
   const RenderHeaderIcons = () => (
     <>
-      {
-        //   isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
-        //   <Tooltip
-        //   toolTipContent={
-        //     <div className={classes.xp_icons}>
-        //       {isPowerAvailable("Swap") === 0 ? (
-        //         <div>Not Available</div>
-        //       ) : (
-        //         isPowerLocked("Swap") === 1 ? (
-        //           <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
-        //             <p>Share to unlock:</p>
-        //             <div>
-        //               <a
-        //                 href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-        //               >
-        //                 <button>
-        //                   <FacebookIcon />
-        //                 </button>
-        //               </a>
-        //               <a
-        //                 href={`https://twitter.com/intent/tweet?text=${text}`}
-        //                 target="_blank"
-        //               >
-        //                 <button>
-        //                   <TwitterIcon />
-        //                 </button>
-        //               </a>
-        //             </div>
-        //           </div>
-        //         ) : (
-        //           ""
-        //         )
-        //       )}
-        //     </div>
-        //   }
-        // >
-        //   <Replace size={singleView ? 23 : 22} />
-        // </Tooltip>
-        // ) : (
-        <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
-        // )
-      }
+      {isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
+        <Tooltip
+          disabled={getStatus() === "Game Over"}
+          toolTipContent={
+            <div className={classes.xp_icons}>
+              {isPowerAvailable("Swap") === 0 ? (
+                <div>Not Available</div>
+              ) : isPowerLocked("Swap") === 1 ? (
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <p>Share to unlock:</p>
+                  <div>
+                    <a
+                      href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+                    >
+                      <button>
+                        <FacebookIcon />
+                      </button>
+                    </a>
+                    <a
+                      href={`https://twitter.com/intent/tweet?text=${text}`}
+                      target="_blank"
+                    >
+                      <button>
+                        <TwitterIcon />
+                      </button>
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          }
+        >
+          <Replace size={singleView ? 23 : 22} />
+        </Tooltip>
+      ) : (
+        <Replace
+          className={getStatus() === "Game Over" && classes.disabled}
+          size={singleView ? 23 : 22}
+          onClick={toggleReplaceModal}
+        />
+      )}
     </>
   );
 
@@ -713,18 +774,19 @@ function SportsLiveCard(props) {
                       />
                     )}
 
-                    {getStatus() === "Game Over" ? (
+                    {/* {getStatus() === "Game Over" ? (
                       <>
                         <button className={classes.card_footer_btn}>
                           See your {!isEmpty(type1) ? type1 : type} scoring
                           details
                         </button>
                       </>
-                    ) : cardType !== CardType.NFL && !singleView ? (
-                      showFooterStats()
-                    ) : (
-                      cardType === CardType.NFL && <NFLFooterStats />
-                    )}
+                    ) : */}
+                    {getStatus() !== "Game Over" &&
+                    cardType !== CardType.NFL &&
+                    !singleView
+                      ? showFooterStats()
+                      : cardType === CardType.NFL && <NFLFooterStats />}
                   </>
                 )}
               </>
