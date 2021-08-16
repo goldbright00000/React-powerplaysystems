@@ -1,11 +1,41 @@
 import React, { useEffect } from "react";
 import * as $ from 'jquery';
+import { useHistory } from 'react-router-dom'
+
+import { getLocalStorage, redirectTo } from "../../utility/shared";
+import { CONSTANTS } from "../../utility/constants";
+import { socket } from "../../config/server_connection";
+
+import './userGateway.css';
+
+let _socket = null;
 
 const UsersGateway = (props) => {
 
+  const history = useHistory()
   const { location: { state } } = props
 
-  const user_id = localStorage.getItem('PERSONA_USER_ID')
+  const user_id = getLocalStorage('PERSONA_USER_ID')
+  const token = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+
+  useEffect(() => {
+    _socket = socket();
+
+    return function cleanUp() {
+      _socket = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, () => {
+      redirectTo(
+        { history },
+        {
+          path: "/",
+        }
+      );
+    });
+  }, [_socket]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -15,9 +45,7 @@ const UsersGateway = (props) => {
     document.body.appendChild(script);
 
     setTimeout(async () => {
-      $('input[name="token"]').val("abc");
       $('.myuserPay-Paybutton').click();
-
     }, 1000);
 
     return () => {
@@ -26,18 +54,20 @@ const UsersGateway = (props) => {
   }, []);
 
   return (
-    <form action={`http://localhost:4000/api/v1/users/account/update-myuserpay-balance/${user_id}/${state.amount}`} method="post">
-      <input type="hidden" name="headers[Authorization]" value="Bearer 123" />
+    <form action={`http://localhost:4000/api/v1/users/account/update-myuserpay-balance`} method="post">
+      <input type="hidden" name="token" value={`Bearer ${token}`} />
+      <input type="hidden" name="amount" value={state.amount} />
+      <input type="hidden" name="user_id" value={user_id} />
       <script
         class="myuserPay-button"
         data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
         data-amount={state.amount * 100}
-        data-description="description of item"
+        data-description="Deposit Money"
         data-name="Defy Games Demo"
         data-image="Item or your picture,logo"
         data-submit-ajax="1"
       ></script>
-    </form>
+    </form >
   );
 };
 
