@@ -6,6 +6,7 @@ import PointMultipliersMain from '../../assets/point-multipliers-main.png';
 import PlayerSwapsMain from '../../assets/player-swaps-main.png';
 import VideoReviewMain from '../../assets/video-review-main.png';
 import DWallMain from '../../assets/d-wall-main.png';
+// import ChallengeMain from '../../assets/chall';
 import PointMultipliersLight from '../../assets/point-multipliers-light.png';
 import PlayerSwapsLight from '../../assets/player-swaps-light.png';
 import VideoReviewLight from '../../assets/video-review-light.png';
@@ -13,223 +14,204 @@ import DWallLight from '../../assets/d-wall-light.png';
 import X3 from '../../assets/x_3.png';
 import X2 from '../../assets/x_2.png';
 import X_1_5 from '../../assets/x_1.5.png';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import SwapIcon from '../../icons/Swap';
+
+
+import ReplaceAllIcon from "../../icons/Replace";
+import ShieldIcon from "../../icons/ShieldIcon";
+import ChallengeIcon from "../../icons/Challenge";
+import RetroIcon from "../../icons/RetroBoost";
+import PowerUpIcon from "../../icons/PowerUp";
+import XPIcon from "../../icons/XPIcon";
 
 const mainIconWidthAndHeight = 85;
 const lightIconWidthAndHeight = 64;
 
 const LearnMoreModal = (props) => {
     const {title = '', learnMoreModal = false, onCloseModal = () => { }} = props || {};
-    const [modalTitle, setModalTitle] = useState('Point Multiplier');
-    const [pointMultiplier, setPointMultiplier] = useState(true);
-    const [playerSwap, setPlayerSwap] = useState(false);
-    const [videoReview, setVideoReview] = useState(false);
-    const [dWall, setDwall] = useState(false);
-    const [lightIcons, setLightIcons] = useState([PlayerSwapsLight, VideoReviewLight, DWallLight]);
+    const [activeTab, setActiveTab] = useState(0);
 
-    const getMainIcon = () => {
-        if (pointMultiplier) {
-            return PointMultipliersMain;
-        } else if (playerSwap) {
-            return PlayerSwapsMain;
-        } else if (videoReview) {
-            return VideoReviewMain;
-        } else {
-            return DWallMain;
-        }
-    };
-
-    const getDescription = () => {
-        if (pointMultiplier && title !== 'NFL') {
-            return (
-                <p className={classes.__learn_more_modal_body_description}>
-                    Power-up your points with the Point Multiplier. You chose when to activate. Maybe 3x at the start of a Power Play?
-                    <br/><br/>
-                    3X, 2X and 1.5X points when activated,  lasts for 2 mins of game time.
-                </p>
-            );
-        }  else if (pointMultiplier && title === 'NFL') {
-            return (
-                <p className={classes.__learn_more_modal_body_description}>
-                    Boost your points based on field position. Activate this booster and your players points will be boosted:
-                </p>
-            );
-        } else if (playerSwap) {
-            return (
-                <p className={classes.__learn_more_modal_body_description}>
-                    Swap any player on your team with another player from a list of available players.
-                </p>
-            );
-        } else if (videoReview) {
-            return (
-                <p className={classes.__learn_more_modal_body_description}>
-                    Use this Power after a score against your team. <br/> 
-                    There's a 50-50 chance it will be reversed.
-                </p>
-            );
-        } else {
-            return (
-                <p className={classes.__learn_more_modal_body_description}>
-                    Use this power to prevent any points against your team defence while active.
-                </p>
-            );
-        }
-    };
-
-    const setPowers = (pointMultiplier, playerSwap, videoReview, dWall) => {
-        setPointMultiplier(pointMultiplier);
-        setPlayerSwap(playerSwap);
-        setVideoReview(videoReview);
-        setDwall(dWall);
-    };
-
-    const onPowerClick = (power) => {
-        if (pointMultiplier) {
-            if (power == 'first') {
-                setPowers(false, true, false, false);
-                setModalTitle('Player Swaps');
-                setLightIcons([PointMultipliersLight, VideoReviewLight, DWallLight]);
-            } else if (power == 'second') {
-                setPowers(false, false, true, false);
-                setModalTitle('Video Review');
-                setLightIcons([PointMultipliersLight, PlayerSwapsLight, DWallLight]);
-            } else {
-                setPowers(false, false, false, true);
-                setModalTitle('D-Wall');
-                setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
-            }
-        } else if (playerSwap) {
-            if (power == 'first') {
-                setPowers(true, false, false, false);
-                setModalTitle('Point Multiplier');
-                setLightIcons([PlayerSwapsLight, VideoReviewLight, DWallLight]);
-            } else if (power == 'second') {
-                setPowers(false, false, true, false);
-                setModalTitle('Video Review');
-                setLightIcons([PointMultipliersLight, PlayerSwapsLight, DWallLight]);
-            } else {
-                setPowers(false, false, false, true);
-                setModalTitle('D-Wall');
-                setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
-            }
-        } else if (videoReview) {
-            if (power == 'first') {
-                setPowers(true, false, false, false);
-                setModalTitle('Point Multiplier');
-                setLightIcons([PlayerSwapsLight, VideoReviewLight, DWallLight]);
-            } else if (power == 'second') {
-                setPowers(false, true, false, false);
-                setModalTitle('Player Swaps');
-                setLightIcons([PointMultipliersLight, VideoReviewLight, DWallLight]);
-            } else {
-                setPowers(false, false, false, true);
-                setModalTitle('D-Wall');
-                setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
-            }
-        } else {
-            if (power == 'first') {
-                setPowers(true, false, false, false);
-                setModalTitle('Point Multiplier');
-                setLightIcons([PlayerSwapsLight, VideoReviewLight, DWallLight]);
-            } else if (power == 'second') {
-                setPowers(false, true, false, false);
-                setModalTitle('Player Swaps');
-                setLightIcons([PointMultipliersLight, VideoReviewLight, DWallLight]);
-            } else {
-                setPowers(false, false, true, false);
-                setModalTitle('Video Review');
-                setLightIcons([PointMultipliersLight, PlayerSwapsLight, VideoReviewLight]);
-            }
-        }
-    };
 
     return (
         <Modal visible={learnMoreModal}>
             <div 
                 className={classes.__learn_more_modal} 
-                style={{height: pointMultiplier && title === 'NFL' ? 446 : 376}}>
-                <div className={classes.__learn_more_modal_header}>
-                    <div className={classes.__learn_more_modal_header_title}>
-                        {modalTitle}
-                    </div>
-                    <div className={classes.__learn_more_modal_close_icon}>
-                        <img 
-                            src={CloseIcon}
-                            width="20" 
-                            height="20" 
-                            onClick={() => onCloseModal()} 
-                            style={{cursor: 'pointer'}} 
-                        />
-                    </div>
+                >
+                
+            <Tabs   
+              selectedIndex={activeTab}
+              onSelect={(tabIndex) => {
+                  console.log("tabIndex", tabIndex);
+                setActiveTab(tabIndex);
+              }}
+              className={classes.reacttabs}
+            >
+              <div className={classes.__learn_more_modal_close_icon}>
+                    <img 
+                        src={CloseIcon}
+                        width="20" 
+                        height="20" 
+                        onClick={() => onCloseModal()} 
+                        style={{cursor: 'pointer'}} 
+                    />
                 </div>
-                <div className={classes.__learn_more_modal_body}>
-                    <div className={classes.__learn_more_modal_body_powers}>
-                        <div className={classes.__learn_more_modal_body_power_main}>
-                            <img 
-                                src={getMainIcon()} 
-                                width={mainIconWidthAndHeight} 
-                                height={mainIconWidthAndHeight} 
-                            />
-                        </div>
-                        <div 
-                        className={classes.__learn_more_modal_body_power_light}
-                        onClick={() => onPowerClick('first')}>
-                            <img 
-                                src={lightIcons[0]} 
-                                width={lightIconWidthAndHeight} 
-                                height={lightIconWidthAndHeight} 
-                            />
-                        </div>
-                        <div className={classes.__learn_more_modal_body_power_light}
-                            onClick={() => onPowerClick('second')}>
-                            <img 
-                                src={lightIcons[1]} 
-                                width={lightIconWidthAndHeight} 
-                                height={lightIconWidthAndHeight} 
-                            />
-                        </div>
-                        <div className={classes.__learn_more_modal_body_power_light}
-                            onClick={() => onPowerClick('third')}>
-                            <img 
-                                src={lightIcons[2]} 
-                                width={lightIconWidthAndHeight} 
-                                height={lightIconWidthAndHeight} 
-                            />
-                        </div>
+              <TabList className={classes.tabs_header}>
+                <Tab className={`${activeTab === 0 && classes.active}`}>
+                  <XPIcon />
+                </Tab>
+                <Tab className={`${activeTab === 1 && classes.active}`}>
+                    <ReplaceAllIcon />
+                </Tab>
+                <Tab className={`${activeTab === 2 && classes.active}`}>
+                    <ShieldIcon />
+                </Tab>
+                <Tab className={`${activeTab === 3 && classes.active}`}>
+                    <ChallengeIcon />
+                </Tab>
+                <Tab className={`${activeTab === 4 && classes.active}`}>
+                    <RetroIcon />
+                </Tab>
+                <Tab className={`${activeTab === 5 && classes.active}`}>
+                    <PowerUpIcon />
+                </Tab>
+              </TabList>
+
+              <div className={classes.tab_body}>
+                <TabPanel>
+                  <div className={classes.tabTitle}>
+                      Point Booster
+                  </div>
+                  <div className={classes.tabContent}>
+                    <p>
+                        Power-up your points with a Point Booster Power! Choose between 1.5x, 2x, and 3x boosters. You chose when to use. Try 3x when bases are loaded... or at the beginning of an NFL drive.
+                    </p>
+                    <br />
+                    <p>
+                        MLB – Point boosters last for 1 inning or remainder of current inning.
+                    </p>
+                    <p>
+                        NFL – Point boosters last until the current drive ends.
+                    </p>
+                    <p>
+                        NHL/NBA - Point boosters last 2 mins of game time.
+                    </p>
+                    <br /><br />
+                    <a>
+                        You have the Power!
+                    </a>
+                    <br /><br />
+                  </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className={classes.tabTitle}>
+                      Swap
                     </div>
-                    <div className={classes.__learn_more_modal_body_description_div}>
-                        {getDescription()}
+                    <div className={classes.tabContent}>
+                        <p>
+                            Keep your team in the game by swapping out underperforming or injured players.
+                        </p>
+                        <br />
+                        <p> 
+                            You can swap for any same-position player whose game started at the same time asyour original selection.
+                        </p>
+                        <br />
+                        <p> 
+                            For example, you can swap your QB for a new QB whose game started as the same time as your original selection.
+                        </p>
+                        <br /><br />
+                        <a>You have the Power!</a>
+                        <br /><br />
                     </div>
-                </div>
-                    {
-                        pointMultiplier && title === 'NFL'
-                        &&
-                        <div className={classes.__learn_more_modal_footer}>
-                            <div className={classes.__learn_more_modal_footer_block}>
-                                <div className={classes.__learn_more_modal_footer_block_img}>
-                                    <img src={X3} />
-                                </div>
-                                <div className={classes.__learn_more_modal_footer_block_text}>
-                                    <p>3X points when your player is {">"} 50 yards from the End Zone (EZ).</p>
-                                </div>
-                            </div>
-                            <div className={classes.__learn_more_modal_footer_block}>
-                                <div className={classes.__learn_more_modal_footer_block_img}>
-                                    <img src={X2} />
-                                </div>
-                                <div className={classes.__learn_more_modal_footer_block_text}>
-                                    <p>3X points when your player is {">"} 50 yards from the End Zone (EZ).</p>
-                                </div>
-                            </div>
-                            <div className={classes.__learn_more_modal_footer_block}>
-                                <div className={classes.__learn_more_modal_footer_block_img}>
-                                    <img src={X_1_5} />
-                                </div>
-                                <div className={classes.__learn_more_modal_footer_block_text}>
-                                    <p>3X points when your player is {">"} 50 yards from the End Zone (EZ).</p>
-                                </div>
-                            </div>
-                        </div>
-                    }
+                </TabPanel>
+                <TabPanel>
+                    <div className={classes.tabTitle}>
+                      D-Wall
+                    </div>
+                    <div className={classes.tabContent}>
+                        <p>
+                            Protect your Team-D with this point blocking Power. 
+                        </p>
+                        <br />
+                        <p> 
+                            Any points against your Team-Dwill not count while this Power is active.
+                        </p>
+                        <br />
+                        <p> 
+                            MLB – D-Wall lasts for 1 inning or remainder of current inning.
+                        </p>
+                        <p>NFL – D-Wall lasts until the current drive ends.</p>
+                        <p>NHL/NBA - D-Wall lasts for 2 mins of game time.</p>     
+                        <br /><br />
+                        <a>You have the Power!</a>
+                        <br /><br />
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className={classes.tabTitle}>
+                      Challenge
+                    </div>
+                    <div className={classes.tabContent}>
+                        <p>
+                            This is a Coaches Challenge that you can use to challenge the last point generating play scored against your Team-D. 
+                        </p>
+                        <br />
+                        <p> 
+                            Activate it and our head office will flip a coin to see if the points scored against your Team-D will be reversed.
+                        </p>
+                        <br />
+                        <p> 
+                            We thought it might be good to use after a Grand Slam or a 50-yard TD.
+                        </p>  
+                        <br /><br />
+                        <a>You have the Power!</a>
+                        <br /><br />
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className={classes.tabTitle}>
+                      Retro Boost
+                    </div>
+                    <div className={classes.tabContent}>
+                        <p>
+                            Our very own time travel machine is ready for you! 
+                        </p>
+                        <br />
+                        <p> 
+                            Missed using your point booster before a TD, HR, or goal? 
+                        </p>
+                        <br />
+                        <p> 
+                            No worries, you have 30 seconds after the play to retroactively boost any missed opportunities by 2x.
+                        </p>  
+                        <br /><br />
+                        <a>You have the Power!</a>
+                        <br /><br />
+                    </div>
+                </TabPanel>
+                <TabPanel>
+                    <div className={classes.tabTitle}>
+                      Power Up
+                    </div>
+                    <div className={classes.tabContent}>
+                        <p>
+                            Have you run out of Powers? Need a couple more to push you to the top of the leaderboard?
+                        </p>
+                        <br />
+                        <p> 
+                            Redeem your Power Tokens to get a new supply!
+                        </p>
+                        <br /><br />
+                        <a>You have the Power!</a>
+                        <br /><br />
+                    </div>
+                </TabPanel>
+              </div>
+            </Tabs>
+
+
+
+
             </div>
         </Modal>
     );

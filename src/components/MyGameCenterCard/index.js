@@ -254,7 +254,7 @@ const MyGameCenterCard = (props) => {
 
                   {editPicks && (
                     <OutlineButton
-                      title="Edit Picks"
+                      title="Edit Picks1"
                       onClick={onEdit}
                       styles={{
                         width: "140px",
@@ -290,6 +290,8 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
               </>
+
+              
 
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>
@@ -437,7 +439,7 @@ const MyGameCenterCard = (props) => {
               </>
             </Carousel>
           </div>
-
+          
           {leaveGameModal && (
             <LeaveGameModal
               isMobile={isMobile}
@@ -571,6 +573,12 @@ const MyGameCenterCard = (props) => {
                 />
               )}
 
+              {!completed && (
+                <div style={{marginTop: 5}}>
+                    {game_set_start} | {start_time} ET
+                </div>
+              )}
+
               {completed && (
                 <div
                   className={classes.__my_game_center_card_buttons_completed}
@@ -585,6 +593,11 @@ const MyGameCenterCard = (props) => {
                   onClick={() => onFinalStandings(id)}
                   styles={{ marginTop: 14 }}
                 />
+              )}
+              {completed && (
+                <div style={{marginTop: 5}}>
+                    {game_set_start} | {start_time} ET
+                </div>
               )}
             </div>
             <div className={classes.__my_game_center_card_status_and_details}>
@@ -649,7 +662,9 @@ const MyGameCenterCard = (props) => {
                 onCancel={() => setLeaveGameModal(false)}
               />
             )}
+            
           </div>
+          
         ) : (
           <ViewResults
             title={title}
