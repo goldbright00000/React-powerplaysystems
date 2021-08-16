@@ -122,7 +122,7 @@ function MLBPowerdFsLive(props) {
   } = selectedTeam || {};
   // let item = selectedTeam.item;
 
-  
+
 
   let prizePool,
     topPrize = 0,
@@ -182,7 +182,7 @@ function MLBPowerdFsLive(props) {
         p3 = remainingPowers[i].remaining_amount;
         point_booster =
           point_booster + parseInt(remainingPowers[i].remaining_amount);
-      }else if (rec.name === "Swap") {
+      } else if (rec.name === "Swap") {
         swap = remainingPowers[i].remaining_amount;
       } else if (rec.name === "Retro Boost") {
         retro_boost = remainingPowers[i].remaining_amount;
@@ -210,8 +210,7 @@ function MLBPowerdFsLive(props) {
     if (type === "Power Up") {
       type = "Power-Up";
     }
-    if(typeof powerss == "undefined")
-    {
+    if (typeof powerss == "undefined") {
       return;
     }
     for (var i = 0; i < powerss.length; i++) {
@@ -236,8 +235,7 @@ function MLBPowerdFsLive(props) {
 
   function isPowerLocked(type) {
     let powerss = game?.Powers;
-    if(typeof powerss == "undefined")
-    {
+    if (typeof powerss == "undefined") {
       return;
     }
     let locked = 0;
@@ -296,7 +294,7 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
-  
+
   async function useChallenge(action) {
     if (action) {
       let requests = await dispatch(
@@ -549,17 +547,14 @@ function MLBPowerdFsLive(props) {
       player.xp = _selectedXp;
       live_data[indexOfPlayer] = player;
       let power = 0;
-      if(_selectedXp.xpVal == "1.5x")
-      {
+      if (_selectedXp.xpVal == "1.5x") {
         power = 1;
-        
+
       }
-      else if(_selectedXp.xpVal == "2x")
-      {
+      else if (_selectedXp.xpVal == "2x") {
         power = 2;
       }
-      else if(_selectedXp.xpVal == "3x")
-      {
+      else if (_selectedXp.xpVal == "3x") {
         power = 3;
       }
       console.log("power", power, gameId, userId);
@@ -667,24 +662,24 @@ function MLBPowerdFsLive(props) {
               <>
                 <p>Share to unlock:</p>
                 <div>
-                
-                    <button onClick={() => {
-                      var left = (window.screen.width / 2) - (600 / 2),
+
+                  <button onClick={() => {
+                    var left = (window.screen.width / 2) - (600 / 2),
                       top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                    window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
                   }}>
                     <FacebookIcon />
                   </button>
-                
-                
+
+
                   <button onClick={() => {
                     var left = (window.screen.width / 2) - (600 / 2),
-                    top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                      top = (window.screen.height / 2) - (600 / 2);
+                    window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
                   }}>
                     <TwitterIcon />
                   </button>
-                  
+
                 </div>
               </>
             ) : (
@@ -742,7 +737,7 @@ function MLBPowerdFsLive(props) {
           useSwap={useSwap}
           swapCount={swapCounts}
           setPowers={setPowers}
-          pointXpCount={{xp1:pointBooster15x,xp2:pointBooster2x,xp3:pointBooster3x}}
+          pointXpCount={{ xp1: pointBooster15x, xp2: pointBooster2x, xp3: pointBooster3x }}
         />
       );
     } else if (live_data && live_data?.length) {
@@ -774,7 +769,7 @@ function MLBPowerdFsLive(props) {
               swapCount={swapCounts}
               dataMain={selectedTeam}
               setPowers={setPowers}
-              pointXpCount={{xp1:pointBooster15x,xp2:pointBooster2x,xp3:pointBooster3x}}
+              pointXpCount={{ xp1: pointBooster15x, xp2: pointBooster2x, xp3: pointBooster3x }}
             />
           )}
         </>

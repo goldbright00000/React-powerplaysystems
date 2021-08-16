@@ -237,7 +237,9 @@ class DepositAmountFormMobile extends Component {
             } else {
                 let { price, paymentMetod } = this.state.form;
                 price = parseFloat((price * this.props.cad).toFixed(2));
-                this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+                this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
+
+                // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
             }
         else {
             const { currency, price } = this.state.form;
