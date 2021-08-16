@@ -518,7 +518,13 @@ function SportsLiveCard(props) {
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {score}
           </p>
-          <RenderXpToolTip />
+          {(xp1 == 0 && xp2 == 0 && xp3 == 0) ? (
+            <div style={{opacity:0.5}}>
+              {renderXp()}
+            </div>
+          ) : (
+            <RenderXpToolTip />
+          )}
         </div>
       </div>
     </div>
@@ -655,7 +661,14 @@ function SportsLiveCard(props) {
         //   <Replace size={singleView ? 23 : 22} />
         // </Tooltip>
         // ) : (
-        <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+          props.swapCount == 0 ? (
+            <div style={{opacity:0.5}}>
+              <Replace size={singleView ? 23 : 22} />
+            </div>
+          ) : (
+            <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+          )
+          
         // )
       }
     </>
