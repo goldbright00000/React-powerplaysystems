@@ -2,8 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
-import { Link } from "react-router-dom";
-import moment from "moment";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -397,8 +395,8 @@ function MLBPowerdFsLive(props) {
       const _gameLogs = [...game_logs];
       const sortedGameLogs = _gameLogs.sort(
         (a, b) =>
-          moment(a?.play?.created_at).format("hh:mm A") -
-          moment(b?.play?.created_at).format("hh:mm A")
+          new Date(a?.play?.created_at).getTime() -
+          new Date(b?.play?.created_at).getTime()
       );
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
