@@ -58,6 +58,10 @@ export const CONSTANTS = {
       ON: "on_landing_page_email",
       EMIT: "emit_landing_page_email",
     },
+    PAYMENT: {
+      SUCCESS: "on_payment_success",
+      FAILURE: "on_payment_failure",
+    },
     MLB: {
       LIVE: {
         EMIT_ROOM: "ON_EMIT_LIVE_DATA",

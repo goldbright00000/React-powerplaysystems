@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
-import { Link } from "react-router-dom";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -122,8 +121,6 @@ function MLBPowerdFsLive(props) {
   } = selectedTeam || {};
   // let item = selectedTeam.item;
 
-  
-
   let prizePool,
     topPrize = 0,
     entry_fee = 0,
@@ -164,25 +161,19 @@ function MLBPowerdFsLive(props) {
         dwall = remainingPowers[i].remaining_amount;
       } else if (rec.name === "Challenge") {
         challenge = remainingPowers[i].remaining_amount;
-      } else if (
-        rec.name === "1.5x Point Booster"
-      ) {
+      } else if (rec.name === "1.5x Point Booster") {
         p15 = remainingPowers[i].remaining_amount;
         point_booster =
           point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (
-        rec.name === "2x Point Booster"
-      ) {
+      } else if (rec.name === "2x Point Booster") {
         p2 = remainingPowers[i].remaining_amount;
         point_booster =
           point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (
-        rec.name === "3x Point Booster"
-      ) {
+      } else if (rec.name === "3x Point Booster") {
         p3 = remainingPowers[i].remaining_amount;
         point_booster =
           point_booster + parseInt(remainingPowers[i].remaining_amount);
-      }else if (rec.name === "Swap") {
+      } else if (rec.name === "Swap") {
         swap = remainingPowers[i].remaining_amount;
       } else if (rec.name === "Retro Boost") {
         retro_boost = remainingPowers[i].remaining_amount;
@@ -210,8 +201,7 @@ function MLBPowerdFsLive(props) {
     if (type === "Power Up") {
       type = "Power-Up";
     }
-    if(typeof powerss == "undefined")
-    {
+    if (typeof powerss == "undefined") {
       return;
     }
     for (var i = 0; i < powerss.length; i++) {
@@ -236,8 +226,7 @@ function MLBPowerdFsLive(props) {
 
   function isPowerLocked(type) {
     let powerss = game?.Powers;
-    if(typeof powerss == "undefined")
-    {
+    if (typeof powerss == "undefined") {
       return;
     }
     let locked = 0;
@@ -254,14 +243,20 @@ function MLBPowerdFsLive(props) {
           powerss[i].powerName === "2x Point Booster" ||
           powerss[i].powerName === "3x Point Booster"
         ) {
-          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
+          if (
+            powerss[i].SocialMediaUnlock == true ||
+            powerss[i].SocialMediaUnlock == "true"
+          ) {
             locked = 1;
           }
           break;
         }
       } else {
         if (powerss[i].powerName === type) {
-          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
+          if (
+            powerss[i].SocialMediaUnlock == true ||
+            powerss[i].SocialMediaUnlock == "true"
+          ) {
             locked = 1;
           }
           break;
@@ -276,6 +271,7 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
+      console.log("SWAP REQUEST: ", requests);
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
@@ -296,7 +292,7 @@ function MLBPowerdFsLive(props) {
       }
     }
   }
-  
+
   async function useChallenge(action) {
     if (action) {
       let requests = await dispatch(
@@ -319,6 +315,9 @@ function MLBPowerdFsLive(props) {
     setPowers();
     return function cleanUP() {
       isMatchUpdate = false;
+
+      //reset logs
+      dispatch(MLBActions.setGameLogs([]));
 
       //disconnect the socket
       _socket?.emit(ON_ROOM_UN_SUB);
@@ -395,7 +394,9 @@ function MLBPowerdFsLive(props) {
 
       const _gameLogs = [...game_logs];
       const sortedGameLogs = _gameLogs.sort(
-        (a, b) => a?.fantasy_points_after - b?.fantasy_points_after
+        (a, b) =>
+          new Date(a?.play?.created_at).getTime() -
+          new Date(b?.play?.created_at).getTime()
       );
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
@@ -536,7 +537,7 @@ function MLBPowerdFsLive(props) {
   }
 
   const onChangeXp = async (xp, player) => {
-    console.log('onChangeXp');
+    console.log("onChangeXp");
     const _selectedXp = {
       xp,
     };
@@ -549,17 +550,11 @@ function MLBPowerdFsLive(props) {
       player.xp = _selectedXp;
       live_data[indexOfPlayer] = player;
       let power = 0;
-      if(_selectedXp.xpVal == "1.5x")
-      {
+      if (_selectedXp.xpVal == "1.5x") {
         power = 1;
-        
-      }
-      else if(_selectedXp.xpVal == "2x")
-      {
+      } else if (_selectedXp.xpVal == "2x") {
         power = 2;
-      }
-      else if(_selectedXp.xpVal == "3x")
-      {
+      } else if (_selectedXp.xpVal == "3x") {
         power = 3;
       }
       console.log("power", power, gameId, userId);
@@ -569,7 +564,9 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
       }
       return dispatch(MLBActions.mlbLiveData(live_data));
     }
@@ -667,24 +664,39 @@ function MLBPowerdFsLive(props) {
               <>
                 <p>Share to unlock:</p>
                 <div>
-                
-                    <button onClick={() => {
-                      var left = (window.screen.width / 2) - (600 / 2),
-                      top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-                  }}>
+                  <button
+                    onClick={() => {
+                      var left = window.screen.width / 2 - 600 / 2,
+                        top = window.screen.height / 2 - 600 / 2;
+                      window.open(
+                        `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                        "targetWindow",
+                        "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                        left +
+                        ",top=" +
+                        top
+                      );
+                    }}
+                  >
                     <FacebookIcon />
                   </button>
-                
-                
-                  <button onClick={() => {
-                    var left = (window.screen.width / 2) - (600 / 2),
-                    top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-                  }}>
+
+                  <button
+                    onClick={() => {
+                      var left = window.screen.width / 2 - 600 / 2,
+                        top = window.screen.height / 2 - 600 / 2;
+                      window.open(
+                        `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                        "targetWindow",
+                        "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                        left +
+                        ",top=" +
+                        top
+                      );
+                    }}
+                  >
                     <TwitterIcon />
                   </button>
-                  
                 </div>
               </>
             ) : (
@@ -725,7 +737,6 @@ function MLBPowerdFsLive(props) {
       return <p>Loading...</p>;
     }
 
-
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
         <SingleView
@@ -742,7 +753,11 @@ function MLBPowerdFsLive(props) {
           useSwap={useSwap}
           swapCount={swapCounts}
           setPowers={setPowers}
-          pointXpCount={{xp1:pointBooster15x,xp2:pointBooster2x,xp3:pointBooster3x}}
+          pointXpCount={{
+            xp1: pointBooster15x,
+            xp2: pointBooster2x,
+            xp3: pointBooster3x,
+          }}
         />
       );
     } else if (live_data && live_data?.length) {
@@ -774,7 +789,11 @@ function MLBPowerdFsLive(props) {
               swapCount={swapCounts}
               dataMain={selectedTeam}
               setPowers={setPowers}
-              pointXpCount={{xp1:pointBooster15x,xp2:pointBooster2x,xp3:pointBooster3x}}
+              pointXpCount={{
+                xp1: pointBooster15x,
+                xp2: pointBooster2x,
+                xp3: pointBooster3x,
+              }}
             />
           )}
         </>
@@ -864,7 +883,7 @@ function MLBPowerdFsLive(props) {
                       centered
                       showIcons={false}
                       entryFee={selectedTeam?.game?.entry_fee}
-                      currency={'USD'}
+                      currency={"USD"}
                     />
                     <RankCard
                       ranks={ranks}
