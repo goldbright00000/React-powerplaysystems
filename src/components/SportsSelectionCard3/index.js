@@ -24,6 +24,7 @@ import "./carousel.scss";
 import { useMediaQuery } from "react-responsive";
 
 function SportsSelectionCard3(props) {
+  console.log("mukesh", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {
@@ -52,6 +53,7 @@ function SportsSelectionCard3(props) {
     position = "",
     match_id,
     primary_position = "",
+    is_star_player = false
   } = player || {};
 
   const nextStep = () => {
@@ -92,11 +94,11 @@ function SportsSelectionCard3(props) {
 
   return (
     <div
-      className={`${classes.container_body_card} ${isStarPlayer ? classes.container_body_card_start_power_background : ``
+      className={`${classes.container_body_card} ${is_star_player ? classes.container_body_card_start_power_background : ``
         } ${isSelected ? classes.activeBorder : ""
         }`}
     >
-      {isStarPlayer && (
+      {is_star_player && (
         <span className={classes.container_body_card_start_power}>
           <StarIcon solidcolor="#000" /> <p>Star Power</p>
         </span>

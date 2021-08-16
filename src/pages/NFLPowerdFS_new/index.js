@@ -52,16 +52,6 @@ import UndoIcon from "../../assets/undo-icon.png";
 import RetroBoostIcon from "../../assets/retro-boost-icon.png";
 import ChallengeIcon from "../../assets/challenge.svg";
 import BackArrow from "../../icons/BackArrow";
-import ReplaceIcon from "../../icons/Replace";
-import XpIcon from "../../icons/XPIcon";
-import VideoIcon from "../../icons/VideoIcon";
-import ShieldIcon from "../../icons/ShieldIcon";
-import RetroBoostIcons from "../../icons/RetroBoost";
-import ChallengeIcons from "../../icons/Challenge"
-import PowerUpIcons from "../../icons/PowerUp";
-import LockIcon from "../../icons/Lock";
-import TwitterIcon from "../../icons/TwitterIcon";
-import FacebookIcon from "../../icons/FacebookIcon";
 
 import { useMediaQuery } from "react-responsive";
 import { printLog, redirectTo } from "../../utility/shared";
@@ -69,75 +59,62 @@ import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "./bottomSheetStyles.scss";
-import PowerUpIcon from '../../assets/power-up-icon.svg';
 
 const getIcon = (powerName) => {
   if (powerName) {
-    if (powerName.toLowerCase().match(/wall/g))
-      return DWallIcon;
-
+    if (powerName.toLowerCase().match(/wall/g)) return DWallIcon;
     else if (powerName.toLowerCase().match(/video|review/g))
       return VideoReviewIcon;
-
-    else if (powerName.toLowerCase().match(/swap/g))
-      return SwapPlayerIcon;
-
+    else if (powerName.toLowerCase().match(/swap/g)) return SwapPlayerIcon;
     else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
       return PointMultiplierIcon;
-
-    else if (powerName.toLowerCase().match(/retro/g))
-      return RetroBoostIcon;
-
-    else if (powerName.toLowerCase().match(/challenge/g))
-      return ChallengeIcon;
-
-    else if (powerName.toLowerCase().match(/power-up/g))
-      return PowerUpIcon
+    else if (powerName.toLowerCase().match(/retro/g)) return RetroBoostIcon;
+    else if (powerName.toLowerCase().match(/challenge/g)) return ChallengeIcon;
   }
 };
 
-const { P, C, SS, XB, OF, D } = CONSTANTS.FILTERS.MLB;
+const { QB, RB, WR, TE, K, D } = CONSTANTS.FILTERS.NFL;
 
 const SIDEBAR_INITIAL_LIST = [
   {
-    title: P,
-    filter: P,
+    title: QB,
+    filter: QB,
     name: "",
     playerId: "",
   },
   {
-    title: C,
-    filter: C,
+    title: `${RB}1`,
+    filter: RB,
     name: "",
     playerId: "",
   },
   {
-    title: SS,
-    filter: SS,
+    title: `${RB}2`,
+    filter: RB,
     name: "",
     playerId: "",
   },
   {
-    title: `${XB}1`,
-    filter: XB,
+    title: `${WR}1`,
+    filter: WR,
     name: "",
     playerId: "",
   },
   {
-    title: `${XB}2`,
-    filter: XB,
+    title: `${WR}2`,
+    filter: WR,
     name: "",
     playerId: "",
   },
   {
-    title: `${OF}1`,
-    filter: OF,
+    title: TE,
+    filter: TE,
     name: "",
     playerId: "",
   },
   {
-    title: `${OF}2`,
-    filter: OF,
+    title: K,
+    filter: K,
     name: "",
     playerId: "",
   },
@@ -153,27 +130,27 @@ const SIDEBAR_INITIAL_LIST = [
 const FILTERS_INITIAL_VALUES = [
   {
     id: 1,
-    title: P,
+    title: QB,
     remaining: 1,
   },
   {
     id: 2,
-    title: C,
+    title: RB,
     remaining: 1,
   },
   {
     id: 3,
-    title: SS,
+    title: WR,
     remaining: 1,
   },
   {
     id: 4,
-    title: XB,
+    title: TE,
     remaining: 2,
   },
   {
     id: 5,
-    title: OF,
+    title: K,
     remaining: 2,
   },
   {
@@ -260,10 +237,9 @@ let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
 function MLBPowerdFs(props) {
-  console.log("mukesh props", props);
   const onGoBack = () => {
-    redirectTo(props, { path: "/my-game-center" })
-  }
+    redirectTo(props, { path: "/my-game-center" });
+  };
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -291,18 +267,6 @@ function MLBPowerdFs(props) {
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
 
-  const [swapCounts, setSwapCounts] = useState(0);
-  const [dwallCounts, setDwallCounts] = useState(0);
-  const [challengeCounts, setChallengeCounts] = useState(0);
-  const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
-  const [pointBooster15x, setPointBooster15xCounts] = useState(0);
-  const [pointBooster2x, setPointBooster2xCounts] = useState(0);
-  const [pointBooster3x, setPointBooster3xCounts] = useState(0);
-  const [retroBoostCounts, setRetroBoostCounts] = useState(0);
-  const [powerUpCounts, setPowerUpCounts] = useState(0);
-
-  const text = process.env.REACT_APP_POST_SHARING_TEXT;
-
   let {
     // data = [],
     starPlayerCount = 0,
@@ -312,8 +276,7 @@ function MLBPowerdFs(props) {
     allData = [],
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
-  let a = useSelector((state) => state);
-  console.log("allData", a);
+
   const selector_team_id = useSelector((state) => state?.mlb?.team_id);
 
   const { auth: { user = {} } = {} } = useSelector((state) => state);
@@ -334,8 +297,8 @@ function MLBPowerdFs(props) {
     prizes: Prizes = [],
     start_time = "",
     paid_game = true,
-    entry_fee = '',
-    currency = '',
+    entry_fee = "",
+    currency = "",
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -371,197 +334,6 @@ function MLBPowerdFs(props) {
   useEffect(() => {
     getData();
   }, [user]);
-
-  const setPowerss = () => {
-    let remainingPowers = powers;
-    let challenge = 0;
-    let swap = 0;
-    let point_booster = 0;
-    let p15 = 0;
-    let p2 = 0;
-    let p3 = 0;
-    let dwall = 0;
-    let retro_boost = 0;
-    let power_up = 0;
-    for (let i = 0; i < remainingPowers.length; i++) {
-      let rec = remainingPowers[i];
-      if (rec.powerName === "D-Wall") {
-        dwall = remainingPowers[i].amount;
-      } else if (rec.powerName === "Challenge") {
-        challenge = remainingPowers[i].amount;
-      } else if (
-        rec.powerName === "1.5x Point Booster"
-      ) {
-        p15 = remainingPowers[i].amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].amount);
-      } else if (
-        rec.powerName === "2x Point Booster"
-      ) {
-        p2 = remainingPowers[i].amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].amount);
-      } else if (
-        rec.powerName === "3x Point Booster"
-      ) {
-        p3 = remainingPowers[i].amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].amount);
-      }else if (rec.powerName === "Swap") {
-        swap = remainingPowers[i].amount;
-      } else if (rec.powerName === "Retro Boost") {
-        retro_boost = remainingPowers[i].amount;
-      } else if (rec.powerName === "Power-Up") {
-        power_up = remainingPowers[i].amount;
-      }
-    }
-    setChallengeCounts(challenge);
-    setSwapCounts(swap);
-    setDwallCounts(dwall);
-    setPointMultiplierCounts(point_booster);
-    setRetroBoostCounts(retro_boost);
-    setPowerUpCounts(power_up);
-    setPointBooster15xCounts(p15);
-    setPointBooster2xCounts(p2);
-    setPointBooster3xCounts(p3);
-  }
-
-  const isPowerAvailable = (type) => {
-    let powerss = powers;
-    let available = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    if (type === "Power Up") {
-      type = "Power-Up";
-    }
-    if(typeof powerss == "undefined")
-    {
-      return;
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (type === "Point Booster") {
-        if (
-          powerss[i].powerName === "1.5x Point Booster" ||
-          powerss[i].powerName === "2x Point Booster" ||
-          powerss[i].powerName === "3x Point Booster"
-        ) {
-          available = 1;
-          break;
-        }
-      } else {
-        if (powerss[i].powerName === type) {
-          available = 1;
-          break;
-        }
-      }
-    }
-    return available;
-  }
-
-  function isPowerLocked(type) {
-    let powerss = powers;
-    if(typeof powerss == "undefined")
-    {
-      return;
-    }
-    let locked = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    if (type === "Power Up") {
-      type = "Power-Up";
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (type === "Point Booster") {
-        if (
-          powerss[i].powerName === "1.5x Point Booster" ||
-          powerss[i].powerName === "2x Point Booster" ||
-          powerss[i].powerName === "3x Point Booster"
-        ) {
-          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
-            locked = 1;
-          }
-          break;
-        }
-      } else {
-        if (powerss[i].powerName === type) {
-          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
-            locked = 1;
-          }
-          break;
-        }
-      }
-    }
-    return locked;
-  }
-
-  React.useEffect(() => {
-    setPowerss();
-  },[]);
-
-  
-
-  const RenderPower = ({
-    title = "",
-    Icon = "",
-    isSvgIcon = false,
-    count = 0,
-  }) => {
-    const text = process.env.REACT_APP_POST_SHARING_TEXT;
-    return (
-      <div className={classes.sidebar_content_p}>
-        <div className={classes.sidebar_power_header}>
-          {isSvgIcon ? (
-            <Icon size={54} />
-          ) : (
-            <img src={Icon} width={54} height={54} />
-          )}
-          {isPowerAvailable(title) === 1 && isPowerLocked(title) === 1 && (
-            <div className={classes.sidebar_lock_icon}>
-              <LockIcon />
-            </div>
-          )}
-        </div>
-        <p className={classes.power_title}>{title}</p>
-        {isPowerAvailable(title) === 0 ? (
-          <div style={{ opacity: 0.6, fontSize: "0.9rem" }}>Not Available</div>
-        ) : (
-          <div className={classes.power_footer}>
-            {isPowerLocked(title) === 1 ? (
-              <>
-                <p>Share to unlock:</p>
-                <div>
-                
-                    <button onClick={() => {
-                      var left = (window.screen.width / 2) - (600 / 2),
-                      top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-                  }}>
-                    <FacebookIcon />
-                  </button>
-                
-                
-                  <button onClick={() => {
-                    var left = (window.screen.width / 2) - (600 / 2),
-                    top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-                  }}>
-                    <TwitterIcon />
-                  </button>
-                  
-                </div>
-              </>
-            ) : (
-              <p className={classes.power_footer_count}>
-                {count}
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
 
   const getData = async () => {
     setLoading(true);
@@ -637,7 +409,7 @@ function MLBPowerdFs(props) {
       }
       setSelected(_selected);
       setSidebarList(_playerList);
-      document.getElementById('p-filter').click(); // Patch to activate P Tab in Edit Mode instead of D Tab
+      document.getElementById("p-filter").click(); // Patch to activate P Tab in Edit Mode instead of D Tab
     }
   };
 
@@ -812,8 +584,11 @@ function MLBPowerdFs(props) {
     const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
-      if (!!!selected.get(selectionId)) { _remaining -= 1; }
-      else if (_remaining < 2) { _remaining += 1; }
+      if (!!!selected.get(selectionId)) {
+        _remaining -= 1;
+      } else if (_remaining < 2) {
+        _remaining += 1;
+      }
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
@@ -973,7 +748,7 @@ function MLBPowerdFs(props) {
       } else {
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
         if (isPaid || isPaid === null) {
-          if (currency !== 'PWRS') {
+          if (currency !== "PWRS") {
             dispatch(MLBActions.calculateAdminFee(user_id, game_id));
           }
           dispatch(MLBActions.deductUserBalance(user_id, game_id));
@@ -1185,9 +960,9 @@ function MLBPowerdFs(props) {
           enrolledUsers={enrolledUsers}
           points={points}
           powers={powers}
-          titleMain1="MLB 2021"
+          titleMain1="NFL 2021"
           titleMain2="PowerdFS"
-          subHeader1="Introducing Live-Play Fantasy Baseball"
+          subHeader1="Introducing Live-Play Fantasy Football"
           subHeader2={
             <>
               Use your <span>Powers</span> during the live game to drive your
@@ -1220,8 +995,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                      ? "Edit your team"
-                      : "Select your team"}
+                    ? "Edit your team"
+                    : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1270,7 +1045,6 @@ function MLBPowerdFs(props) {
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
-
                             {selectedFilter?.title === D ? (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               (item?.date, item?.time) && (
@@ -1303,16 +1077,18 @@ function MLBPowerdFs(props) {
                                           `${item.playerId} - ${item?.match_id}`
                                         )
                                       }
-                                      key={item.playerId + " - " + item?.match_id}
+                                      key={
+                                        item.playerId + " - " + item?.match_id
+                                      }
                                       loading={loading}
                                       onSelectDeselect={onPlayerSelectDeselect}
                                       pageType={PAGE_TYPES.MLB}
                                       type={selectedData?.type}
-                                    // disabled={
-                                    //   item.isStarPlayer &&
-                                    //   item.isStarPlayer &&
-                                    //   starPlayerCount >= 3
-                                    // }
+                                      // disabled={
+                                      //   item.isStarPlayer &&
+                                      //   item.isStarPlayer &&
+                                      //   starPlayerCount >= 3
+                                      // }
                                     />
                                   </>
                                 )}
@@ -1439,8 +1215,9 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                              }`}
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
                           >
                             Powers Available
                           </Tab>
@@ -1517,44 +1294,40 @@ function MLBPowerdFs(props) {
                           </TabPanel>
                           <TabPanel>
                             <div className={classes.__powers_available}>
-                              <RenderPower
-                                title="Point Booster"
-                                isSvgIcon
-                                Icon={XpIcon}
-                                count={pointMultiplierCounts}
-                              />
-                              <RenderPower
-                                title="Swap Player"
-                                isSvgIcon
-                                Icon={ReplaceIcon}
-                                count={swapCounts}
-                              />
-                              <RenderPower
-                                title="D-Wall"
-                                isSvgIcon
-                                Icon={ShieldIcon}
-                                count={dwallCounts}
-                              />
+                              {powers &&
+                                powers.length > 0 &&
+                                powers.map((item, index) => {
+                                  return (
+                                    <>
+                                      {index < 3 && (
+                                        <RenderIcon
+                                          title={item?.powerName}
+                                          Icon={getIcon(item?.powerName)}
+                                          iconSize={54}
+                                          count={2}
+                                        />
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </div>
                             <div className={classes.__powers_available}>
-                              <RenderPower
-                                title="Challenge"
-                                isSvgIcon
-                                Icon={ChallengeIcons}
-                                count={challengeCounts}
-                              />
-                              <RenderPower
-                                title="Retro Boost"
-                                isSvgIcon
-                                Icon={RetroBoostIcons}
-                                count={retroBoostCounts}
-                              />
-                              <RenderPower
-                                title="Power Up"
-                                isSvgIcon
-                                Icon={PowerUpIcons}
-                                count={powerUpCounts}
-                              />
+                              {powers &&
+                                powers.length > 0 &&
+                                powers.map((item, index) => {
+                                  return (
+                                    <>
+                                      {index >= 3 && (
+                                        <RenderIcon
+                                          title="Swap Player"
+                                          Icon={SwapPlayerIcon}
+                                          iconSize={54}
+                                          count={2}
+                                        />
+                                      )}
+                                    </>
+                                  );
+                                })}
                             </div>
                           </TabPanel>
                         </div>
@@ -1587,7 +1360,6 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
-
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}

@@ -449,6 +449,7 @@ export function getUserRemainingPowers(game_id, user_id) {
 export function updateUserRemainingPowers(game_id, user_id, power_id) {
   return async (dispatch) => {
     try {
+      console.log("PAYLOAD: ", game_id, user_id, power_id);
       const response = await http.patch(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.UPDATE_USERS_POWERS}`,
         {

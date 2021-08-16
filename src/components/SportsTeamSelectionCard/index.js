@@ -69,7 +69,7 @@ function SportsTeamSelectionCard(props) {
     let team_id = props?.item?.team_id;
     let pitcherDetailsArray = picherDetails(match_id);
     let a;
-    console.log("PITCHER: ", pitcherDetailsArray[0]?.homeTeam, team_action);
+    console.log(pitcherDetailsArray, team_action);
     if (team_action.team == "home") {
       if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
         a = pitcherDetailsArray[0];
