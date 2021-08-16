@@ -395,7 +395,9 @@ function MLBPowerdFsLive(props) {
 
       const _gameLogs = [...game_logs];
       const sortedGameLogs = _gameLogs.sort(
-        (a, b) => a?.fantasy_points_after - b?.fantasy_points_after
+        (a, b) =>
+          moment(a?.play?.created_at).format("hh:mm A") -
+          moment(b?.play?.created_at).format("hh:mm A")
       );
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
