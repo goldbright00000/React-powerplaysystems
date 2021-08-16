@@ -1,5 +1,11 @@
 @import "../../scss/colors.scss";
 
+.disabled {
+  pointer-events: none;
+  cursor: none;
+  opacity: 0.5;
+}
+
 .card_wrapper {
   display: flex;
   flex-direction: column;

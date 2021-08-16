@@ -146,7 +146,7 @@ let nhlData = [];
 
 const InteractiveContests = (props) => {
   let isAuthenticated = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
-  const history = useHistory()
+  const history = useHistory();
   const dispatch = useDispatch();
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
@@ -171,7 +171,7 @@ const InteractiveContests = (props) => {
     "usd",
     "btc",
     "eth",
-    "pwrs"
+    "pwrs",
   ]);
   const [days, setDays] = useState([{}]);
   const [cashBalance, setCashBalance] = useState(0);
@@ -288,9 +288,8 @@ const InteractiveContests = (props) => {
   };
 
   const onEnter = async (item) => {
-
     if (!isAuthenticated) {
-      history.push("/login")
+      history.push("/login");
       return;
     }
 
@@ -326,7 +325,40 @@ const InteractiveContests = (props) => {
               prizes: item?.PrizePayouts,
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
-              currency: item?.currency
+              currency: item?.currency,
+            },
+          });
+
+        case "NFL":
+          return redirectTo(props, {
+            path: `/nfl-powerdfs`,
+            state: {
+              game_id: item?.game_id,
+              sport_id: item?.sports_id,
+              start_date: item?.start_date,
+              end_date: item?.end_date,
+              start_time: item?.start_time,
+              outOf: item?.target,
+              enrolledUsers: item?.enrolled_users,
+              prizePool: _.reduce(
+                item?.PrizePayouts,
+                function (memo, num) {
+                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                },
+                0
+              ),
+              topPrize: parseFloat(
+                _.max(item?.PrizePayouts, function (ele) {
+                  return ele.amount;
+                }).amount
+              ),
+              game_set_start: item?.game_set_start,
+              PointsSystem: item?.PointsSystems,
+              Power: item?.Powers,
+              prizes: item?.PrizePayouts,
+              paid_game: item?.is_game_paid,
+              entry_fee: item?.entry_fee,
+              currency: item?.currency,
             },
           });
         default:
@@ -400,16 +432,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -420,16 +452,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.target) > parseFloat(b.target)
             ? -1
             : parseFloat(b.target) > parseFloat(a.target)
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.target) > parseFloat(b.target)
             ? 1
             : parseFloat(b.target) > parseFloat(a.target)
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -440,16 +472,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -460,16 +492,16 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -611,9 +643,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                          powerCenterCardData.filter(
-                            (cardItem) => cardItem.league === item.title
-                          );
+                            powerCenterCardData.filter(
+                              (cardItem) => cardItem.league === item.title
+                            );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -742,11 +774,12 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${selectedCurrencies?.includes(
-                          item.value
-                        ) &&
-                          classes.__currency_menu_selected
-                          }`}
+                                                ${
+                                                  selectedCurrencies?.includes(
+                                                    item.value
+                                                  ) &&
+                                                  classes.__currency_menu_selected
+                                                }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array

@@ -8,19 +8,28 @@ import Header from "../../components/Header/Header";
 import SignInImage from "../../assets/signin-background.png";
 import Input, { PasswordInput } from "../../ui/Input/Input";
 import { CONSTANTS } from "../../utility/constants";
-import { authenticate } from "../../actions/authActions";
+import {
+  authenticate,
+  disableAuthLoading,
+  showAuthLoading,
+} from "../../actions/authActions";
 import Alert from "../../components/Alert";
 import { isEmpty } from "lodash";
 import { getLocalStorage, redirectTo } from "../../utility/shared";
 import formStyles from "../../scss/formstyles.module.scss";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
+import ErrorIcon from "../../icons/ErrorIcon";
 
 function LoginPage(props) {
   const [user, setUser] = useState({ email: "", password: "" });
   const [isSignedUp, setSignedUp] = useState();
+  const [isIncorrectPassword, setIsIncorrectPassword] = useState(false);
+  const [loading, setLoadingState] = useState(false);
+
+  let iis = false;
 
   const dispatch = useDispatch();
-  const { loading = false, user: authUser = {} } = useSelector(
+  const { /*loading = false,*/ user: authUser = {} } = useSelector(
     (state) => state.auth
   );
   const { token = "", status: loggedIn = false, message = "" } = authUser || {};
@@ -45,8 +54,21 @@ function LoginPage(props) {
       return;
     }
 
-    dispatch(authenticate(user));
+    // dispatch(showAuthLoading());
+
+    setLoadingState(true);
+    const res = await dispatch(authenticate(user));
+
+    if (res && `${res.message}`.match(/Password Invalid/g)) {
+      setIsIncorrectPassword(true);
+    }
+    setLoadingState(false);
+    // dispatch(disableAuthLoading());
   };
+
+  useEffect(() => {
+    console.log("isIncorrectPassword: ", isIncorrectPassword);
+  }, [isIncorrectPassword]);
 
   const redirect = () => {
     if (
@@ -115,6 +137,15 @@ function LoginPage(props) {
             title="Password"
             required
             value={user.password}
+            extraclass={styles.extra}
+            extra={
+              isIncorrectPassword && (
+                <div className={styles.extra_text}>
+                  Incorrect <ErrorIcon />
+                </div>
+              )
+            }
+            className={isIncorrectPassword ? styles.password_err : {}}
             onChange={(e) => setUser({ ...user, password: e?.target?.value })}
           />
           <button
