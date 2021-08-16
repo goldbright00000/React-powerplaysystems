@@ -147,11 +147,11 @@ const App = (props) => {
           <ProtectedRoute path="/my-account" component={AccountPage} />
           <Route exact path="/elite8" component={Elite8} />
           <Route exact path="/elite8-draw" component={Elite8Draw} />
-          <Route path="/mlb-powerdfs" component={MLBPowerdFs} />
-          <Route path="/nfl-powerdfs" component={NFLPowerdFs} />
+          <Route path="/mlb-select-team" component={MLBPowerdFs} />
+          <Route path="/nfl-select-team" component={NFLPowerdFs} />
           <Route path="/nfl-live-powerdfs" component={NFLPowerdFsLive} />
-          <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
-          <Route path="/nba-powerdfs" component={NBAPowerdFs} />
+          <Route path="/nhl-select-team" component={NHLPowerdFs} />
+          <Route path="/nba-select-team" component={NBAPowerdFs} />
           <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
           <Route path="/contact-us" component={ContactUSPage} />
           <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
