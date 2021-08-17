@@ -96,6 +96,7 @@ function MLBPowerdFsLive(props) {
   const [pointBooster3x, setPointBooster3xCounts] = useState(0);
   const [retroBoostCounts, setRetroBoostCounts] = useState(0);
   const [powerUpCounts, setPowerUpCounts] = useState(0);
+  const [showGameLogs, setGameLogsPageState] = useState(false);
   const history = useHistory();
   // const { gameId, userId, teamId, sportId } = history.location.state || {};
 
@@ -398,6 +399,7 @@ function MLBPowerdFsLive(props) {
           new Date(a?.play?.created_at).getTime() -
           new Date(b?.play?.created_at).getTime()
       );
+
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
