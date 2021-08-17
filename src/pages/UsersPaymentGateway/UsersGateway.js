@@ -27,7 +27,9 @@ const UsersGateway = (props) => {
   }, []);
 
   useEffect(() => {
+    console.log('_socket --> ', _socket);
     _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, () => {
+      console.log('payment sucess');
       redirectTo(
         { history },
         {
