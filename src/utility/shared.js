@@ -330,3 +330,7 @@ export const removeZeroBeforeDecimalPoint = (value = 0) => {
 
   return "";
 };
+
+export const getTimeZone = () => {
+  return moment?.tz(moment?.tz?.guess())?.zoneAbbr();
+}
