@@ -20,7 +20,6 @@ const UsersGateway = (props) => {
 
   useEffect(() => {
     _socket = socket();
-
     return function cleanUp() {
       _socket = null;
     };
