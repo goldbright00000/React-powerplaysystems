@@ -15,6 +15,8 @@ import OrangePowerCurrency from '../../assets/power-orange.png';
 import OrangeBtcCurrency from '../../assets/btc-orange.png';
 import OrangeEthCurrency from '../../assets/ethereum-orange.png';
 
+import { getTimeZone } from '../../utility/shared';
+
 const PowerCenterCard = (props) => {
     const {
         id = null,

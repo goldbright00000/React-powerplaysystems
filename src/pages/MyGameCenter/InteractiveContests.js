@@ -215,6 +215,15 @@ const InteractiveContests = (props) => {
     }
   };
 
+  const getLocalDateTime = (date, time) => {
+    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const splitted = localDateTime.split("=");
+    return {
+      date: splitted[0],
+      time: splitted[1]
+    }
+  }
+
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div
@@ -235,8 +244,10 @@ const InteractiveContests = (props) => {
           total={item?.game?.target}
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
-          game_set_start={item?.game?.game_set_start}
-          start_time={item?.game?.start_time}
+
+          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
+          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
+
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
