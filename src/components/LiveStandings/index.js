@@ -89,7 +89,9 @@ function LiveStandings(props) {
       <span>{title}</span>
       <span>${setNumberComma(winings)}</span>
       <span>
-        <button className={classes.button_btn}>View Team</button>
+        {active == false && 
+            <button className={classes.button_btn}>View Team</button>
+        }
       </span>
     </div>
   );
@@ -99,7 +101,7 @@ function LiveStandings(props) {
       <div className={classes.container}>
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
-          <div>
+          <div className={classes.topHeadingLeft}>
             <p className={classes.header_p}>Live Standings</p>
             <span>Oct 24, 2020 | 8:00PM ET</span>
           </div>
@@ -135,6 +137,7 @@ function LiveStandings(props) {
                     title={item?.title}
                     winings={item.winnings}
                     key={item?.id + "-"}
+                    active={ind == 0 ? true : false}
                   />
                 ))}
             </div>

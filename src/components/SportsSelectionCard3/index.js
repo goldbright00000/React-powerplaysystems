@@ -56,6 +56,22 @@ function SportsSelectionCard3(props) {
     is_star_player = false
   } = player || {};
 
+  const checkIfIsStarPlayer = () => {
+    if(type == "p" || type == "P") {
+      if(player?.playerStats?.earned_runs_average < 3.50)
+      {
+        return true;
+      }
+    }
+    else {
+      if(player?.playerStats?.batting_average > 0.290 || player?.playerStats?.home_runs > 30)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const nextStep = () => {
     let _currentStep = currentStep;
     if (currentStep !== 2) {
@@ -94,11 +110,11 @@ function SportsSelectionCard3(props) {
 
   return (
     <div
-      className={`${classes.container_body_card} ${is_star_player ? classes.container_body_card_start_power_background : ``
+      className={`${classes.container_body_card} ${checkIfIsStarPlayer() ? classes.container_body_card_start_power_background : ``
         } ${isSelected ? classes.activeBorder : ""
         }`}
     >
-      {is_star_player && (
+      {checkIfIsStarPlayer() && (
         <span className={classes.container_body_card_start_power}>
           <StarIcon solidcolor="#000" /> <p>Star Power</p>
         </span>

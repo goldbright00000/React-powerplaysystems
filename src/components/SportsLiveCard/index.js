@@ -385,8 +385,24 @@ function SportsLiveCard(props) {
     return null;
   };
 
+  const checkIfIsStarPlayer = () => {
+    if(type == "p" || type == "P") {
+      if(earned_runs_average < 3.50)
+      {
+        return true;
+      }
+    }
+    else {
+      if(batting_average > 0.290 || home_runs > 30)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const RenderStarPower = ({}) =>
-    isStarPlayer && (
+    checkIfIsStarPlayer() && (
       <img
         className={`${classes.star_power} ${singleView && classes.mini_star}`}
         src={singleView ? MiniStar : StarPower}
