@@ -7,6 +7,8 @@ const PowerPickCard = props => {
     const { styles = {} } = props
     return (
         <div className={`${classes.card_wrapper} ${props?.shadow && classes.card_shadow} ${props?.className}`} style={styles}>
+            {props.ranks ? (<div className={classes.myScoreDiv}>My Score: <span>{props.ranks.score}</span></div>) : ("") 
+            }
             {props?.children}
         </div>
     )

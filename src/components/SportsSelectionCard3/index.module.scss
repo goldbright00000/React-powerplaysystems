@@ -28,6 +28,9 @@
 
   &.activeBorder {
     border: 1px solid $primary;
+    .teamA {
+      color: $primary;
+    }
   }
 
   .container_body_card_header {
@@ -159,6 +162,7 @@
 
     .teamA {
       font-size: var(--font-size-14);
+      color: #688fbd;
     }
 
     .teamB {

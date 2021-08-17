@@ -859,7 +859,8 @@ function MLBPowerdFsLive(props) {
                     state={history.location.state}
                     {...props}
                   />
-                  <Card>{RenderView()}</Card>
+                  
+                  <Card ranks={ranks}>{RenderView()}</Card>
                   <div className={classes.left_side_footer}>
                     <img src={FooterImage} alt="" />
                   </div>
