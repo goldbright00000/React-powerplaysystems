@@ -353,6 +353,11 @@ function NHLLivePowerdFsScroeDetail(props) {
                     const rbiData = getRBI(runners);
                     const rsData = getRS(runners);
 
+                    const rbi = rbiData.rbi || 0;
+                    const rbiPts = rbi === 1 ? 2 : 0;
+                    const rs = rsData?.rs || 0;
+                    const rsPts = rs === 1 ? 2 : 0;
+
                     return (
                       <Row
                         position={type}
@@ -369,12 +374,12 @@ function NHLLivePowerdFsScroeDetail(props) {
                         score={fantasy_points_occured}
                         runningTotal={fantasy_points_after}
                         runs={{
-                          rs: rsData.rs || 0,
-                          pts: 0,
+                          rs: rs,
+                          pts: rsPts,
                         }}
                         rbi={{
-                          rbi: rbiData?.rbi || 0,
-                          pts: 0,
+                          rbi: rbi,
+                          pts: rbiPts,
                         }}
                         isHit={false}
                         activePower={active_powerplay}
