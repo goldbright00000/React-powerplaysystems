@@ -48,15 +48,15 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(!showModal);
   };
 
-  const getPoints = (id) => {
+  const getPoints = (id, isPitcher = false) => {
     if (
       id === "aD" ||
       id === "aDAD3" ||
       id === "ADAD3" ||
       id === "aDAD4" ||
       id === "ADAD4" ||
-      id === "oDT3" ||
-      id === "oDT4"
+      (id === "oDT3" && !isPitcher) ||
+      (id === "oDT4" && !isPitcher)
     )
       return 5;
 
@@ -430,7 +430,10 @@ function NHLLivePowerdFsScroeDetail(props) {
                     const rs = rsData?.rs || 0;
                     const rsPts = rs === 1 ? 2 : 0;
 
-                    const playPts = getPoints(outcome_id);
+                    const playPts = getPoints(
+                      outcome_id,
+                      pitcher_id === player_id
+                    );
 
                     return (
                       <Row
