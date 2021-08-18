@@ -282,6 +282,17 @@ const InteractiveContests = (props) => {
         if (tokenBalance >= entry_fee) return true;
         else return false;
 
+      case "NFL":
+        return redirectTo(props, {
+          path: `/nfl-powerdfs`,
+          state: {
+            game_id: item?.game_id,
+            sport_id: item?.sports_id,
+            start_date: item?.start_date,
+            end_date: item?.end_date,
+          },
+        });
+
       default:
         return redirectTo(props, { path: "/" });
     }

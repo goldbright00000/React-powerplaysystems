@@ -29,7 +29,8 @@ export const URLS = {
     DEDUCT_USER_BALANCE: "admin/deduct-user-balance",
     SAVE_PRIZE_POOL: "admin/save-prize-pool",
     GET_USERS_POWERS: "/dfs/get-user-power",
-    UPDATE_USERS_POWERS: "/dfs/update-user-power"
+    UPDATE_USERS_POWERS: "/dfs/update-user-power",
+    NFL: "/dfs/nfl-selection",
   },
   GAMES: {
     ALL_POWER_GAMES: "admin/games",
