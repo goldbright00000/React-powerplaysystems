@@ -275,7 +275,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -288,7 +288,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -301,7 +301,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -531,7 +531,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -890,6 +890,8 @@ function MLBPowerdFsLive(props) {
                       ranks={ranks}
                       currentWin={100000}
                       onClickStandings={onClickStandings}
+                      game_id={selectedTeam.game_id}
+                      prizePool={prizePool}
                       {...props}
                     />
 

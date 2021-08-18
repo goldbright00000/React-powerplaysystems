@@ -1,24 +1,54 @@
 import React, { useCallback, useState } from "react";
 import PropTypes from "prop-types";
-
+import *  as MLBActions from "../../actions/MLBActions";
 import classes from "./index.module.scss";
+
 import SidebarBtnIcon from "../../assets/nhl-sidebar-icon.png";
 import RankIcon from "../../icons/Ranks/RankIcon";
 import { redirectTo, setNumberComma } from "../../utility/shared";
+import { useDispatch } from "react-redux";
 import LiveStandings from "../LiveStandings";
 
 function RankCard(props) {
   const [showModal, setModalState] = useState(false);
+  const [liveStandingData, setLiveStandingData] = useState([]);
+  const dispatch = useDispatch();
   const { showButton = true, ranks = {}, onClickStandings = () => {} } =
     props || {};
 
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
 
-  const toggleLiveStandingModal = () => {
+  const toggleLiveStandingModal = async () => {
     onClickStandings();
-
-    setModalState(!showModal);
+    if(!showModal)
+    {
+      let liveStandingsData = await dispatch(MLBActions.getLiveStandings(props?.game_id));
+      console.log("liveStandingsData", liveStandingsData);
+      if(typeof liveStandingsData !== "undefined")
+      {
+        if(liveStandingsData.payload.error == false)
+        {
+          if(
+            JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
+          ) {
+            setLiveStandingData(liveStandingsData.payload.data);
+          }
+          setModalState(!showModal);
+        }
+        else {
+          alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+        }
+      }
+      else {
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+      }
+    }
+    
   };
+
+  const closeModal = () => {
+    setModalState(false);
+  }
 
   return (
     <div className={classes.sidebar_header}>
@@ -75,7 +105,7 @@ function RankCard(props) {
         </button>
       )}
 
-      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
+      <LiveStandings visible={showModal} onClose={closeModal} liveStandingData={liveStandingData} prizePool={props.prizePool}/>
     </div>
   );
 }

@@ -225,6 +225,7 @@ const InteractiveContests = (props) => {
   }
 
   const myGameCenterCard = (item, redirectUri) => {
+    console.log("before going in card", item);
     return (
       <div
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}

@@ -476,3 +476,20 @@ export function setSelectedTeam(payload) {
     });
   };
 }
+
+export function getLiveStandings(game_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_LIVE_STANDINGS}?game_id=${game_id}`
+      );
+      console.log("responseresponse", response);
+      return dispatch({
+        type: "mlbLiveStandings",
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
