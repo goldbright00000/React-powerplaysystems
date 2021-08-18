@@ -49,28 +49,100 @@ function NHLLivePowerdFsScroeDetail(props) {
   };
 
   const getPoints = (id) => {
-    switch (id) {
-      case "aD" || "aDAD3" || "ADAD3" || "aDAD4" || "ADAD4" || "oDT3" || "oDT4":
-        return 5;
+    if (
+      id === "aD" ||
+      id === "aDAD3" ||
+      id === "ADAD3" ||
+      id === "aDAD4" ||
+      id === "ADAD4" ||
+      id === "oDT3" ||
+      id === "oDT4"
+    )
+      return 5;
 
-      case "aHR":
-        return 10;
+    if (id === "aHR") return 10;
 
-      case "aIBB":
-        return 1;
+    if (
+      id === "oGO" ||
+      id === "oFO" ||
+      id === "aIBB" ||
+      id === "aFCAD2" ||
+      id === "aFCAD3" ||
+      id === "aFCAD4" ||
+      id === "aSBAD1" ||
+      id === "aSBAD2" ||
+      id === "aSBAD3" ||
+      id === "aSBAD4" ||
+      id === "aSFAD1" ||
+      id === "aSFAD2" ||
+      id === "aSFAD3" ||
+      id === "aSFAD4" ||
+      id === "bPO" ||
+      id === "oDT3" ||
+      id === "oDT4" ||
+      id === "oFC" ||
+      id === "oFC2" ||
+      id === "oFC3" ||
+      id === "oFC4" ||
+      id === "oKLT1" ||
+      id === "oKLT2" ||
+      id === "oKLT3" ||
+      id === "oKST1" ||
+      id === "oKST2" ||
+      id === "oKST3" ||
+      id === "oLO" ||
+      id === "oOP" ||
+      id === "oPO" ||
+      id === "oROET2" ||
+      id === "oROET3" ||
+      id === "oROET4" ||
+      id === "oSB" ||
+      id === "oSBT2" ||
+      id === "oSBT3" ||
+      id === "oSBT4" ||
+      id === "oSF" ||
+      id === "oSFT2" ||
+      id === "oSFT3" ||
+      id === "oSFT4" ||
+      id === "oST2" ||
+      id === "oST3" ||
+      id === "oST4" ||
+      id === "oTT4" ||
+      id === "PO" ||
+      id === "POCS2" ||
+      id === "POCS3" ||
+      id === "POCS4" ||
+      id === "TO2" ||
+      id === "TO3" ||
+      id === "TO4" ||
+      id === "FO1" ||
+      id === "FO2" ||
+      id === "FO3" ||
+      id === "FO4" ||
+      id === "CS2" ||
+      id === "CS3" ||
+      id === "CS4" ||
+      id === "RI"
+    )
+      return 1;
 
-      case "aS" || "aSAD2" || "aSAD3" || "aSAD4" || "oST2" || "oST3" || "oST4":
-        return 3;
+    if (
+      id === "aS" ||
+      id === "aSAD2" ||
+      id === "aSAD3" ||
+      id === "aSAD4" ||
+      id === "oST2" ||
+      id === "oST3" ||
+      id === "oST4"
+    )
+      return 3;
 
-      case "aSFAD4" || "aSBAD4":
-        return 2;
+    if (id === "aSFAD4" || id === "aSBAD4" || id === "oKLT4" || id === "oKST4")
+      return 2;
 
-      case "aT" || "aTAD4" || "oTT4":
-        return 8;
+    if (id === "aT" || id === "aTAD4" || id === "oTT4") return 8;
 
-      default:
-        return 0;
-    }
+    return 0;
   };
 
   const getRBI = (runners = []) => {
@@ -358,6 +430,8 @@ function NHLLivePowerdFsScroeDetail(props) {
                     const rs = rsData?.rs || 0;
                     const rsPts = rs === 1 ? 2 : 0;
 
+                    const playPts = getPoints(outcome_id);
+
                     return (
                       <Row
                         position={type}
@@ -368,7 +442,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                             : `Bot ${inning_number}`
                         }
                         plays={outcome_id}
-                        pts={getPoints(outcome_id)}
+                        pts={playPts}
                         totalPts="8"
                         powers="1.5"
                         score={fantasy_points_occured}
