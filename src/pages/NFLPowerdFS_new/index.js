@@ -8,13 +8,13 @@ import { useHistory } from "react-router-dom";
 import dateFormat from "dateformat";
 import _ from "underscore";
 
-import * as MLBActions from "../../actions/MLBActions";
+import * as NFLActions from "../../actions/NFLActions";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
-import BaseballImage from "../../assets/baseball.jpg";
-import BaseballImageMobile from "../../assets/baseball-player-select-mobile1.png";
+import NFLHeaderImage from "../../assets/nfl-header-background.png";
+import NFLHeaderImageMobile from "../../assets/nfl-header-background.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -275,9 +275,9 @@ function MLBPowerdFs(props) {
     isEdit = false,
     allData = [],
     savedPlayers = [],
-  } = useSelector((state) => state.mlb);
+  } = useSelector((state) => state.nfl);
 
-  const selector_team_id = useSelector((state) => state?.mlb?.team_id);
+  const selector_team_id = useSelector((state) => state?.nfl?.team_id);
 
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
@@ -305,7 +305,7 @@ function MLBPowerdFs(props) {
 
   //reset the states
   useEffect(() => {
-    dispatch(MLBActions.setStarPlayerCount(0));
+    dispatch(NFLActions.setStarPlayerCount(0));
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
     setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
@@ -327,7 +327,7 @@ function MLBPowerdFs(props) {
     return function cleanUp() {
       starPowerIndex = 0;
       selectedPlayerCount = 0;
-      dispatch(MLBActions.setEditPlayers({ data: [], isEdit: false }));
+      dispatch(NFLActions.setEditPlayers({ data: [], isEdit: false }));
     };
   }, []);
 
@@ -338,8 +338,10 @@ function MLBPowerdFs(props) {
   const getData = async () => {
     setLoading(true);
     const response = await dispatch(
-      MLBActions.mlbData(history.location?.state?.game_id)
+      NFLActions.nflData(history.location?.state?.game_id)
     );
+
+    console.log(response);
 
     if (response) {
       setData(response?.filterdList);
@@ -400,7 +402,7 @@ function MLBPowerdFs(props) {
         );
         _selected = res.selected;
         _playerList = [...res._playersList];
-        dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+        dispatch(NFLActions.setStarPlayerCount(res._starPlayerCount));
         activateFilter(
           res.currentPlayer,
           res.currentPlayer?.type?.toLocaleLowerCase()
@@ -420,7 +422,7 @@ function MLBPowerdFs(props) {
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
 
-      dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+      dispatch(NFLActions.setStarPlayerCount(res._starPlayerCount));
       setSelected(res.selected);
       setSidebarList(res._playersList);
       activateFilter(
@@ -743,16 +745,16 @@ function MLBPowerdFs(props) {
       };
 
       if (isEdit) {
-        await dispatch(MLBActions.editDfsTeamPlayer(payload));
+        await dispatch(NFLActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
-        await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
+        await dispatch(NFLActions.saveAndGetSelectPlayers(payload));
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
-            dispatch(MLBActions.calculateAdminFee(user_id, game_id));
+            dispatch(NFLActions.calculateAdminFee(user_id, game_id));
           }
-          dispatch(MLBActions.deductUserBalance(user_id, game_id));
-          dispatch(MLBActions.savePrizePool(user_id, game_id));
+          dispatch(NFLActions.deductUserBalance(user_id, game_id));
+          dispatch(NFLActions.savePrizePool(user_id, game_id));
         }
         setIsLoading(false);
       }
@@ -971,7 +973,7 @@ function MLBPowerdFs(props) {
           }
           contestBtnTitle="Contest Rules"
           prizeBtnTitle="Prize Grid"
-          bgImageUri={isMobile ? BaseballImageMobile : BaseballImage}
+          bgImageUri={isMobile ? NFLHeaderImageMobile : NFLHeaderImage}
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
           isMobile={isMobile}
@@ -1062,7 +1064,6 @@ function MLBPowerdFs(props) {
                                     item.isStarPlayer &&
                                     starPowerIndex >= 3
                                   }
-                                  mlbCard
                                 />
                               )
                             ) : (
@@ -1082,7 +1083,7 @@ function MLBPowerdFs(props) {
                                       }
                                       loading={loading}
                                       onSelectDeselect={onPlayerSelectDeselect}
-                                      pageType={PAGE_TYPES.MLB}
+                                      pageType={PAGE_TYPES.NFL}
                                       type={selectedData?.type}
                                       // disabled={
                                       //   item.isStarPlayer &&

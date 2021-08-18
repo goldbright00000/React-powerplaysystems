@@ -31,7 +31,7 @@ const powerCenterCardData1 = [
     outOf: "60,589",
     total: "200,000",
     percent: "29",
-    url: "/mlb-powerdfs",
+    url: "/mlb-select-team",
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const powerCenterCardData1 = [
     outOf: "58,589",
     total: "200,000",
     percent: "29",
-    url: "/nfl-powerdfs",
+    url: "/nfl-select-team",
   },
   {
     id: 3,
@@ -49,7 +49,7 @@ const powerCenterCardData1 = [
     outOf: "58,589",
     total: "200,000",
     percent: "29",
-    url: "/nba-powerdfs",
+    url: "/nba-select-team",
   },
   {
     id: 4,
@@ -58,7 +58,7 @@ const powerCenterCardData1 = [
     outOf: "58,589",
     total: "200,000",
     percent: "29",
-    url: "/nhl-powerdfs",
+    url: "/nhl-select-team",
   },
   {
     id: 5,
@@ -67,7 +67,7 @@ const powerCenterCardData1 = [
     outOf: "58,589",
     total: "200,000",
     percent: "29",
-    url: "/nfl-powerdfs",
+    url: "/nfl-select-team",
   },
   {
     id: 6,
@@ -282,6 +282,17 @@ const InteractiveContests = (props) => {
         if (tokenBalance >= entry_fee) return true;
         else return false;
 
+      case "NFL":
+        return redirectTo(props, {
+          path: `/nfl-powerdfs`,
+          state: {
+            game_id: item?.game_id,
+            sport_id: item?.sports_id,
+            start_date: item?.start_date,
+            end_date: item?.end_date,
+          },
+        });
+
       default:
         return redirectTo(props, { path: "/" });
     }
@@ -298,7 +309,7 @@ const InteractiveContests = (props) => {
       switch (item?.league) {
         case "MLB":
           return redirectTo(props, {
-            path: `/mlb-powerdfs`,
+            path: `/mlb-select-team`,
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
@@ -331,7 +342,7 @@ const InteractiveContests = (props) => {
 
         case "NFL":
           return redirectTo(props, {
-            path: `/nfl-powerdfs`,
+            path: `/nfl-select-team`,
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,

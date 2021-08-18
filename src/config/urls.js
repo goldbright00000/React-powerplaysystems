@@ -30,7 +30,8 @@ export const URLS = {
     SAVE_PRIZE_POOL: "admin/save-prize-pool",
     GET_USERS_POWERS: "/dfs/get-user-power",
     UPDATE_USERS_POWERS: "/dfs/update-user-power",
-    GET_LIVE_STANDINGS: "/dfs/mlb-livestandings"
+    NFL: "/dfs/nfl-selection",
+    GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
   },
   GAMES: {
     ALL_POWER_GAMES: "admin/games",

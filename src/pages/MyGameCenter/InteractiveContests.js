@@ -29,7 +29,7 @@ const myGameCenterCardData1 = [
     outOf: "58,589",
     total: "200,000",
     percent: "29",
-    url: "/mlb-powerdfs",
+    url: "/mlb-select-team",
     inProgress: true,
     completed: false,
     teamManager: true,
@@ -50,7 +50,7 @@ const myGameCenterCardData1 = [
     editPicks: false,
     makePicks: true,
     timeToStart: "",
-    url: "/nfl-powerdfs",
+    url: "/nfl-select-team",
   },
 ];
 
@@ -168,7 +168,7 @@ const InteractiveContests = (props) => {
         );
 
         return redirectTo(props, {
-          path: `/mlb-powerdfs`,
+          path: `/mlb-select-team`,
           state: {
             // game_id: item?.game_id,
             // game_details: item?.game,
@@ -317,10 +317,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -454,8 +454,8 @@ const InteractiveContests = (props) => {
                       moment().format("YYYY-MM-DD hh:mm A")
                     ).isBetween(
                       power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
+                        " " +
+                        power?.game?.start_time,
                       power?.game?.game_set_end + " 11:59 PM"
                     );
                   } else if (contentType === "Completed") {
@@ -474,8 +474,8 @@ const InteractiveContests = (props) => {
                       moment().format("YYYY-MM-DD hh:mm A")
                     ).isBetween(
                       power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
+                        " " +
+                        power?.game?.start_time,
                       power?.game?.game_set_end + " 11:59 PM"
                     );
                     var a2 = power?.game?.status === "Activated";
