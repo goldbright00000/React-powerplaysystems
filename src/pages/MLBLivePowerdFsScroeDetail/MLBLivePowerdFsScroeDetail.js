@@ -74,27 +74,50 @@ function NHLLivePowerdFsScroeDetail(props) {
   };
 
   const getRBI = (runners = []) => {
-    let rbi = 0;
+    let rbi;
     for (let i = 0; i < runners?.length; i++) {
       if (
         runners[i]?.outcome_id === "ERN" ||
         runners[i]?.outcome_id === "URN" ||
         runners[i]?.outcome_id === "ERNu"
       ) {
-        const [player] = gameLogs?.filter(
-          (p) => p?.effected_player?.player_id === runners[i]?.player_id
-        );
+        const [player] = gameLogs?.filter((p) => {
+          return p?.effected_player?.player_id === runners[i]?.player_id;
+        });
 
         if (player) {
-          rbi = 1;
+          return { rbi: 1 };
         } else {
-          rbi = 0;
+          console.log(player);
+          return { rbi: 0 };
         }
       }
     }
 
     return {
       rbi,
+    };
+  };
+
+  const getRS = (runners = []) => {
+    let rs;
+    for (let i = 0; i < runners?.length; i++) {
+      if (runners[i]?.outcome_id === "aHR") {
+        const [player] = gameLogs?.filter((p) => {
+          return p?.effected_player?.player_id === runners[i]?.player_id;
+        });
+
+        if (player) {
+          return { rs: 1 };
+        } else {
+          console.log(player);
+          return { rs: 0 };
+        }
+      }
+    }
+
+    return {
+      rs,
     };
   };
 
@@ -327,7 +350,8 @@ function NHLLivePowerdFsScroeDetail(props) {
                       return <></>;
                     }
 
-                    const { rbi = 0 } = getRBI(runners);
+                    const rbiData = getRBI(runners);
+                    const rsData = getRS(runners);
 
                     return (
                       <Row
@@ -345,11 +369,11 @@ function NHLLivePowerdFsScroeDetail(props) {
                         score={fantasy_points_occured}
                         runningTotal={fantasy_points_after}
                         runs={{
-                          rs: 0,
+                          rs: rsData.rs || 0,
                           pts: 0,
                         }}
                         rbi={{
-                          rbi: rbi,
+                          rbi: rbiData?.rbi || 0,
                           pts: 0,
                         }}
                         isHit={false}
