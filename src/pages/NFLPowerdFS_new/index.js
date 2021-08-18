@@ -1083,7 +1083,7 @@ function MLBPowerdFs(props) {
                                       }
                                       loading={loading}
                                       onSelectDeselect={onPlayerSelectDeselect}
-                                      pageType={PAGE_TYPES.MLB}
+                                      pageType={PAGE_TYPES.NFL}
                                       type={selectedData?.type}
                                       // disabled={
                                       //   item.isStarPlayer &&
