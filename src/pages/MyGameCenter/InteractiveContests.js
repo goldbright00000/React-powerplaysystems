@@ -155,9 +155,10 @@ const InteractiveContests = (props) => {
     setBalance(response.data);
   };
 
-  const onEdit = (item) => {
+  const onEdit = async (item) => {
     switch (item?.game?.league) {
       case "MLB":
+        await dispatch(MLbActions.setSelectedTeam(item));
         dispatch(
           MLbActions.getAndSetEditPlayers({
             game_id: item?.game_id,
@@ -169,7 +170,36 @@ const InteractiveContests = (props) => {
         return redirectTo(props, {
           path: `/mlb-select-team`,
           state: {
+            // game_id: item?.game_id,
+            // game_details: item?.game,
+            // Power: item?.game?.Powers
+
             game_id: item?.game_id,
+            sport_id: item?.game?.sports_id,
+            start_date: item?.game?.start_date,
+            end_date: item?.game?.end_date,
+            start_time: item?.game?.start_time,
+            outOf: item?.game?.target,
+            enrolledUsers: item?.game?.enrolled_users,
+            prizePool: _.reduce(
+              item?.game?.PrizePayouts,
+              function (memo, num) {
+                return memo + parseInt(num.amount) * parseInt(num.prize);
+              },
+              0
+            ),
+            topPrize: parseFloat(
+              _.max(item?.game?.PrizePayouts, function (ele) {
+                return ele.amount;
+              }).amount
+            ),
+            game_set_start: item?.game?.game_set_start,
+            PointsSystem: item?.game?.PointsSystems,
+            Power: item?.game?.Powers,
+            prizes: item?.game?.PrizePayouts,
+            paid_game: item?.game?.is_game_paid,
+            entry_fee: item?.game?.entry_fee,
+            currency: item?.game?.currency
           },
         });
     }
@@ -185,7 +215,17 @@ const InteractiveContests = (props) => {
     }
   };
 
+  const getLocalDateTime = (date, time) => {
+    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const splitted = localDateTime.split("=");
+    return {
+      date: splitted[0],
+      time: splitted[1]
+    }
+  }
+
   const myGameCenterCard = (item, redirectUri) => {
+    console.log("before going in card", item);
     return (
       <div
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
@@ -205,8 +245,10 @@ const InteractiveContests = (props) => {
           total={item?.game?.target}
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
-          game_set_start={item?.game?.game_set_start}
-          start_time={item?.game?.start_time}
+
+          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
+          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
+
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}

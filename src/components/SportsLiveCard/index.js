@@ -385,8 +385,24 @@ function SportsLiveCard(props) {
     return null;
   };
 
+  const checkIfIsStarPlayer = () => {
+    if(type == "p" || type == "P") {
+      if(earned_runs_average < 3.50)
+      {
+        return true;
+      }
+    }
+    else {
+      if(batting_average > 0.290 || home_runs > 30)
+      {
+        return true;
+      }
+    }
+    return false;
+  }
+
   const RenderStarPower = ({}) =>
-    isStarPlayer && (
+    checkIfIsStarPlayer() && (
       <img
         className={`${classes.star_power} ${singleView && classes.mini_star}`}
         src={singleView ? MiniStar : StarPower}
@@ -572,7 +588,13 @@ function SportsLiveCard(props) {
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {score}
           </p>
-          <RenderXpToolTip />
+          {(xp1 == 0 && xp2 == 0 && xp3 == 0) ? (
+            <div style={{opacity:0.5}}>
+              {renderXp()}
+            </div>
+          ) : (
+            <RenderXpToolTip />
+          )}
         </div>
       </div>
     </div>
@@ -670,55 +692,55 @@ function SportsLiveCard(props) {
 
   const RenderHeaderIcons = () => (
     <>
-      {isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
-        <Tooltip
-          disabled={getStatus() === "Game Over"}
-          toolTipContent={
-            <div className={classes.xp_icons}>
-              {isPowerAvailable("Swap") === 0 ? (
-                <div>Not Available</div>
-              ) : isPowerLocked("Swap") === 1 ? (
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    justifyContent: "space-evenly",
-                  }}
-                >
-                  <p>Share to unlock:</p>
-                  <div>
-                    <a
-                      href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                    >
-                      <button>
-                        <FacebookIcon />
-                      </button>
-                    </a>
-                    <a
-                      href={`https://twitter.com/intent/tweet?text=${text}`}
-                      target="_blank"
-                    >
-                      <button>
-                        <TwitterIcon />
-                      </button>
-                    </a>
-                  </div>
-                </div>
-              ) : (
-                ""
-              )}
+      {
+        //   isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
+        //   <Tooltip
+        //   toolTipContent={
+        //     <div className={classes.xp_icons}>
+        //       {isPowerAvailable("Swap") === 0 ? (
+        //         <div>Not Available</div>
+        //       ) : (
+        //         isPowerLocked("Swap") === 1 ? (
+        //           <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
+        //             <p>Share to unlock:</p>
+        //             <div>
+        //               <a
+        //                 href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
+        //               >
+        //                 <button>
+        //                   <FacebookIcon />
+        //                 </button>
+        //               </a>
+        //               <a
+        //                 href={`https://twitter.com/intent/tweet?text=${text}`}
+        //                 target="_blank"
+        //               >
+        //                 <button>
+        //                   <TwitterIcon />
+        //                 </button>
+        //               </a>
+        //             </div>
+        //           </div>
+        //         ) : (
+        //           ""
+        //         )
+        //       )}
+        //     </div>
+        //   }
+        // >
+        //   <Replace size={singleView ? 23 : 22} />
+        // </Tooltip>
+        // ) : (
+          props.swapCount == 0 ? (
+            <div style={{opacity:0.5}}>
+              <Replace size={singleView ? 23 : 22} />
             </div>
-          }
-        >
-          <Replace size={singleView ? 23 : 22} />
-        </Tooltip>
-      ) : (
-        <Replace
-          className={getStatus() === "Game Over" && classes.disabled}
-          size={singleView ? 23 : 22}
-          onClick={toggleReplaceModal}
-        />
-      )}
+          ) : (
+            <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+          )
+          
+        // )
+      }
     </>
   );
 

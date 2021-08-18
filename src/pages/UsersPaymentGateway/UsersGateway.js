@@ -20,14 +20,15 @@ const UsersGateway = (props) => {
 
   useEffect(() => {
     _socket = socket();
-
     return function cleanUp() {
       _socket = null;
     };
   }, []);
 
   useEffect(() => {
+    console.log('_socket --> ', _socket);
     _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, () => {
+      console.log('payment sucess');
       redirectTo(
         { history },
         {

@@ -313,9 +313,10 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: item?.start_date,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
               end_date: item?.end_date,
-              start_time: item?.start_time,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
               prizePool: _.reduce(
@@ -330,7 +331,6 @@ const InteractiveContests = (props) => {
                   return ele.amount;
                 }).amount
               ),
-              game_set_start: item?.game_set_start,
               PointsSystem: item?.PointsSystems,
               Power: item?.Powers,
               prizes: item?.PrizePayouts,
@@ -346,9 +346,10 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: item?.start_date,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
               end_date: item?.end_date,
-              start_time: item?.start_time,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
               prizePool: _.reduce(
@@ -363,7 +364,7 @@ const InteractiveContests = (props) => {
                   return ele.amount;
                 }).amount
               ),
-              game_set_start: item?.game_set_start,
+
               PointsSystem: item?.PointsSystems,
               Power: item?.Powers,
               prizes: item?.PrizePayouts,
@@ -443,16 +444,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -463,16 +464,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.target) > parseFloat(b.target)
             ? -1
             : parseFloat(b.target) > parseFloat(a.target)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.target) > parseFloat(b.target)
             ? 1
             : parseFloat(b.target) > parseFloat(a.target)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -483,16 +484,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -503,16 +504,16 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -555,6 +556,16 @@ const InteractiveContests = (props) => {
     }
     return newArr;
   }
+
+  const getLocalDateTime = (date, time) => {
+    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const splitted = localDateTime.split("=");
+    return {
+      date: splitted[0],
+      time: splitted[1]
+    }
+  }
+
   const powerCenterCard = (item, redirectUri) => {
     return (
       <div className={classes.__interactive_contests_power_center_card}>
@@ -573,8 +584,8 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_start={item?.game_set_start}
-          start_time={item?.start_time}
+          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
+          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
           entry_fee={item?.entry_fee}
@@ -616,8 +627,8 @@ const InteractiveContests = (props) => {
           game_type={item?.game_type}
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
-          game_set_start={item?.game_set_start}
-          start_time={item?.start_time}
+          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
+          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
@@ -654,9 +665,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -785,12 +796,11 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array

@@ -96,6 +96,7 @@ function MLBPowerdFsLive(props) {
   const [pointBooster3x, setPointBooster3xCounts] = useState(0);
   const [retroBoostCounts, setRetroBoostCounts] = useState(0);
   const [powerUpCounts, setPowerUpCounts] = useState(0);
+  const [showGameLogs, setGameLogsPageState] = useState(false);
   const history = useHistory();
   // const { gameId, userId, teamId, sportId } = history.location.state || {};
 
@@ -275,7 +276,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -288,7 +289,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -301,7 +302,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -398,6 +399,7 @@ function MLBPowerdFsLive(props) {
           new Date(a?.play?.created_at).getTime() -
           new Date(b?.play?.created_at).getTime()
       );
+
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
@@ -531,7 +533,7 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("Something went wrong. Please try after sometime.");
+        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
       }
     }
   }
@@ -859,7 +861,8 @@ function MLBPowerdFsLive(props) {
                     state={history.location.state}
                     {...props}
                   />
-                  <Card>{RenderView()}</Card>
+                  
+                  <Card ranks={ranks}>{RenderView()}</Card>
                   <div className={classes.left_side_footer}>
                     <img src={FooterImage} alt="" />
                   </div>
@@ -889,6 +892,8 @@ function MLBPowerdFsLive(props) {
                       ranks={ranks}
                       currentWin={100000}
                       onClickStandings={onClickStandings}
+                      game_id={selectedTeam.game_id}
+                      prizePool={prizePool}
                       {...props}
                     />
 

@@ -48,6 +48,79 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(!showModal);
   };
 
+  const getPoints = (id) => {
+    switch (id) {
+      case "aD" || "aDAD3" || "ADAD3" || "aDAD4" || "ADAD4" || "oDT3" || "oDT4":
+        return 5;
+
+      case "aHR":
+        return 10;
+
+      case "aIBB":
+        return 1;
+
+      case "aS" || "aSAD2" || "aSAD3" || "aSAD4" || "oST2" || "oST3" || "oST4":
+        return 3;
+
+      case "aSFAD4" || "aSBAD4":
+        return 2;
+
+      case "aT" || "aTAD4" || "oTT4":
+        return 8;
+
+      default:
+        return 0;
+    }
+  };
+
+  const getRBI = (runners = []) => {
+    let rbi;
+    for (let i = 0; i < runners?.length; i++) {
+      if (
+        runners[i]?.outcome_id === "ERN" ||
+        runners[i]?.outcome_id === "URN" ||
+        runners[i]?.outcome_id === "ERNu"
+      ) {
+        const [player] = gameLogs?.filter((p) => {
+          return p?.effected_player?.player_id === runners[i]?.player_id;
+        });
+
+        if (player) {
+          return { rbi: 1 };
+        } else {
+          console.log(player);
+          return { rbi: 0 };
+        }
+      }
+    }
+
+    return {
+      rbi,
+    };
+  };
+
+  const getRS = (runners = []) => {
+    let rs;
+    for (let i = 0; i < runners?.length; i++) {
+      if (runners[i]?.outcome_id === "aHR") {
+        const [player] = gameLogs?.filter((p) => {
+          return p?.effected_player?.player_id === runners[i]?.player_id;
+        });
+
+        if (player) {
+          return { rs: 1 };
+        } else {
+          console.log(player);
+          return { rs: 0 };
+        }
+      }
+    }
+
+    return {
+      rs,
+    };
+  };
+
   const RenderXP = (xp) => {
     switch (xp) {
       case "1.5":
@@ -177,9 +250,9 @@ function NHLLivePowerdFsScroeDetail(props) {
                   <span className={`${classes.child_3} ${classes.space}`}>
                     Time Stamp
                   </span>
-                  <span className={classes.child_3}>Innings</span>
+                  <span className={classes.child_3}>Inning</span>
                   <div className={classes.card_header_1}>
-                    <p>Scoring Plays</p>
+                    <p>Game Plays</p>
                     <div className={classes.card_combine_row}>
                       <span>Plays</span>
                       <span>Pts</span>
@@ -265,6 +338,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                       type: pType = "",
                       updated_at = "",
                       updated_at_feed = "",
+                      runners = [],
                     } = play || {};
 
                     if (
@@ -276,6 +350,9 @@ function NHLLivePowerdFsScroeDetail(props) {
                       return <></>;
                     }
 
+                    const rbiData = getRBI(runners);
+                    const rsData = getRS(runners);
+
                     return (
                       <Row
                         position={type}
@@ -286,17 +363,17 @@ function NHLLivePowerdFsScroeDetail(props) {
                             : `Bot ${inning_number}`
                         }
                         plays={outcome_id}
-                        pts={fantasy_points_occured_without_powerplay}
+                        pts={getPoints(outcome_id)}
                         totalPts="8"
                         powers="1.5"
                         score={fantasy_points_occured}
                         runningTotal={fantasy_points_after}
                         runs={{
-                          rs: 0,
+                          rs: rsData.rs || 0,
                           pts: 0,
                         }}
                         rbi={{
-                          rbi: 0,
+                          rbi: rbiData?.rbi || 0,
                           pts: 0,
                         }}
                         isHit={false}

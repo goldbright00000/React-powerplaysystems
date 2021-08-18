@@ -293,18 +293,34 @@ function SportsLiveCardTeamD(props) {
                 </button>
               </Tooltip>
             ) : (
-              <ChallengePopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    className={classes.team_d_icon_button}
-                  >
-                    <Challenge size={largeView ? 28 : 24} />
-                  </button>
-                )}
-                challenge={props.challenge}
-                useChallenge={props.useChallenge}
-              />
+              props.challenge == 0 ? (
+                <div style={{opacity:0.5}}>
+                  <ChallengePopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        className={classes.team_d_icon_button}
+                      >
+                        <Challenge size={largeView ? 28 : 24} />
+                      </button>
+                    )}
+                    challenge={props.challenge}
+                    useChallenge={props.useChallenge}
+                  />
+                </div>
+              ) : (
+                <ChallengePopUp
+                  component={({ showPopUp }) => (
+                    <button
+                      onClick={showPopUp}
+                      className={classes.team_d_icon_button}
+                    >
+                      <Challenge size={largeView ? 28 : 24} />
+                    </button>
+                  )}
+                  challenge={props.challenge}
+                  useChallenge={props.useChallenge}
+                />
+              )
             )}
 
             {isPowerAvailable("D-Wall") === 0 ||
@@ -414,18 +430,34 @@ function SportsLiveCardTeamD(props) {
                 </button>
               </Tooltip>
             ) : (
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    className={classes.team_d_icon_button}
-                  >
-                    <ShieldIcon size={largeView ? 28 : 24} />
-                  </button>
-                )}
-                dwall={props.dwall}
-                useDwall={props.useDwall}
-              />
+              props.dwall == 0 ? (
+                <div style={{opacity:0.5}}>
+                  <DwallPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        className={classes.team_d_icon_button}
+                      >
+                        <ShieldIcon size={largeView ? 28 : 24} />
+                      </button>
+                    )}
+                    dwall={props.dwall}
+                    useDwall={props.useDwall}
+                  />
+                </div>
+              ) : (
+                <DwallPopUp
+                  component={({ showPopUp }) => (
+                    <button
+                      onClick={showPopUp}
+                      className={classes.team_d_icon_button}
+                    >
+                      <ShieldIcon size={largeView ? 28 : 24} />
+                    </button>
+                  )}
+                  dwall={props.dwall}
+                  useDwall={props.useDwall}
+                />
+              )
             )}
           </>
         ) : (
@@ -455,33 +487,22 @@ function SportsLiveCardTeamD(props) {
                           Share to unlock:
                         </p>
                         <div>
-                          <a
-                            href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                          >
-                            <button
-                              style={{
-                                background: "none",
-                                borderWidth: 0,
-                                margin: "0px 10px",
-                              }}
-                            >
-                              <FacebookIcon />
-                            </button>
-                          </a>
-                          <a
-                            href={`https://twitter.com/intent/tweet?text=${text}`}
-                            target="_blank"
-                          >
-                            <button
-                              style={{
-                                background: "none",
-                                borderWidth: 0,
-                                margin: "0px 5px 10px 0px",
-                              }}
-                            >
-                              <TwitterIcon />
-                            </button>
-                          </a>
+                        <button onClick={() => {
+                                  var left = (window.screen.width / 2) - (600 / 2),
+                                  top = (window.screen.height / 2) - (600 / 2);
+                                window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                              }} style={{marginRight:10,marginBottom: 5}}>
+                                <FacebookIcon />
+                              </button>
+                            
+                            
+                              <button onClick={() => {
+                                var left = (window.screen.width / 2) - (600 / 2),
+                                top = (window.screen.height / 2) - (600 / 2);
+                                window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                              }}>
+                                <TwitterIcon />
+                              </button>
                         </div>
                       </div>
                     ) : isPowerLocked("Challenge") === 1 ? (
@@ -548,15 +569,29 @@ function SportsLiveCardTeamD(props) {
                 </button>
               </Tooltip>
             ) : (
-              <ChallengePopUp
-                component={({ showPopUp }) => (
-                  <button onClick={showPopUp}>
-                    <Challenge size={largeView ? 28 : 24} />
-                  </button>
-                )}
-                challenge={props.challenge}
-                useChallenge={props.useChallenge}
-              />
+              props.challenge == 0 ? (
+                <div style={{opacity:0.5}}>
+                  <ChallengePopUp
+                    component={({ showPopUp }) => (
+                      <button>
+                        <Challenge size={largeView ? 28 : 24} />
+                      </button>
+                    )}
+                    challenge={props.challenge}
+                    useChallenge={props.useChallenge}
+                  />
+                </div>
+              ) : (
+                <ChallengePopUp
+                  component={({ showPopUp }) => (
+                    <button onClick={showPopUp}>
+                      <Challenge size={largeView ? 28 : 24} />
+                    </button>
+                  )}
+                  challenge={props.challenge}
+                  useChallenge={props.useChallenge}
+                />
+              )
             )}
 
             {isPowerAvailable("D-Wall") === 0 ||
@@ -584,33 +619,22 @@ function SportsLiveCardTeamD(props) {
                           Share to unlock:
                         </p>
                         <div>
-                          <a
-                            href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-                          >
-                            <button
-                              style={{
-                                background: "none",
-                                borderWidth: 0,
-                                margin: "0px 10px",
-                              }}
-                            >
-                              <FacebookIcon />
-                            </button>
-                          </a>
-                          <a
-                            href={`https://twitter.com/intent/tweet?text=${text}`}
-                            target="_blank"
-                          >
-                            <button
-                              style={{
-                                background: "none",
-                                borderWidth: 0,
-                                margin: "0px 5px 10px 0px",
-                              }}
-                            >
-                              <TwitterIcon />
-                            </button>
-                          </a>
+                        <button onClick={() => {
+                                  var left = (window.screen.width / 2) - (600 / 2),
+                                  top = (window.screen.height / 2) - (600 / 2);
+                                window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                              }} style={{marginRight:10,marginBottom: 5}}>
+                                <FacebookIcon />
+                              </button>
+                            
+                            
+                              <button onClick={() => {
+                                var left = (window.screen.width / 2) - (600 / 2),
+                                top = (window.screen.height / 2) - (600 / 2);
+                                window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                              }}>
+                                <TwitterIcon />
+                              </button>
                         </div>
                       </div>
                     ) : isPowerLocked("D-Wall") === 1 ? (
@@ -677,15 +701,29 @@ function SportsLiveCardTeamD(props) {
                 </button>
               </Tooltip>
             ) : (
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button onClick={showPopUp}>
-                    <ShieldIcon size={largeView ? 28 : 24} />
-                  </button>
-                )}
-                dwall={props.dwall}
-                useDwall={props.useDwall}
-              />
+              props.dwall == 0 ? (
+                <div style={{opacity:0.5}}>
+                  <DwallPopUp
+                    component={({ showPopUp }) => (
+                      <button>
+                        <ShieldIcon size={largeView ? 28 : 24} />
+                      </button>
+                    )}
+                    dwall={props.dwall}
+                    useDwall={props.useDwall}
+                  />
+                </div>
+              ) : (
+                <DwallPopUp
+                  component={({ showPopUp }) => (
+                    <button onClick={showPopUp}>
+                      <ShieldIcon size={largeView ? 28 : 24} />
+                    </button>
+                  )}
+                  dwall={props.dwall}
+                  useDwall={props.useDwall}
+                />
+              )
             )}
           </>
         )}

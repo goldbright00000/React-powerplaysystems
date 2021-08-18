@@ -58,6 +58,7 @@
         }
         p {
           color: #688fbd;
+          font-weight: 500 !important;
         }
       }
 
@@ -109,7 +110,7 @@
           margin-left: 10px;
           opacity: 0.6;
           font-family: Poppins;
-          font-weight: 600;
+          font-weight: normal;
 
           &:hover {
             cursor: pointer;
@@ -196,6 +197,7 @@
               font-size: 14px;
               opacity: 0.6;
               color: $grey2;
+              font-weight: normal !important;
             }
 
             p {
@@ -979,7 +981,7 @@
   .container_body_card {
     padding: 14px 12px;
     width: 49% !important;
-    height: 200px;
+    //height: 200px;
 
     &.inset {
       padding-top: 17px;
@@ -1131,7 +1133,7 @@
   .container_body_card {
     padding: 14px 12px;
     width: 49% !important;
-    height: 200px;
+    //height: 200px;
 
     &.inset {
       padding-top: 17px;
@@ -1283,7 +1285,7 @@
   .container_body_card {
     padding: 14px 12px;
     width: 49% !important;
-    height: 200px;
+    //height: 200px;
 
     &.inset {
       padding-top: 17px;

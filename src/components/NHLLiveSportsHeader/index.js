@@ -71,7 +71,7 @@ function NHLLiveSportsHeader(props) {
               exact
               to={teamManagerLink || "/nhl-live-powerdfs"}
               activeClassName={classes.active}
-              onClick={() => alert("hello")}
+              // onClick={() => alert("hello")}
             >
               Team Manager
             </NavLink>

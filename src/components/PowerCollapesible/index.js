@@ -12,7 +12,8 @@ import PowerUpIcon from "../../icons/PowerUp";
 import LockIcon from "../../icons/Lock";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
-
+import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
+import { useHistory } from "react-router-dom";
 const getIcon = (powerName) => {
   if (powerName) {
     if (powerName.toLowerCase().match(/wall/g))
@@ -39,24 +40,34 @@ const getIcon = (powerName) => {
 }
 
 function PowerCollapesible(props) {
-  const [collapsed, setCollapseState] = useState(true);
 
-  const [swapCounts, setSwapCounts] = useState(0);
-  const [dwallCounts, setDwallCounts] = useState(0);
-  const [challengeCounts, setChallengeCounts] = useState(0);
-  const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
-  const [pointBooster15x, setPointBooster15xCounts] = useState(0);
-  const [pointBooster2x, setPointBooster2xCounts] = useState(0);
-  const [pointBooster3x, setPointBooster3xCounts] = useState(0);
-  const [retroBoostCounts, setRetroBoostCounts] = useState(0);
-  const [powerUpCounts, setPowerUpCounts] = useState(0);
+  
+  const [collapsed, setCollapseState] = useState(true);
+  const [learnMoreModal, setLearnMoreModal] = useState(false);
+  const history = useHistory();
+  const onCloseModal = () => setLearnMoreModal(false);
+
+  const {
+    Power = [] 
+  } = history?.location?.state || {};
+
+  console.log("PowerCollapesible", props, Power);
+  const [swapCountss, setSwapCountss] = useState(0);
+  const [dwallCountss, setDwallCountss] = useState(0);
+  const [challengeCountss, setChallengeCountss] = useState(0);
+  const [pointMultiplierCountss, setPointMultiplierCountss] = useState(0);
+  const [pointBooster15xs, setPointBooster15xCountss] = useState(0);
+  const [pointBooster2xs, setPointBooster2xCountss] = useState(0);
+  const [pointBooster3xs, setPointBooster3xCountss] = useState(0);
+  const [retroBoostCountss, setRetroBoostCountss] = useState(0);
+  const [powerUpCountss, setPowerUpCountss] = useState(0);
 
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
 
   const { styles = {}, powers = [] } = props || {};
 
   const setPowers = () => {
-    let remainingPowers = powers;
+    let remainingPowers = Power;
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
@@ -98,15 +109,15 @@ function PowerCollapesible(props) {
         power_up = remainingPowers[i].amount;
       }
     }
-    setChallengeCounts(challenge);
-    setSwapCounts(swap);
-    setDwallCounts(dwall);
-    setPointMultiplierCounts(point_booster);
-    setRetroBoostCounts(retro_boost);
-    setPowerUpCounts(power_up);
-    setPointBooster15xCounts(p15);
-    setPointBooster2xCounts(p2);
-    setPointBooster3xCounts(p3);
+    setChallengeCountss(challenge);
+    setSwapCountss(swap);
+    setDwallCountss(dwall);
+    setPointMultiplierCountss(point_booster);
+    setRetroBoostCountss(retro_boost);
+    setPowerUpCountss(power_up);
+    setPointBooster15xCountss(p15);
+    setPointBooster2xCountss(p2);
+    setPointBooster3xCountss(p3);
   }
 
   const isPowerAvailable = (type) => {
@@ -264,41 +275,49 @@ function PowerCollapesible(props) {
           title="Point Booster"
           isSvgIcon
           Icon={XpIcon}
-          count={pointMultiplierCounts}
+          count={pointMultiplierCountss}
         />
         <RenderPower
           title="Swap Player"
           isSvgIcon
           Icon={ReplaceIcon}
-          count={swapCounts}
+          count={swapCountss}
         />
         <RenderPower
           title="D-Wall"
           isSvgIcon
           Icon={ShieldIcon}
-          count={dwallCounts}
+          count={dwallCountss}
         />
         <RenderPower
           title="Challenge"
           isSvgIcon
           Icon={ChallengeIcon}
-          count={challengeCounts}
+          count={challengeCountss}
         />
         <RenderPower
           title="Retro Boost"
           isSvgIcon
           Icon={RetroBoostIcon}
-          count={retroBoostCounts}
+          count={retroBoostCountss}
         />
         <RenderPower
           title="Power Up"
           isSvgIcon
           Icon={PowerUpIcon}
-          count={powerUpCounts}
+          count={powerUpCountss}
         />
-        <button>Learn more</button>
+        <button onClick={() => setLearnMoreModal(true)}>
+          Learn more
+        </button>
       </div>
+      <LearnMoreModal
+        title="Point Multipler"
+        learnMoreModal={learnMoreModal}
+        onCloseModal={onCloseModal}
+      />
     </div>
+    
   );
 }
 

@@ -4,8 +4,8 @@ import PropTypes from "prop-types";
 import classes from "./playerStat.module.scss";
 import { addTrailingZerons } from "../../utility/shared";
 
-const defaultTitles = ["AVG", "HR", "RBI", "OPS", "FFPG"];
-const titlesP = ["ERA", "W-L", "K", "WHIP", "FFPG"];
+const defaultTitles = ["AVG", "HR", "RBI", "OPS"];
+const titlesP = ["ERA", "W-L", "K", "WHIP"];
 
 function MLBPlayerStat(props) {
   const { active = false, playerStats = {}, position = "" } = props || {};
@@ -59,7 +59,7 @@ function MLBPlayerStat(props) {
         <RenderItem value={home_runs} />
         <RenderItem value={runs_batted_in} />
         <RenderItem value={"." + `${ops}`.split(".")[1]} />
-        <RenderItem value={0} />
+        {/* <RenderItem value={0} /> */}
       </div>
     </>
   );
@@ -79,7 +79,7 @@ function MLBPlayerStat(props) {
         <RenderItem value={`${wins}-${losses}`} />
         <RenderItem value={strike_outs} />
         <RenderItem value={getTwoDecimal(walks_hits_per_innings_pitched)} />
-        <RenderItem value={0} />
+        {/* <RenderItem value={0} /> */}
       </div>
     </>
   );

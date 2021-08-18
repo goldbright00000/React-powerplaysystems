@@ -338,6 +338,7 @@ function MLBPowerdFs(props) {
     currency = '',
   } = history?.location?.state || {};
 
+  console.log("history?.location?.state", history?.location?.state);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   //reset the states
@@ -373,7 +374,7 @@ function MLBPowerdFs(props) {
   }, [user]);
 
   const setPowerss = () => {
-    let remainingPowers = powers;
+    let remainingPowers = Power;
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
