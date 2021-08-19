@@ -23,6 +23,7 @@ const PowerCenterCard = (props) => {
         title = '',
         prize = null,
         currency = '$',
+        prize_currency = 'USD',
         outOf = null,
         total = null,
         percent = null,
@@ -72,13 +73,19 @@ const PowerCenterCard = (props) => {
     }
 
     const getCurrency = (currency) => {
-        if (currency.toUpperCase() === 'PWRS') {
-            return PowerCurrency;
-        } else if (currency.toUpperCase() === 'BTC') {
+        if (currency.toUpperCase() === 'BTC') {
             return BtcCurrency;
         } else if (currency.toUpperCase() === 'ETH') {
             return EthCurrency;
         }
+
+        // if (currency.toUpperCase() === 'PWRS') {
+        //     return PowerCurrency;
+        // } else if (currency.toUpperCase() === 'BTC') {
+        //     return BtcCurrency;
+        // } else if (currency.toUpperCase() === 'ETH') {
+        //     return EthCurrency;
+        // }
     }
 
     const getEnterCurrency = (currency) => {
@@ -108,11 +115,23 @@ const PowerCenterCard = (props) => {
                         {currency === 'USD' ? (
                             `$`
                         ) : (
-                            <img
-                                src={getCurrency(currency)}
-                                width="20"
-                                alt=""
-                            />
+                            currency === 'PWRS' ? (
+                                prize_currency === 'USD' ? (
+                                    `$`
+                                ) : (
+                                    <img
+                                        src={getCurrency(prize_currency)}
+                                        width="20"
+                                        alt=""
+                                    />
+                                )
+                            ) : (
+                                <img
+                                    src={getCurrency(currency)}
+                                    width="20"
+                                    alt=""
+                                />
+                            )
                         )}
                         {numberWithCommas(prize)}
                     </p>
