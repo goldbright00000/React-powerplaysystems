@@ -863,8 +863,9 @@ function MLBPowerdFsLive(props) {
                   />
                   
                   <Card ranks={ranks}>{RenderView()}</Card>
-                  <div className={classes.left_side_footer}>
+                  <div className={classes.left_side_footer} style={{position: "relative"}}>
                     <img src={FooterImage} alt="" />
+                    <div style={{position: "absolute",bottom: 0, right: 5}}>{selectedTeam.game_id}</div>
                   </div>
                 </div>
 
@@ -946,6 +947,7 @@ function MLBPowerdFsLive(props) {
 
                     {/* <PowerCollapesible powers={powers} /> */}
                   </Sidebar>
+                  
                 </div>
               </div>
             </div>

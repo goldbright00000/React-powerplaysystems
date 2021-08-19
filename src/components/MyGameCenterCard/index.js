@@ -552,7 +552,7 @@ const MyGameCenterCard = (props) => {
                   Your Current Rank: 240,051
                 </div>
               )}
-              {!completed && (
+              {completed && (
                 <OutlineButton title="Team Manager" onClick={onEnter} />
               )}
 
