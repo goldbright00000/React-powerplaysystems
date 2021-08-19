@@ -3,7 +3,7 @@ import { CONSTANTS } from "./constants";
 import moment from "moment";
 
 export function redirectTo(props, { path = "/", state = {} }) {
-  const { history: { push = () => { } } = {} } = props || {};
+  const { history: { push = () => {} } = {} } = props || {};
   if (!isEmpty(state)) return push(path, state);
   return push(path);
 }
@@ -141,7 +141,7 @@ export function removeLocalStorage(key) {
   return localStorage.removeItem(key);
 }
 
-export function removeToken() { }
+export function removeToken() {}
 
 export function validateEmail(email) {
   const regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -149,7 +149,7 @@ export function validateEmail(email) {
 }
 
 export function setNumberComma(number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function getYearsList() {
@@ -333,4 +333,4 @@ export const removeZeroBeforeDecimalPoint = (value = 0) => {
 
 export const getTimeZone = () => {
   return moment?.tz(moment?.tz?.guess())?.zoneAbbr();
-}
+};

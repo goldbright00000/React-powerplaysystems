@@ -14,15 +14,18 @@ function MLBPlayerStat(props) {
   const { active = false, playerStats = {}, position } = props || {};
 
   const {
-    pydsg = 0,
-    rydsg = 0,
-    ydsg = 0,
-    ptd = 0,
-    rtd = 0,
-    fga = 0,
-    fgm = 0,
-    pct = 0,
-    lng = 0,
+    rushing_avg_yards = 0,
+    rushing_yards = 0,
+    rushing_touchdowns = 0,
+    passing_yards = 0,
+    passing_touchdowns = 0,
+    receiving_avg_yards = 0,
+    receiving_yards = 0,
+    receiving_touchdowns = 0,
+    field_goals_attempts = 0,
+    field_goals_made = 0,
+    field_goals_longest = 0,
+    extra_points_made = 0,
   } = playerStats || {};
 
   const getTwoDecimal = (value) => {
@@ -42,10 +45,10 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(pydsg)} />
-        <RenderItem value={rydsg} />
-        <RenderItem value={ptd} />
-        <RenderItem value={rtd} />
+        <RenderItem value={getTwoDecimal(passing_yards)} />
+        <RenderItem value={rushing_yards} />
+        <RenderItem value={passing_touchdowns} />
+        <RenderItem value={rushing_touchdowns} />
         <RenderItem value={0} />
       </div>
     </>
@@ -62,10 +65,16 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(fga)} />
-        <RenderItem value={fgm} />
-        <RenderItem value={pct} />
-        <RenderItem value={lng} />
+        <RenderItem value={getTwoDecimal(field_goals_attempts)} />
+        <RenderItem value={field_goals_made} />
+        <RenderItem
+          value={
+            field_goals_attempts && field_goals_made
+              ? ((field_goals_attempts / field_goals_made) * 100).toPrecision(1)
+              : 0
+          }
+        />
+        <RenderItem value={field_goals_longest} />
         <RenderItem value={0} />
       </div>
     </>
@@ -82,9 +91,9 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(ydsg)} />
-        <RenderItem value={ptd} />
-        <RenderItem value={rtd} />
+        <RenderItem value={getTwoDecimal(rushing_avg_yards)} />
+        <RenderItem value={rushing_touchdowns} />
+        <RenderItem value={receiving_touchdowns} />
         <RenderItem value={0} />
       </div>
     </>
