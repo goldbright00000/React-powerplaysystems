@@ -580,6 +580,7 @@ const InteractiveContests = (props) => {
             0
           )}
           currency={item?.currency}
+          prize_currency={item?.prize_currency}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
@@ -621,6 +622,7 @@ const InteractiveContests = (props) => {
             0
           )}
           currency={item?.currency}
+          prize_currency={item?.prize_currency}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.percent}
