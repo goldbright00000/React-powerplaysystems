@@ -36,9 +36,68 @@ const detailRules = [
 
 function NHLLivePowerdFsScroeDetail(props) {
   const [showModal, setModalState] = useState(false);
+  const [logs, setLogs] = useState([]);
   let tableRef = useRef();
 
   const { gameLogs = [] } = useSelector((state) => state.mlb);
+
+  //set score and running totals
+  useEffect(() => {
+    if (!gameLogs?.length) {
+      return;
+    }
+
+    const _logs = [];
+    for (let i = 0; i < gameLogs?.length; i++) {
+      if (
+        gameLogs[i]?.play?.outcome_id === "KKL" ||
+        gameLogs[i]?.play?.outcome_id === "kKL" ||
+        gameLogs[i]?.play?.outcome_id === "KKS" ||
+        gameLogs[i]?.play?.outcome_id === "kKS"
+      ) {
+        continue;
+      } else {
+        //total score
+        const rbiData = getRBI(gameLogs[i]?.play?.runners);
+        const rsData = getRS(
+          gameLogs[i]?.play?.runners,
+          gameLogs[i]?.play?.outcome_id
+        );
+
+        const rbi = rbiData.rbi || 0;
+        const rbiPts = rbi === 1 ? 2 : 0;
+        const rs = rsData?.rs || 0;
+        const rsPts = rs === 1 ? 2 : 0;
+
+        const playPts = getPoints(
+          gameLogs[i]?.play?.outcome_id,
+          gameLogs[i]?.play?.pitcher_id ===
+            gameLogs[i]?.effected_player?.player_id
+        );
+
+        const totalScore = playPts + rbiPts + rsPts;
+        gameLogs[i].totalScore = totalScore;
+        gameLogs[i].rbi = rbi;
+        gameLogs[i].rbiPts = rbiPts;
+        gameLogs[i].rsPts = rsPts;
+        gameLogs[i].rs = rs;
+        gameLogs[i].playPts = playPts;
+        _logs.push(gameLogs[i]);
+      }
+    }
+
+    //calculate running totals
+    for (let i = 0; i < _logs?.length; i++) {
+      if (i === 0) _logs[i].runningTotal = _logs[i]?.totalScore;
+
+      if (i !== 0 && _logs[i - 1] && _logs[i - 1]?.totalScore) {
+        _logs[i].runningTotal =
+          _logs[i - 1]?.runningTotal + _logs[i]?.totalScore;
+      }
+    }
+
+    setLogs(_logs);
+  }, [gameLogs]);
 
   useEffect(() => {
     tableRef?.current?.scrollIntoView();
@@ -171,10 +230,10 @@ function NHLLivePowerdFsScroeDetail(props) {
     };
   };
 
-  const getRS = (runners = []) => {
+  const getRS = (runners = [], id = "") => {
     let rs;
     for (let i = 0; i < runners?.length; i++) {
-      if (runners[i]?.outcome_id === "aHR") {
+      if (id === "aHR") {
         const [player] = gameLogs?.filter((p) => {
           return p?.effected_player?.player_id === runners[i]?.player_id;
         });
@@ -352,8 +411,8 @@ function NHLLivePowerdFsScroeDetail(props) {
               </div>
 
               <div className={classes.card_body}>
-                {gameLogs && gameLogs?.length ? (
-                  gameLogs?.map((row, ind) => {
+                {logs && logs?.length ? (
+                  logs?.map((row, ind) => {
                     const {
                       active_powerplay = null,
                       effected_player = {},
@@ -361,6 +420,13 @@ function NHLLivePowerdFsScroeDetail(props) {
                       fantasy_points_occured_without_powerplay = 0,
                       fantasy_points_after = 0,
                       play = {},
+                      totalScore = 0,
+                      runningTotal = 0,
+                      rbi = 0,
+                      rbiPts = 0,
+                      rs = 0,
+                      rsPts = 0,
+                      playPts = 0,
                     } = row || {};
 
                     const {
@@ -422,19 +488,6 @@ function NHLLivePowerdFsScroeDetail(props) {
                       return <></>;
                     }
 
-                    const rbiData = getRBI(runners);
-                    const rsData = getRS(runners);
-
-                    const rbi = rbiData.rbi || 0;
-                    const rbiPts = rbi === 1 ? 2 : 0;
-                    const rs = rsData?.rs || 0;
-                    const rsPts = rs === 1 ? 2 : 0;
-
-                    const playPts = getPoints(
-                      outcome_id,
-                      pitcher_id === player_id
-                    );
-
                     return (
                       <Row
                         position={type}
@@ -448,8 +501,8 @@ function NHLLivePowerdFsScroeDetail(props) {
                         pts={playPts}
                         totalPts="8"
                         powers="1.5"
-                        score={fantasy_points_occured}
-                        runningTotal={fantasy_points_after}
+                        score={totalScore}
+                        runningTotal={runningTotal}
                         runs={{
                           rs: rs,
                           pts: rsPts,
