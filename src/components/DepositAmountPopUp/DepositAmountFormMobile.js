@@ -236,7 +236,7 @@ class DepositAmountFormMobile extends Component {
                 this.props.ipaySubmitted(object);
             } else {
                 let { price, paymentMetod } = this.state.form;
-                price = parseFloat((price * this.props.cad).toFixed(2));
+                // price = parseFloat((price * this.props.cad).toFixed(2));
                 this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
 
                 // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
@@ -283,11 +283,11 @@ class DepositAmountFormMobile extends Component {
                                         name="price"
                                         key={index}
                                         onChange={this.onPriceChange}
-                                        helperText={
-                                            this.state.canadianVisible
-                                                ? formatePrice(data.value, this.props.cad, true)
-                                                : null
-                                        }
+                                        // helperText={
+                                        //     this.state.canadianVisible
+                                        //         ? formatePrice(data.value, this.props.cad, true)
+                                        //         : null
+                                        // }
                                         {...data}
                                         checked={!isOtherAmount && price === data.value}
                                     />

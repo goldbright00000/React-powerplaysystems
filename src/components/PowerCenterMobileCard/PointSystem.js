@@ -92,7 +92,7 @@ const PointSystem = (props) => {
                                         <p className={classes.__point_system_data_title}>{item?.plays}</p>
                                     </div>
                                     <div className={classes.__point_system_data_value_div}>
-                                        <p className={classes.__point_system_data_value}>+ {item?.points} Pts</p>
+                                        <p className={classes.__point_system_data_value}>{item?.action} {item?.points} Pts</p>
                                     </div>
                                 </div>
                             );
@@ -109,7 +109,7 @@ const PointSystem = (props) => {
                                         <p className={classes.__point_system_data_title}>{item?.plays}</p>
                                     </div>
                                     <div className={classes.__point_system_data_value_div}>
-                                        <p className={classes.__point_system_data_value}>+{item?.points} Pts</p>
+                                        <p className={classes.__point_system_data_value}>{item?.action}{item?.points} Pts</p>
                                     </div>
                                 </div>
                             );

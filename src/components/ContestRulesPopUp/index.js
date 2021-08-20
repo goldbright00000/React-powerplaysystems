@@ -91,7 +91,7 @@ const ContestRulesPopUp = props => {
                                                     return (
                                                         <>
                                                             <li>{item.plays}</li>
-                                                            <li>+ {item.points} Pts</li>
+                                                            <li>{item?.action} {item.points} Pts</li>
                                                         </>
                                                     )
                                                 })}
