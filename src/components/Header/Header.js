@@ -92,7 +92,8 @@ const Header = (props) => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
     removePersonaUserId();
     dispatch(setUserBalance({}));
-    return dispatch(resetAuth());
+    let a = dispatch(resetAuth());
+    history.push("/login");
   };
 
   const onMyAccountMenuItemClick = (menuItem) => {
