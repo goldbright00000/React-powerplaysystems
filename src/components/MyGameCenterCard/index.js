@@ -641,11 +641,18 @@ const MyGameCenterCard = (props) => {
               )}
 
               <div className={classes.__my_game_center_card_details}>
+                
                 {completed ? (
                   <div
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => onViewResults(id)}
                   >
+                    <span style={{
+                      marginRight: 10,
+                      color: "grey",
+                      textDecoration: "none",
+                      display: "inline-block"
+                    }}>{game_id}</span>
                     Winners
                   </div>
                 ) : (
@@ -653,6 +660,12 @@ const MyGameCenterCard = (props) => {
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => onDetailsClick(id)}
                   >
+                    <span style={{
+                      marginRight: 10,
+                      color: "grey",
+                      textDecoration: "none",
+                      display: "inline-block"
+                    }}>{game_id}</span>
                     Details
                   </div>
                 )}
