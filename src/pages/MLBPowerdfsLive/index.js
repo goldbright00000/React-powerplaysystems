@@ -34,6 +34,7 @@ import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PowerCollapesible from "../../components/PowerCollapesible";
+import PrizeModal from "../../components/PrizeModal";
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 const {
   ON_ROOM_SUB,
@@ -97,6 +98,8 @@ function MLBPowerdFsLive(props) {
   const [retroBoostCounts, setRetroBoostCounts] = useState(0);
   const [powerUpCounts, setPowerUpCounts] = useState(0);
   const [showGameLogs, setGameLogsPageState] = useState(false);
+  const [showPrizeModal, setPrizeModalState] = useState(false);
+  const [prizes, setPrizes] = useState([]);
   const history = useHistory();
   // const { gameId, userId, teamId, sportId } = history.location.state || {};
 
@@ -119,6 +122,7 @@ function MLBPowerdFsLive(props) {
     team_id: teamId = "",
     sport_id: sportId = "",
     game = {},
+    Prizes = []
   } = selectedTeam || {};
   // let item = selectedTeam.item;
 
@@ -146,7 +150,6 @@ function MLBPowerdFsLive(props) {
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
     let remainingPowers = a.payload;
-    console.log("powers a", a);
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
@@ -272,7 +275,6 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
-      console.log("SWAP REQUEST: ", requests);
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
@@ -481,7 +483,6 @@ function MLBPowerdFsLive(props) {
       (match) => match?.match_id === match_id
     );
 
-    // console.log("LIVE DATE: ", live_data, dataToUpdate, match_id);
 
     if (dataToUpdate.length) {
       for (let i = 0; i < dataToUpdate.length; i++) {
@@ -509,7 +510,6 @@ function MLBPowerdFsLive(props) {
       updated_player = {},
       updated_team_defense = {},
     } = res?.data || {};
-    console.log("ON FANTASY UPDATES: ", res);
 
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
@@ -539,7 +539,6 @@ function MLBPowerdFsLive(props) {
   }
 
   const onChangeXp = async (xp, player) => {
-    console.log("onChangeXp");
     const _selectedXp = {
       xp,
     };
@@ -559,7 +558,6 @@ function MLBPowerdFsLive(props) {
       } else if (_selectedXp.xpVal == "3x") {
         power = 3;
       }
-      console.log("power", power, gameId, userId);
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, power)
       );
@@ -591,7 +589,6 @@ function MLBPowerdFsLive(props) {
 
     const { gameId, sportId, teamId, userId } = history.location.state || {};
 
-    // console.log(currentPlayer, newPlayer);
     setPlayerToSwap(currentPlayer);
 
     onPowerApplied(
@@ -729,11 +726,7 @@ function MLBPowerdFsLive(props) {
   };
 
   const RenderView = () => {
-    // console.log('loading -> ', loading)
 
-    // console.log('selectedView -> ', selectedView)
-
-    // console.log('live_data -> ', live_data)
 
     if (loading) {
       return <p>Loading...</p>;
@@ -763,7 +756,6 @@ function MLBPowerdFsLive(props) {
         />
       );
     } else if (live_data && live_data?.length) {
-      console.log("live_data", live_data);
       return live_data?.map((item, index) => (
         <>
           {item?.team_d_mlb_team && item?.team_d_mlb_team?.type === D ? (
@@ -841,6 +833,7 @@ function MLBPowerdFsLive(props) {
                 bgImageUri={BaseballImage}
                 compressedView
                 currentState={<RenderLiveState isLive />}
+                onClickPrize={() => setPrizeModalState(true)}
               />
 
               <div className={classes.container}>
@@ -957,6 +950,12 @@ function MLBPowerdFsLive(props) {
             title="Point Multipler"
             learnMoreModal={learnMoreModal}
             onCloseModal={onCloseModal}
+          />
+          <PrizeModal
+            visible={showPrizeModal}
+            sportsName="MLB"
+            data={selectedTeam?.game?.PrizePayouts}
+            onClose={() => setPrizeModalState(false)}
           />
         </>
       ) : (

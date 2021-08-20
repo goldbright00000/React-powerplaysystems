@@ -22,7 +22,10 @@ import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 
+import * as MLbActions from "../../actions/MLBActions";
+import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
+  const dispatch = useDispatch();
   const {
     isMobile = false,
     id = null,
@@ -52,10 +55,22 @@ const MyGameCenterCard = (props) => {
     onViewResults = () => { },
     onViewResultsBack = () => { },
     onFinalStandings = () => { },
+    game_id = 0
   } = props || {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
+
+  const [isCompleted, setCompleted] = React.useState(0);
+
+  // React.useEffect(async () => {
+  //   const response = await dispatch(
+  //     MLbActions.mlbData2(game_id)
+  //   );
+  //   console.log("response", response);
+  //   setCompleted(response.completed);
+  //   console.log("game_id", game_id);
+  // },[game_id]);
 
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {

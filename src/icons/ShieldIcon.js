@@ -8,7 +8,7 @@ function ShieldIcon(props) {
       width={props?.size || "54"}
       height={props?.size || "54"}
       viewBox="0 0 54 54"
-      style={{ height: "auto" }}
+      style={{ height: "auto", width: "auto" }}
       {...props}
     >
       <defs>

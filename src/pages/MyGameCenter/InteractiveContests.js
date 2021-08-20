@@ -225,7 +225,6 @@ const InteractiveContests = (props) => {
   }
 
   const myGameCenterCard = (item, redirectUri) => {
-    console.log("before going in card", item);
     return (
       <div
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
@@ -245,7 +244,7 @@ const InteractiveContests = (props) => {
           total={item?.game?.target}
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
-
+          game_id={item?.game_id}
           game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
           start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
 

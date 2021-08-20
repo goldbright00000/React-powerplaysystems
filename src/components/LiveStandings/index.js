@@ -86,18 +86,18 @@ function LiveStandings(props) {
     return month[dd.getUTCMonth()] + " " + ("0" + dd.getUTCDate()).slice(-2) + ", " + dd.getUTCFullYear() + " | " + ("0" + dd.getUTCHours()).slice(-2) + ":" + ("0" + dd.getUTCMinutes()).slice(-2) + " ET";
   };
 
-  const {
-    powerDFSRanking = []
-  } = props?.liveStandingData || {}
+  // const {
+  //   powerDFSRanking = []
+  // } = props?.liveStandingData || {}
 
-  const [filteredData, setFilteredData] = useState(powerDFSRanking);
+  const [filteredData, setFilteredData] = useState(props?.liveStandingData);
   const [filteredString, setFilteredString] = useState("");
 
   const onSearch = (e) => {
     const { value } = e?.target || {};
     setFilteredString(value);
     if (!isEmpty(value)) {
-      const result = powerDFSRanking?.filter((data) => {
+      const result = props?.liveStandingData?.filter((data) => {
         const [firstName, lastName] = `${data?.team?.user?.display_name}`.split(" ");
         
         if (firstName && lastName) {
@@ -167,7 +167,7 @@ function LiveStandings(props) {
                   <h2>No data found.</h2>
                 )
               ) : (
-                powerDFSRanking.length > 0 ? powerDFSRanking.map(Row) : (
+                props?.liveStandingData.length > 0 ? props?.liveStandingData.map(Row) : (
                   <h2>No data found.</h2>
                 )
               )}

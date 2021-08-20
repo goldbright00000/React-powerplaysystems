@@ -124,6 +124,47 @@ export function mlbData(gameId) {
   };
 }
 
+export function mlbData2(gameId) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(`${URLS.DFS.MLB}?game_id=${gameId}`);
+      const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
+        response.data || {};
+
+      let completed = 0;
+      for (let i = 0; i < mlbSchedule?.length; i++) {
+        const {
+          status = ""
+        } = mlbSchedule[i] || {};
+
+        if(status !== "closed")
+        {
+          completed = 1;
+        }
+        
+      }
+
+      dispatch({
+        type: MLB_DATA,
+        payload: { completed: completed },
+        game_id,
+        sport_id,
+      });
+
+      // console.log('mlbPlayerList', mlbPlayerList)
+      // console.log('filterdList', filterdList)
+
+      return {
+        completed: completed,
+        game_id,
+        sport_id,
+      };
+    } catch (err) {
+      return err;
+    }
+  };
+}
+
 function getTeam(currentTeam, opponentTeam, match_id, venue, date_time) {
   const time = moment(date_time).format("LT");
   const date = moment(date_time).format("YYYY-MM-DD");
@@ -483,7 +524,6 @@ export function getLiveStandings(game_id) {
       const response = await http.get(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_LIVE_STANDINGS}?game_id=${game_id}`
       );
-      console.log("responseresponse", response);
       return dispatch({
         type: "mlbLiveStandings",
         payload: response.data,
