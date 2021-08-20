@@ -65,7 +65,7 @@ const Hitters = ({ PointsSystem }) => {
                                                     <p className={classes.__hitters_data_title}>{item?.plays}</p>
                                                 </div>
                                                 <div className={classes.__hitters_data_value_div}>
-                                                    <p className={classes.__hitters_data_value}>+{item?.points} Pts</p>
+                                                    <p className={classes.__hitters_data_value}>{item?.action}{item?.points} Pts</p>
                                                 </div>
                                             </div>
                                         );
