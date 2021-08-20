@@ -20,6 +20,8 @@ const PowerCenterMobileCard = (props) => {
     id = null,
     title = "",
     prize = null,
+    currency = '$',
+    prize_currency = 'USD',
     outOf = null,
     total = null,
     game_type = '',

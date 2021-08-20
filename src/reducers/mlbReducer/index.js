@@ -27,6 +27,7 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
       };
 
     case Actions.MLB_LIVE_DATA:
+      console.log("actions.payload", actions.payload);
       return {
         ...state,
         live_data: actions.payload,

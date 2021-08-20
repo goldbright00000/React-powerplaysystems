@@ -63,7 +63,17 @@ function RankCard(props) {
       <div className={classes.sidebar_header_content}>
         <div>
           <div className={classes.sidebar_header_left}>
-            {props?.currentWin && (
+            <div className={classes.sidebar_header_1}>
+              <p>Currently Winning:</p>
+              <p className={`${classes.sidebar_header_p2} ${classes.sidebar_header_p2_1}`}>
+                ${setNumberComma(props?.currentWin)}
+              </p>
+            </div>
+            <div className={classes.sidebar_header_1}>
+              <p className={classes.sidebar_header_p1}>Leader's Score:</p>
+              <p className={`${classes.sidebar_header_p1} ${classes.sidebar_header_p1_1}`} style={{fontSize: 24, fontFamily: 'Teko'}}> 66 </p>
+            </div>
+            {/* {props?.currentWin && (
               <div className={classes.sidebar_header_1}>
                 <p>Currently Winning:</p>
                 <p
@@ -72,8 +82,8 @@ function RankCard(props) {
                   ${setNumberComma(props?.currentWin)}
                 </p>
               </div>
-            )}
-            <div className={classes.sidebar_header_2}>
+            )} */}
+            {/* <div className={classes.sidebar_header_2}>
               <div className={classes.sidebar_left}>
                 <div>
                   <p>My Score:</p>
@@ -88,8 +98,8 @@ function RankCard(props) {
                   </p>
                 </div>
               </div>
-              <RankIcon rank={ranking} />
-            </div>
+               <RankIcon rank={ranking} /> 
+            </div> */}
           </div>
         </div>
       </div>
