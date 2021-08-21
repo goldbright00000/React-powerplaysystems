@@ -22,7 +22,10 @@ import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 
+import * as MLbActions from "../../actions/MLBActions";
+import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
+  const dispatch = useDispatch();
   const {
     isMobile = false,
     id = null,
@@ -52,10 +55,22 @@ const MyGameCenterCard = (props) => {
     onViewResults = () => { },
     onViewResultsBack = () => { },
     onFinalStandings = () => { },
+    game_id = 0
   } = props || {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
+
+  const [isCompleted, setCompleted] = React.useState(0);
+
+  // React.useEffect(async () => {
+  //   const response = await dispatch(
+  //     MLbActions.mlbData2(game_id)
+  //   );
+  //   console.log("response", response);
+  //   setCompleted(response.completed);
+  //   console.log("game_id", game_id);
+  // },[game_id]);
 
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {
@@ -626,11 +641,18 @@ const MyGameCenterCard = (props) => {
               )}
 
               <div className={classes.__my_game_center_card_details}>
+                
                 {completed ? (
                   <div
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => onViewResults(id)}
                   >
+                    <span style={{
+                      marginRight: 10,
+                      color: "grey",
+                      textDecoration: "none",
+                      display: "inline-block"
+                    }}>{game_id}</span>
                     Winners
                   </div>
                 ) : (
@@ -638,6 +660,12 @@ const MyGameCenterCard = (props) => {
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => onDetailsClick(id)}
                   >
+                    <span style={{
+                      marginRight: 10,
+                      color: "grey",
+                      textDecoration: "none",
+                      display: "inline-block"
+                    }}>{game_id}</span>
                     Details
                   </div>
                 )}
