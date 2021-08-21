@@ -197,10 +197,10 @@ const PowerCenterCard = (props) => {
                                 onDetailsClick(id)
                             }}>
                                 <span style={{
-                                marginRight: 10,
-                                color: "grey",
-                                textDecoration: "none",
-                                display: "inline-block"
+                                    marginRight: 10,
+                                    color: "grey",
+                                    textDecoration: "none",
+                                    display: "inline-block"
                                 }}>{id}</span>
                                 Details
                             </div>
@@ -213,7 +213,7 @@ const PowerCenterCard = (props) => {
             ) : (
                 <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
                     <div className={classes.__card_title}>
-                        <p className={classes.__card_title_text}>MLB <span className={classes.__card__title_first}>PowerdFS</span> 200 Point Challenge!</p>
+                        <p className={classes.__card_title_text}>MLB <span className={classes.__card__title_first}>PowerdFS</span><br /> 200 Point Challenge!</p>
                     </div>
                     <div className={classes.__start_end_date}>
                         <span className={classes.__date_text}>Oct 24, 2020  |  8:00PM ET</span>
