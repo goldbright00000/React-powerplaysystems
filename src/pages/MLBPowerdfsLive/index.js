@@ -122,7 +122,7 @@ function MLBPowerdFsLive(props) {
     team_id: teamId = "",
     sport_id: sportId = "",
     game = {},
-    Prizes = []
+    Prizes = [],
   } = selectedTeam || {};
   // let item = selectedTeam.item;
 
@@ -161,32 +161,34 @@ function MLBPowerdFsLive(props) {
     let power_up = 0;
     for (let i = 0; i < remainingPowers.length; i++) {
       let rec = remainingPowers[i].fantasy_powers;
-      if (rec.name === "D-Wall") {
-        dwall = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "Challenge") {
-        challenge = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "1.5x Point Booster") {
-        p15 = remainingPowers[i].remaining_amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "2x Point Booster") {
-        p2 = remainingPowers[i].remaining_amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "3x Point Booster") {
-        p3 = remainingPowers[i].remaining_amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "Swap") {
-        swap = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "Retro Boost") {
-        retro_boost = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "Power-Up") {
-        power_up = remainingPowers[i].remaining_amount;
+      if (rec !== undefined && rec !== null) {
+        if (rec.name === "D-Wall") {
+          dwall = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Challenge") {
+          challenge = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "1.5x Point Booster") {
+          p15 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "2x Point Booster") {
+          p2 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "3x Point Booster") {
+          p3 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "Swap") {
+          swap = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Retro Boost") {
+          retro_boost = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Power-Up") {
+          power_up = remainingPowers[i].remaining_amount;
+        }
       }
     }
     setChallengeCounts(challenge);
-    setSwapCounts(swap);
+    setSwapCounts(9999);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
@@ -275,11 +277,13 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
-      if (requests.payload[0] == 1) {
-        setPowers();
-      } else {
-        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
-      }
+      // if (requests.payload[0] == 1) {
+      //   setPowers();
+      // } else {
+      //   alert(
+      //     "We are experiencing technical issues with the Power functionality. Please try again shortly."
+      //   );
+      // }
     }
   }
 
@@ -291,7 +295,9 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
       }
     }
   }
@@ -304,7 +310,9 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
       }
     }
   }
@@ -483,7 +491,6 @@ function MLBPowerdFsLive(props) {
       (match) => match?.match_id === match_id
     );
 
-
     if (dataToUpdate.length) {
       for (let i = 0; i < dataToUpdate.length; i++) {
         const { match = {} } = dataToUpdate[i] || {};
@@ -533,7 +540,9 @@ function MLBPowerdFsLive(props) {
       if (requests.payload[0] == 1) {
         setPowers();
       } else {
-        alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
       }
     }
   }
@@ -572,65 +581,26 @@ function MLBPowerdFsLive(props) {
     }
   };
 
-  const onPowerApplied = (fantasyTeamId, matchId, playerId, powerId) => {
-    //On Power applied
-    _socket.emit(ON_POWER_APPLIED, {
-      fantasyTeamId: fantasyTeamId,
-      matchId: matchId,
-      playerId: playerId,
-      powerId: powerId,
-    });
+  const onPowerApplied = (data) => {
+    _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => { };
+  const onClickStandings = () => {};
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
-
-    const { gameId, sportId, teamId, userId } = history.location.state || {};
-
+    const { team_id, user_id, game_id } = selectedTeam || {};
     setPlayerToSwap(currentPlayer);
-
-    onPowerApplied(
-      teamId,
-      newPlayer.match_id,
-      newPlayer.playerId,
-      POWER_IDs.SWAP
-    );
-
-    return;
-    const _data = [...live_data];
-    const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
-    let _starPlayerCount = starPlayerCount;
-
-    if (starPlayerCount >= 3 && !newPlayer?.isStarPlayer) {
-      return;
-    } else if (
-      starPlayerCount >= 3 &&
-      newPlayer?.isStarPlayer &&
-      currentPlayer?.isStarPlayer
-    ) {
-      _data[indexOfPlayer].player = newPlayer;
-    } else if (
-      starPlayerCount < 3 &&
-      newPlayer?.isStarPlayer &&
-      !currentPlayer?.isStarPlayer
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-      _starPlayerCount++;
-    } else if (
-      currentPlayer?.isStarPlayer &&
-      !newPlayer?.isStarPlayer &&
-      starPlayerCount > 0
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-      _starPlayerCount--;
-    } else if (!newPlayer?.isStarPlayer && !currentPlayer?.isStarPlayer) {
-      _data[indexOfPlayer] = newPlayer;
-    }
-
-    dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
-    dispatch(MLBActions.mlbLiveData(_data));
+    onPowerApplied({
+      fantasyTeamId: team_id,
+      matchId: currentPlayer.match_id,
+      playerId: currentPlayer.player_id,
+      playerId2: newPlayer.playerId,
+      matchIdP2: newPlayer.match_id,
+      powerId: POWER_IDs.SWAP_POWER,
+      userId: user_id,
+      gameId: game_id,
+    });
   };
 
   const RenderPower = ({
@@ -671,9 +641,9 @@ function MLBPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                        left +
-                        ",top=" +
-                        top
+                          left +
+                          ",top=" +
+                          top
                       );
                     }}
                   >
@@ -688,9 +658,9 @@ function MLBPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                        left +
-                        ",top=" +
-                        top
+                          left +
+                          ",top=" +
+                          top
                       );
                     }}
                   >
@@ -726,8 +696,6 @@ function MLBPowerdFsLive(props) {
   };
 
   const RenderView = () => {
-
-
     if (loading) {
       return <p>Loading...</p>;
     }
@@ -854,11 +822,16 @@ function MLBPowerdFsLive(props) {
                     state={history.location.state}
                     {...props}
                   />
-                  
+
                   <Card ranks={ranks}>{RenderView()}</Card>
-                  <div className={classes.left_side_footer} style={{position: "relative"}}>
+                  <div
+                    className={classes.left_side_footer}
+                    style={{ position: "relative" }}
+                  >
                     <img src={FooterImage} alt="" />
-                    <div style={{position: "absolute",bottom: 0, right: 5}}>{selectedTeam.game_id}</div>
+                    <div style={{ position: "absolute", bottom: 0, right: 5 }}>
+                      {selectedTeam.game_id}
+                    </div>
                   </div>
                 </div>
 
@@ -940,7 +913,6 @@ function MLBPowerdFsLive(props) {
 
                     {/* <PowerCollapesible powers={powers} /> */}
                   </Sidebar>
-                  
                 </div>
               </div>
             </div>
