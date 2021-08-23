@@ -188,7 +188,7 @@ function MLBPowerdFsLive(props) {
       }
     }
     setChallengeCounts(challenge);
-    setSwapCounts(9999);
+    setSwapCounts(swap);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
