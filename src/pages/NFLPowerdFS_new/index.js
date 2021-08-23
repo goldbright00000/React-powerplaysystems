@@ -14,7 +14,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
 import NFLHeaderImage from "../../assets/nfl-header-background.png";
-import NFLHeaderImageMobile from "../../assets/nfl-header-background.png";
+import NFLHeaderImageMobile from "../../assets/nfl-header-background-mobile.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -35,7 +35,7 @@ import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import PrizeModal from "../../components/PrizeModal";
 import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
-import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCard";
+import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCardNFL";
 import Button from "../../components/Button";
 import ButtonFloating from "../../components/ButtonFloating";
 import ModalBottom from "../../components/ModalBottom";
@@ -136,17 +136,17 @@ const FILTERS_INITIAL_VALUES = [
   {
     id: 2,
     title: RB,
-    remaining: 1,
+    remaining: 2,
   },
   {
     id: 3,
     title: WR,
-    remaining: 1,
+    remaining: 2,
   },
   {
     id: 4,
     title: TE,
-    remaining: 2,
+    remaining: 1,
   },
   {
     id: 5,
@@ -196,23 +196,23 @@ const contestScoring = {
 const headerText = [
   {
     id: 1,
-    text: `Select 1 Pitcher, you can use your Swap Power to swap your SP for a RP during the game.`,
+    text: `Select 1 Quaterback, you can use your Swap Power to change QB's during the game.`,
   },
   {
     id: 2,
-    text: `Select 1 Catcher.`,
+    text: `Select 2 Running Backs.`,
   },
   {
     id: 3,
-    text: `Select 1 Shortstop.`,
+    text: `Select 2 Wide Receivers.`,
   },
   {
     id: 4,
-    text: `Select 2 players from the pool of players at First Base (1B), Second Base (2B), and Third Base (3B). You may only select one Star player from the XB pool.`,
+    text: `Select 1 players from the pool of players at Tight End(TE).`,
   },
   {
     id: 5,
-    text: `Select 2 Outfielders (OF) from the pool of players at Left Field (LF), Center Field (CF), and Right Field (RF). You may select only one Star player from the OF pool.`,
+    text: `Select 2 Kickers (K) from the pool of players.`,
   },
   {
     id: 6,
