@@ -89,7 +89,7 @@ function MLBPowerdFsLive(props) {
   });
   const [playerToSwap, setPlayerToSwap] = useState({});
 
-  const [swapCounts, setSwapCounts] = useState(0);
+  const [swapCounts, setSwapCounts] = useState(999);
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
@@ -187,7 +187,7 @@ function MLBPowerdFsLive(props) {
       }
     }
     setChallengeCounts(challenge);
-    setSwapCounts(swap);
+    // setSwapCounts(swap);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
