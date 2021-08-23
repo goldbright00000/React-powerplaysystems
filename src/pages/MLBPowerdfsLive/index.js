@@ -100,12 +100,10 @@ function MLBPowerdFsLive(props) {
   const [powerUpCounts, setPowerUpCounts] = useState(0);
   const [showGameLogs, setGameLogsPageState] = useState(false);
   const [showPrizeModal, setPrizeModalState] = useState(false);
-  const [powers, setPowerss] = useState([]);
-  const [pointss, setPointss] = useState([]);
   const [prizes, setPrizes] = useState([]);
-  // const [selectedTeam, setSelectedTeam] = useState({});
-  const history = useHistory();
-  // const { gameId, userId, teamId, sportId } = history.location.state || {};
+
+  const dispatch = useDispatch();
+  const selectedTeam = getTeamFromLocalStorage();
 
   const {
     live_data = [],
@@ -114,11 +112,8 @@ function MLBPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.mlb);
   const { user = {} } = useSelector((state) => state.auth);
-  const { selectedTeam = {} } = useSelector((state) => state.mlb);
-  const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
-  // let item = props.location.state.item;
 
   const {
     game_id: gameId = "",
@@ -128,18 +123,11 @@ function MLBPowerdFsLive(props) {
     game = {},
     Prizes = [],
   } = selectedTeam || {};
-  // let item = selectedTeam.item;
-
-  const {
-    PointsSystems = [],
-    Powers = []
-  } = game || {};
 
   let prizePool,
     topPrize = 0,
     entry_fee = 0,
     currency;
-  // let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
     game?.PrizePayouts,
@@ -158,8 +146,10 @@ function MLBPowerdFsLive(props) {
 
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
-    if(typeof a == "undefined")
-      return
+    if (a === undefined) {
+      return;
+    }
+
     let remainingPowers = a.payload;
     let challenge = 0;
     let swap = 0;
@@ -326,11 +316,17 @@ function MLBPowerdFsLive(props) {
     }
   }
 
-  useEffect(async () => {
-    // if (isEmpty(selectedTeam)) {
-    //   return redirectTo(props, { path: "/my-game-center" });
-    // }
+  function getTeamFromLocalStorage() {
+    const encData = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME);
+    const byteData = CryptoJS.AES.decrypt(encData, CONSTANTS.DATA_ENC_KEY);
+    const decSelectedTeamData = JSON.parse(
+      byteData.toString(CryptoJS.enc.Utf8)
+    );
 
+    return decSelectedTeamData;
+  }
+
+  useEffect(async () => {
     _socket = socket();
     setPowers();
     return function cleanUP() {
@@ -348,20 +344,6 @@ function MLBPowerdFsLive(props) {
     };
   }, []);
 
-  // useEffect(() => {
-  //   // if (_.isEmpty(selectedTeam)) {
-  //   //   const encData = getLocalStorage(
-  //   //     CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME
-  //   //   );
-  //   //   const byteData = CryptoJS.AES.decrypt(encData, CONSTANTS.DATA_ENC_KEY);
-  //   //   const decSelectedTeamData = JSON.parse(
-  //   //     byteData.toString(CryptoJS.enc.Utf8)
-  //   //   );
-  //   //   setSelectedTeam(decSelectedTeamData);
-  //   // }
-  //   // setPowers();
-  // }, [selectedTeam]);
-
   useEffect(() => {
     setPlayerToSwap({});
     if (_socket) {
@@ -372,11 +354,6 @@ function MLBPowerdFsLive(props) {
   }, [_socket]);
 
   useEffect(() => {
-    setPointss(_.groupBy(PointsSystems, "type"));
-    setPowerss(Powers);
-  }, [game]);
-
-  useEffect(() => {
     if (isEmpty(matchUpdateData) && isEmpty(matchUpdateData.data)) return;
 
     setMatchUpdates();
@@ -384,7 +361,6 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    printLog({ ...history.location.state, selectedTeam, gameId, userId });
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -626,7 +602,12 @@ function MLBPowerdFsLive(props) {
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
 
-    const { gameId, sportId, teamId, userId } = history.location.state || {};
+    const {
+      game_id: gameId,
+      sport_id: sportId,
+      team_id: teamId,
+      user_id: userId,
+    } = selectedTeam || {};
 
     setPlayerToSwap(currentPlayer);
 
@@ -871,8 +852,6 @@ function MLBPowerdFsLive(props) {
                 compressedView
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
-                points={pointss}
-                powers={powers}
               />
 
               <div className={classes.container}>
@@ -890,7 +869,7 @@ function MLBPowerdFsLive(props) {
                     onGoBack={() =>
                       redirectTo(props, { path: "/my-game-center" })
                     }
-                    state={history.location.state}
+                    state={selectedTeam}
                     {...props}
                   />
 
