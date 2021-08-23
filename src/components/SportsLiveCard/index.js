@@ -301,6 +301,10 @@ function SportsLiveCard(props) {
     }
   };
 
+  const isPitching = () => {
+    return getCurrentInningHalf() === "t";
+  };
+
   const getStatus = () => {
     if (`${status}`?.toLocaleLowerCase() === "scheduled") {
       return `${moment(date_time).format("MMM Do")} - ${moment(
@@ -328,7 +332,7 @@ function SportsLiveCard(props) {
     return `${current_inning_half}`.toLocaleLowerCase();
   };
 
-  const isPitching = () => getCurrentInningHalf() === "t";
+  console.log(isPitching());
 
   const showFooterStats = () => {
     if (type === "P" || (type === "p" && isPitching())) {
@@ -387,17 +391,16 @@ function SportsLiveCard(props) {
 
   const checkIfIsStarPlayer = () => {
     if (type == "p" || type == "P") {
-      if (earned_runs_average < 3.50) {
+      if (earned_runs_average < 3.5) {
         return true;
       }
-    }
-    else {
-      if (batting_average > 0.290 || home_runs > 30) {
+    } else {
+      if (batting_average > 0.29 || home_runs > 30) {
         return true;
       }
     }
     return false;
-  }
+  };
 
   const RenderStarPower = ({ }) =>
     checkIfIsStarPlayer() && (
@@ -580,10 +583,8 @@ function SportsLiveCard(props) {
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {score}
           </p>
-          {(xp1 == 0 && xp2 == 0 && xp3 == 0) ? (
-            <div style={{ opacity: 0.5 }}>
-              {renderXp()}
-            </div>
+          {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
+            <div style={{ opacity: 0.5 }}>{renderXp()}</div>
           ) : (
             <RenderXpToolTip />
           )}

@@ -133,15 +133,11 @@ export function mlbData2(gameId) {
 
       let completed = 0;
       for (let i = 0; i < mlbSchedule?.length; i++) {
-        const {
-          status = ""
-        } = mlbSchedule[i] || {};
+        const { status = "" } = mlbSchedule[i] || {};
 
-        if(status !== "closed")
-        {
+        if (status !== "closed") {
           completed = 1;
         }
-        
       }
 
       dispatch({
@@ -284,9 +280,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) { }
+        } catch (er) {}
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 }
 
@@ -490,7 +486,7 @@ export function getUserRemainingPowers(game_id, user_id) {
 export function updateUserRemainingPowers(game_id, user_id, power_id) {
   return async (dispatch) => {
     try {
-      console.log("PAYLOAD: ", game_id, user_id, power_id);
+      // console.log("PAYLOAD: ", game_id, user_id, power_id);
       const response = await http.patch(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.UPDATE_USERS_POWERS}`,
         {
