@@ -2,13 +2,18 @@
 import React, { useState, useEffect } from "react";
 import classes from "./interactiveContests.module.scss";
 import { useDispatch, useSelector } from "react-redux";
+import * as CryptoJS from "crypto-js";
 import { setUserBalance } from "../../actions/userActions";
 import Ball from "../../icons/Ball";
 import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import { redirectTo, getDaysFromToday } from "../../utility/shared";
+import {
+  redirectTo,
+  getDaysFromToday,
+  setLocalStorage,
+} from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
 import { URLS } from "../../config/urls";
@@ -18,6 +23,7 @@ import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
 import _ from "underscore";
 import moment from "moment";
+import { CONSTANTS } from "../../utility/constants";
 
 // TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
 
@@ -199,7 +205,7 @@ const InteractiveContests = (props) => {
             prizes: item?.game?.PrizePayouts,
             paid_game: item?.game?.is_game_paid,
             entry_fee: item?.game?.entry_fee,
-            currency: item?.game?.currency
+            currency: item?.game?.currency,
           },
         });
     }
@@ -210,19 +216,26 @@ const InteractiveContests = (props) => {
     const { league = "" } = game || {};
     switch (league) {
       case "MLB":
+        const encData = CryptoJS.AES.encrypt(
+          JSON.stringify(item),
+          CONSTANTS.DATA_ENC_KEY
+        ).toString();
         await dispatch(MLbActions.setSelectedTeam(item));
-        return redirectTo(props, { path: "/mlb-live-powerdfs" });
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME, encData);
+        return redirectTo(props, { path: "/mlb-live-powerdfs", state: item });
     }
   };
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const localDateTime = moment(
+      moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()
+    ).format("YYYY-MM-DD=hh:mm A");
     const splitted = localDateTime.split("=");
     return {
       date: splitted[0],
-      time: splitted[1]
-    }
-  }
+      time: splitted[1],
+    };
+  };
 
   const myGameCenterCard = (item, redirectUri) => {
     return (
@@ -245,9 +258,14 @@ const InteractiveContests = (props) => {
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
           game_id={item?.game_id}
-          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
-
+          game_set_start={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.time
+          }
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}

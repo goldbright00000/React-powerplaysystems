@@ -29,24 +29,37 @@
   line-height: normal;
   letter-spacing: normal;
   text-align: right;
-  color: #fb6e00;
-  font-size: 14px;
   position: absolute;
-  top: -54px;
+  top: -60px;
   right: -2px;
   z-index: -1;
-  span {
+  display: flex;
+
+  .scoreTitle {
+    flex: 0.65;
+    position: relative;
+    color: $primary;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  .scoreText {
+    font-size: 14px;
+    flex: 0.35;
     font-family: Teko;
-    font-size: 28px;
+    // font-size: 28px;
+    font-size: 7vh;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: right;
+    text-align: left;
     /* margin-top: 20px; */
     margin-left: 10px;
     vertical-align: -5px;
+    color: $primary;
   }
 }
 
@@ -79,7 +92,7 @@
     justify-content: center;
     align-items: center;
   }
-  
+
   .card_shadow {
     box-shadow: none;
   }
