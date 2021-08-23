@@ -30,7 +30,7 @@ const UsersGateway = (props) => {
       redirectTo(
         { history },
         {
-          path: "/",
+          path: `${state.previousPath}`,
         }
       );
     });
@@ -53,20 +53,25 @@ const UsersGateway = (props) => {
   }, []);
 
   return (
-    <form action={`${process.env.REACT_APP_API_URL}/api/v1/users/account/update-myuserpay-balance`} method="post">
-      <input type="hidden" name="token" value={`Bearer ${token}`} />
-      <input type="hidden" name="amount" value={state.amount} />
-      <input type="hidden" name="user_id" value={user_id} />
-      <script
-        class="myuserPay-button"
-        data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
-        data-amount={state.amount * 100}
-        data-description="Deposit Money"
-        data-name="Defy Games Demo"
-        data-image="Item or your picture,logo"
-        data-submit-ajax="1"
-      ></script>
-    </form >
+    <>
+      <form action={`${process.env.REACT_APP_API_URL}/api/v1/users/account/update-myuserpay-balance`} method="post">
+        <input type="hidden" name="token" value={`Bearer ${token}`} />
+        <input type="hidden" name="amount" value={state.amount} />
+        <input type="hidden" name="user_id" value={user_id} />
+        <script
+          class="myuserPay-button"
+          data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
+          data-amount={state.amount * 100}
+          data-description="Deposit Money"
+          data-name="Defy Games Demo"
+          data-image="Item or your picture,logo"
+          data-submit-ajax="1"
+        ></script>
+      </form>
+      <div className="loder">
+        <span className="load"></span>
+      </div>
+    </>
   );
 };
 
