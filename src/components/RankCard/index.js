@@ -18,11 +18,11 @@ function RankCard(props) {
   const dispatch = useDispatch();
   const { showButton = true, ranks = {}, onClickStandings = () => {} } =
     props || {};
-
+  console.log("ranks", ranks);
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
-
+  console.log("game_id", game_id);
   React.useEffect(async () => {
-    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(props?.game_id));
+    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(game_id));
       if(typeof liveStandingsData !== "undefined")
       {
         if(liveStandingsData.payload.error == false)
