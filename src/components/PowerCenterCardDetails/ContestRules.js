@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./contest.module.scss";
 import correctcopy from "../../assets/correct-copy-2.svg";
 import ContestRulesPopUp from "../ContestRulesPopUp";
+import _ from 'underscore';
 const data = [
   {
     heading: "The 8 roster positions:",
@@ -46,6 +47,7 @@ const ContestRules = (props) => {
   "July", "August", "September", "October", "November", "December"
     ];
     const d = new Date(props.game_set_start);
+  const groupedPoints = _.groupBy(props.points, 'type');
   return (
     <div className={classes.__contest_rules}>
       <p className={classes.__contest_rules_main_title}>Contest Rules</p>
@@ -55,8 +57,8 @@ const ContestRules = (props) => {
           <li>Pick players from any teams scheduled to play on <span>{monthNames[d.getUTCMonth()]} {("0" + d.getUTCDate()).slice(-2)}, {d.getUTCFullYear()}</span></li>
       </ul>
       <ContestRulesPopUp
-        points={[]}
-        powers={[]}
+        points={groupedPoints}
+        powers={props.powers}
         component={({ showPopUp }) => (
             <a
             onClick={showPopUp}

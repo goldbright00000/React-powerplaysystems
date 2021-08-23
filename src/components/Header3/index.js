@@ -18,6 +18,8 @@ function Header3(props) {
     prizeBtnTitle = "",
     bgImageUri,
     isLive = false,
+    points = [],
+    powers = []
   } = props || {};
 
   const RenderLiveProgress = () => (
@@ -54,6 +56,8 @@ function Header3(props) {
                 <DocIcon /> Contest Rules
               </button>
             )}
+            points={points}
+            powers={powers}
           />
           {prizeBtnTitle && (
             <button onClick={onClickPrize}>
