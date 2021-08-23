@@ -26,7 +26,6 @@ import XP2Icon from "../../icons/XP2";
 import XP3Icon from "../../icons/XP3";
 import XP1_5Icon from "../../icons/XP1_5";
 import FooterImage from "../../assets/NHL-live-footer.png";
-import { redirectTo } from "../../utility/shared";
 
 const basicRules = [
   "No purchase necessary.",
