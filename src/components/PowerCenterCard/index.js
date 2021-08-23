@@ -21,8 +21,6 @@ import OrangeEthCurrency from '../../assets/ethereum-orange.png';
 import { getTimeZone } from '../../utility/shared';
 
 const PowerCenterCard = (props) => {
-    console.log("props", props);
-
     const {
         id = null,
         title = '',

@@ -26,9 +26,7 @@ const UsersGateway = (props) => {
   }, []);
 
   useEffect(() => {
-    console.log('_socket --> ', _socket);
     _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, () => {
-      console.log('payment sucess');
       redirectTo(
         { history },
         {
@@ -55,7 +53,7 @@ const UsersGateway = (props) => {
   }, []);
 
   return (
-    <form action={`http://localhost:4000/api/v1/users/account/update-myuserpay-balance`} method="post">
+    <form action={`${process.env.REACT_APP_API_URL}/api/v1/users/account/update-myuserpay-balance`} method="post">
       <input type="hidden" name="token" value={`Bearer ${token}`} />
       <input type="hidden" name="amount" value={state.amount} />
       <input type="hidden" name="user_id" value={user_id} />
