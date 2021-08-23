@@ -99,6 +99,8 @@ function MLBPowerdFsLive(props) {
   const [powerUpCounts, setPowerUpCounts] = useState(0);
   const [showGameLogs, setGameLogsPageState] = useState(false);
   const [showPrizeModal, setPrizeModalState] = useState(false);
+  const [powers, setPowerss] = useState([]);
+  const [pointss, setPointss] = useState([]);
   const [prizes, setPrizes] = useState([]);
   const history = useHistory();
   // const { gameId, userId, teamId, sportId } = history.location.state || {};
@@ -126,6 +128,11 @@ function MLBPowerdFsLive(props) {
   } = selectedTeam || {};
   // let item = selectedTeam.item;
 
+  const {
+    PointsSystems = [],
+    Powers = []
+  } = game || {};
+
   let prizePool,
     topPrize = 0,
     entry_fee = 0,
@@ -149,6 +156,8 @@ function MLBPowerdFsLive(props) {
 
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
+    if(typeof a == "undefined")
+      return
     let remainingPowers = a.payload;
     let challenge = 0;
     let swap = 0;
@@ -339,6 +348,11 @@ function MLBPowerdFsLive(props) {
       onSocketListen();
     }
   }, [_socket]);
+
+  useEffect(() => {
+    setPointss(_.groupBy(PointsSystems, "type"));
+    setPowerss(Powers);
+  }, [game]);
 
   useEffect(() => {
     if (isEmpty(matchUpdateData) && isEmpty(matchUpdateData.data)) return;
@@ -834,6 +848,8 @@ function MLBPowerdFsLive(props) {
                 compressedView
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
+                points={pointss}
+                powers={powers}
               />
 
               <div className={classes.container}>

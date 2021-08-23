@@ -18,23 +18,20 @@
 }
 
 .myScoreDiv {
-  width: 148px !important;
-  height: 70px;
-  margin: 3px 0px -15px 87.7%;
-  padding: 5px 17px 0px 15px !important;
+  height: 80px;
   border-radius: 10px;
   border: solid 2px #000;
   background-color: #17181a;
   flex-direction: row !important;
   line-height: normal;
   letter-spacing: normal;
-  text-align: right;
   color: #fb6e00;
   font-size: 14px;
   position: absolute;
-  top: -54px;
+  top: -53px;
   right: -2px;
   z-index: -1;
+  padding: 8px 17px;
   span {
     font-family: Teko;
     font-size: 28px;
