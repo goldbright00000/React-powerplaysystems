@@ -20,6 +20,7 @@ import XP2Icon from "../../icons/XP2";
 import XP3Icon from "../../icons/XP3";
 import XP1_5Icon from "../../icons/XP1_5";
 import FooterImage from "../../assets/NHL-live-footer.png";
+import { redirectTo } from "../../utility/shared";
 
 const basicRules = [
   "No purchase necessary.",
@@ -49,51 +50,61 @@ function NHLLivePowerdFsScroeDetail(props) {
 
     const _logs = [];
     for (let i = 0; i < gameLogs?.length; i++) {
-      if (
-        gameLogs[i]?.play?.outcome_id === "KKL" ||
-        gameLogs[i]?.play?.outcome_id === "kKL" ||
-        gameLogs[i]?.play?.outcome_id === "KKS" ||
-        gameLogs[i]?.play?.outcome_id === "kKS"
-      ) {
-        continue;
-      } else {
-        //total score
-        const rbiData = getRBI(gameLogs[i]?.play?.runners);
-        const rsData = getRS(
-          gameLogs[i]?.play?.runners,
-          gameLogs[i]?.play?.outcome_id
-        );
+      //total score
+      const rbiData = getRBI(gameLogs[i]?.play?.runners);
+      const rsData = getRS(
+        gameLogs[i]?.play?.runners,
+        gameLogs[i]?.play?.outcome_id
+      );
 
-        const rbi = rbiData.rbi || 0;
-        const rbiPts = rbi === 1 ? 2 : 0;
-        const rs = rsData?.rs || 0;
-        const rsPts = rs === 1 ? 2 : 0;
+      const rbi = rbiData.rbi || 0;
+      const rbiPts = rbi === 1 ? 2 : 0;
+      const rs = rsData?.rs || 0;
+      const rsPts = rs === 1 ? 2 : 0;
 
-        const playPts = getPoints(
-          gameLogs[i]?.play?.outcome_id,
-          gameLogs[i]?.play?.pitcher_id ===
-            gameLogs[i]?.effected_player?.player_id
-        );
+      const isPitcher =
+        gameLogs[i]?.play?.pitcher_id ===
+        gameLogs[i]?.effected_player?.player_id;
+      const isAbOver = gameLogs[i]?.play?.is_ab_over;
 
-        const totalScore = playPts + rbiPts + rsPts;
-        gameLogs[i].totalScore = totalScore;
-        gameLogs[i].rbi = rbi;
-        gameLogs[i].rbiPts = rbiPts;
-        gameLogs[i].rsPts = rsPts;
-        gameLogs[i].rs = rs;
-        gameLogs[i].playPts = playPts;
-        _logs.push(gameLogs[i]);
-      }
+      const playPts = getPoints(
+        gameLogs[i]?.play?.outcome_id,
+        isPitcher,
+        isAbOver
+      );
+
+      const totalScore = playPts + rbiPts + rsPts;
+      gameLogs[i].totalScore = totalScore;
+      gameLogs[i].rbi = rbi;
+      gameLogs[i].rbiPts = rbiPts;
+      gameLogs[i].rsPts = rsPts;
+      gameLogs[i].rs = rs;
+      gameLogs[i].playPts = playPts;
+      _logs.push(gameLogs[i]);
     }
 
     //calculate running totals
     for (let i = 0; i < _logs?.length; i++) {
       if (i === 0) _logs[i].runningTotal = _logs[i]?.totalScore;
 
-      if (i !== 0 && _logs[i - 1] && _logs[i - 1]?.totalScore) {
+      if (
+        i !== 0 &&
+        _logs[i - 1] &&
+        _logs[i - 1]?.totalScore &&
+        i !== _logs?.length
+      ) {
+        console.log(
+          _logs[i - 1]?.runningTotal + _logs[i]?.totalScore,
+          _logs[i - 1]?.runningTotal,
+          _logs[i]?.totalScore
+        );
         _logs[i].runningTotal =
           _logs[i - 1]?.runningTotal + _logs[i]?.totalScore;
       }
+      // else {
+      //   _logs[i].runningTotal =
+      //     _logs[i - 1]?.runningTotal + _logs[_logs?.length - 1]?.totalScore;
+      // }
     }
 
     setLogs(_logs);
@@ -107,7 +118,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(!showModal);
   };
 
-  const getPoints = (id, isPitcher = false) => {
+  const getPoints = (id, isPitcher = false, isAbOver = false) => {
     if (
       id === "aD" ||
       id === "aDAD3" ||
@@ -198,6 +209,8 @@ function NHLLivePowerdFsScroeDetail(props) {
 
     if (id === "aSFAD4" || id === "aSBAD4" || id === "oKLT4" || id === "oKST4")
       return 2;
+
+    if ((id === "kKL" || id === "kKS" || id === "kFT") && isAbOver) return 2;
 
     if (id === "aT" || id === "aTAD4" || id === "oTT4") return 8;
 
@@ -368,6 +381,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                 singleBtn
                 teamManagerLink="/mlb-live-powerdfs"
                 scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                onGoBack={() => redirectTo(props, { path: "/my-game-center" })}
               />
               <div className={classes.card_rank}>
                 <RankCard showButton={false} />
@@ -478,15 +492,6 @@ function NHLLivePowerdFsScroeDetail(props) {
                       updated_at_feed = "",
                       runners = [],
                     } = play || {};
-
-                    if (
-                      outcome_id === "KKL" ||
-                      outcome_id === "kKL" ||
-                      outcome_id === "KKS" ||
-                      outcome_id === "kKS"
-                    ) {
-                      return <></>;
-                    }
 
                     return (
                       <Row

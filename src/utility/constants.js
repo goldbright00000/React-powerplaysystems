@@ -85,6 +85,7 @@ export const CONSTANTS = {
     BTC_BALANCE: "btc_balance",
     ETH_BALANCE: "eth_balance",
     DISPLAY_BALANCE: "display_balance",
+    MLB_LIVE_GAME: "mlb_live_game",
   },
 
   BUTTON_TYPE: {
@@ -154,4 +155,6 @@ export const CONSTANTS = {
     xp3: "xp3",
   },
   PERSONA_USER_ID: "PERSONA_USER_ID",
+  DATA_ENC_KEY:
+    "33SD23lk(O*&3hjas234)(0234-0_2347asdfh234*(&r23l4asdfkO(&R937w4rlkHLO*AW#&4",
 };
