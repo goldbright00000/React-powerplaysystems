@@ -216,7 +216,7 @@ const headerText = [
   },
   {
     id: 6,
-    text: `Select 1 Team Defense, Goals against result in negative points for your team. You can see the Average Runs Against (ARA) for each team below. Click the Arrow icon to see starting Pitchers.`,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team.`,
   },
 ];
 
