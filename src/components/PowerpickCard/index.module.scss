@@ -34,16 +34,18 @@
   padding: 8px 17px;
   span {
     font-family: Teko;
-    font-size: 28px;
+    // font-size: 28px;
+    font-size: 7vh;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: right;
+    text-align: left;
     /* margin-top: 20px; */
     margin-left: 10px;
     vertical-align: -5px;
+    color: $primary;
   }
 }
 
@@ -76,7 +78,7 @@
     justify-content: center;
     align-items: center;
   }
-  
+
   .card_shadow {
     box-shadow: none;
   }

@@ -72,25 +72,45 @@ const dummyData = [
 ];
 
 function LiveStandings(props) {
-  
-
-  const { visible = false, onClose = () => { } } = props || {};
-
-  
+  const { visible = false, onClose = () => {} } = props || {};
 
   const getCurrentTime = () => {
     const dd = new Date();
     const month = [
-      "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
     ];
-    return month[dd.getUTCMonth()] + " " + ("0" + dd.getUTCDate()).slice(-2) + ", " + dd.getUTCFullYear() + " | " + ("0" + dd.getUTCHours()).slice(-2) + ":" + ("0" + dd.getUTCMinutes()).slice(-2) + " ET";
+    return (
+      month[dd.getUTCMonth()] +
+      " " +
+      ("0" + dd.getUTCDate()).slice(-2) +
+      ", " +
+      dd.getUTCFullYear() +
+      " | " +
+      ("0" + dd.getUTCHours()).slice(-2) +
+      ":" +
+      ("0" + dd.getUTCMinutes()).slice(-2) +
+      " ET"
+    );
   };
 
   // const {
   //   powerDFSRanking = []
   // } = props?.liveStandingData || {}
 
-  const [filteredData, setFilteredData] = useState(props?.liveStandingData);
+  const [filteredData, setFilteredData] = useState(
+    props?.liveStandingData || []
+  );
   const [filteredString, setFilteredString] = useState("");
 
   const onSearch = (e) => {
@@ -98,8 +118,10 @@ function LiveStandings(props) {
     setFilteredString(value);
     if (!isEmpty(value)) {
       const result = props?.liveStandingData?.filter((data) => {
-        const [firstName, lastName] = `${data?.team?.user?.display_name}`.split(" ");
-        
+        const [firstName, lastName] = `${data?.team?.user?.display_name}`.split(
+          " "
+        );
+
         if (firstName && lastName) {
           return firstName?.startsWith(value) || lastName?.startsWith(value);
         }
@@ -120,9 +142,7 @@ function LiveStandings(props) {
       <span>{item?.score}</span>
       <span>${setNumberComma(item?.winnings?.amount)}</span>
       <span>
-        {ind !== 0 && 
-            <button className={classes.button_btn}>View Team</button>
-        }
+        {ind !== 0 && <button className={classes.button_btn}>View Team</button>}
       </span>
     </div>
   );
@@ -138,7 +158,9 @@ function LiveStandings(props) {
           </div>
 
           <div className={classes.header_right}>
-            <p className={classes.header_p}>${setNumberComma(props.prizePool, 2)}</p>
+            <p className={classes.header_p}>
+              ${setNumberComma(props.prizePool, 2)}
+            </p>
             <span>Prize Pool</span>
           </div>
         </div>
@@ -161,15 +183,18 @@ function LiveStandings(props) {
               <span>Action</span>
             </div>
 
+            {console.log(filteredData)}
             <div className={classes.table_content}>
-              {filteredString !== "" ? (
-                filteredData.length > 0 ? filteredData.map(Row) : (
+              {filteredData !== undefined && filteredString !== "" ? (
+                filteredData?.length ? (
+                  filteredData.map(Row)
+                ) : (
                   <h2>No data found.</h2>
                 )
+              ) : props?.liveStandingData && props?.liveStandingData?.length ? (
+                props?.liveStandingData.map(Row)
               ) : (
-                props?.liveStandingData.length > 0 ? props?.liveStandingData.map(Row) : (
-                  <h2>No data found.</h2>
-                )
+                <h2>No data found.</h2>
               )}
             </div>
           </div>
