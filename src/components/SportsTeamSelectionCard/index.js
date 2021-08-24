@@ -48,8 +48,11 @@ function SportsTeamSelectionCard(props) {
 
   const { venue_id = "", name: stadium = "" } = venue || {};
 
-  const { wins = 0, loses = 0, average_runs_against = 0 } =
-    awayTeamStats[0] || {};
+  const {
+    wins = 0,
+    loses = 0,
+    average_runs_against = 0,
+  } = awayTeamStats[0] || {};
 
   const picherDetails = (match_id) => {
     let temp = [];

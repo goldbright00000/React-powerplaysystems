@@ -72,6 +72,7 @@ function SportsTeamSelectionCard(props) {
     let match_id = props?.item?.match_id;
     let team_id = props?.item?.team_id;
     let qbArray = qbDetails(match_id);
+    console.log(team_action.team);
     console.log(qbArray);
     let a;
     if (team_action.team == "home") {

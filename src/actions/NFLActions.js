@@ -55,10 +55,14 @@ export function nflData(gameId) {
         nflTeams.push(awayTeam);
         nflTeams.push(homeTeam);
 
-        const { nfl_players: awayTeamPlayers = [], name: awayTeamName = "" } =
-          away_team || {};
-        const { nfl_players: homeTeamPlayers = [], name: homeTeamName = "" } =
-          home_team || {};
+        const {
+          nfl_match_lineups: awayTeamPlayers = [],
+          name: awayTeamName = "",
+        } = away_team || {};
+        const {
+          nfl_match_lineups: homeTeamPlayers = [],
+          name: homeTeamName = "",
+        } = home_team || {};
         const _awayTeamPlayersList = getPlayers(
           awayTeamPlayers,
           awayTeamName,
@@ -156,7 +160,7 @@ function getPlayers(
         type = "",
         nfl_player_season_stats = [],
         current_position = "",
-      } = playerList[i] || {};
+      } = playerList[i]?.player || {};
 
       const nfl_player_stats = nfl_player_season_stats;
 
