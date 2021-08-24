@@ -199,6 +199,14 @@ function SportsLiveCard(props) {
     return `Top ${current_inning} | ${outs} outs`;
   };
 
+  const showMidThird = () => {
+    return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "t";
+  };
+
+  const showEndThird = () => {
+    return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "b";
+  };
+
   const toggleReplaceModal = useCallback(async () => {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
@@ -281,7 +289,7 @@ function SportsLiveCard(props) {
   }
 
   const onSwap = (playerId, match_id) => {
-    console.log("props.swapCount", props.swapCount);
+    // console.log("props.swapCount", props.swapCount);
     if (props.swapCount === 0) {
       alert("You cannot swap the players.");
       return;
@@ -301,6 +309,10 @@ function SportsLiveCard(props) {
     }
   };
 
+  const isPitching = () => {
+    return getCurrentInningHalf() === "t";
+  };
+
   const getStatus = () => {
     if (`${status}`?.toLocaleLowerCase() === "scheduled") {
       return `${moment(date_time).format("MMM Do")} - ${moment(
@@ -311,9 +323,12 @@ function SportsLiveCard(props) {
       `${status}`?.toLocaleLowerCase() === "completed"
     ) {
       return "Game Over";
-    } else if (type === "P" || (type === "p" && isPitching())) {
+    } else if (
+      (type === "P" || type === "p") &&
+      player_id === pitcher?.player_id
+    ) {
       return "Pitching";
-    } else if (type === "P" || (type === "p" && !isPitching())) {
+    } else if ((type === "P" || type === "p") && !isPitching()) {
       return "Dugout";
     } else if (player_id === hitter?.player_id && hitter) {
       return "Hitting";
@@ -328,9 +343,21 @@ function SportsLiveCard(props) {
     return `${current_inning_half}`.toLocaleLowerCase();
   };
 
-  const isPitching = () => getCurrentInningHalf() === "t";
-
   const showFooterStats = () => {
+    if (showMidThird()) {
+      return (
+        <div className={classes.third_text}>
+          <p>Mid 3rd</p>
+        </div>
+      );
+    } else if (showEndThird()) {
+      return (
+        <div className={classes.third_text}>
+          <p>End 3rd</p>
+        </div>
+      );
+    }
+
     if (type === "P" || (type === "p" && isPitching())) {
       return (
         <RenderMLBPlayerStats
@@ -386,20 +413,17 @@ function SportsLiveCard(props) {
   };
 
   const checkIfIsStarPlayer = () => {
-    if(type == "p" || type == "P") {
-      if(earned_runs_average < 3.50)
-      {
+    if (type == "p" || type == "P") {
+      if (earned_runs_average < 3.5) {
         return true;
       }
-    }
-    else {
-      if(batting_average > 0.290 || home_runs > 30)
-      {
+    } else {
+      if (batting_average > 0.29 || home_runs > 30) {
         return true;
       }
     }
     return false;
-  }
+  };
 
   const RenderStarPower = ({}) =>
     checkIfIsStarPlayer() && (
@@ -588,10 +612,8 @@ function SportsLiveCard(props) {
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {score}
           </p>
-          {(xp1 == 0 && xp2 == 0 && xp3 == 0) ? (
-            <div style={{opacity:0.5}}>
-              {renderXp()}
-            </div>
+          {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
+            <div style={{ opacity: 0.5 }}>{renderXp()}</div>
           ) : (
             <RenderXpToolTip />
           )}
@@ -731,14 +753,14 @@ function SportsLiveCard(props) {
         //   <Replace size={singleView ? 23 : 22} />
         // </Tooltip>
         // ) : (
-          props.swapCount == 0 ? (
-            <div style={{opacity:0.5}}>
-              <Replace size={singleView ? 23 : 22} />
-            </div>
-          ) : (
-            <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
-          )
-          
+        props.swapCount == 0 ? (
+          <div style={{ opacity: 0.5 }}>
+            <Replace size={singleView ? 23 : 22} />
+          </div>
+        ) : (
+          <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+        )
+
         // )
       }
     </>
@@ -824,15 +846,19 @@ function SportsLiveCard(props) {
             )}
           </div>
 
-          {!compressedView && !singleView && getStatus() !== "Game Over" && (
-            <SportsLiveCardFooter
-              showSummary={showSummary}
-              onClickBack={() => setSummaryState(false)}
-              onClickDetails={() => setSummaryState(true)}
-              title={footerTitle()}
-              largeView={largeView}
-            />
-          )}
+          {!compressedView &&
+            !singleView &&
+            getStatus() !== "Game Over" &&
+            !showEndThird() &&
+            !showMidThird() && (
+              <SportsLiveCardFooter
+                showSummary={showSummary}
+                onClickBack={() => setSummaryState(false)}
+                onClickDetails={() => setSummaryState(true)}
+                title={footerTitle()}
+                largeView={largeView}
+              />
+            )}
         </div>
       </div>
       <RenderModal

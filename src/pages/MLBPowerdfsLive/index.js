@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty, union } from "lodash";
+import * as CryptoJS from "crypto-js";
 
 import classes from "./index.module.scss";
 import * as MLBActions from "../../actions/MLBActions";
@@ -29,7 +30,7 @@ import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 import SportsLiveCard from "../../components/SportsLiveCard";
-import { printLog, redirectTo } from "../../utility/shared";
+import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
@@ -88,7 +89,7 @@ function MLBPowerdFsLive(props) {
   });
   const [playerToSwap, setPlayerToSwap] = useState({});
 
-  const [swapCounts, setSwapCounts] = useState(0);
+  const [swapCounts, setSwapCounts] = useState(999);
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
@@ -100,8 +101,9 @@ function MLBPowerdFsLive(props) {
   const [showGameLogs, setGameLogsPageState] = useState(false);
   const [showPrizeModal, setPrizeModalState] = useState(false);
   const [prizes, setPrizes] = useState([]);
-  const history = useHistory();
-  // const { gameId, userId, teamId, sportId } = history.location.state || {};
+
+  const dispatch = useDispatch();
+  const selectedTeam = getTeamFromLocalStorage();
 
   const {
     live_data = [],
@@ -110,11 +112,8 @@ function MLBPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.mlb);
   const { user = {} } = useSelector((state) => state.auth);
-  const { selectedTeam = {} } = useSelector((state) => state.mlb);
-  const dispatch = useDispatch();
 
   const onCloseModal = () => setLearnMoreModal(false);
-  // let item = props.location.state.item;
 
   const {
     game_id: gameId = "",
@@ -124,13 +123,11 @@ function MLBPowerdFsLive(props) {
     game = {},
     Prizes = [],
   } = selectedTeam || {};
-  // let item = selectedTeam.item;
 
   let prizePool,
     topPrize = 0,
     entry_fee = 0,
     currency;
-  // let powers = item?.game?.Powers;
 
   prizePool = _.reduce(
     game?.PrizePayouts,
@@ -149,6 +146,10 @@ function MLBPowerdFsLive(props) {
 
   async function setPowers() {
     let a = await dispatch(MLBActions.getUserRemainingPowers(gameId, userId));
+    if (a === undefined) {
+      return;
+    }
+
     let remainingPowers = a.payload;
     let challenge = 0;
     let swap = 0;
@@ -188,7 +189,7 @@ function MLBPowerdFsLive(props) {
       }
     }
     setChallengeCounts(challenge);
-    setSwapCounts(swap);
+    // setSwapCounts(swap);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
@@ -277,13 +278,13 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
-      // if (requests.payload[0] == 1) {
-      //   setPowers();
-      // } else {
-      //   alert(
-      //     "We are experiencing technical issues with the Power functionality. Please try again shortly."
-      //   );
-      // }
+      if (requests.payload[0] == 1) {
+        setPowers();
+      } else {
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
+      }
     }
   }
 
@@ -317,11 +318,17 @@ function MLBPowerdFsLive(props) {
     }
   }
 
-  useEffect(async () => {
-    if (isEmpty(selectedTeam)) {
-      return redirectTo(props, { path: "/my-game-center" });
-    }
+  function getTeamFromLocalStorage() {
+    const encData = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME);
+    const byteData = CryptoJS.AES.decrypt(encData, CONSTANTS.DATA_ENC_KEY);
+    const decSelectedTeamData = JSON.parse(
+      byteData.toString(CryptoJS.enc.Utf8)
+    );
 
+    return decSelectedTeamData;
+  }
+
+  useEffect(async () => {
     _socket = socket();
     setPowers();
     return function cleanUP() {
@@ -356,7 +363,6 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    printLog({ ...history.location.state, selectedTeam, gameId, userId });
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -819,7 +825,7 @@ function MLBPowerdFsLive(props) {
                     onGoBack={() =>
                       redirectTo(props, { path: "/my-game-center" })
                     }
-                    state={history.location.state}
+                    state={selectedTeam}
                     {...props}
                   />
 

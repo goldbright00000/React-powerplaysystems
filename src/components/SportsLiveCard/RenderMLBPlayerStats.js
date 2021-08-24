@@ -28,6 +28,7 @@ function RenderMLBPlayerStats(props) {
     strikes = 0,
     balls = 0,
     batting_average = 0,
+    showPitcher = false,
   } = props || {};
 
   const {

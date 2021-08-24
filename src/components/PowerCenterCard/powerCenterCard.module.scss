@@ -176,10 +176,9 @@
     padding: 16px;
 
     .__card_title{
-        .__card_title_text{
-            width: 210px;
+        .__card_title_text{            
             height: 56px;
-            margin: 0 44px 4px 0;
+            margin: 0 20px 4px 0;
             font-family: Poppins;
             font-size: 20px;
             font-weight: bold !important;
@@ -197,10 +196,10 @@
 
     .__start_end_date {
         .__date_text{
-            margin-bottom: 14px;
-            width: 146px;
+            display: block;
+            margin-bottom: 30px;
+            width: 160px;
             height: 17px;
-            margin: 4px 52px 14px 0;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             font-family: Poppins;
             font-size: 12px;
@@ -217,7 +216,8 @@
 
         .__current_jackpot_text {
             width: 158px;
-            height: 20px;
+            display: block;
+            height: 30px;
             margin: 14px 40px 12px 0;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             font-family: Poppins;
@@ -229,29 +229,8 @@
             letter-spacing: normal;
             color: #fb6e00;
         }
-    }
-
-    .__jackpot_detail {
-        width: 177px;
-        height: 60px;
-        margin: 5px 6px 10px 60px;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        font-family: Poppins;
-        font-size: 12px;
-        
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.67;
-        letter-spacing: normal;
-        text-align: right;
-        color: #f2f2f2;
-        .__jackpot_detail_text {
-            font-size: 12px;
-            font-weight: bold !important;
-            
-            .__jackpot_detail_sub_text {
-                color: #fb6e00;
-            }
+        .__current_jackpot_amount{
+            margin-bottom: 25px;
         }
     }
 

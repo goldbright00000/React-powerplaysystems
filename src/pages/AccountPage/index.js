@@ -101,6 +101,9 @@ function AccountPage(props) {
                   <h6 className="m-0">History</h6>
                 </Tab>
                 <Tab className={`${activeTab === 4 && classes.active}`}>
+                  <h6 className="m-0">Withdrawal History</h6>
+                </Tab>
+                <Tab className={`${activeTab === 5 && classes.active}`}>
                   <h6 className="m-0">Account Limits</h6>
                 </Tab>
               </TabList>
@@ -118,6 +121,13 @@ function AccountPage(props) {
                 </TabPanel>
                 <TabPanel>
                   <ResultsInforComponent
+                    isMobile={isMobile}
+                    transactions={userAccount.transactions}
+                    balance={userAccount.balance}
+                  />
+                </TabPanel>
+                <TabPanel>
+                  <HistoryInfoComponent
                     isMobile={isMobile}
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}

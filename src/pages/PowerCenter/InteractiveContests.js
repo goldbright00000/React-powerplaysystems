@@ -23,6 +23,8 @@ import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 
+import PromoModal from '../../components/PromoModal';
+
 const powerCenterCardData1 = [
   {
     id: 1,
@@ -189,6 +191,22 @@ const InteractiveContests = (props) => {
   const [subFilter, setSubFilter] = useState("");
 
   const setShowDepositModal = () => dispatch(showDepositForm());
+  const [showPromoModal, setShowPromoModal] = useState(false);
+  const [challengeGame, setChallengeGame] = useState({});
+  const [propsGame, setPropsGame] = useState({});
+
+  const onClosePromoModal = () => {
+    setShowPromoModal(false);
+    setChallengeGame({});
+    setPropsGame({});
+  }
+  const onOpenPromoModal = (items, propss) => {
+    setShowPromoModal(true);
+    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
+      setChallengeGame(items);
+    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
+      setPropsGame(propss);
+  }
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -303,11 +321,16 @@ const InteractiveContests = (props) => {
       history.push("/login");
       return;
     }
-
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
-    if (enoughBalance || !item?.is_game_paid || item?.is_game_paid == null) {
+
+    if (enoughBalance || item?.is_game_free) {
       switch (item?.league) {
         case "MLB":
+          if(item.game_type == "PowerdFs_challenge")
+          {
+            onOpenPromoModal(item, props);
+            return;
+          }
           return redirectTo(props, {
             path: `/mlb-select-team`,
             state: {
@@ -377,6 +400,7 @@ const InteractiveContests = (props) => {
           return redirectTo(props, { path: "/" });
       }
     } else {
+      console.log('In else')
       setHaveBalance(false);
       setShowDepositModal();
     }
@@ -597,6 +621,7 @@ const InteractiveContests = (props) => {
           })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
+          totalPoints={item?.powerdfs_challenge_amount}
           onEnter={() => {
             onEnter(item);
           }}
@@ -639,6 +664,7 @@ const InteractiveContests = (props) => {
           })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
+          totalPoints={item?.powerdfs_challenge_amount}
           onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
@@ -927,6 +953,7 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
+        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
       </div>
     </>
   );
