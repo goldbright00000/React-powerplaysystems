@@ -1,7 +1,7 @@
 import React from "react";
-import classes from "./outlineButton.module.scss";
+import classes from "./outlineButtonViceVersa.module.scss";
 
-const OutlineButton = (props) => {
+const OutlineButtonViceVersa = (props) => {
   const {
     title = "",
     onClick = () => { },
@@ -37,4 +37,4 @@ const OutlineButton = (props) => {
   );
 };
 
-export default OutlineButton;
+export default OutlineButtonViceVersa;

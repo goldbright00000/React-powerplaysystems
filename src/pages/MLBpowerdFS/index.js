@@ -565,7 +565,7 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
-
+      console.log("response", response);
     if (response) {
       setData(response?.filterdList);
 

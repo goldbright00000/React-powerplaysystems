@@ -207,7 +207,7 @@ function RenderMLBPlayerStats(props) {
           </div>
         )}
 
-        {!isEmpty(pitcher) && type !== "P" && (
+        {!isEmpty(pitcher) /*&& type !== "P"*/ && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
               <Baseball />

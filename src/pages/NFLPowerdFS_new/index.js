@@ -151,7 +151,7 @@ const FILTERS_INITIAL_VALUES = [
   {
     id: 5,
     title: K,
-    remaining: 2,
+    remaining: 1,
   },
   {
     id: 6,
@@ -709,7 +709,7 @@ function MLBPowerdFs(props) {
     setSelectedDropDown(team);
   };
 
-  const onSubmitMLbSelection = async () => {
+  const onSubmitNFL = async () => {
     setIsLoading(true);
     if (isEmpty(user)) {
       setIsLoading(false);
@@ -1410,7 +1410,7 @@ function MLBPowerdFs(props) {
               ) : (
                 <button
                   className={classes.sidebar_button}
-                  onClick={onSubmitMLbSelection}
+                  onClick={onSubmitNFL}
                 >
                   Submit!
                 </button>
@@ -1474,7 +1474,7 @@ function MLBPowerdFs(props) {
               {selectedPlayerCount === sideBarList.length && (
                 <button
                   className={classes.sidebar_button}
-                  onClick={onSubmitMLbSelection}
+                  onClick={onSubmitNFL}
                 >
                   Submit!
                 </button>
@@ -1510,10 +1510,7 @@ function MLBPowerdFs(props) {
                 selectedPlayerCount={selectedPlayerCount}
               />
 
-              <button
-                className={classes.sidebar_button}
-                onClick={onSubmitMLbSelection}
-              >
+              <button className={classes.sidebar_button} onClick={onSubmitNFL}>
                 Submit!
               </button>
             </>

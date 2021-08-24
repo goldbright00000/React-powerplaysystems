@@ -165,3 +165,132 @@
         }
     }
 }
+
+.__power_center__challenge_card{
+    width: 280px;
+    height: 380px;
+    border-radius: 8px;
+    background-color: $black2;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+
+    .__card_title{
+        .__card_title_text{            
+            height: 56px;
+            margin: 0 20px 4px 0;
+            font-family: Poppins;
+            font-size: 20px;
+            font-weight: bold !important;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #f2f2f2;
+
+            .__card__title_first{
+                color: #fb6e00;
+            }
+        }
+    }
+
+    .__start_end_date {
+        .__date_text{
+            display: block;
+            margin-bottom: 30px;
+            width: 146px;
+            height: 17px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            font-family: Poppins;
+            font-size: 12px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: rgba(242, 242, 242, 0.75);
+        }
+    }
+    
+    .__current_jackpot {
+
+        .__current_jackpot_text {
+            width: 158px;
+            display: block;
+            height: 30px;
+            margin: 14px 40px 12px 0;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            font-family: Poppins;
+            font-size: 14px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 1.43;
+            letter-spacing: normal;
+            color: #fb6e00;
+        }
+        .__current_jackpot_amount{
+            margin-bottom: 25px;
+        }
+    }
+
+    .__win_power {
+        width: 121px;
+        height: 32px;
+        margin: 5px 77px 14px 0;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        color: var(--white-60);
+        .__win_power_span {
+            color: rgba(242, 242, 242, 0.75);
+        }
+    }
+    .__card_button {
+        margin-bottom: 11px;
+
+    }
+
+    .__power_center_card_status_and_details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height: 50px;
+
+        .__power_center_card_details {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+            margin-right: 20px;
+
+            .__power_center_card_details_link {
+                width: 100%;
+                height: 17px;
+                margin: 0 5px 0 0;
+                font-family: Poppins;
+                font-size: 12px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: right;
+                color: $primary;
+                text-decoration: underline;
+                cursor: pointer;
+            }
+
+            .__power_center_card_details_link_forward_arrow {
+                width: 4px;
+                height: 6px;
+                color: $primary;
+            }
+        }
+    }
+}
+

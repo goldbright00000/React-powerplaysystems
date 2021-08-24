@@ -124,6 +124,43 @@ export function mlbData(gameId) {
   };
 }
 
+export function mlbData2(gameId) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(`${URLS.DFS.MLB}?game_id=${gameId}`);
+      const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
+        response.data || {};
+
+      let completed = 0;
+      for (let i = 0; i < mlbSchedule?.length; i++) {
+        const { status = "" } = mlbSchedule[i] || {};
+
+        if (status !== "closed") {
+          completed = 1;
+        }
+      }
+
+      dispatch({
+        type: MLB_DATA,
+        payload: { completed: completed },
+        game_id,
+        sport_id,
+      });
+
+      // console.log('mlbPlayerList', mlbPlayerList)
+      // console.log('filterdList', filterdList)
+
+      return {
+        completed: completed,
+        game_id,
+        sport_id,
+      };
+    } catch (err) {
+      return err;
+    }
+  };
+}
+
 function getTeam(currentTeam, opponentTeam, match_id, venue, date_time) {
   const time = moment(date_time).format("LT");
   const date = moment(date_time).format("YYYY-MM-DD");
@@ -243,9 +280,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) { }
+        } catch (er) {}
       }
-    } catch (err) { }
+    } catch (err) {}
   };
 }
 
@@ -449,7 +486,7 @@ export function getUserRemainingPowers(game_id, user_id) {
 export function updateUserRemainingPowers(game_id, user_id, power_id) {
   return async (dispatch) => {
     try {
-      console.log("PAYLOAD: ", game_id, user_id, power_id);
+      // console.log("PAYLOAD: ", game_id, user_id, power_id);
       const response = await http.patch(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.UPDATE_USERS_POWERS}`,
         {
@@ -483,7 +520,6 @@ export function getLiveStandings(game_id) {
       const response = await http.get(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_LIVE_STANDINGS}?game_id=${game_id}`
       );
-      console.log("responseresponse", response);
       return dispatch({
         type: "mlbLiveStandings",
         payload: response.data,

@@ -265,24 +265,36 @@ const InteractiveContests = (props) => {
   };
 
   const checkBalace = (item, entry_fee) => {
+    console.log('entry_fee --> ', entry_fee)
+    console.log('item?.currency --> ', item?.currency)
+    console.log('cashBalance --> ', cashBalance)
+    console.log('btcBalance --> ', btcBalance)
+    console.log('ethBalance --> ', ethBalance)
+    console.log('tokenBalance --> ', tokenBalance)
+
     switch (item?.currency) {
       case "USD":
+        console.log('--- USD ---');
         if (cashBalance >= entry_fee) return true;
         else return false;
 
       case "BTC":
+        console.log('--- BTC ---');
         if (btcBalance >= entry_fee) return true;
         else return false;
 
       case "ETH":
+        console.log('--- ETH ---');
         if (ethBalance >= entry_fee) return true;
         else return false;
 
       case "PWRS":
+        console.log('--- PWRS ---');
         if (tokenBalance >= entry_fee) return true;
         else return false;
 
       case "NFL":
+        console.log('--- NFL ---');
         return redirectTo(props, {
           path: `/nfl-powerdfs`,
           state: {
@@ -305,7 +317,13 @@ const InteractiveContests = (props) => {
     }
 
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
-    if (enoughBalance || !item?.is_game_paid || item?.is_game_paid == null) {
+
+    console.log('EnoughBalance --> ', enoughBalance)
+
+    console.log('free game', item?.is_game_free)
+
+    if (enoughBalance || item?.is_game_free) {
+      console.log('In if')
       switch (item?.league) {
         case "MLB":
           return redirectTo(props, {
@@ -377,6 +395,7 @@ const InteractiveContests = (props) => {
           return redirectTo(props, { path: "/" });
       }
     } else {
+      console.log('In else')
       setHaveBalance(false);
       setShowDepositModal();
     }
