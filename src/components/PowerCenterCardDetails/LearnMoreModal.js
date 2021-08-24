@@ -42,7 +42,6 @@ const LearnMoreModal = (props) => {
             <Tabs   
               selectedIndex={activeTab}
               onSelect={(tabIndex) => {
-                  console.log("tabIndex", tabIndex);
                 setActiveTab(tabIndex);
               }}
               className={classes.reacttabs}

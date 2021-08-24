@@ -33,13 +33,9 @@ const ChallengePopUp = props => {
                                                 setTimers(3);
                                                 var t = 3;
                                                 var a = setInterval(function() {
-                                                    console.log("t", t);
                                                     t = t - 1;
-                                                    console.log("t", t);
                                                     setTimers(t);
-                                                    console.log("t timers", t == -1);
                                                     if(t == -1) {
-                                                        console.log("t in");
                                                         clearInterval(a);
                                                         var a1 = [2,3];
                                                         var random = a1[Math.floor(Math.random()*a1.length)];

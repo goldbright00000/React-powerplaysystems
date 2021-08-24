@@ -522,7 +522,6 @@ function MLBPowerdFsLive(props) {
       updated_team_defense = {},
     } = res?.data || {};
 
-    console.log("onFantasyUpdate: ", res);
 
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
