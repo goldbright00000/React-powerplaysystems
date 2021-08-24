@@ -28,6 +28,7 @@ function RenderMLBPlayerStats(props) {
     strikes = 0,
     balls = 0,
     batting_average = 0,
+    showPitcher = false,
   } = props || {};
 
   const {
@@ -207,7 +208,7 @@ function RenderMLBPlayerStats(props) {
           </div>
         )}
 
-        {!isEmpty(pitcher) /*&& type !== "P"*/ && (
+        {!isEmpty(pitcher) && type !== "P" && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
               <Baseball />
