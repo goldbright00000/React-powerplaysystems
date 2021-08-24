@@ -24,7 +24,6 @@ import "./carousel.scss";
 import { useMediaQuery } from "react-responsive";
 
 function SportsSelectionCard3(props) {
-  console.log("mukesh", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {

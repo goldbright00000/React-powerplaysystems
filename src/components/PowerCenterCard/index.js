@@ -96,6 +96,10 @@ const PowerCenterCard = (props) => {
         }
     }
 
+    const onEnterModal = () => {
+        
+    }
+
     return (
         !showDetails
             ?
@@ -225,7 +229,7 @@ const PowerCenterCard = (props) => {
                     </div>
                     <div className={classes.__card_button}>
                         <OutlineButtonViceVersa
-                            title={`Enter  •  $5`}
+                            title={`Enter`}
                             onClick={onEnter}
                         />
                     </div>

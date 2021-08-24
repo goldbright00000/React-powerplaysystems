@@ -332,7 +332,6 @@ function SportsLiveCard(props) {
     return `${current_inning_half}`.toLocaleLowerCase();
   };
 
-  console.log(isPitching());
 
   const showFooterStats = () => {
     if (type === "P" || (type === "p" && isPitching())) {

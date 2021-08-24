@@ -51,7 +51,6 @@ function PowerCollapesible(props) {
     Power = [] 
   } = history?.location?.state || {};
 
-  console.log("PowerCollapesible", props, Power);
   const [swapCountss, setSwapCountss] = useState(0);
   const [dwallCountss, setDwallCountss] = useState(0);
   const [challengeCountss, setChallengeCountss] = useState(0);

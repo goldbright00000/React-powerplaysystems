@@ -111,7 +111,6 @@ const onSocketEmit = (gameId, userId) => {
 const onSocketListen = () => {
   //fetch data first time
   _socket?.on(EMIT_ROOM, (res) => {
-    console.log("res?.data", res?.data);
     const {
       power_dfs_team_rankings = []
     } = res?.data || {};

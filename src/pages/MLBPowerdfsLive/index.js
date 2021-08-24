@@ -384,7 +384,6 @@ function MLBPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
-    printLog({ ...history.location.state, selectedTeam, gameId, userId });
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -546,7 +545,6 @@ function MLBPowerdFsLive(props) {
       updated_team_defense = {},
     } = res?.data || {};
 
-    console.log("onFantasyUpdate: ", res);
 
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);

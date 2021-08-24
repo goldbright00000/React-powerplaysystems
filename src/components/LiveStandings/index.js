@@ -183,7 +183,6 @@ function LiveStandings(props) {
               <span>Action</span>
             </div>
 
-            {console.log(filteredData)}
             <div className={classes.table_content}>
               {filteredData !== undefined && filteredString !== "" ? (
                 filteredData?.length ? (
