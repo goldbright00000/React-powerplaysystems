@@ -15,7 +15,8 @@ import ForwardArrow from "../../icons/ForwardArrow";
 import { isEmpty } from "lodash";
 
 function SportsTeamSelectionCard(props) {
-  const selector_all_data = useSelector((state) => state?.mlb?.allData);
+  console.log(props);
+  const selector_all_data = useSelector((state) => state?.nfl?.allData);
   const [currentStep, setCurrentStep] = useState(0);
 
   const {
@@ -35,7 +36,7 @@ function SportsTeamSelectionCard(props) {
     teamBName = "",
     teamBCity = "",
     city = "",
-    mlb_team_stats: awayTeamStats = [],
+    nfl_team_season_stats: awayTeamStats = [],
     date = "",
     time = "",
     steps = [],
@@ -44,7 +45,7 @@ function SportsTeamSelectionCard(props) {
     venue = {},
   } = item || {};
 
-  const mlbStates = item.mlb_team_stats;
+  const mlbStates = item.nfl_team_season_stats;
 
   const { venue_id = "", name: stadium = "" } = venue || {};
 
@@ -54,12 +55,12 @@ function SportsTeamSelectionCard(props) {
     average_runs_against = 0,
   } = awayTeamStats[0] || {};
 
-  const picherDetails = (match_id) => {
+  const qbDetails = (match_id) => {
     let temp = [];
     for (let i = 0; i < selector_all_data.length; i++) {
       let rec = selector_all_data[i];
       if (rec.match_id == match_id) {
-        if (rec.type == "P" || rec.type == "p") {
+        if (rec.type == "QB" || rec.type == "qb") {
           temp.push(rec);
         }
       }
@@ -70,22 +71,24 @@ function SportsTeamSelectionCard(props) {
   const RenderMLBState = (team_action) => {
     let match_id = props?.item?.match_id;
     let team_id = props?.item?.team_id;
-    let pitcherDetailsArray = picherDetails(match_id);
+    let qbArray = qbDetails(match_id);
+    console.log(team_action.team);
+    console.log(qbArray);
     let a;
     if (team_action.team == "home") {
-      if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[0];
+      if (qbArray[0]?.homeTeam == team_action.name) {
+        a = qbArray[0];
       }
-      if (pitcherDetailsArray[1]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[1];
+      if (qbArray[1]?.homeTeam == team_action.name) {
+        a = qbArray[1];
       }
     }
     if (team_action.team == "away") {
-      if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[0];
+      if (qbArray[0]?.homeTeam == team_action.name) {
+        a = qbArray[0];
       }
-      if (pitcherDetailsArray[1]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[1];
+      if (qbArray[1]?.homeTeam == team_action.name) {
+        a = qbArray[1];
       }
     }
     return (
@@ -94,11 +97,7 @@ function SportsTeamSelectionCard(props) {
       >
         <div>
           <p>
-            {a?.playerName}{" "}
-            <span>
-              {a?.playerStats.wins}-{a?.playerStats.losses},{" "}
-              {parseFloat(a?.playerStats.earned_runs_average).toFixed(2)} ERA
-            </span>
+            <span>QB</span> {a?.playerName}
           </p>
         </div>
       </div>

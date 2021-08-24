@@ -29,7 +29,7 @@ function SportsSelectionCard3(props) {
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => { },
+    onSelectDeselect = (playerId, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -52,22 +52,24 @@ function SportsSelectionCard3(props) {
     position = "",
     match_id,
     primary_position = "",
-    is_star_player = false
+    is_star_player = false,
   } = player || {};
 
   const checkIfIsStarPlayer = () => {
     if (type == "p" || type == "P") {
-      if (player?.playerStats?.earned_runs_average < 3.50) {
+      if (player?.playerStats?.earned_runs_average < 3.5) {
         return true;
       }
-    }
-    else {
-      if (player?.playerStats?.batting_average > 0.290 || player?.playerStats?.home_runs > 30) {
+    } else {
+      if (
+        player?.playerStats?.batting_average > 0.29 ||
+        player?.playerStats?.home_runs > 30
+      ) {
         return true;
       }
     }
     return false;
-  }
+  };
 
   const nextStep = () => {
     let _currentStep = currentStep;
@@ -96,7 +98,7 @@ function SportsSelectionCard3(props) {
           <NFLPlayerStat
             playerStats={playerStats}
             active={isSelected}
-            position={position}
+            position={primary_position}
           />
         );
 
@@ -107,9 +109,11 @@ function SportsSelectionCard3(props) {
 
   return (
     <div
-      className={`${classes.container_body_card} ${checkIfIsStarPlayer() ? classes.container_body_card_start_power_background : ``
-        } ${isSelected ? classes.activeBorder : ""
-        }`}
+      className={`${classes.container_body_card} ${
+        checkIfIsStarPlayer()
+          ? classes.container_body_card_start_power_background
+          : ``
+      } ${isSelected ? classes.activeBorder : ""}`}
     >
       {checkIfIsStarPlayer() && (
         <span className={classes.container_body_card_start_power}>
@@ -118,8 +122,9 @@ function SportsSelectionCard3(props) {
       )}
       <div className={classes.container_body_card_header}>
         <p
-          className={`${classes.container_selected_p} ${isSelected ? classes.active : ""
-            }`}
+          className={`${classes.container_selected_p} ${
+            isSelected ? classes.active : ""
+          }`}
         >
           <span>{primary_position}</span>
           {playerName}
@@ -164,7 +169,7 @@ function SportsSelectionCard3(props) {
             autoPlay={false}
             infiniteLoop={false}
             interval={1e11}
-          // className=".carousel .control-dots"
+            // className=".carousel .control-dots"
           >
             <>
               {renderStats()}
