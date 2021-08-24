@@ -66,15 +66,13 @@ function NHLLivePowerdFsScroeDetail(props) {
         gameLogs[i]?.play?.pitcher_id ===
         gameLogs[i]?.effected_player?.player_id;
       const isAbOver = gameLogs[i]?.play?.is_ab_over;
+      const id = gameLogs[i]?.play?.outcome_id;
 
-      const playPts = getPoints(
-        gameLogs[i]?.play?.outcome_id,
-        isPitcher,
-        isAbOver
-      );
+      const playPts = getPoints(id, isPitcher, isAbOver);
 
       const totalScore = playPts + rbiPts + rsPts;
       gameLogs[i].totalScore = totalScore;
+      gameLogs[i].runningTotal = 0;
       gameLogs[i].rbi = rbi;
       gameLogs[i].rbiPts = rbiPts;
       gameLogs[i].rsPts = rsPts;
@@ -87,19 +85,9 @@ function NHLLivePowerdFsScroeDetail(props) {
     for (let i = 0; i < _logs?.length; i++) {
       if (i === 0) _logs[i].runningTotal = _logs[i]?.totalScore;
 
-      if (
-        i !== 0 &&
-        _logs[i - 1] &&
-        _logs[i - 1]?.totalScore &&
-        i !== _logs?.length
-      ) {
-        console.log(
-          _logs[i - 1]?.runningTotal + _logs[i]?.totalScore,
-          _logs[i - 1]?.runningTotal,
-          _logs[i]?.totalScore
-        );
-        _logs[i].runningTotal =
-          _logs[i - 1]?.runningTotal + _logs[i]?.totalScore;
+      if (i !== 0 && i !== _logs?.length) {
+        const runningTotal = _logs[i - 1].runningTotal + _logs[i].totalScore;
+        _logs[i].runningTotal = runningTotal;
       }
       // else {
       //   _logs[i].runningTotal =
@@ -210,7 +198,14 @@ function NHLLivePowerdFsScroeDetail(props) {
     if (id === "aSFAD4" || id === "aSBAD4" || id === "oKLT4" || id === "oKST4")
       return 2;
 
-    if ((id === "kKL" || id === "kKS" || id === "kFT") && isAbOver) return 2;
+    if ((id === "kKL" || id === "kKS" || id === "kFT") && isAbOver) {
+      console.log("AB OVER: ", id);
+      return 2;
+    }
+    if ((id === "kKL" || id === "kKS" || id === "kFT") && !isAbOver) {
+      console.log("AB NOT OVER: ", id);
+      return 0;
+    }
 
     if (id === "aT" || id === "aTAD4" || id === "oTT4") return 8;
 

@@ -60,9 +60,9 @@ function SportsLiveCard(props) {
     singleView = false,
     active = false,
     starPlayerCount = 0,
-    onSelectCard = () => { },
-    onChangeXp = (xp, player) => { },
-    updateReduxState = (currentPlayer, newPlayer) => { },
+    onSelectCard = () => {},
+    onChangeXp = (xp, player) => {},
+    updateReduxState = (currentPlayer, newPlayer) => {},
     cardType = CardType.MLB,
     isHomeRun = false,
     gameInfo = {},
@@ -199,6 +199,14 @@ function SportsLiveCard(props) {
     return `Top ${current_inning} | ${outs} outs`;
   };
 
+  const showMidThird = () => {
+    return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "t";
+  };
+
+  const showEndThird = () => {
+    return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "b";
+  };
+
   const toggleReplaceModal = useCallback(async () => {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
@@ -315,9 +323,12 @@ function SportsLiveCard(props) {
       `${status}`?.toLocaleLowerCase() === "completed"
     ) {
       return "Game Over";
-    } else if (type === "P" || (type === "p" && isPitching())) {
+    } else if (
+      (type === "P" || type === "p") &&
+      player_id === pitcher?.player_id
+    ) {
       return "Pitching";
-    } else if (type === "P" || (type === "p" && !isPitching())) {
+    } else if ((type === "P" || type === "p") && !isPitching()) {
       return "Dugout";
     } else if (player_id === hitter?.player_id && hitter) {
       return "Hitting";
@@ -332,9 +343,21 @@ function SportsLiveCard(props) {
     return `${current_inning_half}`.toLocaleLowerCase();
   };
 
-  console.log(isPitching());
-
   const showFooterStats = () => {
+    if (showMidThird()) {
+      return (
+        <div className={classes.third_text}>
+          <p>Mid 3rd</p>
+        </div>
+      );
+    } else if (showEndThird()) {
+      return (
+        <div className={classes.third_text}>
+          <p>End 3rd</p>
+        </div>
+      );
+    }
+
     if (type === "P" || (type === "p" && isPitching())) {
       return (
         <RenderMLBPlayerStats
@@ -350,7 +373,7 @@ function SportsLiveCard(props) {
           largeView={compressedView || !compressedView}
           batting_average={removeZeroBeforeDecimalPoint(batting_average)}
           showImage={true}
-        // {...props}
+          // {...props}
         />
       );
     } else if (type !== "P" || type !== "p") {
@@ -367,7 +390,7 @@ function SportsLiveCard(props) {
           balls={balls}
           largeView={compressedView || !compressedView}
           batting_average={removeZeroBeforeDecimalPoint(batting_average)}
-        // {...props}
+          // {...props}
         />
       );
     }
@@ -402,7 +425,7 @@ function SportsLiveCard(props) {
     return false;
   };
 
-  const RenderStarPower = ({ }) =>
+  const RenderStarPower = ({}) =>
     checkIfIsStarPlayer() && (
       <img
         className={`${classes.star_power} ${singleView && classes.mini_star}`}
@@ -425,8 +448,8 @@ function SportsLiveCard(props) {
       ) : (
         <>
           {xp?.xp == CONSTANTS.XP.xp1_5 ||
-            xp?.xp == CONSTANTS.XP.xp2 ||
-            xp?.xp == CONSTANTS.XP.xp3 ? (
+          xp?.xp == CONSTANTS.XP.xp2 ||
+          xp?.xp == CONSTANTS.XP.xp3 ? (
             renderXp()
           ) : (
             <Tooltip
@@ -461,9 +484,9 @@ function SportsLiveCard(props) {
                               `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                               "targetWindow",
                               "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                              left +
-                              ",top=" +
-                              top
+                                left +
+                                ",top=" +
+                                top
                             );
                           }}
                         >
@@ -478,9 +501,9 @@ function SportsLiveCard(props) {
                               `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                               "targetWindow",
                               "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                              left +
-                              ",top=" +
-                              top
+                                left +
+                                ",top=" +
+                                top
                             );
                           }}
                         >
@@ -491,8 +514,9 @@ function SportsLiveCard(props) {
                   ) : (
                     <>
                       <div
-                        className={`${classes.xp_block} ${xp1 <= 0 && classes.disabled
-                          }`}
+                        className={`${classes.xp_block} ${
+                          xp1 <= 0 && classes.disabled
+                        }`}
                       >
                         <XP1_5
                           onClick={() => onChangeXp(CONSTANTS.XP.xp1_5, data)}
@@ -502,8 +526,9 @@ function SportsLiveCard(props) {
                         </p>
                       </div>
                       <div
-                        className={`${classes.xp_block} ${xp2 <= 0 && classes.disabled
-                          }`}
+                        className={`${classes.xp_block} ${
+                          xp2 <= 0 && classes.disabled
+                        }`}
                       >
                         <XP2Icon
                           onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)}
@@ -513,8 +538,9 @@ function SportsLiveCard(props) {
                         </p>
                       </div>
                       <div
-                        className={`${classes.xp_block} ${xp3 <= 0 && classes.disabled
-                          }`}
+                        className={`${classes.xp_block} ${
+                          xp3 <= 0 && classes.disabled
+                        }`}
                       >
                         <XP3
                           onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)}
@@ -536,12 +562,13 @@ function SportsLiveCard(props) {
     </div>
   );
 
-  const RenderStatPoints = ({ }) => (
+  const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
       <div className={classes.stat_points_container}>
         <p
-          className={`${classes.stat_points_title} ${largeView && classes.large_view
-            }`}
+          className={`${classes.stat_points_title} ${
+            largeView && classes.large_view
+          }`}
         >
           Stats
         </p>
@@ -571,14 +598,16 @@ function SportsLiveCard(props) {
 
       <div className={classes.stat_points_container}>
         <p
-          className={`${classes.stat_points_title} ${largeView && classes.large_view
-            }`}
+          className={`${classes.stat_points_title} ${
+            largeView && classes.large_view
+          }`}
         >
           {xp?.xpVal} Points
         </p>
         <div
-          className={`${classes.points} ${largeView && classes.large_view} ${largeView && classes.large_view_d
-            }`}
+          className={`${classes.points} ${largeView && classes.large_view} ${
+            largeView && classes.large_view_d
+          }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             {score}
@@ -595,16 +624,18 @@ function SportsLiveCard(props) {
 
   const RenderStatus = ({ success = false, danger = false }) => (
     <p
-      className={`${classes.container_status} ${singleView ? classes.margin_top_bottom_8 : classes.margin_top_bottom_16
-        } ${largeView && classes.large_view}`}
+      className={`${classes.container_status} ${
+        singleView ? classes.margin_top_bottom_8 : classes.margin_top_bottom_16
+      } ${largeView && classes.large_view}`}
     >
       <span
         className={`
         ${largeView && classes.large_view}
-        ${success || getStatus() === "Pitching" || getStatus() === "Hitting"
+        ${
+          success || getStatus() === "Pitching" || getStatus() === "Hitting"
             ? classes.success
             : ""
-          } 
+        } 
         ${danger && classes.danger}`}
       >
         {getStatus()}
@@ -738,14 +769,16 @@ function SportsLiveCard(props) {
   return (
     <>
       <div
-        className={`${classes.card_wrapper} ${singleView ? classes.singleViewCardWrapper : ""
-          }`}
+        className={`${classes.card_wrapper} ${
+          singleView ? classes.singleViewCardWrapper : ""
+        }`}
       >
         {!singleView && <RenderHeader />}
 
         <div
-          className={`${classes.card_container} ${!compressedView && !singleView && classes.height_284
-            }
+          className={`${classes.card_container} ${
+            !compressedView && !singleView && classes.height_284
+          }
           ${largeView && !compressedView && classes.height_340}
           ${singleView && classes.single_view_hover}
           ${active && classes.active}
@@ -755,8 +788,9 @@ function SportsLiveCard(props) {
           <RenderStarPower />
           <div className={classes.container_header}>
             <p
-              className={`${classes.container_title} ${largeView && classes.large_view
-                }`}
+              className={`${classes.container_title} ${
+                largeView && classes.large_view
+              }`}
             >
               {name} <RenderTeamDHeader />
             </p>
@@ -793,8 +827,8 @@ function SportsLiveCard(props) {
                       </>
                     ) : */}
                     {getStatus() !== "Game Over" &&
-                      cardType !== CardType.NFL &&
-                      !singleView
+                    cardType !== CardType.NFL &&
+                    !singleView
                       ? showFooterStats()
                       : cardType === CardType.NFL && <NFLFooterStats />}
                   </>
@@ -812,15 +846,19 @@ function SportsLiveCard(props) {
             )}
           </div>
 
-          {!compressedView && !singleView && getStatus() !== "Game Over" && (
-            <SportsLiveCardFooter
-              showSummary={showSummary}
-              onClickBack={() => setSummaryState(false)}
-              onClickDetails={() => setSummaryState(true)}
-              title={footerTitle()}
-              largeView={largeView}
-            />
-          )}
+          {!compressedView &&
+            !singleView &&
+            getStatus() !== "Game Over" &&
+            !showEndThird() &&
+            !showMidThird() && (
+              <SportsLiveCardFooter
+                showSummary={showSummary}
+                onClickBack={() => setSummaryState(false)}
+                onClickDetails={() => setSummaryState(true)}
+                title={footerTitle()}
+                largeView={largeView}
+              />
+            )}
         </div>
       </div>
       <RenderModal
