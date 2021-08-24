@@ -31,6 +31,7 @@ const PowerCenterMobileCard = (props) => {
     paid_game = false,
     targeted_game = false,
     percent = null,
+    totalPoints = null,
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
