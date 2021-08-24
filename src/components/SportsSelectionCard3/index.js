@@ -24,7 +24,6 @@ import "./carousel.scss";
 import { useMediaQuery } from "react-responsive";
 
 function SportsSelectionCard3(props) {
-  console.log("mukesh", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {
@@ -57,15 +56,13 @@ function SportsSelectionCard3(props) {
   } = player || {};
 
   const checkIfIsStarPlayer = () => {
-    if(type == "p" || type == "P") {
-      if(player?.playerStats?.earned_runs_average < 3.50)
-      {
+    if (type == "p" || type == "P") {
+      if (player?.playerStats?.earned_runs_average < 3.50) {
         return true;
       }
     }
     else {
-      if(player?.playerStats?.batting_average > 0.290 || player?.playerStats?.home_runs > 30)
-      {
+      if (player?.playerStats?.batting_average > 0.290 || player?.playerStats?.home_runs > 30) {
         return true;
       }
     }
