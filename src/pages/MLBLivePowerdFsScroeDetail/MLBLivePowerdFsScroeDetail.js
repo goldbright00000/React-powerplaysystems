@@ -1,14 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import moment from "moment";
-import * as MLBActions from "../../actions/MLBActions";
-import _ from "underscore";
-import { isEmpty } from "lodash";
-import { redirectTo } from "../../utility/shared";
 
-import { socket } from "../../config/server_connection";
-import { CONSTANTS } from "../../utility/constants";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -26,6 +20,7 @@ import XP2Icon from "../../icons/XP2";
 import XP3Icon from "../../icons/XP3";
 import XP1_5Icon from "../../icons/XP1_5";
 import FooterImage from "../../assets/NHL-live-footer.png";
+import { redirectTo } from "../../utility/shared";
 
 const basicRules = [
   "No purchase necessary.",
@@ -42,157 +37,10 @@ const detailRules = [
 
 function NHLLivePowerdFsScroeDetail(props) {
   const [showModal, setModalState] = useState(false);
-  const [liveStandingData, setLiveStandingData] = useState([]);
   const [logs, setLogs] = useState([]);
-  const [ranks, setRanks] = useState({
-    ranking: 0,
-    score: 0,
-    game_id: 0,
-    team_id: 0,
-  });
-  const [powers, setPowerss] = useState([]);
-  const [pointss, setPointss] = useState([]);
-  const dispatch = useDispatch();
-  const {
-    ON_ROOM_SUB,
-    ON_ROOM_UN_SUB,
-    EMIT_ROOM,
-    ON_POWER_APPLIED,
-    ON_GLOBAL_RANKING_REQUEST,
-    ON_FANTASY_LOGS_REQUEST,
-    GET_GLOBAL_RANKING,
-    MATCH_UPDATE,
-    GLOBAL_RANKING,
-    FANTASY_TEAM_UPDATE,
-  } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
   let tableRef = useRef();
-  let _socket = null;
-  const { gameLogs = [], selectedTeam = {} } = useSelector((state) => state.mlb);
-  const {
-    game = {}
-  } = useSelector((state) => selectedTeam);
-  const {
-    game_id = 0,
-    PointsSystems = [],
-    Powers = []
-  } = useSelector((state) => game);
-  let prizePool = 0;
-  prizePool = _.reduce(
-    game?.PrizePayouts,
-    function (memo, num) {
-      return memo + parseInt(num.amount) * parseInt(num.prize);
-    },
-    0
-  );
-  useEffect(() => {
-    setPointss(_.groupBy(PointsSystems, "type"));
-    setPowerss(Powers);
-  }, [game]);
-  useEffect(() => {
-    if (isEmpty(selectedTeam)) {
-      return redirectTo(props, { path: "/my-game-center" });
-    }
-    _socket = socket();
-    return function cleanUP() {
-      //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB);
-      _socket?.on(ON_ROOM_UN_SUB, () => {
-        _socket?.disconnect();
-        _socket = null;
-      });
-    };
-  }, []);
 
-  React.useEffect(async () => {
-    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(game_id));
-      if(typeof liveStandingsData !== "undefined")
-      {
-        if(liveStandingsData.payload.error == false)
-        {
-          if(
-            JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
-          ) {
-            var finalArr = [];
-            var res = liveStandingsData.payload.data.powerDFSRanking;
-            var user_id = parseInt(localStorage.PERSONA_USER_ID);
-            var userRec = "";
-            var leaderScore = 0;
-            for(var i = 0; i < res.length; i++)
-            {
-              if(res[i].team.user.user_id == user_id)
-              {
-                userRec = res[i];
-              }
-              else {
-                finalArr.push(res[i]);
-              }
-            }
-            if(userRec !== "")
-            {
-              finalArr.unshift(userRec);
-            }
-            if(JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
-              setLiveStandingData(finalArr);
-          }
-          //setModalState(!showModal);
-        }
-        else {
-          // alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
-        }
-      }
-  });
-
-  useEffect(() => {
-    if (_socket) {
-      onSocketEmit(game_id, localStorage.PERSONA_USER_ID);
-      onSocketListen();
-    }
-  }, [_socket]);
-
-  //All Emit Events
-  const onSocketEmit = (gameId, userId) => {
-    _socket.emit(ON_ROOM_SUB, {
-      gameId: gameId,
-      userId: userId,
-    });
-
-    //ON_GLOBAL_RANKING_REQUEST
-    _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
-      gameId: gameId,
-    });
-
-    //ON_FANTASY_LOGS_REQUEST
-    _socket.emit(ON_FANTASY_LOGS_REQUEST, {
-      fantasyTeamId: 172,
-    });
-
-    //GET_GLOBAL_RANKING -> Standings
-    _socket.emit(GET_GLOBAL_RANKING, {
-      gameId: gameId,
-      upperLimit: 0,
-      lowerLimit: 10,
-    });
-  };
-
-  //All listen events
-  const onSocketListen = () => {
-    //fetch data first time
-    _socket?.on(EMIT_ROOM, (res) => {
-      const {
-        game_id = "",
-        score = 0,
-        sport_id = "",
-        status = null,
-        team_id = "",
-        defense = [],
-        players = [],
-        power_dfs_team_rankings = [],
-        game_logs = [],
-      } = res?.data || {};
-      const teamD = defense[0] || {};
-      setRanks(power_dfs_team_rankings[0] || {});
-    });
-  };
+  const { gameLogs = [] } = useSelector((state) => state.mlb);
 
   //set score and running totals
   useEffect(() => {
@@ -269,10 +117,6 @@ function NHLLivePowerdFsScroeDetail(props) {
   const toggleLiveStandingModal = () => {
     setModalState(!showModal);
   };
-
-  const closeModal = () => {
-    setModalState(false);
-  }
 
   const getPoints = (id, isPitcher = false, isAbOver = false) => {
     if (
@@ -519,8 +363,6 @@ function NHLLivePowerdFsScroeDetail(props) {
           subHeader1="Introducing Live-Play Fantasy Hockey"
           bgImageUri={HeaderBgUri}
           isLive
-          points={pointss}
-          powers={powers}
         />
 
         <div className={classes.container}>
@@ -539,11 +381,10 @@ function NHLLivePowerdFsScroeDetail(props) {
                 singleBtn
                 teamManagerLink="/mlb-live-powerdfs"
                 scoreDetailLink="/mlb-live-powerdfs/my-score-details"
-                liveStandingData={liveStandingData}
                 onGoBack={() => redirectTo(props, { path: "/my-game-center" })}
               />
               <div className={classes.card_rank}>
-                <RankCard showButton={false} ranks={ranks} />
+                <RankCard showButton={false} />
               </div>
             </div>
             <Card className={classes.card}>
@@ -696,7 +537,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       </div>
       <Footer isBlack={true} />
 
-      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={prizePool}/>
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
     </>
   );
 }

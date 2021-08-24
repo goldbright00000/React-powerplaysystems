@@ -37,6 +37,7 @@ const PowerCenterCard = (props) => {
         entry_fee = null,
         targeted_game = false,
         showDetails = false,
+        totalPoints = null,
         onDetailsClick = () => { },
         onBackClick = () => { },
         onNextClick = () => { },
@@ -215,14 +216,34 @@ const PowerCenterCard = (props) => {
             ) : (
                 <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
                     <div className={classes.__card_title}>
-                        <p className={classes.__card_title_text}>MLB <span className={classes.__card__title_first}>PowerdFS</span><br /> 200 Point Challenge!</p>
+                        <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> {totalPoints} Point Challenge!</p>
                     </div>
                     <div className={classes.__start_end_date}>
-                        <span className={classes.__date_text}>Oct 24, 2020  |  8:00PM ET</span>
+                        <span className={classes.__date_text}>{game_set_start} | {start_time} ET</span>
                     </div>
                     <div className={classes.__current_jackpot}>
-                        <span className={classes.__current_jackpot_text}>Manage your team to 200 points and win</span>
-                        <h1 className={classes.__current_jackpot_amount}>$1,000!</h1>
+                        <span className={classes.__current_jackpot_text}>Manage your team to {totalPoints} points and win</span>
+                        <h1 className={classes.__current_jackpot_amount}> {currency === 'USD' ? (
+                            `$`
+                        ) : (
+                            currency === 'PWRS' ? (
+                                prize_currency === 'USD' ? (
+                                    `$`
+                                ) : (
+                                    <img
+                                        src={getCurrency(prize_currency)}
+                                        width="20"
+                                        alt=""
+                                    />
+                                )
+                            ) : (
+                                <img
+                                    src={getCurrency(currency)}
+                                    width="20"
+                                    alt=""
+                                />
+                            )
+                        )}{prize}!</h1>
                     </div>
                     <div className={classes.__win_power}>
                         <span className={classes.__win_power_span}>You have the Powers to win!</span>

@@ -21,14 +21,14 @@ import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
-
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
 
+
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
-import { getCardsRankPairs } from "../../utility/shared";
 const MyGameCenterCard = (props) => {
+  const dispatch = useDispatch();
   const {
     ON_ROOM_SUB,
     ON_ROOM_UN_SUB,
@@ -41,7 +41,6 @@ const MyGameCenterCard = (props) => {
     GLOBAL_RANKING,
     FANTASY_TEAM_UPDATE,
   } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
-  const dispatch = useDispatch();
   const {
     isMobile = false,
     id = null,
@@ -333,7 +332,7 @@ const onSocketListen = () => {
                       classes.__my_game_center_card_buttons_your_current_rank
                     }
                   >
-                    {ranks.ranking} <span>Your Current Rank</span>
+                    240,051 <span>Your Current Rank</span>
                   </div>
                 )}
                 <div
@@ -648,7 +647,7 @@ const onSocketListen = () => {
                     classes.__my_game_center_card_buttons_your_current_rank
                   }
                 >
-                  Your Current Rank: {ranks.ranking}
+                  Your Current Rank: 240,051
                 </div>
               )}
               {!completed && (
@@ -725,18 +724,11 @@ const onSocketListen = () => {
               )}
 
               <div className={classes.__my_game_center_card_details}>
-                
                 {completed ? (
                   <div
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => onViewResults(id)}
                   >
-                    <span style={{
-                      marginRight: 10,
-                      color: "grey",
-                      textDecoration: "none",
-                      display: "inline-block"
-                    }}>{game_id}</span>
                     Winners
                   </div>
                 ) : (
@@ -744,12 +736,6 @@ const onSocketListen = () => {
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => onDetailsClick(id)}
                   >
-                    <span style={{
-                      marginRight: 10,
-                      color: "grey",
-                      textDecoration: "none",
-                      display: "inline-block"
-                    }}>{game_id}</span>
                     Details
                   </div>
                 )}

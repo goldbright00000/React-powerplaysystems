@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
-import * as $ from 'jquery';
-import { useHistory } from 'react-router-dom'
+import * as $ from "jquery";
+import { useHistory } from "react-router-dom";
 
 import { getLocalStorage, redirectTo } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 import { socket } from "../../config/server_connection";
 
-import './userGateway.css';
+import "./userGateway.css";
 
 let _socket = null;
 
 const UsersGateway = (props) => {
+  const history = useHistory();
+  const {
+    location: { state },
+  } = props;
 
-  const history = useHistory()
-  const { location: { state } } = props
-
-  const user_id = getLocalStorage('PERSONA_USER_ID')
+  const user_id = getLocalStorage("PERSONA_USER_ID");
   const token = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const UsersGateway = (props) => {
       redirectTo(
         { history },
         {
-          path: "/",
+          path: `${state.previousPath}`,
         }
       );
     });
@@ -44,7 +45,7 @@ const UsersGateway = (props) => {
     document.body.appendChild(script);
 
     setTimeout(async () => {
-      $('.myuserPay-Paybutton').click();
+      $(".myuserPay-Paybutton").click();
     }, 1000);
 
     return () => {
@@ -53,20 +54,29 @@ const UsersGateway = (props) => {
   }, []);
 
   return (
-    <form action={`${process.env.REACT_APP_API_URL}/api/v1/users/account/update-myuserpay-balance`} method="post">
-      <input type="hidden" name="token" value={`Bearer ${token}`} />
-      <input type="hidden" name="amount" value={state.amount} />
-      <input type="hidden" name="user_id" value={user_id} />
-      <script
-        class="myuserPay-button"
-        data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
-        data-amount={state.amount * 100}
-        data-description="Deposit Money"
-        data-name="Defy Games Demo"
-        data-image="Item or your picture,logo"
-        data-submit-ajax="1"
-      ></script>
-    </form >
+    <>
+      <form
+        className={"__form__"}
+        action={`${process.env.REACT_APP_API_URL}/api/v1/users/account/update-myuserpay-balance`}
+        method="post"
+      >
+        <input type="hidden" name="token" value={`Bearer ${token}`} />
+        <input type="hidden" name="amount" value={state.amount} />
+        <input type="hidden" name="user_id" value={user_id} />
+        <script
+          class="myuserPay-button"
+          data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
+          data-amount={state.amount * 100}
+          data-description="Deposit Money"
+          data-name="Defy Games Demo"
+          data-image="Item or your picture,logo"
+          data-submit-ajax="1"
+        ></script>
+      </form>
+      <div className="loder">
+        <span className="load"></span>
+      </div>
+    </>
   );
 };
 

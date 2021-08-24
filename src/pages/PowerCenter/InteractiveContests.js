@@ -322,7 +322,8 @@ const InteractiveContests = (props) => {
       return;
     }
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
-    if (enoughBalance || !item?.is_game_paid || item?.is_game_paid == null) {
+
+    if (enoughBalance || item?.is_game_free) {
       switch (item?.league) {
         case "MLB":
           if(item.game_type == "PowerdFs_challenge")
@@ -399,6 +400,7 @@ const InteractiveContests = (props) => {
           return redirectTo(props, { path: "/" });
       }
     } else {
+      console.log('In else')
       setHaveBalance(false);
       setShowDepositModal();
     }
@@ -619,6 +621,7 @@ const InteractiveContests = (props) => {
           })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
+          totalPoints={item?.powerdfs_challenge_amount}
           onEnter={() => {
             onEnter(item);
           }}
@@ -661,6 +664,7 @@ const InteractiveContests = (props) => {
           })}
           userHasEntered={item?.userHasEntered}
           showDetails={showCardDetails === item?.game_id}
+          totalPoints={item?.powerdfs_challenge_amount}
           onEnter={() => onEnter(item)}
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}

@@ -27,7 +27,6 @@ function NHLLiveSportsHeader(props) {
     state = {},
   } = props || {};
 
-
   const renderActiveButton = () => (
     <div className={classes.right_menu}>
       <button
