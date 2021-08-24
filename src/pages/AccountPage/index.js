@@ -38,7 +38,6 @@ function AccountPage(props) {
   const [userAccount, setUserAccount] = useState({});
   const { getUserSavedGames } = useSelector((state) => state?.mlb);
 
-
   const getUserAccount = async () => {
     const response = await http.get(URLS.AUTH.ACCOUNT);
     if (response.data.status === false) {
@@ -51,27 +50,28 @@ function AccountPage(props) {
 
   const getUserGames = async () => {
     const user_id = getLocalStorage("PERSONA_USER_ID");
-    dispatch(MLbActions.getUserGames(user_id));
-  }
+    if (user_id) {
+      dispatch(MLbActions.getUserGames(user_id));
+    }
+  };
 
   useEffect(() => {
     const obj = { ...userAccount };
 
     if (getUserSavedGames?.length > 0) {
-      getUserSavedGames.forEach(element => {
+      getUserSavedGames.forEach((element) => {
         obj?.transactions?.push({
-          balance_result: 'decrease',
+          balance_result: "decrease",
           balance_type: element?.game?.currency,
           date_time: element?.game?.createdAt,
-          description: 'Entered into Game',
+          description: "Entered into Game",
           transaction_amount: element?.game?.entry_fee,
-          transaction_type_details: { type: "Game Entry" }
+          transaction_type_details: { type: "Game Entry" },
         });
       });
       setUserAccount(obj);
     }
-
-  }, [getUserSavedGames])
+  }, [getUserSavedGames]);
 
   return (
     <>
