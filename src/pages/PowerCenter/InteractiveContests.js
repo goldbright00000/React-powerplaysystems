@@ -328,8 +328,44 @@ const InteractiveContests = (props) => {
         case "MLB":
           if(item.game_type == "PowerdFs_challenge")
           {
-            onOpenPromoModal(item, props);
-            return;
+            if(isMobile)
+            {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: item?.end_date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                },
+              });
+            }
+            else {
+              onOpenPromoModal(item, props);
+              return;
+            }
           }
           return redirectTo(props, {
             path: `/mlb-select-team`,
@@ -400,7 +436,6 @@ const InteractiveContests = (props) => {
           return redirectTo(props, { path: "/" });
       }
     } else {
-      console.log('In else')
       setHaveBalance(false);
       setShowDepositModal();
     }

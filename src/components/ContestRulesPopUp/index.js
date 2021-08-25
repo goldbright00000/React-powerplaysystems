@@ -65,7 +65,7 @@ const ContestRulesPopUp = props => {
     const [showPopUp, setShowPopUp] = useState(false);
     return (
         <>
-            {useMemo(() => props.component && props.component({ showPopUp: () => setShowPopUp(true) }), [props])}
+            {useMemo(() => props.component && props.component({ showPopUp: () => {console.log("test");setShowPopUp(true) } }), [props])}
             {showPopUp && <CreatePopUpPortal>
                 <div className={styles.popupWrapper}>
                     <div className={styles.blur} onClick={() => setShowPopUp(false)}></div>
