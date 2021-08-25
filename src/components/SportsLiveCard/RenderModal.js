@@ -39,12 +39,6 @@ function RenderModal(props) {
   // }, [filterString]);
 
   const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
-  const playerTeam = [
-    { title: "Team A" },
-    { title: "Team B" },
-    { title: "Team C" },
-    { title: "Team D" },
-  ];
 
   const onSearch = (e) => {
     const { value } = e.target;
@@ -154,6 +148,7 @@ function RenderModal(props) {
                     onSelectDeselect={(playerId, match_id) =>
                       onSwap(playerId, match_id)
                     }
+                    type={selectedData?.type}
                   />
                 )
               )
