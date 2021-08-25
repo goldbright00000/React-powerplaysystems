@@ -50,6 +50,16 @@ function NHLLivePowerdFsScroeDetail(props) {
 
     const _logs = [];
     for (let i = 0; i < gameLogs?.length; i++) {
+      const isPitcher =
+        gameLogs[i]?.play?.pitcher_id ===
+        gameLogs[i]?.effected_player?.player_id;
+      const isAbOver = gameLogs[i]?.play?.is_ab_over;
+      const id = gameLogs[i]?.play?.outcome_id;
+
+      if (id === "kKL" && !isAbOver) {
+        continue;
+      }
+
       //total score
       const rbiData = getRBI(gameLogs[i]?.play?.runners);
       const rsData = getRS(
@@ -61,12 +71,6 @@ function NHLLivePowerdFsScroeDetail(props) {
       const rbiPts = rbi === 1 ? 2 : 0;
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
-
-      const isPitcher =
-        gameLogs[i]?.play?.pitcher_id ===
-        gameLogs[i]?.effected_player?.player_id;
-      const isAbOver = gameLogs[i]?.play?.is_ab_over;
-      const id = gameLogs[i]?.play?.outcome_id;
 
       const playPts = getPoints(id, isPitcher, isAbOver);
 

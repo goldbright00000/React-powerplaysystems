@@ -834,7 +834,17 @@ function MLBPowerdFsLive(props) {
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
                   >
-                    <img src={FooterImage} alt="" />
+                    {/* <img src={FooterImage} alt="" /> */}
+                    <iframe
+                      id="$iradid"
+                      src="//a.impactradius-go.com/gen-ad-code/2068372/762704/9663/"
+                      width="468"
+                      height="60"
+                      scrolling="no"
+                      frameborder="0"
+                      marginheight="0"
+                      marginwidth="0"
+                    ></iframe>
                     <div style={{ position: "absolute", bottom: 0, right: 5 }}>
                       {selectedTeam.game_id}
                     </div>
