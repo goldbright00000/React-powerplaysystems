@@ -9,6 +9,7 @@ import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
 import StarPower from "../../assets/star_power.png";
 import {
+  getNumberSuffix,
   hasText,
   printLog,
   removeZeroBeforeDecimalPoint,
@@ -310,7 +311,7 @@ function SportsLiveCard(props) {
   };
 
   const isPitching = () => {
-    return getCurrentInningHalf() === "t";
+    return (type === "P" || type === "p") && player_id === pitcher?.player_id;
   };
 
   const getStatus = () => {
@@ -330,9 +331,15 @@ function SportsLiveCard(props) {
       return "Pitching";
     } else if ((type === "P" || type === "p") && !isPitching()) {
       return "Dugout";
-    } else if (player_id === hitter?.player_id && hitter) {
+    } else if (
+      !showEndThird() &&
+      !showMidThird() &&
+      player_id === hitter?.player_id &&
+      hitter
+    ) {
       return "Hitting";
-    }
+    } else if (`${status}`.toLocaleUpperCase() === "inprogress")
+      return "In Progress";
 
     return status;
   };
@@ -347,13 +354,13 @@ function SportsLiveCard(props) {
     if (showMidThird()) {
       return (
         <div className={classes.third_text}>
-          <p>Mid 3rd</p>
+          <p>Mid {getNumberSuffix(current_inning)}</p>
         </div>
       );
     } else if (showEndThird()) {
       return (
         <div className={classes.third_text}>
-          <p>End 3rd</p>
+          <p>End {getNumberSuffix(current_inning)}</p>
         </div>
       );
     }
@@ -373,6 +380,7 @@ function SportsLiveCard(props) {
           largeView={compressedView || !compressedView}
           batting_average={removeZeroBeforeDecimalPoint(batting_average)}
           showImage={true}
+          isPitching={isPitching()}
           // {...props}
         />
       );

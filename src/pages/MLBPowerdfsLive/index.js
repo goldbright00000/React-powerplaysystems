@@ -881,9 +881,9 @@ function MLBPowerdFsLive(props) {
                     {/* <img src={FooterImage} alt="" /> */}
                     <iframe
                       id="$iradid"
-                      src="https://a.impactradius-go.com/gen-ad-code/2068372/762700/9663/"
-                      width="300"
-                      height="250"
+                      src="//a.impactradius-go.com/gen-ad-code/2068372/762704/9663/"
+                      width="468"
+                      height="60"
                       scrolling="no"
                       frameborder="0"
                       marginheight="0"
