@@ -13,6 +13,7 @@ import {
   redirectTo,
   getDaysFromToday,
   setLocalStorage,
+  getLocalStorage
 } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
@@ -144,7 +145,8 @@ const InteractiveContests = (props) => {
   // }, []);
 
   useEffect(() => {
-    dispatch(MLbActions.getUserGames(user.user_id));
+    const user_id = getLocalStorage("PERSONA_USER_ID");
+    dispatch(MLbActions.getUserGames(user_id));
   }, [dispatch, user]);
 
   useEffect(() => {
@@ -258,14 +260,8 @@ const InteractiveContests = (props) => {
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
           game_id={item?.game_id}
-          game_set_start={
-            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
-              ?.date
-          }
-          start_time={
-            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
-              ?.time
-          }
+          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
+          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}

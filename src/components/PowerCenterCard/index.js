@@ -204,7 +204,7 @@ const PowerCenterCard = (props) => {
                                     color: "grey",
                                     textDecoration: "none",
                                     display: "inline-block"
-                                }}>{id}</span>
+                                }}></span>
                                 Details
                             </div>
                             <div className={classes.__power_center_card_details_link_forward_arrow}>

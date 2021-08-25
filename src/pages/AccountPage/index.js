@@ -95,7 +95,7 @@ function AccountPage(props) {
                   <h6 className="m-0">Balance/Deposit</h6>
                 </Tab>
                 <Tab className={`${activeTab === 2 && classes.active}`}>
-                  <h6 className="m-0">Results</h6>
+                  <h6 className="m-0">Winnings</h6>
                 </Tab>
                 <Tab className={`${activeTab === 3 && classes.active}`}>
                   <h6 className="m-0">History</h6>
