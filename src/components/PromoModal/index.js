@@ -78,9 +78,6 @@ function PromoModal(props) {
                   setPrizeModalState(true)
                 }}
               ><span>Prize Grid</span></button>
-              <button
-                type="button"
-              ><span>Game Rules</span></button>
               <ContestRulesPopUp
               points={[props?.item?.PrizePayouts]}
               powers={props?.item?.Powers}
@@ -88,10 +85,12 @@ function PromoModal(props) {
                 <button
                 type="button"
                 onClick={showPopUp}
-                ><span>Contest Rules</span></button>
+                ><span>Game Rules</span></button>
               )}
               />
-              
+              <button
+                type="button"
+              ><span>Contest Rules</span></button>
             </div>
             <div className={classes.closeButton}>
               <CloseIcon onClick={onClose} />
