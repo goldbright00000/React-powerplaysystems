@@ -10,18 +10,20 @@ import "./mainStyle.scss";
 import ScoreDetails from "./views/ScoreDetails";
 import TeamManager from "./views/TeamManager";
 
-function App() {
+function App(props) {
+  const { data = [], ranks = {} } = props || {};
+
   const [state, setState] = useState(1);
   const [swap, setSwap] = useState(false);
   const [secondModal, setSecondModal] = useState(false);
-  const boostModal = value => {
+  const boostModal = (value) => {
     setSecondModal(!secondModal);
   };
 
-  const swapModal = value => {
+  const swapModal = (value) => {
     setSwap(!swap);
   };
-  const changeComponent = state => {
+  const changeComponent = (state) => {
     switch (state) {
       case 1:
         return (
@@ -31,12 +33,13 @@ function App() {
             swap={setSwap}
             boostModal={boostModal}
             swapModal={swapModal}
+            data={data}
           />
         );
       case 2:
         return <ScoreDetails state={state} setState={setState} />;
       default:
-        return <TeamManager state={state} setState={setState} />;
+        return <TeamManager state={state} setState={setState} data={data} />;
     }
   };
 
@@ -54,6 +57,7 @@ function App() {
         setSecondModal={setSecondModal}
         boostModal={boostModal}
         swapModal={swapModal}
+        ranks={ranks}
       />
     </section>
   );

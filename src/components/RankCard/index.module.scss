@@ -11,6 +11,7 @@
   background-color: $black2;
   padding: 37px 20px 10px 20px;
   border-radius: 14px;
+  margin-top: 30px;
 
   .header_rank {
     background-color: $danger3;
@@ -61,9 +62,16 @@
     text-transform: uppercase;
 
     p {
-      font-family: Teko;
+      font-family: Poppins;
+      font-size: 12px;
+      font-weight: normal !important;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
       color: $primary;
-      font-size: 20px;
+      text-transform: capitalize;
+      width: 110px;
     }
 
     > div {
@@ -74,9 +82,17 @@
       align-items: center;
 
       .sidebar_header_p1 {
-        color: $grey2;
-        opacity: 0.3;
-        text-align: left;
+        opacity: 0.6;
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #f2f2f2;
+        text-transform: capitalize;
+        width: 89px;
       }
 
       .sidebar_header_p2 {
@@ -89,7 +105,7 @@
 
       .sidebar_header_left {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         flex: 1;
         width: 100%;
 
@@ -97,9 +113,21 @@
           display: flex;
           align-items: flex-end;
           width: 100%;
+          flex: 1;
+          flex-direction: column;
+          align-items: center;
 
           .sidebar_header_p2_1 {
-            margin-left: 12px;
+            font-family: Teko;
+            font-size: 24px;
+            font-weight: bold;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: $primary;
+            text-align: left;
+            width: 110px;
           }
         }
 
@@ -122,6 +150,15 @@
               .sidebar_header_p1_1 {
                 display: flex;
                 flex: 0.37;
+                font-family: Teko;
+                font-size: 24px !important;
+                font-weight: bold;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: normal;
+                text-align: left;
+                width: 89px;
               }
             }
           }

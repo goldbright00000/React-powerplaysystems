@@ -11,12 +11,14 @@ import {
   setUserBalance,
   payNowWithIpay,
   payWithZum,
+  payWithMyUserPay,
   setZumToken,
   getCoinbaseLink,
   removeCoinbaseLink,
 } from "../../actions/userActions";
 import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
+import { removePersonaUserId } from "../../actions/personaActions";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
 import FilledArrow from "../FilledArrow";
@@ -88,8 +90,10 @@ const Header = (props) => {
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
+    removePersonaUserId();
     dispatch(setUserBalance({}));
-    return dispatch(resetAuth());
+    let a = dispatch(resetAuth());
+    history.push("/login");
   };
 
   const onMyAccountMenuItemClick = (menuItem) => {
@@ -138,6 +142,22 @@ const Header = (props) => {
     }
   };
 
+  const onMyUserPayment = (data) => {
+    if (data.amount < 1) {
+      alert("Please add amount at least more than 1.");
+    } else {
+      const { amount, paymentMethod } = data;
+      const obj = {
+        amount,
+        paymentMethod,
+        email: user?.email,
+      };
+
+      dispatch(payWithMyUserPay(obj, history));
+      setHideDepositModal();
+    }
+  };
+
   const coinbaseSubmitHandler = (amount, currency) => {
     dispatch(getCoinbaseLink(amount, currency));
     setHideDepositModal();
@@ -153,12 +173,12 @@ const Header = (props) => {
   }, []);
 
   const handleClick = (e) => {
-    if (
-      myAccountMenuRef.current &&
-      !myAccountMenuRef.current.contains(e.target)
-    ) {
-      setMyAccountMenu(false);
-    }
+    // if (
+    //   myAccountMenuRef.current &&
+    //   !myAccountMenuRef.current.contains(e.target)
+    // ) {
+    //   setMyAccountMenu(false);
+    // }
   };
 
   let [openMenu, setOpenMenu] = useState(false);
@@ -215,7 +235,7 @@ const Header = (props) => {
                     <li className="__my_account_li" ref={myAccountMenuRef}>
                       <NavLink
                         to="#"
-                        onClick={() => setMyAccountMenu(!myAccountMenu)}
+                        onClick={(e) => { e.preventDefault(); setMyAccountMenu(!myAccountMenu) }}
                       >
                         My Account
                         {!myAccountMenu ? (
@@ -261,6 +281,7 @@ const Header = (props) => {
                 user={user}
                 ipayFormSubmitted={onUpdateUserDetails}
                 zumFormSubmitted={onZumPayment}
+                myUserPayFormSubmitted={onMyUserPayment}
                 coinbaseFormSubmitted={coinbaseSubmitHandler}
               />
             )}

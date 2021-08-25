@@ -3,11 +3,13 @@ import React from 'react';
 import CurrencyFormat from 'react-currency-format';
 import classes from './prizeGrid.module.scss';
 import ordinal from 'ordinal';
+import MLBPlayer from "../../assets/mlb-player.png";
 
 const PrizeGrid = (props) => {
   const {
     PrizePayout,
   } = props;
+
   const data = [
     {
       title: '1st',
@@ -52,37 +54,39 @@ const PrizeGrid = (props) => {
   ];
 
   return (
-    <div className={classes.__prize_grid}>
-      <p className={classes.__prize_grid_title}>Prize Grid</p>
-      {
-        PrizePayout.map((item, index) => {
-          return (
-            <div className={classes.__prize_grid_data}>
-              <div className={classes.__prize_grid_data_title_div}>
-                {item?.from === item?.to ? (
-                  <p className={classes.__prize_grid_data_title}>
-                    {
-                      ordinal(parseInt(item?.from))
-                    }
-                  </p>
-                ) : (
-                  <p className={classes.__prize_grid_data_title}>
-                    {
-                      ordinal(parseInt(item?.from))} - {ordinal(parseInt(item?.to))
-                    }
-                  </p>
-                )}
-              </div>
-              <div className={classes.__prize_grid_data_value_div}>
+    <div className={`${classes.__prize_grid}`}>
+      <p className={classes.__prize_grid_title} >Prize Grid</p>
+      <div className={classes.__prize_grid_scroll_bar}>
+        {
+          PrizePayout.map((item, index) => {
+            return (
+              <div className={classes.__prize_grid_data}>
+                <div className={classes.__prize_grid_data_title_div}>
+                  {item?.from === item?.to ? (
+                    <p className={classes.__prize_grid_data_title}>
+                      {
+                        ordinal(parseInt(item?.from))
+                      }
+                    </p>
+                  ) : (
+                    <p className={classes.__prize_grid_data_title}>
+                      {
+                        ordinal(parseInt(item?.from))} - {ordinal(parseInt(item?.to))
+                      }
+                    </p>
+                  )}
+                </div>
+                <div className={classes.__prize_grid_data_value_div}>
 
-                <p className={classes.__prize_grid_data_value}>
-                  <CurrencyFormat value={item?.amount} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}.00</div>} />
-                </p>
+                  <p className={classes.__prize_grid_data_value}>
+                    <CurrencyFormat value={item?.amount} displayType={'text'} thousandSeparator={true} prefix={'$'} renderText={value => <div>{value}.00</div>} />
+                  </p>
+                </div>
               </div>
-            </div>
-          )
-        })
-      }
+            )
+          })
+        }
+      </div>
     </div>
   );
 };

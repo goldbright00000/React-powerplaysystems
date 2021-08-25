@@ -25,6 +25,13 @@ export const URLS = {
     MLB_LIVE_PAGE_PLAYERS: "/dfs/mlb-live",
     MLB_USER_GAMES: "/dfs/user-games",
     MLB_EDIT_TEAM_PLAYER: "dfs/mlb-edit-team-player",
+    CALCULATE_ADMIN_FEE: "admin/save-admin-fee",
+    DEDUCT_USER_BALANCE: "admin/deduct-user-balance",
+    SAVE_PRIZE_POOL: "admin/save-prize-pool",
+    GET_USERS_POWERS: "/dfs/get-user-power",
+    UPDATE_USERS_POWERS: "/dfs/update-user-power",
+    NFL: "/dfs/nfl-selection",
+    GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
   },
   GAMES: {
     ALL_POWER_GAMES: "admin/games",

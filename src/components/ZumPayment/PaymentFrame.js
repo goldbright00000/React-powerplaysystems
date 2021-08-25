@@ -23,6 +23,7 @@ const PaymentFrame = (props) => {
       }
     }
   });
+
   const frameUrl = useSelector((state) => state.user?.zumRedirectUrl);
   const markupRate = useSelector((state) => state.user?.markedUpRate);
   if (!frameUrl) {
@@ -30,17 +31,19 @@ const PaymentFrame = (props) => {
   }
 
   return (
-    <iframe
-      src={frameUrl}
-      width="100%"
-      style={{
-        minHeight: "100vh",
-        display: "block",
-        overflow: "hidden",
-        border: "0",
-      }}
-      title="Payment Frame"
-    />
+    <>
+      <iframe
+        src={frameUrl}
+        width="100%"
+        style={{
+          minHeight: "100vh",
+          display: "block",
+          overflow: "hidden",
+          border: "0",
+        }}
+        title="Payment Frame"
+      />
+    </>
   );
 };
 

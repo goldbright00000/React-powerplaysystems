@@ -11,7 +11,6 @@ function SportsFilters(props) {
     activeFilter = {},
     selectedFilter = {},
   } = props || {};
-
   return (
     <div className={classes.container_top_2}>
       {data?.length ? (
@@ -26,6 +25,7 @@ function SportsFilters(props) {
               }`}
             onClick={() => onSelect(item.title)}
             key={item?.id.toString()}
+            id={item?.title+"-filter"}
           >
             {item.title} <span>{item.remaining} Left</span>
             <div className={classes.tick}>

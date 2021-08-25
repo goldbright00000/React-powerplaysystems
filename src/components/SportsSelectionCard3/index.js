@@ -26,7 +26,6 @@ import { useMediaQuery } from "react-responsive";
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
-
   const {
     player = {},
     loading = false,
@@ -53,7 +52,24 @@ function SportsSelectionCard3(props) {
     position = "",
     match_id,
     primary_position = "",
+    is_star_player = false,
   } = player || {};
+
+  const checkIfIsStarPlayer = () => {
+    if (type == "p" || type == "P") {
+      if (player?.playerStats?.earned_runs_average < 3.5) {
+        return true;
+      }
+    } else {
+      if (
+        player?.playerStats?.batting_average > 0.29 ||
+        player?.playerStats?.home_runs > 30
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const nextStep = () => {
     let _currentStep = currentStep;
@@ -82,7 +98,7 @@ function SportsSelectionCard3(props) {
           <NFLPlayerStat
             playerStats={playerStats}
             active={isSelected}
-            position={position}
+            position={primary_position}
           />
         );
 
@@ -94,10 +110,12 @@ function SportsSelectionCard3(props) {
   return (
     <div
       className={`${classes.container_body_card} ${
-        isStarPlayer ? classes.container_body_card_start_power_background : ``
-      }`}
+        checkIfIsStarPlayer()
+          ? classes.container_body_card_start_power_background
+          : ``
+      } ${isSelected ? classes.activeBorder : ""}`}
     >
-      {isStarPlayer && (
+      {checkIfIsStarPlayer() && (
         <span className={classes.container_body_card_start_power}>
           <StarIcon solidcolor="#000" /> <p>Star Power</p>
         </span>
@@ -108,10 +126,10 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{position}</span>
+          <span>{primary_position}</span>
           {playerName}
         </p>
-        {injured && !isMobile && (
+        {props.player.isInjured && !isMobile && (
           <div className={classes.injured}>
             <AidIcon />
             <span>Injured</span>

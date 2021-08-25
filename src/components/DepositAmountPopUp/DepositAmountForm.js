@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import { redirectTo } from "../../utility/shared";
+
 import ChooseItem from "../../ui/ChooseItem/ChooseItem";
 import styles from "./styles.module.scss";
 import PayPal from "../../assets/paypal.png";
@@ -10,12 +12,14 @@ import EFTCard from "../../assets/eft.svg";
 import InteracCard from "../../assets/interac.png";
 import VisaCard from "../../assets/visa.svg";
 import ECheck from "../../assets/e-check.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum_small.png";
 import CVVImg from "../../assets/cvv.png";
 import { Link } from "react-router-dom";
 import QRCode from "../../assets/QRCode.png";
 import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
+
+const paymentGateWay = 'MyUserPay';
 
 const formatePrice = (price, currencyValue, isCad, noSign) =>
   noSign
@@ -176,7 +180,7 @@ class DepositAmountForm extends Component {
     ETH: {
       title: (
         <>
-          <img src={Ethereum} alt="" className={styles.EthereumImage} /> ETH
+          <img src={Ethereum} alt="" className={styles.EthereumImage} width={'15px'} height={'24px'} /> ETH
         </>
       ),
       values: [
@@ -234,8 +238,14 @@ class DepositAmountForm extends Component {
         this.props.ipaySubmitted(object);
       } else {
         let { price, paymentMetod } = this.state.form;
-        price = parseFloat((price * this.props.cad).toFixed(2));
-        this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+
+        // price = parseFloat((price * this.props.cad).toFixed(2));
+
+        this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
+
+        // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
+
+        // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
       }
     else {
       const { currency, price } = this.state.form;
@@ -274,11 +284,11 @@ class DepositAmountForm extends Component {
                   name="price"
                   key={index}
                   onChange={this.onPriceChange}
-                  helperText={
-                    this.state.canadianVisible
-                      ? formatePrice(data.value, this.props.cad, true)
-                      : null
-                  }
+                  // helperText={
+                  //   this.state.canadianVisible
+                  //     ? formatePrice(data.value, this.props.cad, true)
+                  //     : null
+                  // }
                   {...data}
                   checked={!isOtherAmount && price === data.value}
                 />
@@ -296,8 +306,8 @@ class DepositAmountForm extends Component {
             </div>
           </div>
         </section>
-        {currency === "USD" ? (
-          <section className={styles.formSection}>
+        {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
+          < section className={styles.formSection}>
             <h6>Add Payment Details</h6>
             <div className="row align-items-center">
               {this.prices[currency].paymentMetods.map(
@@ -328,51 +338,53 @@ class DepositAmountForm extends Component {
               </button>
             </div> */}
           </section>
-        )}
-        {currency === "USD" && !this.state.canadianVisible && (
-          <section className={styles.cardSectionn}>
-            <div className={styles.cardDetails}>
-              <div>
-                {/* <label>City</label> */}
-                {/* <Link to="/add-card">+ Add New Card</Link> */}
+        )
+        }
+        {
+          currency === "USD" && !this.state.canadianVisible && (
+            <section className={styles.cardSectionn}>
+              <div className={styles.cardDetails}>
+                <div>
+                  {/* <label>City</label> */}
+                  {/* <Link to="/add-card">+ Add New Card</Link> */}
+                </div>
+                <form>
+                  <input
+                    placeholder="City"
+                    value={this.state.city}
+                    name="city"
+                    onChange={this.onFieldChangeHandler}
+                  />
+                  <input
+                    placeholder="Address"
+                    name="address"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.address}
+                  />
+                  <input
+                    placeholder="Phone Number"
+                    type="phone"
+                    name="phoneNumber"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.phoneNumber}
+                  />
+                  <input
+                    placeholder="Zip"
+                    name="zip"
+                    value={this.state.zip}
+                    onChange={this.onFieldChangeHandler}
+                  />
+                  <select
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.currency}
+                    name="currency"
+                  >
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                  </select>
+                </form>
               </div>
-              <form>
-                <input
-                  placeholder="City"
-                  value={this.state.city}
-                  name="city"
-                  onChange={this.onFieldChangeHandler}
-                />
-                <input
-                  placeholder="Address"
-                  name="address"
-                  onChange={this.onFieldChangeHandler}
-                  value={this.state.address}
-                />
-                <input
-                  placeholder="Phone Number"
-                  type="phone"
-                  name="phoneNumber"
-                  onChange={this.onFieldChangeHandler}
-                  value={this.state.phoneNumber}
-                />
-                <input
-                  placeholder="Zip"
-                  name="zip"
-                  value={this.state.zip}
-                  onChange={this.onFieldChangeHandler}
-                />
-                <select
-                  onChange={this.onFieldChangeHandler}
-                  value={this.state.currency}
-                  name="currency"
-                >
-                  <option value="USD">USD</option>
-                  <option value="EUR">EUR</option>
-                </select>
-              </form>
-            </div>
-            {/* <div className="__mt-2 __flex __sb">
+              {/* <div className="__mt-2 __flex __sb">
               <div>
                 <p>Fred Smith</p>
                 <p className="__mt-s __mb-s">123 Main St</p>
@@ -392,43 +404,46 @@ class DepositAmountForm extends Component {
                 </div>
               </div>
             </div> */}
-          </section>
-        )}
-        {currency !== "USD" ? (
-          // <section className={styles.QRCodeWrapper}>
-          //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
-          //   <div>
-          //     {/* <img alt="" src={QRCode} className={styles.qrImage} />
-          //     <div className={styles.inputField}>
-          //       <label htmlFor="wallet-address">Wallet Address</label>
-          //       <img
-          //         src={copyImage}
-          //         alt=""
-          //         className={styles.copyImage}
-          //         onClick={() => navigator.clipboard.writeText(walletAddress)}
-          //       />
-          //       <input
-          //         type="text"
-          //         id="wallet-address"
-          //         value={walletAddress}
-          //         onChange={this.onWalletAddressChange}
-          //       />
-          //     </div> */}
-              
-          //   </div>
-          // </section>
-          <button className={`${styles.submitbtn} w-100 d-block`}>
-                Deposit • {currency === "$USD" && "$"}
-                {price} {currency.replace("$", "")}
-              </button>
-        ) : (
-          <button className={`${styles.submitbtn} w-100 d-block`}>
-            Deposit • {currency === "$USD" && "$"}
-            {price}
-            {currency.replace("$", "")}
-          </button>
-        )}
-      </form>
+            </section>
+          )
+        }
+        {
+          currency !== "USD" ? (
+            // <section className={styles.QRCodeWrapper}>
+            //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
+            //   <div>
+            //     {/* <img alt="" src={QRCode} className={styles.qrImage} />
+            //     <div className={styles.inputField}>
+            //       <label htmlFor="wallet-address">Wallet Address</label>
+            //       <img
+            //         src={copyImage}
+            //         alt=""
+            //         className={styles.copyImage}
+            //         onClick={() => navigator.clipboard.writeText(walletAddress)}
+            //       />
+            //       <input
+            //         type="text"
+            //         id="wallet-address"
+            //         value={walletAddress}
+            //         onChange={this.onWalletAddressChange}
+            //       />
+            //     </div> */}
+
+            //   </div>
+            // </section>
+            <button className={`${styles.submitbtn} w-100 d-block`}>
+              Deposit • {currency === "$USD" && "$"}
+              {price} {currency.replace("$", "")}
+            </button>
+          ) : (
+            <button className={`${styles.submitbtn} w-100 d-block`}>
+              Deposit • {currency === "$USD" && "$"}
+              {price}
+              {currency.replace("$", "")}
+            </button>
+          )
+        }
+      </form >
     );
   }
 }

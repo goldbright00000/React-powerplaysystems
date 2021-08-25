@@ -16,7 +16,6 @@ import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 let currentCard = 0;
-
 function SingleView(props) {
   const {
     data = [],
@@ -24,9 +23,12 @@ function SingleView(props) {
     updateReduxState = () => {},
     starPlayerCount = 0,
     gameInfo = {},
+    pointXpCount = {}
   } = props || {};
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
+
+  const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   useEffect(() => {
     setSelectedCard(data[currentCard]);
@@ -70,6 +72,11 @@ function SingleView(props) {
                   }
                   singleView
                   onSelectCard={onSelectCard}
+                  dwall={props.dwallCounts}
+                  challenge={props.challengeCounts}
+                  useDwall={props.useDwall}
+                  useChallenge={props.useChallenge}
+                  dataMain={props.dataMain}
                 />
               ) : (
                 <SportsLiveCard
@@ -84,6 +91,10 @@ function SingleView(props) {
                   updateReduxState={updateReduxState}
                   starPlayerCount={starPlayerCount}
                   gameInfo={gameInfo}
+                  useSwap={props.useSwap}
+                  swapCount={props.swapCounts}
+                  dataMain={props.dataMain}
+                  pointXpCount={{xp1:xp1,xp2:xp2,xp3:xp3}}
                 />
               )}
             </>
@@ -95,20 +106,27 @@ function SingleView(props) {
         {selectedCard?.team_d_mlb_team &&
         selectedCard?.team_d_mlb_team?.type === D ? (
           <SportsLiveCardTeamD
-            largeView
             data={selectedCard}
             onChangeXp={onChangeXp}
             updateReduxState={updateReduxState}
             starPlayerCount={starPlayerCount}
+            dwall={props.dwallCounts}
+            challenge={props.challengeCounts}
+            useDwall={props.useDwall}
+            useChallenge={props.useChallenge}
+            dataMain={props.dataMain}
           />
         ) : (
           <SportsLiveCard
-            largeView
             data={selectedCard}
             onChangeXp={onChangeXp}
             updateReduxState={updateReduxState}
             starPlayerCount={starPlayerCount}
             gameInfo={gameInfo}
+            useSwap={props.useSwap}
+            swapCount={props.swapCounts}
+            dataMain={props.dataMain}
+            pointXpCount={{xp1:xp1,xp2:xp2,xp3:xp3}}
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />

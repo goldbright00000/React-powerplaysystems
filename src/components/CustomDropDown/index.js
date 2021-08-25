@@ -19,6 +19,7 @@ const CustomDropDown = (props) => {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
+    
   }, []);
 
   const handleClick = (e) => {

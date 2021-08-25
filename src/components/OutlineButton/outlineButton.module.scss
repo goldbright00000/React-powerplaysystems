@@ -17,6 +17,9 @@
   color: $primary;
   outline: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .__outline_button_icon {
     margin-right: 10px;

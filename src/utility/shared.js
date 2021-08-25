@@ -5,7 +5,6 @@ import moment from "moment";
 export function redirectTo(props, { path = "/", state = {} }) {
   const { history: { push = () => {} } = {} } = props || {};
   if (!isEmpty(state)) return push(path, state);
-
   return push(path);
 }
 
@@ -150,7 +149,7 @@ export function validateEmail(email) {
 }
 
 export function setNumberComma(number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return number?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export function getYearsList() {
@@ -185,7 +184,8 @@ export function getMonthDays() {
 
 export function getDaysFromToday() {
   let daysFromToday = [];
-  for (let i = 0; i < 7; i++) {
+  daysFromToday.push({ value: "All", label: "All" });
+  for (let i = 0; i < 6; i++) {
     if (i === 0) {
       daysFromToday.push({ value: "Today", label: "Today" });
     } else {
@@ -320,3 +320,24 @@ export function addTrailingZerons(num) {
     minimumFractionDigits: 3,
   });
 }
+
+export const removeZeroBeforeDecimalPoint = (value = 0) => {
+  const toThreeDecimal = value.toFixed(3);
+  const nonDecimalValue = toThreeDecimal.toString().split(".")[1];
+  if (nonDecimalValue) {
+    return `.${nonDecimalValue}`;
+  }
+
+  return "";
+};
+
+export const getTimeZone = () => {
+  return moment?.tz(moment?.tz?.guess())?.zoneAbbr();
+};
+
+export const getNumberSuffix = (number = 0) => {
+  return (
+    number + "" + ["st", "nd", "rd"][((((number + 90) % 100) - 10) % 10) - 1] ||
+    "th"
+  );
+};

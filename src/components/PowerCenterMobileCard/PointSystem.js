@@ -58,7 +58,7 @@ const PointSystem = (props) => {
     const {
         title = '',
         PointsSystem = [],
-        game_set_end = '',
+        game_set_start = '',
         start_time = '',
     } = props || {};
 
@@ -69,7 +69,7 @@ const PointSystem = (props) => {
     return (
         <div className={classes.__point_system}>
             <div className={classes.__point_system_date_time}>
-                {game_set_end} | {start_time} ET
+                {game_set_start} | {start_time} ET
             </div>
             <div className={classes.__point_system_powerdfs}>
                 <div>
@@ -92,7 +92,7 @@ const PointSystem = (props) => {
                                         <p className={classes.__point_system_data_title}>{item?.plays}</p>
                                     </div>
                                     <div className={classes.__point_system_data_value_div}>
-                                        <p className={classes.__point_system_data_value}>+ {item?.points} Pts</p>
+                                        <p className={classes.__point_system_data_value}>{item?.action} {item?.points} Pts</p>
                                     </div>
                                 </div>
                             );
@@ -109,7 +109,7 @@ const PointSystem = (props) => {
                                         <p className={classes.__point_system_data_title}>{item?.plays}</p>
                                     </div>
                                     <div className={classes.__point_system_data_value_div}>
-                                        <p className={classes.__point_system_data_value}>+{item?.points} Pts</p>
+                                        <p className={classes.__point_system_data_value}>{item?.action}{item?.points} Pts</p>
                                     </div>
                                 </div>
                             );

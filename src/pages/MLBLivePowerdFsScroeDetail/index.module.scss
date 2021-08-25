@@ -19,7 +19,7 @@
 
         .card_rank {
           flex: 0.1;
-          transform: translate(-10px, 40px);
+          transform: translate(-10px, 25px);
         }
       }
 
@@ -29,8 +29,6 @@
         height: 648px;
         justify-content: flex-start;
         align-items: flex-start;
-        overflow: hidden scroll;
-        position: relative;
         width: 100%;
         margin: 0 auto;
 
@@ -62,6 +60,10 @@
 
             &.child_3 {
               flex: 0.7;
+
+              &.space {
+                margin-right: 20px;
+              }
             }
 
             &.child_4 {
@@ -172,6 +174,13 @@
           padding: 20px;
           align-items: flex-start;
           justify-content: flex-start;
+          overflow: hidden scroll;
+          position: relative;
+
+          &::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+          }
 
           .card_row_1 {
             @extend .card_row;

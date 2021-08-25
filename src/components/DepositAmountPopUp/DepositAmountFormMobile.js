@@ -10,12 +10,14 @@ import EFTCard from "../../assets/eft.svg";
 import InteracCard from "../../assets/interac.png";
 import VisaCard from "../../assets/visa.svg";
 import ECheck from "../../assets/e-check.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum_small.png";
 import CVVImg from "../../assets/cvv.png";
 import { Link } from "react-router-dom";
 import QRCode from "../../assets/QRCode.png";
 import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
+
+const paymentGateWay = 'MyUserPay';
 
 const formatePrice = (price, currencyValue, isCad, noSign) =>
     noSign
@@ -234,8 +236,10 @@ class DepositAmountFormMobile extends Component {
                 this.props.ipaySubmitted(object);
             } else {
                 let { price, paymentMetod } = this.state.form;
-                price = parseFloat((price * this.props.cad).toFixed(2));
-                this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+                // price = parseFloat((price * this.props.cad).toFixed(2));
+                this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
+
+                // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
             }
         else {
             const { currency, price } = this.state.form;
@@ -279,11 +283,11 @@ class DepositAmountFormMobile extends Component {
                                         name="price"
                                         key={index}
                                         onChange={this.onPriceChange}
-                                        helperText={
-                                            this.state.canadianVisible
-                                                ? formatePrice(data.value, this.props.cad, true)
-                                                : null
-                                        }
+                                        // helperText={
+                                        //     this.state.canadianVisible
+                                        //         ? formatePrice(data.value, this.props.cad, true)
+                                        //         : null
+                                        // }
                                         {...data}
                                         checked={!isOtherAmount && price === data.value}
                                     />
@@ -302,10 +306,9 @@ class DepositAmountFormMobile extends Component {
                         </div>
                     </section>
                 }
-
                 {this.props.nextForm === 3 &&
                     <div>
-                        {currency === "USD" ? (
+                        {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
                             <section className={`${styles.formSection} mb-4`}>
                                 <h6>Add Payment Details</h6>
                                 <div className="row align-items-center">

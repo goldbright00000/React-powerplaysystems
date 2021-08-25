@@ -26,6 +26,13 @@
     display: none;
   }
 
+  &.activeBorder {
+    border: 1px solid $primary;
+    .teamA {
+      color: $primary;
+    }
+  }
+
   .container_body_card_header {
     display: flex;
     justify-content: space-between;
@@ -155,6 +162,7 @@
 
     .teamA {
       font-size: var(--font-size-14);
+      color: #688fbd;
     }
 
     .teamB {
@@ -371,7 +379,7 @@
 
 @media (max-width: 1900px) {
   .container_body_card {
-    width: 623px;
+    width: 48%;
     height: 222px;
 
     .container_body_card_header {
@@ -555,12 +563,12 @@
 }
 @media (max-width: 1800px) {
   .container_body_card {
-    width: 580px;
+    width: 48%;
   }
 }
 @media (max-width: 1680px) {
   .container_body_card {
-    width: 550px;
+    width: 48%;
     height: 182px;
 
     .container_body_card_header {
@@ -728,7 +736,7 @@
 
 @media (max-width: 1600px) {
   .container_body_card {
-    width: 510px !important;
+    width: 48% !important;
     height: 182px;
 
     .container_body_card_header {
@@ -896,7 +904,7 @@
 
 @media (max-width: 1480px) {
   .container_body_card {
-    width: 473px !important;
+    width: 48% !important;
     height: 182px;
 
     .container_body_card_header {
@@ -1086,13 +1094,13 @@
 }
 @media (max-width: 1400px) {
   .container_body_card {
-    width: 453px !important;
+    width: 48% !important;
   }
 }
 @media (max-width: 1366px) {
   .container_body_card {
     padding: 14px 12px;
-    width: 423px !important;
+    width: 48% !important;
     height: 182px !important;
 
     .container_body_card_header {
@@ -1268,7 +1276,7 @@
 @media (max-width: 1280px) {
   .container_body_card {
     padding: 14px 12px;
-    width: 400px !important;
+    width: 48% !important;
     height: 182px !important;
 
     .container_body_card_header {
@@ -1444,7 +1452,7 @@
 @media (max-width: 1200px) {
   .container_body_card {
     padding: 14px 12px;
-    width: 373px !important;
+    width: 48% !important;
     height: 182px !important;
 
     .container_body_card_header {

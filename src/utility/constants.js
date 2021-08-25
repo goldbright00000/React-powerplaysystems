@@ -58,6 +58,10 @@ export const CONSTANTS = {
       ON: "on_landing_page_email",
       EMIT: "emit_landing_page_email",
     },
+    PAYMENT: {
+      SUCCESS: "on_payment_success",
+      FAILURE: "on_payment_failure",
+    },
     MLB: {
       LIVE: {
         EMIT_ROOM: "ON_EMIT_LIVE_DATA",
@@ -66,6 +70,7 @@ export const CONSTANTS = {
         ON_POWER_APPLIED: "ON_POWER_APPLIED",
         ON_GLOBAL_RANKING_REQUEST: "ON_GLOBAL_RANKING_REQUEST",
         ON_FANTASY_LOGS_REQUEST: "ON_FANTASY_LOGS_REQUEST",
+        GET_GLOBAL_RANKING: "GET_GLOBAL_RANKING",
         MATCH_UPDATE: "MATCH_UPDATE",
         GLOBAL_RANKING: "GLOBAL_RANKING",
         FANTASY_TEAM_UPDATE: "FANTASY_TEAM_UPDATE",
@@ -80,6 +85,7 @@ export const CONSTANTS = {
     BTC_BALANCE: "btc_balance",
     ETH_BALANCE: "eth_balance",
     DISPLAY_BALANCE: "display_balance",
+    MLB_LIVE_GAME: "mlb_live_game",
   },
 
   BUTTON_TYPE: {
@@ -149,4 +155,6 @@ export const CONSTANTS = {
     xp3: "xp3",
   },
   PERSONA_USER_ID: "PERSONA_USER_ID",
+  DATA_ENC_KEY:
+    "33SD23lk(O*&3hjas234)(0234-0_2347asdfh234*(&r23l4asdfkO(&R937w4rlkHLO*AW#&4",
 };

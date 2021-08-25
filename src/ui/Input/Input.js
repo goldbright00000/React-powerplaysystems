@@ -13,9 +13,7 @@ const Input = (props) => {
     if (props.onChange) props.onChange(e);
   };
   const showPasswordHandler = () => {
-    console.log(type);
     setType(type === "password" ? "text" : "password");
-    console.log(type);
   };
   return (
     <div className={`__text-field-style-2 ${props.className}`}>

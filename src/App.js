@@ -31,7 +31,8 @@ import AccountPage from "./pages/AccountPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyGameCenter from "./pages/MyGameCenter/MyGameCenter";
 import MLBPowerdFs from "./pages/MLBpowerdFS";
-import NFLPowerdFs from "./pages/NFLpowerdFS";
+// import NFLPowerdFs from "./pages/NFLpowerdFS";
+import NFLPowerdFs from "./pages/NFLPowerdFS_new";
 import NHLPowerdFs from "./pages/NHLpowerdFS";
 import NBAPowerdFs from "./pages/NBApowerdFS";
 import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
@@ -48,6 +49,7 @@ import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
 
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
+import UsersPaymentGateway from "./pages/UsersPaymentGateway/UsersGateway";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
@@ -56,6 +58,8 @@ import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
 import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
 import MLBRecharge from "./pages/MLBRecharge";
 import { isEmpty } from "lodash";
+
+import ChallengePage from "./pages/PowerCenter/ChallengePage";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -118,6 +122,7 @@ const App = (props) => {
             component={SponserAContestPage}
           />
           <Route path="/power-center" component={PowerCenter} />
+          <Route path="/challenge-page" component={ChallengePage} />
           <Route path="/select-teams" component={SelectTeams} />
           <Route path="/powerbet-live" component={PowerBetLive} />
           <Route path="/bingo-pre-game" component={BingoPreGame} />
@@ -145,11 +150,11 @@ const App = (props) => {
           <ProtectedRoute path="/my-account" component={AccountPage} />
           <Route exact path="/elite8" component={Elite8} />
           <Route exact path="/elite8-draw" component={Elite8Draw} />
-          <Route path="/mlb-powerdfs" component={MLBPowerdFs} />
-          <Route path="/nfl-powerdfs" component={NFLPowerdFs} />
+          <Route path="/mlb-select-team" component={MLBPowerdFs} />
+          <Route path="/nfl-select-team" component={NFLPowerdFs} />
           <Route path="/nfl-live-powerdfs" component={NFLPowerdFsLive} />
-          <Route path="/nhl-powerdfs" component={NHLPowerdFs} />
-          <Route path="/nba-powerdfs" component={NBAPowerdFs} />
+          <Route path="/nhl-select-team" component={NHLPowerdFs} />
+          <Route path="/nba-select-team" component={NBAPowerdFs} />
           <Route path="/nhl-live-powerdfs" component={NHLPowerdFsLive} />
           <Route path="/contact-us" component={ContactUSPage} />
           <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
@@ -158,6 +163,7 @@ const App = (props) => {
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
+          <Route path="/users-gateway" component={UsersPaymentGateway} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}

@@ -21,8 +21,26 @@ import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
+import { socket } from "../../config/server_connection";
+import { CONSTANTS } from "../../utility/constants";
 
+
+import * as MLbActions from "../../actions/MLBActions";
+import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
+  const dispatch = useDispatch();
+  const {
+    ON_ROOM_SUB,
+    ON_ROOM_UN_SUB,
+    EMIT_ROOM,
+    ON_POWER_APPLIED,
+    ON_GLOBAL_RANKING_REQUEST,
+    ON_FANTASY_LOGS_REQUEST,
+    GET_GLOBAL_RANKING,
+    MATCH_UPDATE,
+    GLOBAL_RANKING,
+    FANTASY_TEAM_UPDATE,
+  } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
   const {
     isMobile = false,
     id = null,
@@ -39,23 +57,103 @@ const MyGameCenterCard = (props) => {
     timeToStart = "",
     viewResults = false,
     finalStandingsModal = false,
-    game_set_end = "",
+    game_set_start = "",
     start_time = "",
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
-    onDetailsClick = () => {},
-    onBackClick = () => {},
-    onNextClick = () => {},
-    onEnter = () => {},
-    onEdit = () => {},
-    onViewResults = () => {},
-    onViewResultsBack = () => {},
-    onFinalStandings = () => {},
+    onDetailsClick = () => { },
+    onBackClick = () => { },
+    onNextClick = () => { },
+    onEnter = () => { },
+    onEdit = () => { },
+    onViewResults = () => { },
+    onViewResultsBack = () => { },
+    onFinalStandings = () => { },
+    game_id = 0
   } = props || {};
+
+  const [ranks, setRanks] = React.useState({
+    ranking: 0, score: 0, game_id: 0, team_id: 0
+  });
+
+  let _socket = null;
+
+  React.useEffect(() => {
+    _socket = socket();
+    return function cleanUP() {
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
+    };
+  }, []);
+  React.useEffect(() => {
+    if (_socket) {
+      onSocketEmit(game_id, localStorage.PERSONA_USER_ID);
+      onSocketListen();
+    }
+  }, [_socket]);
+//All Emit Events
+const onSocketEmit = (gameId, userId) => {
+  _socket.emit(ON_ROOM_SUB, {
+    gameId: gameId,
+    userId: userId,
+  });
+
+
+};
+
+//All listen events
+const onSocketListen = () => {
+  //fetch data first time
+  _socket?.on(EMIT_ROOM, (res) => {
+    const {
+      power_dfs_team_rankings = []
+    } = res?.data || {};
+
+    // const teamD = defense[0] || {};
+    setRanks(power_dfs_team_rankings[0] || {});
+    // if (players && players?.length) {
+    //   getPlayers(players, teamD);
+    // }
+
+    // const _gameLogs = [...game_logs];
+    // const sortedGameLogs = _gameLogs.sort(
+    //   (a, b) =>
+    //     new Date(a?.play?.created_at).getTime() -
+    //     new Date(b?.play?.created_at).getTime()
+    // );
+
+    // dispatch(MLBActions.setGameLogs(sortedGameLogs));
+    // setLoading(false);
+  });
+
+  //MATCH_UPDATE
+  
+
+
+ 
+};
+  const getRank = (game_id) => {
+    
+  }
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
+
+  const [isCompleted, setCompleted] = React.useState(0);
+
+  // React.useEffect(async () => {
+  //   const response = await dispatch(
+  //     MLbActions.mlbData2(game_id)
+  //   );
+  //   console.log("response", response);
+  //   setCompleted(response.completed);
+  //   console.log("game_id", game_id);
+  // },[game_id]);
 
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {
@@ -140,9 +238,10 @@ const MyGameCenterCard = (props) => {
                     }}
                   >
                     <div className={classes.__my_game_center_card_date_time}>
-                      {game_set_end} | {start_time} ET
+                      {game_set_start} | {start_time} ET
                     </div>
-                    {inProgress || completed || timeToStart != "" ? (
+                    {/* {inProgress || completed || timeToStart != "" ? ( */}
+                    {total == outOf ? (
                       <div className={classes.__my_game_center_card_full}>
                         <div className={classes.__my_game_center_card_full_img}>
                           <img src={BlueTick} width="18" height="18" alt="" />
@@ -150,7 +249,13 @@ const MyGameCenterCard = (props) => {
                         <div
                           className={classes.__my_game_center_card_full_text}
                         >
-                          Full 200,000
+                          Full {<CurrencyFormat
+                            value={total}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            thousandSeparator={total >= 10000 ? true : false}
+                            renderText={(value) => value}
+                          />}
                         </div>
                       </div>
                     ) : null}
@@ -187,6 +292,7 @@ const MyGameCenterCard = (props) => {
                       value={prize}
                       displayType={"text"}
                       thousandSeparator={true}
+                      thousandSeparator={prize >= 10000 ? true : false}
                       prefix={"$"}
                       renderText={(value) => <div>{value}</div>}
                     />
@@ -199,7 +305,7 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_prize_pool_text
                     }
                   >
-                    {inProgress ? "Currently Winning" : "Prize Pool"}
+                    {inProgress ? "Currently Winning" : "Prize Pool1"}
                   </p>
                 </div>
 
@@ -246,14 +352,14 @@ const MyGameCenterCard = (props) => {
 
                   {editPicks && (
                     <OutlineButton
-                      title="Edit Picks"
+                      title="Edit Picks1"
                       onClick={onEdit}
                       styles={{
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
                       }}
-                      //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                     />
                   )}
 
@@ -282,6 +388,8 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
               </>
+
+              
 
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>
@@ -312,6 +420,7 @@ const MyGameCenterCard = (props) => {
                   )}
                 </div>
                 <PrizeGrid
+                  getBackgroundImageWithStyle={getBackgroundImageWithStyle()}
                   PrizePayout={PrizePayout}
                   isMobile={isMobile}
                   title={title}
@@ -428,7 +537,7 @@ const MyGameCenterCard = (props) => {
               </>
             </Carousel>
           </div>
-
+          
           {leaveGameModal && (
             <LeaveGameModal
               isMobile={isMobile}
@@ -506,7 +615,7 @@ const MyGameCenterCard = (props) => {
                 <CurrencyFormat
                   value={prize}
                   displayType={"text"}
-                  thousandSeparator={true}
+                  thousandSeparator={prize >= 10000 ? true : false}
                   prefix={"$"}
                   renderText={(value) => <div>{value}</div>}
                 />
@@ -550,7 +659,7 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                  //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
                 />
               )}
 
@@ -560,6 +669,12 @@ const MyGameCenterCard = (props) => {
                   onClick={onEnter}
                   styles={{ color: "#f2f2f2" }}
                 />
+              )}
+
+              {!completed && (
+                <div style={{marginTop: 5}}>
+                    {game_set_start} | {start_time} ET
+                </div>
               )}
 
               {completed && (
@@ -577,15 +692,27 @@ const MyGameCenterCard = (props) => {
                   styles={{ marginTop: 14 }}
                 />
               )}
+              {completed && (
+                <div style={{marginTop: 5}}>
+                    {game_set_start} | {start_time} ET
+                </div>
+              )}
             </div>
             <div className={classes.__my_game_center_card_status_and_details}>
-              {inProgress || completed || timeToStart != "" ? (
+              {/* {inProgress || completed || timeToStart != "" ? ( */}
+              {total == outOf ? (
+
                 <div className={classes.__my_game_center_card_full}>
                   <div className={classes.__my_game_center_card_full_img}>
                     <img src={BlueTick} width="18" height="18" alt="" />
                   </div>
                   <div className={classes.__my_game_center_card_full_text}>
-                    Full 200,000
+                    Full <CurrencyFormat
+                      value={total}
+                      displayType={"text"}
+                      thousandSeparator={total >= 10000 ? true : false}
+                      renderText={(value) => value}
+                    />
                   </div>
                 </div>
               ) : (
@@ -633,7 +760,9 @@ const MyGameCenterCard = (props) => {
                 onCancel={() => setLeaveGameModal(false)}
               />
             )}
+            
           </div>
+          
         ) : (
           <ViewResults
             title={title}
@@ -650,6 +779,8 @@ const MyGameCenterCard = (props) => {
             onBackClick={() => onBackClick()}
             onNextClick={() => onNextClick()}
             myGameCenter={true}
+            game_set_start={game_set_start}
+            prize={(prize)}
           />
         </>
       )}

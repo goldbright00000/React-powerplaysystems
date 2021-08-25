@@ -8,7 +8,7 @@ function BaseballStick(props) {
       width={props?.size || "14"}
       height={props?.size || "14"}
       viewBox="0 0 14 14"
-      style={{ height: "auto" }}
+      className={`${{ height: "auto" }} ${{ ...props?.style }}`}
       {...props}
     >
       <g fill="none" fillRule="evenodd">
@@ -33,6 +33,7 @@ function BaseballStick(props) {
 
 BaseballStick.propTypes = {
   size: PropTypes.number,
+  style: PropTypes.object,
 };
 
 export default BaseballStick;

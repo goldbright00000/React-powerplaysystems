@@ -15,11 +15,16 @@ const ScoreBoard = ({
   points,
   title,
   subTitle,
+  hitter,
+  pitcher,
+  strikes,
+  balls,
   fieldText,
   imageTochanged,
   fieldColor,
   notShow,
   otherIcons,
+  footerText,
   setstate,
   boostModal,
   swapModal,
@@ -44,6 +49,11 @@ const ScoreBoard = ({
           fieldText={fieldText}
           fieldColor={fieldColor}
           points={points}
+          hitter={hitter}
+          pitcher={pitcher}
+          strikes={strikes}
+          footerText={footerText}
+          balls={balls}
           secondShow={secondShow}
           imageTochanged={imageTochanged}
           otherIcons={otherIcons}

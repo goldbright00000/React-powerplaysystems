@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import ordinal from 'ordinal';
 
 import classes from "./index.module.scss";
 import Modal from "../Modal";
@@ -7,7 +8,7 @@ import CloseIcon from "../../icons/Close";
 import CupIcon from "../../icons/Cup";
 
 function PrizeModal(props) {
-  const { visible = false, sportsName = "", data = [], onClose = () => {} } =
+  const { visible = false, sportsName = "", data = [], onClose = () => { } } =
     props || {};
 
   const Item = ({ place, payout }) => (
@@ -41,13 +42,35 @@ function PrizeModal(props) {
             <div className={classes.table_body}>
               {data &&
                 data?.length &&
-                data?.map((item, ind) => (
-                  <Item
-                    place={item?.place}
-                    payout={item?.payout}
-                    key={ind + "--"}
-                  />
-                ))}
+                data?.map((item, ind) => {
+                  return (
+                    <>
+                      {item?.from === item?.to ? (
+                        <p className={classes.__prize_grid_data_title}>
+                          {
+                            <Item
+                              place={ordinal(parseInt(item?.from))}
+                              payout={item?.amount}
+                              key={ind + "--"}
+                            />
+                          }
+                        </p>
+                      ) : (
+                        <p className={classes.__prize_grid_data_title}>
+                          {
+                            <Item
+                              place={`${ordinal(parseInt(item?.from))} - ${ordinal(parseInt(item?.to))}`}
+                              payout={item?.amount}
+                              key={ind + "--"}
+                            />
+
+                          }
+                        </p>
+                      )}
+
+                    </>
+                  )
+                })}
             </div>
           </div>
         </div>

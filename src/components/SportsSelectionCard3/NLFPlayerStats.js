@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import classes from "./playerStat.module.scss";
 import { CONSTANTS } from "../../utility/constants";
 
-const DEFAULT_TITLES = ["YDS/G", "Rush TD", "Rec TD", "FPPG"];
-const QB_TITLES = ["P YDS/G", "R YDS/G", "P TD", "R TD", "FFPG"];
-const K_TITLES = ["FGA", "FGM", "PCT", "LNG", "FFPG"];
+const DEFAULT_TITLES = ["YDS/G", "Rush TD", "Rec TD"];
+const QB_TITLES = ["P YDS/G", "R YDS/G", "P TD", "R TD"];
+const K_TITLES = ["FGA", "FGM", "PCT", "LNG"];
 
 const { QB, K } = CONSTANTS.FILTERS.NFL;
 
@@ -14,21 +14,23 @@ function MLBPlayerStat(props) {
   const { active = false, playerStats = {}, position } = props || {};
 
   const {
-    pydsg = 0,
-    rydsg = 0,
-    ydsg = 0,
-    ptd = 0,
-    rtd = 0,
-    fga = 0,
-    fgm = 0,
-    pct = 0,
-    lng = 0,
+    rushing_avg_yards = 0,
+    rushing_yards = 0,
+    rushing_touchdowns = 0,
+    passing_yards = 0,
+    passing_touchdowns = 0,
+    receiving_avg_yards = 0,
+    receiving_yards = 0,
+    receiving_touchdowns = 0,
+    field_goals_attempts = 0,
+    field_goals_made = 0,
+    field_goals_longest = 0,
+    extra_points_made = 0,
   } = playerStats || {};
 
   const getTwoDecimal = (value) => {
-    if (value !== 0) return parseFloat(value).toFixed(2);
-
-    return value;
+    if (value) return parseFloat(value).toFixed(2);
+    else return 0;
   };
 
   const RenderQB = () => (
@@ -42,11 +44,10 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(pydsg)} />
-        <RenderItem value={rydsg} />
-        <RenderItem value={ptd} />
-        <RenderItem value={rtd} />
-        <RenderItem value={0} />
+        <RenderItem value={getTwoDecimal(passing_yards)} />
+        <RenderItem value={rushing_yards ? rushing_yards : 0} />
+        <RenderItem value={passing_touchdowns ? passing_touchdowns : 0} />
+        <RenderItem value={rushing_touchdowns ? rushing_touchdowns : 0} />
       </div>
     </>
   );
@@ -62,11 +63,16 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(fga)} />
-        <RenderItem value={fgm} />
-        <RenderItem value={pct} />
-        <RenderItem value={lng} />
-        <RenderItem value={0} />
+        <RenderItem value={getTwoDecimal(field_goals_attempts)} />
+        <RenderItem value={field_goals_made ? field_goals_made : 0} />
+        <RenderItem
+          value={
+            field_goals_attempts && field_goals_made
+              ? ((field_goals_attempts / field_goals_made) * 100).toPrecision(1)
+              : 0
+          }
+        />
+        <RenderItem value={field_goals_longest ? field_goals_longest : 0} />
       </div>
     </>
   );
@@ -82,10 +88,9 @@ function MLBPlayerStat(props) {
       </div>
 
       <div className={classes.card_state_values}>
-        <RenderItem value={getTwoDecimal(ydsg)} />
-        <RenderItem value={ptd} />
-        <RenderItem value={rtd} />
-        <RenderItem value={0} />
+        <RenderItem value={getTwoDecimal(rushing_avg_yards)} />
+        <RenderItem value={rushing_touchdowns ? rushing_touchdowns : 0} />
+        <RenderItem value={receiving_touchdowns ? receiving_touchdowns : 0} />
       </div>
     </>
   );

@@ -8,13 +8,17 @@
   align-items: center;
   position: relative;
 
+  &.singleViewCard{
+    border: 0
+  }
+
   .left_side {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    flex: 0.65;
+    flex: 0.5;
     align-items: center;
-    height: 534px;
+    // height: 534px;
     margin: 0 0 0 18px;
   }
 
@@ -91,13 +95,16 @@
 @media (max-width: 1366px) {
   .wrapper {
     .left_side {
-      flex: 0.7;
+      flex: 0.6;
       height: 510px;
+      
     }
 
     .right_side {
       width: 40%;
-
+      display: flex;
+      align-items: center;
+      justify-content: center;
       .arrow {
         width: 32px;
         height: 32px;
@@ -120,6 +127,22 @@
         width: 30px;
         height: 30px;
       }
+    }
+  }
+}
+
+@media (max-width: 1600px) {
+  .wrapper {
+    .left_side {
+      flex: 0.7 1;
+    }
+  }
+}
+
+@media (max-width: 1024px) {
+  .wrapper {
+    .left_side {
+      flex: 0.7;
     }
   }
 }

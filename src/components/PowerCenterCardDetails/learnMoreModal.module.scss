@@ -2,11 +2,13 @@
 
 .__learn_more_modal {
     width: 596px;
-    height: 376px;
+    height: 505px;
     border-radius: 8px;
     box-shadow: 0 2px 24px 0 $black5;
     background-color: $lightBlack11;
-
+    .react-tabs {
+        position: relative;
+    }
     .__learn_more_modal_header {
         display: flex;
         flex-direction: row;
@@ -28,13 +30,7 @@
             color: $grey2;
         }
 
-        .__learn_more_modal_close_icon {
-            display: flex;
-            flex: 1;
-            justify-content: flex-end;
-            align-items: center;
-            margin-right: 30px;
-        }
+        
     }
 
     .__learn_more_modal_body {
@@ -111,5 +107,72 @@
                 color: #f2f2f2;
             }
         }
+    }
+
+    .tabs_header {
+        display: flex;
+        list-style: none;
+        margin-top: 40px;
+        margin-bottom: 0;
+        
+        li {
+            margin-right: 20px;
+            padding-bottom: 10px;
+            opacity: 0.6;
+            svg {
+                width: 48px !important;
+            }
+        }
+    }
+    .tab_body {
+        border-top: 2px solid #111;
+        margin-top: -2px;
+    }
+    .react-tabs__tab--selected {
+        border-bottom: 2px solid #fa0901;
+    }
+    .active {
+        border-bottom: 2px solid #fa0901;
+        opacity: 1 !important;
+    }
+    .tabTitle {
+        margin: 30px 10px 20px 40px;;
+        font-family: Teko;
+        font-size: 30px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: 0.12px;
+        color: #f2f2f2;
+    }
+    .tabContent {
+        p {
+            font-family: Poppins;
+            font-size: 16px;
+            font-weight: normal;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #f2f2f2;
+            margin: 0px 40px;
+        }
+        
+        a {
+            font-size: 16px;
+            font-weight: 600;
+            color: #fb6e00;
+            margin: 0px 40px;
+        }
+    }
+    .__learn_more_modal_close_icon {
+        margin-right: 30px;
+        position: absolute;
+        right: 0;
+        top: -15px;
+    }
+    .reacttabs {
+        position: relative;
     }
 }

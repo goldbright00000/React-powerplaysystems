@@ -177,6 +177,27 @@ export function payWithZum(data, history) {
   };
 }
 
+
+export function payWithMyUserPay(data, history) {
+  const { amount, email, paymentMethod } = data;
+
+  return (dispatch) => {
+    dispatch({ type: SET_LOADING });
+
+    redirectTo(
+      { history },
+      {
+        path: "users-gateway",
+        state: {
+          previousPath: history?.location?.pathname,
+          amount,
+          email
+        },
+      }
+    );
+  };
+}
+
 export function setRates() {
   return (dispatch) => {
     axios

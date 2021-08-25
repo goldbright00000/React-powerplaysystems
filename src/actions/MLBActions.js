@@ -11,6 +11,8 @@ export const MLB_STAR_PLAYER_COUNT = "[MLB] STAR_PLAYER_COUNT";
 export const MLB_EDIT_PLAYERS = "[MLB] MLB_EDIT_PLAYERS";
 export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES";
 export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES";
+export const SET_GAME_LOGS = "[MLB] SET_GAME_LOGS";
+export const SET_SELECTED_TEAM = "[MLB] SET_SELECTED_TEAM";
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -100,12 +102,59 @@ export function mlbData(gameId) {
       filterdList.push(dTypePlayers);
       mlbPlayerList.push(...mlbTeams);
 
-      return dispatch({
+      dispatch({
         type: MLB_DATA,
         payload: { filterdList: filterdList, allData: mlbPlayerList },
         game_id,
         sport_id,
       });
+
+      // console.log('mlbPlayerList', mlbPlayerList)
+      // console.log('filterdList', filterdList)
+
+      return {
+        filterdList: filterdList,
+        allData: mlbPlayerList,
+        game_id,
+        sport_id,
+      };
+    } catch (err) {
+      return err;
+    }
+  };
+}
+
+export function mlbData2(gameId) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(`${URLS.DFS.MLB}?game_id=${gameId}`);
+      const { data: { mlbSchedule = [], game_id = "", sport_id = "" } = {} } =
+        response.data || {};
+
+      let completed = 0;
+      for (let i = 0; i < mlbSchedule?.length; i++) {
+        const { status = "" } = mlbSchedule[i] || {};
+
+        if (status !== "closed") {
+          completed = 1;
+        }
+      }
+
+      dispatch({
+        type: MLB_DATA,
+        payload: { completed: completed },
+        game_id,
+        sport_id,
+      });
+
+      // console.log('mlbPlayerList', mlbPlayerList)
+      // console.log('filterdList', filterdList)
+
+      return {
+        completed: completed,
+        game_id,
+        sport_id,
+      };
     } catch (err) {
       return err;
     }
@@ -231,9 +280,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
@@ -247,8 +296,14 @@ export async function getSavedTeamPlayers(payload) {
 
     const { data = {} } = playersResponse.data || {};
 
-    const { game_id, sport_id, user_id, team_id, teamD = {}, players = [] } =
-      data || {};
+    const {
+      game_id,
+      sport_id,
+      user_id,
+      team_id,
+      teamD = {},
+      players = [],
+    } = data || {};
 
     for (let i = 0; i < players?.length; i++) {
       const player = players[i];
@@ -354,6 +409,127 @@ export function editDfsTeamPlayer(payload) {
       await dispatch({
         type: MLB_USER_EDITED_GAMES,
         payload: data?.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function calculateAdminFee(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.CALCULATE_ADMIN_FEE}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function deductUserBalance(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.DEDUCT_USER_BALANCE}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function savePrizePool(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.SAVE_PRIZE_POOL}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function setGameLogs(data) {
+  return (dispatch) => {
+    return dispatch({
+      type: SET_GAME_LOGS,
+      payload: data,
+    });
+  };
+}
+
+export function getUserRemainingPowers(game_id, user_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_USERS_POWERS}?game_id=${game_id}&user_id=${user_id}`
+      );
+      return dispatch({
+        type: "userPowers",
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function updateUserRemainingPowers(game_id, user_id, power_id) {
+  return async (dispatch) => {
+    try {
+      // console.log("PAYLOAD: ", game_id, user_id, power_id);
+      const response = await http.patch(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.UPDATE_USERS_POWERS}`,
+        {
+          game_id: game_id,
+          user_id: user_id,
+          power_id: power_id,
+        }
+      );
+      return dispatch({
+        type: "userPowers",
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function setSelectedTeam(payload) {
+  return async (dispatch) => {
+    return await dispatch({
+      type: SET_SELECTED_TEAM,
+      payload,
+    });
+  };
+}
+
+export function getLiveStandings(game_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_LIVE_STANDINGS}?game_id=${game_id}`
+      );
+
+      return dispatch({
+        type: "mlbLiveStandings",
+        payload: response.data,
       });
     } catch (err) {
       console.log(err);

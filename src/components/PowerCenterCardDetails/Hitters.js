@@ -51,29 +51,31 @@ const Hitters = ({ PointsSystem }) => {
     return (
         <div className={classes.__hitters}>
             <p className={classes.__hitters_main_title}>Point System</p>
-            {
-                Object.keys(groupedPoints).map((d, i) => {
-                    return (
-                        <>
-                            <div className={classes.__hitters_heading}>{Object.keys(groupedPoints)[i]}</div>
-                            {
-                                groupedPoints[Object.keys(groupedPoints)[i]].map((item, index) => {
-                                    return (
-                                        <div className={classes.__hitters_data}>
-                                            <div className={classes.__hitters_data_title_div}>
-                                                <p className={classes.__hitters_data_title}>{item?.plays}</p>
+            <div className={classes.__hitters_scroll_bar}>
+                {
+                    Object.keys(groupedPoints).map((d, i) => {
+                        return (
+                            <>
+                                <div className={classes.__hitters_heading}>{Object.keys(groupedPoints)[i]}</div>
+                                {
+                                    groupedPoints[Object.keys(groupedPoints)[i]].map((item, index) => {
+                                        return (
+                                            <div className={classes.__hitters_data}>
+                                                <div className={classes.__hitters_data_title_div}>
+                                                    <p className={classes.__hitters_data_title}>{item?.plays}</p>
+                                                </div>
+                                                <div className={classes.__hitters_data_value_div}>
+                                                    <p className={classes.__hitters_data_value}>{item?.action}{item?.points} Pts</p>
+                                                </div>
                                             </div>
-                                            <div className={classes.__hitters_data_value_div}>
-                                                <p className={classes.__hitters_data_value}>+{item?.points} Pts</p>
-                                            </div>
-                                        </div>
-                                    );
-                                })
-                            }
-                        </>
-                    );
-                })
-            }
+                                        );
+                                    })
+                                }
+                            </>
+                        );
+                    })
+                }
+            </div>
         </div>
     );
 };
