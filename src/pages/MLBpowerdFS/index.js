@@ -312,7 +312,6 @@ function MLBPowerdFs(props) {
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
   let a = useSelector((state) => state);
-  console.log("allData", a);
   const selector_team_id = useSelector((state) => state?.mlb?.team_id);
 
   const { auth: { user = {} } = {} } = useSelector((state) => state);
@@ -563,7 +562,6 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
-
     if (response) {
       setData(response?.filterdList);
 

@@ -97,6 +97,10 @@ const PowerCenterCard = (props) => {
         }
     }
 
+    const onEnterModal = () => {
+        
+    }
+
     return (
         !showDetails
             ?
