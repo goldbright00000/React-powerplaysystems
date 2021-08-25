@@ -31,6 +31,7 @@ const PowerCenterMobileCard = (props) => {
     paid_game = false,
     targeted_game = false,
     percent = null,
+    totalPoints = null,
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
@@ -120,7 +121,7 @@ const PowerCenterMobileCard = (props) => {
                 </p>
               ) : (
                 <p>
-                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" style={{width: 'auto'}}/></span>
                 </p>
               )}
             </div>
