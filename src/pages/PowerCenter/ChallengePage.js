@@ -132,9 +132,6 @@ const ChallengePage = (props) => {
               type="button"
               onClick={() => setPrizeModalState(true)}
             ><span>Prize Grid</span></button>
-            <button
-              type="button"
-            ><span>Game Rules</span></button>
             <ContestRulesPopUp
               points={[state?.PrizePayout]}
               powers={state?.Power}
@@ -142,9 +139,12 @@ const ChallengePage = (props) => {
                 <button
                   type="button"
                   onClick={showPopUp}
-                ><span>Contest Rules</span></button>
+                ><span>Game Rules</span></button>
               )}
             />
+            <button
+              type="button"
+            ><span>Contest Rules</span></button>
           </div>
         </div>
         </div>
