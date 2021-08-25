@@ -221,3 +221,20 @@
     }
   }
 }
+
+@media (max-width: 500px) {
+  .wrapper {
+    width: auto;
+    height: auto;
+    .cup_svg {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .header {
+      .close_icon {
+        z-index: 11;
+      }
+    }
+  }
+}
