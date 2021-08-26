@@ -49,7 +49,7 @@ const ListTitle = (Icon, isSvg, title) => {
         {Icon && isSvg ? (
           <Icon />
         ) : (
-          Icon && !isSvg && <img src={Icon} width={width} height={height} />
+          Icon && !isSvg && <img src={Icon} width={width} height={height} alt="" />
         )}
       </span>
       <span className={classes.list_left_side_1}>{title}</span>
@@ -70,7 +70,6 @@ const ListHeader = (
   minAmount
 ) => {
   return (
-    
     <div className={`${classes.list_container} mx-0`}>
       <div className={`${classes.list_left_side} d-flex align-items-center justify-content-between`}>
         {ListTitle(Icon, isSvg, title)}
@@ -82,7 +81,7 @@ const ListHeader = (
 
       <div className={classes.list_right_side}>
         <div className={`d-flex align-items-center justify-content-around w-100`}>
-          <Button title={firstBtnTitle} onClick={firstBtnOnClick} className="mx-1 h-100"/>
+          <Button title={firstBtnTitle} onClick={firstBtnOnClick} className="mx-1 h-100" />
           <Button
             className="mx-1 h-100"
             title={btnTitle}
@@ -94,12 +93,26 @@ const ListHeader = (
           <span>{minAmount}</span>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
 function BalanceInfoComponent(props) {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({
+    balance_amount: 25,
+    send_to: '',
+    addr1: '',
+    addr2: '',
+    country: '',
+    region: '',
+    postCode: '',
+    fname: '',
+    lanme: '',
+    day: 10,
+    month: 10,
+    year: 1998,
+  });
+
   const [showModal, setModalState] = useState(false);
   const [activeForm, setActiveForm] = useState(0);
 
@@ -109,6 +122,7 @@ function BalanceInfoComponent(props) {
   useEffect(() => {
     printLog(balance);
   }, []);
+
   const changeInputHandler = (e) => {
     const { target: { value = "", name = "" } = {} } = e || {};
 
@@ -138,7 +152,6 @@ function BalanceInfoComponent(props) {
       return;
     }
 
-    printLog("withdraw");
   };
 
   const handleBack = () => {
@@ -164,15 +177,15 @@ function BalanceInfoComponent(props) {
           CashBalance,
           false,
           "cash",
-          "Min. Amount: $100"
+          "Min. Amount: $25"
         )}
         {ListHeader(
           "Power Token Balance",
           balance.tokenBalance,
           "Deposit",
-          () => {},
+          () => { },
           "Transfer",
-          () => {},
+          () => { },
           Token,
           false,
           "token",
@@ -184,7 +197,7 @@ function BalanceInfoComponent(props) {
           "Deposit",
           () => props.openDepositModal("BTC"),
           "Transfer",
-          () => {},
+          () => { },
           Bitcoin,
           false,
           "token",
@@ -196,7 +209,7 @@ function BalanceInfoComponent(props) {
           "Deposit",
           () => props.openDepositModal("ETH"),
           "Transfer",
-          () => {},
+          () => { },
           Ethereum,
           false,
           "token",
@@ -209,7 +222,7 @@ function BalanceInfoComponent(props) {
         <ListItem title="10 free meals at Macdonald’s" claimed={false} />
         <ListItem title="3 nights stay at Fairmont Banff Springs" />
       </div> */}
-      
+
 
       <Modal visible={showModal} iconStyle={{ display: "none" }}>
         <div className={classes.modal_container}>
@@ -224,9 +237,8 @@ function BalanceInfoComponent(props) {
           <div className={classes.modal_body}>
             <form onSubmit={handleFormSubmit}>
               <div
-                className={`${
-                  isMobile && activeForm === 0 ? "" : classes.hidden
-                }`}
+                className={`${isMobile && activeForm === 0 ? "" : classes.hidden
+                  }`}
               >
                 <p className={`${classes.body_header} ${classes.margin_t_10}`}>
                   Withdrawal Info
@@ -236,12 +248,12 @@ function BalanceInfoComponent(props) {
                 >
                   <div className={classes.form_amountInput}>
                     <label>
-                      Withdrawal amount <span>(min $100)</span>
+                      Withdrawal amount <span>(min $25)</span>
                     </label>
                     <Input
                       type="number"
-                      value={form?.amount}
-                      name="amount"
+                      value={form?.balance_amount}
+                      name="balance_amount"
                       onChange={changeInputHandler}
                       icon="$"
                       white
@@ -257,8 +269,8 @@ function BalanceInfoComponent(props) {
                     <Input
                       type="email"
                       placeholder="Enter your paypal email here"
-                      value={form?.funds}
-                      name="funds"
+                      value={form?.send_to}
+                      name="send_to"
                       onChange={changeInputHandler}
                       rounded
                       white
@@ -271,9 +283,8 @@ function BalanceInfoComponent(props) {
               </div>
 
               <div
-                className={`${
-                  isMobile && activeForm === 1 ? "" : classes.hidden
-                }`}
+                className={`${isMobile && activeForm === 1 ? "" : classes.hidden
+                  }`}
               >
                 <p className={`${classes.body_header} ${classes.margin_t_10}`}>
                   Billing Info
