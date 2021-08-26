@@ -144,3 +144,10 @@ button {
     opacity: 1;
   }
 }
+.carousel .slider-wrapper.axis-horizontal .slider li:nth-child(1){
+  background: none;
+}
+.carousel .slider-wrapper.axis-horizontal .slider .slide {
+  background: rgba(0,0,0,0.2);
+  padding-bottom: 15px;
+}

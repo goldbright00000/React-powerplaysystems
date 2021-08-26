@@ -98,10 +98,10 @@ function AccountPage(props) {
                   <h6 className="m-0">Winnings</h6>
                 </Tab>
                 <Tab className={`${activeTab === 3 && classes.active}`}>
-                  <h6 className="m-0">History</h6>
+                  <h6 className="m-0">Contest History</h6>
                 </Tab>
                 <Tab className={`${activeTab === 4 && classes.active}`}>
-                  <h6 className="m-0">Withdrawal History</h6>
+                  <h6 className="m-0">Deposit/Withdrawal History</h6>
                 </Tab>
                 <Tab className={`${activeTab === 5 && classes.active}`}>
                   <h6 className="m-0">Account Limits</h6>
