@@ -334,3 +334,10 @@ export const removeZeroBeforeDecimalPoint = (value = 0) => {
 export const getTimeZone = () => {
   return moment?.tz(moment?.tz?.guess())?.zoneAbbr();
 };
+
+export const getNumberSuffix = (number = 0) => {
+  return (
+    number + "" + ["st", "nd", "rd"][((((number + 90) % 100) - 10) % 10) - 1] ||
+    "th"
+  );
+};

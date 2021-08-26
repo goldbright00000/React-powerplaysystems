@@ -6,6 +6,9 @@
         grid-template-columns: repeat(5, 1fr);
         grid-gap: 1em;
         overflow: auto;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         &.__live-power-play-badges-wrapper{
             grid-template-columns: repeat(4, 1fr);
         }
