@@ -1,8 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
+import * as MLBActions from "../../actions/MLBActions";
+import _ from "underscore";
+import { isEmpty } from "lodash";
+import { redirectTo } from "../../utility/shared";
 
+import { socket } from "../../config/server_connection";
+import { CONSTANTS } from "../../utility/constants";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
@@ -20,7 +26,6 @@ import XP2Icon from "../../icons/XP2";
 import XP3Icon from "../../icons/XP3";
 import XP1_5Icon from "../../icons/XP1_5";
 import FooterImage from "../../assets/NHL-live-footer.png";
-import { redirectTo } from "../../utility/shared";
 
 const basicRules = [
   "No purchase necessary.",
@@ -37,10 +42,157 @@ const detailRules = [
 
 function NHLLivePowerdFsScroeDetail(props) {
   const [showModal, setModalState] = useState(false);
+  const [liveStandingData, setLiveStandingData] = useState([]);
   const [logs, setLogs] = useState([]);
+  const [ranks, setRanks] = useState({
+    ranking: 0,
+    score: 0,
+    game_id: 0,
+    team_id: 0,
+  });
+  const [powers, setPowerss] = useState([]);
+  const [pointss, setPointss] = useState([]);
+  const dispatch = useDispatch();
+  const {
+    ON_ROOM_SUB,
+    ON_ROOM_UN_SUB,
+    EMIT_ROOM,
+    ON_POWER_APPLIED,
+    ON_GLOBAL_RANKING_REQUEST,
+    ON_FANTASY_LOGS_REQUEST,
+    GET_GLOBAL_RANKING,
+    MATCH_UPDATE,
+    GLOBAL_RANKING,
+    FANTASY_TEAM_UPDATE,
+  } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
   let tableRef = useRef();
+  let _socket = null;
+  const { gameLogs = [], selectedTeam = {} } = useSelector((state) => state.mlb);
+  const {
+    game = {}
+  } = useSelector((state) => selectedTeam);
+  const {
+    game_id = 0,
+    PointsSystems = [],
+    Powers = []
+  } = useSelector((state) => game);
+  let prizePool = 0;
+  prizePool = _.reduce(
+    game?.PrizePayouts,
+    function (memo, num) {
+      return memo + parseInt(num.amount) * parseInt(num.prize);
+    },
+    0
+  );
+  useEffect(() => {
+    setPointss(_.groupBy(PointsSystems, "type"));
+    setPowerss(Powers);
+  }, [game]);
+  useEffect(() => {
+    if (isEmpty(selectedTeam)) {
+      return redirectTo(props, { path: "/my-game-center" });
+    }
+    _socket = socket();
+    return function cleanUP() {
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
+    };
+  }, []);
 
-  const { gameLogs = [] } = useSelector((state) => state.mlb);
+  React.useEffect(async () => {
+    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(game_id));
+      if(typeof liveStandingsData !== "undefined")
+      {
+        if(liveStandingsData.payload.error == false)
+        {
+          if(
+            JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
+          ) {
+            var finalArr = [];
+            var res = liveStandingsData.payload.data.powerDFSRanking;
+            var user_id = parseInt(localStorage.PERSONA_USER_ID);
+            var userRec = "";
+            var leaderScore = 0;
+            for(var i = 0; i < res.length; i++)
+            {
+              if(res[i].team.user.user_id == user_id)
+              {
+                userRec = res[i];
+              }
+              else {
+                finalArr.push(res[i]);
+              }
+            }
+            if(userRec !== "")
+            {
+              finalArr.unshift(userRec);
+            }
+            if(JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
+              setLiveStandingData(finalArr);
+          }
+          //setModalState(!showModal);
+        }
+        else {
+          // alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
+        }
+      }
+  });
+
+  useEffect(() => {
+    if (_socket) {
+      onSocketEmit(game_id, localStorage.PERSONA_USER_ID);
+      onSocketListen();
+    }
+  }, [_socket]);
+
+  //All Emit Events
+  const onSocketEmit = (gameId, userId) => {
+    _socket.emit(ON_ROOM_SUB, {
+      gameId: gameId,
+      userId: userId,
+    });
+
+    //ON_GLOBAL_RANKING_REQUEST
+    _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
+      gameId: gameId,
+    });
+
+    //ON_FANTASY_LOGS_REQUEST
+    _socket.emit(ON_FANTASY_LOGS_REQUEST, {
+      fantasyTeamId: 172,
+    });
+
+    //GET_GLOBAL_RANKING -> Standings
+    _socket.emit(GET_GLOBAL_RANKING, {
+      gameId: gameId,
+      upperLimit: 0,
+      lowerLimit: 10,
+    });
+  };
+
+  //All listen events
+  const onSocketListen = () => {
+    //fetch data first time
+    _socket?.on(EMIT_ROOM, (res) => {
+      const {
+        game_id = "",
+        score = 0,
+        sport_id = "",
+        status = null,
+        team_id = "",
+        defense = [],
+        players = [],
+        power_dfs_team_rankings = [],
+        game_logs = [],
+      } = res?.data || {};
+      const teamD = defense[0] || {};
+      setRanks(power_dfs_team_rankings[0] || {});
+    });
+  };
 
   //set score and running totals
   useEffect(() => {
@@ -89,14 +241,10 @@ function NHLLivePowerdFsScroeDetail(props) {
     for (let i = 0; i < _logs?.length; i++) {
       if (i === 0) _logs[i].runningTotal = _logs[i]?.totalScore;
 
-      if (i !== 0 && i !== _logs?.length) {
-        const runningTotal = _logs[i - 1].runningTotal + _logs[i].totalScore;
-        _logs[i].runningTotal = runningTotal;
+      if (i !== 0 && _logs[i - 1] && _logs[i - 1]?.totalScore) {
+        _logs[i].runningTotal =
+          _logs[i - 1]?.runningTotal + _logs[i]?.totalScore;
       }
-      // else {
-      //   _logs[i].runningTotal =
-      //     _logs[i - 1]?.runningTotal + _logs[_logs?.length - 1]?.totalScore;
-      // }
     }
 
     setLogs(_logs);
@@ -110,7 +258,11 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(!showModal);
   };
 
-  const getPoints = (id, isPitcher = false, isAbOver = false) => {
+  const closeModal = () => {
+    setModalState(false);
+  }
+
+  const getPoints = (id, isPitcher = false) => {
     if (
       id === "aD" ||
       id === "aDAD3" ||
@@ -201,15 +353,6 @@ function NHLLivePowerdFsScroeDetail(props) {
 
     if (id === "aSFAD4" || id === "aSBAD4" || id === "oKLT4" || id === "oKST4")
       return 2;
-
-    if ((id === "kKL" || id === "kKS" || id === "kFT") && isAbOver) {
-      console.log("AB OVER: ", id);
-      return 2;
-    }
-    if ((id === "kKL" || id === "kKS" || id === "kFT") && !isAbOver) {
-      console.log("AB NOT OVER: ", id);
-      return 0;
-    }
 
     if (id === "aT" || id === "aTAD4" || id === "oTT4") return 8;
 
@@ -362,6 +505,8 @@ function NHLLivePowerdFsScroeDetail(props) {
           subHeader1="Introducing Live-Play Fantasy Hockey"
           bgImageUri={HeaderBgUri}
           isLive
+          points={pointss}
+          powers={powers}
         />
 
         <div className={classes.container}>
@@ -380,10 +525,10 @@ function NHLLivePowerdFsScroeDetail(props) {
                 singleBtn
                 teamManagerLink="/mlb-live-powerdfs"
                 scoreDetailLink="/mlb-live-powerdfs/my-score-details"
-                onGoBack={() => redirectTo(props, { path: "/my-game-center" })}
+                liveStandingData={liveStandingData}
               />
               <div className={classes.card_rank}>
-                <RankCard showButton={false} />
+                <RankCard showButton={false} ranks={ranks} game_id={game_id}/>
               </div>
             </div>
             <Card className={classes.card}>
@@ -492,6 +637,15 @@ function NHLLivePowerdFsScroeDetail(props) {
                       runners = [],
                     } = play || {};
 
+                    if (
+                      outcome_id === "KKL" ||
+                      outcome_id === "kKL" ||
+                      outcome_id === "KKS" ||
+                      outcome_id === "kKS"
+                    ) {
+                      return <></>;
+                    }
+
                     return (
                       <Row
                         position={type}
@@ -536,7 +690,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       </div>
       <Footer isBlack={true} />
 
-      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={prizePool}/>
     </>
   );
 }

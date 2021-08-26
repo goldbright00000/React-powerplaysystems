@@ -332,7 +332,7 @@ const onSocketListen = () => {
                       classes.__my_game_center_card_buttons_your_current_rank
                     }
                   >
-                    240,051 <span>Your Current Rank</span>
+                    {ranks.ranking} <span>Your Current Rank</span>
                   </div>
                 )}
                 <div
@@ -647,7 +647,7 @@ const onSocketListen = () => {
                     classes.__my_game_center_card_buttons_your_current_rank
                   }
                 >
-                  Your Current Rank: 240,051
+                  Your Current Rank: {ranks.ranking}
                 </div>
               )}
               {!completed && (
@@ -722,6 +722,14 @@ const onSocketListen = () => {
                   </p>
                 </div>
               )}
+
+              <div> 
+                <span style={{
+                  marginLeft: 25,
+                  color: "#688fbd",
+                  fontSize: 14
+                }}>{game_id}</span>
+              </div>
 
               <div className={classes.__my_game_center_card_details}>
                 {completed ? (
