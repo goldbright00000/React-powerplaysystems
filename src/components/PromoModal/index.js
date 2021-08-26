@@ -17,7 +17,6 @@ import Challenge from "../../icons/Challenge";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 
 function PromoModal(props) {
-  console.log("props?.item", props?.item);
   const { visible = false, onClose = () => { } } =
     props || {};
   const [showPrizeModal, setPrizeModalState] = React.useState(false);

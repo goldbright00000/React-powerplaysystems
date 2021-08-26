@@ -20,19 +20,24 @@ function RankCard(props) {
     props || {};
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
   React.useEffect(async () => {
-    if(props.game_id == 0) {
-      return;
-    }
-    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(props.game_id));
+    console.log("liveStandingsData0", props);
+    if(props.game_id)
+    {
+      let liveStandingsData = await dispatch(MLBActions.getLiveStandings(props.game_id));
+      console.log("liveStandingsData1", liveStandingsData);
       if(typeof liveStandingsData !== "undefined")
       {
+        console.log("liveStandingsData2");
         if(liveStandingsData.payload.error == false)
         {
+          console.log("liveStandingsData3");
           if(
             JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
           ) {
+            console.log("liveStandingsData4");
             var finalArr = [];
             var res = liveStandingsData.payload.data.powerDFSRanking;
+            
             var user_id = parseInt(localStorage.PERSONA_USER_ID);
             var userRec = "";
             var leaderScore = 0;
@@ -42,8 +47,10 @@ function RankCard(props) {
               {
                 setLeader(res[i].score);
               }
+              
               if(res[i].team.user.user_id == user_id)
               {
+                
                 userRec = res[i];
                 setCurrentRank(userRec.ranking);
                 setCurrentWinnings(userRec?.winnings?.amount);
@@ -65,6 +72,7 @@ function RankCard(props) {
           // alert("We are experiencing technical issues with the Power functionality. Please try again shortly.");
         }
       }
+    }
   }, []);
 
   const toggleLiveStandingModal = async () => {
