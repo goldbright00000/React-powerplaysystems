@@ -65,7 +65,7 @@ const getIcon = (powerName) => {
         else if (powerName.toLowerCase().match(/swap/g))
             return PlayerSwaps;
 
-        else if (powerName.toLowerCase().match(/multi|boost/g))
+        else if (powerName.toLowerCase().match(/multi|point/g))
             return PointMultipliers;
 
         else if (powerName.toLowerCase().match(/retro/g))
@@ -87,6 +87,24 @@ const PowersAvailable = (props) => {
         start_time = '',
     } = props || {};
 
+    const getPowerCount = (name) => {
+        let val = 0;
+        Power.forEach(element => {
+            if(name == "Point Booster")
+            {
+                if(element.powerName == "1.5x Point Booster" || element.powerName == "2x Point Booster" || element.powerName == "3x Point Booster") {
+                    val = val + parseInt(element.amount == "" ? 0 : element.amount);
+                }
+            }
+            else {
+                if(name == element.powerName) {
+                    val = parseInt(element.amount == "" ? 0 : element.amount);
+                }
+            }
+        });
+        return val;
+    }
+
     return (
         <div className={classes.__powers_available}>
             <div className={classes.__powers_available_date_time}>
@@ -96,7 +114,7 @@ const PowersAvailable = (props) => {
                 <div className={classes.__power_info_main}>
                     <div className={classes.__info_main_title}>
                         <p className={classes.__powers_available_title}>
-                            Powers Available
+                            MLB <span>PowerdFS</span>
                         </p>
                     </div>
                     {/* <div className={classes.__info_icon_mobile}>
@@ -108,50 +126,86 @@ const PowersAvailable = (props) => {
                 </div>
             </div>
             <div className={classes.__powers_available_data_container}>
-                {
-                    Power?.map((item, index) =>
-                        <>
-                            {index < 3 && (
-                                <div className={classes.__powers_available_data} key={index}>
-                                    <div className={classes.__powers_available_data_icon_div}>
-                                        <img src={getIcon(item?.powerName)} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
-                                        <div className={classes.__powers_available_data_power_count}>
-                                            <p>
-                                                {item?.amount}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className={classes.__powers_available_data_value_div}>
-                                        <p className={classes.__powers_available_data_value}>{item?.powerName}</p>
-                                    </div>
-                                </div>
-                            )}
-                        </>
-                    )
-                }
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Point Booster")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Point Booster")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Point Booster</p>
+                    </div>
+                </div>
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Swap Players")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Swap")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Swaps</p>
+                    </div>
+                </div>
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("D-Wall")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("D-Wall")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>D-Wall</p>
+                    </div>
+                </div>
             </div>
             <div className={classes.__powers_available_data_container}>
-                {
-                    Power?.map((item, index) =>
-                        <>
-                            {index >= 3 && (
-                                <div className={classes.__powers_available_data} key={index}>
-                                    <div className={classes.__powers_available_data_icon_div}>
-                                        <img src={getIcon(item?.powerName)} width="34" height="34" className={classes.__powers_available_data_icon} alt="" />
-                                        <div className={classes.__powers_available_data_power_count}>
-                                            <p>
-                                                {item?.count}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className={classes.__powers_available_data_value_div}>
-                                        <p className={classes.__powers_available_data_value}>{item?.powerName}</p>
-                                    </div>
-                                </div>
-                            )}
-                        </>
-                    )
-                }
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Challenge")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Challenge")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Challenge</p>
+                    </div>
+                </div>
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Retro Boost")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Retro Boost")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Retro Boost</p>
+                    </div>
+                </div>
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Power-Up")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Power-Up")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Power Up</p>
+                    </div>
+                </div>
             </div>
         </div >
     );
