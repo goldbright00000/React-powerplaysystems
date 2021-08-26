@@ -591,7 +591,7 @@ function MLBPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -647,9 +647,9 @@ function MLBPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -664,9 +664,9 @@ function MLBPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -834,7 +834,17 @@ function MLBPowerdFsLive(props) {
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
                   >
-                    <img src={FooterImage} alt="" />
+                    {/* <img src={FooterImage} alt="" /> */}
+                    <iframe
+                      id="$iradid"
+                      src="//a.impactradius-go.com/gen-ad-code/2068372/762704/9663/"
+                      width="468"
+                      height="60"
+                      scrolling="no"
+                      frameborder="0"
+                      marginheight="0"
+                      marginwidth="0"
+                    ></iframe>
                     <div style={{ position: "absolute", bottom: 0, right: 5 }}>
                       {selectedTeam.game_id}
                     </div>

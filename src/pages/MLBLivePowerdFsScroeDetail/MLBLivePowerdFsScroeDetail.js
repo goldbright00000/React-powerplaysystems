@@ -202,41 +202,39 @@ function NHLLivePowerdFsScroeDetail(props) {
 
     const _logs = [];
     for (let i = 0; i < gameLogs?.length; i++) {
-      if (
-        gameLogs[i]?.play?.outcome_id === "KKL" ||
-        gameLogs[i]?.play?.outcome_id === "kKL" ||
-        gameLogs[i]?.play?.outcome_id === "KKS" ||
-        gameLogs[i]?.play?.outcome_id === "kKS"
-      ) {
+      const isPitcher =
+        gameLogs[i]?.play?.pitcher_id ===
+        gameLogs[i]?.effected_player?.player_id;
+      const isAbOver = gameLogs[i]?.play?.is_ab_over;
+      const id = gameLogs[i]?.play?.outcome_id;
+
+      if (id === "kKL" && !isAbOver) {
         continue;
-      } else {
-        //total score
-        const rbiData = getRBI(gameLogs[i]?.play?.runners);
-        const rsData = getRS(
-          gameLogs[i]?.play?.runners,
-          gameLogs[i]?.play?.outcome_id
-        );
-
-        const rbi = rbiData.rbi || 0;
-        const rbiPts = rbi === 1 ? 2 : 0;
-        const rs = rsData?.rs || 0;
-        const rsPts = rs === 1 ? 2 : 0;
-
-        const playPts = getPoints(
-          gameLogs[i]?.play?.outcome_id,
-          gameLogs[i]?.play?.pitcher_id ===
-            gameLogs[i]?.effected_player?.player_id
-        );
-
-        const totalScore = playPts + rbiPts + rsPts;
-        gameLogs[i].totalScore = totalScore;
-        gameLogs[i].rbi = rbi;
-        gameLogs[i].rbiPts = rbiPts;
-        gameLogs[i].rsPts = rsPts;
-        gameLogs[i].rs = rs;
-        gameLogs[i].playPts = playPts;
-        _logs.push(gameLogs[i]);
       }
+
+      //total score
+      const rbiData = getRBI(gameLogs[i]?.play?.runners);
+      const rsData = getRS(
+        gameLogs[i]?.play?.runners,
+        gameLogs[i]?.play?.outcome_id
+      );
+
+      const rbi = rbiData.rbi || 0;
+      const rbiPts = rbi === 1 ? 2 : 0;
+      const rs = rsData?.rs || 0;
+      const rsPts = rs === 1 ? 2 : 0;
+
+      const playPts = getPoints(id, isPitcher, isAbOver);
+
+      const totalScore = playPts + rbiPts + rsPts;
+      gameLogs[i].totalScore = totalScore;
+      gameLogs[i].runningTotal = 0;
+      gameLogs[i].rbi = rbi;
+      gameLogs[i].rbiPts = rbiPts;
+      gameLogs[i].rsPts = rsPts;
+      gameLogs[i].rs = rs;
+      gameLogs[i].playPts = playPts;
+      _logs.push(gameLogs[i]);
     }
 
     //calculate running totals

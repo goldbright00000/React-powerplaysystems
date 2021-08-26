@@ -29,6 +29,7 @@ function RenderMLBPlayerStats(props) {
     balls = 0,
     batting_average = 0,
     showPitcher = false,
+    isPitching = false,
   } = props || {};
 
   const {
@@ -219,6 +220,18 @@ function RenderMLBPlayerStats(props) {
             <span>ERA: {parseFloat(pERA).toFixed(2)}</span>
           </div>
         )}
+
+        {!isEmpty(pitcher) && type === "P" && isPitching && (
+          <div className={classes.mlbPlayerStats_left_1}>
+            <div>
+              {/* <Baseball /> */}
+              <p className={largeView && classes.large_view}>
+                {formatName(pitcherName)}
+              </p>
+            </div>
+            {/* <span>ERA: {parseFloat(pERA).toFixed(2)}</span> */}
+          </div>
+        )}
       </div>
       {largeView && <>{renderBaseRunner()}</>}
     </div>
@@ -237,6 +250,7 @@ RenderMLBPlayerStats.propTypes = {
   batting_average: PropTypes.number,
   strikes: PropTypes.number,
   balls: PropTypes.number,
+  isPitching: PropTypes.bool,
 };
 
 export default RenderMLBPlayerStats;
