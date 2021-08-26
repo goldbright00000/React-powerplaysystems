@@ -21,6 +21,7 @@ import XP3Icon from "../../icons/XP3";
 import XP1_5Icon from "../../icons/XP1_5";
 import FooterImage from "../../assets/NHL-live-footer.png";
 import { redirectTo } from "../../utility/shared";
+import Replace from "../../icons/Replace";
 
 const basicRules = [
   "No purchase necessary.",
@@ -298,6 +299,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     isHit = false,
     activePower = null,
     timeStamp = "",
+    hasPlay = false,
   }) => (
     <div
       className={`${classes.card_row} ${classes.card_row_1} ${
@@ -308,36 +310,45 @@ function NHLLivePowerdFsScroeDetail(props) {
       <span className={classes.child_2}>{name}</span>
       <span className={`${classes.child_3} ${classes.space}`}>{timeStamp}</span>
       <span className={classes.child_3}>{inning}</span>
-      <div className={classes.card_combine_row}>
-        <span>
-          <p className={classes.primary}>{plays}</p>
-        </span>
-        <span>
-          <p className={classes.secondary}> {pts}</p>
-        </span>
-      </div>
+      {hasPlay ? (
+        <>
+          <div className={classes.card_combine_row}>
+            <span>
+              <p className={classes.primary}>{plays}</p>
+            </span>
+            <span>
+              <p className={classes.secondary}> {pts}</p>
+            </span>
+          </div>
 
-      <div className={classes.card_combine_row}>
-        <span>
-          <p className={classes.primary}>{runs?.rs}</p>
-        </span>
-        <span>
-          <p className={classes.secondary}> {runs?.pts}</p>
-        </span>
-      </div>
+          <div className={classes.card_combine_row}>
+            <span>
+              <p className={classes.primary}>{runs?.rs}</p>
+            </span>
+            <span>
+              <p className={classes.secondary}> {runs?.pts}</p>
+            </span>
+          </div>
 
-      <div className={classes.card_combine_row}>
-        <span>
-          <p className={classes.primary}>{rbi?.rbi}</p>
-        </span>
-        <span>
-          <p className={classes.secondary}> {rbi?.pts}</p>
-        </span>
-      </div>
+          <div className={classes.card_combine_row}>
+            <span>
+              <p className={classes.primary}>{rbi?.rbi}</p>
+            </span>
+            <span>
+              <p className={classes.secondary}> {rbi?.pts}</p>
+            </span>
+          </div>
+        </>
+      ) : (
+        <div className={classes.no_play}>
+          <p>Player Swapped</p>
+        </div>
+      )}
 
       {/* <span className={`${classes.child_4} ${classes.center}`}><p className={classes.secondary}>{totalPts}</p></span> */}
       <span className={classes.center}>
-        {activePower !== null && RenderXP(powers)}
+        {hasPlay && activePower !== null && RenderXP(powers)}
+        {!hasPlay && <Replace size={40} />}
       </span>
       <span className={classes.center}>
         <p className={score < 0 ? classes.danger : classes.success}>
@@ -440,6 +451,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                       rs = 0,
                       rsPts = 0,
                       playPts = 0,
+                      created_at: createdAt = "",
                     } = row || {};
 
                     const {
@@ -517,7 +529,10 @@ function NHLLivePowerdFsScroeDetail(props) {
                         }}
                         isHit={false}
                         activePower={active_powerplay}
-                        timeStamp={moment(created_at).format("hh:mm A")}
+                        timeStamp={moment(created_at || createdAt).format(
+                          "hh:mm A"
+                        )}
+                        hasPlay={play !== null}
                         key={ind?.toString()}
                       />
                     );

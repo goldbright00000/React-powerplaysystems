@@ -311,7 +311,9 @@ function SportsLiveCard(props) {
   };
 
   const isPitching = () => {
-    return (type === "P" || type === "p") && player_id === pitcher?.player_id;
+    if ((type === "P" || type === "p") && player_id === pitcher?.player_id)
+      return true;
+    // else if((type === "P" || type === "p") && player_id !== pitcher?.player_id && home_team.team_id)
   };
 
   const getStatus = () => {
@@ -325,20 +327,27 @@ function SportsLiveCard(props) {
     ) {
       return "Game Over";
     } else if (
+      (!showEndThird() || !showMidThird()) &&
       (type === "P" || type === "p") &&
       player_id === pitcher?.player_id
     ) {
       return "Pitching";
-    } else if ((type === "P" || type === "p") && !isPitching()) {
+    } else if (
+      (!showEndThird() || !showMidThird()) &&
+      (type === "P" || type === "p") &&
+      !isPitching()
+    ) {
       return "Dugout";
     } else if (
-      !showEndThird() &&
-      !showMidThird() &&
+      (!showEndThird() || !showMidThird()) &&
       player_id === hitter?.player_id &&
       hitter
     ) {
       return "Hitting";
-    } else if (`${status}`.toLocaleUpperCase() === "inprogress")
+    } else if (
+      (showEndThird() || showMidThird()) &&
+      `${status}`.toLocaleUpperCase() === "inprogress"
+    )
       return "In Progress";
 
     return status;
