@@ -78,7 +78,7 @@ const PointSystem = (props) => {
                     </p>
                 </div>
                 <div className={classes.__point_system_title}>
-                    Powers Available
+                    Point System
                 </div>
             </div>
             <div className={classes.__point_system_data_container}>

@@ -7,8 +7,12 @@
         grid-template-columns: repeat(5, 1fr);
         grid-gap: 1em;
         overflow: auto;
+        max-width: 340px;
         &.__live-power-play-badges-wrapper{
             grid-template-columns: repeat(4, 1fr);
+        }
+        &::-webkit-scrollbar {
+            display: none;
         }
         .__outline-badge{
             padding: 0.69em 2.13em;

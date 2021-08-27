@@ -11,6 +11,7 @@ import ScoreDetails from "./views/ScoreDetails";
 import TeamManager from "./views/TeamManager";
 
 function App(props) {
+  console.log("props", props);
   const { data = [], ranks = {} } = props || {};
 
   const [state, setState] = useState(1);
@@ -47,7 +48,7 @@ function App(props) {
     <section className="main">
       <Header />
       <Banner />
-      <ThreeBoxes state={state} showTime={true} />
+      <ThreeBoxes state={state} showTime={true} data={data}/>
       <Tabs state={state} setState={setState} />
       {changeComponent(state)}
       <LiveMatch
