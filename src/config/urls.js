@@ -33,6 +33,7 @@ export const URLS = {
     NFL: "/dfs/nfl-selection",
     NFL_SAVE_PLAYERS: "/dfs/nfl-save-players",
     NFL_EDIT_TEAM_PLAYER: "dfs/nfl-edit-team-player",
+    NFL_LIVE_PAGE_PLAYERS: "/dfs/nfl-live",
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
   },
   GAMES: {

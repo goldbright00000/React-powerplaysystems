@@ -5,10 +5,14 @@ const INITIAL_STATE = {
   live_data: [],
   savedPlayers: [],
   allData: [],
+  gameLogs: [],
   isEdit: false,
   starPlayerCount: 0,
   sport_id: 0,
   game_id: 0,
+  team_id: 0,
+  is_loading: false,
+  selectedTeam: {},
 };
 
 const nflReducer = (state = INITIAL_STATE, actions) => {
@@ -39,6 +43,25 @@ const nflReducer = (state = INITIAL_STATE, actions) => {
         ...state,
         savedPlayers: actions.payload.data,
         isEdit: actions.payload.isEdit,
+        team_id: actions.payload.team_id,
+      };
+
+    case Actions.NFL_USER_SAVED_GAMES:
+      return {
+        ...state,
+        getUserSavedGames: actions.payload,
+      };
+
+    case Actions.SET_GAME_LOGS:
+      return {
+        ...state,
+        gameLogs: actions.payload,
+      };
+
+    case Actions.SET_SELECTED_TEAM:
+      return {
+        ...state,
+        selectedTeam: actions.payload,
       };
 
     default:

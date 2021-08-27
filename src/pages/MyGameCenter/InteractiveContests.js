@@ -13,7 +13,7 @@ import {
   redirectTo,
   getDaysFromToday,
   setLocalStorage,
-  getLocalStorage
+  getLocalStorage,
 } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
@@ -22,6 +22,7 @@ import http from "../../config/http";
 import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
+import * as NFLActions from "../../actions/NFLActions";
 import _ from "underscore";
 import moment from "moment";
 import { CONSTANTS } from "../../utility/constants";
@@ -210,6 +211,52 @@ const InteractiveContests = (props) => {
             currency: item?.game?.currency,
           },
         });
+
+      case "NFL":
+        await dispatch(NFLActions.setSelectedTeam(item));
+        dispatch(
+          NFLActions.getAndSetEditPlayers({
+            game_id: item?.game_id,
+            sport_id: item?.sport_id,
+            user_id: item?.user_id,
+          })
+        );
+
+        return redirectTo(props, {
+          path: `/nfl-select-team`,
+          state: {
+            // game_id: item?.game_id,
+            // game_details: item?.game,
+            // Power: item?.game?.Powers
+
+            game_id: item?.game_id,
+            sport_id: item?.game?.sports_id,
+            start_date: item?.game?.start_date,
+            end_date: item?.game?.end_date,
+            start_time: item?.game?.start_time,
+            outOf: item?.game?.target,
+            enrolledUsers: item?.game?.enrolled_users,
+            prizePool: _.reduce(
+              item?.game?.PrizePayouts,
+              function (memo, num) {
+                return memo + parseInt(num.amount) * parseInt(num.prize);
+              },
+              0
+            ),
+            topPrize: parseFloat(
+              _.max(item?.game?.PrizePayouts, function (ele) {
+                return ele.amount;
+              }).amount
+            ),
+            game_set_start: item?.game?.game_set_start,
+            PointsSystem: item?.game?.PointsSystems,
+            Power: item?.game?.Powers,
+            prizes: item?.game?.PrizePayouts,
+            paid_game: item?.game?.is_game_paid,
+            entry_fee: item?.game?.entry_fee,
+            currency: item?.game?.currency,
+          },
+        });
     }
   };
 
@@ -260,8 +307,14 @@ const InteractiveContests = (props) => {
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
           game_id={item?.game_id}
-          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.time
+          }
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
@@ -330,10 +383,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -466,8 +519,8 @@ const InteractiveContests = (props) => {
                       moment().format("YYYY-MM-DD hh:mm A")
                     ).isBetween(
                       power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
+                        " " +
+                        power?.game?.start_time,
                       power?.game?.game_set_end + " 11:59 PM"
                     );
                   } else if (contentType === "Completed") {
@@ -486,8 +539,8 @@ const InteractiveContests = (props) => {
                       moment().format("YYYY-MM-DD hh:mm A")
                     ).isBetween(
                       power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
+                        " " +
+                        power?.game?.start_time,
                       power?.game?.game_set_end + " 11:59 PM"
                     );
                     var a2 = power?.game?.status === "Activated";

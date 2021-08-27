@@ -411,7 +411,7 @@ function MLBPowerdFs(props) {
       }
       setSelected(_selected);
       setSidebarList(_playerList);
-      document.getElementById("p-filter").click(); // Patch to activate P Tab in Edit Mode instead of D Tab
+      document.getElementById("qb-filter").click(); // Patch to activate P Tab in Edit Mode instead of D Tab
     }
   };
 
