@@ -15,6 +15,7 @@ import AccountInfo from "../../components/AccountInfoComponent";
 import BalanceInfoComponent from "../../components/BalanceInfoComponent";
 import ResultsInforComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
+import DepositWithdrawComponent from '../../components/DepositWithdrawComponent';
 import AccountLimits from "../../components/AccountLimits";
 import { printLog } from "../../utility/shared";
 import SnackbarAlert from "../../components/SnackbarAlert";
@@ -38,7 +39,6 @@ function AccountPage(props) {
   const [userAccount, setUserAccount] = useState({});
   const { getUserSavedGames } = useSelector((state) => state?.mlb);
 
-
   const getUserAccount = async () => {
     const response = await http.get(URLS.AUTH.ACCOUNT);
     if (response.data.status === false) {
@@ -51,27 +51,31 @@ function AccountPage(props) {
 
   const getUserGames = async () => {
     const user_id = getLocalStorage("PERSONA_USER_ID");
-    dispatch(MLbActions.getUserGames(user_id));
-  }
+    if (user_id) {
+      dispatch(MLbActions.getUserGames(user_id));
+    }
+  };
 
   useEffect(() => {
     const obj = { ...userAccount };
 
     if (getUserSavedGames?.length > 0) {
-      getUserSavedGames.forEach(element => {
+      getUserSavedGames.forEach((element) => {
         obj?.transactions?.push({
-          balance_result: 'decrease',
+          balance_result: "decrease",
           balance_type: element?.game?.currency,
           date_time: element?.game?.createdAt,
-          description: 'Entered into Game',
+          description: "Entered into Game",
           transaction_amount: element?.game?.entry_fee,
-          transaction_type_details: { type: "Game Entry" }
+          transaction_type_details: { type: "Game Entry" },
         });
       });
+
+      console.log('onj ---> ', obj)
+
       setUserAccount(obj);
     }
-
-  }, [getUserSavedGames])
+  }, [getUserSavedGames]);
 
   return (
     <>
@@ -95,13 +99,13 @@ function AccountPage(props) {
                   <h6 className="m-0">Balance/Deposit</h6>
                 </Tab>
                 <Tab className={`${activeTab === 2 && classes.active}`}>
-                  <h6 className="m-0">Results</h6>
+                  <h6 className="m-0">Winnings</h6>
                 </Tab>
                 <Tab className={`${activeTab === 3 && classes.active}`}>
-                  <h6 className="m-0">History</h6>
+                  <h6 className="m-0">Contest History</h6>
                 </Tab>
                 <Tab className={`${activeTab === 4 && classes.active}`}>
-                  <h6 className="m-0">Withdrawal History</h6>
+                  <h6 className="m-0">Deposit/Withdrawal History</h6>
                 </Tab>
                 <Tab className={`${activeTab === 5 && classes.active}`}>
                   <h6 className="m-0">Account Limits</h6>
@@ -133,8 +137,9 @@ function AccountPage(props) {
                     balance={userAccount.balance}
                   />
                 </TabPanel>
+                {console.log('useraccount', userAccount)}
                 <TabPanel>
-                  <HistoryInfoComponent
+                  <DepositWithdrawComponent
                     isMobile={isMobile}
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}

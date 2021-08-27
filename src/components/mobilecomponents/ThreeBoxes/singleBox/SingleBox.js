@@ -10,12 +10,14 @@ const SingleBox = ({
   link,
   setModal,
   showTime,
+  linkURL,
+  onButtonClick
 }) => {
   return (
     <Col xs={4} className={`p-0 ${customClass}`}>
       {link === true ? (
         <Link
-          to="/live-standing"
+          to={linkURL}
           style={{ textDecoration: "none" }}
           onClick={
             setModal
@@ -27,7 +29,7 @@ const SingleBox = ({
         >
           <div
             className="services"
-            onClick={priceModal ? () => priceModal(false) : null}
+            onClick={onButtonClick}
           >
             <img src={image} alt="" className="services__image" />
             <h4>
@@ -39,7 +41,7 @@ const SingleBox = ({
       ) : (
         <div
           className="services"
-          onClick={priceModal ? () => priceModal(false) : null}
+          onClick={onButtonClick}
         >
           <img src={image} alt="" />
           <h4>

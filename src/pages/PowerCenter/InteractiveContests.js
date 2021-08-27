@@ -23,6 +23,8 @@ import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 
+import PromoModal from '../../components/PromoModal';
+
 const powerCenterCardData1 = [
   {
     id: 1,
@@ -189,6 +191,22 @@ const InteractiveContests = (props) => {
   const [subFilter, setSubFilter] = useState("");
 
   const setShowDepositModal = () => dispatch(showDepositForm());
+  const [showPromoModal, setShowPromoModal] = useState(false);
+  const [challengeGame, setChallengeGame] = useState({});
+  const [propsGame, setPropsGame] = useState({});
+
+  const onClosePromoModal = () => {
+    setShowPromoModal(false);
+    setChallengeGame({});
+    setPropsGame({});
+  }
+  const onOpenPromoModal = (items, propss) => {
+    setShowPromoModal(true);
+    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
+      setChallengeGame(items);
+    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
+      setPropsGame(propss);
+  }
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -303,12 +321,52 @@ const InteractiveContests = (props) => {
       history.push("/login");
       return;
     }
-
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance || item?.is_game_free) {
       switch (item?.league) {
         case "MLB":
+          if(item.game_type == "PowerdFs_challenge")
+          {
+            if(isMobile)
+            {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: item?.end_date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                },
+              });
+            }
+            else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
           return redirectTo(props, {
             path: `/mlb-select-team`,
             state: {
@@ -378,7 +436,6 @@ const InteractiveContests = (props) => {
           return redirectTo(props, { path: "/" });
       }
     } else {
-      console.log('In else')
       setHaveBalance(false);
       setShowDepositModal();
     }
@@ -931,6 +988,7 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
+        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
       </div>
     </>
   );

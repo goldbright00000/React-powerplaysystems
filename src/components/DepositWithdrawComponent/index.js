@@ -1,14 +1,19 @@
 import React from "react";
-import classes from "./historyInfoComponent.module.scss";
+import classes from "./DepositWithdrawComponent.module.scss";
 import moment from "moment";
 
 import TickIcon from "../../assets/icons/correct-copy.png";
 
-const HistoryInfoComponent = (props) => {
+const DepositWithdrawComponent = (props) => {
   let { isMobile = false, transactions = [] } = props || {};
 
-  transactions = transactions.filter(el => el?.transaction_type_details?.type === "Game Entry");
-
+  transactions = transactions.filter(el =>
+    el?.transaction_type_details?.type === 'Deposit' ||
+    el?.transaction_type_details?.type === 'Requested' ||
+    el?.transaction_type_details?.type === 'Verification in-process' ||
+    el?.transaction_type_details?.type === 'Verified payment-pending' ||
+    el?.transaction_type_details?.type === 'Paid'
+  );
 
   const TableRow = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
@@ -16,6 +21,7 @@ const HistoryInfoComponent = (props) => {
     const getDate = (timestamp) => {
       return moment(timestamp).format("MMMM D");
     };
+
     const getTime = (timestamp) => {
       return moment(timestamp).format("hh:mm A");
     };
@@ -24,32 +30,6 @@ const HistoryInfoComponent = (props) => {
       <>
         {isMobile ? (
           <>
-            {/* <div className={classes.row_m}>
-              <div className={classes.row_m1}>
-                <span>Date</span>
-                <span>{getDate(transaction.date_time)}</span>
-              </div>
-              <div className={classes.row_m1}>
-                <span>Time</span>
-                <span>{getTime(transaction.date_time)}</span>
-              </div>
-              <div className={classes.row_m1}>
-                <span>Description</span>
-                <span>{transaction.description || "--"}</span>
-              </div>
-              <div className={classes.row_m1}>
-                <span>Type</span>
-                <span>Power Token</span>
-              </div>
-              <div className={classes.row_m1}>
-                <span>Amount</span>
-                <span>{transaction.transaction_amount || "--"}</span>
-              </div>
-              <div className={classes.row_m1}>
-                <span>Results</span>
-                <span>Verified</span>
-              </div>
-            </div> */}
             <div className={classes.row_mobile}>
               <div className={classes.col_details}>
                 <span className={classes.details}>
@@ -59,7 +39,7 @@ const HistoryInfoComponent = (props) => {
                 <br />{" "}
                 <span className={classes.values}>
                   {" "}
-                  {transaction?.transaction_type_details?.type || "--"}{" "}
+                  {transaction?.transaction_type_details?.type === 'Deposit' ? transaction?.transaction_type_details?.type : transaction?.transaction_type || "--"}{" "}
                 </span>{" "}
               </div>
               <div className={classes.col_details}>
@@ -79,10 +59,10 @@ const HistoryInfoComponent = (props) => {
             <div className={classes.row}>
               <div className="mx-1 text-left text-ellipsis">{getDate(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{getTime(transaction.date_time)} </div>
-              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type || "--"} </div>
+              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type === 'Deposit' ? (transaction?.transaction_type_details?.type) : (transaction?.transaction_type) || "--"} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount || "--"}</div>
-              <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? `Verified` : 'Entered'}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type === 'Deposit' ? (transaction.balance_result === 'increase' ? `Verified` : 'Entered') : (transaction?.transaction_type_details?.type)}</div>
             </div>
           </>
         )}
@@ -112,4 +92,4 @@ const HistoryInfoComponent = (props) => {
   );
 };
 
-export default HistoryInfoComponent;
+export default DepositWithdrawComponent;

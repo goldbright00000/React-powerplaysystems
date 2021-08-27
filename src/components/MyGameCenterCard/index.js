@@ -21,11 +21,26 @@ import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
 import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
+import { socket } from "../../config/server_connection";
+import { CONSTANTS } from "../../utility/constants";
+
 
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
   const dispatch = useDispatch();
+  const {
+    ON_ROOM_SUB,
+    ON_ROOM_UN_SUB,
+    EMIT_ROOM,
+    ON_POWER_APPLIED,
+    ON_GLOBAL_RANKING_REQUEST,
+    ON_FANTASY_LOGS_REQUEST,
+    GET_GLOBAL_RANKING,
+    MATCH_UPDATE,
+    GLOBAL_RANKING,
+    FANTASY_TEAM_UPDATE,
+  } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
   const {
     isMobile = false,
     id = null,
@@ -57,6 +72,74 @@ const MyGameCenterCard = (props) => {
     onFinalStandings = () => { },
     game_id = 0
   } = props || {};
+
+  const [ranks, setRanks] = React.useState({
+    ranking: 0, score: 0, game_id: 0, team_id: 0
+  });
+
+  let _socket = null;
+
+  React.useEffect(() => {
+    _socket = socket();
+    return function cleanUP() {
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
+    };
+  }, []);
+  React.useEffect(() => {
+    if (_socket) {
+      onSocketEmit(game_id, localStorage.PERSONA_USER_ID);
+      onSocketListen();
+    }
+  }, [_socket]);
+//All Emit Events
+const onSocketEmit = (gameId, userId) => {
+  _socket.emit(ON_ROOM_SUB, {
+    gameId: gameId,
+    userId: userId,
+  });
+
+
+};
+
+//All listen events
+const onSocketListen = () => {
+  //fetch data first time
+  _socket?.on(EMIT_ROOM, (res) => {
+    const {
+      power_dfs_team_rankings = []
+    } = res?.data || {};
+
+    // const teamD = defense[0] || {};
+    setRanks(power_dfs_team_rankings[0] || {});
+    // if (players && players?.length) {
+    //   getPlayers(players, teamD);
+    // }
+
+    // const _gameLogs = [...game_logs];
+    // const sortedGameLogs = _gameLogs.sort(
+    //   (a, b) =>
+    //     new Date(a?.play?.created_at).getTime() -
+    //     new Date(b?.play?.created_at).getTime()
+    // );
+
+    // dispatch(MLBActions.setGameLogs(sortedGameLogs));
+    // setLoading(false);
+  });
+
+  //MATCH_UPDATE
+  
+
+
+ 
+};
+  const getRank = (game_id) => {
+    
+  }
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
@@ -249,7 +332,7 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_buttons_your_current_rank
                     }
                   >
-                    240,051 <span>Your Current Rank</span>
+                    {ranks.ranking} <span>Your Current Rank</span>
                   </div>
                 )}
                 <div
@@ -564,7 +647,7 @@ const MyGameCenterCard = (props) => {
                     classes.__my_game_center_card_buttons_your_current_rank
                   }
                 >
-                  Your Current Rank: 240,051
+                  Your Current Rank: {ranks.ranking}
                 </div>
               )}
               {!completed && (
@@ -639,6 +722,14 @@ const MyGameCenterCard = (props) => {
                   </p>
                 </div>
               )}
+
+              <div> 
+                <span style={{
+                  marginLeft: 25,
+                  color: "#688fbd",
+                  fontSize: 14
+                }}>{game_id}</span>
+              </div>
 
               <div className={classes.__my_game_center_card_details}>
                 {completed ? (

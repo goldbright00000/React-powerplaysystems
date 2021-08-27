@@ -89,7 +89,7 @@ function MLBPowerdFsLive(props) {
   });
   const [playerToSwap, setPlayerToSwap] = useState({});
 
-  const [swapCounts, setSwapCounts] = useState(999);
+  const [swapCounts, setSwapCounts] = useState(0);
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
@@ -162,32 +162,34 @@ function MLBPowerdFsLive(props) {
     let power_up = 0;
     for (let i = 0; i < remainingPowers.length; i++) {
       let rec = remainingPowers[i].fantasy_powers;
-      if (rec.name === "D-Wall") {
-        dwall = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "Challenge") {
-        challenge = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "1.5x Point Booster") {
-        p15 = remainingPowers[i].remaining_amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "2x Point Booster") {
-        p2 = remainingPowers[i].remaining_amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "3x Point Booster") {
-        p3 = remainingPowers[i].remaining_amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].remaining_amount);
-      } else if (rec.name === "Swap") {
-        swap = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "Retro Boost") {
-        retro_boost = remainingPowers[i].remaining_amount;
-      } else if (rec.name === "Power-Up") {
-        power_up = remainingPowers[i].remaining_amount;
+      if (rec !== undefined && rec !== null) {
+        if (rec.name === "D-Wall") {
+          dwall = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Challenge") {
+          challenge = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "1.5x Point Booster") {
+          p15 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "2x Point Booster") {
+          p2 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "3x Point Booster") {
+          p3 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "Swap") {
+          swap = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Retro Boost") {
+          retro_boost = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Power-Up") {
+          power_up = remainingPowers[i].remaining_amount;
+        }
       }
     }
     setChallengeCounts(challenge);
-    // setSwapCounts(swap);
+    setSwapCounts(swap);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
@@ -408,10 +410,15 @@ function MLBPowerdFsLive(props) {
       }
 
       const _gameLogs = [...game_logs];
-      const sortedGameLogs = _gameLogs.sort(
-        (a, b) =>
-          new Date(a?.play?.created_at).getTime() -
-          new Date(b?.play?.created_at).getTime()
+      const sortedGameLogs = _gameLogs.sort((a, b) =>
+        a?.play === null && b?.play !== null
+          ? new Date(a?.created_at).getTime() -
+            new Date(b?.created_at).getTime()
+          : a?.play !== null && b?.play === null
+          ? new Date(a?.play?.created_at).getTime() -
+            new Date(b?.created_at).getTime()
+          : new Date(a?.play?.created_at).getTime() -
+            new Date(b?.play?.created_at).getTime()
       );
 
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
@@ -522,8 +529,6 @@ function MLBPowerdFsLive(props) {
       updated_team_defense = {},
     } = res?.data || {};
 
-    console.log("onFantasyUpdate: ", res);
-
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
     if (!live_data?.length) return;
@@ -587,70 +592,26 @@ function MLBPowerdFsLive(props) {
     }
   };
 
-  const onPowerApplied = (fantasyTeamId, matchId, playerId, powerId) => {
-    //On Power applied
-    _socket.emit(ON_POWER_APPLIED, {
-      fantasyTeamId: fantasyTeamId,
-      matchId: matchId,
-      playerId: playerId,
-      powerId: powerId,
-    });
+  const onPowerApplied = (data) => {
+    _socket.emit(ON_POWER_APPLIED, data);
   };
 
   const onClickStandings = () => {};
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
-
-    const {
-      game_id: gameId,
-      sport_id: sportId,
-      team_id: teamId,
-      user_id: userId,
-    } = selectedTeam || {};
-
+    const { team_id, user_id, game_id } = selectedTeam || {};
     setPlayerToSwap(currentPlayer);
-
-    onPowerApplied(
-      teamId,
-      newPlayer.match_id,
-      newPlayer.playerId,
-      POWER_IDs.SWAP
-    );
-
-    return;
-    const _data = [...live_data];
-    const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
-    let _starPlayerCount = starPlayerCount;
-
-    if (starPlayerCount >= 3 && !newPlayer?.isStarPlayer) {
-      return;
-    } else if (
-      starPlayerCount >= 3 &&
-      newPlayer?.isStarPlayer &&
-      currentPlayer?.isStarPlayer
-    ) {
-      _data[indexOfPlayer].player = newPlayer;
-    } else if (
-      starPlayerCount < 3 &&
-      newPlayer?.isStarPlayer &&
-      !currentPlayer?.isStarPlayer
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-      _starPlayerCount++;
-    } else if (
-      currentPlayer?.isStarPlayer &&
-      !newPlayer?.isStarPlayer &&
-      starPlayerCount > 0
-    ) {
-      _data[indexOfPlayer] = newPlayer;
-      _starPlayerCount--;
-    } else if (!newPlayer?.isStarPlayer && !currentPlayer?.isStarPlayer) {
-      _data[indexOfPlayer] = newPlayer;
-    }
-
-    dispatch(MLBActions.setStarPlayerCount(_starPlayerCount));
-    dispatch(MLBActions.mlbLiveData(_data));
+    onPowerApplied({
+      fantasyTeamId: team_id,
+      matchId: currentPlayer.match_id,
+      playerId: currentPlayer.player_id,
+      playerId2: newPlayer.playerId,
+      matchIdP2: newPlayer.match_id,
+      powerId: POWER_IDs.SWAP_POWER,
+      userId: user_id,
+      gameId: game_id,
+    });
   };
 
   const RenderPower = ({
@@ -878,7 +839,20 @@ function MLBPowerdFsLive(props) {
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
                   >
-                    <img src={FooterImage} alt="" />
+                    {/* <img src={FooterImage} alt="" /> */}
+                    <a
+                      href="https://fanatics.93n6tx.net/c/2068372/1126094/9663"
+                      target="_blank"
+                      id="1126094"
+                    >
+                      <img
+                        src="https://a.impactradius-go.com/display-ad/9663-1126094"
+                        border="0"
+                        alt=""
+                        width="1000"
+                        height="640"
+                      />
+                    </a>
                     <div style={{ position: "absolute", bottom: 0, right: 5 }}>
                       {selectedTeam.game_id}
                     </div>

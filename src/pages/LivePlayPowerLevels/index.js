@@ -101,18 +101,18 @@ function LivePlayPowerLevels(props) {
             <p>Share to unlock:</p>
             <div>
               <button onClick={() => {
-                  var left = (window.screen.width / 2) - (600 / 2),
+                var left = (window.screen.width / 2) - (600 / 2),
                   top = (window.screen.height / 2) - (600 / 2);
-                window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
               }}>
                 <FacebookIcon />
               </button>
-            
-            
+
+
               <button onClick={() => {
                 var left = (window.screen.width / 2) - (600 / 2),
-                top = (window.screen.height / 2) - (600 / 2);
-                window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
+                  top = (window.screen.height / 2) - (600 / 2);
+                window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
               }}>
                 <TwitterIcon />
               </button>
@@ -180,7 +180,6 @@ function LivePlayPowerLevels(props) {
   };
 
   const RenderView = () => {
-    console.log("selectedData", selectedData);
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
         <SingleView
@@ -272,8 +271,8 @@ function LivePlayPowerLevels(props) {
                 centered
                 showIcons={false}
               />
-                <LiveRankBox />
-                <BatteryPowerLevels />
+              <LiveRankBox />
+              <BatteryPowerLevels />
             </Sidebar>
           </div>
         </div>

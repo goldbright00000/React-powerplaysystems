@@ -334,3 +334,18 @@ export const removeZeroBeforeDecimalPoint = (value = 0) => {
 export const getTimeZone = () => {
   return moment?.tz(moment?.tz?.guess())?.zoneAbbr();
 };
+
+export const getNumberSuffix = (number = 0) => {
+  var j = number % 10,
+    k = number % 100;
+  if (j == 1 && k != 11) {
+    return number + "st";
+  }
+  if (j == 2 && k != 12) {
+    return number + "nd";
+  }
+  if (j == 3 && k != 13) {
+    return number + "rd";
+  }
+  return number + "th";
+};

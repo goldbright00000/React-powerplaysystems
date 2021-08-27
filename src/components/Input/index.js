@@ -6,6 +6,8 @@ import { isEmpty } from 'lodash'
 function Input(props) {
     const {
         type = 'text',
+        min = 0,
+        max = 0,
         onChange = (e) => { },
         label = '',
         placeholder = '',
@@ -17,6 +19,7 @@ function Input(props) {
         icon = '',
         white = false,
         bordered = false,
+        is_invalid = false,
     } = props || {}
     return (
         <div className={classes.input_container}>
@@ -24,16 +27,18 @@ function Input(props) {
             <div className={!isEmpty(icon) ? classes.input_main : ''}>
                 {
                     !isEmpty(icon) &&
-                    <div className={classes.input_icon}>{ icon }</div>
+                    <div className={classes.input_icon}>{icon}</div>
                 }
                 <input
                     type={type || 'text'}
                     onChange={onChange}
                     placeholder={placeholder}
-                    className={`${classes.input} ${block ? classes.block : ''} ${isEmpty(icon) && rounded ? classes.rounded : classes.input_radius} ${white ? classes.white : ''} ${bordered ? classes.border : ''}`}
+                    className={`${classes.input} ${block ? classes.block : ''} ${isEmpty(icon) && rounded ? classes.rounded : classes.input_radius} ${white ? classes.white : ''} ${bordered ? classes.border : ''} ${is_invalid && classes.focus_visible}`}
                     required={required}
                     value={value}
                     name={name}
+                    min={min}
+                    max={max}
                 />
             </div>
         </div>

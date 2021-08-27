@@ -280,9 +280,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
@@ -296,8 +296,14 @@ export async function getSavedTeamPlayers(payload) {
 
     const { data = {} } = playersResponse.data || {};
 
-    const { game_id, sport_id, user_id, team_id, teamD = {}, players = [] } =
-      data || {};
+    const {
+      game_id,
+      sport_id,
+      user_id,
+      team_id,
+      teamD = {},
+      players = [],
+    } = data || {};
 
     for (let i = 0; i < players?.length; i++) {
       const player = players[i];
@@ -520,6 +526,7 @@ export function getLiveStandings(game_id) {
       const response = await http.get(
         `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.GET_LIVE_STANDINGS}?game_id=${game_id}`
       );
+
       return dispatch({
         type: "mlbLiveStandings",
         payload: response.data,

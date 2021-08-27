@@ -2,7 +2,7 @@ import React from "react";
 import classes from "./index.module.scss";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
-import MLBPlayer from "../../assets/mlb-player-mobile.png";
+import MLBPlayer from "../../assets/baseball-player-faded.png";
 import NFLPlayer from "../../assets/nfl-player-mobile.png";
 import NBAPlayer from "../../assets/nba-player-mobile.png";
 import NHLPlayer from "../../assets/nhl-player-mobile.png";
@@ -13,6 +13,7 @@ import PrizeGrid from "./PrizeGrid";
 import PowersAvailable from "./PowersAvailable";
 import PointSystem from "./PointSystem";
 import TeamRoster from "./TeamRoster";
+import Pitchers from './Pitcher'
 import "./carousel.scss";
 
 const PowerCenterMobileCard = (props) => {
@@ -51,6 +52,7 @@ const PowerCenterMobileCard = (props) => {
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
       backgroundImageStyle.backgroundPosition = "-16px -13px";
+      backgroundImageStyle.backgroundSize = 'contain'
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
       backgroundImageStyle.backgroundPosition = "-16px 10px";
@@ -121,7 +123,7 @@ const PowerCenterMobileCard = (props) => {
                 </p>
               ) : (
                 <p>
-                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" style={{width: 'auto'}}/></span>
                 </p>
               )}
             </div>
@@ -151,6 +153,7 @@ const PowerCenterMobileCard = (props) => {
         <PrizeGrid PrizePayout={PrizePayout} game_set_start={game_set_start} start_time={start_time} />
         <PowersAvailable title={title} Power={Power} game_set_start={game_set_start} start_time={start_time} />
         <PointSystem title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} />
+        <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} />
         <TeamRoster title={title} game_set_start={game_set_start} start_time={start_time} />
       </Carousel>
     </div>
