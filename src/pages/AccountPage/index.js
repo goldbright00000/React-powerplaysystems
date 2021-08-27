@@ -15,6 +15,7 @@ import AccountInfo from "../../components/AccountInfoComponent";
 import BalanceInfoComponent from "../../components/BalanceInfoComponent";
 import ResultsInforComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
+import DepositWithdrawComponent from '../../components/DepositWithdrawComponent';
 import AccountLimits from "../../components/AccountLimits";
 import { printLog } from "../../utility/shared";
 import SnackbarAlert from "../../components/SnackbarAlert";
@@ -69,6 +70,9 @@ function AccountPage(props) {
           transaction_type_details: { type: "Game Entry" },
         });
       });
+
+      console.log('onj ---> ', obj)
+
       setUserAccount(obj);
     }
   }, [getUserSavedGames]);
@@ -133,8 +137,9 @@ function AccountPage(props) {
                     balance={userAccount.balance}
                   />
                 </TabPanel>
+                {console.log('useraccount', userAccount)}
                 <TabPanel>
-                  <HistoryInfoComponent
+                  <DepositWithdrawComponent
                     isMobile={isMobile}
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}
