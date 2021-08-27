@@ -242,6 +242,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       }
     }
 
+    // //re-order on time basis
+    // const sortedGameLogs = _logs.sort((a, b) =>
+    //   a?.play === null && b?.play === null
+    //     ? new Date(a?.created_at).getTime() - new Date(b?.created_at).getTime()
+    //     : new Date(a?.play?.created_at).getTime() -
+    //       new Date(b?.play?.created_at).getTime()
+    // );
+
     setLogs(_logs);
   }, [gameLogs]);
 
