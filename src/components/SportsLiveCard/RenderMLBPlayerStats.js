@@ -224,7 +224,7 @@ function RenderMLBPlayerStats(props) {
         {!isEmpty(pitcher) && type === "P" && isPitching && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
-              {/* <Baseball /> */}
+              <Baseball />
               <p className={largeView && classes.large_view}>
                 {formatName(pitcherName)}
               </p>

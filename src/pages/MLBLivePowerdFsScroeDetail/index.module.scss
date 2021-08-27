@@ -99,6 +99,23 @@
           }
         }
 
+        .no_play {
+          display: "flex";
+          flex: 3;
+          height: 40px;
+          margin: 0 2.5px;
+          background-color: $lightBlack12;
+          p {
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 40px;
+            padding: 0;
+            margin: 0;
+          }
+        }
+
         .primary {
           background-color: $lightPrimary;
           border-radius: 4px;
