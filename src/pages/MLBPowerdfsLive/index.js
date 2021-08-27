@@ -842,7 +842,7 @@ function MLBPowerdFsLive(props) {
                     {/* <img src={FooterImage} alt="" /> */}
                     <a
                       href="https://fanatics.93n6tx.net/c/2068372/1126094/9663"
-                      target="_top"
+                      target="_blank"
                       id="1126094"
                     >
                       <img
