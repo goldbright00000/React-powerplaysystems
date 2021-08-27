@@ -176,6 +176,13 @@ function SportsLiveCardTeamD(props) {
     return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "b";
   };
 
+  const isGameOverOrNotStarted = () => {
+    return (
+      `${status}`.toLocaleUpperCase() === "scheduled" ||
+      getStatus() === "Game Over"
+    );
+  };
+
   const getStatus = () => {
     if (`${status}`?.toLocaleLowerCase() === "scheduled") {
       return `${moment(date_time).format("MMM Do")} - ${moment(
