@@ -58,36 +58,35 @@ function SportsTeamSelectionCard(props) {
     let temp = [];
     for (let i = 0; i < selector_all_data.length; i++) {
       let rec = selector_all_data[i];
+      console.log("rec", rec);
       if (rec.match_id == match_id) {
         if (rec.type == "P" || rec.type == "p") {
           temp.push(rec);
         }
       }
     }
+   
     return temp;
   };
 
   const RenderMLBState = (team_action) => {
     let match_id = props?.item?.match_id;
     let team_id = props?.item?.team_id;
-    let pitcherDetailsArray = picherDetails(match_id);
+    let pitcherDetailsArray = selector_all_data.filter(x => {
+      return x.match_id == match_id && (x.type == "p" || x.type == "P")
+    })
     let a;
     if (team_action.team == "home") {
-      if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[0];
-      }
-      if (pitcherDetailsArray[1]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[1];
+      if(pitcherDetailsArray.find(x => x.homeTeam == team_action.name)) {
+        a = pitcherDetailsArray.find(x => x.homeTeam == team_action.name);
       }
     }
     if (team_action.team == "away") {
-      if (pitcherDetailsArray[0]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[0];
-      }
-      if (pitcherDetailsArray[1]?.homeTeam == team_action.name) {
-        a = pitcherDetailsArray[1];
+      if(pitcherDetailsArray.find(x => x.homeTeam == team_action.name)) {
+        a = pitcherDetailsArray.find(x => x.homeTeam == team_action.name);
       }
     }
+    
     return (
       <div
         className={`${classes.card_state_mlb} ${isSelected && classes.active}`}

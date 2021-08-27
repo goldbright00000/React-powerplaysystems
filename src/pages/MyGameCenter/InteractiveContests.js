@@ -361,7 +361,6 @@ const InteractiveContests = (props) => {
                 options={contentTypes}
                 onChange={(selectedOption) => setContentType(selectedOption)}
               />
-              123
             </div>
           ) : (
             <>
