@@ -31,6 +31,8 @@ export const URLS = {
     GET_USERS_POWERS: "/dfs/get-user-power",
     UPDATE_USERS_POWERS: "/dfs/update-user-power",
     NFL: "/dfs/nfl-selection",
+    NFL_SAVE_PLAYERS: "/dfs/nfl-save-players",
+    NFL_EDIT_TEAM_PLAYER: "dfs/nfl-edit-team-player",
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
   },
   GAMES: {
