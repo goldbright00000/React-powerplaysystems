@@ -221,7 +221,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       }
 
       //total score
-      const rbiData = getRBI(gameLogs[i]?.play?.runners);
+      const rbiData = getRBI(gameLogs[i]?.play?.runners, id);
       const rsData = getRS(
         gameLogs[i]?.play?.runners,
         gameLogs[i]?.play?.outcome_id
@@ -231,8 +231,9 @@ function NHLLivePowerdFsScroeDetail(props) {
       const rbiPts = rbi === 1 ? 2 : 0;
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
+      const hasRunners = gameLogs[i]?.play?.runners?.length ? true : false;
 
-      const playPts = getPoints(id, isPitcher, isAbOver);
+      const playPts = getPoints(id, isPitcher, isAbOver, hasRunners);
 
       const totalScore = playPts + rbiPts + rsPts;
       gameLogs[i].totalScore = totalScore;
@@ -255,14 +256,6 @@ function NHLLivePowerdFsScroeDetail(props) {
       }
     }
 
-    // //re-order on time basis
-    // const sortedGameLogs = _logs.sort((a, b) =>
-    //   a?.play === null && b?.play === null
-    //     ? new Date(a?.created_at).getTime() - new Date(b?.created_at).getTime()
-    //     : new Date(a?.play?.created_at).getTime() -
-    //       new Date(b?.play?.created_at).getTime()
-    // );
-
     setLogs(_logs);
   }, [gameLogs]);
 
@@ -279,7 +272,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(false);
   };
 
-  const getPoints = (id, isPitcher = false) => {
+  const getPoints = (id, isPitcher = false, hasRunners = false) => {
     if (
       id === "aD" ||
       id === "aDAD3" ||
@@ -291,7 +284,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     )
       return 5;
 
-    if (id === "aHR") return 10;
+    if (id === "aHR" && !hasRunners) return 10;
 
     if (
       id === "oGO" ||
@@ -376,23 +369,26 @@ function NHLLivePowerdFsScroeDetail(props) {
     return 0;
   };
 
-  const getRBI = (runners = []) => {
+  const getRBI = (runners = [], aHRId = "") => {
     let rbi;
     for (let i = 0; i < runners?.length; i++) {
       if (
         runners[i]?.outcome_id === "ERN" ||
         runners[i]?.outcome_id === "URN" ||
-        runners[i]?.outcome_id === "ERNu" ||
-        runners[i]?.outcome_id === "aHR"
+        runners[i]?.outcome_id === "ERNu"
       ) {
         const [player] = gameLogs?.filter((p) => {
           return p?.effected_player?.player_id === runners[i]?.player_id;
         });
 
-        if (player) {
+        if (aHRId === "aHR" && player) {
+          rbi += 1;
+          return {
+            rbi,
+          };
+        } else if (player) {
           return { rbi: 1 };
         } else {
-          console.log(player);
           return { rbi: 0 };
         }
       }
@@ -414,7 +410,6 @@ function NHLLivePowerdFsScroeDetail(props) {
         if (player) {
           return { rs: 2 };
         } else {
-          console.log(player);
           return { rs: 0 };
         }
       }
