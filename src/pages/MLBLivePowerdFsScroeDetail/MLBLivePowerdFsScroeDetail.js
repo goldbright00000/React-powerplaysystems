@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import * as MLBActions from "../../actions/MLBActions";
 import _ from "underscore";
 import { isEmpty } from "lodash";
-import { redirectTo } from "../../utility/shared";
+import { useHistory } from "react-router-dom";
 
+import { redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
 import classes from "./index.module.scss";
@@ -66,6 +66,9 @@ function NHLLivePowerdFsScroeDetail(props) {
     GLOBAL_RANKING,
     FANTASY_TEAM_UPDATE,
   } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
+
+  const history = useHistory();
+
   let tableRef = useRef();
   let _socket = null;
   const { gameLogs = [], selectedTeam = {} } = useSelector(
@@ -264,7 +267,8 @@ function NHLLivePowerdFsScroeDetail(props) {
   }, [gameLogs]);
 
   useEffect(() => {
-    tableRef?.current?.scrollIntoView();
+    if (history.location.pathname === "/mlb-live-powerdfs/my-score-details")
+      tableRef?.current?.scrollIntoView();
   }, [tableRef]);
 
   const toggleLiveStandingModal = () => {
@@ -378,7 +382,8 @@ function NHLLivePowerdFsScroeDetail(props) {
       if (
         runners[i]?.outcome_id === "ERN" ||
         runners[i]?.outcome_id === "URN" ||
-        runners[i]?.outcome_id === "ERNu"
+        runners[i]?.outcome_id === "ERNu" ||
+        runners[i]?.outcome_id === "aHR"
       ) {
         const [player] = gameLogs?.filter((p) => {
           return p?.effected_player?.player_id === runners[i]?.player_id;
@@ -407,7 +412,7 @@ function NHLLivePowerdFsScroeDetail(props) {
         });
 
         if (player) {
-          return { rs: 1 };
+          return { rs: 2 };
         } else {
           console.log(player);
           return { rs: 0 };
