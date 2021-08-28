@@ -228,7 +228,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       );
 
       const rbi = rbiData.rbi || 0;
-      const rbiPts = rbi === 1 ? 2 : 0;
+      const rbiPts = rbi === 1 ? 2 : rbi !== 0 ? rbi * 2 : 0;
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
       const hasRunners = gameLogs[i]?.play?.runners?.length ? true : false;
