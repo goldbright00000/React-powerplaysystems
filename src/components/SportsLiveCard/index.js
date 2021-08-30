@@ -221,6 +221,8 @@ function SportsLiveCard(props) {
           (data) => data?.type === `${type}`?.toLocaleLowerCase()
         );
 
+        console.log("RESPONSE   ===============> ", response?.filterdList);
+
         if (
           swapablePlayerData &&
           swapablePlayerData?.listData &&
@@ -245,6 +247,10 @@ function SportsLiveCard(props) {
 
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
 
     let available = 0;
     if (type === "Swap Player") {
@@ -271,6 +277,11 @@ function SportsLiveCard(props) {
   }
   function isPowerLocked(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
+
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
