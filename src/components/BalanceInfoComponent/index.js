@@ -115,6 +115,7 @@ function BalanceInfoComponent(props) {
 
   const [showModal, setModalState] = useState(false);
   const [activeForm, setActiveForm] = useState(0);
+  const [isInvalid, setInvalid] = useState(false);
 
   const { isMobile = false } = props || {};
   const { balance = {} } = props || {};
@@ -124,14 +125,21 @@ function BalanceInfoComponent(props) {
   }, []);
 
   const changeInputHandler = (e) => {
-    const { target: { value = "", name = "" } = {} } = e || {};
+    const { target: { value = "", name = "", min, max } = {} } = e || {};
 
-    setForm({ ...form, [name]: value });
+    if (name === 'balance_amount') {
+      if (parseInt(value) >= parseInt(min) && parseInt(value) <= parseInt(max)) {
+        setForm({ ...form, [name]: value })
+      } else {
+        setInvalid(true);
+      }
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleCheckBox = (e) => {
     const { target: { checked = false, name = "" } = {} } = e || {};
-
     setForm({ ...form, [name]: checked });
   };
 
@@ -151,7 +159,6 @@ function BalanceInfoComponent(props) {
       setActiveForm(_active + 1);
       return;
     }
-
   };
 
   const handleBack = () => {
@@ -169,7 +176,7 @@ function BalanceInfoComponent(props) {
       <div className={`${classes.list_header_wrapper}`}>
         {ListHeader(
           "My Cash Balance",
-          balance.cashBalance.toFixed(2),
+          balance.cashBalance?.toFixed(2),
           "Deposit",
           () => props.openDepositModal(),
           "Withdraw",
@@ -193,7 +200,7 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "BTC Balance",
-          balance.btcBalance.toFixed(4),
+          balance.btcBalance?.toFixed(4),
           "Deposit",
           () => props.openDepositModal("BTC"),
           "Transfer",
@@ -205,7 +212,7 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "ETH Balance",
-          balance.ethBalance.toFixed(4),
+          balance.ethBalance?.toFixed(4),
           "Deposit",
           () => props.openDepositModal("ETH"),
           "Transfer",
@@ -259,6 +266,9 @@ function BalanceInfoComponent(props) {
                       white
                       bordered
                       required
+                      mix={25}
+                      max={500}
+                      is_invalid={isInvalid}
                     />
                   </div>
 
