@@ -1,6 +1,6 @@
 import React from "react";
 
-const MyScore = ({ score = 0 }) => {
+const MyScore = ({ score = 0, leader = 0 }) => {
   return (
     <div className="score">
       <div className="scoreFirst">
@@ -9,7 +9,7 @@ const MyScore = ({ score = 0 }) => {
       </div>
       <div className="leader">
         <p>Leader:</p>
-        <span>66</span>
+        <span>{leader}</span>
       </div>
     </div>
   );

@@ -313,7 +313,7 @@ const InteractiveContests = (props) => {
   return (
     <>
       <div className="__table-wrapper __mb-6">
-        <div className={`__flex ${classes.__ic_scroll}`}>
+        <div className={`${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
             <div className="__badges-wrapper __text-in-one-line __mediam">
               {myGameCenterCardData &&

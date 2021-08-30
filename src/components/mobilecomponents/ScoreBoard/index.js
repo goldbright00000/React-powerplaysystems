@@ -28,6 +28,9 @@ const ScoreBoard = ({
   setstate,
   boostModal,
   swapModal,
+  type,
+  index,
+  ranks
 }) => {
   return (
     <section className="transparent board__wrapper">
@@ -58,6 +61,9 @@ const ScoreBoard = ({
           imageTochanged={imageTochanged}
           otherIcons={otherIcons}
           notShow={notShow}
+          type={tagLine}
+          index={index}
+          ranks={ranks}
         />
       </Container>
     </section>
