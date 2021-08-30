@@ -265,3 +265,12 @@
         padding: 2rem;
     }
 }
+
+@media (max-width: 500px) {
+    .popupInnerDiv {
+        width: auto;
+    }
+    .popup {
+        padding: 25px;
+    }
+}

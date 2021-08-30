@@ -390,6 +390,7 @@ function MLBPowerdFsLive(props) {
   const onSocketListen = () => {
     //fetch data first time
     setLoading(true);
+    
     _socket?.on(EMIT_ROOM, (res) => {
       const {
         game_id = "",
@@ -402,6 +403,8 @@ function MLBPowerdFsLive(props) {
         power_dfs_team_rankings = [],
         game_logs = [],
       } = res?.data || {};
+
+      console.log("res?.data", power_dfs_team_rankings[0]);
 
       const teamD = defense[0] || {};
       setRanks(power_dfs_team_rankings[0] || {});

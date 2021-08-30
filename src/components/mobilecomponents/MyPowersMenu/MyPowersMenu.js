@@ -61,7 +61,7 @@ const MyPowersMenu = ({
           />
         </div>
         <div className="modal_footer__booster">
-          <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={false} />{" "}
+          <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={true} number="2"/>{" "}
           <SingleBooster
             unlock={true}
             src="challenge-power.svg"
