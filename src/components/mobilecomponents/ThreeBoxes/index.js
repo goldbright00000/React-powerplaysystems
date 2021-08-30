@@ -2,8 +2,11 @@ import React from "react";
 import { Container, Row } from "reactstrap";
 import SingleBox from "./singleBox/SingleBox";
 import GameCountDown from "./GameCountDown";
+import PrizeModal from "../../PrizeModal";
 import "./style.scss";
-const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
+const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
+  console.log("data",data);
+  const [showPrizeModal, setPrizeModalState] = React.useState(false);
   return (
     <div
       className="box__wrapper"
@@ -23,6 +26,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
             subHeading="Live"
             setModal={setModal}
             showTime={showTime}
+            linkURL={'/live-standing'}
           />
           <SingleBox
             customClass=""
@@ -31,6 +35,9 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
             subHeading="Price"
             priceModal={priceModal}
             showTime={showTime}
+            onButtonClick={() => {
+              setPrizeModalState(true)
+            }}
           />
           <SingleBox
             customClass="third"
@@ -38,10 +45,18 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal }) => {
             heading="Center"
             subHeading="My Game"
             showTime={showTime}
+            link={true}
+            linkURL={'/my-game-center'}
           />
           {showTime === true && <GameCountDown state={state} />}
         </Row>
       </Container>
+      <PrizeModal
+        visible={showPrizeModal}
+        sportsName="MLB"
+        data={[]}
+        onClose={() => setPrizeModalState(false)}
+      />
     </div>
   );
 };

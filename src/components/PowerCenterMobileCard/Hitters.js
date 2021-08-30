@@ -68,7 +68,7 @@ const Hitters = (props) => {
                     </p>
                 </div>
                 <div className={classes.__hitters_title}>
-                    Powers Available
+                    Point System
                 </div>
             </div>
             <div className={classes.__prize_grid_data_container}>
