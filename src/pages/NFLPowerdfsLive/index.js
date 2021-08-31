@@ -46,7 +46,7 @@ function NFLPowerdFsLive(props) {
   const [playerIds, setPlayerIds] = useState([]);
   const [data, setData] = useState([...dummy]);
 
-  console.log("DUMMY : : :", dummy);
+  console.log("DUMMY : : :", data);
 
   const {
     live_data: selectedData = [],

@@ -77,6 +77,8 @@ function SportsLiveCard(props) {
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
+  console.log("PLAYER: ", player);
+
   const {
     name = "",
     type = "",
@@ -220,8 +222,6 @@ function SportsLiveCard(props) {
         const [swapablePlayerData] = _mlbData?.filter(
           (data) => data?.type === `${type}`?.toLocaleLowerCase()
         );
-
-        console.log("RESPONSE   ===============> ", response?.filterdList);
 
         if (
           swapablePlayerData &&
@@ -710,6 +710,7 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
+        {console.log("TYPE------------------- ", type)}
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
