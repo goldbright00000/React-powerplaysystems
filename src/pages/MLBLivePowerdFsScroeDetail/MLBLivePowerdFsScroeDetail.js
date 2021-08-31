@@ -284,7 +284,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     )
       return 5;
 
-    if (id === "aHR" && !hasRunners) return 10;
+    if (id === "aHR") return 10;
 
     if (
       id === "oGO" ||
@@ -403,15 +403,17 @@ function NHLLivePowerdFsScroeDetail(props) {
     let rs;
     for (let i = 0; i < runners?.length; i++) {
       if (id === "aHR") {
-        const [player] = gameLogs?.filter((p) => {
-          return p?.effected_player?.player_id === runners[i]?.player_id;
-        });
+        // const [player] = gameLogs?.filter((p) => {
+        //   return p?.effected_player?.player_id === runners[i]?.player_id;
+        // });
 
-        if (player) {
-          return { rs: 2 };
-        } else {
-          return { rs: 0 };
-        }
+        // if (player) {
+        //   return { rs: 1 };
+        // } else {
+        //   return { rs: 0 };
+        // }
+
+        return { rs: 1 };
       }
     }
 
