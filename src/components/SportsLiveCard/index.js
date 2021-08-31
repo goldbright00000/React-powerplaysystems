@@ -77,6 +77,8 @@ function SportsLiveCard(props) {
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
+  console.log("PLAYER: ", player);
+
   const {
     name = "",
     type = "",
@@ -246,6 +248,10 @@ function SportsLiveCard(props) {
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
 
+    if (!powerss || powerss === undefined) {
+      return;
+    }
+
     let available = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -271,6 +277,11 @@ function SportsLiveCard(props) {
   }
   function isPowerLocked(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
+
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -699,6 +710,7 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
+        {console.log("TYPE------------------- ", type)}
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
