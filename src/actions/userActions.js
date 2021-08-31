@@ -302,7 +302,7 @@ export function removeCoinbaseLink() {
   };
 }
 
-export function requestBalanceWithdraw(data) {
+export function requestBalanceWithdraw(data, changeModalState) {
 
   return async (dispatch) => {
     try {
@@ -310,6 +310,8 @@ export function requestBalanceWithdraw(data) {
         `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.WITHDRAW_REQUEST}`,
         data
       );
+
+      changeModalState();
 
       return response.data;
     } catch (err) {

@@ -114,7 +114,7 @@ function BalanceInfoComponent(props) {
     region: '',
     postCode: '',
     fname: '',
-    lanme: '',
+    lname: '',
     day: 10,
     month: 10,
     year: 1998,
@@ -171,7 +171,7 @@ function BalanceInfoComponent(props) {
       return;
     } else if (!isMobile || (isMobile && activeForm === 2)) {
       const user_id = getPersonaUserId()
-      dispatch(requestBalanceWithdraw({ ...form, user_id }));
+      dispatch(requestBalanceWithdraw({ ...form, user_id }, changeModalState));
     }
   };
 
@@ -191,6 +191,18 @@ function BalanceInfoComponent(props) {
       return [];
     }
   };
+
+  const checkValid = () => {
+    if (form?.addr1.length > 0 && form?.balance_amount > 0 && form?.country.length > 0 &&
+      form?.day.length > 0 && form?.fname.length > 0 && form?.lname.length > 0 &&
+      form?.month.length > 0 && form?.postCode.length > 0 && form?.region.length > 0 &&
+      form?.region.length > 0 && form?.send_to.length > 0 && form?.termsAndConditions && form?.year) {
+
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (
     <>
@@ -399,7 +411,7 @@ function BalanceInfoComponent(props) {
                   </div>
 
                   <div className={`${classes.margin_l_40}`}>
-                    <label>Provinence/State</label>
+                    <label>Province/State</label>
                     <select
                       className={`${classes.form_dropdown_main} ${classes.form_dropdown}`}
                       id="region"
@@ -411,7 +423,7 @@ function BalanceInfoComponent(props) {
                       }
                     >
                       <option hidden disabled value="">
-                        Provinence/State
+                        Province/State
                       </option>
                       {getStatesOrProvinces().map((opt) => (
                         <option key={opt} value={opt}>
@@ -434,7 +446,7 @@ function BalanceInfoComponent(props) {
                   <div className={`${classes.margin_l_40}`}>
                     <label>Postal Code</label>
                     <Input
-                      type="number"
+                      type="text"
                       placeholder="Postal Code"
                       value={form?.postCode}
                       name="postCode"
@@ -569,10 +581,10 @@ function BalanceInfoComponent(props) {
                     title={
                       isMobile && activeForm !== 2 ? "Next" : "Withdraw Cash"
                     }
-                    // styles={{ opacity: form?.termsAndConditions ? 1 : 0.5 }}
+                    styles={{ opacity: checkValid() ? 1 : 0.5 }}
                     block
                     type={CONSTANTS.BUTTON_TYPE.SUBMIT}
-                    onClick={handleFormSubmit}
+                    onClick={checkValid() && handleFormSubmit}
                   />
                 </div>
               </div>
