@@ -496,6 +496,8 @@ function MLBPowerdFsLive(props) {
       score: _totalScore,
     });
 
+    console.log("PLAYER: ", playersArr);
+
     dispatch(MLBActions.mlbLiveData(playersArr));
   };
 
