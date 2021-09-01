@@ -210,7 +210,7 @@ function MLBPowerdFsLive(props) {
     }
     if (typeof powerss == "undefined") {
       return;
-    }
+    } 
     for (var i = 0; i < powerss.length; i++) {
       if (type === "Point Booster") {
         if (
@@ -293,14 +293,14 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 5)
       );
-      if (requests.payload[0] == 1) {
+      if (requests.payload[0] === 1) {
         setPowers();
       } else {
         alert(
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
         );
       }
-    }
+    } 
   }
 
   async function useChallenge(action) {
@@ -308,7 +308,7 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 6)
       );
-      if (requests.payload[0] == 1) {
+      if (requests.payload[0] === 1) {
         setPowers();
       } else {
         alert(

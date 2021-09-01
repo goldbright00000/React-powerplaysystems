@@ -181,7 +181,7 @@ function SportsLiveCard(props) {
   // }
 
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
-
+ 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
