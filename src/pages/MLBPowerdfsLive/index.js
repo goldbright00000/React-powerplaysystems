@@ -275,11 +275,19 @@ function MLBPowerdFsLive(props) {
 
   async function useSwap(action) {
     if (action) {
+      const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
       if (requests.payload[0] == 1) {
         setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          matchId: current_match_id,
+          powerId: 4,
+          userId: userId,
+          gameId: game_id,
+        });
       } else {
         alert(
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
@@ -290,11 +298,20 @@ function MLBPowerdFsLive(props) {
 
   async function useDwall(action) {
     if (action) {
+      const current_match_id = selectedTeam.players[0].match_id;
+      console.log("current match_id:",current_match_id);
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 5)
       );
-      if (requests.payload[0] === 1) {
+      if (requests.payload) {
         setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          matchId: current_match_id,
+          powerId: 5,
+          userId: userId,
+          gameId: game_id,
+        });
       } else {
         alert(
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
@@ -305,11 +322,20 @@ function MLBPowerdFsLive(props) {
 
   async function useChallenge(action) {
     if (action) {
+
+      const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 6)
       );
-      if (requests.payload[0] === 1) {
+      if (requests.payload[0]) {
         setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          matchId: current_match_id,
+          powerId: 6,
+          userId: userId,
+          gameId: gameId,
+        });
       } else {
         alert(
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
@@ -538,22 +564,10 @@ function MLBPowerdFsLive(props) {
       dispatch(MLBActions.mlbLiveData(liveData));
     }
   };
-  async function usePointBoosterPower(action, power) {
-    if (action) {
-      let requests = await dispatch(
-        MLBActions.updateUserRemainingPowers(gameId, userId, power)
-      );
-      if (requests.payload[0] == 1) {
-        setPowers();
-      } else {
-        alert(
-          "We are experiencing technical issues with the Power functionality. Please try again shortly."
-        );
-      }
-    }
-  }
+ 
 
   const onChangeXp = async (xp, player) => {
+  
     const _selectedXp = {
       xp,
     };
@@ -564,20 +578,34 @@ function MLBPowerdFsLive(props) {
     indexOfPlayer = live_data?.indexOf(player);
     if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
+      // console.log(player);
+      // console.log("Selected Team: ",selectedTeam);
+      // throw new Error("line 582");
+
       live_data[indexOfPlayer] = player;
       let power = 0;
-      if (_selectedXp.xpVal == "1.5x") {
+      if (_selectedXp.xpVal === "1.5x") {
         power = 1;
-      } else if (_selectedXp.xpVal == "2x") {
+      } else if (_selectedXp.xpVal === "2x") {
         power = 2;
-      } else if (_selectedXp.xpVal == "3x") {
+      } else if (_selectedXp.xpVal === "3x") {
         power = 3;
       }
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, power)
       );
-      if (requests.payload[0] == 1) {
+      console.log("FE, line 597, requests:",requests);
+      // throw new Error("FOUND");
+      if (requests.payload) {
         setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          powerId: power,
+          multiplier: _selectedXp.xpVal,
+          playerId: player.player_id,
+          userId: userId,
+          gameId: gameId,
+        });
       } else {
         alert(
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
@@ -588,6 +616,7 @@ function MLBPowerdFsLive(props) {
   };
 
   const onPowerApplied = (data) => {
+    console.log(data);
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
