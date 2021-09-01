@@ -616,7 +616,7 @@ function MLBPowerdFsLive(props) {
   };
 
   const onPowerApplied = (data) => {
-    console.log("Power applied",data);
+    // console.log("Power applied",data);
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
