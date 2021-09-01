@@ -74,6 +74,10 @@ function NHLLivePowerdFsScroeDetail(props) {
   const { gameLogs = [], selectedTeam = {} } = useSelector(
     (state) => state.mlb
   );
+  const  a  = useSelector(
+    (state) => state
+  );
+  console.log("gameLogs", a)
   const { game = {} } = useSelector((state) => selectedTeam);
   const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
     (state) => game
@@ -191,7 +195,17 @@ function NHLLivePowerdFsScroeDetail(props) {
       setRanks(power_dfs_team_rankings[0] || {});
     });
   };
-
+  const RenderLiveState = ({ isLive = false }) =>
+    isLive ? (
+      <p className={classes.currentState}>
+        <span className={classes.orb} /> Live Game In Progress
+      </p>
+    ) : (
+      <p className={`${classes.currentState} ${classes.column}`}>
+        5d 4h 15min
+        <span className={classes.span_text}>Live Game Stars in</span>
+      </p>
+    );
   //set score and running totals
   useEffect(() => {
     if (!gameLogs?.length) {
@@ -533,6 +547,7 @@ function NHLLivePowerdFsScroeDetail(props) {
           subHeader1="Introducing Live-Play Fantasy Hockey"
           bgImageUri={HeaderBgUri}
           isLive
+          currentState={<RenderLiveState isLive />}
           points={pointss}
           powers={powers}
         />

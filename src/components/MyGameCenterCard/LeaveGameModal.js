@@ -3,7 +3,12 @@ import classes from "./leaveGameModal.module.scss";
 import OutlineButton from "../OutlineButton";
 
 const LeaveGameModal = (props) => {
-  const { title = "", onCancel = () => {}, isMobile = false } = props || {};
+  const {
+    title = "",
+    onCancel = () => { },
+    onLeave = () => { },
+    isMobile = false
+  } = props || {};
 
   return (
     <div className={classes.__leave_game_modal}>
@@ -18,13 +23,13 @@ const LeaveGameModal = (props) => {
             <OutlineButton title="Cancel" onClick={onCancel} />
           </div>
           <div className={classes.__leave_game_btn}>
-            <OutlineButton title="Leave Game" onClick={() => alert("hi")} />
+            <OutlineButton title="Leave Game" onClick={onLeave} />
           </div>
         </div>
       ) : (
         <>
           <div className={classes.__leave_game_btn}>
-            <OutlineButton title="Leave Game" onClick={() => alert("hi")} />
+            <OutlineButton title="Leave Game" onClick={onLeave} />
           </div>
           <div className={classes.__cancel} onClick={onCancel}>
             Cancel

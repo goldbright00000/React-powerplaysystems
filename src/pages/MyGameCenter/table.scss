@@ -40,3 +40,13 @@
         }
     }
 }
+
+@media (max-width: 1050px) {
+    .__table-wrapper{
+        .filtersTab {
+            svg {
+                display: block !important;
+            }
+        }
+    }
+}

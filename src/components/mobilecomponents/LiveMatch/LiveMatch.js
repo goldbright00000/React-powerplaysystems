@@ -9,12 +9,15 @@ import PrizeGrid from "../PrizeGrid/PrizeGrid";
 import SwapStarter from "../SwapStarter/SwapStarter";
 import "./live_match.scss";
 import RankIcon from "../../../icons/Ranks/RankIcon";
-const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks }) => {
+
+const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank }) => {
   const [modal, setModal] = useState(false);
 
   const [priceGrid, setPriceGrid] = useState(false);
-
+  
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
+  
+  console.log("ranksranks", ranks);
 
   const toggle = () => setModal(!modal);
   const priceModal = (value) => {
@@ -29,13 +32,13 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks }) => {
           <Container>
             <Row>
               <Col xs={4}>
-                <WinningCash />
+                <WinningCash currentWinnings={currentWinnings}/>
               </Col>
               <Col xs={4}>
-                <RankIcon rank={ranking} />
+                <RankIcon rank={currentRank} />
               </Col>
               <Col xs={4}>
-                <MyScore score={score} />
+                <MyScore score={score} leader={leader}/>
               </Col>
             </Row>
           </Container>
@@ -46,7 +49,7 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks }) => {
                 Live Rank <span>|</span>
               </p>
 
-              <h2>23</h2>
+              <h2>{currentRank}</h2>
             </div>
             <div className="menuButton" onClick={toggle}>
               <span></span>

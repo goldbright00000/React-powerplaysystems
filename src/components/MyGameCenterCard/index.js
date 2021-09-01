@@ -23,6 +23,7 @@ import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
+import ContestRules from "../PowerCenterCardDetails/ContestRules";
 
 
 import * as MLbActions from "../../actions/MLBActions";
@@ -96,49 +97,49 @@ const MyGameCenterCard = (props) => {
       onSocketListen();
     }
   }, [_socket]);
-//All Emit Events
-const onSocketEmit = (gameId, userId) => {
-  _socket.emit(ON_ROOM_SUB, {
-    gameId: gameId,
-    userId: userId,
-  });
+  //All Emit Events
+  const onSocketEmit = (gameId, userId) => {
+    _socket.emit(ON_ROOM_SUB, {
+      gameId: gameId,
+      userId: userId,
+    });
 
 
-};
+  };
 
-//All listen events
-const onSocketListen = () => {
-  //fetch data first time
-  _socket?.on(EMIT_ROOM, (res) => {
-    const {
-      power_dfs_team_rankings = []
-    } = res?.data || {};
+  //All listen events
+  const onSocketListen = () => {
+    //fetch data first time
+    _socket?.on(EMIT_ROOM, (res) => {
+      const {
+        power_dfs_team_rankings = []
+      } = res?.data || {};
 
-    // const teamD = defense[0] || {};
-    setRanks(power_dfs_team_rankings[0] || {});
-    // if (players && players?.length) {
-    //   getPlayers(players, teamD);
-    // }
+      // const teamD = defense[0] || {};
+      setRanks(power_dfs_team_rankings[0] || {});
+      // if (players && players?.length) {
+      //   getPlayers(players, teamD);
+      // }
 
-    // const _gameLogs = [...game_logs];
-    // const sortedGameLogs = _gameLogs.sort(
-    //   (a, b) =>
-    //     new Date(a?.play?.created_at).getTime() -
-    //     new Date(b?.play?.created_at).getTime()
-    // );
+      // const _gameLogs = [...game_logs];
+      // const sortedGameLogs = _gameLogs.sort(
+      //   (a, b) =>
+      //     new Date(a?.play?.created_at).getTime() -
+      //     new Date(b?.play?.created_at).getTime()
+      // );
 
-    // dispatch(MLBActions.setGameLogs(sortedGameLogs));
-    // setLoading(false);
-  });
+      // dispatch(MLBActions.setGameLogs(sortedGameLogs));
+      // setLoading(false);
+    });
 
-  //MATCH_UPDATE
-  
+    //MATCH_UPDATE
 
 
- 
-};
+
+
+  };
   const getRank = (game_id) => {
-    
+
   }
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
@@ -201,6 +202,10 @@ const onSocketListen = () => {
     return backgroundImageStyle;
   };
 
+  const onLeaveClick = () => {
+    console.log('onLeaveClick', game_id, localStorage.PERSONA_USER_ID);
+  }
+
   return (
     <>
       {isMobile ? (
@@ -252,7 +257,6 @@ const onSocketListen = () => {
                           Full {<CurrencyFormat
                             value={total}
                             displayType={"text"}
-                            thousandSeparator={true}
                             thousandSeparator={total >= 10000 ? true : false}
                             renderText={(value) => value}
                           />}
@@ -305,7 +309,7 @@ const onSocketListen = () => {
                       classes.__my_game_center_card_prize_pool_text
                     }
                   >
-                    {inProgress ? "Currently Winning" : "Prize Pool1"}
+                    {inProgress ? "Currently Winning" : "Prize Pool"}
                   </p>
                 </div>
 
@@ -389,7 +393,45 @@ const onSocketListen = () => {
                 </div>
               </>
 
-              
+              {/* today */}
+              <>
+                <div className={classes.__my_game_center_card_mobile_header}>
+                  {inProgress && (
+                    <div className={classes.__my_game_center_card_in_progress}>
+                      <div className={classes.__in_progress}>
+                        <span></span>In Progress
+                      </div>
+                    </div>
+                  )}
+                  {completed && (
+                    <div className={classes.__my_game_center_card_completed}>
+                      <div className={classes.__completed}>
+                        <span></span>Completed
+                      </div>
+                    </div>
+                  )}
+
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* <PrizeGrid
+                  getBackgroundImageWithStyle={getBackgroundImageWithStyle()}
+                  PrizePayout={PrizePayout}
+                  isMobile={isMobile}
+                  title={title}
+                  inProgress={inProgress}
+                /> */}
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true}/>
+              </>
+              {/* today */}
 
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>
@@ -537,12 +579,13 @@ const onSocketListen = () => {
               </>
             </Carousel>
           </div>
-          
+
           {leaveGameModal && (
             <LeaveGameModal
               isMobile={isMobile}
               title={title}
               onCancel={() => setLeaveGameModal(false)}
+              onLeave={() => onLeaveClick()}
             />
           )}
           {powerLearnMoreModal && (
@@ -672,8 +715,8 @@ const onSocketListen = () => {
               )}
 
               {!completed && (
-                <div style={{marginTop: 5}}>
-                    {game_set_start} | {start_time} ET
+                <div style={{ marginTop: 5 }}>
+                  {game_set_start} | {start_time} ET
                 </div>
               )}
 
@@ -693,8 +736,8 @@ const onSocketListen = () => {
                 />
               )}
               {completed && (
-                <div style={{marginTop: 5}}>
-                    {game_set_start} | {start_time} ET
+                <div style={{ marginTop: 5 }}>
+                  {game_set_start} | {start_time} ET
                 </div>
               )}
             </div>
@@ -723,7 +766,7 @@ const onSocketListen = () => {
                 </div>
               )}
 
-              <div> 
+              <div>
                 <span style={{
                   marginLeft: 25,
                   color: "#688fbd",
@@ -766,11 +809,12 @@ const onSocketListen = () => {
               <LeaveGameModal
                 title={title}
                 onCancel={() => setLeaveGameModal(false)}
+                onLeave={() => onLeaveClick()}
               />
             )}
-            
+
           </div>
-          
+
         ) : (
           <ViewResults
             title={title}

@@ -49,8 +49,20 @@ const ContestRules = (props) => {
     const d = new Date(props.game_set_start);
   const groupedPoints = _.groupBy(props.points, 'type');
   return (
-    <div className={classes.__contest_rules}>
-      <p className={classes.__contest_rules_main_title}>Contest Rules</p>
+    <div className={`
+      ${
+        props.isMobileGameCenter?classes.__contest_rules_gamecenter:classes.__contest_rules
+      }
+    `}>
+      {props.isMobileGameCenter?(
+        <p className={classes.__contest_rules_main_title}>
+          <span>MLB</span>
+          <span style={{color: "orange"}}> PowerdFS </span>
+          <span className={classes.subtitle}>Contest Rules</span></p>
+      ):(
+        <p className={classes.__contest_rules_main_title}>Contest Rules</p>
+      )}
+      
       <ul>
           <li><span>${props.prize}</span> Prize Pool</li>
           <li>Live Play <span>Powers</span> included with entry fee</li>
