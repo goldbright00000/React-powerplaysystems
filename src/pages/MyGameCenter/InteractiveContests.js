@@ -315,7 +315,7 @@ const InteractiveContests = (props) => {
       <div className="__table-wrapper __mb-6">
         <div className={`${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam">
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
               {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
