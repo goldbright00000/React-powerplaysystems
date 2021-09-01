@@ -13,7 +13,7 @@ import {
   redirectTo,
   getDaysFromToday,
   setLocalStorage,
-  getLocalStorage
+  getLocalStorage,
 } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
@@ -260,15 +260,20 @@ const InteractiveContests = (props) => {
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
           game_id={item?.game_id}
-          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.time
+          }
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={item?.game?.status === 'In-Progress' ? true : false}
-          completed={item?.game?.status === 'Completed' ? true : false}
-          editPicks={item?.game?.status === 'Activated' ? true : false}
-
+          inProgress={item?.game?.status === "In-Progress" ? true : false}
+          completed={item?.game?.status === "Completed" ? true : false}
+          editPicks={item?.game?.status === "Activated" ? true : false}
           // inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
           //   item?.game?.game_set_start + " " + item?.game?.start_time,
           //   moment(item?.game?.game_set_end)
@@ -335,10 +340,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -441,13 +446,25 @@ const InteractiveContests = (props) => {
             var subFiltered = [];
             if (filteredData.length > 0) {
               filteredData.map(function (power) {
-                if (contentType === "In Progress" && power.game.status === 'In-Progress') {
+                if (
+                  contentType === "In Progress" &&
+                  power.game.status === "In-Progress"
+                ) {
                   subFiltered.push(power);
-                } else if (contentType === 'Completed' && power.game.status === 'Completed') {
+                } else if (
+                  contentType === "Completed" &&
+                  power.game.status === "Completed"
+                ) {
                   subFiltered.push(power);
-                } else if (contentType === "Not Started" && power.game.status === 'Activated') {
+                } else if (
+                  contentType === "Not Started" &&
+                  power.game.status === "Activated"
+                ) {
                   subFiltered.push(power);
-                } else if (contentType === 'All Active' && power.game.status !== 'Completed') {
+                } else if (
+                  contentType === "All Active" &&
+                  power.game.status !== "Completed"
+                ) {
                   subFiltered.push(power);
                 }
 
