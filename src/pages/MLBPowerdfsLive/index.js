@@ -279,7 +279,7 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 4)
       );
-      if (requests.payload[0] == 1) {
+      if (requests.payload) {
         setPowers();
         onPowerApplied({
           fantasyTeamId: selectedTeam.team_id,
@@ -327,7 +327,7 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 6)
       );
-      if (requests.payload[0]) {
+      if (requests.payload) {
         setPowers();
         onPowerApplied({
           fantasyTeamId: selectedTeam.team_id,
@@ -616,7 +616,7 @@ function MLBPowerdFsLive(props) {
   };
 
   const onPowerApplied = (data) => {
-    console.log(data);
+    console.log("Power applied",data);
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
