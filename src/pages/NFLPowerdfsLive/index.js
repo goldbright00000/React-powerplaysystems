@@ -271,6 +271,7 @@ function NFLPowerdFsLive(props) {
               team={item}
               compressedView={compressedView}
               key={index + ""}
+              currentPlayerList={data}
             />
           ) : (
             <SportsLiveCard
@@ -282,6 +283,7 @@ function NFLPowerdFsLive(props) {
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
               cardType={CardType.NFL}
+              currentPlayerList={data}
             />
           )}
         </>

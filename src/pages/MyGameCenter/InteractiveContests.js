@@ -13,7 +13,7 @@ import {
   redirectTo,
   getDaysFromToday,
   setLocalStorage,
-  getLocalStorage
+  getLocalStorage,
 } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
@@ -229,10 +229,16 @@ const InteractiveContests = (props) => {
   };
 
   const getLocalDateTime = (date, time) => {
+    console.log(date, time);
     const localDateTime = moment(
-      moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()
+      moment
+        .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+        .zone("America/New_York")
+        .toDate()
     ).format("YYYY-MM-DD=hh:mm A");
     const splitted = localDateTime.split("=");
+
+    console.log(localDateTime);
     return {
       date: splitted[0],
       time: splitted[1],
@@ -260,8 +266,14 @@ const InteractiveContests = (props) => {
           percent={item?.game?.percent}
           game_type={item?.game?.game_type}
           game_id={item?.game_id}
-          game_set_start={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
+              ?.time
+          }
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
@@ -330,10 +342,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -467,8 +479,8 @@ const InteractiveContests = (props) => {
                       moment().format("YYYY-MM-DD hh:mm A")
                     ).isBetween(
                       power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
+                        " " +
+                        power?.game?.start_time,
                       power?.game?.game_set_end + " 11:59 PM"
                     );
                   } else if (contentType === "Completed") {
@@ -487,8 +499,8 @@ const InteractiveContests = (props) => {
                       moment().format("YYYY-MM-DD hh:mm A")
                     ).isBetween(
                       power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
+                        " " +
+                        power?.game?.start_time,
                       power?.game?.game_set_end + " 11:59 PM"
                     );
                     var a2 = power?.game?.status === "Activated";
