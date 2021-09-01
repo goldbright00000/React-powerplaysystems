@@ -123,7 +123,7 @@ const PowerCenterMobileCard = (props) => {
                 </p>
               ) : (
                 <p>
-                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" style={{width: 'auto'}}/></span>
+                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry"/></span>
                 </p>
               )}
             </div>

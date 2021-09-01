@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 import Banner from "../../components/mobilecomponents/Banner";
-import Header from "../../components/mobilecomponents/Header";
+import Header from "../../components/Header/Header";
 import LiveMatch from "../../components/mobilecomponents/LiveMatch/LiveMatch";
 import Tabs from "../../components/mobilecomponents/Tabs/Tabs";
 import ThreeBoxes from "../../components/mobilecomponents/ThreeBoxes";

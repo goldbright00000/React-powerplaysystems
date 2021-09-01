@@ -39,3 +39,54 @@
     color: #688fbd !important;
   }
 }
+.__contest_rules_gamecenter {
+  margin-left: 20px;
+  margin-right: 20px;
+  font-size: 12px;
+  text-align: left;
+  
+  .__contest_rules_main_title {
+    width: 100%;
+    height: 23px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-family: Poppins;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: $grey2;
+    text-decoration: none;
+    text-align: left;
+    font-size: 18px;
+    color: #f2f2f2;
+    .subtitle {
+      opacity: 0.5;
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+
+  ul {
+        list-style-image: url('../../assets/correct-copy-3.png');
+        padding-left: 20px;
+        li {
+            margin: 10px 0px;
+            &::marker {
+                height: 10px;
+            }
+            span {
+                color: #688fbd
+            }
+        }
+  }
+
+  a {
+    color: #688fbd !important;
+    text-align: right !important;
+    text-decoration: underline !important;
+    display: block;
+    margin-top: 20px;
+  }
+}
