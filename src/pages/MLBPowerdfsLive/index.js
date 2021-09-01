@@ -89,7 +89,7 @@ function MLBPowerdFsLive(props) {
   });
   const [playerToSwap, setPlayerToSwap] = useState({});
 
-  const [swapCounts, setSwapCounts] = useState(999);
+  const [swapCounts, setSwapCounts] = useState(0);
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
   const [pointMultiplierCounts, setPointMultiplierCounts] = useState(0);
@@ -189,7 +189,7 @@ function MLBPowerdFsLive(props) {
       }
     }
     setChallengeCounts(challenge);
-    // setSwapCounts(swap);
+    setSwapCounts(swap);
     setDwallCounts(dwall);
     setPointMultiplierCounts(point_booster);
     setRetroBoostCounts(retro_boost);
@@ -299,7 +299,6 @@ function MLBPowerdFsLive(props) {
   async function useDwall(action) {
     if (action) {
       const current_match_id = selectedTeam.players[0].match_id;
-      console.log("current match_id:",current_match_id);
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 5)
       );
@@ -310,7 +309,7 @@ function MLBPowerdFsLive(props) {
           matchId: current_match_id,
           powerId: 5,
           userId: userId,
-          gameId: game_id,
+          gameId: gameId,
         });
       } else {
         alert(
@@ -398,7 +397,6 @@ function MLBPowerdFsLive(props) {
     _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
       gameId: gameId,
     });
-
     //ON_FANTASY_LOGS_REQUEST
     _socket.emit(ON_FANTASY_LOGS_REQUEST, {
       fantasyTeamId: 172,
@@ -418,11 +416,6 @@ function MLBPowerdFsLive(props) {
     setLoading(true);
     _socket?.on(EMIT_ROOM, (res) => {
       const {
-        game_id = "",
-        score = 0,
-        sport_id = "",
-        status = null,
-        team_id = "",
         defense = [],
         players = [],
         power_dfs_team_rankings = [],
@@ -544,10 +537,7 @@ function MLBPowerdFsLive(props) {
   const onFantasyTeamUpdate = (res) => {
     const {
       log = {},
-      event = {},
-      fantasy_team = {},
       updated_player = {},
-      updated_team_defense = {},
     } = res?.data || {};
 
     const { fantasy_points_after = 0 } = log || {};
@@ -571,6 +561,7 @@ function MLBPowerdFsLive(props) {
     const _selectedXp = {
       xp,
     };
+    const current_match_id = selectedTeam.players[0].match_id;
     if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
@@ -578,9 +569,6 @@ function MLBPowerdFsLive(props) {
     indexOfPlayer = live_data?.indexOf(player);
     if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
-      // console.log(player);
-      // console.log("Selected Team: ",selectedTeam);
-      // throw new Error("line 582");
 
       live_data[indexOfPlayer] = player;
       let power = 0;
@@ -594,7 +582,6 @@ function MLBPowerdFsLive(props) {
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, power)
       );
-      console.log("FE, line 597, requests:",requests);
       // throw new Error("FOUND");
       if (requests.payload) {
         setPowers();
@@ -603,6 +590,7 @@ function MLBPowerdFsLive(props) {
           powerId: power,
           multiplier: _selectedXp.xpVal,
           playerId: player.player_id,
+          matchId: current_match_id,
           userId: userId,
           gameId: gameId,
         });
@@ -616,7 +604,6 @@ function MLBPowerdFsLive(props) {
   };
 
   const onPowerApplied = (data) => {
-    // console.log("Power applied",data);
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
