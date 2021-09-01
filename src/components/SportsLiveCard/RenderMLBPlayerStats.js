@@ -194,21 +194,6 @@ function RenderMLBPlayerStats(props) {
   return (
     <div className={classes.mlbPlayerStats}>
       <div className={classes.mlbPlayerStats_left}>
-        {!isEmpty(hitter) && (
-          <div className={classes.mlbPlayerStats_left_1}>
-            <div>
-              <BaseballStick />
-              <p className={largeView && classes.large_view}>
-                {formatName(hitterName)}
-              </p>
-            </div>
-            <span>
-              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{hPA} | B: {balls}|
-              S: {strikes}
-            </span>
-          </div>
-        )}
-
         {!isEmpty(pitcher) && type !== "P" && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
@@ -229,7 +214,22 @@ function RenderMLBPlayerStats(props) {
                 {formatName(pitcherName)}
               </p>
             </div>
-            {/* <span>ERA: {parseFloat(pERA).toFixed(2)}</span> */}
+            <span>ERA: {parseFloat(pERA).toFixed(2)}</span>
+          </div>
+        )}
+
+        {!isEmpty(hitter) && (
+          <div className={classes.mlbPlayerStats_left_1}>
+            <div>
+              <BaseballStick />
+              <p className={largeView && classes.large_view}>
+                {formatName(hitterName)}
+              </p>
+            </div>
+            <span>
+              {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{hPA} | B: {balls}|
+              S: {strikes}
+            </span>
           </div>
         )}
       </div>

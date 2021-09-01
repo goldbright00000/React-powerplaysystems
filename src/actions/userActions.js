@@ -301,3 +301,21 @@ export function removeCoinbaseLink() {
     dispatch({ type: REMOVE_COINBASE_REDIRECT_URL });
   };
 }
+
+export function requestBalanceWithdraw(data, changeModalState) {
+
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.WITHDRAW_REQUEST}`,
+        data
+      );
+
+      changeModalState();
+
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}

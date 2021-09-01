@@ -231,13 +231,16 @@ function NHLLivePowerdFsScroeDetail(props) {
         gameLogs[i]?.play?.outcome_id
       );
 
+      const isHitter =
+        gameLogs[i]?.play?.hitter_id ===
+        gameLogs[i]?.effected_player?.player_id;
       const rbi = rbiData.rbi || 0;
       const rbiPts = rbi === 1 ? 2 : rbi !== 0 ? rbi * 2 : 0;
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
       const hasRunners = gameLogs[i]?.play?.runners?.length ? true : false;
 
-      const playPts = getPoints(id, isPitcher, isAbOver, hasRunners);
+      const playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
 
       const totalScore = playPts + rbiPts + rsPts;
       gameLogs[i].totalScore = totalScore;
@@ -276,7 +279,12 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(false);
   };
 
-  const getPoints = (id, isPitcher = false, hasRunners = false) => {
+  const getPoints = (
+    id,
+    isPitcher = false,
+    hasRunners = false,
+    isHitter = false
+  ) => {
     if (
       id === "aD" ||
       id === "aDAD3" ||
@@ -288,7 +296,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     )
       return 5;
 
-    if (id === "aHR" && !hasRunners) return 10;
+    if (id === "aHR") return 10;
 
     if (
       id === "oGO" ||
@@ -328,12 +336,6 @@ function NHLLivePowerdFsScroeDetail(props) {
       id === "oSBT2" ||
       id === "oSBT3" ||
       id === "oSBT4" ||
-      id === "oSF" ||
-      id === "oSFT2" ||
-      id === "oSFT3" ||
-      id === "oSFT4" ||
-      id === "oST2" ||
-      id === "oST3" ||
       id === "oST4" ||
       id === "oTT4" ||
       id === "PO" ||
@@ -351,6 +353,17 @@ function NHLLivePowerdFsScroeDetail(props) {
       id === "CS3" ||
       id === "CS4" ||
       id === "RI"
+    )
+      return 1;
+
+    if (
+      (id === "oSF" ||
+        id === "oSFT2" ||
+        id === "oSFT3" ||
+        id === "oSFT4" ||
+        id === "oST2" ||
+        id === "oST3") &&
+      !isHitter
     )
       return 1;
 
@@ -407,15 +420,17 @@ function NHLLivePowerdFsScroeDetail(props) {
     let rs;
     for (let i = 0; i < runners?.length; i++) {
       if (id === "aHR") {
-        const [player] = gameLogs?.filter((p) => {
-          return p?.effected_player?.player_id === runners[i]?.player_id;
-        });
+        // const [player] = gameLogs?.filter((p) => {
+        //   return p?.effected_player?.player_id === runners[i]?.player_id;
+        // });
 
-        if (player) {
-          return { rs: 2 };
-        } else {
-          return { rs: 0 };
-        }
+        // if (player) {
+        //   return { rs: 1 };
+        // } else {
+        //   return { rs: 0 };
+        // }
+
+        return { rs: 1 };
       }
     }
 
