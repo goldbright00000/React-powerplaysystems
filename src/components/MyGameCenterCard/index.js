@@ -23,6 +23,7 @@ import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
+import ContestRules from "../PowerCenterCardDetails/ContestRules";
 
 
 import * as MLbActions from "../../actions/MLBActions";
@@ -319,7 +320,7 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_prize_pool_text
                     }
                   >
-                    {inProgress ? "Currently Winning" : "Prize Pool1"}
+                    {inProgress ? "Currently Winning" : "Prize Pool"}
                   </p>
                 </div>
 
@@ -403,7 +404,45 @@ const MyGameCenterCard = (props) => {
                 </div>
               </>
 
+              {/* today */}
+              <>
+                <div className={classes.__my_game_center_card_mobile_header}>
+                  {inProgress && (
+                    <div className={classes.__my_game_center_card_in_progress}>
+                      <div className={classes.__in_progress}>
+                        <span></span>In Progress
+                      </div>
+                    </div>
+                  )}
+                  {completed && (
+                    <div className={classes.__my_game_center_card_completed}>
+                      <div className={classes.__completed}>
+                        <span></span>Completed
+                      </div>
+                    </div>
+                  )}
 
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
+                    </div>
+                  )}
+                </div>
+                {/* <PrizeGrid
+                  getBackgroundImageWithStyle={getBackgroundImageWithStyle()}
+                  PrizePayout={PrizePayout}
+                  isMobile={isMobile}
+                  title={title}
+                  inProgress={inProgress}
+                /> */}
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true}/>
+              </>
+              {/* today */}
 
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>

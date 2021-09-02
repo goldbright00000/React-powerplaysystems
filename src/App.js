@@ -164,6 +164,7 @@ const App = (props) => {
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
           <Route path="/users-gateway" component={UsersPaymentGateway} />
+          <Route path="/livee" component={LiveStanding} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}

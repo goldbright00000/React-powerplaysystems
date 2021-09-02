@@ -68,6 +68,7 @@ function SportsLiveCard(props) {
     isHomeRun = false,
     gameInfo = {},
     pointXpCount = {},
+    currentPlayerList = [],
   } = props || {};
 
   const { game: { game_id: gameId } = {}, userId, teamId, sportId } =
@@ -184,7 +185,7 @@ function SportsLiveCard(props) {
   // }
 
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
-
+ 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
@@ -230,7 +231,10 @@ function SportsLiveCard(props) {
         ) {
           const _time = moment(date_time).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
-            (data) => `${data?.time}` === _time && data?.playerId !== player_id
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player_id &&
+              currentPlayerList[index]?.player_id !== player_id
           );
 
           const _dataToRender = {
@@ -372,7 +376,7 @@ function SportsLiveCard(props) {
 
   const isGameOverOrNotStarted = () => {
     return (
-      `${status}`.toLocaleUpperCase() === "scheduled" ||
+      `${status}`?.toLocaleLowerCase() === "scheduled" ||
       getStatus() === "Game Over"
     );
   };
@@ -937,6 +941,7 @@ SportsLiveCard.propTypes = {
   updateReduxState: PropTypes.func,
   gameInfo: PropTypes.object,
   pointXpCount: PropTypes.object,
+  currentPlayerList: PropTypes.array,
 };
 
 export default SportsLiveCard;
