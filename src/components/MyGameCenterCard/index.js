@@ -143,6 +143,7 @@ const MyGameCenterCard = (props) => {
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isCompleted, setCompleted] = React.useState(0);
 
@@ -201,8 +202,18 @@ const MyGameCenterCard = (props) => {
     return backgroundImageStyle;
   };
 
-  const onLeaveClick = () => {
+  const onLeaveClick = async () => {
     console.log('onLeaveClick', game_id, localStorage.PERSONA_USER_ID);
+    setIsLoading(true);
+
+    if (game_id && localStorage.PERSONA_USER_ID) {
+      // TODO: Fix user_id issue
+      const payload = {
+        game_id: game_id,
+        user_id: localStorage.PERSONA_USER_ID,
+      };
+
+    }
   }
 
   return (
