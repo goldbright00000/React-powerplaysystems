@@ -10,7 +10,7 @@ import SwapStarter from "../SwapStarter/SwapStarter";
 import "./live_match.scss";
 import RankIcon from "../../../icons/Ranks/RankIcon";
 
-const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank }) => {
+const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank, counts }) => {
   const [modal, setModal] = useState(false);
 
   const [priceGrid, setPriceGrid] = useState(false);
@@ -67,6 +67,7 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWin
         priceModal={priceModal}
         swapModal={swapModal}
         setModal={setModal}
+        counts={counts}
       />
       <BoosterPopUp secondModal={secondModal} boostModal={boostModal} />
       <PrizeGrid priceGrid={priceGrid} priceModal={priceModal} />
