@@ -48,6 +48,8 @@ const PowerCenterCard = (props) => {
         userHasEntered = false,
     } = props || {};
 
+    console.log("props", props);
+
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
             backgroundRepeat: 'no-repeat',

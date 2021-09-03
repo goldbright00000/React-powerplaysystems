@@ -10,6 +10,7 @@ export const URLS = {
   },
   USER: {
     BALANCE: "/users/account/balance",
+    WITHDRAW_REQUEST: "users/balance-withdraw",
     SMALL_TOKEN: "users/account/balance/token",
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
     CONVERSION_MARKUP_VALUE: "users/conversion-rate",
@@ -31,7 +32,14 @@ export const URLS = {
     GET_USERS_POWERS: "/dfs/get-user-power",
     UPDATE_USERS_POWERS: "/dfs/update-user-power",
     NFL: "/dfs/nfl-selection",
+    NFL_SAVE_PLAYERS: "/dfs/nfl-save-players",
+    NFL_EDIT_TEAM_PLAYER: "dfs/nfl-edit-team-player",
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
+    MLB_DELETE_PLAYERS: "/dfs/mlb-delete-players",
+    DELETE_ADMIN_FEE: "admin/delete-admin-fee",
+    RETURN_USER_BALANCE: "admin/return-user-balance",
+    RETURN_USER_BALANCE: "admin/return-user-balance",
+
   },
   GAMES: {
     ALL_POWER_GAMES: "admin/games",

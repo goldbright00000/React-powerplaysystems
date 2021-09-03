@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import classes from "./index.module.scss";
 import Button from "../Button";
@@ -16,14 +17,20 @@ import Modal from "../Modal";
 import Input from "../Input";
 import Checkbox from "../Checkbox";
 import Select from "../Select";
+import { getCountries, getStates, getProvinces, getLocalStorage } from "../../utility/shared";
 import {
   getDays,
+  getMonths,
   getMonthDays,
   getYearsList,
   printLog,
 } from "../../utility/shared";
+import {
+  getPersonaUserId,
+} from "../../actions/personaActions";
 import { CONSTANTS } from "../../utility/constants";
 import DepositAmountPopUp from "../DepositAmountPopUp/DepositAmountPopUp";
+import { requestBalanceWithdraw } from "../../actions/userActions";
 
 const ListTitle = (Icon, isSvg, title) => {
   let width = 34,
@@ -107,14 +114,17 @@ function BalanceInfoComponent(props) {
     region: '',
     postCode: '',
     fname: '',
-    lanme: '',
+    lname: '',
     day: 10,
     month: 10,
     year: 1998,
   });
 
+  const dispatch = useDispatch();
+
   const [showModal, setModalState] = useState(false);
   const [activeForm, setActiveForm] = useState(0);
+  const [isInvalid, setInvalid] = useState(false);
 
   const { isMobile = false } = props || {};
   const { balance = {} } = props || {};
@@ -124,14 +134,22 @@ function BalanceInfoComponent(props) {
   }, []);
 
   const changeInputHandler = (e) => {
-    const { target: { value = "", name = "" } = {} } = e || {};
+    const { target: { value = "", name = "", min, max } = {} } = e || {};
 
-    setForm({ ...form, [name]: value });
+    if (name === 'balance_amount') {
+      if (parseInt(value) >= parseInt(min) && parseInt(value) <= parseInt(max)) {
+        setForm({ ...form, [name]: value })
+        setInvalid(false);
+      } else {
+        setInvalid(true);
+      }
+    } else {
+      setForm({ ...form, [name]: value });
+    }
   };
 
   const handleCheckBox = (e) => {
     const { target: { checked = false, name = "" } = {} } = e || {};
-
     setForm({ ...form, [name]: checked });
   };
 
@@ -146,12 +164,15 @@ function BalanceInfoComponent(props) {
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+
     if (isMobile && activeForm !== 2) {
       let _active = activeForm;
       setActiveForm(_active + 1);
       return;
+    } else if (!isMobile || (isMobile && activeForm === 2)) {
+      const user_id = getPersonaUserId()
+      dispatch(requestBalanceWithdraw({ ...form, user_id }, changeModalState));
     }
-
   };
 
   const handleBack = () => {
@@ -161,6 +182,28 @@ function BalanceInfoComponent(props) {
     }
   };
 
+  const getStatesOrProvinces = () => {
+    if (form?.country === "USA") {
+      return getStates();
+    } else if (form?.country === "Canada") {
+      return getProvinces();
+    } else {
+      return [];
+    }
+  };
+
+  const checkValid = () => {
+    if (form?.addr1.length > 0 && form?.balance_amount > 0 && form?.country.length > 0 &&
+      form?.day.length > 0 && form?.fname.length > 0 && form?.lname.length > 0 &&
+      form?.month.length > 0 && form?.postCode.length > 0 && form?.region.length > 0 &&
+      form?.region.length > 0 && form?.send_to.length > 0 && form?.termsAndConditions && form?.year) {
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <>
       {/* {props.openDepositModal && (
@@ -169,7 +212,7 @@ function BalanceInfoComponent(props) {
       <div className={`${classes.list_header_wrapper}`}>
         {ListHeader(
           "My Cash Balance",
-          balance.cashBalance.toFixed(2),
+          balance.cashBalance?.toFixed(2),
           "Deposit",
           () => props.openDepositModal(),
           "Withdraw",
@@ -193,7 +236,7 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "BTC Balance",
-          balance.btcBalance.toFixed(4),
+          balance.btcBalance?.toFixed(4),
           "Deposit",
           () => props.openDepositModal("BTC"),
           "Transfer",
@@ -205,7 +248,7 @@ function BalanceInfoComponent(props) {
         )}
         {ListHeader(
           "ETH Balance",
-          balance.ethBalance.toFixed(4),
+          balance.ethBalance?.toFixed(4),
           "Deposit",
           () => props.openDepositModal("ETH"),
           "Transfer",
@@ -259,6 +302,9 @@ function BalanceInfoComponent(props) {
                       white
                       bordered
                       required
+                      min={25}
+                      max={500}
+                      is_invalid={isInvalid}
                     />
                   </div>
 
@@ -332,7 +378,27 @@ function BalanceInfoComponent(props) {
                 >
                   <div>
                     <label>Country</label>
-                    <CountryDropdown
+                    <select
+                      id="country"
+                      name="country"
+                      className={`${classes.form_dropdown_main} ${classes.form_dropdown}`}
+                      title="Country"
+                      value={form?.country}
+                      onChange={(e) =>
+                        handleCountryRegion({ name: "country", value: e.target.value })
+                      }
+                    >
+                      <option hidden disabled value="">
+                        Country
+                      </option>
+                      {getCountries().map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+
+                    {/* <CountryDropdown
                       classes={`${classes.form_dropdown_main} ${classes.form_dropdown}`}
                       value={form?.country}
                       onChange={(val) =>
@@ -341,12 +407,31 @@ function BalanceInfoComponent(props) {
                       required
                       name="country"
                       valueType="short"
-                    />
+                    /> */}
                   </div>
 
                   <div className={`${classes.margin_l_40}`}>
-                    <label>Provinence</label>
-                    <RegionDropdown
+                    <label>Province/State</label>
+                    <select
+                      className={`${classes.form_dropdown_main} ${classes.form_dropdown}`}
+                      id="region"
+                      name="region"
+                      title="State/Province"
+                      value={form?.region}
+                      onChange={(e) =>
+                        handleCountryRegion({ name: "region", value: e.target.value })
+                      }
+                    >
+                      <option hidden disabled value="">
+                        Province/State
+                      </option>
+                      {getStatesOrProvinces().map((opt) => (
+                        <option key={opt} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </select>
+                    {/* <RegionDropdown
                       classes={`${classes.form_dropdown_main} ${classes.form_dropdown}`}
                       country={form?.country}
                       value={form?.region}
@@ -355,13 +440,13 @@ function BalanceInfoComponent(props) {
                       }
                       required
                       name="region"
-                    />
+                    /> */}
                   </div>
 
                   <div className={`${classes.margin_l_40}`}>
                     <label>Postal Code</label>
                     <Input
-                      type="number"
+                      type="text"
                       placeholder="Postal Code"
                       value={form?.postCode}
                       name="postCode"
@@ -425,34 +510,8 @@ function BalanceInfoComponent(props) {
                 <div
                   className={`${classes.form_control} ${classes.margin_t_10}`}
                 >
-                  <div className={classes.form_Input_50}>
-                    <Select
-                      data={getDays()}
-                      value={form?.day}
-                      name="day"
-                      onChange={changeInputHandler}
-                      label="Day"
-                      white
-                      required
-                    />
-                  </div>
-
                   <div
-                    className={`${classes.form_Input_50} ${classes.margin_l_40}`}
-                  >
-                    <Select
-                      data={getMonthDays()}
-                      value={form?.month}
-                      name="month"
-                      onChange={changeInputHandler}
-                      label="Month"
-                      white
-                      required
-                    />
-                  </div>
-
-                  <div
-                    className={`${classes.form_Input_50} ${classes.margin_l_40}`}
+                    className={classes.form_Input_50}
                   >
                     <Select
                       data={getYearsList()}
@@ -464,14 +523,42 @@ function BalanceInfoComponent(props) {
                       required
                     />
                   </div>
+
+                  <div
+                    className={`${classes.form_Input_50} ${classes.margin_l_40}`}
+                  >
+                    <Select
+                      data={getMonths()}
+                      value={form?.month}
+                      name="month"
+                      onChange={changeInputHandler}
+                      label="Month"
+                      white
+                      required
+                    />
+                  </div>
+                  <div
+                    className={`${classes.form_Input_50} ${classes.margin_l_40}`}
+                  >
+                    <Select
+                      data={getMonthDays(`${form?.year}-${form?.month}`)}
+                      value={form?.day}
+                      name="day"
+                      onChange={changeInputHandler}
+                      label="Day"
+                      white
+                      required
+                    />
+                  </div>
+
+
                 </div>
-                <div
-                  className={`${classes.form_control} ${classes.margin_t_10}`}
-                >
+                <div className={`${classes.form_control} ${classes.margin_t_10}`}>
                   <Checkbox
                     checked={form?.termsAndConditions}
                     onChange={handleCheckBox}
                     name="termsAndConditions"
+                    styles={{ color: 'black' }}
                     label={
                       <>
                         I agree to PowerPlay Systems{" "}
@@ -494,9 +581,10 @@ function BalanceInfoComponent(props) {
                     title={
                       isMobile && activeForm !== 2 ? "Next" : "Withdraw Cash"
                     }
+                    styles={{ opacity: checkValid() ? 1 : 0.5 }}
                     block
                     type={CONSTANTS.BUTTON_TYPE.SUBMIT}
-                    onClick={handleFormSubmit}
+                    onClick={checkValid() && handleFormSubmit}
                   />
                 </div>
               </div>

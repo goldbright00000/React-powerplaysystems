@@ -119,7 +119,18 @@ export function mlbData(gameId) {
         sport_id,
       };
     } catch (err) {
-      return err;
+      dispatch({
+        type: MLB_DATA,
+        payload: { filterdList: [], allData: [] },
+        game_id: 0,
+        sport_id: 0,
+      });
+      return {
+        filterdList: [],
+        allData: [],
+        game_id: 0,
+        sport_id: 0
+      };
     }
   };
 }
@@ -536,3 +547,78 @@ export function getLiveStandings(game_id) {
     }
   };
 }
+
+//leave game delete data
+
+export function deleteLivePageTeam(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await http.delete(URLS.DFS.MLB_DELETE_PLAYERS, payload);
+      const { message = "", error = false } = response.data || {};
+      if (!error && message === "Success") {
+        //get the live page players and save them in redux
+        try {
+          if (!payload.game_id || !payload.user_id) {
+            return alert(
+              "Invalid informations",
+              payload.game_id,
+              payload.user_id,
+            );
+          }
+        } catch (er) { }
+      }
+    } catch (err) { }
+  };
+}
+
+export function deleteAdminFee(user_id, game_id) {
+  console.log('deleteAdminFee', user_id, game_id);
+  return async (dispatch) => {
+    try {
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.DELETE_ADMIN_FEE}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function returnUserBalance(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.RETURN_USER_BALANCE}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+
+//delete on leave game
+export function returnPrizePool(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.DFS.RETURN_PRIZE_POOL}`,
+        {
+          user_id,
+          game_id,
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+

@@ -8,6 +8,7 @@
         display: flex;
         margin-left: 10px;
         cursor: pointer;
+        justify-content
 
         .__custom_drop_down_wrapper_header_title {
             height: 23px;
@@ -71,3 +72,12 @@
         }
     }
 }
+
+// @media (max-width: 414px) {
+//     .__custom_drop_down_wrapper {
+//         .__custom_drop_down_wrapper_header {
+//             display: unset;
+//             margin-left: 0;
+//         }
+//     }
+// }

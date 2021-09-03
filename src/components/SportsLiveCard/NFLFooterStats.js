@@ -6,7 +6,7 @@ function NFLFooterStats(props) {
   const RenderState = ({ title, state }) => (
     <div className={classes.nfl_stat}>
       <p className={classes.title_p}>{title}</p>
-      <div>
+      <div className={classes.nfl_stat_value}>
         <p>{state}</p>
       </div>
     </div>

@@ -78,6 +78,7 @@ function SingleView(props) {
                   playerList={playerList}
                   updateReduxState={updateReduxState}
                   starPlayerCount={starPlayerCount}
+                  currentPlayerList={data}
                 />
               )}
             </>
@@ -93,6 +94,7 @@ function SingleView(props) {
           playerList={playerList}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
+          currentPlayerList={data}
         />
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
       </div>
