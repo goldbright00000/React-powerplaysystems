@@ -188,8 +188,10 @@ export function getDaysFromToday() {
     if (i === 0) {
       daysFromToday.push({ value: "Today", label: "Today" });
     } else {
-      let day = moment().add(i, "d").format("ddd, MMM DD");
-      daysFromToday.push({ value: day, label: day });
+      let day = moment().add(i, "d").format("ddd,MMM DD");
+      let val = moment().add(i, "d").format("ddd,YYYY MMM DD");
+
+      daysFromToday.push({ value: val, label: day });
     }
   }
   return daysFromToday;

@@ -24,6 +24,9 @@ import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
 import ContestRules from "../PowerCenterCardDetails/ContestRules";
+import * as MLBActions from "../../actions/MLBActions";
+import { isEmpty } from "lodash";
+import { printLog, redirectTo } from "../../utility/shared";
 
 
 import * as MLbActions from "../../actions/MLBActions";
@@ -206,14 +209,29 @@ const MyGameCenterCard = (props) => {
   const onLeaveClick = async () => {
     console.log('onLeaveClick', game_id, localStorage.PERSONA_USER_ID);
     setIsLoading(true);
+    let user_id = localStorage.PERSONA_USER_ID;
 
-    if (game_id && localStorage.PERSONA_USER_ID) {
+    if (game_id && user_id) {
       // TODO: Fix user_id issue
       const payload = {
         game_id: game_id,
-        user_id: localStorage.PERSONA_USER_ID,
-      };
+        user_id: user_id,
 
+      };
+      console.log("game id==>", game_id);
+      await dispatch(MLBActions.returnPrizePool(user_id, game_id));
+      console.log('dispatch', user_id, game_id);
+      await dispatch(MLBActions.deleteAdminFee(user_id, game_id));
+      await dispatch(MLBActions.returnUserBalance(user_id, game_id));
+      await dispatch(MLBActions.deleteLivePageTeam(payload));
+      // if (isPaid || isPaid === null) {
+      //   if (currency !== 'PWRS') {
+      //   }
+      // }
+      // setIsLoading(false);
+
+      redirectTo(props, { path: "/my-game-center" });
+      setIsLoading(false);
     }
   }
 
@@ -440,7 +458,7 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true}/>
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} />
               </>
               {/* today */}
 
