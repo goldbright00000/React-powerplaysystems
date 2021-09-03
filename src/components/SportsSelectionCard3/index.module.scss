@@ -1657,7 +1657,7 @@
       align-items: center;
 
       .container_selected_p {
-        font-size: var(--font-size-18);
+        font-size: var(--font-size-15);
         padding: 0;
         margin: unset;
         color: $lightBlue;
@@ -1665,7 +1665,7 @@
         font-weight: 600;
 
         span {
-          font-size: var(--font-size-18);
+          font-size: var(--font-size-15);
           font-weight: 900;
           font-style: italic;
           text-transform: uppercase;
@@ -1682,7 +1682,7 @@
         display: flex;
         align-items: flex-start;
         justify-content: flex-start;
-        transform: translate(-12px, 0);
+        transform: translate(0, 0);
 
         span {
           color: $danger2;

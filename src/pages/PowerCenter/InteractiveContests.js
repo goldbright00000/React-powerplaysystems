@@ -323,7 +323,7 @@ const InteractiveContests = (props) => {
     }
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
-    if (enoughBalance || item?.is_game_free) {
+    if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
           if(item.game_type == "PowerdFs_challenge")

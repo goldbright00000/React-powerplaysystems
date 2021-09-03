@@ -13,7 +13,6 @@ import { useDispatch } from "react-redux";
 import * as MLBActions from '../../actions/MLBActions';
 
 function App(props) {
-  console.log("props", props);
   const { data = [], ranks = {} } = props || {};
 
   const [state, setState] = useState(1);
@@ -109,6 +108,7 @@ function App(props) {
             swapModal={swapModal}
             data={data}
             ranks={ranks}
+            counts={props.counts}
           />
         );
       case 2:
@@ -136,6 +136,7 @@ function App(props) {
         currentWinnings={currentWinnings}
         currentRank={currentRank}
         leader={leader}
+        counts={props.counts}
       />
     </section>
   );
