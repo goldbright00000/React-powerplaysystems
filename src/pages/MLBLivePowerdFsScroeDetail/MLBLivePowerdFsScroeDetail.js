@@ -99,14 +99,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       return redirectTo(props, { path: "/my-game-center" });
     }
     _socket = socket();
-    return function cleanUP() {
-      //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB);
-      _socket?.on(ON_ROOM_UN_SUB, () => {
-        _socket?.disconnect();
-        _socket = null;
-      });
-    };
+    // return function cleanUP() {
+    //   //disconnect the socket
+    //   _socket?.emit(ON_ROOM_UN_SUB);
+    //   _socket?.on(ON_ROOM_UN_SUB, () => {
+    //     _socket?.disconnect();
+    //     _socket = null;
+    //   });
+    // };
   }, []);
 
   React.useEffect(async () => {

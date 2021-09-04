@@ -105,6 +105,8 @@ function MLBPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
+  
+
   const {
     live_data = [],
     starPlayerCount = 0,
@@ -356,19 +358,19 @@ function MLBPowerdFsLive(props) {
   useEffect(async () => {
     _socket = socket();
     setPowers();
-    return function cleanUP() {
-      isMatchUpdate = false;
+    // return function cleanUP() {
+    //   isMatchUpdate = false;
 
-      //reset logs
-      dispatch(MLBActions.setGameLogs([]));
+    //   //reset logs
+    //   dispatch(MLBActions.setGameLogs([]));
 
-      //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB);
-      _socket?.on(ON_ROOM_UN_SUB, () => {
-        _socket?.disconnect();
-        _socket = null;
-      });
-    };
+    //   //disconnect the socket
+    //   _socket?.emit(ON_ROOM_UN_SUB);
+    //   _socket?.on(ON_ROOM_UN_SUB, () => {
+    //     _socket?.disconnect();
+    //     _socket = null;
+    //   });
+    // };
   }, []);
 
   useEffect(() => {
@@ -976,7 +978,9 @@ function MLBPowerdFsLive(props) {
           />
         </>
       ) : (
-        <Mobile data={live_data} ranks={ranks} />
+        <>
+        <Mobile data={live_data} ranks={ranks} counts={swapCounts}/>
+        </>
       )}
     </>
   );
