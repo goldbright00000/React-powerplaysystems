@@ -323,13 +323,49 @@ const InteractiveContests = (props) => {
     }
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
-    if (enoughBalance || item?.is_game_free) {
+    if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
           if(item.game_type == "PowerdFs_challenge")
           {
-            onOpenPromoModal(item, props);
-            return;
+            if(isMobile)
+            {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: item?.end_date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                },
+              });
+            }
+            else {
+              onOpenPromoModal(item, props);
+              return;
+            }
           }
           return redirectTo(props, {
             path: `/mlb-select-team`,
@@ -400,7 +436,6 @@ const InteractiveContests = (props) => {
           return redirectTo(props, { path: "/" });
       }
     } else {
-      console.log('In else')
       setHaveBalance(false);
       setShowDepositModal();
     }
@@ -543,6 +578,7 @@ const InteractiveContests = (props) => {
     }
   }
   function filterCurrency(arr) {
+    console.log("arr", arr);
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
@@ -562,6 +598,7 @@ const InteractiveContests = (props) => {
       var startDate = moment(power?.start_date + " " + s).format(
         "YYYY-MM-DD hh:mm A"
       );
+      console.log("startDate", startDate);
       var endDate = moment(power?.end_date + " 11:59 PM").format(
         "YYYY-MM-DD hh:mm A"
       );
@@ -679,7 +716,7 @@ const InteractiveContests = (props) => {
       <div className="__table-wrapper __mb-6">
         <div className={isMobile || isTablet ? "" : "__flex"}>
           <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam">
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
               {filters.map((item, index) => {
                 return (
                   <div
@@ -714,9 +751,12 @@ const InteractiveContests = (props) => {
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
-              <p>
+              <p onClick={() => {
+                  Sorter("Most Popular");
+                }}>
                 Most Popular
-                <FilledArrow down={true} />
+                <FilledArrow down={sortedByMPAction === "asc" ? false : true}
+                  up={sortedByMPAction === "asc" ? true : false} />
               </p>
             </div>
             <div className={classes.__interactive_contests_date}>
@@ -864,12 +904,14 @@ const InteractiveContests = (props) => {
               const numberOfRows = Math.ceil(
                 powerCenterCardData.length / itemsInaRow
               );
+              var filterByCurrency = filterCurrency(filteredData);
+              var a1 = sortArray(filterByCurrency);
               const powerCenterMobileCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
                   const start = (i + 1) * itemsInaRow - 1;
                   const end = (i + 1) * itemsInaRow;
-                  const items = filteredData.slice(start, end);
+                  const items = a1.slice(start, end);
                   return (
                     <div
                       className={
@@ -890,12 +932,14 @@ const InteractiveContests = (props) => {
               const numberOfRows = Math.ceil(
                 powerCenterCardData.length / itemsInaRow
               );
+              var filterByCurrency = filterCurrency(filteredData);
+              var a1 = sortArray(filterByCurrency);
               const powerCenterCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
                   const start = (i + 1) * itemsInaRow - 2;
                   const end = (i + 1) * itemsInaRow;
-                  const items = filteredData.slice(start, end);
+                  const items = a1.slice(start, end);
                   return (
                     <div
                       className={

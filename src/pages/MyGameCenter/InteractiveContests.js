@@ -13,6 +13,7 @@ import {
   redirectTo,
   getDaysFromToday,
   setLocalStorage,
+  getLocalStorage,
 } from "../../utility/shared";
 import CustomDropDown from "../../components/CustomDropDown";
 import MyGameCenterCard from "../../components/MyGameCenterCard";
@@ -144,7 +145,8 @@ const InteractiveContests = (props) => {
   // }, []);
 
   useEffect(() => {
-    dispatch(MLbActions.getUserGames(user.user_id));
+    const user_id = getLocalStorage("PERSONA_USER_ID");
+    dispatch(MLbActions.getUserGames(user_id));
   }, [dispatch, user]);
 
   useEffect(() => {
@@ -269,31 +271,35 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.game?.PointsSystems}
           Power={item?.game?.Powers}
           PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-            item?.game?.game_set_start + " " + item?.game?.start_time,
-            moment(item?.game?.game_set_end)
-              .add(1, "day")
-              .format("YYYY-MM-DD") + " 02:00 AM"
-          )}
-          completed={moment(moment().format("YYYY-MM-DD")).isAfter(
-            moment(item?.game?.game_set_end)
-              .add(1, "day")
-              .format("YYYY-MM-DD") + " 02:00 AM"
-          )}
-          editPicks={
-            item?.players?.length > 0 &&
-            !moment(moment().format("YYYY-MM-DD")).isAfter(
-              moment(item?.game?.game_set_end)
-                .add(1, "day")
-                .format("YYYY-MM-DD") + " 02:00 AM"
-            ) &&
-            !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-              item?.game?.game_set_start + " " + item?.game?.start_time,
-              moment(item?.game?.game_set_end)
-                .add(1, "day")
-                .format("YYYY-MM-DD") + " 02:00 AM"
-            )
-          }
+          inProgress={item?.game?.status === "In-Progress" ? true : false}
+          completed={item?.game?.status === "Completed" ? true : false}
+          editPicks={item?.game?.status === "Activated" ? true : false}
+          // inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+          //   item?.game?.game_set_start + " " + item?.game?.start_time,
+          //   moment(item?.game?.game_set_end)
+          //     .add(1, "day")
+          //     .format("YYYY-MM-DD") + " 02:00 AM"
+          // )}
+          // completed={moment(moment().format("YYYY-MM-DD")).isAfter(
+          //   moment(item?.game?.game_set_end)
+          //     .add(1, "day")
+          //     .format("YYYY-MM-DD") + " 02:00 AM"
+          // )}
+
+          // editPicks={
+          //   item?.players?.length > 0 &&
+          //   !moment(moment().format("YYYY-MM-DD")).isAfter(
+          //     moment(item?.game?.game_set_end)
+          //       .add(1, "day")
+          //       .format("YYYY-MM-DD") + " 02:00 AM"
+          //   ) &&
+          //   !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
+          //     item?.game?.game_set_start + " " + item?.game?.start_time,
+          //     moment(item?.game?.game_set_end)
+          //       .add(1, "day")
+          //       .format("YYYY-MM-DD") + " 02:00 AM"
+          //   )
+          // }
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}
@@ -317,9 +323,9 @@ const InteractiveContests = (props) => {
   return (
     <>
       <div className="__table-wrapper __mb-6">
-        <div className={`__flex ${classes.__ic_scroll}`}>
+        <div className={`${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam">
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
               {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
@@ -334,10 +340,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -365,7 +371,6 @@ const InteractiveContests = (props) => {
                 options={contentTypes}
                 onChange={(selectedOption) => setContentType(selectedOption)}
               />
-              123
             </div>
           ) : (
             <>
@@ -441,74 +446,96 @@ const InteractiveContests = (props) => {
             var subFiltered = [];
             if (filteredData.length > 0) {
               filteredData.map(function (power) {
-                if (selectedDate === "Today") {
-                  var m = moment().format("YYYY-MM-DD");
-                } else {
-                  var m = moment(
-                    selectedDate + " " + moment().format("YYYY")
-                  ).format("YYYY-MM-DD");
+                if (
+                  contentType === "In Progress" &&
+                  power.game.status === "In-Progress"
+                ) {
+                  subFiltered.push(power);
+                } else if (
+                  contentType === "Completed" &&
+                  power.game.status === "Completed"
+                ) {
+                  subFiltered.push(power);
+                } else if (
+                  contentType === "Not Started" &&
+                  power.game.status === "Activated"
+                ) {
+                  subFiltered.push(power);
+                } else if (
+                  contentType === "All Active" &&
+                  power.game.status !== "Completed"
+                ) {
+                  subFiltered.push(power);
                 }
-                var sDate = m + " 00:00";
-                var eDate = m + " 23:59";
-                var s = power?.game?.start_time;
-                s = "0" + s;
-                s = s.slice(-8);
-                s = s.split(/(?=[A-Z]{2})/).join(" ");
-                var startDate = moment(
-                  power?.game?.start_date + " " + s
-                ).format("YYYY-MM-DD hh:mm A");
-                var endDate = moment(
-                  power?.game?.end_date + " 11:59 PM"
-                ).format("YYYY-MM-DD hh:mm A");
-                var isBetween1 = moment(startDate).isBetween(sDate, eDate);
-                if (contentType === "Completed" || selectedDate === "All") {
-                  isBetween1 = 1;
-                }
-                if (isBetween1) {
-                  var a = false;
-                  if (contentType === "In Progress") {
-                    var a = moment(
-                      moment().format("YYYY-MM-DD hh:mm A")
-                    ).isBetween(
-                      power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
-                      power?.game?.game_set_end + " 11:59 PM"
-                    );
-                  } else if (contentType === "Completed") {
-                    var a = moment(moment().format("YYYY-MM-DD")).isAfter(
-                      power?.game?.game_set_end
-                    );
-                  } else if (contentType === "Not Started") {
-                    var s = power?.game?.start_time;
-                    s = "0" + s;
-                    s = s.slice(-8);
-                    var a = moment(
-                      moment().format("YYYY-MM-DD hh:mm A")
-                    ).isBefore(power?.game?.game_set_start + " " + s);
-                  } else if (contentType === "All Active") {
-                    var a1 = moment(
-                      moment().format("YYYY-MM-DD hh:mm A")
-                    ).isBetween(
-                      power?.game?.game_set_start +
-                      " " +
-                      power?.game?.start_time,
-                      power?.game?.game_set_end + " 11:59 PM"
-                    );
-                    var a2 = power?.game?.status === "Activated";
-                    var a3 = moment(moment().format("YYYY-MM-DD")).isAfter(
-                      power?.game?.game_set_end
-                    );
-                    if (a3 === true) {
-                      a = false;
-                    } else {
-                      var a = a1 === true || a2 === true;
-                    }
-                  }
-                  if (a) {
-                    subFiltered.push(power);
-                  }
-                }
+
+                // if (selectedDate === "Today") {
+                //   var m = moment().format("YYYY-MM-DD");
+                // } else {
+                //   var m = moment(
+                //     selectedDate + " " + moment().format("YYYY")
+                //   ).format("YYYY-MM-DD");
+                // }
+                // var sDate = m + " 00:00";
+                // var eDate = m + " 23:59";
+                // var s = power?.game?.start_time;
+                // s = "0" + s;
+                // s = s.slice(-8);
+                // s = s.split(/(?=[A-Z]{2})/).join(" ");
+                // var startDate = moment(
+                //   power?.game?.start_date + " " + s
+                // ).format("YYYY-MM-DD hh:mm A");
+                // var endDate = moment(
+                //   power?.game?.end_date + " 11:59 PM"
+                // ).format("YYYY-MM-DD hh:mm A");
+                // var isBetween1 = moment(startDate).isBetween(sDate, eDate);
+                // if (contentType === "Completed" || selectedDate === "All") {
+                //   isBetween1 = 1;
+                // }
+                // if (isBetween1) {
+                //   var a = false;
+                //   if (contentType === "In Progress") {
+                //     var a = moment(
+                //       moment().format("YYYY-MM-DD hh:mm A")
+                //     ).isBetween(
+                //       power?.game?.game_set_start +
+                //       " " +
+                //       power?.game?.start_time,
+                //       power?.game?.game_set_end + " 11:59 PM"
+                //     );
+                //   } else if (contentType === "Completed") {
+                //     var a = moment(moment().format("YYYY-MM-DD")).isAfter(
+                //       power?.game?.game_set_end
+                //     );
+                //   } else if (contentType === "Not Started") {
+                //     var s = power?.game?.start_time;
+                //     s = "0" + s;
+                //     s = s.slice(-8);
+                //     var a = moment(
+                //       moment().format("YYYY-MM-DD hh:mm A")
+                //     ).isBefore(power?.game?.game_set_start + " " + s);
+                //   } else if (contentType === "All Active") {
+                //     var a1 = moment(
+                //       moment().format("YYYY-MM-DD hh:mm A")
+                //     ).isBetween(
+                //       power?.game?.game_set_start +
+                //       " " +
+                //       power?.game?.start_time,
+                //       power?.game?.game_set_end + " 11:59 PM"
+                //     );
+                //     var a2 = power?.game?.status === "Activated";
+                //     var a3 = moment(moment().format("YYYY-MM-DD")).isAfter(
+                //       power?.game?.game_set_end
+                //     );
+                //     if (a3 === true) {
+                //       a = false;
+                //     } else {
+                //       var a = a1 === true || a2 === true;
+                //     }
+                //   }
+                //   if (a) {
+                //     subFiltered.push(power);
+                //   }
+                // }
               });
             }
             const myGameCenterCardView = Array(numberOfRows)

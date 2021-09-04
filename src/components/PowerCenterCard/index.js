@@ -48,6 +48,8 @@ const PowerCenterCard = (props) => {
         userHasEntered = false,
     } = props || {};
 
+    console.log("props", props);
+
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
             backgroundRepeat: 'no-repeat',
@@ -195,16 +197,17 @@ const PowerCenterCard = (props) => {
                                 </p>
                             )}
                         </div>
+                        <div> 
+                            <span style={{
+                            marginLeft: 25,
+                            color: "#688fbd",
+                            fontSize: 14
+                            }}>{id}</span>
+                        </div>
                         <div className={classes.__power_center_card_details}>
                             <div className={classes.__power_center_card_details_link} onClick={() => {
                                 onDetailsClick(id)
                             }}>
-                                <span style={{
-                                    marginRight: 10,
-                                    color: "grey",
-                                    textDecoration: "none",
-                                    display: "inline-block"
-                                }}>{id}</span>
                                 Details
                             </div>
                             <div className={classes.__power_center_card_details_link_forward_arrow}>

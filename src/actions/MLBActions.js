@@ -119,7 +119,18 @@ export function mlbData(gameId) {
         sport_id,
       };
     } catch (err) {
-      return err;
+      dispatch({
+        type: MLB_DATA,
+        payload: { filterdList: [], allData: [] },
+        game_id: 0,
+        sport_id: 0,
+      });
+      return {
+        filterdList: [],
+        allData: [],
+        game_id: 0,
+        sport_id: 0
+      };
     }
   };
 }
@@ -280,9 +291,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 

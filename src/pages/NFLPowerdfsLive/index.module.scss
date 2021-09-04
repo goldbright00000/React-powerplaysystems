@@ -111,9 +111,10 @@
           display: flex;
           flex-wrap: wrap;
           width: 280px;
-          min-height: 360px;
+          //height: 360px;
           justify-content: space-between;
           align-items: center;
+          margin-bottom: 11px;
 
           .sidebar_content_p {
             display: flex;
@@ -123,7 +124,7 @@
             flex-grow: 1;
             justify-content: center;
             align-items: center;
-            margin: 25px 10px;
+            margin: 10px 10px;
 
             .sidebar_power_header {
               display: flex;
@@ -223,6 +224,34 @@
         }
       }
     }
+  }
+}
+
+.myScoreDiv {
+  width: 148px !important;
+  height: 70px;
+  margin: 1px 0px -15px 87.7%;
+  padding: 16px 20px 0px 15px !important;
+  border-radius: 10px;
+  border: solid 2px #000;
+  background-color: #17181a;
+  flex-direction: row !important;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: right;
+  color: #fb6e00;
+  font-size: 14px;
+  span {
+    font-family: Teko;
+    font-size: 28px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: right;
+    margin-top: -7px;
+    margin-left: 10px;
   }
 }
 

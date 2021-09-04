@@ -5,12 +5,14 @@
 
   .stick {
     position: sticky;
-    top: 67px;
+    top: 50px;
     z-index: 200;
     background-color: #1e1e1e;
+    height: 50px;
+    padding-top: 10px;
 
     .details {
-      padding: 0;
+      padding: 0 15px 0;
     }
   }
 

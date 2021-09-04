@@ -54,7 +54,7 @@ const data2 = [
     }
 ];
 
-const PointSystem = (props) => {
+const Pitchers = (props) => {
     const {
         title = '',
         PointsSystem = [],
@@ -63,6 +63,11 @@ const PointSystem = (props) => {
     } = props || {};
 
     const groupedPoints = _.groupBy(PointsSystem, 'type');
+
+    const teamDData = groupedPoints["Team_D"];
+    const pitcherData = groupedPoints["Pitcher"];
+
+    
     const typeOne = Object.keys(groupedPoints)[0];
     const typeTwo = Object.keys(groupedPoints)[1];
 
@@ -84,8 +89,8 @@ const PointSystem = (props) => {
             <div className={classes.__point_system_data_container}>
                 <div className={classes.__point_system_data_content}>
                     <>
-                        <div className={classes.__point_system_heading}>{typeOne}</div>
-                        {groupedPoints[typeOne]?.map((item, index) => {
+                        <div className={classes.__point_system_heading}>{teamDData?"Team_D":""}</div>
+                        {teamDData && teamDData.map((item, index) => {
                             if(index < 5) {
                                 return (
                                     <div className={classes.__point_system_data} key={index}>
@@ -103,9 +108,9 @@ const PointSystem = (props) => {
                 </div>
                 <div className={classes.__point_system_data_content}>
                     <>
-                        <div className={classes.__point_system_heading}></div>
-                        {groupedPoints[typeOne]?.map((item, index) => {
-                            if(index >= 5) {
+                        <div className={classes.__point_system_heading}>{pitcherData?"Pitcher":""}</div>
+                        {pitcherData && pitcherData.map((item, index) => {
+                            if(index < 5) {
                                 return (
                                     <div className={classes.__point_system_data} key={index}>
                                         <div className={classes.__point_system_data_title_div}>
@@ -126,4 +131,4 @@ const PointSystem = (props) => {
     );
 };
 
-export default PointSystem;
+export default Pitchers;

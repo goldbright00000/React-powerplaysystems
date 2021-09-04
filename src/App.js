@@ -59,6 +59,8 @@ import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
 import MLBRecharge from "./pages/MLBRecharge";
 import { isEmpty } from "lodash";
 
+import ChallengePage from "./pages/PowerCenter/ChallengePage";
+
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
   const override = css`
@@ -120,6 +122,7 @@ const App = (props) => {
             component={SponserAContestPage}
           />
           <Route path="/power-center" component={PowerCenter} />
+          <Route path="/challenge-page" component={ChallengePage} />
           <Route path="/select-teams" component={SelectTeams} />
           <Route path="/powerbet-live" component={PowerBetLive} />
           <Route path="/bingo-pre-game" component={BingoPreGame} />
@@ -161,6 +164,7 @@ const App = (props) => {
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
           <Route path="/users-gateway" component={UsersPaymentGateway} />
+          <Route path="/livee" component={LiveStanding} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}

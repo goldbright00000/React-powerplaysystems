@@ -29,6 +29,7 @@ function RenderMLBPlayerStats(props) {
     balls = 0,
     batting_average = 0,
     showPitcher = false,
+    isPitching = false,
   } = props || {};
 
   const {
@@ -193,6 +194,30 @@ function RenderMLBPlayerStats(props) {
   return (
     <div className={classes.mlbPlayerStats}>
       <div className={classes.mlbPlayerStats_left}>
+        {!isEmpty(pitcher) && type !== "P" && (
+          <div className={classes.mlbPlayerStats_left_1}>
+            <div>
+              <Baseball />
+              <p className={largeView && classes.large_view}>
+                {formatName(pitcherName)}
+              </p>
+            </div>
+            <span>ERA: {parseFloat(pERA).toFixed(2)}</span>
+          </div>
+        )}
+
+        {!isEmpty(pitcher) && type === "P" && isPitching && (
+          <div className={classes.mlbPlayerStats_left_1}>
+            <div>
+              <Baseball />
+              <p className={largeView && classes.large_view}>
+                {formatName(pitcherName)}
+              </p>
+            </div>
+            <span>ERA: {parseFloat(pERA).toFixed(2)}</span>
+          </div>
+        )}
+
         {!isEmpty(hitter) && (
           <div className={classes.mlbPlayerStats_left_1}>
             <div>
@@ -205,18 +230,6 @@ function RenderMLBPlayerStats(props) {
               {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/{hPA} | B: {balls}|
               S: {strikes}
             </span>
-          </div>
-        )}
-
-        {!isEmpty(pitcher) && type !== "P" && (
-          <div className={classes.mlbPlayerStats_left_1}>
-            <div>
-              <Baseball />
-              <p className={largeView && classes.large_view}>
-                {formatName(pitcherName)}
-              </p>
-            </div>
-            <span>ERA: {parseFloat(pERA).toFixed(2)}</span>
           </div>
         )}
       </div>
@@ -237,6 +250,7 @@ RenderMLBPlayerStats.propTypes = {
   batting_average: PropTypes.number,
   strikes: PropTypes.number,
   balls: PropTypes.number,
+  isPitching: PropTypes.bool,
 };
 
 export default RenderMLBPlayerStats;

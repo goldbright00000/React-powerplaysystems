@@ -3,7 +3,7 @@ import { CONSTANTS } from "./constants";
 import moment from "moment";
 
 export function redirectTo(props, { path = "/", state = {} }) {
-  const { history: { push = () => {} } = {} } = props || {};
+  const { history: { push = () => { } } = {} } = props || {};
   if (!isEmpty(state)) return push(path, state);
   return push(path);
 }
@@ -141,7 +141,7 @@ export function removeLocalStorage(key) {
   return localStorage.removeItem(key);
 }
 
-export function removeToken() {}
+export function removeToken() { }
 
 export function validateEmail(email) {
   const regx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -169,16 +169,15 @@ export function getDays() {
   for (let i = 0; i < weekDays.length; i++) {
     days.push({ name: weekDays[i], value: weekDays[i] });
   }
-
   return days;
 }
 
-export function getMonthDays() {
+export function getMonthDays(m) {
+  var result = moment(m, "YYYY-MMM").daysInMonth()
   const month = [];
-  for (let i = 1; i <= 31; i++) {
+  for (let i = 1; i <= result; i++) {
     month.push({ name: i, value: i });
   }
-
   return month;
 }
 
@@ -194,6 +193,25 @@ export function getDaysFromToday() {
     }
   }
   return daysFromToday;
+}
+
+
+export function getMonths() {
+  const months = [];
+
+  moment.monthsShort().map((i) => {
+    months.push({ name: i, value: i });
+  })
+  return months;
+}
+
+export function getYears() {
+  const years = [];
+  let year = new Date().getFullYear();
+  for (let i = year; i > 1920; i--) {
+    years.push(i);
+  }
+  return year;
 }
 
 export function getCountries() {
@@ -279,17 +297,6 @@ export function getProvinces() {
     "Yukon Territory",
   ];
 }
-export function getMonths() {
-  return moment.monthsShort();
-}
-export function getYears() {
-  const years = [];
-  let year = new Date().getFullYear();
-  for (let i = year; i > 1920; i--) {
-    years.push(i);
-  }
-  return year;
-}
 
 /**
  * @param {Text} text
@@ -333,4 +340,19 @@ export const removeZeroBeforeDecimalPoint = (value = 0) => {
 
 export const getTimeZone = () => {
   return moment?.tz(moment?.tz?.guess())?.zoneAbbr();
+};
+
+export const getNumberSuffix = (number = 0) => {
+  var j = number % 10,
+    k = number % 100;
+  if (j == 1 && k != 11) {
+    return number + "st";
+  }
+  if (j == 2 && k != 12) {
+    return number + "nd";
+  }
+  if (j == 3 && k != 13) {
+    return number + "rd";
+  }
+  return number + "th";
 };

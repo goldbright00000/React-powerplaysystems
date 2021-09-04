@@ -105,6 +105,8 @@ function MLBPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
+  
+
   const {
     live_data = [],
     starPlayerCount = 0,
@@ -356,19 +358,19 @@ function MLBPowerdFsLive(props) {
   useEffect(async () => {
     _socket = socket();
     setPowers();
-    return function cleanUP() {
-      isMatchUpdate = false;
+    // return function cleanUP() {
+    //   isMatchUpdate = false;
 
-      //reset logs
-      dispatch(MLBActions.setGameLogs([]));
+    //   //reset logs
+    //   dispatch(MLBActions.setGameLogs([]));
 
-      //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB);
-      _socket?.on(ON_ROOM_UN_SUB, () => {
-        _socket?.disconnect();
-        _socket = null;
-      });
-    };
+    //   //disconnect the socket
+    //   _socket?.emit(ON_ROOM_UN_SUB);
+    //   _socket?.on(ON_ROOM_UN_SUB, () => {
+    //     _socket?.disconnect();
+    //     _socket = null;
+    //   });
+    // };
   }, []);
 
   useEffect(() => {
@@ -414,6 +416,7 @@ function MLBPowerdFsLive(props) {
   const onSocketListen = () => {
     //fetch data first time
     setLoading(true);
+    
     _socket?.on(EMIT_ROOM, (res) => {
       const {
         defense = [],
@@ -422,6 +425,8 @@ function MLBPowerdFsLive(props) {
         game_logs = [],
       } = res?.data || {};
 
+      console.log("res?.data", power_dfs_team_rankings[0]);
+
       const teamD = defense[0] || {};
       setRanks(power_dfs_team_rankings[0] || {});
       if (players && players?.length) {
@@ -429,10 +434,15 @@ function MLBPowerdFsLive(props) {
       }
 
       const _gameLogs = [...game_logs];
-      const sortedGameLogs = _gameLogs.sort(
-        (a, b) =>
-          new Date(a?.play?.created_at).getTime() -
-          new Date(b?.play?.created_at).getTime()
+      const sortedGameLogs = _gameLogs.sort((a, b) =>
+        a?.play === null && b?.play !== null
+          ? new Date(a?.created_at).getTime() -
+            new Date(b?.created_at).getTime()
+          : a?.play !== null && b?.play === null
+          ? new Date(a?.play?.created_at).getTime() -
+            new Date(b?.created_at).getTime()
+          : new Date(a?.play?.created_at).getTime() -
+            new Date(b?.play?.created_at).getTime()
       );
 
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
@@ -506,6 +516,8 @@ function MLBPowerdFsLive(props) {
       ..._ranks,
       score: _totalScore,
     });
+
+    console.log("PLAYER: ", playersArr);
 
     dispatch(MLBActions.mlbLiveData(playersArr));
   };
@@ -850,7 +862,20 @@ function MLBPowerdFsLive(props) {
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
                   >
-                    <img src={FooterImage} alt="" />
+                    {/* <img src={FooterImage} alt="" /> */}
+                    <a
+                      href="https://fanatics.93n6tx.net/c/2068372/1126094/9663"
+                      target="_blank"
+                      id="1126094"
+                    >
+                      <img
+                        src="https://a.impactradius-go.com/display-ad/9663-1126094"
+                        border="0"
+                        alt=""
+                        width="1000"
+                        height="640"
+                      />
+                    </a>
                     <div style={{ position: "absolute", bottom: 0, right: 5 }}>
                       {selectedTeam.game_id}
                     </div>
@@ -953,7 +978,9 @@ function MLBPowerdFsLive(props) {
           />
         </>
       ) : (
-        <Mobile data={live_data} ranks={ranks} />
+        <>
+        <Mobile data={live_data} ranks={ranks} counts={swapCounts}/>
+        </>
       )}
     </>
   );

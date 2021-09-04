@@ -77,7 +77,7 @@ const DepositAmountPopUp = (props) => {
                           Minimum Deposit: <b>No Minimum</b>
                         </p>
                         <p className=" text-dark">
-                          Maximum Deposit: <b>$1000.00 USD</b>
+                          Maximum Deposit: <b>$500.00 USD</b>
                         </p>
                       </div>
                       <div>

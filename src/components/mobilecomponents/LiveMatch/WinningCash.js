@@ -1,13 +1,16 @@
 import React from "react";
 
-const WinningCash = () => {
+const WinningCash = (props) => {
+  const {
+    currentWinnings = 0
+  } = props || {};
   return (
     <div className="cash">
       <p>
         Currently <br />
         Winning
       </p>
-      <h2>$100,000</h2>
+      <h2>${currentWinnings}</h2>
     </div>
   );
 };

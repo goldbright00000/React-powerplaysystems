@@ -9,6 +9,7 @@ import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
 import StarPower from "../../assets/star_power.png";
 import {
+  getNumberSuffix,
   hasText,
   printLog,
   removeZeroBeforeDecimalPoint,
@@ -67,6 +68,7 @@ function SportsLiveCard(props) {
     isHomeRun = false,
     gameInfo = {},
     pointXpCount = {},
+    currentPlayerList = [],
   } = props || {};
 
   const { game: { game_id: gameId } = {}, userId, teamId, sportId } =
@@ -75,6 +77,8 @@ function SportsLiveCard(props) {
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
+
+  console.log("PLAYER: ", player);
 
   const {
     name = "",
@@ -227,7 +231,10 @@ function SportsLiveCard(props) {
         ) {
           const _time = moment(date_time).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
-            (data) => `${data?.time}` === _time && data?.playerId !== player_id
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player_id &&
+              currentPlayerList[index]?.player_id !== player_id
           );
 
           const _dataToRender = {
@@ -244,6 +251,10 @@ function SportsLiveCard(props) {
 
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
 
     let available = 0;
     if (type === "Swap Player") {
@@ -270,6 +281,11 @@ function SportsLiveCard(props) {
   }
   function isPowerLocked(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
+
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -310,7 +326,14 @@ function SportsLiveCard(props) {
   };
 
   const isPitching = () => {
-    return getCurrentInningHalf() === "t";
+    if ((type === "P" || type === "p") && player_id === pitcher?.player_id)
+      return true;
+    else if (
+      (type === "P" || type === "p") &&
+      player_id !== pitcher?.player_id &&
+      home_team.team_id === pitcher?.current_team
+    )
+      return true;
   };
 
   const getStatus = () => {
@@ -324,17 +347,38 @@ function SportsLiveCard(props) {
     ) {
       return "Game Over";
     } else if (
+      (!showEndThird() || !showMidThird()) &&
       (type === "P" || type === "p") &&
       player_id === pitcher?.player_id
     ) {
       return "Pitching";
-    } else if ((type === "P" || type === "p") && !isPitching()) {
+    } else if (
+      (!showEndThird() || !showMidThird()) &&
+      (type === "P" || type === "p") &&
+      !isPitching()
+    ) {
       return "Dugout";
-    } else if (player_id === hitter?.player_id && hitter) {
+    } else if (
+      (!showEndThird() || !showMidThird()) &&
+      player_id === hitter?.player_id &&
+      hitter
+    ) {
       return "Hitting";
-    }
+    } else if (
+      (showEndThird() || showMidThird()) &&
+      `${status}`.toLocaleUpperCase() === "inprogress"
+    )
+      return "In Progress";
+    else if (status === "inprogress") return "In Progress";
 
     return status;
+  };
+
+  const isGameOverOrNotStarted = () => {
+    return (
+      `${status}`?.toLocaleLowerCase() === "scheduled" ||
+      getStatus() === "Game Over"
+    );
   };
 
   const getCurrentInningHalf = () => {
@@ -347,13 +391,13 @@ function SportsLiveCard(props) {
     if (showMidThird()) {
       return (
         <div className={classes.third_text}>
-          <p>Mid 3rd</p>
+          <p>Mid {getNumberSuffix(current_inning)}</p>
         </div>
       );
     } else if (showEndThird()) {
       return (
         <div className={classes.third_text}>
-          <p>End 3rd</p>
+          <p>End {getNumberSuffix(current_inning)}</p>
         </div>
       );
     }
@@ -373,6 +417,7 @@ function SportsLiveCard(props) {
           largeView={compressedView || !compressedView}
           batting_average={removeZeroBeforeDecimalPoint(batting_average)}
           showImage={true}
+          isPitching={isPitching()}
           // {...props}
         />
       );
@@ -430,6 +475,7 @@ function SportsLiveCard(props) {
       <img
         className={`${classes.star_power} ${singleView && classes.mini_star}`}
         src={singleView ? MiniStar : StarPower}
+        alt=""
       />
     );
 
@@ -453,7 +499,7 @@ function SportsLiveCard(props) {
             renderXp()
           ) : (
             <Tooltip
-              disabled={getStatus() === "Game Over"}
+              disabled={isGameOverOrNotStarted()}
               toolTipContent={
                 <div className={classes.xp_icons}>
                   {isPowerAvailable("Point Booster") === 0 ? (
@@ -668,6 +714,7 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
+        {console.log("TYPE------------------- ", type)}
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
@@ -758,7 +805,11 @@ function SportsLiveCard(props) {
             <Replace size={singleView ? 23 : 22} />
           </div>
         ) : (
-          <Replace size={singleView ? 23 : 22} onClick={toggleReplaceModal} />
+          <Replace
+            size={singleView ? 23 : 22}
+            onClick={toggleReplaceModal}
+            className={isGameOverOrNotStarted() && classes.disabled}
+          />
         )
 
         // )
@@ -818,7 +869,7 @@ function SportsLiveCard(props) {
                       />
                     )}
 
-                    {/* {getStatus() === "Game Over" ? (
+                    {/* {isGameOverOrNotStarted() ? (
                       <>
                         <button className={classes.card_footer_btn}>
                           See your {!isEmpty(type1) ? type1 : type} scoring
@@ -890,6 +941,7 @@ SportsLiveCard.propTypes = {
   updateReduxState: PropTypes.func,
   gameInfo: PropTypes.object,
   pointXpCount: PropTypes.object,
+  currentPlayerList: PropTypes.array,
 };
 
 export default SportsLiveCard;
