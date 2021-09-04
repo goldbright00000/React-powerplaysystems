@@ -202,9 +202,9 @@ const InteractiveContests = (props) => {
   }
   const onOpenPromoModal = (items, propss) => {
     setShowPromoModal(true);
-    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
+    if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
-    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
+    if (JSON.stringify(propss) !== JSON.stringify(propsGame))
       setPropsGame(propss);
   }
 
@@ -326,10 +326,8 @@ const InteractiveContests = (props) => {
     if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
-          if(item.game_type == "PowerdFs_challenge")
-          {
-            if(isMobile)
-            {
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
               return redirectTo(props, {
                 path: `/challenge-page`,
                 state: {
@@ -711,6 +709,32 @@ const InteractiveContests = (props) => {
     );
   };
 
+  const setFilteredDataWithDate = (selectedOption) => {
+    let day = moment(selectedOption).format('YYYY-MM-DD')
+    const today = moment();
+    let data = []
+    if (selectedOption === "All") {
+      setFilteredData(powerCenterCardData)
+    }
+    else if (selectedOption === "Today") {
+      powerCenterCardData.map((item) => {
+
+        if (item?.start_date == today.format('YYYY-MM-DD')) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+    else {
+      powerCenterCardData.map((item) => {
+        if (item?.start_date == day) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+  }
+
   return (
     <>
       <div className="__table-wrapper __mb-6">
@@ -752,8 +776,8 @@ const InteractiveContests = (props) => {
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
               <p onClick={() => {
-                  Sorter("Most Popular");
-                }}>
+                Sorter("Most Popular");
+              }}>
                 Most Popular
                 <FilledArrow down={sortedByMPAction === "asc" ? false : true}
                   up={sortedByMPAction === "asc" ? true : false} />
@@ -890,9 +914,12 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption)
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -997,7 +1024,7 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
-        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
+        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame} />
       </div>
     </>
   );

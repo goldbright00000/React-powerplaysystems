@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 import formStyles from "../../scss/formstyles.module.scss";
 import styles from "./styles.module.scss";
@@ -12,12 +11,8 @@ import personaLogo from "../../assets/persona-logo.svg";
 import { Link } from "react-router-dom";
 import { redirectTo } from "../../utility/shared";
 import {
-  getPersonaUserId,
   removePersonaUserId,
 } from "../../actions/personaActions";
-import { showToast } from "../../actions/uiActions";
-import http from "../../config/http";
-import { URLS } from "../../config/urls";
 
 const getWindowDimensions = () => {
   const { innerWidth: width, innerHeight: height } = window;
@@ -31,7 +26,7 @@ const VerifyIdentityPage = (props) => {
   const [windowDimensions, setWindowDimensions] = React.useState(
     getWindowDimensions()
   );
-  const dispatch = useDispatch();
+
   const onVerifyLater = () => {
     removePersonaUserId();
     return redirectTo(props, { path: "login?signup=true" });
@@ -43,47 +38,6 @@ const VerifyIdentityPage = (props) => {
     );
     window.open(url);
   };
-
-  useEffect(() => {
-    let params = new URLSearchParams(props.location.search);
-    let inquiryId = params.get("inquiry-id");
-    if (inquiryId) {
-      let personaUserId = getPersonaUserId();
-      if (!personaUserId) {
-        dispatch(
-          showToast(
-            "There's is some error during verification. Please try again.",
-            "error"
-          )
-        );
-      } else {
-        console.log("You can go with the verification endpoint.");
-        let obj = { user_id: personaUserId, inquiry_id: inquiryId };
-
-        http
-          .post(URLS.USER.PERSONA_VERIFICATION, obj)
-          .then((res) => {
-            if (res.data.status === true) {
-              dispatch(showToast("Verification successfull. ", "success"));
-              removePersonaUserId();
-              redirectTo(props, { path: "login?signup=true" });
-            } else {
-              dispatch(showToast(res.data?.message, "error"));
-            }
-          })
-          .catch((err) => {
-            console.log(err.response);
-            dispatch(
-              showToast(
-                err?.response?.data?.message ||
-                  "Verification failed. Please try again.",
-                "error"
-              )
-            );
-          });
-      }
-    }
-  }, [dispatch, props]);
 
   React.useEffect(() => {
     const handleResize = () => {

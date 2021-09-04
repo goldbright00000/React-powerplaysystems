@@ -13,6 +13,13 @@ import {
   disableAuthLoading,
   showAuthLoading,
 } from "../../actions/authActions";
+import {
+  getPersonaUserId,
+  removePersonaUserId,
+} from "../../actions/personaActions";
+import { showToast } from "../../actions/uiActions";
+import http from "../../config/http";
+import { URLS } from "../../config/urls";
 import Alert from "../../components/Alert";
 import { isEmpty } from "lodash";
 import { getLocalStorage, redirectTo } from "../../utility/shared";
@@ -67,7 +74,7 @@ function LoginPage(props) {
   };
 
   useEffect(() => {
-    console.log("isIncorrectPassword: ", isIncorrectPassword);
+    // console.log("isIncorrectPassword: ", isIncorrectPassword);
   }, [isIncorrectPassword]);
 
   const redirect = () => {
@@ -99,6 +106,47 @@ function LoginPage(props) {
       Get Ready <br /> to Power-Up!
     </>
   );
+
+  useEffect(() => {
+    let params = new URLSearchParams(props.location.search);
+    let inquiryId = params.get("inquiry-id");
+    if (inquiryId) {
+      let personaUserId = getPersonaUserId();
+      if (!personaUserId) {
+        dispatch(
+          showToast(
+            "There's is some error during verification. Please try again.",
+            "error"
+          )
+        );
+      } else {
+        console.log("You can go with the verification endpoint.");
+        let obj = { user_id: personaUserId, inquiry_id: inquiryId };
+
+        http
+          .post(URLS.USER.PERSONA_VERIFICATION, obj)
+          .then((res) => {
+            if (res.data.status === true) {
+              dispatch(showToast("Verification successfull.", "success"));
+              removePersonaUserId();
+              redirectTo(props, { path: "login?signup=true" });
+            } else {
+              dispatch(showToast(res.data?.message, "error"));
+            }
+          })
+          .catch((err) => {
+            console.log(err.response);
+            dispatch(
+              showToast(
+                err?.response?.data?.message ||
+                "Verification failed. Please try again.",
+                "error"
+              )
+            );
+          });
+      }
+    }
+  }, [dispatch, props]);
 
   return (
     <div className={styles.root}>
