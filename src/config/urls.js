@@ -35,13 +35,9 @@ export const URLS = {
     NFL_SAVE_PLAYERS: "/dfs/nfl-save-players",
     NFL_EDIT_TEAM_PLAYER: "dfs/nfl-edit-team-player",
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
-    MLB_DELETE_PLAYERS: "/dfs/mlb-delete-players",
-    DELETE_ADMIN_FEE: "admin/delete-admin-fee",
-    RETURN_USER_BALANCE: "admin/return-user-balance",
-    RETURN_USER_BALANCE: "admin/return-user-balance",
-
   },
   GAMES: {
+    LEAVE_GAME: "admin/leave-game",
     ALL_POWER_GAMES: "admin/games",
   },
 };

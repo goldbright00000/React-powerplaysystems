@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CurrencyFormat from "react-currency-format";
+import { useHistory } from "react-router-dom";
 import classes from "./myGameCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
@@ -28,10 +29,11 @@ import * as MLBActions from "../../actions/MLBActions";
 import { isEmpty } from "lodash";
 import { printLog, redirectTo } from "../../utility/shared";
 
-
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
+
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     ON_ROOM_SUB,
@@ -207,30 +209,18 @@ const MyGameCenterCard = (props) => {
   };
 
   const onLeaveClick = async () => {
-    console.log('onLeaveClick', game_id, localStorage.PERSONA_USER_ID);
+
     setIsLoading(true);
     let user_id = localStorage.PERSONA_USER_ID;
 
     if (game_id && user_id) {
-      // TODO: Fix user_id issue
-      const payload = {
-        game_id: game_id,
-        user_id: user_id,
 
-      };
-      console.log("game id==>", game_id);
-      await dispatch(MLBActions.returnPrizePool(user_id, game_id));
-      console.log('dispatch', user_id, game_id);
-      await dispatch(MLBActions.deleteAdminFee(user_id, game_id));
-      await dispatch(MLBActions.returnUserBalance(user_id, game_id));
-      await dispatch(MLBActions.deleteLivePageTeam(payload));
-      // if (isPaid || isPaid === null) {
-      //   if (currency !== 'PWRS') {
-      //   }
-      // }
-      // setIsLoading(false);
+      const res = await dispatch(MLBActions.leaveGame(user_id, game_id));
+      if (res) {
+        history.push("/power-center");
 
-      redirectTo(props, { path: "/my-game-center" });
+        redirectTo(props, { path: "/power-center" });
+      }
       setIsLoading(false);
     }
   }
