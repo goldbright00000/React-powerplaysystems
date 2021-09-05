@@ -119,7 +119,18 @@ export function mlbData(gameId) {
         sport_id,
       };
     } catch (err) {
-      return err;
+      dispatch({
+        type: MLB_DATA,
+        payload: { filterdList: [], allData: [] },
+        game_id: 0,
+        sport_id: 0,
+      });
+      return {
+        filterdList: [],
+        allData: [],
+        game_id: 0,
+        sport_id: 0
+      };
     }
   };
 }
@@ -535,4 +546,23 @@ export function getLiveStandings(game_id) {
       console.log(err);
     }
   };
+}
+
+//leave game delete data
+
+export function leaveGame(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.LEAVE_GAME}`,
+        {
+          user_id,
+          game_id,
+        })
+      return true;
+    } catch (error) {
+
+      return false;
+
+    }
+  }
 }

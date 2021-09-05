@@ -202,9 +202,9 @@ const InteractiveContests = (props) => {
   }
   const onOpenPromoModal = (items, propss) => {
     setShowPromoModal(true);
-    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
+    if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
-    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
+    if (JSON.stringify(propss) !== JSON.stringify(propsGame))
       setPropsGame(propss);
   }
 
@@ -323,13 +323,11 @@ const InteractiveContests = (props) => {
     }
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
-    if (enoughBalance || item?.is_game_free) {
+    if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
-          if(item.game_type == "PowerdFs_challenge")
-          {
-            if(isMobile)
-            {
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
               return redirectTo(props, {
                 path: `/challenge-page`,
                 state: {
@@ -578,6 +576,7 @@ const InteractiveContests = (props) => {
     }
   }
   function filterCurrency(arr) {
+    console.log("arr", arr);
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
@@ -597,6 +596,7 @@ const InteractiveContests = (props) => {
       var startDate = moment(power?.start_date + " " + s).format(
         "YYYY-MM-DD hh:mm A"
       );
+      console.log("startDate", startDate);
       var endDate = moment(power?.end_date + " 11:59 PM").format(
         "YYYY-MM-DD hh:mm A"
       );
@@ -709,12 +709,38 @@ const InteractiveContests = (props) => {
     );
   };
 
+  const setFilteredDataWithDate = (selectedOption) => {
+    let day = moment(selectedOption).format('YYYY-MM-DD')
+    const today = moment();
+    let data = []
+    if (selectedOption === "All") {
+      setFilteredData(powerCenterCardData)
+    }
+    else if (selectedOption === "Today") {
+      powerCenterCardData.map((item) => {
+
+        if (item?.start_date == today.format('YYYY-MM-DD')) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+    else {
+      powerCenterCardData.map((item) => {
+        if (item?.start_date == day) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+  }
+
   return (
     <>
       <div className="__table-wrapper __mb-6">
         <div className={isMobile || isTablet ? "" : "__flex"}>
           <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam">
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
               {filters.map((item, index) => {
                 return (
                   <div
@@ -749,9 +775,12 @@ const InteractiveContests = (props) => {
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
-              <p>
+              <p onClick={() => {
+                Sorter("Most Popular");
+              }}>
                 Most Popular
-                <FilledArrow down={true} />
+                <FilledArrow down={sortedByMPAction === "asc" ? false : true}
+                  up={sortedByMPAction === "asc" ? true : false} />
               </p>
             </div>
             <div className={classes.__interactive_contests_date}>
@@ -885,9 +914,12 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption)
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -899,12 +931,14 @@ const InteractiveContests = (props) => {
               const numberOfRows = Math.ceil(
                 powerCenterCardData.length / itemsInaRow
               );
+              var filterByCurrency = filterCurrency(filteredData);
+              var a1 = sortArray(filterByCurrency);
               const powerCenterMobileCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
                   const start = (i + 1) * itemsInaRow - 1;
                   const end = (i + 1) * itemsInaRow;
-                  const items = filteredData.slice(start, end);
+                  const items = a1.slice(start, end);
                   return (
                     <div
                       className={
@@ -925,12 +959,14 @@ const InteractiveContests = (props) => {
               const numberOfRows = Math.ceil(
                 powerCenterCardData.length / itemsInaRow
               );
+              var filterByCurrency = filterCurrency(filteredData);
+              var a1 = sortArray(filterByCurrency);
               const powerCenterCardView = Array(numberOfRows)
                 .fill(undefined)
                 .map((item, i) => {
                   const start = (i + 1) * itemsInaRow - 2;
                   const end = (i + 1) * itemsInaRow;
-                  const items = filteredData.slice(start, end);
+                  const items = a1.slice(start, end);
                   return (
                     <div
                       className={
@@ -988,7 +1024,7 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
-        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
+        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame} />
       </div>
     </>
   );

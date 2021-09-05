@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import "./score_board.scss";
 import { removeZeroBeforeDecimalPoint } from "../../../utility/shared";
 import { isEmpty } from "lodash";
+import ChallengePopUp from "../../ChallengePopup";
+import DwallPopUp from "../../DwallPopup";
 const Slider = ({
   icons,
   double,
@@ -25,6 +27,8 @@ const Slider = ({
   otherIcons,
   boostModal,
   swapModal,
+  type,
+  index
 }) => {
   const {
     active: isHitterActive = false,
@@ -136,7 +140,7 @@ const Slider = ({
       <Col xs={10} className="pe-0">
         <div
           style={{ position: "relative" }}
-          id="carouselExampleIndicators"
+          id={`carouselExampleIndicators-${index}`}
           className="carousel slide"
         >
           <div
@@ -145,7 +149,7 @@ const Slider = ({
           >
             <button
               type="button"
-              data-bs-target="#carouselExampleIndicators"
+              data-bs-target={`#carouselExampleIndicators-${index}`}
               data-bs-slide-to="0"
               className="active"
               aria-current="true"
@@ -153,13 +157,13 @@ const Slider = ({
             ></button>
             <button
               type="button"
-              data-bs-target="#carouselExampleIndicators"
+              data-bs-target={`#carouselExampleIndicators-${index}`}
               data-bs-slide-to="1"
               aria-label="Slide 2"
             ></button>
             <button
               type="button"
-              data-bs-target="#carouselExampleIndicators"
+              data-bs-target={`#carouselExampleIndicators-${index}`}
               data-bs-slide-to="2"
               aria-label="Slide 3"
             ></button>
@@ -371,31 +375,78 @@ const Slider = ({
               : { padding: "55.3px 0" }
           }
         >
-          <img
-            onClick={
-              !otherIcons && !imageTochanged ? () => swapModal(true) : null
-            }
-            src={`${
-              imageTochanged && otherIcons
-                ? "/images/video.svg"
-                : "images/shafal.svg"
-            }`}
-            alt=""
-          />
-          <img
-            onClick={
-              !otherIcons && !imageTochanged ? () => boostModal(true) : null
-            }
-            className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
-            src={`${
-              imageTochanged && !otherIcons
-                ? "/images/2x.svg"
-                : otherIcons && imageTochanged
-                ? "/images/sheild.svg"
-                : "/images/xp.svg"
-            }`}
-            alt=""
-          />
+          {type == "D" ? (
+            <>
+              <ChallengePopUp
+                component={({ showPopUp }) => (
+                  <button
+                    onClick={showPopUp}
+                    style={{background: "none", borderWidth: 0}}
+                  >
+                    <img
+                      
+                      style={{width: 40, height: 40}}
+                      src={`${
+                        type == "D"
+                          ? "/images/challenge-power.svg"
+                          : "images/shafal.svg"
+                      }`}
+                      alt=""
+                    />
+                  </button>
+                )}
+                challenge={10}
+                useChallenge={() => {}}
+              />
+              <DwallPopUp
+                component={({ showPopUp }) => (
+                  <button style={{background: "none", borderWidth: 0}} onClick={showPopUp}>
+                    <img
+                      className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
+                      style={{width: 40}}
+                      src={`${
+                        "/images/sheild.svg"
+                      }`}
+                      alt=""
+                    />
+                  </button>
+                )}
+                dwall={10}
+                useDwall={() => {}}
+              />
+            </>
+          ) : (
+            <>
+              <img
+                  onClick={
+                    !otherIcons && !imageTochanged ? () => swapModal(true) : null
+                  }
+                  style={{width: 40, height: 40}}
+                  src={`${
+                    type == "D"
+                      ? "/images/challenge-power.svg"
+                      : "images/shafal.svg"
+                  }`}
+                  alt=""
+                />
+                <img
+                onClick={
+                  !otherIcons && !imageTochanged ? () => boostModal(true) : null
+                }
+                className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
+                style={{width: 40}}
+                src={`${
+                  imageTochanged && !otherIcons
+                    ? "/images/2x.svg"
+                    : type == "D"
+                    ? "/images/sheild.svg"
+                    : "/images/xp.svg"
+                }`}
+                alt=""
+              />
+            </>
+          )}
+          
           {icons && (
             <>
               <img className="pt-3" src="/images/retro-boost.svg" alt="" />

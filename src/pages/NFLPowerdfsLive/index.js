@@ -46,6 +46,8 @@ function NFLPowerdFsLive(props) {
   const [playerIds, setPlayerIds] = useState([]);
   const [data, setData] = useState([...dummy]);
 
+  console.log("DUMMY : : :", data);
+
   const {
     live_data: selectedData = [],
     data: mlbData = [],
@@ -119,12 +121,14 @@ function NFLPowerdFsLive(props) {
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
 
-    const indexOfPlayer = selectedData?.indexOf(player);
+    // const indexOfPlayer = selectedData?.indexOf(player);
+    const indexOfPlayer = data?.indexOf(player);
 
     if (indexOfPlayer) {
       player.xp = _selectedXp;
-      selectedData[indexOfPlayer] = player;
-      return dispatch(MLBActions.mlbLiveData(selectedData));
+      // selectedData[indexOfPlayer] = player;
+      data[indexOfPlayer] = player;
+      return dispatch(MLBActions.mlbLiveData(data));
     }
   };
 
@@ -151,20 +155,37 @@ function NFLPowerdFsLive(props) {
           <>
             <p>Share to unlock:</p>
             <div>
-              <button onClick={() => {
-                  var left = (window.screen.width / 2) - (600 / 2),
-                  top = (window.screen.height / 2) - (600 / 2);
-                window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-              }}>
+              <button
+                onClick={() => {
+                  var left = window.screen.width / 2 - 600 / 2,
+                    top = window.screen.height / 2 - 600 / 2;
+                  window.open(
+                    `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                    "targetWindow",
+                    "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                      left +
+                      ",top=" +
+                      top
+                  );
+                }}
+              >
                 <FacebookIcon />
               </button>
-            
-            
-              <button onClick={() => {
-                var left = (window.screen.width / 2) - (600 / 2),
-                top = (window.screen.height / 2) - (600 / 2);
-                window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,'targetWindow','toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left='+left+',top='+top);
-              }}>
+
+              <button
+                onClick={() => {
+                  var left = window.screen.width / 2 - 600 / 2,
+                    top = window.screen.height / 2 - 600 / 2;
+                  window.open(
+                    `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                    "targetWindow",
+                    "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                      left +
+                      ",top=" +
+                      top
+                  );
+                }}
+              >
                 <TwitterIcon />
               </button>
             </div>
@@ -196,7 +217,8 @@ function NFLPowerdFsLive(props) {
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
-    const _data = [...selectedData];
+    // const _data = [...selectedData];
+    const _data = [...data];
     const indexOfPlayer = _data && _data?.indexOf(currentPlayer);
     let _starPlayerCount = starPlayerCount;
 
@@ -249,6 +271,7 @@ function NFLPowerdFsLive(props) {
               team={item}
               compressedView={compressedView}
               key={index + ""}
+              currentPlayerList={data}
             />
           ) : (
             <SportsLiveCard
@@ -260,6 +283,7 @@ function NFLPowerdFsLive(props) {
               updateReduxState={updateReduxState}
               starPlayerCount={starPlayerCount}
               cardType={CardType.NFL}
+              currentPlayerList={data}
             />
           )}
         </>

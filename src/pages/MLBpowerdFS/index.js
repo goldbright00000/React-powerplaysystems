@@ -258,6 +258,7 @@ const prizeData = [
 
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
+let test = 0;
 
 function MLBPowerdFs(props) {
   const onGoBack = () => {
@@ -289,6 +290,7 @@ function MLBPowerdFs(props) {
   const [searchText, setSearchText] = useState("");
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
+  const [selectedStarPlayerCount, setSelectedStarPlayerCount] = useState(0);
 
   const [swapCounts, setSwapCounts] = useState(0);
   const [dwallCounts, setDwallCounts] = useState(0);
@@ -337,7 +339,6 @@ function MLBPowerdFs(props) {
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
-
   //reset the states
   useEffect(() => {
     dispatch(MLBActions.setStarPlayerCount(0));
@@ -562,6 +563,10 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
+    if(response.game_id == 0 && response.sport_id == 0 && response.filterdList.length == 0 && response.allData.length == 0)
+    {
+      return;
+    }
     if (response) {
       setData(response?.filterdList);
 
@@ -621,7 +626,14 @@ function MLBPowerdFs(props) {
         );
         _selected = res.selected;
         _playerList = [...res._playersList];
-        dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+        var a = dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+        var aa = selectedStarPlayerCount;
+        if(a.payload) {
+          
+          test = test + a.payload;
+          setSelectedStarPlayerCount(test);
+        }
+          
         activateFilter(
           res.currentPlayer,
           res.currentPlayer?.type?.toLocaleLowerCase()
@@ -633,6 +645,21 @@ function MLBPowerdFs(props) {
       document.getElementById('p-filter').click(); // Patch to activate P Tab in Edit Mode instead of D Tab
     }
   };
+  const checkIfIsStarPlayer = (player) => {
+    if (player?.type == "p" || player?.type == "P") {
+      if (player?.playerStats?.earned_runs_average < 3.5) {
+        return true;
+      }
+    } else {
+      if (
+        player?.playerStats?.batting_average > 0.29 ||
+        player?.playerStats?.home_runs > 30
+      ) {
+        return true;
+      }
+    }
+    return false;
+  };
 
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
@@ -640,9 +667,13 @@ function MLBPowerdFs(props) {
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
-
-      dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+      var a =dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+      if(a.payload) {
+        test = test + a.payload;
+        setSelectedStarPlayerCount(test);
+      }
       setSelected(res.selected);
+      
       setSidebarList(res._playersList);
       activateFilter(
         res.currentPlayer,
@@ -659,6 +690,7 @@ function MLBPowerdFs(props) {
     selected = new Map(),
     playerList = []
   ) => {
+    
     const [currentPlayer] = allData?.filter((player) => {
       if (player?.type?.toLocaleLowerCase() === D) {
         return player?.team_id === id && player?.match_id === matchId;
@@ -706,12 +738,12 @@ function MLBPowerdFs(props) {
           }
           player.type = currentPlayer?.type?.toLocaleLowerCase();
           player.matchId = currentPlayer?.match_id;
-          player.isStarPlayer = currentPlayer?.isStarPlayer;
+          player.isStarPlayer = checkIfIsStarPlayer(currentPlayer);
           _playersList[playerListIndex] = player;
 
           selected.set(selectionId, !selected.get(selectionId));
           //Star Power Player selection (sidebar)
-          if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
+          if (starPlayerCount < 3 && checkIfIsStarPlayer(currentPlayer)) {
             _starPlayerCount++;
           }
           selectedPlayerCount++;
@@ -1102,57 +1134,66 @@ function MLBPowerdFs(props) {
                 title="Point Booster"
                 Icon={PointMultiplierIcon}
                 iconSize={54}
-                count={2}
+                count={pointMultiplierCounts}
               />
 
               <RenderIcon
                 title="Swap Player"
                 Icon={SwapPlayerIcon}
                 iconSize={54}
-                count={2}
-              />
-
-              <RenderIcon
-                title="Undo"
-                Icon={UndoIcon}
-                iconSize={54}
-                count={2}
-              />
-            </div>
-            <div className={classes.__powers_available}>
-              <RenderIcon
-                title="Retro Boost"
-                Icon={RetroBoostIcon}
-                iconSize={24}
-                count={1}
+                count={swapCounts}
               />
 
               <RenderIcon
                 title="D-Wall"
                 Icon={DWallIcon}
                 iconSize={54}
-                count={1}
+                count={dwallCounts}
               />
 
+            </div>
+            <div className={classes.__powers_available}>
               <RenderIcon
-                title="Video Review"
-                Icon={VideoReviewIcon}
+                title="Challenge"
+                Icon={ChallengeIcon}
                 iconSize={54}
-                count={1}
+                count={challengeCounts}
               />
+              <RenderIcon
+                title="Retro Boost"
+                Icon={RetroBoostIcon}
+                iconSize={24}
+                count={retroBoostCounts}
+              />
+              <RenderIcon
+                title="Power Up"
+                Icon={PowerUpIcon}
+                iconSize={54}
+                count={powerUpCounts}
+              />      
             </div>
 
             <div className={classes.__buttons_div}>
-              <Button
-                title={"Contest Rules"}
-                icon={
-                  <img src={ContestRuleIcon} width="18" height="18" alt="" />
-                }
-                styles={{
-                  marginRight: "10px",
-                  backgroundColor: "rgba(242, 242, 242, 0.1)",
-                  border: "0px",
-                }}
+              <ContestRulesPopUp
+                points={points}
+                powers={powers}
+                component={({ showPopUp }) => (
+                  <Button
+                    onClick={() => {
+                      window.scrollTo({top: 0, behavior: 'smooth'});
+                      showPopUp();
+                    }}
+                    title={"Contest Rules"}
+                    icon={
+                      <img src={ContestRuleIcon} width="18" height="18" alt="" />
+                    }
+                    styles={{
+                      marginRight: "10px",
+                      backgroundColor: "rgba(242, 242, 242, 0.1)",
+                      border: "0px",
+                    }}
+                  />
+                )}
               />
               <Button
                 title={"Prize Grid"}
@@ -1161,6 +1202,7 @@ function MLBPowerdFs(props) {
                   backgroundColor: "rgba(242, 242, 242, 0.1)",
                   border: "0px",
                 }}
+                onClick={() => setPrizeModalState(true)}
               />
             </div>
           </div>
@@ -1242,8 +1284,7 @@ function MLBPowerdFs(props) {
             </div>
             {isMobile && (
               <div className={classes.select_team_info}>
-                Select 1 Team Defense, Goals against result in negative points
-                for your team.
+                {headerText[selectedFilter?.id - 1]?.text}
               </div>
             )}
 
@@ -1613,7 +1654,7 @@ function MLBPowerdFs(props) {
                 <div className={classes.sidebar_circles}>
                   <StarPlayersCheck
                     totalStarPlayers={3}
-                    selectedCount={starPlayerCount}
+                    selectedCount={selectedStarPlayerCount}
                   />
                 </div>
               </div>
@@ -1684,7 +1725,7 @@ function MLBPowerdFs(props) {
                     <span className={classes.sidebar_circles_snap_half}>
                       <StarPlayersCheck
                         totalStarPlayers={3}
-                        selectedCount={starPlayerCount}
+                        selectedCount={selectedStarPlayerCount}
                       />
                     </span>
                   </p>
@@ -1718,7 +1759,7 @@ function MLBPowerdFs(props) {
                 <div className={classes.sidebar_circles}>
                   <StarPlayersCheck
                     totalStarPlayers={3}
-                    selectedCount={starPlayerCount}
+                    selectedCount={selectedStarPlayerCount}
                   />
                 </div>
               </div>

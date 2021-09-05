@@ -58,6 +58,8 @@ Input.propTypes = {
     icon: PropTypes.string,
     white: PropTypes.bool,
     bordered: PropTypes.bool,
+    min: PropTypes.number,
+    max: PropTypes.number,
 }
 
 export default Input

@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import * as MLBActions from "../../actions/MLBActions";
 import _ from "underscore";
 import { isEmpty } from "lodash";
-import { redirectTo } from "../../utility/shared";
+import { useHistory } from "react-router-dom";
 
+import { redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
 import classes from "./index.module.scss";
@@ -66,11 +66,18 @@ function NHLLivePowerdFsScroeDetail(props) {
     GLOBAL_RANKING,
     FANTASY_TEAM_UPDATE,
   } = CONSTANTS.SOCKET_EVENTS.MLB.LIVE;
+
+  const history = useHistory();
+
   let tableRef = useRef();
   let _socket = null;
   const { gameLogs = [], selectedTeam = {} } = useSelector(
     (state) => state.mlb
   );
+  const  a  = useSelector(
+    (state) => state
+  );
+  console.log("gameLogs", a)
   const { game = {} } = useSelector((state) => selectedTeam);
   const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
     (state) => game
@@ -92,14 +99,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       return redirectTo(props, { path: "/my-game-center" });
     }
     _socket = socket();
-    return function cleanUP() {
-      //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB);
-      _socket?.on(ON_ROOM_UN_SUB, () => {
-        _socket?.disconnect();
-        _socket = null;
-      });
-    };
+    // return function cleanUP() {
+    //   //disconnect the socket
+    //   _socket?.emit(ON_ROOM_UN_SUB);
+    //   _socket?.on(ON_ROOM_UN_SUB, () => {
+    //     _socket?.disconnect();
+    //     _socket = null;
+    //   });
+    // };
   }, []);
 
   React.useEffect(async () => {
@@ -218,18 +225,22 @@ function NHLLivePowerdFsScroeDetail(props) {
       }
 
       //total score
-      const rbiData = getRBI(gameLogs[i]?.play?.runners);
+      const rbiData = getRBI(gameLogs[i]?.play?.runners, id);
       const rsData = getRS(
         gameLogs[i]?.play?.runners,
         gameLogs[i]?.play?.outcome_id
       );
 
+      const isHitter =
+        gameLogs[i]?.play?.hitter_id ===
+        gameLogs[i]?.effected_player?.player_id;
       const rbi = rbiData.rbi || 0;
-      const rbiPts = rbi === 1 ? 2 : 0;
+      const rbiPts = rbi === 1 ? 2 : rbi !== 0 ? rbi * 2 : 0;
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
+      const hasRunners = gameLogs[i]?.play?.runners?.length ? true : false;
 
-      const playPts = getPoints(id, isPitcher, isAbOver);
+      const playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
 
       const totalScore = playPts + rbiPts + rsPts;
       gameLogs[i].totalScore = totalScore;
@@ -252,19 +263,12 @@ function NHLLivePowerdFsScroeDetail(props) {
       }
     }
 
-    // //re-order on time basis
-    // const sortedGameLogs = _logs.sort((a, b) =>
-    //   a?.play === null && b?.play === null
-    //     ? new Date(a?.created_at).getTime() - new Date(b?.created_at).getTime()
-    //     : new Date(a?.play?.created_at).getTime() -
-    //       new Date(b?.play?.created_at).getTime()
-    // );
-
     setLogs(_logs);
   }, [gameLogs]);
 
   useEffect(() => {
-    tableRef?.current?.scrollIntoView();
+    if (history.location.pathname === "/mlb-live-powerdfs/my-score-details")
+      tableRef?.current?.scrollIntoView();
   }, [tableRef]);
 
   const toggleLiveStandingModal = () => {
@@ -275,7 +279,12 @@ function NHLLivePowerdFsScroeDetail(props) {
     setModalState(false);
   };
 
-  const getPoints = (id, isPitcher = false) => {
+  const getPoints = (
+    id,
+    isPitcher = false,
+    hasRunners = false,
+    isHitter = false
+  ) => {
     if (
       id === "aD" ||
       id === "aDAD3" ||
@@ -327,12 +336,6 @@ function NHLLivePowerdFsScroeDetail(props) {
       id === "oSBT2" ||
       id === "oSBT3" ||
       id === "oSBT4" ||
-      id === "oSF" ||
-      id === "oSFT2" ||
-      id === "oSFT3" ||
-      id === "oSFT4" ||
-      id === "oST2" ||
-      id === "oST3" ||
       id === "oST4" ||
       id === "oTT4" ||
       id === "PO" ||
@@ -350,6 +353,17 @@ function NHLLivePowerdFsScroeDetail(props) {
       id === "CS3" ||
       id === "CS4" ||
       id === "RI"
+    )
+      return 1;
+
+    if (
+      (id === "oSF" ||
+        id === "oSFT2" ||
+        id === "oSFT3" ||
+        id === "oSFT4" ||
+        id === "oST2" ||
+        id === "oST3") &&
+      !isHitter
     )
       return 1;
 
@@ -372,7 +386,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     return 0;
   };
 
-  const getRBI = (runners = []) => {
+  const getRBI = (runners = [], aHRId = "") => {
     let rbi;
     for (let i = 0; i < runners?.length; i++) {
       if (
@@ -384,10 +398,14 @@ function NHLLivePowerdFsScroeDetail(props) {
           return p?.effected_player?.player_id === runners[i]?.player_id;
         });
 
-        if (player) {
+        if (aHRId === "aHR" && player) {
+          rbi += 1;
+          return {
+            rbi,
+          };
+        } else if (player) {
           return { rbi: 1 };
         } else {
-          console.log(player);
           return { rbi: 0 };
         }
       }
@@ -402,16 +420,17 @@ function NHLLivePowerdFsScroeDetail(props) {
     let rs;
     for (let i = 0; i < runners?.length; i++) {
       if (id === "aHR") {
-        const [player] = gameLogs?.filter((p) => {
-          return p?.effected_player?.player_id === runners[i]?.player_id;
-        });
+        // const [player] = gameLogs?.filter((p) => {
+        //   return p?.effected_player?.player_id === runners[i]?.player_id;
+        // });
 
-        if (player) {
-          return { rs: 1 };
-        } else {
-          console.log(player);
-          return { rs: 0 };
-        }
+        // if (player) {
+        //   return { rs: 1 };
+        // } else {
+        //   return { rs: 0 };
+        // }
+
+        return { rs: 1 };
       }
     }
 

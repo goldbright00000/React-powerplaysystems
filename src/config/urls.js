@@ -10,6 +10,7 @@ export const URLS = {
   },
   USER: {
     BALANCE: "/users/account/balance",
+    WITHDRAW_REQUEST: "users/balance-withdraw",
     SMALL_TOKEN: "users/account/balance/token",
     ZUM_BALANCE_TRANSACTION: "users/account/update-zum-balance",
     CONVERSION_MARKUP_VALUE: "users/conversion-rate",
@@ -37,6 +38,7 @@ export const URLS = {
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
   },
   GAMES: {
+    LEAVE_GAME: "admin/leave-game",
     ALL_POWER_GAMES: "admin/games",
   },
 };

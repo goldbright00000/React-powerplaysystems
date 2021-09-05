@@ -68,6 +68,7 @@ function SportsLiveCard(props) {
     isHomeRun = false,
     gameInfo = {},
     pointXpCount = {},
+    currentPlayerList = [],
   } = props || {};
 
   const { game: { game_id: gameId } = {}, userId, teamId, sportId } =
@@ -76,6 +77,8 @@ function SportsLiveCard(props) {
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
+
+  console.log("PLAYER: ", player);
 
   const {
     name = "",
@@ -182,7 +185,7 @@ function SportsLiveCard(props) {
   // }
 
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
-
+ 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
@@ -228,7 +231,10 @@ function SportsLiveCard(props) {
         ) {
           const _time = moment(date_time).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
-            (data) => `${data?.time}` === _time && data?.playerId !== player_id
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player_id &&
+              currentPlayerList[index]?.player_id !== player_id
           );
 
           const _dataToRender = {
@@ -245,6 +251,10 @@ function SportsLiveCard(props) {
 
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
 
     let available = 0;
     if (type === "Swap Player") {
@@ -271,6 +281,11 @@ function SportsLiveCard(props) {
   }
   function isPowerLocked(type) {
     let powerss = props.dataMain?.game?.Powers;
+
+    if (!powerss || powerss === undefined) {
+      return;
+    }
+
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -361,7 +376,7 @@ function SportsLiveCard(props) {
 
   const isGameOverOrNotStarted = () => {
     return (
-      `${status}`.toLocaleUpperCase() === "scheduled" ||
+      `${status}`?.toLocaleLowerCase() === "scheduled" ||
       getStatus() === "Game Over"
     );
   };
@@ -699,6 +714,7 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
+        {console.log("TYPE------------------- ", type)}
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
@@ -925,6 +941,7 @@ SportsLiveCard.propTypes = {
   updateReduxState: PropTypes.func,
   gameInfo: PropTypes.object,
   pointXpCount: PropTypes.object,
+  currentPlayerList: PropTypes.array,
 };
 
 export default SportsLiveCard;

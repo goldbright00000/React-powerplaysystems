@@ -15,6 +15,8 @@ const TeamManager = ({
   boostModal,
   swapModal,
   data = [],
+  ranks = {},
+  counts = 0
 }) => {
   const RenderSubTitle = (
     type,
@@ -212,6 +214,9 @@ const TeamManager = ({
             footerText={footerTitle(current_inning_half, current_inning, outs)}
             secondShow={true}
             key={`${index}`}
+            type={type}
+            index={index}
+            ranks={ranks}
           />
         );
       });
