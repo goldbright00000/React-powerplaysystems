@@ -57,7 +57,7 @@ const ContestRules = (props) => {
       {props.isMobileGameCenter?(
         <p className={classes.__contest_rules_main_title}>
           <span>MLB</span>
-          <span style={{color: "orange"}}> PowerdFS </span>
+          <span style={{color: "#fb6e00", fontWeight: "bold"}}> PowerdFS </span>
           <span className={classes.subtitle}>Contest Rules</span></p>
       ):(
         <p className={classes.__contest_rules_main_title}>Contest Rules</p>

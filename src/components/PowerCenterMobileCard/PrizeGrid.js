@@ -9,6 +9,7 @@ const PrizeGrid = (props) => {
         PrizePayout = [],
         game_set_start = '',
         start_time = '',
+        showDateTime= true
     } = props || {};
 
     const data1 = [
@@ -60,18 +61,30 @@ const PrizeGrid = (props) => {
     return (
 
         <div className={classes.__prize_grid}>
-            <div className={classes.__prize_grid_date_time}>
-                {game_set_start} | {start_time} ET
-            </div>
-            <div className={classes.__prize_grid_powerdfs}>
-                <div>
+            {showDateTime &&
+                <div className={classes.__prize_grid_date_time}>
+                    {game_set_start} | {start_time} ET
+                </div>
+            }
+            <div className={classes.__my_game_center_card_powerdfs}>
+                {/* <div>
                     <p className={classes.__prize_grid_powerdfs_title}>
                         <span className={classes.__prize_grid_powerdfs_title_first}>{title}</span> PowerdFS
                     </p>
                 </div>
                 <div className={classes.__prize_grid_title}>
                     Prize Grid
-                </div>
+                </div> */}
+
+                <p className={`text-left`} >
+                    <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
+                        {title}
+                    </span>
+                    <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
+                    <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px', opacity:0.6 }}>
+                        Prize Grid
+                    </span>
+                </p>
             </div>
             <div className={classes.__prize_grid_data_container}>
                 <div className={classes.__prize_grid_data_content}>
