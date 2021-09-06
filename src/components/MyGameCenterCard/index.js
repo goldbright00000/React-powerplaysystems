@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CurrencyFormat from "react-currency-format";
+import { useHistory } from "react-router-dom";
 import classes from "./myGameCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
@@ -25,11 +26,15 @@ import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
 import ContestRules from "../PowerCenterCardDetails/ContestRules";
-
+import * as MLBActions from "../../actions/MLBActions";
+import { isEmpty } from "lodash";
+import { printLog, redirectTo } from "../../utility/shared";
 
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
+
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     ON_ROOM_SUB,
@@ -145,6 +150,7 @@ const MyGameCenterCard = (props) => {
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [isCompleted, setCompleted] = React.useState(0);
 
@@ -203,8 +209,19 @@ const MyGameCenterCard = (props) => {
     return backgroundImageStyle;
   };
 
-  const onLeaveClick = () => {
-    console.log('onLeaveClick', game_id, localStorage.PERSONA_USER_ID);
+  const onLeaveClick = async () => {
+
+    setIsLoading(true);
+    let user_id = localStorage.PERSONA_USER_ID;
+
+    if (game_id && user_id) {
+
+      const res = await dispatch(MLBActions.leaveGame(user_id, game_id));
+      if (res) {
+        window.location.reload();
+      }
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -430,7 +447,7 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true}/>
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} />
               </>
               {/* today */}
 

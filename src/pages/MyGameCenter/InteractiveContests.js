@@ -239,6 +239,30 @@ const InteractiveContests = (props) => {
     };
   };
 
+  const setFilteredDataWithDate = (selectedOption) => {
+    let day = moment(selectedOption).format('YYYY-MM-DD')
+    const today = moment();
+    let data = []
+    if (selectedOption === "All") {
+      setFilteredData(getUserSavedGames)
+    }
+    else if (selectedOption === "Today") {
+      myGameCenterCardData.map((item) => {
+        if (item?.game?.start_date == today.format('YYYY-MM-DD')) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+    else {
+      myGameCenterCardData.map((item) => {
+        if (item?.game?.start_date == day) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+  }
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div
@@ -341,10 +365,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  cardItem?.game?.league === item.title
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                cardItem?.game?.league === item.title
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -429,10 +453,11 @@ const InteractiveContests = (props) => {
             <CustomDropDown
               wrapperClassName={classes.__interactive_contests_date_wrapper}
               dropdownClassName={classes.__interactive_contests_date_dropdown}
-              value={selectedDate}
+              value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
               options={days}
               onChange={(selectedOption) => {
                 setSelectedDate(selectedOption);
+                setFilteredDataWithDate(selectedOption);
               }}
             />
           </div>

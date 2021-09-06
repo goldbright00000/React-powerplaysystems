@@ -547,3 +547,22 @@ export function getLiveStandings(game_id) {
     }
   };
 }
+
+//leave game delete data
+
+export function leaveGame(user_id, game_id) {
+  return async (dispatch) => {
+    try {
+      http.post(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.LEAVE_GAME}`,
+        {
+          user_id,
+          game_id,
+        })
+      return true;
+    } catch (error) {
+
+      return false;
+
+    }
+  }
+}

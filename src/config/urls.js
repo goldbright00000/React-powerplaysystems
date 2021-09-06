@@ -37,6 +37,7 @@ export const URLS = {
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
   },
   GAMES: {
-    ALL_POWER_GAMES: "admin/games",
+    ALL_POWER_GAMES: "api/v1/users/games",
+    LEAVE_GAME: "admin/leave-game",
   },
 };
