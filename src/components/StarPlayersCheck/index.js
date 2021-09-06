@@ -11,6 +11,7 @@ function StarPlayersCheck(props) {
   const { totalStarPlayers = 0, selectedCount = 0 } = props || {};
 
   useEffect(() => {
+    console.log("selectedCount", selectedCount);
     selected = selectedCount;
     if(selectedCount > totalStarPlayers)
     {

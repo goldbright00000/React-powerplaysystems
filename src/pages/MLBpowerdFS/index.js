@@ -629,7 +629,7 @@ function MLBPowerdFs(props) {
         var a = dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
         var aa = selectedStarPlayerCount;
         if(a.payload) {
-          
+          console.log("aaaa1", a);
           test = test + a.payload;
           setSelectedStarPlayerCount(test);
         }

@@ -60,6 +60,7 @@ const Pitchers = (props) => {
         PointsSystem = [],
         game_set_start = '',
         start_time = '',
+        showDateTime = true
     } = props || {};
 
     const groupedPoints = _.groupBy(PointsSystem, 'type');
@@ -73,9 +74,11 @@ const Pitchers = (props) => {
 
     return (
         <div className={classes.__point_system}>
-            <div className={classes.__point_system_date_time}>
-                {game_set_start} | {start_time} ET
-            </div>
+            {showDateTime &&
+                <div className={classes.__point_system_date_time}>
+                    {game_set_start} | {start_time} ET
+                </div>
+            }
             <div className={classes.__point_system_powerdfs}>
                 <div>
                     <p className={classes.__point_system_powerdfs_title}>

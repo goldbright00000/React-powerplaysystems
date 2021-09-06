@@ -334,6 +334,7 @@ const InteractiveContests = (props) => {
                         "__outline-badge __f1 " +
                         (selectedFilter == item.id && "__active")
                       }
+                      key={index}
                       onClick={() => {
                         setSelectedFilter(item.id);
                         const filteredData =
