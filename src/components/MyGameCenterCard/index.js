@@ -217,9 +217,7 @@ const MyGameCenterCard = (props) => {
 
       const res = await dispatch(MLBActions.leaveGame(user_id, game_id));
       if (res) {
-        history.push("/power-center");
-
-        redirectTo(props, { path: "/power-center" });
+        window.location.reload();
       }
       setIsLoading(false);
     }
