@@ -751,8 +751,6 @@ function MLBPowerdFs(props) {
           player.matchId = currentPlayer?.match_id;
           _playersList[playerListIndex] = player;
 
-          console.log(checkIfIsStarPlayer(currentPlayer));
-
           //Star Power Player selection (sidebar)
           if (starPlayerCount < 3 && checkIfIsStarPlayer(currentPlayer)) {
             player.isStarPlayer = checkIfIsStarPlayer(currentPlayer);
@@ -761,8 +759,9 @@ function MLBPowerdFs(props) {
             console.log("STAR PLAYER COUNT: ", _starPlayerCount, currentPlayer);
           } else if (!checkIfIsStarPlayer(currentPlayer)) {
             selected.set(selectionId, !selected.get(selectionId));
-            selectedPlayerCount++;
           }
+
+          selectedPlayerCount++;
         }
       }
     } else {
