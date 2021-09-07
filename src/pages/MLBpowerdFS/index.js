@@ -313,6 +313,8 @@ function MLBPowerdFs(props) {
     allData = [],
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
+
+  
   let a = useSelector((state) => state);
   const selector_team_id = useSelector((state) => state?.mlb?.team_id);
 
@@ -616,7 +618,8 @@ function MLBPowerdFs(props) {
 
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];
-
+    
+      let test = 0;
       for (let i = 0; i < pls.length; i++) {
         const res = setPlayerSelection(
           pls[i].playerId || pls[i].team_id,
@@ -627,12 +630,8 @@ function MLBPowerdFs(props) {
         _selected = res.selected;
         _playerList = [...res._playersList];
         var a = dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
-        var aa = selectedStarPlayerCount;
-        if(a.payload) {
-          console.log("aaaa1", a);
-          test = test + a.payload;
-          setSelectedStarPlayerCount(test);
-        }
+        test = test + res._starPlayerCount;
+        setSelectedStarPlayerCount(test);
           
         activateFilter(
           res.currentPlayer,
@@ -668,10 +667,10 @@ function MLBPowerdFs(props) {
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
       var a =dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
-      if(a.payload) {
-        test = test + a.payload;
-        setSelectedStarPlayerCount(test);
-      }
+      let test = res._playersList.filter(x => x.isStarPlayer);
+      //test = res._starPlayerCount;
+      //console.log("test", test, selectedStarPlayerCount);
+      setSelectedStarPlayerCount(test.length);
       setSelected(res.selected);
       
       setSidebarList(res._playersList);
@@ -698,7 +697,7 @@ function MLBPowerdFs(props) {
         return player?.playerId === id && player?.match_id === matchId;
       }
     });
-
+    
     let _starPlayerCount = starPlayerCount;
     const selectionId = `${id} - ${matchId}`;
 
@@ -719,6 +718,7 @@ function MLBPowerdFs(props) {
           isEmpty(obj)
         );
       });
+      
       if (!isEmpty(_player)) {
         let selectedObj = {};
         if (currentPlayer?.type?.toLocaleLowerCase() === D) {
@@ -726,11 +726,11 @@ function MLBPowerdFs(props) {
         } else {
           selectedObj = _player?.player;
         }
-
+        
         if (isEmpty(selectedObj)) {
           const playerListIndex = _playersList?.indexOf(_player);
           let player = { ..._player };
-
+          
           if (currentPlayer?.type?.toLocaleLowerCase() === D) {
             player.team = { ...currentPlayer };
           } else {
@@ -743,7 +743,7 @@ function MLBPowerdFs(props) {
 
           selected.set(selectionId, !selected.get(selectionId));
           //Star Power Player selection (sidebar)
-          if (starPlayerCount < 3 && checkIfIsStarPlayer(currentPlayer)) {
+          if (checkIfIsStarPlayer(currentPlayer)) {
             _starPlayerCount++;
           }
           selectedPlayerCount++;
@@ -762,17 +762,18 @@ function MLBPowerdFs(props) {
           );
         }
       });
-
       if (existingPlayerIndex !== -1) {
         selected.set(selectionId, !selected.get(selectionId));
+        
         if (
           starPlayerCount > 0 &&
-          _playersList[existingPlayerIndex].isStarPlayer
+          checkIfIsStarPlayer(currentPlayer)
         ) {
           _starPlayerCount--;
+          _playersList[existingPlayerIndex].isStarPlayer = false;
         }
 
-        _playersList[existingPlayerIndex].isStarPlayer = false;
+        
         _playersList[existingPlayerIndex].type = "";
         _playersList[existingPlayerIndex].matchId = "";
 
@@ -970,16 +971,17 @@ function MLBPowerdFs(props) {
     }
 
     const players = [];
+    
     for (let i = 0; i < sideBarList?.length - 1; i++) {
       players.push({
         playerId: sideBarList[i]?.player?.playerId,
         matchId: sideBarList[i]?.player?.match_id,
       });
     }
-
+    
     const [teamD] = sideBarList?.filter((team) => team?.type === D);
     const { team = {} } = teamD || {};
-
+    
     if (!isEmpty(team) && players?.length === 7) {
       // TODO: Fix user_id issue
       const payload = {
@@ -991,7 +993,6 @@ function MLBPowerdFs(props) {
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
       };
-
       if (isEdit) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);

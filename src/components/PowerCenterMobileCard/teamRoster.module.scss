@@ -15,7 +15,7 @@
         letter-spacing: normal;
         color: $grey11;
         text-align: left;
-        padding-left: 10px;
+        padding-left: 20px;
     }
 
     .__team_roster_powerdfs {
@@ -134,4 +134,33 @@
             }
         }
     }
+
+    .__my_game_center_card_powerdfs {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+        padding: 0px 20px;
+    
+        .__my_game_center_card_powerdfs_title {
+          // width: 150px;
+          height: 28px;
+          margin: 10 13px 20px;
+          font-family: Poppins;
+          font-size: 20px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
+          text-align: start;
+          color: $primary;
+    
+          .__my_game_center_card_powerdfs_title_first {
+            color: $grey2;
+          }
+          .__my_game_center_card_powerdfs_subtitle {
+            opacity: 0.6;
+          }
+        }
+      }
 }

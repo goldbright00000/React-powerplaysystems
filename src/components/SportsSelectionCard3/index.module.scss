@@ -1657,12 +1657,20 @@
       align-items: center;
 
       .container_selected_p {
-        font-size: var(--font-size-15);
-        padding: 0;
-        margin: unset;
-        color: $lightBlue;
+        // font-size: var(--font-size-15);
+        // padding: 0;
+        // margin: unset;
+        // color: $lightBlue;
+        // font-family: Poppins;
+        // font-weight: 600;
         font-family: Poppins;
-        font-weight: 600;
+        font-size: var(--font-size-18);
+        font-weight: 600 !important;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: $lightBlue;
 
         span {
           font-size: var(--font-size-15);

@@ -22,7 +22,6 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
     return decSelectedTeamData;
   }
   const selectedTema = getTeamFromLocalStorage();
-  console.log("selectedTema",selectedTema);
   const [showPrizeModal, setPrizeModalState] = React.useState(false);
   const dispatch = useDispatch();
   const [liveStandingData, setLiveStandingData] = React.useState([]);
