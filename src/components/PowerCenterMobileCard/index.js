@@ -13,7 +13,8 @@ import PrizeGrid from "./PrizeGrid";
 import PowersAvailable from "./PowersAvailable";
 import PointSystem from "./PointSystem";
 import TeamRoster from "./TeamRoster";
-import Pitchers from './Pitcher'
+import Pitchers from './Pitcher';
+import ContestRules from '../PowerCenterCardDetails/ContestRules';
 import "./carousel.scss";
 
 const PowerCenterMobileCard = (props) => {
@@ -150,6 +151,7 @@ const PowerCenterMobileCard = (props) => {
             </div>
           </div>
         </div>
+        <ContestRules game_set_start={game_set_start} start_time={start_time} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={true}/>
         <PrizeGrid PrizePayout={PrizePayout} game_set_start={game_set_start} start_time={start_time} />
         <PowersAvailable title={title} Power={Power} game_set_start={game_set_start} start_time={start_time} />
         <PointSystem title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} />

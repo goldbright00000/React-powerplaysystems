@@ -302,6 +302,7 @@ function MLBPowerdFs(props) {
     allData = [],
     savedPlayers = [],
   } = useSelector((state) => state.mlb);
+
   let a = useSelector((state) => state);
   const selector_team_id = useSelector((state) => state?.mlb?.team_id);
 
@@ -620,6 +621,7 @@ function MLBPowerdFs(props) {
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];
 
+      let test = 0;
       for (let i = 0; i < pls.length; i++) {
         const res = setPlayerSelection(
           pls[i].playerId || pls[i].team_id,
@@ -777,13 +779,10 @@ function MLBPowerdFs(props) {
           );
         }
       });
-
       if (existingPlayerIndex !== -1) {
         selected.set(selectionId, !selected.get(selectionId));
-        if (
-          starPlayerCount > 0 &&
-          _playersList[existingPlayerIndex].isStarPlayer
-        ) {
+
+        if (starPlayerCount > 0 && checkIfIsStarPlayer(currentPlayer)) {
           _playersList[existingPlayerIndex].isStarPlayer = false;
           _starPlayerCount--;
         }
@@ -988,6 +987,7 @@ function MLBPowerdFs(props) {
     }
 
     const players = [];
+
     for (let i = 0; i < sideBarList?.length - 1; i++) {
       players.push({
         playerId: sideBarList[i]?.player?.playerId,
@@ -1009,7 +1009,6 @@ function MLBPowerdFs(props) {
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
       };
-
       if (isEdit) {
         await dispatch(MLBActions.editDfsTeamPlayer(payload));
         setIsLoading(false);

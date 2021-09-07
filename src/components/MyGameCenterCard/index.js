@@ -447,7 +447,7 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} />
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={false}/>
               </>
               {/* today */}
 
