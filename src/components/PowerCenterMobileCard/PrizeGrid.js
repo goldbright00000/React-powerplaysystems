@@ -67,15 +67,6 @@ const PrizeGrid = (props) => {
                 </div>
             }
             <div className={classes.__my_game_center_card_powerdfs}>
-                {/* <div>
-                    <p className={classes.__prize_grid_powerdfs_title}>
-                        <span className={classes.__prize_grid_powerdfs_title_first}>{title}</span> PowerdFS
-                    </p>
-                </div>
-                <div className={classes.__prize_grid_title}>
-                    Prize Grid
-                </div> */}
-
                 <p className={`text-left`} >
                     <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
                         {title}
