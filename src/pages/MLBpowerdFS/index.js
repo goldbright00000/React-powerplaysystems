@@ -70,7 +70,7 @@ import { dummyData } from "./dummyData";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "./bottomSheetStyles.scss";
 import PowerUpIcon from "../../assets/power-up-icon.svg";
-import { createAlert } from "../../actions/notificationActions";
+import { showToast } from "../../actions/uiActions";
 
 const getIcon = (powerName) => {
   if (powerName) {
@@ -716,9 +716,9 @@ function MLBPowerdFs(props) {
       //show warning alert
       if (starPlayerCount >= 3 && checkIfIsStarPlayer(currentPlayer)) {
         dispatch(
-          createAlert(
+          showToast(
             "You cannot have more than 3 Star Players on your team",
-            "success"
+            "warning"
           )
         );
 
