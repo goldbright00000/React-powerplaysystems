@@ -668,14 +668,16 @@ function MLBPowerdFs(props) {
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
 
       dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
-      setSelected(res.selected);
+      if (res.isPlayerSelectd) {
+        setSelected(res.selected);
 
-      setSidebarList(res._playersList);
-      activateFilter(
-        res.currentPlayer,
-        res.currentPlayer?.type?.toLocaleLowerCase()
-      );
-      onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase(), false);
+        setSidebarList(res._playersList);
+        activateFilter(
+          res.currentPlayer,
+          res.currentPlayer?.type?.toLocaleLowerCase()
+        );
+        onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase(), false);
+      }
     },
     [selected, selectedFilter, selectedData, isEdit]
   );
@@ -729,6 +731,7 @@ function MLBPowerdFs(props) {
           _playersList,
           currentPlayer,
           _starPlayerCount,
+          isPlayerSelectd: false,
         };
       }
 
@@ -758,7 +761,6 @@ function MLBPowerdFs(props) {
             player.isStarPlayer = checkIfIsStarPlayer(currentPlayer);
             selected.set(selectionId, !selected.get(selectionId));
             _starPlayerCount++;
-            console.log("STAR PLAYER COUNT: ", _starPlayerCount, currentPlayer);
           } else if (!checkIfIsStarPlayer(currentPlayer)) {
             selected.set(selectionId, !selected.get(selectionId));
           }
@@ -804,6 +806,7 @@ function MLBPowerdFs(props) {
       _playersList,
       currentPlayer,
       _starPlayerCount,
+      isPlayerSelectd: true,
     };
   };
 
