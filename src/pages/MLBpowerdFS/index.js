@@ -57,7 +57,7 @@ import XpIcon from "../../icons/XPIcon";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
 import RetroBoostIcons from "../../icons/RetroBoost";
-import ChallengeIcons from "../../icons/Challenge"
+import ChallengeIcons from "../../icons/Challenge";
 import PowerUpIcons from "../../icons/PowerUp";
 import LockIcon from "../../icons/Lock";
 import TwitterIcon from "../../icons/TwitterIcon";
@@ -69,30 +69,20 @@ import { dummyData } from "./dummyData";
 
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "./bottomSheetStyles.scss";
-import PowerUpIcon from '../../assets/power-up-icon.svg';
+import PowerUpIcon from "../../assets/power-up-icon.svg";
+import { createAlert } from "../../actions/notificationActions";
 
 const getIcon = (powerName) => {
   if (powerName) {
-    if (powerName.toLowerCase().match(/wall/g))
-      return DWallIcon;
-
+    if (powerName.toLowerCase().match(/wall/g)) return DWallIcon;
     else if (powerName.toLowerCase().match(/video|review/g))
       return VideoReviewIcon;
-
-    else if (powerName.toLowerCase().match(/swap/g))
-      return SwapPlayerIcon;
-
+    else if (powerName.toLowerCase().match(/swap/g)) return SwapPlayerIcon;
     else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
       return PointMultiplierIcon;
-
-    else if (powerName.toLowerCase().match(/retro/g))
-      return RetroBoostIcon;
-
-    else if (powerName.toLowerCase().match(/challenge/g))
-      return ChallengeIcon;
-
-    else if (powerName.toLowerCase().match(/power-up/g))
-      return PowerUpIcon
+    else if (powerName.toLowerCase().match(/retro/g)) return RetroBoostIcon;
+    else if (powerName.toLowerCase().match(/challenge/g)) return ChallengeIcon;
+    else if (powerName.toLowerCase().match(/power-up/g)) return PowerUpIcon;
   }
 };
 
@@ -262,8 +252,8 @@ let test = 0;
 
 function MLBPowerdFs(props) {
   const onGoBack = () => {
-    redirectTo(props, { path: "/my-game-center" })
-  }
+    redirectTo(props, { path: "/my-game-center" });
+  };
   const [selected, setSelected] = useState(new Map());
   const [selectedFilter, setSelectedFilter] = useState(
     FILTERS_INITIAL_VALUES[0]
@@ -290,7 +280,6 @@ function MLBPowerdFs(props) {
   const [searchText, setSearchText] = useState("");
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
-  const [selectedStarPlayerCount, setSelectedStarPlayerCount] = useState(0);
 
   const [swapCounts, setSwapCounts] = useState(0);
   const [dwallCounts, setDwallCounts] = useState(0);
@@ -334,8 +323,8 @@ function MLBPowerdFs(props) {
     prizes: Prizes = [],
     start_time = "",
     paid_game = true,
-    entry_fee = '',
-    currency = '',
+    entry_fee = "",
+    currency = "",
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -388,24 +377,15 @@ function MLBPowerdFs(props) {
         dwall = remainingPowers[i].amount;
       } else if (rec.powerName === "Challenge") {
         challenge = remainingPowers[i].amount;
-      } else if (
-        rec.powerName === "1.5x Point Booster"
-      ) {
+      } else if (rec.powerName === "1.5x Point Booster") {
         p15 = remainingPowers[i].amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].amount);
-      } else if (
-        rec.powerName === "2x Point Booster"
-      ) {
+        point_booster = point_booster + parseInt(remainingPowers[i].amount);
+      } else if (rec.powerName === "2x Point Booster") {
         p2 = remainingPowers[i].amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].amount);
-      } else if (
-        rec.powerName === "3x Point Booster"
-      ) {
+        point_booster = point_booster + parseInt(remainingPowers[i].amount);
+      } else if (rec.powerName === "3x Point Booster") {
         p3 = remainingPowers[i].amount;
-        point_booster =
-          point_booster + parseInt(remainingPowers[i].amount);
+        point_booster = point_booster + parseInt(remainingPowers[i].amount);
       } else if (rec.powerName === "Swap") {
         swap = remainingPowers[i].amount;
       } else if (rec.powerName === "Retro Boost") {
@@ -423,7 +403,7 @@ function MLBPowerdFs(props) {
     setPointBooster15xCounts(p15);
     setPointBooster2xCounts(p2);
     setPointBooster3xCounts(p3);
-  }
+  };
 
   const isPowerAvailable = (type) => {
     let powerss = powers;
@@ -455,7 +435,7 @@ function MLBPowerdFs(props) {
       }
     }
     return available;
-  }
+  };
 
   function isPowerLocked(type) {
     let powerss = powers;
@@ -476,14 +456,20 @@ function MLBPowerdFs(props) {
           powerss[i].powerName === "2x Point Booster" ||
           powerss[i].powerName === "3x Point Booster"
         ) {
-          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
+          if (
+            powerss[i].SocialMediaUnlock == true ||
+            powerss[i].SocialMediaUnlock == "true"
+          ) {
             locked = 1;
           }
           break;
         }
       } else {
         if (powerss[i].powerName === type) {
-          if (powerss[i].SocialMediaUnlock == true || powerss[i].SocialMediaUnlock == "true") {
+          if (
+            powerss[i].SocialMediaUnlock == true ||
+            powerss[i].SocialMediaUnlock == "true"
+          ) {
             locked = 1;
           }
           break;
@@ -527,30 +513,43 @@ function MLBPowerdFs(props) {
               <>
                 <p>Share to unlock:</p>
                 <div>
-
-                  <button onClick={() => {
-                    var left = (window.screen.width / 2) - (600 / 2),
-                      top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
-                  }}>
+                  <button
+                    onClick={() => {
+                      var left = window.screen.width / 2 - 600 / 2,
+                        top = window.screen.height / 2 - 600 / 2;
+                      window.open(
+                        `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                        "targetWindow",
+                        "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                          left +
+                          ",top=" +
+                          top
+                      );
+                    }}
+                  >
                     <FacebookIcon />
                   </button>
 
-
-                  <button onClick={() => {
-                    var left = (window.screen.width / 2) - (600 / 2),
-                      top = (window.screen.height / 2) - (600 / 2);
-                    window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
-                  }}>
+                  <button
+                    onClick={() => {
+                      var left = window.screen.width / 2 - 600 / 2,
+                        top = window.screen.height / 2 - 600 / 2;
+                      window.open(
+                        `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                        "targetWindow",
+                        "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                          left +
+                          ",top=" +
+                          top
+                      );
+                    }}
+                  >
                     <TwitterIcon />
                   </button>
-
                 </div>
               </>
             ) : (
-              <p className={classes.power_footer_count}>
-                {count}
-              </p>
+              <p className={classes.power_footer_count}>{count}</p>
             )}
           </div>
         )}
@@ -563,8 +562,12 @@ function MLBPowerdFs(props) {
     const response = await dispatch(
       MLBActions.mlbData(history.location?.state?.game_id)
     );
-    if(response.game_id == 0 && response.sport_id == 0 && response.filterdList.length == 0 && response.allData.length == 0)
-    {
+    if (
+      response.game_id == 0 &&
+      response.sport_id == 0 &&
+      response.filterdList.length == 0 &&
+      response.allData.length == 0
+    ) {
       return;
     }
     if (response) {
@@ -626,14 +629,8 @@ function MLBPowerdFs(props) {
         );
         _selected = res.selected;
         _playerList = [...res._playersList];
-        var a = dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
-        var aa = selectedStarPlayerCount;
-        if(a.payload) {
-          console.log("aaaa1", a);
-          test = test + a.payload;
-          setSelectedStarPlayerCount(test);
-        }
-          
+        dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
+
         activateFilter(
           res.currentPlayer,
           res.currentPlayer?.type?.toLocaleLowerCase()
@@ -642,7 +639,7 @@ function MLBPowerdFs(props) {
       }
       setSelected(_selected);
       setSidebarList(_playerList);
-      document.getElementById('p-filter').click(); // Patch to activate P Tab in Edit Mode instead of D Tab
+      document.getElementById("p-filter").click(); // Patch to activate P Tab in Edit Mode instead of D Tab
     }
   };
   const checkIfIsStarPlayer = (player) => {
@@ -667,13 +664,10 @@ function MLBPowerdFs(props) {
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
-      var a =dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
-      if(a.payload) {
-        test = test + a.payload;
-        setSelectedStarPlayerCount(test);
-      }
+
+      dispatch(MLBActions.setStarPlayerCount(res._starPlayerCount));
       setSelected(res.selected);
-      
+
       setSidebarList(res._playersList);
       activateFilter(
         res.currentPlayer,
@@ -690,7 +684,6 @@ function MLBPowerdFs(props) {
     selected = new Map(),
     playerList = []
   ) => {
-    
     const [currentPlayer] = allData?.filter((player) => {
       if (player?.type?.toLocaleLowerCase() === D) {
         return player?.team_id === id && player?.match_id === matchId;
@@ -719,6 +712,24 @@ function MLBPowerdFs(props) {
           isEmpty(obj)
         );
       });
+
+      //show warning alert
+      if (starPlayerCount >= 3 && checkIfIsStarPlayer(currentPlayer)) {
+        dispatch(
+          createAlert(
+            "You cannot have more than 3 Star Players on your team",
+            "success"
+          )
+        );
+
+        return {
+          selected,
+          _playersList,
+          currentPlayer,
+          _starPlayerCount,
+        };
+      }
+
       if (!isEmpty(_player)) {
         let selectedObj = {};
         if (currentPlayer?.type?.toLocaleLowerCase() === D) {
@@ -738,15 +749,20 @@ function MLBPowerdFs(props) {
           }
           player.type = currentPlayer?.type?.toLocaleLowerCase();
           player.matchId = currentPlayer?.match_id;
-          player.isStarPlayer = checkIfIsStarPlayer(currentPlayer);
           _playersList[playerListIndex] = player;
 
-          selected.set(selectionId, !selected.get(selectionId));
+          console.log(checkIfIsStarPlayer(currentPlayer));
+
           //Star Power Player selection (sidebar)
           if (starPlayerCount < 3 && checkIfIsStarPlayer(currentPlayer)) {
+            player.isStarPlayer = checkIfIsStarPlayer(currentPlayer);
+            selected.set(selectionId, !selected.get(selectionId));
             _starPlayerCount++;
+            console.log("STAR PLAYER COUNT: ", _starPlayerCount, currentPlayer);
+          } else if (!checkIfIsStarPlayer(currentPlayer)) {
+            selected.set(selectionId, !selected.get(selectionId));
+            selectedPlayerCount++;
           }
-          selectedPlayerCount++;
         }
       }
     } else {
@@ -769,10 +785,10 @@ function MLBPowerdFs(props) {
           starPlayerCount > 0 &&
           _playersList[existingPlayerIndex].isStarPlayer
         ) {
+          _playersList[existingPlayerIndex].isStarPlayer = false;
           _starPlayerCount--;
         }
 
-        _playersList[existingPlayerIndex].isStarPlayer = false;
         _playersList[existingPlayerIndex].type = "";
         _playersList[existingPlayerIndex].matchId = "";
 
@@ -837,8 +853,11 @@ function MLBPowerdFs(props) {
     const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
-      if (!!!selected.get(selectionId)) { _remaining -= 1; }
-      else if (_remaining < 2) { _remaining += 1; }
+      if (!!!selected.get(selectionId)) {
+        _remaining -= 1;
+      } else if (_remaining < 2) {
+        _remaining += 1;
+      }
       if (_remaining <= 0) {
         _remaining = 0;
         setSelectedFilter(filter);
@@ -998,7 +1017,7 @@ function MLBPowerdFs(props) {
       } else {
         await dispatch(MLBActions.saveAndGetSelectPlayers(payload));
         if (isPaid || isPaid === null) {
-          if (currency !== 'PWRS') {
+          if (currency !== "PWRS") {
             dispatch(MLBActions.calculateAdminFee(user_id, game_id));
           }
           dispatch(MLBActions.deductUserBalance(user_id, game_id));
@@ -1150,7 +1169,6 @@ function MLBPowerdFs(props) {
                 iconSize={54}
                 count={dwallCounts}
               />
-
             </div>
             <div className={classes.__powers_available}>
               <RenderIcon
@@ -1170,7 +1188,7 @@ function MLBPowerdFs(props) {
                 Icon={PowerUpIcon}
                 iconSize={54}
                 count={powerUpCounts}
-              />      
+              />
             </div>
 
             <div className={classes.__buttons_div}>
@@ -1180,12 +1198,17 @@ function MLBPowerdFs(props) {
                 component={({ showPopUp }) => (
                   <Button
                     onClick={() => {
-                      window.scrollTo({top: 0, behavior: 'smooth'});
+                      window.scrollTo({ top: 0, behavior: "smooth" });
                       showPopUp();
                     }}
                     title={"Contest Rules"}
                     icon={
-                      <img src={ContestRuleIcon} width="18" height="18" alt="" />
+                      <img
+                        src={ContestRuleIcon}
+                        width="18"
+                        height="18"
+                        alt=""
+                      />
                     }
                     styles={{
                       marginRight: "10px",
@@ -1255,8 +1278,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                      ? "Edit your team"
-                      : "Select your team"}
+                    ? "Edit your team"
+                    : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1304,7 +1327,6 @@ function MLBPowerdFs(props) {
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
-
                             {selectedFilter?.title === D ? (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               (item?.date, item?.time) && (
@@ -1337,16 +1359,18 @@ function MLBPowerdFs(props) {
                                           `${item.playerId} - ${item?.match_id}`
                                         )
                                       }
-                                      key={item.playerId + " - " + item?.match_id}
+                                      key={
+                                        item.playerId + " - " + item?.match_id
+                                      }
                                       loading={loading}
                                       onSelectDeselect={onPlayerSelectDeselect}
                                       pageType={PAGE_TYPES.MLB}
                                       type={selectedData?.type}
-                                    // disabled={
-                                    //   item.isStarPlayer &&
-                                    //   item.isStarPlayer &&
-                                    //   starPlayerCount >= 3
-                                    // }
+                                      // disabled={
+                                      //   item.isStarPlayer &&
+                                      //   item.isStarPlayer &&
+                                      //   starPlayerCount >= 3
+                                      // }
                                     />
                                   </>
                                 )}
@@ -1473,8 +1497,9 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                              }`}
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
                           >
                             Powers Available
                           </Tab>
@@ -1621,7 +1646,6 @@ function MLBPowerdFs(props) {
             )}
           </div>
           <div className={classes.sidebar_container}>
-
             <Sidebar styles={{ padding: 20 }}>
               <CashPowerBalance
                 showIcons={false}
@@ -1654,7 +1678,7 @@ function MLBPowerdFs(props) {
                 <div className={classes.sidebar_circles}>
                   <StarPlayersCheck
                     totalStarPlayers={3}
-                    selectedCount={selectedStarPlayerCount}
+                    selectedCount={starPlayerCount}
                   />
                 </div>
               </div>
@@ -1725,7 +1749,7 @@ function MLBPowerdFs(props) {
                     <span className={classes.sidebar_circles_snap_half}>
                       <StarPlayersCheck
                         totalStarPlayers={3}
-                        selectedCount={selectedStarPlayerCount}
+                        selectedCount={starPlayerCount}
                       />
                     </span>
                   </p>
@@ -1759,7 +1783,7 @@ function MLBPowerdFs(props) {
                 <div className={classes.sidebar_circles}>
                   <StarPlayersCheck
                     totalStarPlayers={3}
-                    selectedCount={selectedStarPlayerCount}
+                    selectedCount={starPlayerCount}
                   />
                 </div>
               </div>
