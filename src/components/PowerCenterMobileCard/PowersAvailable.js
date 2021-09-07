@@ -85,6 +85,7 @@ const PowersAvailable = (props) => {
         Power = [],
         game_set_start = '',
         start_time = '',
+        showDateTime = true
     } = props || {};
 
     const getPowerCount = (name) => {
@@ -107,9 +108,11 @@ const PowersAvailable = (props) => {
 
     return (
         <div className={classes.__powers_available}>
-            <div className={classes.__powers_available_date_time}>
-                {game_set_start} | {start_time} ET
-            </div>
+            {showDateTime && 
+                <div className={classes.__powers_available_date_time}>
+                    {game_set_start} | {start_time} ET
+                </div>
+            }
             <div className={classes.__powers_available_powerdfs}>
                 <div className={classes.__power_info_main}>
                     <div className={classes.__info_main_title}>
