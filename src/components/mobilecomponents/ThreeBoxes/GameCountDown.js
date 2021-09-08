@@ -1,6 +1,7 @@
 import React from "react";
 
-const GameCountDown = ({ state }) => {
+const GameCountDown = ({ state, selectedTeam = {} }) => {
+  console.log("selectedTeam GameCountDown", selectedTeam);
   return (
     <>
       <h4 className="pt-3 mt-1 mb-2">Live Game Starts in</h4>

@@ -207,19 +207,19 @@ const Header = (props) => {
               <span></span>
             </button>
             <ul className="__navlinks __flex">
-              <li>
+              <li key="0">
                 <NavLink to="/power-center">Power Center</NavLink>
               </li>
               {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
               {user?.token ||
                 getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
                 <>
-                  <li>
+                  <li  key="1">
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
                   {isMobile ? (
-                    MY_ACCOUNT_MENU_OPTIONS.map((item) => (
-                      <li>
+                    MY_ACCOUNT_MENU_OPTIONS.map((item, index) => (
+                      <li  key={`li-${index}`}>
                         <NavLink
                           to={item.value}
                           onClick={(e) => {
@@ -232,7 +232,7 @@ const Header = (props) => {
                       </li>
                     ))
                   ) : (
-                    <li className="__my_account_li" ref={myAccountMenuRef}>
+                    <li className="__my_account_li" ref={myAccountMenuRef} key="4">
                       <NavLink
                         to="#"
                         onClick={(e) => { e.preventDefault(); setMyAccountMenu(!myAccountMenu) }}
@@ -260,10 +260,10 @@ const Header = (props) => {
               ) : (
                 <>
                   {/* <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li> */}
-                  <li>
+                  <li key="5">
                     <NavLink to="/login">Log In</NavLink>
                   </li>
-                  <li>
+                  <li key="6">
                     <NavLink
                       to="/power-up"
                       className={`__btn __header-btn ${btnBorderStyle ? "__style-2 __primary-color" : ""

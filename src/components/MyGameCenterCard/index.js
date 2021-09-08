@@ -18,9 +18,10 @@ import FinalStandingsModal from "./FinalStandingsModal";
 import LeaveGameModal from "./LeaveGameModal";
 import { Carousel } from "react-responsive-carousel";
 import PointSystem from "../PowerCenterCardDetails/PointSystem";
-import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
-import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
+import PowersAvailable from "../PowerCenterMobileCard/PowersAvailable";
+import PrizeGrid from "../PowerCenterMobileCard/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
+import Pitchers from '../PowerCenterMobileCard/Pitcher';
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
@@ -217,9 +218,7 @@ const MyGameCenterCard = (props) => {
 
       const res = await dispatch(MLBActions.leaveGame(user_id, game_id));
       if (res) {
-        history.push("/power-center");
-
-        redirectTo(props, { path: "/power-center" });
+        window.location.reload();
       }
       setIsLoading(false);
     }
@@ -448,7 +447,7 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} />
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={false}/>
               </>
               {/* today */}
 
@@ -486,6 +485,9 @@ const MyGameCenterCard = (props) => {
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
+                  game_set_start={game_set_start}
+                  start_time={start_time}
+                  showDateTime={false}
                 />
               </>
 
@@ -523,6 +525,8 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                   learnMore={() => setPowerLearnMoreModal(true)}
+                  game_set_start={game_set_start} start_time={start_time}
+                  showDateTime={false}
                 />
               </>
 
@@ -559,7 +563,39 @@ const MyGameCenterCard = (props) => {
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
+                  showDateTime={false}
                 />
+              </>
+
+              <>
+                <div className={classes.__my_game_center_card_mobile_header}>
+                  {inProgress && (
+                    <div className={classes.__my_game_center_card_in_progress}>
+                      <div className={classes.__in_progress}>
+                        <span></span>In Progress
+                      </div>
+                    </div>
+                  )}
+                  {completed && (
+                    <div className={classes.__my_game_center_card_completed}>
+                      <div className={classes.__completed}>
+                        <span></span>Completed
+                      </div>
+                    </div>
+                  )}
+
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} showDateTime={false}/>
               </>
 
               <>

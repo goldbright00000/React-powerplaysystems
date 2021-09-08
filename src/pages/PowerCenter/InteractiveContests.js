@@ -576,14 +576,13 @@ const InteractiveContests = (props) => {
     }
   }
   function filterCurrency(arr) {
-    console.log("arr", arr);
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
       if (selectedDate === "Today") {
-        var m = moment().format("YYYY-MM-DD");
+        var m = moment.utc().format("YYYY-MM-DD");
       } else {
-        var m = moment(selectedDate + " " + moment().format("YYYY")).format(
+        var m = moment.utc(selectedDate + " " + moment().format("YYYY")).format(
           "YYYY-MM-DD"
         );
       }
@@ -593,16 +592,14 @@ const InteractiveContests = (props) => {
       s = "0" + s;
       s = s.slice(-8);
       s = s.split(/(?=[A-Z]{2})/).join(" ");
-      var startDate = moment(power?.start_date + " " + s).format(
+      var startDate = moment.utc(power?.start_date + " " + s).format(
         "YYYY-MM-DD hh:mm A"
       );
-      console.log("startDate", startDate);
-      var endDate = moment(power?.end_date + " 11:59 PM").format(
+      var endDate = moment.utc(power?.end_date + " 11:59 PM").format(
         "YYYY-MM-DD hh:mm A"
       );
-      var isBetween1 = moment(startDate).isBetween(sDate, eDate);
+      var isBetween1 = moment.utc(startDate).isBetween(sDate, eDate);
 
-      //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
       if (selectedDate === "All") {
         isBetween1 = 1;
       }
@@ -718,7 +715,7 @@ const InteractiveContests = (props) => {
     }
     else if (selectedOption === "Today") {
       powerCenterCardData.map((item) => {
-
+        
         if (item?.start_date == today.format('YYYY-MM-DD')) {
           data.push(item)
         }
@@ -727,6 +724,7 @@ const InteractiveContests = (props) => {
     }
     else {
       powerCenterCardData.map((item) => {
+        //console.log(item?.start_date, "==", day, item);
         if (item?.start_date == day) {
           data.push(item)
         }
@@ -785,9 +783,12 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption)
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
