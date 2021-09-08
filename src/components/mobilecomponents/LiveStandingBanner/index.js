@@ -1,10 +1,10 @@
 import React from "react";
 import "./banner.scss";
-const StandingBanner = () => {
+const StandingBanner = (props) => {
   return (
     <div className="bannerWrapper">
       <h2>Live Standings</h2>
-      <p>Oct 24, 2020 | 8:00PM ET</p>
+      <p>{props?.getCurrentTime()}</p>
     </div>
   );
 };

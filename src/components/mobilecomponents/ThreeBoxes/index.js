@@ -106,13 +106,16 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
       <Container fluid={true}>
         <Row>
           <SingleBox
-            link={true}
+            link={false}
             customClass="first"
             image="/images/live-standing.svg"
             heading="Standings"
             subHeading="Live"
             setModal={setModal}
             showTime={showTime}
+            onButtonClick={() => {
+              setModalState(true)
+            }}
           />
           <SingleBox
             customClass=""
@@ -143,7 +146,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
         data={selectedTema?.game?.PrizePayouts}
         onClose={() => setPrizeModalState(false)}
       />
-      <LiveStandings visible={showModal} onClose={closeModal} liveStandingData={liveStandingData} prizePool={prizePool}/>
+      <LiveStandings visible={showModal} onClose={closeModal} liveStandingData={liveStandingData} prizePool={prizePool} isMobile={true}/>
     </div>
   );
 };
