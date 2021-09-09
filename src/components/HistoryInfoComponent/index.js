@@ -80,6 +80,7 @@ const HistoryInfoComponent = (props) => {
               <div className="mx-1 text-left text-ellipsis">{getDate(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{getTime(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type || "--"} </div>
+              <div className="mx-1 text-left text-ellipsis">{transaction?.game_id || "--"} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount || "--"}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? `Verified` : 'Entered'}</div>
@@ -97,6 +98,7 @@ const HistoryInfoComponent = (props) => {
           <div className="mx-1 text-left">Date</div>
           <div className="mx-1 text-left">Time</div>
           <div className="mx-1 text-left">Type</div>
+          <div className="mx-1 text-left">Game Id</div>
           <div className="mx-1 text-left">Currency</div>
           <div className="mx-1 text-left">Amount</div>
           <div className="mx-1 text-left">Results</div>
