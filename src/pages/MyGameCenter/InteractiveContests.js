@@ -324,6 +324,7 @@ const InteractiveContests = (props) => {
           //       .format("YYYY-MM-DD") + " 02:00 AM"
           //   )
           // }
+          currency={item?.game?.currency}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}
@@ -570,7 +571,6 @@ const InteractiveContests = (props) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
                 var items = subFiltered.slice(start, end);
-
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                 //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
                 //   item?.game?.game_set_end + ' 11:59 AM'
