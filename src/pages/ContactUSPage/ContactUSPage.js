@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import Select from '../../ui/Select/Select';
 import styles from './styles.module.scss';
+import {
+    getPersonaUserId,
+} from "../../actions/personaActions";
+import { submitContactUsForm } from '../../actions/userActions';
 
 const ContactUSPage = props => {
+
+    const dispatch = useDispatch();
+    const [item, setItem] = useState({
+        topic: '',
+        displayName: '',
+        email: '',
+        subject: '',
+        message: ''
+    });
+
     const onSubmit = e => {
         e.preventDefault();
     }
+
+    const onChange = e => {
+        const obj = { ...item };
+        obj[e.target.id] = e.target.value;
+        setItem(obj);
+    }
+
+    const handleSubmit = () => {
+        const user_id = getPersonaUserId();
+        dispatch(submitContactUsForm({ ...item, user_id }));
+    }
+
     return (
         <div>
             <Header isStick={true} />
@@ -20,7 +47,7 @@ const ContactUSPage = props => {
                         <section>
                             <div className={styles.inputField}>
                                 <label htmlFor='topic'>* Please choose a topic:</label>
-                                <select id='topic' defaultValue=''>
+                                <select id='topic' defaultValue='' onChange={onChange}>
                                     <option disabled value=''></option>
                                     <option value='Technical Support'>Technical Support</option>
                                     <option value='General Enquiry'>General Enquiry</option>
@@ -29,24 +56,24 @@ const ContactUSPage = props => {
                             </div>
                             <div className={styles.inputField}>
                                 <label htmlFor='displayName'>Display name:</label>
-                                <input type='text' id='displayName' placeholder='Enter your name' />
+                                <input type='text' id='displayName' placeholder='Enter your name' onChange={onChange} />
                             </div>
                             <div className={styles.inputField}>
                                 <label htmlFor='email'>* Email:</label>
-                                <input type='email' id='email' placeholder='Enter you email' />
+                                <input type='email' id='email' placeholder='Enter you email' onChange={onChange} />
                             </div>
                             <div className={styles.inputField}>
                                 <label htmlFor='subject'>* Subject:</label>
-                                <input type='subject' id='subject' placeholder='Subject for your message' />
+                                <input type='subject' id='subject' placeholder='Subject for your message' onChange={onChange} />
                             </div>
                         </section>
                         <div className={styles.textAreaWrapper}>
                             <div className={`${styles.inputField} `}>
                                 <label htmlFor='message'>* Message:</label>
-                                <textarea id='message' placeholder='Enter message'></textarea>
+                                <textarea id='message' placeholder='Enter message' onChange={onChange}></textarea>
                                 <span>2000 characters max</span>
                             </div>
-                            <button className={styles.btn}>Submit</button>
+                            <button className={styles.btn} onClick={handleSubmit}>Submit</button>
                         </div>
                         <section className={styles.additionWaysToContactSection}>
                             <div>

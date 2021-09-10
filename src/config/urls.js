@@ -19,6 +19,7 @@ export const URLS = {
     PERSONA_VERIFICATION: "users/verify-persona",
     SEND_EMAIL_CONFIRMATION: "users/send-nopass-verification",
     VERIFY_CONFIRMATION_CODE: "users/verify-nopass",
+    CONTACT_US: "users/contact-us",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
