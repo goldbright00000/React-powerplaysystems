@@ -319,3 +319,19 @@ export function requestBalanceWithdraw(data, changeModalState) {
     }
   };
 }
+
+export function submitContactUsForm(data) {
+
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.CONTACT_US}`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
