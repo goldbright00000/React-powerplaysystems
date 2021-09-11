@@ -25,7 +25,7 @@
         display: flex;
         flex-direction: row;
         width: 100%;
-        max-width: 180px;
+        max-width: 200px;
         margin: auto;
 
         .__hitters_data_title_div {
@@ -99,6 +99,6 @@
         line-height: normal;
         letter-spacing: normal;
         color: $lightBlue;
-        margin-left: 30px;
+        margin-left: 16px;
     }
 }
