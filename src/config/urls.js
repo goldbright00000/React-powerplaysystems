@@ -20,6 +20,8 @@ export const URLS = {
     SEND_EMAIL_CONFIRMATION: "users/send-nopass-verification",
     VERIFY_CONFIRMATION_CODE: "users/verify-nopass",
     CONTACT_US: "users/contact-us",
+    GET_USER_WINNINGS: "users/get-user-winnigs",
+
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
