@@ -213,14 +213,9 @@ function NHLLivePowerdFsScroeDetail(props) {
     }
 
     const _logs = [];
-    gameLogs?.map((log) => {
-      if (log?.active_powerplay) {
-        log.isNewRow = true;
-        _logs.push(log);
-      }
-    });
+    let filteredLogs = lodash.uniqBy(gameLogs, "play_id");
 
-    for (let i = 0; i < gameLogs?.length; i++) {
+    for (let i = 0; i < filteredLogs?.length; i++) {
       const isPitcher =
         filteredLogs[i]?.play?.pitcher_id ===
         filteredLogs[i]?.effected_player?.player_id;
