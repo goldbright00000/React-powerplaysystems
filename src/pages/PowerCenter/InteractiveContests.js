@@ -3,6 +3,8 @@ import classes from "./interactiveContests.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
+import moment1 from "moment-timezone";
+
 import { getLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 
@@ -614,8 +616,12 @@ const InteractiveContests = (props) => {
   }
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
       time: splitted[1]
@@ -715,7 +721,7 @@ const InteractiveContests = (props) => {
     }
     else if (selectedOption === "Today") {
       powerCenterCardData.map((item) => {
-        
+
         if (item?.start_date == today.format('YYYY-MM-DD')) {
           data.push(item)
         }

@@ -24,6 +24,8 @@ import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
 import _ from "underscore";
 import moment from "moment";
+import moment1 from "moment-timezone";
+
 import { CONSTANTS } from "../../utility/constants";
 
 // TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
@@ -229,14 +231,23 @@ const InteractiveContests = (props) => {
   };
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(
-      moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()
-    ).format("YYYY-MM-DD=hh:mm A");
+
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
-      time: splitted[1],
-    };
+      time: splitted[1]
+    }
+
+    // const localDateTime = moment(moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()).format("YYYY-MM-DD=hh:mm A");
+    // const splitted = localDateTime.split("=");
+    // return {
+    //   date: splitted[0],
+    //   time: splitted[1],
+    // };
   };
 
   const setFilteredDataWithDate = (selectedOption) => {
