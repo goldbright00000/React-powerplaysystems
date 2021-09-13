@@ -77,11 +77,9 @@ function NHLLivePowerdFsScroeDetail(props) {
   );
   const a = useSelector((state) => state);
   const { game = {} } = useSelector((state) => selectedTeam);
-  const {
-    game_id = 0,
-    PointsSystems = [],
-    Powers = [],
-  } = useSelector((state) => game);
+  const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
+    (state) => game
+  );
   let prizePool = 0;
   prizePool = _.reduce(
     game?.PrizePayouts,
@@ -300,7 +298,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     )
       return 5;
 
-    if (id === "aHR") return 10;
+    if (id === "aHR" && isHitter) return 10;
 
     if (
       id === "oGO" ||
