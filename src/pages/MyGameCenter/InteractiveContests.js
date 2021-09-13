@@ -22,6 +22,8 @@ import http from "../../config/http";
 import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
+import * as NFLActions from "../../actions/NFLActions";
+import * as NHLActions from "../../actions/NHLActions";
 import _ from "underscore";
 import moment from "moment";
 import moment1 from "moment-timezone";
@@ -212,6 +214,98 @@ const InteractiveContests = (props) => {
             currency: item?.game?.currency,
           },
         });
+
+      case "NFL":
+        await dispatch(NFLActions.setSelectedTeam(item));
+        dispatch(
+          NFLActions.getAndSetEditPlayers({
+            game_id: item?.game_id,
+            sport_id: item?.sport_id,
+            user_id: item?.user_id,
+          })
+        );
+
+        return redirectTo(props, {
+          path: `/nfl-select-team`,
+          state: {
+            // game_id: item?.game_id,
+            // game_details: item?.game,
+            // Power: item?.game?.Powers
+
+            game_id: item?.game_id,
+            sport_id: item?.game?.sports_id,
+            start_date: item?.game?.start_date,
+            end_date: item?.game?.end_date,
+            start_time: item?.game?.start_time,
+            outOf: item?.game?.target,
+            enrolledUsers: item?.game?.enrolled_users,
+            prizePool: _.reduce(
+              item?.game?.PrizePayouts,
+              function (memo, num) {
+                return memo + parseInt(num.amount) * parseInt(num.prize);
+              },
+              0
+            ),
+            topPrize: parseFloat(
+              _.max(item?.game?.PrizePayouts, function (ele) {
+                return ele.amount;
+              }).amount
+            ),
+            game_set_start: item?.game?.game_set_start,
+            PointsSystem: item?.game?.PointsSystems,
+            Power: item?.game?.Powers,
+            prizes: item?.game?.PrizePayouts,
+            paid_game: item?.game?.is_game_paid,
+            entry_fee: item?.game?.entry_fee,
+            currency: item?.game?.currency,
+          },
+        });
+
+      case "NHL":
+        await dispatch(NHLActions.setSelectedTeam(item));
+        dispatch(
+          NHLActions.getAndSetEditPlayers({
+            game_id: item?.game_id,
+            sport_id: item?.sport_id,
+            user_id: item?.user_id,
+          })
+        );
+
+        return redirectTo(props, {
+          path: `/nhl-select-team`,
+          state: {
+            // game_id: item?.game_id,
+            // game_details: item?.game,
+            // Power: item?.game?.Powers
+
+            game_id: item?.game_id,
+            sport_id: item?.game?.sports_id,
+            start_date: item?.game?.start_date,
+            end_date: item?.game?.end_date,
+            start_time: item?.game?.start_time,
+            outOf: item?.game?.target,
+            enrolledUsers: item?.game?.enrolled_users,
+            prizePool: _.reduce(
+              item?.game?.PrizePayouts,
+              function (memo, num) {
+                return memo + parseInt(num.amount) * parseInt(num.prize);
+              },
+              0
+            ),
+            topPrize: parseFloat(
+              _.max(item?.game?.PrizePayouts, function (ele) {
+                return ele.amount;
+              }).amount
+            ),
+            game_set_start: item?.game?.game_set_start,
+            PointsSystem: item?.game?.PointsSystems,
+            Power: item?.game?.Powers,
+            prizes: item?.game?.PrizePayouts,
+            paid_game: item?.game?.is_game_paid,
+            entry_fee: item?.game?.entry_fee,
+            currency: item?.game?.currency,
+          },
+        });
     }
   };
 
@@ -251,29 +345,27 @@ const InteractiveContests = (props) => {
   };
 
   const setFilteredDataWithDate = (selectedOption) => {
-    let day = moment(selectedOption).format('YYYY-MM-DD')
+    let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
-    let data = []
+    let data = [];
     if (selectedOption === "All") {
-      setFilteredData(getUserSavedGames)
-    }
-    else if (selectedOption === "Today") {
+      setFilteredData(getUserSavedGames);
+    } else if (selectedOption === "Today") {
       myGameCenterCardData.map((item) => {
-        if (item?.game?.start_date == today.format('YYYY-MM-DD')) {
-          data.push(item)
+        if (item?.game?.start_date == today.format("YYYY-MM-DD")) {
+          data.push(item);
         }
-      })
-      setFilteredData(data)
-    }
-    else {
+      });
+      setFilteredData(data);
+    } else {
       myGameCenterCardData.map((item) => {
         if (item?.game?.start_date == day) {
-          data.push(item)
+          data.push(item);
         }
-      })
-      setFilteredData(data)
+      });
+      setFilteredData(data);
     }
-  }
+  };
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div
@@ -377,10 +469,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -465,7 +557,13 @@ const InteractiveContests = (props) => {
             <CustomDropDown
               wrapperClassName={classes.__interactive_contests_date_wrapper}
               dropdownClassName={classes.__interactive_contests_date_dropdown}
-              value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
+              value={
+                selectedDate === "Today"
+                  ? "Today"
+                  : selectedDate === "All"
+                  ? "All"
+                  : moment(selectedDate).format("ddd,MMM DD")
+              }
               options={days}
               onChange={(selectedOption) => {
                 setSelectedDate(selectedOption);
