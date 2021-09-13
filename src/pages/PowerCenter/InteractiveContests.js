@@ -285,6 +285,8 @@ const InteractiveContests = (props) => {
   };
 
   const checkBalace = (item, entry_fee) => {
+
+    if (item?.is_game_free) return true;
     switch (item?.currency) {
       case "USD":
         if (cashBalance >= entry_fee) return true;
