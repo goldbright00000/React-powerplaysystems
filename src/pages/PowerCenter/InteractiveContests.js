@@ -3,6 +3,8 @@ import classes from "./interactiveContests.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
+import moment1 from "moment-timezone";
+
 import { getLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 
@@ -202,9 +204,9 @@ const InteractiveContests = (props) => {
   }
   const onOpenPromoModal = (items, propss) => {
     setShowPromoModal(true);
-    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
+    if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
-    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
+    if (JSON.stringify(propss) !== JSON.stringify(propsGame))
       setPropsGame(propss);
   }
 
@@ -283,6 +285,8 @@ const InteractiveContests = (props) => {
   };
 
   const checkBalace = (item, entry_fee) => {
+
+    if (item?.is_game_free) return true;
     switch (item?.currency) {
       case "USD":
         if (cashBalance >= entry_fee) return true;
@@ -326,10 +330,8 @@ const InteractiveContests = (props) => {
     if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
-          if(item.game_type == "PowerdFs_challenge")
-          {
-            if(isMobile)
-            {
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
               return redirectTo(props, {
                 path: `/challenge-page`,
                 state: {
@@ -578,14 +580,13 @@ const InteractiveContests = (props) => {
     }
   }
   function filterCurrency(arr) {
-    console.log("arr", arr);
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
       if (selectedDate === "Today") {
-        var m = moment().format("YYYY-MM-DD");
+        var m = moment.utc().format("YYYY-MM-DD");
       } else {
-        var m = moment(selectedDate + " " + moment().format("YYYY")).format(
+        var m = moment.utc(selectedDate + " " + moment().format("YYYY")).format(
           "YYYY-MM-DD"
         );
       }
@@ -595,16 +596,14 @@ const InteractiveContests = (props) => {
       s = "0" + s;
       s = s.slice(-8);
       s = s.split(/(?=[A-Z]{2})/).join(" ");
-      var startDate = moment(power?.start_date + " " + s).format(
+      var startDate = moment.utc(power?.start_date + " " + s).format(
         "YYYY-MM-DD hh:mm A"
       );
-      console.log("startDate", startDate);
-      var endDate = moment(power?.end_date + " 11:59 PM").format(
+      var endDate = moment.utc(power?.end_date + " 11:59 PM").format(
         "YYYY-MM-DD hh:mm A"
       );
-      var isBetween1 = moment(startDate).isBetween(sDate, eDate);
+      var isBetween1 = moment.utc(startDate).isBetween(sDate, eDate);
 
-      //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
       if (selectedDate === "All") {
         isBetween1 = 1;
       }
@@ -619,8 +618,12 @@ const InteractiveContests = (props) => {
   }
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
       time: splitted[1]
@@ -711,6 +714,33 @@ const InteractiveContests = (props) => {
     );
   };
 
+  const setFilteredDataWithDate = (selectedOption) => {
+    let day = moment(selectedOption).format('YYYY-MM-DD')
+    const today = moment();
+    let data = []
+    if (selectedOption === "All") {
+      setFilteredData(powerCenterCardData)
+    }
+    else if (selectedOption === "Today") {
+      powerCenterCardData.map((item) => {
+
+        if (item?.start_date == today.format('YYYY-MM-DD')) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+    else {
+      powerCenterCardData.map((item) => {
+        //console.log(item?.start_date, "==", day, item);
+        if (item?.start_date == day) {
+          data.push(item)
+        }
+      })
+      setFilteredData(data)
+    }
+  }
+
   return (
     <>
       <div className="__table-wrapper __mb-6">
@@ -752,8 +782,8 @@ const InteractiveContests = (props) => {
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
               <p onClick={() => {
-                  Sorter("Most Popular");
-                }}>
+                Sorter("Most Popular");
+              }}>
                 Most Popular
                 <FilledArrow down={sortedByMPAction === "asc" ? false : true}
                   up={sortedByMPAction === "asc" ? true : false} />
@@ -761,9 +791,12 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption)
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -890,9 +923,12 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption)
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -997,7 +1033,7 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
-        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
+        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame} />
       </div>
     </>
   );

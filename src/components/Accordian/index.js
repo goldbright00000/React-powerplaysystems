@@ -22,7 +22,7 @@ function Accordian(props) {
   useEffect(() => {
     let sum = 0;
     transactions.forEach((element) => {
-      sum = sum + element.transaction_amount;
+      sum = sum + element.win_amount;
     });
     setSub(cash - sum);
   }, []);
@@ -56,7 +56,7 @@ function Accordian(props) {
               <span className={classes.amount}>{cash - sub}</span>
             </span>
           )}
-          {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} />}
+          {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} alt="" />}
           <i
             className={`${classes.arrow} ${visible ? classes.up : classes.down
               }`}

@@ -76,7 +76,6 @@ function NHLLivePowerdFsScroeDetail(props) {
     (state) => state.mlb
   );
   const a = useSelector((state) => state);
-  // console.log("gameLogs", a)
   const { game = {} } = useSelector((state) => selectedTeam);
   const {
     game_id = 0,
@@ -214,10 +213,14 @@ function NHLLivePowerdFsScroeDetail(props) {
     }
 
     const _logs = [];
+    gameLogs?.map((log) => {
+      if (log?.active_powerplay) {
+        log.isNewRow = true;
+        _logs.push(log);
+      }
+    });
 
-    let filteredLogs = lodash.uniqBy(gameLogs, "play_id");
-
-    for (let i = 0; i < filteredLogs?.length; i++) {
+    for (let i = 0; i < gameLogs?.length; i++) {
       const isPitcher =
         filteredLogs[i]?.play?.pitcher_id ===
         filteredLogs[i]?.effected_player?.player_id;
@@ -374,7 +377,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       return 1;
 
     if (
-      id === "aS" ||
+      (id === "aS" && isHitter) ||
       id === "aSAD2" ||
       id === "aSAD3" ||
       id === "aSAD4" ||
@@ -446,21 +449,14 @@ function NHLLivePowerdFsScroeDetail(props) {
   };
 
   const RenderXP = (xp) => {
-    switch (xp) {
-      case "1.5":
-      case "1_5":
-        return <XP1_5Icon />;
-
-      case 2:
-      case "2":
-        return <XP2Icon />;
-
-      case 3:
-      case "3":
-        return <XP3Icon />;
-
-      default:
-        return "-";
+    if (xp?.name?.toLocaleLowerCase()?.match(/1.5x/g)) {
+      return <XP1_5Icon />;
+    } else if (xp?.name?.toLocaleLowerCase()?.match(/2x/g)) {
+      return <XP2Icon />;
+    } else if (xp?.name?.toLocaleLowerCase()?.match(/3x/g)) {
+      return <XP3Icon />;
+    } else {
+      return "-";
     }
   };
 
@@ -480,6 +476,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     activePower = null,
     timeStamp = "",
     hasPlay = false,
+    isNewRow = false,
   }) => (
     <div
       className={`${classes.card_row} ${classes.card_row_1} ${
@@ -527,7 +524,7 @@ function NHLLivePowerdFsScroeDetail(props) {
 
       {/* <span className={`${classes.child_4} ${classes.center}`}><p className={classes.secondary}>{totalPts}</p></span> */}
       <span className={classes.center}>
-        {hasPlay && activePower !== null && RenderXP(powers)}
+        {isNewRow && activePower !== null && RenderXP(activePower)}
         {!hasPlay && <Replace size={40} />}
       </span>
       <span className={classes.center}>
@@ -635,6 +632,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                       rsPts = 0,
                       playPts = 0,
                       created_at: createdAt = "",
+                      isNewRow = false,
                     } = row || {};
 
                     const {
@@ -726,6 +724,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                         )}
                         hasPlay={play !== null}
                         key={ind?.toString()}
+                        isNewRow={isNewRow}
                       />
                     );
                   })

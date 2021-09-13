@@ -9,6 +9,8 @@ import { urlencoded } from "body-parser";
 import { redirectTo } from "../../utility/shared";
 import _ from "underscore";
 import moment from "moment";
+import moment1 from "moment-timezone";
+
 
 import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
@@ -21,17 +23,27 @@ function PromoModal(props) {
     props || {};
   const [showPrizeModal, setPrizeModalState] = React.useState(false);
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
       time: splitted[1]
     }
+
+    // const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    // const splitted = localDateTime.split("=");
+    // return {
+    //   date: splitted[0],
+    //   time: splitted[1]
+    // }
   }
-  
+
   const redirectToUrl = () => {
     let item = props.item;
-    
+
     return redirectTo(props.propss, {
       path: `/mlb-select-team`,
       state: {
@@ -67,7 +79,7 @@ function PromoModal(props) {
 
   return (<>
     <Modal visible={visible}>
-      <div className={classes.wrapper} style={{width: 780,height: 675, backgroundImage: `url(${bg})`}}>
+      <div className={classes.wrapper} style={{ width: 780, height: 675, backgroundImage: `url(${bg})` }}>
         <div className={classes.modal_body}>
           <div className={classes.topButtons}>
             <div className={classes.leftButtons}>
@@ -78,14 +90,14 @@ function PromoModal(props) {
                 }}
               ><span>Prize Grid</span></button>
               <ContestRulesPopUp
-              points={[props?.item?.PrizePayouts]}
-              powers={props?.item?.Powers}
-              component={({ showPopUp }) => (
-                <button
-                type="button"
-                onClick={showPopUp}
-                ><span>Game Rules</span></button>
-              )}
+                points={[props?.item?.PrizePayouts]}
+                powers={props?.item?.Powers}
+                component={({ showPopUp }) => (
+                  <button
+                    type="button"
+                    onClick={showPopUp}
+                  ><span>Game Rules</span></button>
+                )}
               />
               <button
                 type="button"
@@ -108,7 +120,7 @@ function PromoModal(props) {
             </span>
             <div className={classes.powers}>
               <div className={classes.power}>
-                <XpIcon/>
+                <XpIcon />
                 <span>Point Boosters </span>
                 <span className={classes.orange}>x2</span>
               </div>
@@ -144,7 +156,7 @@ function PromoModal(props) {
           </div>
           <div className={classes.bottomButton}>
             <button onClick={redirectToUrl}>
-              ${props?.item?.entry_fee?props?.item?.entry_fee:0}  •  Enter & unlock Powers!
+              ${props?.item?.entry_fee ? props?.item?.entry_fee : 0}  •  Enter & unlock Powers!
             </button>
           </div>
           <span className={classes.freeEntry}>Free Entry</span>
@@ -152,11 +164,11 @@ function PromoModal(props) {
       </div>
     </Modal>
     <PrizeModal
-        visible={showPrizeModal}
-        sportsName="MLB"
-        data={props?.item?.PrizePayouts}
-        onClose={() => setPrizeModalState(false)}
-      /></>
+      visible={showPrizeModal}
+      sportsName="MLB"
+      data={props?.item?.PrizePayouts}
+      onClose={() => setPrizeModalState(false)}
+    /></>
   );
 }
 

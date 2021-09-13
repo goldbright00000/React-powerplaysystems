@@ -979,7 +979,14 @@ function MLBPowerdFsLive(props) {
         </>
       ) : (
         <>
-        <Mobile data={live_data} ranks={ranks} counts={swapCounts}/>
+        <Mobile data={live_data} ranks={ranks} counts={{
+          swapCounts,
+          dwallCounts,
+          challengeCounts,
+          retroBoostCounts,
+          powerUpCounts,
+          pointMultiplierCounts
+        }}/>
         </>
       )}
     </>

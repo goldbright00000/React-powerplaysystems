@@ -44,11 +44,25 @@
   margin-right: 20px;
   font-size: 12px;
   text-align: left;
-  
+  .__point_system_date_time {
+    width: 100%;
+    height: 17px;
+    margin-top: 10px;
+    text-shadow: 0 2px 4px $black5;
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: $grey11;
+    text-align: left;
+}
   .__contest_rules_main_title {
     width: 100%;
     height: 23px;
-    margin-top: 10px;
+    //margin-top: 10px;
     margin-bottom: 15px;
     font-family: Poppins;
     font-weight: 600;
@@ -61,10 +75,12 @@
     text-align: left;
     font-size: 18px;
     color: #f2f2f2;
+    &.__contest_rules_main_title_nopadding{
+      margin-top: 0px;
+    }
     .subtitle {
       opacity: 0.5;
       font-size: 14px;
-      font-weight: 600;
     }
   }
 

@@ -9,6 +9,8 @@ import bg from "../../assets/baseball-player-bg.png";
 import { redirectTo } from "../../utility/shared";
 import _ from "underscore";
 import moment from "moment";
+import moment1 from "moment-timezone";
+
 import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
@@ -23,19 +25,30 @@ const ChallengePage = (props) => {
   const {
     state = []
   } = props.location || {}
-  
+
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
       time: splitted[1]
     }
+
+    // const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    // const splitted = localDateTime.split("=");
+    // return {
+    //   date: splitted[0],
+    //   time: splitted[1]
+    // }
   }
-  
+
   const redirectToUrl = () => {
     let item = props.location.state;
-    
+
     return redirectTo(props, {
       path: `/mlb-select-team`,
       state: {
@@ -81,10 +94,10 @@ const ChallengePage = (props) => {
     <div>
       <Header />
       <div className={classes.mainContent} style={{
-      backgroundImage: `url(${bg})`,
-      backgroundPosition: 'left',
-      backgroundRepeat: 'no-repeat'
-    }}>
+        backgroundImage: `url(${bg})`,
+        backgroundPosition: 'left',
+        backgroundRepeat: 'no-repeat'
+      }}>
         <div className={classes.backButton} onClick={onBack}>
           <span>
             {"< Back"}
@@ -103,7 +116,7 @@ const ChallengePage = (props) => {
           </span>
           <div className={classes.powers}>
             <div className={classes.power}>
-              <XpIcon/>
+              <XpIcon />
               <span>Point Boosters </span>
               <span className={classes.orange}>x2</span>
             </div>
@@ -127,26 +140,26 @@ const ChallengePage = (props) => {
           </div>
 
           <div className={classes.topButtons}>
-          <div className={classes.leftButtons}>
-            <button
-              type="button"
-              onClick={() => setPrizeModalState(true)}
-            ><span>Prize Grid</span></button>
-            <ContestRulesPopUp
-              points={[state?.PrizePayout]}
-              powers={state?.Power}
-              component={({ showPopUp }) => (
-                <button
-                  type="button"
-                  onClick={showPopUp}
-                ><span>Game Rules</span></button>
-              )}
-            />
-            <button
-              type="button"
-            ><span>Contest Rules</span></button>
+            <div className={classes.leftButtons}>
+              <button
+                type="button"
+                onClick={() => setPrizeModalState(true)}
+              ><span>Prize Grid</span></button>
+              <ContestRulesPopUp
+                points={[state?.PrizePayout]}
+                powers={state?.Power}
+                component={({ showPopUp }) => (
+                  <button
+                    type="button"
+                    onClick={showPopUp}
+                  ><span>Game Rules</span></button>
+                )}
+              />
+              <button
+                type="button"
+              ><span>Contest Rules</span></button>
+            </div>
           </div>
-        </div>
         </div>
         <div className={classes.extraDesc}>
           <p>No purchase necessary. Contest closes at <span>11:59pm ET on February 7th, 2022.</span></p>
@@ -154,7 +167,7 @@ const ChallengePage = (props) => {
         </div>
         <div className={classes.bottomButton}>
           <button onClick={redirectToUrl}>
-            ${props?.location?.state?.entry_fee?(props?.location?.state?.entry_fee):0}  •  Enter Now!
+            ${props?.location?.state?.entry_fee ? (props?.location?.state?.entry_fee) : 0}  •  Enter Now!
           </button>
         </div>
         <div className={classes.freeEntry}>Free Entry</div>

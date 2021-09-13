@@ -44,36 +44,38 @@ const MyPowersMenu = ({
 
         <div className="modal_footer__booster">
           <SingleBooster
-            unlock={false}
+            unlock={true}
             src="xpLocked.svg"
             heading="Point Booster"
+            number={counts.pointMultiplierCounts}
           />
           <SingleBooster
             unlock={true}
             src="repeat.svg"
             heading="Swap player"
-            number={counts}
+            number={counts.swapCounts}
           />
           <SingleBooster
             unlock={true}
             src="challenge-power.svg"
             heading="Challenge"
             number="2"
+            number={counts.challengeCounts}
           />
         </div>
         <div className="modal_footer__booster">
-          <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={true} number="2"/>{" "}
+          <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={true} number={counts.dwallCounts}/>{" "}
           <SingleBooster
             unlock={true}
             src="retro-boostBig.svg"
             heading="Retro Boost"
-            number="2"
+            number={counts.retroBoostCounts}
           />
           <SingleBooster
             unlock={true}
-            src="power-up.svg"
+            src="power-up-icon.svg"
             heading="Power Up"
-            number="2"
+            number={counts.powerUpCounts}
           />
         </div>
         <ThreeBoxes

@@ -7,6 +7,7 @@
     box-shadow: 0 2px 24px 24px $black6;
     background-color: $lightBlack;
 
+    
     .__final_standings_modal_main_content {
         margin-left: 57px;
         margin-right: 57px;
@@ -37,7 +38,6 @@
             }
 
             .__final_standings_modal_title_price {
-                width: 92px;
                 height: 33px;
                 font-family: Poppins;
                 font-size: 24px;
@@ -48,6 +48,12 @@
                 letter-spacing: normal;
                 text-align: right;
                 color: $primary;
+               
+                .__entry_fee_USD{
+                    color: #688fbd;
+                    font-size: 16px;
+                    font-weight: bold !important;
+                  }
             }
         }
 

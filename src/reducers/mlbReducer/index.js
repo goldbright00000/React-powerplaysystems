@@ -13,6 +13,7 @@ const INITIAL_STATE = {
   team_id: 0,
   is_loading: false,
   selectedTeam: {},
+  finalStandings: [],
 };
 
 const mlbReducer = (state = INITIAL_STATE, actions) => {
@@ -63,6 +64,12 @@ const mlbReducer = (state = INITIAL_STATE, actions) => {
         ...state,
         selectedTeam: actions.payload,
       };
+
+    case Actions.FINAL_STANDINGS:
+      return {
+        ...state,
+        finalStandings: actions.payload
+      }
 
     default:
       return state;

@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
-import { CONSTANTS } from "../../utility/constants";
 import { getLocalStorage } from "../../utility/shared";
 
 import classes from "./index.module.scss";
@@ -21,6 +20,7 @@ import { printLog } from "../../utility/shared";
 import SnackbarAlert from "../../components/SnackbarAlert";
 import { showDepositForm } from "../../actions/uiActions";
 import * as MLbActions from "../../actions/MLBActions";
+import { getUserWinnigs } from "../../actions/userActions";
 
 function AccountPage(props) {
   const dispatch = useDispatch();
@@ -31,13 +31,14 @@ function AccountPage(props) {
   useEffect(() => {
     getUserAccount();
     getUserGames();
+    getuserWinnigs();
   }, []);
 
   const { user = "" } = useSelector((state) => state?.auth);
-  const showDepositModal = useSelector((state) => state.ui?.showDepositForm);
+
+  const { userWinnigs } = useSelector((state) => state?.user)
 
   const [userAccount, setUserAccount] = useState({});
-  const { getUserSavedGames } = useSelector((state) => state?.mlb);
 
   const getUserAccount = async () => {
     const response = await http.get(URLS.AUTH.ACCOUNT);
@@ -56,26 +57,12 @@ function AccountPage(props) {
     }
   };
 
-  useEffect(() => {
-    const obj = { ...userAccount };
-
-    if (getUserSavedGames?.length > 0) {
-      getUserSavedGames.forEach((element) => {
-        obj?.transactions?.push({
-          balance_result: "decrease",
-          balance_type: element?.game?.currency,
-          date_time: element?.game?.createdAt,
-          description: "Entered into Game",
-          transaction_amount: element?.game?.entry_fee,
-          transaction_type_details: { type: "Game Entry" },
-        });
-      });
-
-      console.log('onj ---> ', obj)
-
-      setUserAccount(obj);
+  const getuserWinnigs = async () => {
+    const user_id = getLocalStorage("PERSONA_USER_ID");
+    if (user_id) {
+      dispatch(getUserWinnigs(user_id));
     }
-  }, [getUserSavedGames]);
+  };
 
   return (
     <>
@@ -126,7 +113,7 @@ function AccountPage(props) {
                 <TabPanel>
                   <ResultsInforComponent
                     isMobile={isMobile}
-                    transactions={userAccount.transactions}
+                    userWinnigs={userWinnigs}
                     balance={userAccount.balance}
                   />
                 </TabPanel>
@@ -137,7 +124,6 @@ function AccountPage(props) {
                     balance={userAccount.balance}
                   />
                 </TabPanel>
-                {console.log('useraccount', userAccount)}
                 <TabPanel>
                   <DepositWithdrawComponent
                     isMobile={isMobile}
