@@ -73,30 +73,30 @@ const getIcon = (powerName) => {
   }
 };
 
-const { CENTER, LW, RW, D, G, TD } = CONSTANTS.FILTERS.NHL;
+const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 
 const SIDEBAR_INITIAL_LIST = [
   {
-    title: `${CENTER}1`,
+    title: CENTER,
     filter: CENTER,
     name: "",
     playerId: "",
   },
   {
-    title: `${CENTER}2`,
-    filter: CENTER,
+    title: `${XW}1`,
+    filter: XW,
     name: "",
     playerId: "",
   },
   {
-    title: LW,
-    filter: LW,
+    title: `${XW}2`,
+    filter: XW,
     name: "",
     playerId: "",
   },
   {
-    title: RW,
-    filter: RW,
+    title: `${XW}3`,
+    filter: XW,
     name: "",
     playerId: "",
   },
@@ -140,73 +140,16 @@ const prizeData = [
   { place: "21st - 30th", payout: "$40.00" },
 ];
 
-const INITIAL_PLAYER_LIST = [
-  {
-    title: "C1",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.CENTER,
-    playerId: "",
-  },
-  {
-    title: "C2",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.CENTER,
-    playerId: "",
-  },
-  {
-    title: "LW",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.LW,
-    playerId: "",
-  },
-  {
-    title: "RW",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.RW,
-    playerId: "",
-  },
-  {
-    title: "D1",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.D,
-    playerId: "",
-  },
-  {
-    title: "D2",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.D,
-    playerId: "",
-  },
-  {
-    title: "G",
-    value: "",
-    filter: CONSTANTS.FILTERS.NHL.G,
-    playerId: "",
-  },
-  {
-    title: "TD",
-    value: "",
-    icon: EmployeeIcon,
-    filter: CONSTANTS.FILTERS.NHL.TD,
-    playerId: "",
-  },
-];
-
 const FILTERS_INITIAL_VALUES = [
   {
     id: 1,
     title: CONSTANTS.FILTERS.NHL.CENTER,
-    remaining: 2,
+    remaining: 1,
   },
   {
     id: 2,
-    title: CONSTANTS.FILTERS.NHL.LW,
-    remaining: 1,
-  },
-  {
-    id: 3,
-    title: CONSTANTS.FILTERS.NHL.RW,
-    remaining: 1,
+    title: CONSTANTS.FILTERS.NHL.XW,
+    remaining: 3,
   },
   {
     id: 4,
@@ -378,8 +321,7 @@ function NHLPowerdFs(props) {
   const getData = async () => {
     setLoading(true);
     const response = await dispatch(
-      // NHLActions.nhlData(history.location?.state?.game_id)
-      NHLActions.nhlData(409)
+      NHLActions.nhlData(history.location?.state?.game_id)
     );
 
     console.log(response);
@@ -664,7 +606,7 @@ function NHLPowerdFs(props) {
     var tempIds = [];
     if (!isEmpty(value)) {
       setSearchText(value);
-      if (selectedData?.type == "d") {
+      if (selectedData?.type == "td") {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.city
             ?.toLocaleLowerCase()
