@@ -219,7 +219,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       const isAbOver = filteredLogs[i]?.play?.is_ab_over;
       const id = filteredLogs[i]?.play?.outcome_id;
 
-      if (id === "kKL" && !isAbOver) {
+      if ((id === "kKL" || id === "kKl" || id === "kFT") && !isAbOver) {
         continue;
       }
 
@@ -300,60 +300,61 @@ function NHLLivePowerdFsScroeDetail(props) {
     if (id === "aHR" && isHitter) return 10;
 
     if (
-      id === "oGO" ||
-      id === "oFO" ||
-      id === "aIBB" ||
-      id === "aFCAD2" ||
-      id === "aFCAD3" ||
-      id === "aFCAD4" ||
-      id === "aSBAD1" ||
-      id === "aSBAD2" ||
-      id === "aSBAD3" ||
-      id === "aSBAD4" ||
-      id === "aSFAD1" ||
-      id === "aSFAD2" ||
-      id === "aSFAD3" ||
-      id === "aSFAD4" ||
-      id === "bPO" ||
-      id === "oDT3" ||
-      id === "oDT4" ||
-      id === "oFC" ||
-      id === "oFC2" ||
-      id === "oFC3" ||
-      id === "oFC4" ||
-      id === "oKLT1" ||
-      id === "oKLT2" ||
-      id === "oKLT3" ||
-      id === "oKST1" ||
-      id === "oKST2" ||
-      id === "oKST3" ||
-      id === "oLO" ||
-      id === "oOP" ||
-      id === "oPO" ||
-      id === "oROET2" ||
-      id === "oROET3" ||
-      id === "oROET4" ||
-      id === "oSB" ||
-      id === "oSBT2" ||
-      id === "oSBT3" ||
-      id === "oSBT4" ||
-      id === "oST4" ||
-      id === "oTT4" ||
-      id === "PO" ||
-      id === "POCS2" ||
-      id === "POCS3" ||
-      id === "POCS4" ||
-      id === "TO2" ||
-      id === "TO3" ||
-      id === "TO4" ||
-      id === "FO1" ||
-      id === "FO2" ||
-      id === "FO3" ||
-      id === "FO4" ||
-      id === "CS2" ||
-      id === "CS3" ||
-      id === "CS4" ||
-      id === "RI"
+      (id === "oGO" ||
+        id === "oFO" ||
+        id === "aIBB" ||
+        id === "aFCAD2" ||
+        id === "aFCAD3" ||
+        id === "aFCAD4" ||
+        id === "aSBAD1" ||
+        id === "aSBAD2" ||
+        id === "aSBAD3" ||
+        id === "aSBAD4" ||
+        id === "aSFAD1" ||
+        id === "aSFAD2" ||
+        id === "aSFAD3" ||
+        id === "aSFAD4" ||
+        id === "bPO" ||
+        id === "oDT3" ||
+        id === "oDT4" ||
+        id === "oFC" ||
+        id === "oFC2" ||
+        id === "oFC3" ||
+        id === "oFC4" ||
+        id === "oKLT1" ||
+        id === "oKLT2" ||
+        id === "oKLT3" ||
+        id === "oKST1" ||
+        id === "oKST2" ||
+        id === "oKST3" ||
+        id === "oLO" ||
+        id === "oOP" ||
+        id === "oPO" ||
+        id === "oROET2" ||
+        id === "oROET3" ||
+        id === "oROET4" ||
+        id === "oSB" ||
+        id === "oSBT2" ||
+        id === "oSBT3" ||
+        id === "oSBT4" ||
+        id === "oST4" ||
+        id === "oTT4" ||
+        id === "PO" ||
+        id === "POCS2" ||
+        id === "POCS3" ||
+        id === "POCS4" ||
+        id === "TO2" ||
+        id === "TO3" ||
+        id === "TO4" ||
+        id === "FO1" ||
+        id === "FO2" ||
+        id === "FO3" ||
+        id === "FO4" ||
+        id === "CS2" ||
+        id === "CS3" ||
+        id === "CS4" ||
+        id === "RI") &&
+      !isHitter
     )
       return 1;
 
@@ -369,13 +370,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       return 1;
 
     if (
-      (id === "aS" && isHitter) ||
-      id === "aSAD2" ||
-      id === "aSAD3" ||
-      id === "aSAD4" ||
-      id === "oST2" ||
-      id === "oST3" ||
-      id === "oST4"
+      (id === "aS" ||
+        id === "aSAD2" ||
+        id === "aSAD3" ||
+        id === "aSAD4" ||
+        id === "oST2" ||
+        id === "oST3" ||
+        id === "oST4") &&
+      isHitter
     )
       return 3;
 
