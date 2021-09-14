@@ -15,7 +15,7 @@ export const SET_GAME_LOGS = "[NHL] SET_GAME_LOGS";
 export const SET_SELECTED_TEAM = "[NHL] SET_SELECTED_TEAM";
 
 const { FILTERS } = CONSTANTS;
-const { CENTER, LW, RW, D, G, TD } = FILTERS.NHL;
+const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
 
 export function nhlData(gameId) {
   return async (dispatch) => {
@@ -86,25 +86,16 @@ export function nhlData(gameId) {
       //filter the data on the basis of types
       const filterdList = [];
       const centerTypePlayers = getFilterPlayersList(CENTER, nhlPlayerList);
-      const lwTypePlayers = getFilterPlayersList(LW, nhlPlayerList);
-      const rwTypePlayers = getFilterPlayersList(RW, nhlPlayerList);
+      const xwTypePlayers = getFilterPlayersList(XW, nhlPlayerList);
       const dTypePlayers = getFilterPlayersList(D, nhlPlayerList);
       const gTypePlayers = getFilterPlayersList(G, nhlPlayerList);
       const tdTypePlayers = { type: TD, listData: nhlTeams };
       filterdList.push(centerTypePlayers);
-      filterdList.push(lwTypePlayers);
-      filterdList.push(rwTypePlayers);
+      filterdList.push(xwTypePlayers);
       filterdList.push(dTypePlayers);
       filterdList.push(gTypePlayers);
       filterdList.push(tdTypePlayers);
       nhlPlayerList.push(...nhlTeams);
-
-      console.log(centerTypePlayers);
-      console.log(lwTypePlayers);
-      console.log(rwTypePlayers);
-      console.log(dTypePlayers);
-      console.log(gTypePlayers);
-      console.log(tdTypePlayers);
 
       dispatch({
         type: NHL_DATA,
