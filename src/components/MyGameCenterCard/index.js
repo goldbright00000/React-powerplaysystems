@@ -374,7 +374,7 @@ const MyGameCenterCard = (props) => {
 
                   {editPicks && (
                     <OutlineButton
-                      title="Edit Picks1"
+                      title="Edit Picks"
                       onClick={onEdit}
                       styles={{
                         width: "140px",
