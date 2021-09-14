@@ -389,7 +389,7 @@ function NHLLivePowerdFsScroeDetail(props) {
   };
 
   const getRBI = (runners = [], aHRId = "") => {
-    let rbi;
+    let rbi = 0;
     for (let i = 0; i < runners?.length; i++) {
       if (
         runners[i]?.outcome_id === "ERN" ||
@@ -400,11 +400,11 @@ function NHLLivePowerdFsScroeDetail(props) {
           return p?.effected_player?.player_id === runners[i]?.player_id;
         });
 
-        if (aHRId === "aHR" && player) {
+        if (aHRId === "aHR" /* && player*/) {
           rbi += 1;
-          return {
-            rbi,
-          };
+          // return {
+          //   rbi,
+          // };
         } else if (player) {
           return { rbi: 1 };
         } else {
