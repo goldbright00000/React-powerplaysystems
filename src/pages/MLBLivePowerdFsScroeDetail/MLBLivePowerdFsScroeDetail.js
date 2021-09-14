@@ -370,13 +370,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       return 1;
 
     if (
-      (id === "aS" && isHitter) ||
-      id === "aSAD2" ||
-      id === "aSAD3" ||
-      id === "aSAD4" ||
-      id === "oST2" ||
-      id === "oST3" ||
-      id === "oST4"
+      (id === "aS" ||
+        id === "aSAD2" ||
+        id === "aSAD3" ||
+        id === "aSAD4" ||
+        id === "oST2" ||
+        id === "oST3" ||
+        id === "oST4") &&
+      isHitter
     )
       return 3;
 
