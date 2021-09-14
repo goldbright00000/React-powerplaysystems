@@ -8,7 +8,7 @@ import "./boosterPopUp.scss";
 //********************************************************************************
 //********************************************************************************
 
-const BoosterPopUp = ({ secondModal, boostModal }) => {
+const BoosterPopUp = ({ secondModal, boostModal, counts, onChangeXp = (xp, player) => {}, data, selectedPlayer }) => {
   return (
     <Modal
       isOpen={secondModal}
@@ -18,7 +18,7 @@ const BoosterPopUp = ({ secondModal, boostModal }) => {
       <div className="modalWrapper">
         <h1>Select the level of</h1>
         <p>POINT BOOSTER</p>
-        <Box />
+        <Box counts={counts} onChangeXp={onChangeXp} data={data} selectedPlayer={selectedPlayer} boostModal={boostModal}/>
         <div className="close__box" onClick={() => boostModal(false)}>
           X
         </div>

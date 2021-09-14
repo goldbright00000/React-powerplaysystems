@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import WinningCash from "./WinningCash";
 import Chart from "./Chart";
@@ -10,20 +10,26 @@ import SwapStarter from "../SwapStarter/SwapStarter";
 import "./live_match.scss";
 import RankIcon from "../../../icons/Ranks/RankIcon";
 
-const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank, counts }) => {
-  const [modal, setModal] = useState(false);
+import * as mlbActions from "../../../actions/MLBActions";
+import { useDispatch, useSelector } from "react-redux";
 
+const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank, counts, onChangeXp = (xp, player) => {}, data, selectedPlayer, gameInfo }) => {
+  const [modal, setModal] = useState(false);
+  
   const [priceGrid, setPriceGrid] = useState(false);
   
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
-  
-  console.log("ranksranks", ranks);
+  const dispatch = useDispatch();
 
   const toggle = () => setModal(!modal);
   const priceModal = (value) => {
     setModal(value);
     setPriceGrid(!priceGrid);
   };
+  
+  
+
+  
 
   return (
     <>
@@ -69,9 +75,9 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWin
         setModal={setModal}
         counts={counts}
       />
-      <BoosterPopUp secondModal={secondModal} boostModal={boostModal} />
+      <BoosterPopUp secondModal={secondModal} boostModal={boostModal} counts={counts} onChangeXp={onChangeXp} data={data} selectedPlayer={selectedPlayer}/>
       <PrizeGrid priceGrid={priceGrid} priceModal={priceModal} />
-      <SwapStarter swap={swap} swapModal={swapModal} />
+      <SwapStarter swap={swap} swapModal={swapModal} selectedPlayer={selectedPlayer}/>
     </>
   );
 };

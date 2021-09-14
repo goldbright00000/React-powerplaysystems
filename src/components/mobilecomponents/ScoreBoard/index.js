@@ -30,7 +30,9 @@ const ScoreBoard = ({
   swapModal,
   type,
   index,
-  ranks
+  ranks,
+  counts,
+  player
 }) => {
   return (
     <section className="transparent board__wrapper">
@@ -64,6 +66,8 @@ const ScoreBoard = ({
           type={tagLine}
           index={index}
           ranks={ranks}
+          counts={counts}
+          player={player}
         />
       </Container>
     </section>

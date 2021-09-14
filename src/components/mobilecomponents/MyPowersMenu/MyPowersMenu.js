@@ -73,7 +73,7 @@ const MyPowersMenu = ({
           />
           <SingleBooster
             unlock={true}
-            src="power-up-icon.svg"
+            src="power-star.svg"
             heading="Power Up"
             number={counts.powerUpCounts}
           />

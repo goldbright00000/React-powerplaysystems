@@ -75,7 +75,6 @@ function NHLLivePowerdFsScroeDetail(props) {
   const { gameLogs = [], selectedTeam = {} } = useSelector(
     (state) => state.mlb
   );
-  const a = useSelector((state) => state);
   const { game = {} } = useSelector((state) => selectedTeam);
   const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
     (state) => game

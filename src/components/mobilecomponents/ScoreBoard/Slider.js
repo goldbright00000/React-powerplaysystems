@@ -6,6 +6,16 @@ import { removeZeroBeforeDecimalPoint } from "../../../utility/shared";
 import { isEmpty } from "lodash";
 import ChallengePopUp from "../../ChallengePopup";
 import DwallPopUp from "../../DwallPopup";
+import { CONSTANTS } from "../../../utility/constants";
+
+import XP1_5 from "../../../icons/XP1_5";
+import XP1_5_1 from "../../../icons/XP1_5_1";
+import XP2Icon from "../../../icons/XP2";
+import XP2Icon_1 from "../../../icons/XP2_1";
+import XP3 from "../../../icons/XP3";
+import XP3_1 from "../../../icons/XP3_1";
+import XPIcon from "../../../icons/XPIcon";
+
 const Slider = ({
   icons,
   double,
@@ -28,7 +38,10 @@ const Slider = ({
   boostModal,
   swapModal,
   type,
-  index
+  index,
+  counts,
+  player,
+  setDetails
 }) => {
   const {
     active: isHitterActive = false,
@@ -134,7 +147,7 @@ const Slider = ({
 
     return `${n[0]?.substring(0, 1)}`?.toUpperCase() + ". " + `${n[1]}`;
   };
-
+  
   return (
     <Row className="pb-3">
       <Col xs={10} className="pe-0">
@@ -377,49 +390,91 @@ const Slider = ({
         >
           {type == "D" ? (
             <>
-              <ChallengePopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    style={{background: "none", borderWidth: 0}}
-                  >
-                    <img
-                      
-                      style={{width: 40, height: 40}}
-                      src={`${
-                        type == "D"
-                          ? "/images/challenge-power.svg"
-                          : "images/shafal.svg"
-                      }`}
-                      alt=""
-                    />
-                  </button>
-                )}
-                challenge={10}
-                useChallenge={() => {}}
-              />
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button style={{background: "none", borderWidth: 0}} onClick={showPopUp}>
-                    <img
-                      className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
-                      style={{width: 40}}
-                      src={`${
-                        "/images/sheild.svg"
-                      }`}
-                      alt=""
-                    />
-                  </button>
-                )}
-                dwall={10}
-                useDwall={() => {}}
-              />
+              {counts.challengeCounts === 0 ? (
+                <button
+                  style={{background: "none", borderWidth: 0}}
+                >
+                  <img
+                    className={"disabled"}
+                    style={{width: 40, height: 40}}
+                    src={`${
+                      type == "D"
+                        ? "/images/challenge-power.svg"
+                        : "images/shafal.svg"
+                    }`}
+                    alt=""
+                  />
+                </button>
+              ) : (
+                <ChallengePopUp
+                  component={({ showPopUp }) => (
+                    <button
+                      onClick={showPopUp}
+                      style={{background: "none", borderWidth: 0}}
+                    >
+                      <img
+                        
+                        style={{width: 40, height: 40}}
+                        src={`${
+                          type == "D"
+                            ? "/images/challenge-power.svg"
+                            : "images/shafal.svg"
+                        }`}
+                        alt=""
+                      />
+                    </button>
+                  )}
+                  challenge={10}
+                  useChallenge={() => {}}
+                />
+              )}
+              {counts.dwallCounts === 0 ? (
+                <button style={{background: "none", borderWidth: 0}}>
+                  <img
+                    className={`${icons === true ? "pt-3 disabled" : "pt-4 mt-2 disabled"}`}
+                    style={{width: 40}}
+                    src={`${
+                      "/images/sheild.svg"
+                    }`}
+                    alt=""
+                  />
+                </button>
+              ) : (
+                <DwallPopUp
+                  component={({ showPopUp }) => (
+                    <button style={{background: "none", borderWidth: 0}} onClick={showPopUp}>
+                      <img
+                        className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
+                        style={{width: 40}}
+                        src={`${
+                          "/images/sheild.svg"
+                        }`}
+                        alt=""
+                      />
+                    </button>
+                  )}
+                  dwall={10}
+                  useDwall={() => {}}
+                />
+              )}
             </>
           ) : (
             <>
-              <img
+              {counts.swapCounts === 0 ? (
+                <img
+                  style={{width: 40, height: 40}}
+                  src={`${
+                    type == "D"
+                      ? "/images/challenge-power.svg"
+                      : "images/shafal.svg"
+                  }`}
+                  alt=""
+                  className={"disabled"}
+                />
+              ) : (
+                <img
                   onClick={
-                    !otherIcons && !imageTochanged ? () => swapModal(true) : null
+                    !otherIcons && !imageTochanged ? () => swapModal(true, player) : null
                   }
                   style={{width: 40, height: 40}}
                   src={`${
@@ -429,21 +484,38 @@ const Slider = ({
                   }`}
                   alt=""
                 />
-                <img
-                onClick={
-                  !otherIcons && !imageTochanged ? () => boostModal(true) : null
-                }
-                className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
-                style={{width: 40}}
-                src={`${
-                  imageTochanged && !otherIcons
-                    ? "/images/2x.svg"
-                    : type == "D"
-                    ? "/images/sheild.svg"
-                    : "/images/xp.svg"
-                }`}
-                alt=""
-              />
+              )}
+                {counts.pointMultiplierCounts === 0 ? (
+                  <img
+                    className={`${icons === true ? "pt-3 diabled" : "pt-4 mt-2 disabled"}`}
+                    style={{width: 40}}
+                    src={`${
+                      imageTochanged && !otherIcons
+                        ? "/images/2x.svg"
+                        : type == "D"
+                        ? "/images/sheild.svg"
+                        : "/images/xp.svg"
+                    }`}
+                    alt=""
+                  />
+                ) : (
+                  <img
+                  onClick={
+                    !otherIcons && !imageTochanged ? () => boostModal(true, player) : null
+                  }
+                  className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
+                  style={{width: 40}}
+                  src={`${
+                    imageTochanged && !otherIcons
+                      ? "/images/2x.svg"
+                      : type == "D"
+                      ? "/images/sheild.svg"
+                      : "/images/xp.svg"
+                  }`}
+                  alt=""
+                />
+                )}
+                
             </>
           )}
           
