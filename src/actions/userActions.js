@@ -23,6 +23,7 @@ export const SET_CONVERSION_MARKUP = "SET_CONVERSION_MARKUP";
 export const SET_ACCOUNT_LIMITS = "SET_ACCOUNT_LIMITS";
 export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
 export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
+export const USER_WINNIGS = "USER_WINNIGS";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -314,6 +315,38 @@ export function requestBalanceWithdraw(data, changeModalState) {
       changeModalState();
 
       return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function submitContactUsForm(data) {
+
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.CONTACT_US}`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function getUserWinnigs(user_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.GET_USER_WINNINGS}/${user_id}`,
+      );
+
+      dispatch({
+        type: USER_WINNIGS,
+        payload: response.data,
+      });
     } catch (err) {
       console.log(err);
     }

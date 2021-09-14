@@ -19,6 +19,9 @@ export const URLS = {
     PERSONA_VERIFICATION: "users/verify-persona",
     SEND_EMAIL_CONFIRMATION: "users/send-nopass-verification",
     VERIFY_CONFIRMATION_CODE: "users/verify-nopass",
+    CONTACT_US: "users/contact-us",
+    GET_USER_WINNINGS: "users/get-user-winnigs",
+
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
@@ -34,10 +37,18 @@ export const URLS = {
     NFL: "/dfs/nfl-selection",
     NFL_SAVE_PLAYERS: "/dfs/nfl-save-players",
     NFL_EDIT_TEAM_PLAYER: "dfs/nfl-edit-team-player",
+    NFL_LIVE_PAGE_PLAYERS: "/dfs/nfl-live",
     GET_LIVE_STANDINGS: "/dfs/mlb-livestandings",
+
+    //NHL
+    NHL: "/dfs/nhl-selection",
+    NHL_SAVE_PLAYERS: "/dfs/nhl-save-players",
+    NHL_EDIT_TEAM_PLAYER: "dfs/nhl-edit-team-player",
+    NHL_LIVE_PAGE_PLAYERS: "/dfs/nhl-live",
   },
   GAMES: {
     ALL_POWER_GAMES: "api/v1/users/games",
     LEAVE_GAME: "admin/leave-game",
+    GET_FINAL_STANDINGS: 'api/v1/dfs/get-game-standing'
   },
 };

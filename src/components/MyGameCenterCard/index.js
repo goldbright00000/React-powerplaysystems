@@ -77,7 +77,8 @@ const MyGameCenterCard = (props) => {
     onViewResults = () => { },
     onViewResultsBack = () => { },
     onFinalStandings = () => { },
-    game_id = 0
+    game_id = 0,
+    currency = "USD",
   } = props || {};
 
   const [ranks, setRanks] = React.useState({
@@ -447,7 +448,7 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={false}/>
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={false} />
               </>
               {/* today */}
 
@@ -595,7 +596,7 @@ const MyGameCenterCard = (props) => {
                     </div>
                   )}
                 </div>
-                <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} showDateTime={false}/>
+                <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} showDateTime={false} />
               </>
 
               <>
@@ -858,6 +859,11 @@ const MyGameCenterCard = (props) => {
               <FinalStandingsModal
                 isVisible={finalStandingsModal}
                 onClose={() => onFinalStandings(-1)}
+                gameId={game_id}
+                game_set_start={game_set_start}
+                start_time={start_time}
+                prize={prize}
+                currency={currency}
               />
             )}
             {leaveGameModal && (

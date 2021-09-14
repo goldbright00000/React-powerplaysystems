@@ -20,6 +20,7 @@ import { printLog } from "../../utility/shared";
 import SnackbarAlert from "../../components/SnackbarAlert";
 import { showDepositForm } from "../../actions/uiActions";
 import * as MLbActions from "../../actions/MLBActions";
+import { getUserWinnigs } from "../../actions/userActions";
 
 function AccountPage(props) {
   const dispatch = useDispatch();
@@ -30,9 +31,12 @@ function AccountPage(props) {
   useEffect(() => {
     getUserAccount();
     getUserGames();
+    getuserWinnigs();
   }, []);
 
   const { user = "" } = useSelector((state) => state?.auth);
+
+  const { userWinnigs } = useSelector((state) => state?.user)
 
   const [userAccount, setUserAccount] = useState({});
 
@@ -50,6 +54,13 @@ function AccountPage(props) {
     const user_id = getLocalStorage("PERSONA_USER_ID");
     if (user_id) {
       dispatch(MLbActions.getUserGames(user_id));
+    }
+  };
+
+  const getuserWinnigs = async () => {
+    const user_id = getLocalStorage("PERSONA_USER_ID");
+    if (user_id) {
+      dispatch(getUserWinnigs(user_id));
     }
   };
 
@@ -102,7 +113,7 @@ function AccountPage(props) {
                 <TabPanel>
                   <ResultsInforComponent
                     isMobile={isMobile}
-                    transactions={userAccount.transactions}
+                    userWinnigs={userWinnigs}
                     balance={userAccount.balance}
                   />
                 </TabPanel>

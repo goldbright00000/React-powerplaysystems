@@ -11,7 +11,8 @@ import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
 import MLBPlayerStat from "./MLBPlayerStat";
-import NFLPlayerStat from "./NLFPlayerStats";
+import NFLPlayerStat from "./NFLPlayerStats";
+import NHLPlayerStat from "./NHLPlayerStats";
 import StarterStats from "./StarterStats";
 import { PAGE_TYPES } from "./PageTypes";
 import MLBDetailStats from "./MLBDetailStats";
@@ -96,6 +97,15 @@ function SportsSelectionCard3(props) {
       case PAGE_TYPES.NFL:
         return (
           <NFLPlayerStat
+            playerStats={playerStats}
+            active={isSelected}
+            position={primary_position}
+          />
+        );
+
+      case PAGE_TYPES.NHL:
+        return (
+          <NHLPlayerStat
             playerStats={playerStats}
             active={isSelected}
             position={primary_position}

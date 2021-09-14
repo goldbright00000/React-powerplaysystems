@@ -147,18 +147,6 @@ const Slider = ({
 
     return `${n[0]?.substring(0, 1)}`?.toUpperCase() + ". " + `${n[1]}`;
   };
-
-  // const renderXp = () => {
-  //   let svgSize = 28;
-  //   if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
-  //     return <XP1_5_1 className={classes.xp_svg} size={svgSize} />;
-  //   else if (xp && xp?.xp === CONSTANTS.XP.xp2)
-  //     return <XP2Icon_1 className={classes.xp_svg} size={svgSize} />;
-  //   else if (xp && xp?.xp === CONSTANTS.XP.xp3)
-  //     return <XP3_1 className={classes.xp_svg} size={svgSize} />;
-  //   else
-  //     return <XPIcon size={svgSize} />;
-  // };
   
   return (
     <Row className="pb-3">
@@ -497,7 +485,7 @@ const Slider = ({
                   alt=""
                 />
               )}
-                {counts.pointMultiplierCounts === -1 ? (
+                {counts.pointMultiplierCounts === 0 ? (
                   <img
                     className={`${icons === true ? "pt-3 diabled" : "pt-4 mt-2 disabled"}`}
                     style={{width: 40}}

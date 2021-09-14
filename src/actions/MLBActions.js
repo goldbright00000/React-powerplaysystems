@@ -13,6 +13,8 @@ export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES";
 export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES";
 export const SET_GAME_LOGS = "[MLB] SET_GAME_LOGS";
 export const SET_SELECTED_TEAM = "[MLB] SET_SELECTED_TEAM";
+export const FINAL_STANDINGS = "[MLB] FINAL_STANDINGS";
+
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -288,9 +290,9 @@ export function saveAndGetSelectPlayers(payload) {
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
@@ -549,6 +551,21 @@ export function leaveGame(user_id, game_id) {
         game_id,
       });
       return true;
+    } catch (error) {
+      return false;
+    }
+  };
+}
+
+export function getFinalStandings(game_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.GET_FINAL_STANDINGS}/${game_id}`);
+      await dispatch({
+        type: FINAL_STANDINGS,
+        payload: response?.data,
+      });
+
     } catch (error) {
       return false;
     }
