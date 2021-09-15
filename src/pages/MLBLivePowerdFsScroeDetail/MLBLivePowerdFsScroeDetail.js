@@ -242,14 +242,6 @@ function NHLLivePowerdFsScroeDetail(props) {
       const rsPts = rs === 1 ? 2 : 0;
       const hasRunners = filteredLogs[i]?.play?.runners?.length ? true : false;
 
-      if (isPitcher === filteredLogs[i]?.effected_player?.name) {
-        console.log(
-          "PitcherId",
-          isPitcher,
-          "Pitcher name:",
-          filteredLogs[i]?.effected_player?.name
-        );
-      }
       console.log("PitcherId", isPitcher);
 
       const playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
