@@ -27,6 +27,7 @@ import * as NHLActions from "../../actions/NHLActions";
 import _ from "underscore";
 import moment from "moment";
 import moment1 from "moment-timezone";
+import * as MLBActions from "../../actions/MLBActions";
 
 import { CONSTANTS } from "../../utility/constants";
 
@@ -366,6 +367,12 @@ const InteractiveContests = (props) => {
       setFilteredData(data);
     }
   };
+
+  const handleViewResult = async (cardId, game_id) => {
+    setViewResults(cardId);
+    await dispatch(MLBActions.getFinalStandings(game_id));
+  }
+
   const myGameCenterCard = (item, redirectUri) => {
     return (
       <div
@@ -401,32 +408,6 @@ const InteractiveContests = (props) => {
           inProgress={item?.game?.status === "In-Progress" ? true : false}
           completed={item?.game?.status === "Completed" ? true : false}
           editPicks={item?.game?.status === "Activated" ? true : false}
-          // inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-          //   item?.game?.game_set_start + " " + item?.game?.start_time,
-          //   moment(item?.game?.game_set_end)
-          //     .add(1, "day")
-          //     .format("YYYY-MM-DD") + " 02:00 AM"
-          // )}
-          // completed={moment(moment().format("YYYY-MM-DD")).isAfter(
-          //   moment(item?.game?.game_set_end)
-          //     .add(1, "day")
-          //     .format("YYYY-MM-DD") + " 02:00 AM"
-          // )}
-
-          // editPicks={
-          //   item?.players?.length > 0 &&
-          //   !moment(moment().format("YYYY-MM-DD")).isAfter(
-          //     moment(item?.game?.game_set_end)
-          //       .add(1, "day")
-          //       .format("YYYY-MM-DD") + " 02:00 AM"
-          //   ) &&
-          //   !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-          //     item?.game?.game_set_start + " " + item?.game?.start_time,
-          //     moment(item?.game?.game_set_end)
-          //       .add(1, "day")
-          //       .format("YYYY-MM-DD") + " 02:00 AM"
-          //   )
-          // }
           currency={item?.game?.currency}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
@@ -440,7 +421,9 @@ const InteractiveContests = (props) => {
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
-          onViewResults={(cardId) => setViewResults(cardId)}
+          onViewResults={(cardId, game_id) => {
+            handleViewResult(cardId, game_id)
+          }}
           onViewResultsBack={() => setViewResults(-1)}
           onFinalStandings={(cardId) => setFinalStandingsModal(cardId)}
         />
@@ -469,10 +452,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  cardItem?.game?.league === item.title
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                cardItem?.game?.league === item.title
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -561,8 +544,8 @@ const InteractiveContests = (props) => {
                 selectedDate === "Today"
                   ? "Today"
                   : selectedDate === "All"
-                  ? "All"
-                  : moment(selectedDate).format("ddd,MMM DD")
+                    ? "All"
+                    : moment(selectedDate).format("ddd,MMM DD")
               }
               options={days}
               onChange={(selectedOption) => {
