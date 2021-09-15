@@ -229,7 +229,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       const isHitter =
         filteredLogs[i]?.play?.hitter_id ===
         filteredLogs[i]?.effected_player?.player_id;
-      console.log("RUNNERS: ", filteredLogs[i]?.play?.runners);
+
       const runners = filteredLogs[i]?.play?.runners;
       const rbiData = getRBI(filteredLogs[i]?.play?.runners, isHitter, id);
       const rsData = getRS(
