@@ -221,7 +221,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       const id = filteredLogs[i]?.play?.outcome_id;
       console.log("Outcome ID", id);
       // console.log("LOG", filteredLogs[i]);
-      console.log("is Ab Over", isAbOver);
+
       if ((id === "kKS" || id === "kKL" || id === "kFT") && !isAbOver) {
         continue;
       }
