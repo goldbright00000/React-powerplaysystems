@@ -15,6 +15,7 @@ const MyPowersMenu = ({
   priceModal,
   swapModal,
   setModal,
+  counts
 }) => {
   return (
     <Modal isOpen={modal} toggle={toggle} className="popUpModal">
@@ -43,36 +44,38 @@ const MyPowersMenu = ({
 
         <div className="modal_footer__booster">
           <SingleBooster
-            unlock={false}
+            unlock={true}
             src="xpLocked.svg"
             heading="Point Booster"
+            number={counts.pointMultiplierCounts}
           />
           <SingleBooster
             unlock={true}
             src="repeat.svg"
             heading="Swap player"
-            number="1"
+            number={counts.swapCounts}
           />
-          <SingleBooster
-            unlock={true}
-            src="undo.svg"
-            heading="Undo"
-            number="2"
-          />
-        </div>
-        <div className="modal_footer__booster">
-          <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={true} number="2"/>{" "}
           <SingleBooster
             unlock={true}
             src="challenge-power.svg"
             heading="Challenge"
             number="2"
+            number={counts.challengeCounts}
           />
+        </div>
+        <div className="modal_footer__booster">
+          <SingleBooster src="sheilds.svg" heading="D-Wall" unlock={true} number={counts.dwallCounts}/>{" "}
           <SingleBooster
             unlock={true}
             src="retro-boostBig.svg"
             heading="Retro Boost"
-            number="2"
+            number={counts.retroBoostCounts}
+          />
+          <SingleBooster
+            unlock={true}
+            src="power-star.svg"
+            heading="Power Up"
+            number={counts.powerUpCounts}
           />
         </div>
         <ThreeBoxes

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CurrencyFormat from "react-currency-format";
+import { useHistory } from "react-router-dom";
 import classes from "./myGameCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
 import NFLPlayer from "../../assets/nfl-player.png";
@@ -17,9 +18,10 @@ import FinalStandingsModal from "./FinalStandingsModal";
 import LeaveGameModal from "./LeaveGameModal";
 import { Carousel } from "react-responsive-carousel";
 import PointSystem from "../PowerCenterCardDetails/PointSystem";
-import PowersAvailable from "../PowerCenterCardDetails/PowersAvailable";
-import PrizeGrid from "../PowerCenterCardDetails/PrizeGrid";
+import PowersAvailable from "../PowerCenterMobileCard/PowersAvailable";
+import PrizeGrid from "../PowerCenterMobileCard/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
+import Pitchers from '../PowerCenterMobileCard/Pitcher';
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
@@ -28,10 +30,11 @@ import * as MLBActions from "../../actions/MLBActions";
 import { isEmpty } from "lodash";
 import { printLog, redirectTo } from "../../utility/shared";
 
-
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
+
+  const history = useHistory();
   const dispatch = useDispatch();
   const {
     ON_ROOM_SUB,
@@ -74,7 +77,8 @@ const MyGameCenterCard = (props) => {
     onViewResults = () => { },
     onViewResultsBack = () => { },
     onFinalStandings = () => { },
-    game_id = 0
+    game_id = 0,
+    currency = "USD",
   } = props || {};
 
   const [ranks, setRanks] = React.useState({
@@ -207,30 +211,16 @@ const MyGameCenterCard = (props) => {
   };
 
   const onLeaveClick = async () => {
-    console.log('onLeaveClick', game_id, localStorage.PERSONA_USER_ID);
+
     setIsLoading(true);
     let user_id = localStorage.PERSONA_USER_ID;
 
     if (game_id && user_id) {
-      // TODO: Fix user_id issue
-      const payload = {
-        game_id: game_id,
-        user_id: user_id,
 
-      };
-      console.log("game id==>", game_id);
-      await dispatch(MLBActions.returnPrizePool(user_id, game_id));
-      console.log('dispatch', user_id, game_id);
-      await dispatch(MLBActions.deleteAdminFee(user_id, game_id));
-      await dispatch(MLBActions.returnUserBalance(user_id, game_id));
-      await dispatch(MLBActions.deleteLivePageTeam(payload));
-      // if (isPaid || isPaid === null) {
-      //   if (currency !== 'PWRS') {
-      //   }
-      // }
-      // setIsLoading(false);
-
-      redirectTo(props, { path: "/my-game-center" });
+      const res = await dispatch(MLBActions.leaveGame(user_id, game_id));
+      if (res) {
+        window.location.reload();
+      }
       setIsLoading(false);
     }
   }
@@ -385,7 +375,7 @@ const MyGameCenterCard = (props) => {
 
                   {editPicks && (
                     <OutlineButton
-                      title="Edit Picks1"
+                      title="Edit Picks"
                       onClick={onEdit}
                       styles={{
                         width: "140px",
@@ -458,7 +448,7 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} />
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={false} />
               </>
               {/* today */}
 
@@ -496,6 +486,9 @@ const MyGameCenterCard = (props) => {
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
+                  game_set_start={game_set_start}
+                  start_time={start_time}
+                  showDateTime={false}
                 />
               </>
 
@@ -533,6 +526,8 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                   learnMore={() => setPowerLearnMoreModal(true)}
+                  game_set_start={game_set_start} start_time={start_time}
+                  showDateTime={false}
                 />
               </>
 
@@ -569,7 +564,39 @@ const MyGameCenterCard = (props) => {
                   isMobile={isMobile}
                   title={title}
                   inProgress={inProgress}
+                  showDateTime={false}
                 />
+              </>
+
+              <>
+                <div className={classes.__my_game_center_card_mobile_header}>
+                  {inProgress && (
+                    <div className={classes.__my_game_center_card_in_progress}>
+                      <div className={classes.__in_progress}>
+                        <span></span>In Progress
+                      </div>
+                    </div>
+                  )}
+                  {completed && (
+                    <div className={classes.__my_game_center_card_completed}>
+                      <div className={classes.__completed}>
+                        <span></span>Completed
+                      </div>
+                    </div>
+                  )}
+
+                  {!completed && !inProgress && (
+                    <div className={classes.__close_icon_div}>
+                      <div
+                        className={classes.__close_icon}
+                        onClick={() => setLeaveGameModal(true)}
+                      >
+                        x
+                      </div>
+                    </div>
+                  )}
+                </div>
+                <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} showDateTime={false} />
               </>
 
               <>
@@ -832,6 +859,11 @@ const MyGameCenterCard = (props) => {
               <FinalStandingsModal
                 isVisible={finalStandingsModal}
                 onClose={() => onFinalStandings(-1)}
+                gameId={game_id}
+                game_set_start={game_set_start}
+                start_time={start_time}
+                prize={prize}
+                currency={currency}
               />
             )}
             {leaveGameModal && (

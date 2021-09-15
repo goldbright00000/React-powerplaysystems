@@ -177,10 +177,7 @@ function SportsLiveCardTeamD(props) {
   };
 
   const isGameOverOrNotStarted = () => {
-    return (
-      `${status}`.toLocaleUpperCase() === "scheduled" ||
-      getStatus() === "Game Over"
-    );
+    return status === "scheduled" || getStatus() === "Game Over";
   };
 
   const getStatus = () => {
@@ -198,6 +195,8 @@ function SportsLiveCardTeamD(props) {
 
     return status;
   };
+
+  console.log("STATUS ====> ", status, status === "scheduled");
 
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
@@ -246,6 +245,7 @@ function SportsLiveCardTeamD(props) {
             {isPowerAvailable("Challenge") === 0 ||
             isPowerLocked("Challenge") === 1 ? (
               <Tooltip
+                disabled={isGameOverOrNotStarted()}
                 toolTipContent={
                   <div className={classes.xp_icons}>
                     {isPowerAvailable("Challenge") === 0 ? (
@@ -331,6 +331,11 @@ function SportsLiveCardTeamD(props) {
                   <button
                     onClick={showPopUp}
                     className={classes.team_d_icon_button}
+                    style={
+                      isGameOverOrNotStarted()
+                        ? { opacity: 0.3, pointerEvents: "none" }
+                        : {}
+                    }
                   >
                     <Challenge size={largeView ? 28 : 24} />
                   </button>
@@ -343,6 +348,7 @@ function SportsLiveCardTeamD(props) {
             {isPowerAvailable("D-Wall") === 0 ||
             isPowerLocked("D-Wall") === 1 ? (
               <Tooltip
+                disabled={isGameOverOrNotStarted()}
                 toolTipContent={
                   <div className={classes.xp_icons}>
                     {isPowerAvailable("D-Wall") === 0 ? (
@@ -481,6 +487,11 @@ function SportsLiveCardTeamD(props) {
                   <button
                     onClick={showPopUp}
                     className={classes.team_d_icon_button}
+                    style={
+                      isGameOverOrNotStarted()
+                        ? { opacity: 0.3, pointerEvents: "none" }
+                        : {}
+                    }
                   >
                     <ShieldIcon size={largeView ? 28 : 24} />
                   </button>
@@ -611,6 +622,7 @@ function SportsLiveCardTeamD(props) {
                     )}
                   </div>
                 }
+                disabled={isGameOverOrNotStarted()}
               >
                 <button className={classes.team_d_icon_button}>
                   <Challenge size={largeView ? 28 : 24} />
@@ -631,7 +643,14 @@ function SportsLiveCardTeamD(props) {
             ) : (
               <ChallengePopUp
                 component={({ showPopUp }) => (
-                  <button onClick={showPopUp}>
+                  <button
+                    onClick={showPopUp}
+                    style={
+                      isGameOverOrNotStarted()
+                        ? { opacity: 0.3, pointerEvents: "none" }
+                        : {}
+                    }
+                  >
                     <Challenge size={largeView ? 28 : 24} />
                   </button>
                 )}
@@ -643,6 +662,7 @@ function SportsLiveCardTeamD(props) {
             {isPowerAvailable("D-Wall") === 0 ||
             isPowerLocked("D-Wall") === 1 ? (
               <Tooltip
+                disabled={isGameOverOrNotStarted()}
                 toolTipContent={
                   <div className={classes.xp_icons}>
                     {isPowerAvailable("D-Wall") === 0 ? (
@@ -779,7 +799,14 @@ function SportsLiveCardTeamD(props) {
             ) : (
               <DwallPopUp
                 component={({ showPopUp }) => (
-                  <button onClick={showPopUp}>
+                  <button
+                    onClick={showPopUp}
+                    style={
+                      isGameOverOrNotStarted()
+                        ? { opacity: 0.3, pointerEvents: "none" }
+                        : {}
+                    }
+                  >
                     <ShieldIcon size={largeView ? 28 : 24} />
                   </button>
                 )}

@@ -15,7 +15,9 @@ const TeamManager = ({
   boostModal,
   swapModal,
   data = [],
-  ranks = {}
+  ranks = {},
+  counts = {},
+  player = {}
 }) => {
   const RenderSubTitle = (
     type,
@@ -216,6 +218,8 @@ const TeamManager = ({
             type={type}
             index={index}
             ranks={ranks}
+            counts={counts}
+            player={data}
           />
         );
       });

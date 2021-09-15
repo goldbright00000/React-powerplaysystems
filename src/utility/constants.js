@@ -76,6 +76,20 @@ export const CONSTANTS = {
         FANTASY_TEAM_UPDATE: "FANTASY_TEAM_UPDATE",
       },
     },
+    NHL: {
+      LIVE: {
+        EMIT_ROOM: "ON_EMIT_LIVE_DATA",
+        ON_ROOM_SUB: "POWER_DFS_LIVE_SUBSCRIBE",
+        ON_ROOM_UN_SUB: "POWER_DFS_LIVE_UN_SUBSCRIBE",
+        ON_POWER_APPLIED: "ON_POWER_APPLIED",
+        ON_GLOBAL_RANKING_REQUEST: "ON_GLOBAL_RANKING_REQUEST",
+        ON_FANTASY_LOGS_REQUEST: "ON_FANTASY_LOGS_REQUEST",
+        GET_GLOBAL_RANKING: "GET_GLOBAL_RANKING",
+        MATCH_UPDATE: "MATCH_UPDATE",
+        GLOBAL_RANKING: "GLOBAL_RANKING",
+        FANTASY_TEAM_UPDATE: "FANTASY_TEAM_UPDATE",
+      },
+    },
   },
 
   LOCAL_STORAGE_KEYS: {
@@ -86,6 +100,7 @@ export const CONSTANTS = {
     ETH_BALANCE: "eth_balance",
     DISPLAY_BALANCE: "display_balance",
     MLB_LIVE_GAME: "mlb_live_game",
+    NHL_LIVE_GAME: "nhl_live_game",
   },
 
   BUTTON_TYPE: {
@@ -104,6 +119,7 @@ export const CONSTANTS = {
   FILTERS: {
     NHL: {
       CENTER: "c",
+      XW: "xw",
       LW: "lw",
       RW: "rw",
       D: "d",

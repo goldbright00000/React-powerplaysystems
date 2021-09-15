@@ -1,6 +1,9 @@
 .swap__wrapper {
   padding: 72px 14px 0px 14px;
   position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   .heading {
     text-align: center;
 
@@ -65,13 +68,14 @@
 
     .input__search {
       position: relative;
-
+      width: 100%;
       input {
         border: none;
-        width: 216px;
-        padding: 10px 13px 13px 13px;
+        width: 100%;
+        padding: 13px 13px 13px 35px;
         border-radius: 12px;
         background-color: #35363a;
+        color: #fff;
         &::placeholder {
           padding-left: 20px;
           font-family: Poppins;
@@ -136,7 +140,7 @@
     position: relative;
     width: 347px;
     height: 184px;
-    margin: 20px auto;
+    margin: 10px auto;
     padding: 16px 16px 12px;
     border-radius: 5px;
     box-shadow: 0 8px 25px 0 rgba(127, 127, 127, 0.06);
@@ -283,6 +287,23 @@
           color: #f2f2f2;
         }
       }
+    }
+  }
+
+  h2.loadingMessage, h2.noDataMessage {
+    text-align: center;
+    margin-top: 30px;
+  } 
+
+  .swapPlayersListDiv {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    &::-webkit-scrollbar{
+      display: none;
     }
   }
 }

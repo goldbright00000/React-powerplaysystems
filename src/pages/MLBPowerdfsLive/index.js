@@ -105,6 +105,8 @@ function MLBPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
+  
+
   const {
     live_data = [],
     starPlayerCount = 0,
@@ -356,19 +358,19 @@ function MLBPowerdFsLive(props) {
   useEffect(async () => {
     _socket = socket();
     setPowers();
-    return function cleanUP() {
-      isMatchUpdate = false;
+    // return function cleanUP() {
+    //   isMatchUpdate = false;
 
-      //reset logs
-      dispatch(MLBActions.setGameLogs([]));
+    //   //reset logs
+    //   dispatch(MLBActions.setGameLogs([]));
 
-      //disconnect the socket
-      _socket?.emit(ON_ROOM_UN_SUB);
-      _socket?.on(ON_ROOM_UN_SUB, () => {
-        _socket?.disconnect();
-        _socket = null;
-      });
-    };
+    //   //disconnect the socket
+    //   _socket?.emit(ON_ROOM_UN_SUB);
+    //   _socket?.on(ON_ROOM_UN_SUB, () => {
+    //     _socket?.disconnect();
+    //     _socket = null;
+    //   });
+    // };
   }, []);
 
   useEffect(() => {
@@ -423,7 +425,6 @@ function MLBPowerdFsLive(props) {
         game_logs = [],
       } = res?.data || {};
 
-      console.log("res?.data", power_dfs_team_rankings[0]);
 
       const teamD = defense[0] || {};
       setRanks(power_dfs_team_rankings[0] || {});
@@ -515,7 +516,6 @@ function MLBPowerdFsLive(props) {
       score: _totalScore,
     });
 
-    console.log("PLAYER: ", playersArr);
 
     dispatch(MLBActions.mlbLiveData(playersArr));
   };
@@ -567,14 +567,15 @@ function MLBPowerdFsLive(props) {
  
 
   const onChangeXp = async (xp, player) => {
-  
     const _selectedXp = {
       xp,
     };
     const current_match_id = selectedTeam.players[0].match_id;
+    
     if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
+    
     let indexOfPlayer = -1;
     indexOfPlayer = live_data?.indexOf(player);
     if (indexOfPlayer !== -1) {
@@ -976,7 +977,19 @@ function MLBPowerdFsLive(props) {
           />
         </>
       ) : (
-        <Mobile data={live_data} ranks={ranks} />
+        <>
+        <Mobile data={live_data} ranks={ranks} gameInfo={selectedTeam} updateReduxState={updateReduxState} onChangeXp={onChangeXp} useSwap={useSwap} counts={{
+          swapCounts,
+          dwallCounts,
+          challengeCounts,
+          retroBoostCounts,
+          powerUpCounts,
+          pointMultiplierCounts,
+          pointBooster15x,
+          pointBooster2x,
+          pointBooster3x
+        }}/>
+        </>
       )}
     </>
   );

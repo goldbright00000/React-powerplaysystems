@@ -4,27 +4,35 @@ import ScoringPlay from "./ScoringPlay";
 
 import ScoringPoints from "./ScoringPoints";
 import "./bodystyle.scss";
-const Body = ({ show, totalPts, image, myScore, clr, bgClr }) => {
+const Body = ({ show, totalPts, image, myScore, clr, bgClr, runs, rbi, plays, pts, hasPlay }) => {
   return (
     <>
       {show === true ? (
-        <>
-          <Col xs={4}>
-            <ScoringPlay
-              bg={true}
-              heading="Plays"
-              title="Scoring Plays"
-              plays="HR"
-              points="6"
-            />
-          </Col>
-          <Col xs={4}>
-            <ScoringPlay heading="RBI" title="RBI" plays="1" points="6" />
-          </Col>
-          <Col xs={4}>
-            <ScoringPlay heading="RS" title="Runs" plays="1" points="6" />
+        hasPlay == true ? (
+          <>
+            <Col xs={4}>
+              <ScoringPlay
+                bg={true}
+                heading="Plays"
+                title="Scoring Plays"
+                plays={plays}
+                points={pts}
+              />
+            </Col>
+            <Col xs={4}>
+              <ScoringPlay heading="RBI" title="RBI" plays={runs.rs} points={runs.pts} />
+            </Col>
+            <Col xs={4}>
+              <ScoringPlay heading="RS" title="Runs" plays={rbi.rbi} points={rbi.pts} />
+            </Col>
+          </>
+        ) : (
+          <>
+          <Col xs={12}>
+            <p className="swappedPlayer">Player Swapped</p>
           </Col>
         </>
+        )
       ) : null}
 
       <div
@@ -36,7 +44,7 @@ const Body = ({ show, totalPts, image, myScore, clr, bgClr }) => {
             <ScoringPoints title="Total Pts" totalPts={totalPts} />
           </Col>
           <Col xs={4}>
-            <ScoringPoints title="Powers" image={image} />
+            <ScoringPoints title="Powers" image={image} hasPlay={hasPlay}/>
           </Col>
           <Col xs={4}>
             <ScoringPoints

@@ -11,7 +11,8 @@ import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
 import MLBPlayerStat from "./MLBPlayerStat";
-import NFLPlayerStat from "./NLFPlayerStats";
+import NFLPlayerStat from "./NFLPlayerStats";
+import NHLPlayerStat from "./NHLPlayerStats";
 import StarterStats from "./StarterStats";
 import { PAGE_TYPES } from "./PageTypes";
 import MLBDetailStats from "./MLBDetailStats";
@@ -102,6 +103,15 @@ function SportsSelectionCard3(props) {
           />
         );
 
+      case PAGE_TYPES.NHL:
+        return (
+          <NHLPlayerStat
+            playerStats={playerStats}
+            active={isSelected}
+            position={primary_position}
+          />
+        );
+
       default:
         return <MLBPlayerStat playerStats={playerStats} active={isSelected} />;
     }
@@ -129,7 +139,7 @@ function SportsSelectionCard3(props) {
           <span>{primary_position}</span>
           {playerName}
         </p>
-        {props.player.isInjured && !isMobile && (
+        {props.player.isInjured && (
           <div className={classes.injured}>
             <AidIcon />
             <span>Injured</span>

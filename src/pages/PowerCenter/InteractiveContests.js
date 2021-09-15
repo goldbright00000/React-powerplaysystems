@@ -3,6 +3,8 @@ import classes from "./interactiveContests.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
+import moment1 from "moment-timezone";
+
 import { getLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 
@@ -23,7 +25,7 @@ import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 
-import PromoModal from '../../components/PromoModal';
+import PromoModal from "../../components/PromoModal";
 
 const powerCenterCardData1 = [
   {
@@ -199,14 +201,14 @@ const InteractiveContests = (props) => {
     setShowPromoModal(false);
     setChallengeGame({});
     setPropsGame({});
-  }
+  };
   const onOpenPromoModal = (items, propss) => {
     setShowPromoModal(true);
-    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
+    if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
-    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
+    if (JSON.stringify(propss) !== JSON.stringify(propsGame))
       setPropsGame(propss);
-  }
+  };
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -283,6 +285,7 @@ const InteractiveContests = (props) => {
   };
 
   const checkBalace = (item, entry_fee) => {
+    if (item?.is_game_free) return true;
     switch (item?.currency) {
       case "USD":
         if (cashBalance >= entry_fee) return true;
@@ -323,21 +326,28 @@ const InteractiveContests = (props) => {
     }
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
-    if (enoughBalance || item?.is_game_free) {
+    if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
-          if(item.game_type == "PowerdFs_challenge")
-          {
-            if(isMobile)
-            {
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
               return redirectTo(props, {
                 path: `/challenge-page`,
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
                   end_date: item?.end_date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
@@ -361,8 +371,7 @@ const InteractiveContests = (props) => {
                   currency: item?.currency,
                 },
               });
-            }
-            else {
+            } else {
               onOpenPromoModal(item, props);
               return;
             }
@@ -372,9 +381,16 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
               end_date: item?.end_date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
@@ -405,9 +421,56 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
+              end_date: item?.end_date,
+              outOf: item?.target,
+              enrolledUsers: item?.enrolled_users,
+              prizePool: _.reduce(
+                item?.PrizePayouts,
+                function (memo, num) {
+                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                },
+                0
+              ),
+              topPrize: parseFloat(
+                _.max(item?.PrizePayouts, function (ele) {
+                  return ele.amount;
+                }).amount
+              ),
+
+              PointsSystem: item?.PointsSystems,
+              Power: item?.Powers,
+              prizes: item?.PrizePayouts,
+              paid_game: item?.is_game_paid,
+              entry_fee: item?.entry_fee,
+              currency: item?.currency,
+            },
+          });
+        case "NHL":
+          return redirectTo(props, {
+            path: `/nhl-select-team`,
+            state: {
+              game_id: item?.game_id,
+              sport_id: item?.sports_id,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
               end_date: item?.end_date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
@@ -503,16 +566,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -523,16 +586,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.target) > parseFloat(b.target)
             ? -1
             : parseFloat(b.target) > parseFloat(a.target)
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.target) > parseFloat(b.target)
             ? 1
             : parseFloat(b.target) > parseFloat(a.target)
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -543,16 +606,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
@@ -563,31 +626,30 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-              ? 1
-              : 0
+            ? 1
+            : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-              ? -1
-              : 0
+            ? -1
+            : 0
         );
       }
     }
   }
   function filterCurrency(arr) {
-    console.log("arr", arr);
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
       if (selectedDate === "Today") {
-        var m = moment().format("YYYY-MM-DD");
+        var m = moment.utc().format("YYYY-MM-DD");
       } else {
-        var m = moment(selectedDate + " " + moment().format("YYYY")).format(
-          "YYYY-MM-DD"
-        );
+        var m = moment
+          .utc(selectedDate + " " + moment().format("YYYY"))
+          .format("YYYY-MM-DD");
       }
       var sDate = m + " 00:00";
       var eDate = m + " 23:59";
@@ -595,16 +657,14 @@ const InteractiveContests = (props) => {
       s = "0" + s;
       s = s.slice(-8);
       s = s.split(/(?=[A-Z]{2})/).join(" ");
-      var startDate = moment(power?.start_date + " " + s).format(
-        "YYYY-MM-DD hh:mm A"
-      );
-      console.log("startDate", startDate);
-      var endDate = moment(power?.end_date + " 11:59 PM").format(
-        "YYYY-MM-DD hh:mm A"
-      );
-      var isBetween1 = moment(startDate).isBetween(sDate, eDate);
+      var startDate = moment
+        .utc(power?.start_date + " " + s)
+        .format("YYYY-MM-DD hh:mm A");
+      var endDate = moment
+        .utc(power?.end_date + " 11:59 PM")
+        .format("YYYY-MM-DD hh:mm A");
+      var isBetween1 = moment.utc(startDate).isBetween(sDate, eDate);
 
-      //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
       if (selectedDate === "All") {
         isBetween1 = 1;
       }
@@ -619,13 +679,19 @@ const InteractiveContests = (props) => {
   }
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment
+      .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+      .utcOffset(offset)
+      .format("YYYY-MM-DD=hh:mm A");
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
-      time: splitted[1]
-    }
-  }
+      time: splitted[1],
+    };
+  };
 
   const powerCenterCard = (item, redirectUri) => {
     return (
@@ -646,8 +712,12 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.time
+          }
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
           entry_fee={item?.entry_fee}
@@ -691,8 +761,12 @@ const InteractiveContests = (props) => {
           game_type={item?.game_type}
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
-          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.time
+          }
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
@@ -709,6 +783,30 @@ const InteractiveContests = (props) => {
         />
       </div>
     );
+  };
+
+  const setFilteredDataWithDate = (selectedOption) => {
+    let day = moment(selectedOption).format("YYYY-MM-DD");
+    const today = moment();
+    let data = [];
+    if (selectedOption === "All") {
+      setFilteredData(powerCenterCardData);
+    } else if (selectedOption === "Today") {
+      powerCenterCardData.map((item) => {
+        if (item?.start_date == today.format("YYYY-MM-DD")) {
+          data.push(item);
+        }
+      });
+      setFilteredData(data);
+    } else {
+      powerCenterCardData.map((item) => {
+        //console.log(item?.start_date, "==", day, item);
+        if (item?.start_date == day) {
+          data.push(item);
+        }
+      });
+      setFilteredData(data);
+    }
   };
 
   return (
@@ -730,9 +828,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                          powerCenterCardData.filter(
-                            (cardItem) => cardItem.league === item.title
-                          );
+                            powerCenterCardData.filter(
+                              (cardItem) => cardItem.league === item.title
+                            );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -751,19 +849,32 @@ const InteractiveContests = (props) => {
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
-              <p onClick={() => {
+              <p
+                onClick={() => {
                   Sorter("Most Popular");
-                }}>
+                }}
+              >
                 Most Popular
-                <FilledArrow down={sortedByMPAction === "asc" ? false : true}
-                  up={sortedByMPAction === "asc" ? true : false} />
+                <FilledArrow
+                  down={sortedByMPAction === "asc" ? false : true}
+                  up={sortedByMPAction === "asc" ? true : false}
+                />
               </p>
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={
+                  selectedDate === "Today"
+                    ? "Today"
+                    : selectedDate === "All"
+                    ? "All"
+                    : moment(selectedDate).format("ddd,MMM DD")
+                }
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption);
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -864,11 +975,12 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${selectedCurrencies?.includes(
-                          item.value
-                        ) &&
-                          classes.__currency_menu_selected
-                          }`}
+                                                ${
+                                                  selectedCurrencies?.includes(
+                                                    item.value
+                                                  ) &&
+                                                  classes.__currency_menu_selected
+                                                }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
@@ -890,9 +1002,18 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={
+                  selectedDate === "Today"
+                    ? "Today"
+                    : selectedDate === "All"
+                    ? "All"
+                    : moment(selectedDate).format("ddd,MMM DD")
+                }
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption);
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -997,7 +1118,12 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
-        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
+        <PromoModal
+          visible={showPromoModal}
+          onClose={onClosePromoModal}
+          item={challengeGame}
+          propss={propsGame}
+        />
       </div>
     </>
   );

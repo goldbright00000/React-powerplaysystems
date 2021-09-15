@@ -1039,3 +1039,44 @@
     }
   }
 }
+
+@media (max-width: 414px) {
+  .container {
+    &.mobileContainer {
+      width: 100%;
+      padding: 0px 15px;
+      .header {
+        span {
+          text-align: left;
+        }
+      }
+
+      .body {
+        .body_table {
+          .table_header {
+            span {
+              font-family: Poppins;
+              font-size: 12px;
+              font-weight: bold;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 2;
+              letter-spacing: normal;
+              color: #ffffff;
+              text-align: center;
+            }
+          }
+          .table_content {
+            .table_row {
+              span {
+                .button_btn {
+                  min-width: 70px;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

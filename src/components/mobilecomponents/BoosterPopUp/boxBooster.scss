@@ -9,9 +9,8 @@
   margin-right: 6px;
   border: none;
 
-  &:last-child {
+  &.activeBooster {
     background-color: rgba(251, 110, 0, 0.1);
-    margin-right: 0px;
     border: solid 1px #fb6e00;
   }
 }

@@ -11,6 +11,7 @@ import {
   REMOVE_COINBASE_REDIRECT_URL,
   SET_LOADING,
   SET_NOT_lOADING,
+  USER_WINNIGS
 } from "../../actions/userActions";
 
 const INITIAL_STATE = {
@@ -23,6 +24,7 @@ const INITIAL_STATE = {
   accountLimits: {},
   coinbaseRedirectUrl: null,
   loading: false,
+  USER_WINNIGS: []
 };
 
 const userReducer = (state = INITIAL_STATE, actions) => {
@@ -92,6 +94,12 @@ const userReducer = (state = INITIAL_STATE, actions) => {
         ...state,
         coinbaseRedirectUrl: null,
       };
+
+    case USER_WINNIGS:
+      return {
+        ...state,
+        userWinnigs: actions.payload
+      }
     default:
       return state;
   }

@@ -21,23 +21,23 @@ function ResultCard(props) {
             <div className={classes.row_m}>
               <div className={classes.row_m1}>
                 <span>Date</span>
-                <span>{getDate(transaction.date_time)}</span>
+                <span>{getDate(transaction.created_at)}</span>
               </div>
               <div className={classes.row_m1}>
                 <span>Time</span>
-                <span>{getTime(transaction.date_time)}</span>
+                <span>{getTime(transaction.created_at)}</span>
               </div>
               <div className={classes.row_m1}>
                 <span>Game Type</span>
-                <span>{transaction.gametype || "--"}</span>
+                <span>{transaction?.power_dfs_games?.game_type || "--"}</span>
               </div>
               <div className={classes.row_m1}>
-                <span>Game Desc</span>
-                <span>{transaction.description || "--"}</span>
+                <span>Game Name</span>
+                <span>{transaction?.power_dfs_games?.game_display_name || "--"}</span>
               </div>
               <div className={classes.row_m1}>
                 <span>Amount Won</span>
-                <span>{transaction.transaction_amount || "--"}</span>
+                <span>{transaction.win_amount || "--"}</span>
               </div>
               <div className={classes.row_m1}>
                 <span>Results</span>
@@ -50,11 +50,11 @@ function ResultCard(props) {
           </>
         ) : (
           <>
-            <div>{getDate(transaction.date_time)} </div>
-            <div>{getTime(transaction.date_time)} </div>
-            <div>{transaction.gametype || "--"} </div>
-            <div>{transaction.description || "--"} </div>
-            <div>{transaction.transaction_amount || "--"}</div>
+            <div>{getDate(transaction.created_at)} </div>
+            <div>{getTime(transaction.created_at)} </div>
+            <div>{transaction?.power_dfs_games?.game_type || "--"} </div>
+            <div>{transaction?.power_dfs_games?.game_display_name || "--"} </div>
+            <div>{transaction.win_amount || "--"}</div>
             <div>Verfied </div>
             <div>
               <button>View Results</button>{" "}
@@ -72,7 +72,7 @@ function ResultCard(props) {
           <div>Date</div>
           <div>Time</div>
           <div>Game Type</div>
-          <div>Game Desc</div>
+          <div>Game Name</div>
           <div>Amount Won</div>
           <div>Results</div>
           <div>Actions</div>

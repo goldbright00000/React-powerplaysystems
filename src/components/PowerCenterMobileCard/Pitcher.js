@@ -60,6 +60,7 @@ const Pitchers = (props) => {
         PointsSystem = [],
         game_set_start = '',
         start_time = '',
+        showDateTime = true
     } = props || {};
 
     const groupedPoints = _.groupBy(PointsSystem, 'type');
@@ -73,18 +74,21 @@ const Pitchers = (props) => {
 
     return (
         <div className={classes.__point_system}>
-            <div className={classes.__point_system_date_time}>
-                {game_set_start} | {start_time} ET
-            </div>
-            <div className={classes.__point_system_powerdfs}>
-                <div>
-                    <p className={classes.__point_system_powerdfs_title}>
-                        <span className={classes.__point_system_powerdfs_title_first}>{title}</span> PowerdFS
-                    </p>
+            {showDateTime &&
+                <div className={classes.__point_system_date_time}>
+                    {game_set_start} | {start_time} ET
                 </div>
-                <div className={classes.__point_system_title}>
-                    Point System
-                </div>
+            }
+            <div className={classes.__my_game_center_card_powerdfs}>
+                <p className={`text-left`} >
+                    <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
+                        {title}
+                    </span>
+                    <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
+                    <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px', opacity:0.6 }}>
+                        Point System
+                    </span>
+                </p>
             </div>
             <div className={classes.__point_system_data_container}>
                 <div className={classes.__point_system_data_content}>
