@@ -76,9 +76,11 @@ function NHLLivePowerdFsScroeDetail(props) {
     (state) => state.mlb
   );
   const { game = {} } = useSelector((state) => selectedTeam);
-  const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
-    (state) => game
-  );
+  const {
+    game_id = 0,
+    PointsSystems = [],
+    Powers = [],
+  } = useSelector((state) => game);
   let prizePool = 0;
   prizePool = _.reduce(
     game?.PrizePayouts,
@@ -210,20 +212,21 @@ function NHLLivePowerdFsScroeDetail(props) {
     }
 
     const _logs = [];
+
     let filteredLogs = lodash.uniqBy(gameLogs, "play_id");
+    console.log("ALL LOGS:", filteredLogs);
 
     for (let i = 0; i < filteredLogs?.length; i++) {
-      const isPitcher =
-        filteredLogs[i]?.play?.pitcher_id ===
-        filteredLogs[i]?.effected_player?.player_id;
+      const isPitcher = filteredLogs[i]?.play?.pitcher_id;
       const isAbOver = filteredLogs[i]?.play?.is_ab_over;
       const id = filteredLogs[i]?.play?.outcome_id;
-
-      if ((id === "kKL" || id === "kKl" || id === "kFT") && !isAbOver) {
+      console.log("Outcome ID", id);
+      console.log("is Ab Over", isAbOver);
+      if ((id === "kKS" || id === "kKL" || id === "kFT") && !isAbOver) {
         continue;
       }
-
       //total score
+      console.log("RUNNERS: ", filteredLogs[i]?.play?.runners);
       const rbiData = getRBI(filteredLogs[i]?.play?.runners, id);
       const rsData = getRS(
         filteredLogs[i]?.play?.runners,
@@ -238,6 +241,16 @@ function NHLLivePowerdFsScroeDetail(props) {
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
       const hasRunners = filteredLogs[i]?.play?.runners?.length ? true : false;
+
+      if (isPitcher === filteredLogs[i]?.effected_player?.name) {
+        console.log(
+          "PitcherId",
+          isPitcher,
+          "Pitcher name:",
+          filteredLogs[i]?.effected_player?.name
+        );
+      }
+      console.log("PitcherId", isPitcher);
 
       const playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
 
@@ -338,11 +351,17 @@ function NHLLivePowerdFsScroeDetail(props) {
         id === "oSBT3" ||
         id === "oSBT4" ||
         id === "oST4" ||
-        id === "oTT4" ||
-        id === "PO" ||
+        id === "oTT4") &&
+      !isHitter
+    )
+      return 1;
+
+    if (
+      (id === "PO" ||
         id === "POCS2" ||
         id === "POCS3" ||
         id === "POCS4" ||
+        id === "TO1" ||
         id === "TO2" ||
         id === "TO3" ||
         id === "TO4" ||
@@ -354,9 +373,10 @@ function NHLLivePowerdFsScroeDetail(props) {
         id === "CS3" ||
         id === "CS4" ||
         id === "RI") &&
-      !isHitter
-    )
+      hasRunners
+    ) {
       return 1;
+    }
 
     if (
       (id === "oSF" ||
