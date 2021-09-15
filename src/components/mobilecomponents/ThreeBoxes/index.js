@@ -121,7 +121,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
             customClass=""
             image="/images/price-grid.svg"
             heading="Grid"
-            subHeading="Price"
+            subHeading="Prize"
             priceModal={priceModal}
             showTime={showTime}
             onButtonClick={() => {

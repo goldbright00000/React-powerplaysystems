@@ -25,7 +25,7 @@ import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 
-import PromoModal from '../../components/PromoModal';
+import PromoModal from "../../components/PromoModal";
 
 const powerCenterCardData1 = [
   {
@@ -201,14 +201,14 @@ const InteractiveContests = (props) => {
     setShowPromoModal(false);
     setChallengeGame({});
     setPropsGame({});
-  }
+  };
   const onOpenPromoModal = (items, propss) => {
     setShowPromoModal(true);
     if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
     if (JSON.stringify(propss) !== JSON.stringify(propsGame))
       setPropsGame(propss);
-  }
+  };
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -285,7 +285,6 @@ const InteractiveContests = (props) => {
   };
 
   const checkBalace = (item, entry_fee) => {
-
     if (item?.is_game_free) return true;
     switch (item?.currency) {
       case "USD":
@@ -363,8 +362,7 @@ const InteractiveContests = (props) => {
                   currency: item?.currency,
                 },
               });
-            }
-            else {
+            } else {
               onOpenPromoModal(item, props);
               return;
             }
@@ -407,10 +405,57 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-              end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
+              end_date: item?.end_date,
+              outOf: item?.target,
+              enrolledUsers: item?.enrolled_users,
+              prizePool: _.reduce(
+                item?.PrizePayouts,
+                function (memo, num) {
+                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                },
+                0
+              ),
+              topPrize: parseFloat(
+                _.max(item?.PrizePayouts, function (ele) {
+                  return ele.amount;
+                }).amount
+              ),
+
+              PointsSystem: item?.PointsSystems,
+              Power: item?.Powers,
+              prizes: item?.PrizePayouts,
+              paid_game: item?.is_game_paid,
+              entry_fee: item?.entry_fee,
+              currency: item?.currency,
+            },
+          });
+        case "NHL":
+          return redirectTo(props, {
+            path: `/nhl-select-team`,
+            state: {
+              game_id: item?.game_id,
+              sport_id: item?.sports_id,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
+              end_date: item?.end_date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
               prizePool: _.reduce(
@@ -586,9 +631,9 @@ const InteractiveContests = (props) => {
       if (selectedDate === "Today") {
         var m = moment.utc().format("YYYY-MM-DD");
       } else {
-        var m = moment.utc(selectedDate + " " + moment().format("YYYY")).format(
-          "YYYY-MM-DD"
-        );
+        var m = moment
+          .utc(selectedDate + " " + moment().format("YYYY"))
+          .format("YYYY-MM-DD");
       }
       var sDate = m + " 00:00";
       var eDate = m + " 23:59";
@@ -596,12 +641,12 @@ const InteractiveContests = (props) => {
       s = "0" + s;
       s = s.slice(-8);
       s = s.split(/(?=[A-Z]{2})/).join(" ");
-      var startDate = moment.utc(power?.start_date + " " + s).format(
-        "YYYY-MM-DD hh:mm A"
-      );
-      var endDate = moment.utc(power?.end_date + " 11:59 PM").format(
-        "YYYY-MM-DD hh:mm A"
-      );
+      var startDate = moment
+        .utc(power?.start_date + " " + s)
+        .format("YYYY-MM-DD hh:mm A");
+      var endDate = moment
+        .utc(power?.end_date + " 11:59 PM")
+        .format("YYYY-MM-DD hh:mm A");
       var isBetween1 = moment.utc(startDate).isBetween(sDate, eDate);
 
       if (selectedDate === "All") {
@@ -618,17 +663,19 @@ const InteractiveContests = (props) => {
   }
 
   const getLocalDateTime = (date, time) => {
-
     const offset = moment1?.tz("America/New_York")?.format("Z");
-    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+    const localDateTime = moment
+      .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+      .utcOffset(offset)
+      .format("YYYY-MM-DD=hh:mm A");
 
     const splitted = localDateTime.split("=");
 
     return {
       date: splitted[0],
-      time: splitted[1]
-    }
-  }
+      time: splitted[1],
+    };
+  };
 
   const powerCenterCard = (item, redirectUri) => {
     return (
@@ -649,8 +696,12 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.time
+          }
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
           entry_fee={item?.entry_fee}
@@ -694,8 +745,12 @@ const InteractiveContests = (props) => {
           game_type={item?.game_type}
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
-          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.time
+          }
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
@@ -715,31 +770,28 @@ const InteractiveContests = (props) => {
   };
 
   const setFilteredDataWithDate = (selectedOption) => {
-    let day = moment(selectedOption).format('YYYY-MM-DD')
+    let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
-    let data = []
+    let data = [];
     if (selectedOption === "All") {
-      setFilteredData(powerCenterCardData)
-    }
-    else if (selectedOption === "Today") {
+      setFilteredData(powerCenterCardData);
+    } else if (selectedOption === "Today") {
       powerCenterCardData.map((item) => {
-
-        if (item?.start_date == today.format('YYYY-MM-DD')) {
-          data.push(item)
+        if (item?.start_date == today.format("YYYY-MM-DD")) {
+          data.push(item);
         }
-      })
-      setFilteredData(data)
-    }
-    else {
+      });
+      setFilteredData(data);
+    } else {
       powerCenterCardData.map((item) => {
         //console.log(item?.start_date, "==", day, item);
         if (item?.start_date == day) {
-          data.push(item)
+          data.push(item);
         }
-      })
-      setFilteredData(data)
+      });
+      setFilteredData(data);
     }
-  }
+  };
 
   return (
     <>
@@ -781,20 +833,30 @@ const InteractiveContests = (props) => {
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
-              <p onClick={() => {
-                Sorter("Most Popular");
-              }}>
+              <p
+                onClick={() => {
+                  Sorter("Most Popular");
+                }}
+              >
                 Most Popular
-                <FilledArrow down={sortedByMPAction === "asc" ? false : true}
-                  up={sortedByMPAction === "asc" ? true : false} />
+                <FilledArrow
+                  down={sortedByMPAction === "asc" ? false : true}
+                  up={sortedByMPAction === "asc" ? true : false}
+                />
               </p>
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
+                value={
+                  selectedDate === "Today"
+                    ? "Today"
+                    : selectedDate === "All"
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
+                }
                 options={days}
                 onChange={(selectedOption) => {
-                  setSelectedDate(selectedOption)
+                  setSelectedDate(selectedOption);
                   setFilteredDataWithDate(selectedOption);
                 }}
               />
@@ -923,10 +985,16 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
+                value={
+                  selectedDate === "Today"
+                    ? "Today"
+                    : selectedDate === "All"
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
+                }
                 options={days}
                 onChange={(selectedOption) => {
-                  setSelectedDate(selectedOption)
+                  setSelectedDate(selectedOption);
                   setFilteredDataWithDate(selectedOption);
                 }}
               />
@@ -1033,7 +1101,12 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
-        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame} />
+        <PromoModal
+          visible={showPromoModal}
+          onClose={onClosePromoModal}
+          item={challengeGame}
+          propss={propsGame}
+        />
       </div>
     </>
   );

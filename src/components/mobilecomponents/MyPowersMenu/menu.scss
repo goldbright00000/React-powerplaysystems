@@ -88,10 +88,14 @@
     margin-top: 20px;
     margin-bottom: 20px;
     text-align: center;
-
+    svg {
+      width: 55px !important;
+    }
     .imageHolder {
       position: relative;
-
+      &.disabled {
+        opacity: 0.5;
+      }
       .lock {
         position: absolute;
         bottom: 2px;

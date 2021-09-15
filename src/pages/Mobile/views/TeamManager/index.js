@@ -16,7 +16,8 @@ const TeamManager = ({
   swapModal,
   data = [],
   ranks = {},
-  counts = 0
+  counts = {},
+  player = {}
 }) => {
   const RenderSubTitle = (
     type,
@@ -217,6 +218,8 @@ const TeamManager = ({
             type={type}
             index={index}
             ranks={ranks}
+            counts={counts}
+            player={data}
           />
         );
       });

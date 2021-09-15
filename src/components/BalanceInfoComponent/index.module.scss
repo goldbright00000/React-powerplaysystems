@@ -4,7 +4,33 @@ p {
   margin: 0;
   padding: 0;
 }
-
+.checkboxalt {
+  width: 19px;
+  height: 19px;
+  /* margin: 1px 8px 20px 0; */
+  /* padding: 5px 3px 4px; */
+  border-radius: 3px;
+  border: solid 1px #fb6e00;
+  position: relative;
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: -4px;
+  img {
+    width: 13px;
+    /* height: 13px; */
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0 auto;
+    top: 50%;
+    transform: translate(0, -50%);
+    
+  }
+}
 .list_header_wrapper {
   display: flex;
   flex-direction: column;

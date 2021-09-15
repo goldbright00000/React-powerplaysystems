@@ -4,6 +4,7 @@ import moment from "moment";
 import * as MLBActions from "../../actions/MLBActions";
 import _ from "underscore";
 import { isEmpty } from "lodash";
+import lodash from "lodash";
 import { useHistory } from "react-router-dom";
 
 import { redirectTo } from "../../utility/shared";
@@ -74,7 +75,6 @@ function NHLLivePowerdFsScroeDetail(props) {
   const { gameLogs = [], selectedTeam = {} } = useSelector(
     (state) => state.mlb
   );
-  const a = useSelector((state) => state);
   const { game = {} } = useSelector((state) => selectedTeam);
   const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
     (state) => game
@@ -210,58 +210,54 @@ function NHLLivePowerdFsScroeDetail(props) {
     }
 
     const _logs = [];
-    gameLogs?.map((log) => {
-      if (log?.active_powerplay) {
-        log.isNewRow = true;
-        _logs.push(log);
-      }
-    });
+    let filteredLogs = lodash.uniqBy(gameLogs, "play_id");
 
-    for (let i = 0; i < gameLogs?.length; i++) {
+    for (let i = 0; i < filteredLogs?.length; i++) {
       const isPitcher =
-        gameLogs[i]?.play?.pitcher_id ===
-        gameLogs[i]?.effected_player?.player_id;
-      const isAbOver = gameLogs[i]?.play?.is_ab_over;
-      const id = gameLogs[i]?.play?.outcome_id;
+        filteredLogs[i]?.play?.pitcher_id ===
+        filteredLogs[i]?.effected_player?.player_id;
+      const isAbOver = filteredLogs[i]?.play?.is_ab_over;
+      const id = filteredLogs[i]?.play?.outcome_id;
 
-      if (id === "kKL" && !isAbOver) {
+      if ((id === "kKL" || id === "kKl" || id === "kFT") && !isAbOver) {
         continue;
       }
 
       //total score
-      const rbiData = getRBI(gameLogs[i]?.play?.runners, id);
+      const rbiData = getRBI(filteredLogs[i]?.play?.runners, id);
       const rsData = getRS(
-        gameLogs[i]?.play?.runners,
-        gameLogs[i]?.play?.outcome_id
+        filteredLogs[i]?.play?.runners,
+        filteredLogs[i]?.play?.outcome_id
       );
 
       const isHitter =
-        gameLogs[i]?.play?.hitter_id ===
-        gameLogs[i]?.effected_player?.player_id;
+        filteredLogs[i]?.play?.hitter_id ===
+        filteredLogs[i]?.effected_player?.player_id;
       const rbi = rbiData.rbi || 0;
       const rbiPts = rbi === 1 ? 2 : rbi !== 0 ? rbi * 2 : 0;
       const rs = rsData?.rs || 0;
       const rsPts = rs === 1 ? 2 : 0;
-      const hasRunners = gameLogs[i]?.play?.runners?.length ? true : false;
+      const hasRunners = filteredLogs[i]?.play?.runners?.length ? true : false;
 
       const playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
 
       const totalScore = playPts + rbiPts + rsPts;
-      gameLogs[i].totalScore = totalScore;
-      gameLogs[i].runningTotal = 0;
-      gameLogs[i].rbi = rbi;
-      gameLogs[i].rbiPts = rbiPts;
-      gameLogs[i].rsPts = rsPts;
-      gameLogs[i].rs = rs;
-      gameLogs[i].playPts = playPts;
-      _logs.push(gameLogs[i]);
+      filteredLogs[i].totalScore = totalScore;
+      filteredLogs[i].runningTotal = 0;
+      filteredLogs[i].rbi = rbi;
+      filteredLogs[i].rbiPts = rbiPts;
+      filteredLogs[i].rsPts = rsPts;
+      filteredLogs[i].rs = rs;
+      filteredLogs[i].playPts = playPts;
+
+      _logs.push(filteredLogs[i]);
     }
 
     //calculate running totals
-    for (let i = 0; i < _logs?.length; i++) {
+    const logLength = _logs?.length;
+    for (let i = 0; i < logLength; i++) {
       if (i === 0) _logs[i].runningTotal = _logs[i]?.totalScore;
-
-      if (i !== 0 && _logs[i - 1] && _logs[i - 1]?.totalScore) {
+      else {
         _logs[i].runningTotal =
           _logs[i - 1]?.runningTotal + _logs[i]?.totalScore;
       }
@@ -286,6 +282,7 @@ function NHLLivePowerdFsScroeDetail(props) {
   const getPoints = (
     id,
     isPitcher = false,
+    isAbOver = false,
     hasRunners = false,
     isHitter = false
   ) => {
@@ -300,63 +297,64 @@ function NHLLivePowerdFsScroeDetail(props) {
     )
       return 5;
 
-    if (id === "aHR") return 10;
+    if (id === "aHR" && isHitter) return 10;
 
     if (
-      id === "oGO" ||
-      id === "oFO" ||
-      id === "aIBB" ||
-      id === "aFCAD2" ||
-      id === "aFCAD3" ||
-      id === "aFCAD4" ||
-      id === "aSBAD1" ||
-      id === "aSBAD2" ||
-      id === "aSBAD3" ||
-      id === "aSBAD4" ||
-      id === "aSFAD1" ||
-      id === "aSFAD2" ||
-      id === "aSFAD3" ||
-      id === "aSFAD4" ||
-      id === "bPO" ||
-      id === "oDT3" ||
-      id === "oDT4" ||
-      id === "oFC" ||
-      id === "oFC2" ||
-      id === "oFC3" ||
-      id === "oFC4" ||
-      id === "oKLT1" ||
-      id === "oKLT2" ||
-      id === "oKLT3" ||
-      id === "oKST1" ||
-      id === "oKST2" ||
-      id === "oKST3" ||
-      id === "oLO" ||
-      id === "oOP" ||
-      id === "oPO" ||
-      id === "oROET2" ||
-      id === "oROET3" ||
-      id === "oROET4" ||
-      id === "oSB" ||
-      id === "oSBT2" ||
-      id === "oSBT3" ||
-      id === "oSBT4" ||
-      id === "oST4" ||
-      id === "oTT4" ||
-      id === "PO" ||
-      id === "POCS2" ||
-      id === "POCS3" ||
-      id === "POCS4" ||
-      id === "TO2" ||
-      id === "TO3" ||
-      id === "TO4" ||
-      id === "FO1" ||
-      id === "FO2" ||
-      id === "FO3" ||
-      id === "FO4" ||
-      id === "CS2" ||
-      id === "CS3" ||
-      id === "CS4" ||
-      id === "RI"
+      (id === "oGO" ||
+        id === "oFO" ||
+        id === "aIBB" ||
+        id === "aFCAD2" ||
+        id === "aFCAD3" ||
+        id === "aFCAD4" ||
+        id === "aSBAD1" ||
+        id === "aSBAD2" ||
+        id === "aSBAD3" ||
+        id === "aSBAD4" ||
+        id === "aSFAD1" ||
+        id === "aSFAD2" ||
+        id === "aSFAD3" ||
+        id === "aSFAD4" ||
+        id === "bPO" ||
+        id === "oDT3" ||
+        id === "oDT4" ||
+        id === "oFC" ||
+        id === "oFC2" ||
+        id === "oFC3" ||
+        id === "oFC4" ||
+        id === "oKLT1" ||
+        id === "oKLT2" ||
+        id === "oKLT3" ||
+        id === "oKST1" ||
+        id === "oKST2" ||
+        id === "oKST3" ||
+        id === "oLO" ||
+        id === "oOP" ||
+        id === "oPO" ||
+        id === "oROET2" ||
+        id === "oROET3" ||
+        id === "oROET4" ||
+        id === "oSB" ||
+        id === "oSBT2" ||
+        id === "oSBT3" ||
+        id === "oSBT4" ||
+        id === "oST4" ||
+        id === "oTT4" ||
+        id === "PO" ||
+        id === "POCS2" ||
+        id === "POCS3" ||
+        id === "POCS4" ||
+        id === "TO2" ||
+        id === "TO3" ||
+        id === "TO4" ||
+        id === "FO1" ||
+        id === "FO2" ||
+        id === "FO3" ||
+        id === "FO4" ||
+        id === "CS2" ||
+        id === "CS3" ||
+        id === "CS4" ||
+        id === "RI") &&
+      !isHitter
     )
       return 1;
 
@@ -372,13 +370,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       return 1;
 
     if (
-      (id === "aS" && isHitter) ||
-      id === "aSAD2" ||
-      id === "aSAD3" ||
-      id === "aSAD4" ||
-      id === "oST2" ||
-      id === "oST3" ||
-      id === "oST4"
+      (id === "aS" ||
+        id === "aSAD2" ||
+        id === "aSAD3" ||
+        id === "aSAD4" ||
+        id === "oST2" ||
+        id === "oST3" ||
+        id === "oST4") &&
+      isHitter
     )
       return 3;
 
@@ -391,7 +390,7 @@ function NHLLivePowerdFsScroeDetail(props) {
   };
 
   const getRBI = (runners = [], aHRId = "") => {
-    let rbi;
+    let rbi = 0;
     for (let i = 0; i < runners?.length; i++) {
       if (
         runners[i]?.outcome_id === "ERN" ||
@@ -402,11 +401,11 @@ function NHLLivePowerdFsScroeDetail(props) {
           return p?.effected_player?.player_id === runners[i]?.player_id;
         });
 
-        if (aHRId === "aHR" && player) {
+        if (aHRId === "aHR" /* && player*/) {
           rbi += 1;
-          return {
-            rbi,
-          };
+          // return {
+          //   rbi,
+          // };
         } else if (player) {
           return { rbi: 1 };
         } else {

@@ -322,6 +322,14 @@ const InteractiveContests = (props) => {
         await dispatch(MLbActions.setSelectedTeam(item));
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME, encData);
         return redirectTo(props, { path: "/mlb-live-powerdfs", state: item });
+      case "NHL":
+        const encData1 = CryptoJS.AES.encrypt(
+          JSON.stringify(item),
+          CONSTANTS.DATA_ENC_KEY
+        ).toString();
+        await dispatch(NHLActions.setSelectedTeam(item));
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME, encData1);
+        return redirectTo(props, { path: "/nhl-live-powerdfs", state: item });
     }
   };
 
