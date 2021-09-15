@@ -48,6 +48,13 @@ const Verification = (props) => {
     }
   };
 
+  const onResendClick = async () => {
+    console.log('clicked');
+    await http.post(URLS.AUTH.RESEND_VERIFICATION_EMAIL, {
+      email: props?.data?.email,
+    });
+  }
+
   return (
     <div className={styles.container}>
       <form className={`${formStyles.root}`} action={null} onSubmit={onSubmit}>
@@ -102,8 +109,8 @@ const Verification = (props) => {
         </button>
       </form>
       {/* style={{ left: '25%', bottom: '-12%' }} */}
-      <p className="text-center my-5 py-3">
-        Didn't get any email? <Link to="/power-up" className="text-decoration-underline">Resend Email!</Link>
+      <p className="text-center my-5 py-3" >
+        Didn't get any email? <Link onClick={onResendClick} className="text-decoration-underline">Resend Email!</Link>
       </p>
     </div>
   );
