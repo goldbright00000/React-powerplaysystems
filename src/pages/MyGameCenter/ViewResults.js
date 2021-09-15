@@ -1,9 +1,11 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import CurrencyFormat from "react-currency-format";
+import { useSelector } from 'react-redux';
 import TeamPointsModal from './TeamPointsModal';
 import classes from './viewResults.module.scss';
 
 const data = [
-    {  
+    {
         id: 1,
         title: 'john_house',
         value: '$2,000.00'
@@ -56,7 +58,7 @@ const data = [
 ];
 
 const ViewResults = (props) => {
-    const {title = '', onViewResultsBack = () => {}} = props || {};
+    const { title = '', onViewResultsBack = () => { } } = props || {};
     const [isSelected, setIsSelected] = useState(-1);
     const [teamPointsModal, setTeamPointsModal] = useState(false);
 
@@ -64,13 +66,23 @@ const ViewResults = (props) => {
         return isSelected == id && '#fb6e00';
     };
 
+    const [finalStandings, setFinalStandings] = useState([]);
+
+    const stands = useSelector((state) => state?.mlb?.finalStandings)
+
+    useEffect(() => {
+        if (finalStandings.length === 0) {
+            setFinalStandings(stands);
+        }
+    }, [])
+
     return (
         <div className={classes.__view_results}>
             <div className={classes.__view_results_header}>
                 <span className={classes.__view_results_header_hr + ' ' + classes.__view_results_header_hr_left}></span>
                 <p className={classes.__view_results_header_title}>
                     <span className={classes.__view_results_header_title_first}>{title}</span> PowerdFS
-            </p>
+                </p>
                 <span className={classes.__view_results_header_hr + ' ' + classes.__view_results_header_hr_right}></span>
             </div>
             <div className={classes.__view_results_main_title}>
@@ -78,25 +90,50 @@ const ViewResults = (props) => {
             </div>
             <p className={classes.__view_results_sub_title}>Prize Payouts</p>
             {
-                data.map((item, index) => {
+                finalStandings.map((item, index) => {
                     return (
-                        <div 
+                        <div
                             className={classes.__view_results_data}
                             onClick={() => {
-                                setIsSelected(item.id);
+                                setIsSelected(item?.id);
                                 setTeamPointsModal(!teamPointsModal);
                             }}>
-                            <div 
+                            <div
                                 className={classes.__view_results_data_number_div}>
-                                <p style={{color: getSelectedColor(item.id)}}>{item.id}</p>
+                                <p style={{ color: getSelectedColor(item?.id) }}>{item.id}</p>
                             </div>
                             <div className={classes.__view_results_data_title_div}>
-                                <p style={{color: getSelectedColor(item.id)}}>{item.title}</p>
+                                <p style={{ color: getSelectedColor(item?.id) }}>{item?.users?.display_name}</p>
                             </div>
                             <div className={classes.__view_results_data_value_div}>
-                                <p style={{color: getSelectedColor(item.id)}}>{item.value}</p>
+                                <p style={{ color: getSelectedColor(item?.id) }}>
+                                    <CurrencyFormat
+                                        value={item?.win_amount}
+                                        displayType={"text"}
+                                        thousandSeparator={item?.win_amount >= 10000 ? true : false}
+                                        renderText={(value) => value}
+                                    />
+                                    {item?.win_amount}
+                                    {/* {currency === 'USD' ? (
+                                        `$`
+                                    ) : (
+                                        <img
+
+                                            style={{ marginRight: 4 }}
+                                            src={getCurrency(currency)}
+                                            width="18"
+                                            height="18"
+                                            alt=""
+                                        />
+                                    )}{<CurrencyFormat
+                                        value={item?.win_amount}
+                                        displayType={"text"}
+                                        thousandSeparator={item?.win_amount >= 10000 ? true : false}
+                                        renderText={(value) => value}
+                                    />} */}
+                                </p>
                             </div>
-                            <div className={classes.__view_results_data_arrow_div} style={{backgroundColor: getSelectedColor(item.id)}}>
+                            <div className={classes.__view_results_data_arrow_div} style={{ backgroundColor: getSelectedColor(item.id) }}>
                                 {">"}
                             </div>
                         </div>
@@ -114,7 +151,7 @@ const ViewResults = (props) => {
             {
                 teamPointsModal
                 &&
-                <TeamPointsModal 
+                <TeamPointsModal
                     isVisible={teamPointsModal}
                     onClose={() => setTeamPointsModal(false)}
                 />

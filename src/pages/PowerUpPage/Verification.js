@@ -29,10 +29,17 @@ const Verification = (props) => {
         code,
       });
       if (response.status) {
-        redirectTo(
-          { history },
-          { path: "user-profile-info", state: props.data }
-        );
+        if (props?.page === 'reset-password') {
+          redirectTo(
+            { history },
+            { path: "reset-password", state: { ...props.data, isUserEmailValid: true } }
+          );
+        } else {
+          redirectTo(
+            { history },
+            { path: "user-profile-info", state: props.data }
+          );
+        }
       } else {
         setError(true);
       }

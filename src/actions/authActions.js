@@ -160,10 +160,25 @@ export function showAuthLoading() {
     return dispatch({ type: AUTH_LOADING });
   };
 }
+
 export function disableAuthLoading() {
   return (dispatch) => {
     return dispatch({
       type: AUTH_LOADING_FALSE,
     });
+  };
+}
+
+export function verifyRegistredEmail(data) {
+  return async (dispatch) => {
+    try {
+      return await http.post(
+        `${process.env.REACT_APP_API_URL}/${URLS.AUTH.VERIFY_REGISTERED_EMAIL}`,
+        {
+          email: data?.email,
+        })
+    } catch (err) {
+      return err
+    }
   };
 }

@@ -24,6 +24,7 @@ import BingoInProgressGame from "./pages/BingoInProgressGame/BingoInProgressGame
 import Elite8 from "./pages/Elite8";
 import Elite8Draw from "./pages/Elite8Draw";
 import LoginPage from "./pages/Login";
+import ResetPasswordPage from "./pages/ResetPassword";
 import RoyalGame from "./pages/RoyalGame";
 import PowerPoker from "./pages/PowerPoker";
 import LandingPage from "./pages/LandingPage";
@@ -145,6 +146,7 @@ const App = (props) => {
           <ProtectedRoute path="/my-game-center" component={MyGameCenter} />
           <Route path="/bingo-in-progress" component={BingoInProgressGame} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/reset-password" component={ResetPasswordPage} />
           <Route path="/power-royals" component={RoyalGame} />
           <Route path="/power-poker" component={PowerPoker} />
           <Route path="/landing-page" component={LandingPage} />

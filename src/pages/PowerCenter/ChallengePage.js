@@ -57,7 +57,7 @@ const ChallengePage = (props) => {
         start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
         game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
         start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-        end_date: item?.end_date,
+        end_date: getLocalDateTime(item?.game_set_end, item?.end_time)?.date,
         outOf: item?.target,
         enrolledUsers: item?.enrolled_users,
         prizePool: _.reduce(
