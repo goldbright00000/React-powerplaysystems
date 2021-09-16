@@ -105,6 +105,9 @@ const ViewResults = (props) => {
                             <div className={classes.__view_results_data_title_div}>
                                 <p style={{ color: getSelectedColor(item?.id) }}>{item?.users?.display_name}</p>
                             </div>
+                            <div className={classes.__view_results_data_title_div}>
+                                <p style={{ color: getSelectedColor(item?.id) }}>{item?.score}</p>
+                            </div>
                             <div className={classes.__view_results_data_value_div}>
                                 <p style={{ color: getSelectedColor(item?.id) }}>
                                     <CurrencyFormat

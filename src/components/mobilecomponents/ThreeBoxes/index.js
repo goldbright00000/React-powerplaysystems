@@ -40,37 +40,31 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
     0
   );
   React.useEffect(async () => {
-    
-    if(selectedTema.game_id)
-    {
+
+    if (selectedTema.game_id) {
       let liveStandingsData = await dispatch(MLBActions.getLiveStandings(selectedTema.game_id));
       console.log("liveStandingsData1222", liveStandingsData);
-      if(typeof liveStandingsData !== "undefined")
-      {
+      if (typeof liveStandingsData !== "undefined") {
         console.log("liveStandingsData2");
-        if(liveStandingsData.payload.error == false)
-        {
+        if (liveStandingsData.payload.error == false) {
           console.log("liveStandingsData3");
-          if(
+          if (
             JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
           ) {
             console.log("liveStandingsData4");
             var finalArr = [];
             var res = liveStandingsData.payload.data.powerDFSRanking;
-            
+
             var user_id = parseInt(localStorage.PERSONA_USER_ID);
             var userRec = "";
             var leaderScore = 0;
-            for(var i = 0; i < res.length; i++)
-            {
-              if(res[i].ranking == 1)
-              {
+            for (var i = 0; i < res.length; i++) {
+              if (res[i].ranking == 1) {
                 setLeader(res[i].score);
               }
-              
-              if(res[i].team.user.user_id == user_id)
-              {
-                
+
+              if (res[i].team.user.user_id == user_id) {
+
                 userRec = res[i];
                 setCurrentRank(userRec.ranking);
                 setCurrentWinnings(userRec?.winnings?.amount);
@@ -79,11 +73,10 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
                 finalArr.push(res[i]);
               }
             }
-            if(userRec !== "")
-            {
+            if (userRec !== "") {
               finalArr.unshift(userRec);
             }
-            if(JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
+            if (JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
               setLiveStandingData(finalArr);
           }
           //setModalState(!showModal);
@@ -137,7 +130,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
             link={true}
             linkURL={'/my-game-center'}
           />
-          {showTime === true && <GameCountDown state={state} selectedTeam={selectedTema}/>}
+          {showTime === true && <GameCountDown state={state} selectedTeam={selectedTema} />}
         </Row>
       </Container>
       <PrizeModal
@@ -146,7 +139,7 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
         data={selectedTema?.game?.PrizePayouts}
         onClose={() => setPrizeModalState(false)}
       />
-      <LiveStandings visible={showModal} onClose={closeModal} liveStandingData={liveStandingData} prizePool={prizePool} isMobile={true}/>
+      <LiveStandings visible={showModal} onClose={closeModal} liveStandingData={liveStandingData} prizePool={prizePool} isMobile={true} />
     </div>
   );
 };

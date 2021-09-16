@@ -14,7 +14,7 @@ const HistoryInfoComponent = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
 
     const getDate = (timestamp) => {
-      return moment(timestamp).format("MMMM D");
+      return moment(timestamp).format("MMM D");
     };
     const getTime = (timestamp) => {
       return moment(timestamp).format("hh:mm A");

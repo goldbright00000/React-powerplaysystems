@@ -105,7 +105,7 @@ function MLBPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
-  
+  console.log('selectedTeam', selectedTeam);
 
   const {
     live_data = [],
@@ -212,7 +212,7 @@ function MLBPowerdFsLive(props) {
     }
     if (typeof powerss == "undefined") {
       return;
-    } 
+    }
     for (var i = 0; i < powerss.length; i++) {
       if (type === "Point Booster") {
         if (
@@ -318,7 +318,7 @@ function MLBPowerdFsLive(props) {
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
         );
       }
-    } 
+    }
   }
 
   async function useChallenge(action) {
@@ -416,7 +416,7 @@ function MLBPowerdFsLive(props) {
   const onSocketListen = () => {
     //fetch data first time
     setLoading(true);
-    
+
     _socket?.on(EMIT_ROOM, (res) => {
       const {
         defense = [],
@@ -436,11 +436,11 @@ function MLBPowerdFsLive(props) {
       const sortedGameLogs = _gameLogs.sort((a, b) =>
         a?.play === null && b?.play !== null
           ? new Date(a?.created_at).getTime() -
-            new Date(b?.created_at).getTime()
+          new Date(b?.created_at).getTime()
           : a?.play !== null && b?.play === null
-          ? new Date(a?.play?.created_at).getTime() -
+            ? new Date(a?.play?.created_at).getTime() -
             new Date(b?.created_at).getTime()
-          : new Date(a?.play?.created_at).getTime() -
+            : new Date(a?.play?.created_at).getTime() -
             new Date(b?.play?.created_at).getTime()
       );
 
@@ -564,18 +564,18 @@ function MLBPowerdFsLive(props) {
       dispatch(MLBActions.mlbLiveData(liveData));
     }
   };
- 
+
 
   const onChangeXp = async (xp, player) => {
     const _selectedXp = {
       xp,
     };
     const current_match_id = selectedTeam.players[0].match_id;
-    
+
     if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
-    
+
     let indexOfPlayer = -1;
     indexOfPlayer = live_data?.indexOf(player);
     if (indexOfPlayer !== -1) {
@@ -618,7 +618,7 @@ function MLBPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -674,9 +674,9 @@ function MLBPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -691,9 +691,9 @@ function MLBPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -978,17 +978,17 @@ function MLBPowerdFsLive(props) {
         </>
       ) : (
         <>
-        <Mobile data={live_data} ranks={ranks} gameInfo={selectedTeam} updateReduxState={updateReduxState} onChangeXp={onChangeXp} useSwap={useSwap} counts={{
-          swapCounts,
-          dwallCounts,
-          challengeCounts,
-          retroBoostCounts,
-          powerUpCounts,
-          pointMultiplierCounts,
-          pointBooster15x,
-          pointBooster2x,
-          pointBooster3x
-        }}/>
+          <Mobile data={live_data} ranks={ranks} gameInfo={selectedTeam} updateReduxState={updateReduxState} onChangeXp={onChangeXp} useSwap={useSwap} counts={{
+            swapCounts,
+            dwallCounts,
+            challengeCounts,
+            retroBoostCounts,
+            powerUpCounts,
+            pointMultiplierCounts,
+            pointBooster15x,
+            pointBooster2x,
+            pointBooster3x
+          }} />
         </>
       )}
     </>

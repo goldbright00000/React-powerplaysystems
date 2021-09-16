@@ -49,7 +49,6 @@ const Verification = (props) => {
   };
 
   const onResendClick = async () => {
-    console.log('clicked');
     await http.post(URLS.AUTH.RESEND_VERIFICATION_EMAIL, {
       email: props?.data?.email,
     });

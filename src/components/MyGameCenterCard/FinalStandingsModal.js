@@ -123,6 +123,11 @@ const FinalStandingsModal = (props) => {
                             </div>
                             <div className={
                                 `${classes.__final_standings_modal_data_header_title} 
+                                ${classes.__final_standings_modal_data_header_title_points}`}>
+                                Points
+                            </div>
+                            <div className={
+                                `${classes.__final_standings_modal_data_header_title} 
                                 ${classes.__final_standings_modal_data_header_title_amount_won}`}>
                                 Amount Won
                             </div>
@@ -145,6 +150,11 @@ const FinalStandingsModal = (props) => {
                                             `${classes.__final_standings_modal_data_text}
                                             ${classes.__final_standings_modal_data_display_name}`}>
                                             {item?.users?.display_name}
+                                        </div>
+                                        <div className={
+                                            `${classes.__final_standings_modal_data_text} 
+                                            ${classes.__final_standings_modal_data_points}`}>
+                                            {item?.score || '--'}
                                         </div>
                                         <div className={
                                             `${classes.__final_standings_modal_data_text}
