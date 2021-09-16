@@ -834,7 +834,7 @@ const MyGameCenterCard = (props) => {
                 {completed ? (
                   <div
                     className={classes.__my_game_center_card_details_link}
-                    onClick={() => onViewResults(id)}
+                    onClick={() => onViewResults(id, game_id)}
                   >
                     Winners
                   </div>

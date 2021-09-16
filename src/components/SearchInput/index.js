@@ -19,8 +19,18 @@ function SearchInput(props) {
     dropDown = [],
     selected = "",
     placeholder = "",
-    searchText = "" 
+    searchText = "",
+    isReset = false
   } = props || {};
+
+  React.useEffect(() => {
+    console.log("in reset");
+    if(isReset)
+    {
+      setSearch("");
+      props.setResetSearch(false);
+    }
+  },[isReset]);
 
   const onChange = (e) => {
     const { value } = e.target;

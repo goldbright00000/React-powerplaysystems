@@ -12,7 +12,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import AccountInfo from "../../components/AccountInfoComponent";
 import BalanceInfoComponent from "../../components/BalanceInfoComponent";
-import ResultsInforComponent from "../../components/ResultsInfoComponent";
+import ResultsInfoComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
 import DepositWithdrawComponent from '../../components/DepositWithdrawComponent';
 import AccountLimits from "../../components/AccountLimits";
@@ -111,7 +111,7 @@ function AccountPage(props) {
                   />
                 </TabPanel>
                 <TabPanel>
-                  <ResultsInforComponent
+                  <ResultsInfoComponent
                     isMobile={isMobile}
                     userWinnigs={userWinnigs}
                     balance={userAccount.balance}

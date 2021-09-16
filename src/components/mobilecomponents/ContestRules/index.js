@@ -1,5 +1,6 @@
 import React from "react";
 import "./contestRules.scss";
+import ContestRulesPopUp from '../../ContestRulesPopUp/index'
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 const ContestRules = () => {
@@ -49,9 +50,19 @@ const ContestRules = () => {
               <Row>
                 <Col>
                   <div className="full">
-                    <Link to="">
-                      See Full Rules <img src="/images/left-arrow.svg" alt="" />
-                    </Link>
+                    <ContestRulesPopUp
+                        points={[]}
+                        powers={[]}
+                        component={({ showPopUp }) => (
+                          <Link
+                            onClick={showPopUp}
+                            //className={classes.footer_full_rules}
+                            href="#"
+                          >
+                            See Full Rules <img src="/images/left-arrow.svg" alt="" />
+                          </Link>
+                        )}
+                      />
                   </div>
                 </Col>
               </Row>

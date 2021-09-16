@@ -336,19 +336,10 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(
-                    item?.start_date,
-                    item?.start_time
-                  )?.date,
-                  game_set_start: getLocalDateTime(
-                    item?.game_set_start,
-                    item?.start_time
-                  )?.date,
-                  start_time: getLocalDateTime(
-                    item?.game_set_start,
-                    item?.start_time
-                  )?.time,
-                  end_date: item?.end_date,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
@@ -381,17 +372,10 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)
-                ?.date,
-              game_set_start: getLocalDateTime(
-                item?.game_set_start,
-                item?.start_time
-              )?.date,
-              start_time: getLocalDateTime(
-                item?.game_set_start,
-                item?.start_time
-              )?.time,
-              end_date: item?.end_date,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+              end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
               prizePool: _.reduce(
@@ -566,16 +550,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -586,16 +570,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.target) > parseFloat(b.target)
             ? -1
             : parseFloat(b.target) > parseFloat(a.target)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.target) > parseFloat(b.target)
             ? 1
             : parseFloat(b.target) > parseFloat(a.target)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -606,16 +590,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -626,16 +610,16 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -828,9 +812,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -867,8 +851,8 @@ const InteractiveContests = (props) => {
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
@@ -975,12 +959,11 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
@@ -1006,8 +989,8 @@ const InteractiveContests = (props) => {
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
