@@ -42,7 +42,7 @@ const data = [
   },
 ];
 
-function ResultsInforComponent(props) {
+function ResultsInfoComponent(props) {
   const [activeTab, setActiveTab] = useState();
   const { isMobile = false, balance = {}, userWinnigs = [] } = props || {};
   const onClickAccordian = (index) => {
@@ -75,8 +75,8 @@ function ResultsInforComponent(props) {
   );
 }
 
-ResultsInforComponent.propTypes = {
+ResultsInfoComponent.propTypes = {
   isMobile: PropTypes.bool,
 };
 
-export default ResultsInforComponent;
+export default ResultsInfoComponent;
