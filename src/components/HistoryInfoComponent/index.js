@@ -14,7 +14,7 @@ const HistoryInfoComponent = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
 
     const getDate = (timestamp) => {
-      return moment(timestamp).format("MMMM D");
+      return moment(timestamp).format("MMM D");
     };
     const getTime = (timestamp) => {
       return moment(timestamp).format("hh:mm A");
@@ -82,7 +82,7 @@ const HistoryInfoComponent = (props) => {
               <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type || "--"} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction?.game_id || "--"} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
-              <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount || "--"}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.transaction_amount || transaction.transaction_amount === 0 ? '' : transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount > 0 ? transaction.transaction_amount : "Free"}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? `Verified` : 'Entered'}</div>
             </div>
           </>

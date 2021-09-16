@@ -209,7 +209,7 @@ function LoginPage(props) {
           <Link to="/power-up">Click here to Power-up!</Link>
         </p>
         <p className={`${styles.blogSection1}`}>
-          Forgot Password? <Link to="/power-up">Click here to reset!</Link>
+          Forgot Password? <Link to="/reset-password">Click here to reset!</Link>
         </p>
       </div>
       <Footer isBlack />

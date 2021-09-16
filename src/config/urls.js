@@ -7,6 +7,9 @@ export const URLS = {
     UPDATE_DETAILS: "/users",
     DELETE_USER_ACCOUNT: "/users/delete",
     CHANGE_PASSWORD: "/users/changepassword",
+    VERIFY_REGISTERED_EMAIL: "api/v1/users/verify-registered-email",
+    RESET_PASSWORD: 'users/reset-password',
+    RESEND_VERIFICATION_EMAIL: 'users/resend-verification-email',
   },
   USER: {
     BALANCE: "/users/account/balance",

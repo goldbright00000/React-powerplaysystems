@@ -76,9 +76,11 @@ function NHLLivePowerdFsScroeDetail(props) {
     (state) => state.mlb
   );
   const { game = {} } = useSelector((state) => selectedTeam);
-  const { game_id = 0, PointsSystems = [], Powers = [] } = useSelector(
-    (state) => game
-  );
+  const {
+    game_id = 0,
+    PointsSystems = [],
+    Powers = [],
+  } = useSelector((state) => game);
   let prizePool = 0;
   prizePool = _.reduce(
     game?.PrizePayouts,
@@ -210,36 +212,43 @@ function NHLLivePowerdFsScroeDetail(props) {
     }
 
     const _logs = [];
+
     let filteredLogs = lodash.uniqBy(gameLogs, "play_id");
 
     for (let i = 0; i < filteredLogs?.length; i++) {
-      const isPitcher =
-        filteredLogs[i]?.play?.pitcher_id ===
-        filteredLogs[i]?.effected_player?.player_id;
+      const isPitcher = filteredLogs[i]?.play?.pitcher_id;
       const isAbOver = filteredLogs[i]?.play?.is_ab_over;
       const id = filteredLogs[i]?.play?.outcome_id;
+      console.log("Outcome ID", id);
 
-      if (id === "kKL" && !isAbOver) {
+      if ((id === "kKS" || id === "kKL" || id === "kFT") && !isAbOver) {
         continue;
       }
-
       //total score
-      const rbiData = getRBI(filteredLogs[i]?.play?.runners, id);
+      const isHitter =
+        filteredLogs[i]?.play?.hitter_id ===
+        filteredLogs[i]?.effected_player?.player_id;
+
+      const runners = filteredLogs[i]?.play?.runners;
+      const rbiData = getRBI(filteredLogs[i]?.play?.runners, isHitter, id);
       const rsData = getRS(
         filteredLogs[i]?.play?.runners,
         filteredLogs[i]?.play?.outcome_id
       );
 
-      const isHitter =
-        filteredLogs[i]?.play?.hitter_id ===
-        filteredLogs[i]?.effected_player?.player_id;
       const rbi = rbiData.rbi || 0;
       const rbiPts = rbi === 1 ? 2 : rbi !== 0 ? rbi * 2 : 0;
-      const rs = rsData?.rs || 0;
-      const rsPts = rs === 1 ? 2 : 0;
+      let rs = rsData?.rs || 0;
+      let rsPts = rs === 1 ? 2 : 0;
       const hasRunners = filteredLogs[i]?.play?.runners?.length ? true : false;
 
-      const playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
+      let playPts = getPoints(id, isPitcher, isAbOver, hasRunners, isHitter);
+
+      if (filteredLogs[i]?.play?.is_double_play === true) {
+        playPts += 1;
+      } else if (filteredLogs[i]?.play?.is_triple_play === true) {
+        playPts += 2;
+      }
 
       const totalScore = playPts + rbiPts + rsPts;
       filteredLogs[i].totalScore = totalScore;
@@ -251,6 +260,35 @@ function NHLLivePowerdFsScroeDetail(props) {
       filteredLogs[i].playPts = playPts;
 
       _logs.push(filteredLogs[i]);
+
+      if (runners && !isHitter) {
+        for (let x = 0; x < runners.length; x++) {
+          if (id === "aHR") {
+            _logs.push(filteredLogs[i]);
+          }
+
+          if (
+            runners[x].outcome_id === "ERN" ||
+            runners[x].outcome_id === "URN" ||
+            runners[x].outcome_id === "ERNu"
+          ) {
+            let temp = filteredLogs[i];
+            temp.play.outcome_id = runners[x].outcome_id;
+            rs += 1;
+            rsPts += 2;
+            const totalScore = playPts + rbiPts + rsPts;
+            temp.totalScore = totalScore;
+            temp.runningTotal = 0;
+            temp.rbi = rbi;
+            temp.rbiPts = rbiPts;
+            temp.rsPts = rsPts;
+            temp.rs = rs;
+            temp.playPts = playPts;
+            _logs.push(temp);
+            break;
+          }
+        }
+      }
     }
 
     //calculate running totals
@@ -262,7 +300,7 @@ function NHLLivePowerdFsScroeDetail(props) {
           _logs[i - 1]?.runningTotal + _logs[i]?.totalScore;
       }
     }
-
+    console.log("FINAL -------------LOGS----------------------", _logs);
     setLogs(_logs);
   }, [gameLogs]);
 
@@ -296,66 +334,76 @@ function NHLLivePowerdFsScroeDetail(props) {
       (id === "oDT4" && !isPitcher)
     )
       return 5;
-
+    if (id === "kKL" || id === "kKS" || id === "kFT") {
+      return 1;
+    }
     if (id === "aHR" && isHitter) return 10;
 
     if (
-      id === "oGO" ||
-      id === "oFO" ||
-      id === "aIBB" ||
-      id === "aFCAD2" ||
-      id === "aFCAD3" ||
-      id === "aFCAD4" ||
-      id === "aSBAD1" ||
-      id === "aSBAD2" ||
-      id === "aSBAD3" ||
-      id === "aSBAD4" ||
-      id === "aSFAD1" ||
-      id === "aSFAD2" ||
-      id === "aSFAD3" ||
-      id === "aSFAD4" ||
-      id === "bPO" ||
-      id === "oDT3" ||
-      id === "oDT4" ||
-      id === "oFC" ||
-      id === "oFC2" ||
-      id === "oFC3" ||
-      id === "oFC4" ||
-      id === "oKLT1" ||
-      id === "oKLT2" ||
-      id === "oKLT3" ||
-      id === "oKST1" ||
-      id === "oKST2" ||
-      id === "oKST3" ||
-      id === "oLO" ||
-      id === "oOP" ||
-      id === "oPO" ||
-      id === "oROET2" ||
-      id === "oROET3" ||
-      id === "oROET4" ||
-      id === "oSB" ||
-      id === "oSBT2" ||
-      id === "oSBT3" ||
-      id === "oSBT4" ||
-      id === "oST4" ||
-      id === "oTT4" ||
-      id === "PO" ||
-      id === "POCS2" ||
-      id === "POCS3" ||
-      id === "POCS4" ||
-      id === "TO2" ||
-      id === "TO3" ||
-      id === "TO4" ||
-      id === "FO1" ||
-      id === "FO2" ||
-      id === "FO3" ||
-      id === "FO4" ||
-      id === "CS2" ||
-      id === "CS3" ||
-      id === "CS4" ||
-      id === "RI"
+      (id === "oGO" ||
+        id === "oFO" ||
+        id === "aIBB" ||
+        id === "aFCAD2" ||
+        id === "aFCAD3" ||
+        id === "aFCAD4" ||
+        id === "aSBAD1" ||
+        id === "aSBAD2" ||
+        id === "aSBAD3" ||
+        id === "aSBAD4" ||
+        id === "aSFAD1" ||
+        id === "aSFAD2" ||
+        id === "aSFAD3" ||
+        id === "aSFAD4" ||
+        id === "bPO" ||
+        id === "oDT3" ||
+        id === "oDT4" ||
+        id === "oFC" ||
+        id === "oFC2" ||
+        id === "oFC3" ||
+        id === "oFC4" ||
+        id === "oKLT1" ||
+        id === "oKLT2" ||
+        id === "oKLT3" ||
+        id === "oKST1" ||
+        id === "oKST2" ||
+        id === "oKST3" ||
+        id === "oLO" ||
+        id === "oOP" ||
+        id === "oPO" ||
+        id === "oROET2" ||
+        id === "oROET3" ||
+        id === "oROET4" ||
+        id === "oSB" ||
+        id === "oSBT2" ||
+        id === "oSBT3" ||
+        id === "oSBT4" ||
+        id === "oST4" ||
+        id === "oTT4") &&
+      !isHitter
     )
       return 1;
+
+    if (
+      (id === "PO" ||
+        id === "POCS2" ||
+        id === "POCS3" ||
+        id === "POCS4" ||
+        id === "TO1" ||
+        id === "TO2" ||
+        id === "TO3" ||
+        id === "TO4" ||
+        id === "FO1" ||
+        id === "FO2" ||
+        id === "FO3" ||
+        id === "FO4" ||
+        id === "CS2" ||
+        id === "CS3" ||
+        id === "CS4" ||
+        id === "RI") &&
+      hasRunners
+    ) {
+      return 1;
+    }
 
     if (
       (id === "oSF" ||
@@ -369,13 +417,14 @@ function NHLLivePowerdFsScroeDetail(props) {
       return 1;
 
     if (
-      (id === "aS" && isHitter) ||
-      id === "aSAD2" ||
-      id === "aSAD3" ||
-      id === "aSAD4" ||
-      id === "oST2" ||
-      id === "oST3" ||
-      id === "oST4"
+      (id === "aS" ||
+        id === "aSAD2" ||
+        id === "aSAD3" ||
+        id === "aSAD4" ||
+        id === "oST2" ||
+        id === "oST3" ||
+        id === "oST4") &&
+      isHitter
     )
       return 3;
 
@@ -387,7 +436,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     return 0;
   };
 
-  const getRBI = (runners = [], aHRId = "") => {
+  const getRBI = (runners = [], isHitter, aHRId = "") => {
     let rbi = 0;
     for (let i = 0; i < runners?.length; i++) {
       if (
@@ -396,14 +445,10 @@ function NHLLivePowerdFsScroeDetail(props) {
         runners[i]?.outcome_id === "ERNu"
       ) {
         const [player] = gameLogs?.filter((p) => {
-          return p?.effected_player?.player_id === runners[i]?.player_id;
+          return p?.effected_player?.player_id === isHitter;
         });
-
-        if (aHRId === "aHR" /* && player*/) {
+        if (aHRId === "aHR") {
           rbi += 1;
-          // return {
-          //   rbi,
-          // };
         } else if (player) {
           return { rbi: 1 };
         } else {
@@ -676,15 +721,6 @@ function NHLLivePowerdFsScroeDetail(props) {
                       updated_at_feed = "",
                       runners = [],
                     } = play || {};
-
-                    if (
-                      outcome_id === "KKL" ||
-                      outcome_id === "kKL" ||
-                      outcome_id === "KKS" ||
-                      outcome_id === "kKS"
-                    ) {
-                      return <></>;
-                    }
 
                     return (
                       <Row

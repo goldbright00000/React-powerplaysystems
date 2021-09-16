@@ -162,9 +162,15 @@
     
                 .__final_standings_modal_data_header_title_display_name {
                     display: flex;
-                    flex: 3;
+                    flex: 2;
                 }
-    
+                
+                .__final_standings_modal_data_header_title_points {
+                    display: flex;
+                    flex: 1;
+                    justify-content: center;
+                }
+
                 .__final_standings_modal_data_header_title_amount_won {
                     display: flex;
                     flex: 1;
@@ -208,9 +214,15 @@
     
                 .__final_standings_modal_data_display_name {
                     display: flex;
-                    flex: 3;
+                    flex: 2;
                 }
     
+                .__final_standings_modal_data_points {
+                    display: flex;
+                    flex: 1;
+                    justify-content: center;
+                }
+
                 .__final_standings_modal_data_amount_won {
                     display: flex;
                     flex: 1;

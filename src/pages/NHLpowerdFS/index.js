@@ -74,27 +74,27 @@ const prizeData = [
 
 const INITIAL_PLAYER_LIST = [
   {
-    title: "C1",
+    title: "C",
     value: "",
     filter: CONSTANTS.FILTERS.NHL.CENTER,
     playerId: "",
   },
   {
-    title: "C2",
+    title: "XW1",
     value: "",
-    filter: CONSTANTS.FILTERS.NHL.CENTER,
+    filter: CONSTANTS.FILTERS.NHL.XW,
     playerId: "",
   },
   {
-    title: "LW",
+    title: "XW2",
     value: "",
-    filter: CONSTANTS.FILTERS.NHL.LW,
+    filter: CONSTANTS.FILTERS.NHL.XW,
     playerId: "",
   },
   {
-    title: "RW",
+    title: "XW3",
     value: "",
-    filter: CONSTANTS.FILTERS.NHL.RW,
+    filter: CONSTANTS.FILTERS.NHL.XW,
     playerId: "",
   },
   {
@@ -128,30 +128,25 @@ const FILTERS_INITIAL_VALUES = [
   {
     id: 1,
     title: CONSTANTS.FILTERS.NHL.CENTER,
-    remaining: 2,
+    remaining: 1,
   },
   {
     id: 2,
-    title: CONSTANTS.FILTERS.NHL.LW,
-    remaining: 1,
+    title: CONSTANTS.FILTERS.NHL.XW,
+    remaining: 3,
   },
   {
     id: 3,
-    title: CONSTANTS.FILTERS.NHL.RW,
-    remaining: 1,
-  },
-  {
-    id: 4,
     title: CONSTANTS.FILTERS.NHL.D,
     remaining: 2,
   },
   {
-    id: 5,
+    id: 4,
     title: CONSTANTS.FILTERS.NHL.G,
     remaining: 1,
   },
   {
-    id: 6,
+    id: 5,
     title: CONSTANTS.FILTERS.NHL.TD,
     remaining: 1,
   },
