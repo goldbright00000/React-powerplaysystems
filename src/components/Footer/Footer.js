@@ -21,7 +21,7 @@ const Footer = (props) => {
               <span>Legal Privacy</span>
               <span>Company</span>
               <Link to="/my-account">My Account</Link>
-              <Link to="/my-account">Sponsor a contest</Link>
+              {/* <Link to="/my-account">Sponsor a contest</Link> */}
               <hr className={styles.__hr_styles} />
 
               <Link to="/faqs">FAQs</Link>
