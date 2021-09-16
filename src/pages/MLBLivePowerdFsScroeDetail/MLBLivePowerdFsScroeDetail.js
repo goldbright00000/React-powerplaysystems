@@ -335,7 +335,7 @@ function NHLLivePowerdFsScroeDetail(props) {
     )
       return 5;
     if (id === "kKL" || id === "kKS" || id === "kFT") {
-      return 1;
+      return 2;
     }
     if (id === "aHR" && isHitter) return 10;
 
