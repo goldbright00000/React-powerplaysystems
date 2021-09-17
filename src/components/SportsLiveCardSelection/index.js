@@ -51,7 +51,7 @@ function SportsLiveCardSelection(props) {
     compressed = false,
     simpleView = false,
     selected = false,
-    onSelectCard = (item) => {},
+    onSelectCard = (item) => { },
   } = props || {};
   const { live_data: selectedData = [], starPlayerCount = 0 } = useSelector(
     (state) => state.nhl
@@ -293,9 +293,8 @@ function SportsLiveCardSelection(props) {
                           </div>
 
                           <div
-                            className={`${classes.states_points_right} ${
-                              hasText(category, "team d") && classes.width
-                            }`}
+                            className={`${classes.states_points_right} ${hasText(category, "team d") && classes.width
+                              }`}
                           >
                             <p className={classes.states_xp_times}>
                               {xpTimes && `${xpTimes}x`} Points
@@ -317,36 +316,34 @@ function SportsLiveCardSelection(props) {
                         <div className={classes.states_points_center}>
                           <div>
                             <p
-                              className={`${classes.p_1} ${
-                                hasText(
-                                  live_data_steps[currentStep].type,
-                                  "D-Wall"
-                                ) && classes.d_wall
-                              } 
-                                                    ${
-                                                      hasText(
-                                                        live_data_steps[
-                                                          currentStep
-                                                        ].type,
-                                                        "ice"
-                                                      )
-                                                        ? classes.bg_s
-                                                        : hasText(
-                                                            live_data_steps[
-                                                              currentStep
-                                                            ].type,
-                                                            "bench"
-                                                          )
-                                                        ? classes.bg_p
-                                                        : hasText(
-                                                            live_data_steps[
-                                                              currentStep
-                                                            ].type,
-                                                            "D-Wall"
-                                                          )
-                                                        ? classes.bg_b
-                                                        : classes.bg_n
-                                                    }`}
+                              className={`${classes.p_1} ${hasText(
+                                live_data_steps[currentStep].type,
+                                "D-Wall"
+                              ) && classes.d_wall
+                                } 
+                                                    ${hasText(
+                                  live_data_steps[
+                                    currentStep
+                                  ].type,
+                                  "ice"
+                                )
+                                  ? classes.bg_s
+                                  : hasText(
+                                    live_data_steps[
+                                      currentStep
+                                    ].type,
+                                    "bench"
+                                  )
+                                    ? classes.bg_p
+                                    : hasText(
+                                      live_data_steps[
+                                        currentStep
+                                      ].type,
+                                      "D-Wall"
+                                    )
+                                      ? classes.bg_b
+                                      : classes.bg_n
+                                }`}
                             >
                               {live_data_steps[currentStep]?.type}
                             </p>
@@ -355,12 +352,10 @@ function SportsLiveCardSelection(props) {
                                 className={classes.container_card_body_top_main}
                               >
                                 <div
-                                  className={`${
-                                    classes.container_card_body_top
-                                  } ${
-                                    hasText(category, "team d") &&
+                                  className={`${classes.container_card_body_top
+                                    } ${hasText(category, "team d") &&
                                     classes.margin_bottom
-                                  }`}
+                                    }`}
                                 >
                                   <div>
                                     <ClockIcon />
@@ -398,13 +393,12 @@ function SportsLiveCardSelection(props) {
                           </div>
                           <div
                             className={`${classes.points_summary_b} 
-                                                        ${
-                                                          live_data_steps[
-                                                            currentStep
-                                                          ]?.step?.length > 4
-                                                            ? classes.overflow
-                                                            : ""
-                                                        }`}
+                                                        ${live_data_steps[
+                                currentStep
+                              ]?.step?.length > 4
+                                ? classes.overflow
+                                : ""
+                              }`}
                           >
                             {live_data_steps[currentStep]?.step &&
                               live_data_steps[currentStep]?.step?.length &&
@@ -521,8 +515,8 @@ function SportsLiveCardSelection(props) {
                 {filterdData &&
                   filterdData?.data?.map((item, ind) =>
                     starPlayerCount === 3 &&
-                    !isStarPlayer &&
-                    item?.isStarPlayer ? (
+                      !isStarPlayer &&
+                      item?.isStarPlayer ? (
                       <></>
                     ) : (
                       <SportCardSelection

@@ -61,6 +61,7 @@ const ViewResults = (props) => {
     const { title = '', onViewResultsBack = () => { } } = props || {};
     const [isSelected, setIsSelected] = useState(-1);
     const [teamPointsModal, setTeamPointsModal] = useState(false);
+    const [item, setItem] = useState({});
 
     const getSelectedColor = (id) => {
         return isSelected == id && '#fb6e00';
@@ -97,6 +98,7 @@ const ViewResults = (props) => {
                             onClick={() => {
                                 setIsSelected(item?.id);
                                 setTeamPointsModal(!teamPointsModal);
+                                setItem(item);
                             }}>
                             <div
                                 className={classes.__view_results_data_number_div}>
@@ -157,6 +159,7 @@ const ViewResults = (props) => {
                 <TeamPointsModal
                     isVisible={teamPointsModal}
                     onClose={() => setTeamPointsModal(false)}
+                    item={item}
                 />
             }
         </div>
