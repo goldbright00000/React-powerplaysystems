@@ -278,6 +278,7 @@ function MLBPowerdFs(props) {
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchText, setSearchText] = useState("");
+  const [resetSearch,  setResetSearch] = useState(false);
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
 
@@ -818,6 +819,13 @@ function MLBPowerdFs(props) {
       if (isFilterSelected)
         onSelectSearchDropDown({ team_id: "all", name: "All Teams" });
 
+      setResetSearch(true);
+
+      if(isMobile)
+      {
+        document.querySelectorAll("[class*=MLBpowerdFS_container__]")[0].scrollIntoView();
+      }
+
       const [_selectedFilter] = filters?.filter(
         (filter) => filter.title === type
       );
@@ -1235,6 +1243,38 @@ function MLBPowerdFs(props) {
     );
   };
 
+  const setSelectedTop = (arr) => {
+      let selectionArr = [];
+      let nonSelectionArr = [];
+      for(let i = 0; i < arr.length; i++)
+      {
+        if(selectedFilter?.title === D)
+        {
+          if(!!selected.get(
+            `${arr[i]?.team_id} - ${arr[i]?.match_id}`
+          ))
+          {
+            selectionArr.push(arr[i]);
+          }
+          else {
+            nonSelectionArr.push(arr[i]);
+          }
+        }
+        else {
+          if(!!selected.get(
+            `${arr[i]?.playerId} - ${arr[i]?.match_id}`
+          ))
+          {
+            selectionArr.push(arr[i]);
+          }
+          else {
+            nonSelectionArr.push(arr[i]);
+          }
+        }
+      }
+      return selectionArr.concat(nonSelectionArr);
+  };
+
   return (
     <>
       <Header />
@@ -1296,13 +1336,14 @@ function MLBPowerdFs(props) {
                   onSelect={onSelectFilter}
                   selectedFilter={selectedFilter}
                 />
-
                 <Search
                   onSearch={onSearch}
                   //onSelect={onSelectSearchDropDown}
                   //dropDown={dropDownState}
                   selected={selectedDropDown}
                   placeholder={"Search by player or team name..."}
+                  isReset={resetSearch}
+                  setResetSearch={setResetSearch}
                 />
               </div>
             </div>
@@ -1326,7 +1367,7 @@ function MLBPowerdFs(props) {
 
                     <div className={classes.card_body}>
                       {filterdData && filterdData?.listData?.length ? (
-                        filterdData?.listData?.map((item, index) => (
+                        setSelectedTop(filterdData?.listData)?.map((item, index) => (
                           <>
                             {selectedFilter?.title === D ? (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
