@@ -250,6 +250,9 @@ function LivePlayPowerLevels(props) {
               onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
               teamManagerLink="/mlb-live-powerdfs"
               scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+              onGoBack={() => {
+                redirectTo(props, { path: "/my-game-center" })
+              }}
             />
             <Card>{RenderView()}</Card>
             <div className={classes.left_side_footer}>

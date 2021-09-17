@@ -10,6 +10,7 @@ import * as MLBActions from "../../actions/MLBActions";
 import PowerCurrency from '../../assets/power-blue.png';
 import BtcCurrency from '../../assets/btc-blue.png';
 import EthCurrency from '../../assets/ethereum-blue.png';
+import TeamPointsModal from '../../pages/MyGameCenter/TeamPointsModal';
 
 const FinalStandingsModal = (props) => {
 
@@ -24,6 +25,7 @@ const FinalStandingsModal = (props) => {
 
     const dispatch = useDispatch();
     const [finalStandings, setFinalStandings] = useState([]);
+    const [teamPointsModal, setTeamPointsModal] = useState(false);
     const stands = useSelector((state) => state?.mlb?.finalStandings)
 
     useEffect(() => {
@@ -38,6 +40,10 @@ const FinalStandingsModal = (props) => {
             setFinalStandings(stands);
         }
     })
+
+    const handleViewTeam = () => {
+        setTeamPointsModal(true);
+    }
 
     const getCurrency = (currency) => {
         if (currency.toUpperCase() === 'PWRS') {
@@ -179,8 +185,18 @@ const FinalStandingsModal = (props) => {
                                             />}
                                         </div>
                                         <div className={`${classes.__final_standings_modal_data_action}`}>
-                                            <button className={classes.__final_standing_modal_data_action_button}>View Team</button>
+                                            <button onClick={handleViewTeam} className={classes.__final_standing_modal_data_action_button}>View Team</button>
                                         </div>
+                                        {
+                                            teamPointsModal
+                                            &&
+
+                                            <TeamPointsModal
+                                                isVisible={teamPointsModal}
+                                                onClose={() => setTeamPointsModal(false)}
+                                                item={item}
+                                            />
+                                        }
                                     </div>
                                 );
                             })

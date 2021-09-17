@@ -523,9 +523,9 @@ function MLBPowerdFs(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -540,9 +540,9 @@ function MLBPowerdFs(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -1319,8 +1319,8 @@ function MLBPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1408,11 +1408,11 @@ function MLBPowerdFs(props) {
                                       onSelectDeselect={onPlayerSelectDeselect}
                                       pageType={PAGE_TYPES.MLB}
                                       type={selectedData?.type}
-                                      // disabled={
-                                      //   item.isStarPlayer &&
-                                      //   item.isStarPlayer &&
-                                      //   starPlayerCount >= 3
-                                      // }
+                                    // disabled={
+                                    //   item.isStarPlayer &&
+                                    //   item.isStarPlayer &&
+                                    //   starPlayerCount >= 3
+                                    // }
                                     />
                                   </>
                                 )}
@@ -1539,9 +1539,8 @@ function MLBPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${
-                              classes.__last_tab_header
-                            }`}
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
                           >
                             Powers Available
                           </Tab>

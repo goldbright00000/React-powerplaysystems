@@ -516,9 +516,8 @@ function NHLLivePowerdFsScroeDetail(props) {
     isNewRow = false,
   }) => (
     <div
-      className={`${classes.card_row} ${classes.card_row_1} ${
-        isHit ? classes.primary_bg : ""
-      }`}
+      className={`${classes.card_row} ${classes.card_row_1} ${isHit ? classes.primary_bg : ""
+        }`}
     >
       <span className={classes.child_1}>{position}</span>
       <span className={classes.child_2}>{name}</span>
@@ -609,6 +608,9 @@ function NHLLivePowerdFsScroeDetail(props) {
                 teamManagerLink="/mlb-live-powerdfs"
                 scoreDetailLink="/mlb-live-powerdfs/my-score-details"
                 liveStandingData={liveStandingData}
+                onGoBack={() => {
+                  redirectTo(props, { path: "/my-game-center" })
+                }}
               />
               <div className={classes.card_rank}>
                 <RankCard showButton={false} ranks={ranks} game_id={game_id} />
