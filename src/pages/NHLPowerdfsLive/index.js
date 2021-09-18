@@ -434,11 +434,11 @@ function NHLPowerdFsLive(props) {
       const sortedGameLogs = _gameLogs.sort((a, b) =>
         a?.play === null && b?.play !== null
           ? new Date(a?.created_at).getTime() -
-            new Date(b?.created_at).getTime()
+          new Date(b?.created_at).getTime()
           : a?.play !== null && b?.play === null
-          ? new Date(a?.play?.created_at).getTime() -
+            ? new Date(a?.play?.created_at).getTime() -
             new Date(b?.created_at).getTime()
-          : new Date(a?.play?.created_at).getTime() -
+            : new Date(a?.play?.created_at).getTime() -
             new Date(b?.play?.created_at).getTime()
       );
 
@@ -610,7 +610,7 @@ function NHLPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -666,9 +666,9 @@ function NHLPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -683,9 +683,9 @@ function NHLPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -841,9 +841,9 @@ function NHLPowerdFsLive(props) {
                     onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
                     teamManagerLink="/nhl-live-powerdfs"
                     scoreDetailLink="/nhl-live-powerdfs/my-score-details"
-                    onGoBack={() =>
+                    onGoBack={() => {
                       redirectTo(props, { path: "/my-game-center" })
-                    }
+                    }}
                     state={selectedTeam}
                     {...props}
                   />

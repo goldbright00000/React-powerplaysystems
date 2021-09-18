@@ -105,8 +105,6 @@ function MLBPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
-  console.log('selectedTeam', selectedTeam);
-
   const {
     live_data = [],
     starPlayerCount = 0,
@@ -849,9 +847,9 @@ function MLBPowerdFsLive(props) {
                     onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
                     teamManagerLink="/mlb-live-powerdfs"
                     scoreDetailLink="/mlb-live-powerdfs/my-score-details"
-                    onGoBack={() =>
+                    onGoBack={() => {
                       redirectTo(props, { path: "/my-game-center" })
-                    }
+                    }}
                     state={selectedTeam}
                     {...props}
                   />
