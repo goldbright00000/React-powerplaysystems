@@ -71,8 +71,12 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
   } = props || {};
 
-  const { game: { game_id: gameId } = {}, userId, teamId, sportId } =
-    gameInfo || {};
+  const {
+    game: { game_id: gameId } = {},
+    userId,
+    teamId,
+    sportId,
+  } = gameInfo || {};
 
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
 
@@ -185,7 +189,7 @@ function SportsLiveCard(props) {
   // }
 
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
- 
+
   useEffect(() => {
     if (compressedView) setSummaryState(false);
   }, [compressedView]);
@@ -622,20 +626,27 @@ function SportsLiveCard(props) {
           {type === "P" ? (
             <>
               <p className={`${classes.p} ${largeView && classes.large_view}`}>
-                IP: {parseFloat(innings_pitched).toFixed(1)} | PC: {pitch_count}
+                IP:{" "}
+                {match_id === data.match_id
+                  ? parseFloat(innings_pitched).toFixed(1)
+                  : 0}{" "}
+                | PC: {match_id === data.match_id ? pitch_count : 0}
               </p>
               <p className={`${classes.p} ${largeView && classes.large_view}`}>
-                K:{strike_outs} | BB:{walks}
+                K:{match_id === data.match_id ? strike_outs : 0} | BB:
+                {match_id === data.match_id ? walks : 0}
               </p>
             </>
           ) : (
             <>
               <p>
-                {removeZeroBeforeDecimalPoint(batting_average)} | {hits}/
-                {plate_appearances}
+                {removeZeroBeforeDecimalPoint(batting_average)} |{" "}
+                {match_id === data.match_id ? hits : 0}/
+                {match_id === data.match_id ? plate_appearances : 0}
               </p>
               <p>
-                RBI: {runs_batted_in} | R: {runs}
+                RBI: {match_id === data.match_id ? runs_batted_in : 0} | R:{" "}
+                {match_id === data.match_id ? runs : 0}
               </p>
             </>
           )}

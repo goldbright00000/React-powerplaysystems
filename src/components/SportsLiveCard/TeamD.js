@@ -41,8 +41,12 @@ function SportsLiveCardTeamD(props) {
     cardType = CardType.MLB,
   } = props || {};
 
-  const { match_id = "", match = {}, team_d_mlb_team: team = {}, score = 0 } =
-    data || {};
+  const {
+    match_id = "",
+    match = {},
+    team_d_mlb_team: team = {},
+    score = 0,
+  } = data || {};
 
   const {
     away_team = {},
@@ -210,8 +214,8 @@ function SportsLiveCardTeamD(props) {
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            Runs Against:{runs_against} <br />
-            HR Against: {hr_against}
+            Runs Against:{match_id === data.match_id ? runs_against : 0} <br />
+            HR Against: {match_id === data.match_id ? hr_against : 0}
             {/* {team_id === away_team_id
               ? away_team_runs
               : team_id === home_team_id && home_team_runs} */}
@@ -233,7 +237,7 @@ function SportsLiveCardTeamD(props) {
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {score}
+            {/* {score} */ hr_against * -5 + -1 * runs_against}
           </p>
         </div>
       </div>

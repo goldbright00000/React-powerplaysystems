@@ -211,7 +211,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       return;
     }
 
-    const _logs = [];
+    let _logs = [];
 
     let filteredLogs = lodash.uniqBy(gameLogs, "play_id");
 
@@ -276,7 +276,7 @@ function NHLLivePowerdFsScroeDetail(props) {
             temp.play.outcome_id = runners[x].outcome_id;
             rs += 1;
             rsPts += 2;
-            const totalScore = playPts + rbiPts + rsPts;
+            const totalScore = rbiPts + rsPts;
             temp.totalScore = totalScore;
             temp.runningTotal = 0;
             temp.rbi = rbi;
@@ -285,6 +285,31 @@ function NHLLivePowerdFsScroeDetail(props) {
             temp.rs = rs;
             temp.playPts = playPts;
             _logs.push(temp);
+            _logs = lodash.uniqBy(_logs, "play_id", "play.outcome_id");
+            break;
+          }
+        }
+      } else if (isHitter) {
+        for (let x = 0; x < runners.length; x++) {
+          if (
+            runners[x].outcome_id === "ERN" ||
+            runners[x].outcome_id === "URN" ||
+            runners[x].outcome_id === "ERNu"
+          ) {
+            let temp = filteredLogs[i];
+            temp.play.outcome_id = runners[x].outcome_id;
+            rs += 1;
+            rsPts += 2;
+            const totalScore = 2;
+            temp.totalScore = totalScore;
+            temp.runningTotal = 0;
+            temp.rbi = 1;
+            temp.rbiPts = 2;
+            temp.rsPts = 0;
+            temp.rs = 0;
+            temp.playPts = playPts;
+            _logs.push(temp);
+            _logs = lodash.uniqBy(_logs, "play_id", "play.outcome_id");
             break;
           }
         }
