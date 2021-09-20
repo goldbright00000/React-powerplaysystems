@@ -34,13 +34,15 @@ import RenderModal from "./RenderModal";
 import { CardType } from "./CardType";
 import HomeRun from "./HomeRun";
 import ActivatedBoost from "./ActivatedBoost";
-import NFLFooterStats from "./NFLFooterStats";
+import NHLFooterStats from "./NHLFooterStats";
 import BaseballStick from "../../icons/BaseballStick";
 import Baseball from "../../icons/Baseball";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
+import ClockIcon from "../../assets/icons/nhl/clock.svg";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
+const NHLSummaryTitles = ["Time", "Type", "Power", "Pts"];
 
 function SportsLiveCard(props) {
   const [showSummary, setSummaryState] = useState(false);
@@ -64,7 +66,7 @@ function SportsLiveCard(props) {
     onSelectCard = () => {},
     onChangeXp = (xp, player) => {},
     updateReduxState = (currentPlayer, newPlayer) => {},
-    cardType = CardType.MLB,
+    cardType = CardType.NHL,
     isHomeRun = false,
     gameInfo = {},
     pointXpCount = {},
@@ -86,15 +88,40 @@ function SportsLiveCard(props) {
 
   const {
     name = "",
-    type = "",
+    primary_position: type = "",
     type1 = "",
-    points = 0,
+    // points = 0,
     homeTeam = "",
     awayTeam = "",
     stats = {},
     playerStats = {},
-    pointsSummary = [],
-    totalPts = 0,
+    pointsSummary = [
+      {
+        status: "P1: 19:59",
+        type: "Goal",
+        power: "2x",
+        pts: "4",
+      },
+      {
+        status: "P2: 13:45",
+        type: "Assist",
+        power: "",
+        pts: "2",
+      },
+      {
+        status: "P3: 00:01",
+        type: "Goal",
+        power: "3x",
+        pts: "8",
+      },
+      {
+        status: "OT: 04:58",
+        type: "Goal",
+        power: "3x",
+        pts: "9",
+      },
+    ],
+    totalPts = 23,
     isStarPlayer = false,
     range = "",
     id = "",
@@ -106,6 +133,11 @@ function SportsLiveCard(props) {
   } = player || {};
 
   const {
+    games_played = 0,
+    goals = 0,
+    assists = 0,
+    points = 0,
+    average_shots = 0,
     base_on_balls = 0,
     batting_average = 0,
     doubles = 0,
@@ -216,7 +248,7 @@ function SportsLiveCard(props) {
   };
 
   const toggleReplaceModal = useCallback(async () => {
-    if (cardType === CardType.MLB) {
+    if (cardType === CardType.NHL) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
       const response = await dispatch(mlbActions.mlbData(gameId));
@@ -623,33 +655,12 @@ function SportsLiveCard(props) {
           Stats
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
-          {type === "P" ? (
-            <>
-              <p className={`${classes.p} ${largeView && classes.large_view}`}>
-                IP:{" "}
-                {match_id === data.match_id
-                  ? parseFloat(innings_pitched).toFixed(1)
-                  : 0}{" "}
-                | PC: {match_id === data.match_id ? pitch_count : 0}
-              </p>
-              <p className={`${classes.p} ${largeView && classes.large_view}`}>
-                K:{match_id === data.match_id ? strike_outs : 0} | BB:
-                {match_id === data.match_id ? walks : 0}
-              </p>
-            </>
-          ) : (
-            <>
-              <p>
-                {removeZeroBeforeDecimalPoint(batting_average)} |{" "}
-                {match_id === data.match_id ? hits : 0}/
-                {match_id === data.match_id ? plate_appearances : 0}
-              </p>
-              <p>
-                RBI: {match_id === data.match_id ? runs_batted_in : 0} | R:{" "}
-                {match_id === data.match_id ? runs : 0}
-              </p>
-            </>
-          )}
+          <p className={`${classes.p} ${largeView && classes.large_view}`}>
+            G: {goals} | A: {assists}
+          </p>
+          <p className={`${classes.p} ${largeView && classes.large_view}`}>
+            SOG:
+          </p>
         </div>
       </div>
 
@@ -667,7 +678,7 @@ function SportsLiveCard(props) {
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {score}
+            {points}
           </p>
           {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
             <div style={{ opacity: 0.5 }}>{renderXp()}</div>
@@ -726,9 +737,12 @@ function SportsLiveCard(props) {
       <p className={classes.card_header_title}>
         <span className={classes.border} />
         {console.log("TYPE------------------- ", type)}
-        {type === "XB" || type === "OF" ? type1 : type}
+        <span>
+          {type === "XW" || type === "D" ? type1 : type}:{" "}
+          <span className={classes.card_header_points}>14 Pts</span>
+        </span>
       </p>
-      <div className={classes.header_teams}>
+      {/* <div className={classes.header_teams}>
         <p
           className={current_team === away_team.team_id && classes.current_team}
         >
@@ -747,13 +761,15 @@ function SportsLiveCard(props) {
         >
           {home_team?.name} {home_team_runs}
         </span>
-      </div>
+      </div> */}
     </div>
   );
 
   const RenderSingleViewStats = () => (
     <div className={classes.single_view_state}>
-      <p className={classes.single_view_cat}>{type}</p>
+      <p className={classes.single_view_cat}>
+        {type === "XW" || type === "D" ? type1 : type}
+      </p>
       <div>
         <p className={classes.single_view_pts}>
           Pts: <span className={xp && xp?.xp && classes.active}>30</span>
@@ -761,8 +777,8 @@ function SportsLiveCard(props) {
         </p>
       </div>
       <p>
-        Bot 1st
-        <span className={classes.divider_1}>|</span>2 Out
+        <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} /> P1
+        <span className={classes.divider_1}>|</span>12:59
       </p>
     </div>
   );
@@ -889,21 +905,30 @@ function SportsLiveCard(props) {
                       </>
                     ) : */}
                     {getStatus() !== "Game Over" &&
-                    cardType !== CardType.NFL &&
-                    !singleView
-                      ? showFooterStats()
-                      : cardType === CardType.NFL && <NFLFooterStats />}
+                    cardType === CardType.NHL &&
+                    !singleView ? (
+                      <NHLFooterStats />
+                    ) : null}
                   </>
                 )}
               </>
             ) : (
               <>
-                <RenderPointsSummary
-                  titleList={MLBSummaryTitles}
-                  tableList={pointsSummary}
-                  totalPoints={totalPts}
-                  largeView={largeView}
-                />
+                {cardType === CardType.NHL ? (
+                  <RenderPointsSummary
+                    titleList={NHLSummaryTitles}
+                    tableList={pointsSummary}
+                    totalPoints={totalPts}
+                    largeView={largeView}
+                  />
+                ) : (
+                  <RenderPointsSummary
+                    titleList={MLBSummaryTitles}
+                    tableList={pointsSummary}
+                    totalPoints={totalPts}
+                    largeView={largeView}
+                  />
+                )}
               </>
             )}
           </div>
