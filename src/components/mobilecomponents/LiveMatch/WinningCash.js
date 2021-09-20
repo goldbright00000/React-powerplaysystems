@@ -7,8 +7,7 @@ const WinningCash = (props) => {
   return (
     <div className="cash">
       <p>
-        Currently <br />
-        Winning
+        Currently Winning
       </p>
       <h2>${currentWinnings}</h2>
     </div>

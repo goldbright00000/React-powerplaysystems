@@ -9,7 +9,7 @@ const TagLines = ({ title, firstTeam, secondTeam }) => {
       </Col>
       <Col xs={6} className="text-end">
         <h4>
-          {firstTeam}
+          <span style={{color: "#8cc2ff", fontWeight: "bold"}}>{firstTeam}</span>
           <br />
           vs <span>{secondTeam}</span>
         </h4>
