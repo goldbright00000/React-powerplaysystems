@@ -214,11 +214,8 @@ function SportsLiveCardTeamD(props) {
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            Runs Against:{match_id === data.match_id ? runs_against : 0} <br />
-            HR Against: {match_id === data.match_id ? hr_against : 0}
-            {/* {team_id === away_team_id
-              ? away_team_runs
-              : team_id === home_team_id && home_team_runs} */}
+            Runs Against:{match_id !== data.match_id ? runs_against : 0} <br />
+            HR Against: {match_id !== data.match_id ? hr_against : 0}
           </p>
         </div>
       </div>
