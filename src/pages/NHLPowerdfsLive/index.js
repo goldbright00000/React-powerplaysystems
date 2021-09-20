@@ -29,10 +29,10 @@ import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
-import SportsLiveCard from "../../components/SportsLiveCardNHL";
+import SportsLiveCard from "../../components/SportsLiveCard";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
-import SportsLiveCardTeamD from "../../components/SportsLiveCardNHL/TeamD";
+import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import PrizeModal from "../../components/PrizeModal";
@@ -415,7 +415,6 @@ function NHLPowerdFsLive(props) {
     setLoading(true);
 
     _socket?.on(EMIT_ROOM, (res) => {
-      console.log("Socket Emit Room");
       const {
         defense = [],
         players = [],
@@ -423,7 +422,6 @@ function NHLPowerdFsLive(props) {
         game_logs = [],
       } = res?.data || {};
 
-      console.log("res?.data Full Data", res?.data);
       console.log("res?.data", power_dfs_team_rankings[0]);
 
       const teamD = defense[0] || {};
@@ -436,11 +434,11 @@ function NHLPowerdFsLive(props) {
       const sortedGameLogs = _gameLogs.sort((a, b) =>
         a?.play === null && b?.play !== null
           ? new Date(a?.created_at).getTime() -
-            new Date(b?.created_at).getTime()
+          new Date(b?.created_at).getTime()
           : a?.play !== null && b?.play === null
-          ? new Date(a?.play?.created_at).getTime() -
+            ? new Date(a?.play?.created_at).getTime() -
             new Date(b?.created_at).getTime()
-          : new Date(a?.play?.created_at).getTime() -
+            : new Date(a?.play?.created_at).getTime() -
             new Date(b?.play?.created_at).getTime()
       );
 
@@ -466,23 +464,20 @@ function NHLPowerdFsLive(props) {
   };
 
   const getPlayers = async (players = [], teamD = {}) => {
-    console.log("players players: ", players);
     const playersArr = new Array(8);
     const [playerCenter] = players?.filter(
-      (plr) =>
-        `${plr?.player?.primary_position}`?.toLocaleLowerCase() === CENTER
+      (plr) => `${plr?.player?.type}`?.toLocaleLowerCase() === CENTER
     );
     const playerXW = players?.filter(
-      (plr) => `${plr?.player?.primary_position}`?.toLocaleLowerCase() === XW
+      (plr) => `${plr?.player?.type}`?.toLocaleLowerCase() === XW
     );
     const playerD = players?.filter(
-      (plr) => `${plr?.player?.primary_position}`?.toLocaleLowerCase() === D
+      (plr) => `${plr?.player?.type}`?.toLocaleLowerCase() === D
     );
     const [playerG] = players?.filter(
-      (plr) => `${plr?.player?.primary_position}`?.toLocaleLowerCase() === G
+      (plr) => `${plr?.player?.type}`?.toLocaleLowerCase() === G
     );
 
-    console.log("playerCenter", playerCenter);
     playersArr[0] = { ...playerCenter };
 
     if (playerXW?.length) {
@@ -615,7 +610,7 @@ function NHLPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -671,9 +666,9 @@ function NHLPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -688,9 +683,9 @@ function NHLPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -729,6 +724,7 @@ function NHLPowerdFsLive(props) {
     if (loading) {
       return <p>Loading...</p>;
     }
+
     if (selectedView === CONSTANTS.NHL_VIEW.S) {
       return (
         <SingleView
@@ -846,7 +842,7 @@ function NHLPowerdFsLive(props) {
                     teamManagerLink="/nhl-live-powerdfs"
                     scoreDetailLink="/nhl-live-powerdfs/my-score-details"
                     onGoBack={() => {
-                      redirectTo(props, { path: "/my-game-center" });
+                      redirectTo(props, { path: "/my-game-center" })
                     }}
                     state={selectedTeam}
                     {...props}
