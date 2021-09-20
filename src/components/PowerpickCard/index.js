@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import classes from "./index.module.scss";
 
 const PowerPickCard = (props) => {
-  const { styles = {} } = props;
+  const { styles = {}, ranks } = props;
+
   return (
     <div
       className={`${classes.card_wrapper} ${

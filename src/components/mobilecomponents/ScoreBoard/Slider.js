@@ -43,6 +43,7 @@ const Slider = ({
   player,
   setDetails
 }) => {
+  console.log("player", player);
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",
@@ -146,6 +147,25 @@ const Slider = ({
     const n = `${name}`.split(" ");
 
     return `${n[0]?.substring(0, 1)}`?.toUpperCase() + ". " + `${n[1]}`;
+  };
+
+  const getStatus = () => {
+    if (`${player?.match?.status}`?.toLocaleLowerCase() === "scheduled") {
+      return "scheduled";
+    } else if (
+      `${player?.match?.status}`?.toLocaleLowerCase() === "closed" ||
+      `${player?.match?.status}`?.toLocaleLowerCase() === "completed"
+    ) {
+      return "Game Over";
+    }
+    return player?.match?.status;
+  };
+
+  const isGameOverOrNotStarted = () => {
+    return (
+      `${player?.match?.status}`?.toLocaleLowerCase() === "scheduled" ||
+      getStatus() === "Game Over"
+    );
   };
   
   return (
@@ -390,7 +410,7 @@ const Slider = ({
         >
           {type == "D" ? (
             <>
-              {counts.challengeCounts === 0 ? (
+              {counts.challengeCounts === 0 || isGameOverOrNotStarted() ? (
                 <button
                   style={{background: "none", borderWidth: 0}}
                 >
@@ -428,7 +448,7 @@ const Slider = ({
                   useChallenge={() => {}}
                 />
               )}
-              {counts.dwallCounts === 0 ? (
+              {counts.dwallCounts === 0 || isGameOverOrNotStarted() ? (
                 <button style={{background: "none", borderWidth: 0}}>
                   <img
                     className={`${icons === true ? "pt-3 disabled" : "pt-4 mt-2 disabled"}`}
@@ -460,7 +480,7 @@ const Slider = ({
             </>
           ) : (
             <>
-              {counts.swapCounts === 0 ? (
+              {counts.swapCounts === 0 || isGameOverOrNotStarted() ? (
                 <img
                   style={{width: 40, height: 40}}
                   src={`${
@@ -485,7 +505,7 @@ const Slider = ({
                   alt=""
                 />
               )}
-                {counts.pointMultiplierCounts === 0 ? (
+                {counts.pointMultiplierCounts === 0  || isGameOverOrNotStarted()? (
                   <img
                     className={`${icons === true ? "pt-3 diabled" : "pt-4 mt-2 disabled"}`}
                     style={{width: 40}}
