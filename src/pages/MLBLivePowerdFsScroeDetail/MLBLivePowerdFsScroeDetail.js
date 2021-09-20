@@ -289,8 +289,9 @@ function NHLLivePowerdFsScroeDetail(props) {
             break;
           }
         }
-      } else if (isHitter) {
-        for (let x = 0; x < runners.length; x++) {
+      } else if (isHitter && id !== "aHR") {
+        const totalRunners = runners?.length;
+        for (let x = 0; x < totalRunners || 0; x++) {
           if (
             runners[x].outcome_id === "ERN" ||
             runners[x].outcome_id === "URN" ||
@@ -541,8 +542,9 @@ function NHLLivePowerdFsScroeDetail(props) {
     isNewRow = false,
   }) => (
     <div
-      className={`${classes.card_row} ${classes.card_row_1} ${isHit ? classes.primary_bg : ""
-        }`}
+      className={`${classes.card_row} ${classes.card_row_1} ${
+        isHit ? classes.primary_bg : ""
+      }`}
     >
       <span className={classes.child_1}>{position}</span>
       <span className={classes.child_2}>{name}</span>
@@ -634,7 +636,7 @@ function NHLLivePowerdFsScroeDetail(props) {
                 scoreDetailLink="/mlb-live-powerdfs/my-score-details"
                 liveStandingData={liveStandingData}
                 onGoBack={() => {
-                  redirectTo(props, { path: "/my-game-center" })
+                  redirectTo(props, { path: "/my-game-center" });
                 }}
               />
               <div className={classes.card_rank}>

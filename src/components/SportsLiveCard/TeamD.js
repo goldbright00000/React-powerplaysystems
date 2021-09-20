@@ -237,7 +237,7 @@ function SportsLiveCardTeamD(props) {
           }`}
         >
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {/* {score} */ hr_against * -5 + -1 * runs_against}
+            {score}
           </p>
         </div>
       </div>
