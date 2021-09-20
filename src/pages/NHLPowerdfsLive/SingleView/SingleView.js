@@ -11,8 +11,8 @@ import PowerPlayIcon from "../../../assets/token.png";
 import { hasText } from "../../../utility/shared";
 import SportsLiveCardSelection from "../../../components/SportsLiveCardSelection";
 import { CONSTANTS } from "../../../utility/constants";
-import SportsLiveCard from "../../../components/SportsLiveCard";
-import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
+import SportsLiveCard from "../../../components/SportsLiveCardNHL";
+import SportsLiveCardTeamD from "../../../components/SportsLiveCardNHL/TeamD";
 
 const { TD } = CONSTANTS.FILTERS.NHL;
 let currentCard = 0;
@@ -62,13 +62,13 @@ function SingleView(props) {
           data?.length &&
           data?.map((item, ind) => (
             <>
-              {item?.team_d_mlb_team && item?.team_d_mlb_team?.type === TD ? (
+              {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
                 <SportsLiveCardTeamD
                   key={ind + "-"}
                   data={item}
                   active={
-                    selectedCard?.team_d_mlb_team?.team_id ===
-                    item?.team_d_mlb_team?.team_id
+                    selectedCard?.team_d_nhl_team?.team_id ===
+                    item?.team_d_nhl_team?.team_id
                   }
                   singleView
                   onSelectCard={onSelectCard}
@@ -103,8 +103,8 @@ function SingleView(props) {
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        {selectedCard?.team_d_mlb_team &&
-        selectedCard?.team_d_mlb_team?.type === TD ? (
+        {selectedCard?.team_d_nhl_team &&
+        selectedCard?.team_d_nhl_team?.type === TD ? (
           <SportsLiveCardTeamD
             data={selectedCard}
             onChangeXp={onChangeXp}
