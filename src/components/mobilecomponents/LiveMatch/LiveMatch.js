@@ -37,15 +37,18 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWin
         <div className="live">
           <Container>
             <Row>
-              <Col xs={4}>
-                <WinningCash currentWinnings={currentWinnings}/>
-              </Col>
-              <Col xs={4}>
-                <RankIcon rank={currentRank} />
-              </Col>
+              <Col xs={2}></Col>
               <Col xs={4}>
                 <MyScore score={score} leader={leader}/>
               </Col>
+              <Col xs={6} style={{display: "flex",flexDirection: "column",alignItems: "flex-start",justifyContent: "flex-end"}}>
+                <WinningCash currentWinnings={currentWinnings}/>
+              </Col>
+              
+              {/* <Col xs={4}>
+                <RankIcon rank={currentRank} />
+              </Col> */}
+              
             </Row>
           </Container>
           <div className="matchWrapper__rank">
