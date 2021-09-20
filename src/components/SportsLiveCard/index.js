@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-
 import * as mlbActions from "../../actions/MLBActions";
 import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
@@ -11,7 +10,6 @@ import StarPower from "../../assets/star_power.png";
 import {
   getNumberSuffix,
   hasText,
-  printLog,
   removeZeroBeforeDecimalPoint,
 } from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
@@ -22,14 +20,11 @@ import XP2Icon from "../../icons/XP2";
 import XP2Icon_1 from "../../icons/XP2_1";
 import XP3 from "../../icons/XP3";
 import XP3_1 from "../../icons/XP3_1";
-import VideoIcon from "../../icons/VideoIcon";
-import ShieldIcon from "../../icons/ShieldIcon";
 import MiniStar from "../../assets/mini_star.png";
 import Tooltip from "../ToolTip";
 import { isEmpty } from "lodash";
 import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
-import SportsLiveCardOverlay from "./SportsLiveCardOverlay";
 import RenderModal from "./RenderModal";
 import { CardType } from "./CardType";
 import HomeRun from "./HomeRun";
@@ -45,7 +40,6 @@ const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 function SportsLiveCard(props) {
   const [showSummary, setSummaryState] = useState(false);
   const [showReplaceModal, setReplaceModalState] = useState(false);
-  const [showVideoOverlay, setVideoOverlayState] = useState(true);
   const [playerList, setPlayerList] = useState({});
   const [loadingPlayerList, setLoadingPlayerList] = useState(false);
   const [isMatchOver, setIsMatchOver] = useState(false);
@@ -55,7 +49,6 @@ function SportsLiveCard(props) {
 
   const {
     data = {},
-    // playerList = [],
     compressedView = false,
     largeView = false,
     singleView = false,
@@ -71,33 +64,18 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
   } = props || {};
 
-  const {
-    game: { game_id: gameId } = {},
-    userId,
-    teamId,
-    sportId,
-  } = gameInfo || {};
+  const { game: { game_id: gameId } = {} } = gameInfo || {};
 
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
-
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
-
-  console.log("PLAYER: ", player);
 
   const {
     name = "",
     type = "",
     type1 = "",
-    points = 0,
-    homeTeam = "",
-    awayTeam = "",
-    stats = {},
-    playerStats = {},
     pointsSummary = [],
     totalPts = 0,
-    isStarPlayer = false,
     range = "",
-    id = "",
     mlb_player_stats = [],
     boost = {},
     current_team = "",
@@ -106,26 +84,12 @@ function SportsLiveCard(props) {
   } = player || {};
 
   const {
-    base_on_balls = 0,
     batting_average = 0,
-    doubles = 0,
     earned_runs_average = 0,
     home_runs = 0,
-    losses = 0,
-    ops = 0,
-    // player_id = 0,
-    // runs_batted_in = 0,
-    season_id = 1,
-    stats_id = 0,
-    stolen_bases = 0,
-    triples = 0,
-    type: playerStatType = "",
-    walks_hits_per_innings_pitched = 0,
-    wins = 0,
   } = mlb_player_stats[0] || {};
 
   const {
-    data_id = 0,
     match_id = 0,
     pitch_count = 0,
     walks = 0,
@@ -135,8 +99,6 @@ function SportsLiveCard(props) {
     innings_pitched = 0,
     strike_outs = 0,
     plate_appearances = 0,
-    // batting_average = 0,
-    // earned_runs_average = 0,
   } = match_stats?.[0] || {};
 
   const {
@@ -148,21 +110,8 @@ function SportsLiveCard(props) {
   } = match || {};
 
   const {
-    // hits = 0,
-    // doubles = 0,
-    // triples = 0,
-    // home_runs = 0,
-    // stolen_bases = 0,
-    // runs_batted_in = 0,
-    // batting_average = 0,
-    // wins = 0,
-    // losses = 0,
-    // innings_pitched = 0,
     strikes = 0,
     balls = 0,
-    // earned_runs_average = 0,
-    // base_on_balls = 0,
-    // walks_hits_per_innings_pitched = 0,
     hitter = {},
     pitcher = {},
     outs = 0,
@@ -183,12 +132,6 @@ function SportsLiveCard(props) {
       setIsMatchOver(true);
     }
   }, [boxscore]);
-
-  // if (type === "P") {
-  //   console.log(boxscore[0]);
-  // }
-
-  const text = process.env.REACT_APP_POST_SHARING_TEXT;
 
   useEffect(() => {
     if (compressedView) setSummaryState(false);
@@ -222,7 +165,6 @@ function SportsLiveCard(props) {
       const response = await dispatch(mlbActions.mlbData(gameId));
 
       if (response?.filterdList && response?.filterdList?.length) {
-        // const _mlbData = [...mlbData];
         const _mlbData = [...response?.filterdList];
         const [swapablePlayerData] = _mlbData?.filter(
           (data) => data?.type === `${type}`?.toLocaleLowerCase()
@@ -725,7 +667,6 @@ function SportsLiveCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        {console.log("TYPE------------------- ", type)}
         {type === "XB" || type === "OF" ? type1 : type}
       </p>
       <div className={classes.header_teams}>
@@ -772,59 +713,17 @@ function SportsLiveCard(props) {
 
   const RenderHeaderIcons = () => (
     <>
-      {
-        //   isPowerAvailable("Swap") === 0 || isPowerLocked("Swap") === 1 ? (
-        //   <Tooltip
-        //   toolTipContent={
-        //     <div className={classes.xp_icons}>
-        //       {isPowerAvailable("Swap") === 0 ? (
-        //         <div>Not Available</div>
-        //       ) : (
-        //         isPowerLocked("Swap") === 1 ? (
-        //           <div style={{display:"flex",width:"100%",justifyContent:"space-evenly"}}>
-        //             <p>Share to unlock:</p>
-        //             <div>
-        //               <a
-        //                 href={`https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${text}&redirect_uri=http://defygames.io`}
-        //               >
-        //                 <button>
-        //                   <FacebookIcon />
-        //                 </button>
-        //               </a>
-        //               <a
-        //                 href={`https://twitter.com/intent/tweet?text=${text}`}
-        //                 target="_blank"
-        //               >
-        //                 <button>
-        //                   <TwitterIcon />
-        //                 </button>
-        //               </a>
-        //             </div>
-        //           </div>
-        //         ) : (
-        //           ""
-        //         )
-        //       )}
-        //     </div>
-        //   }
-        // >
-        //   <Replace size={singleView ? 23 : 22} />
-        // </Tooltip>
-        // ) : (
-        props.swapCount == 0 ? (
-          <div style={{ opacity: 0.5 }}>
-            <Replace size={singleView ? 23 : 22} />
-          </div>
-        ) : (
-          <Replace
-            size={singleView ? 23 : 22}
-            onClick={toggleReplaceModal}
-            className={isGameOverOrNotStarted() && classes.disabled}
-          />
-        )
-
-        // )
-      }
+      {props.swapCount === 0 ? (
+        <div style={{ opacity: 0.5 }}>
+          <Replace size={singleView ? 23 : 22} />
+        </div>
+      ) : (
+        <Replace
+          size={singleView ? 23 : 22}
+          onClick={toggleReplaceModal}
+          className={isGameOverOrNotStarted() && classes.disabled}
+        />
+      )}
     </>
   );
 
@@ -880,14 +779,6 @@ function SportsLiveCard(props) {
                       />
                     )}
 
-                    {/* {isGameOverOrNotStarted() ? (
-                      <>
-                        <button className={classes.card_footer_btn}>
-                          See your {!isEmpty(type1) ? type1 : type} scoring
-                          details
-                        </button>
-                      </>
-                    ) : */}
                     {getStatus() !== "Game Over" &&
                     cardType !== CardType.NFL &&
                     !singleView

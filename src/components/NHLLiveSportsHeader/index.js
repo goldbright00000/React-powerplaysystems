@@ -26,7 +26,6 @@ function NHLLiveSportsHeader(props) {
     onGoBack = () => {},
     state = {},
   } = props || {};
-
   const renderActiveButton = () => (
     <div className={classes.right_menu}>
       <button
@@ -71,7 +70,6 @@ function NHLLiveSportsHeader(props) {
               exact
               to={teamManagerLink || "/nhl-live-powerdfs"}
               activeClassName={classes.active}
-              // onClick={() => alert("hello")}
             >
               Team Manager
             </NavLink>

@@ -321,7 +321,6 @@ function MLBPowerdFsLive(props) {
 
   async function useChallenge(action) {
     if (action) {
-
       const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
         MLBActions.updateUserRemainingPowers(gameId, userId, 6)
@@ -356,19 +355,6 @@ function MLBPowerdFsLive(props) {
   useEffect(async () => {
     _socket = socket();
     setPowers();
-    // return function cleanUP() {
-    //   isMatchUpdate = false;
-
-    //   //reset logs
-    //   dispatch(MLBActions.setGameLogs([]));
-
-    //   //disconnect the socket
-    //   _socket?.emit(ON_ROOM_UN_SUB);
-    //   _socket?.on(ON_ROOM_UN_SUB, () => {
-    //     _socket?.disconnect();
-    //     _socket = null;
-    //   });
-    // };
   }, []);
 
   useEffect(() => {
@@ -414,7 +400,6 @@ function MLBPowerdFsLive(props) {
   const onSocketListen = () => {
     //fetch data first time
     setLoading(true);
-
     _socket?.on(EMIT_ROOM, (res) => {
       const {
         defense = [],
@@ -422,26 +407,22 @@ function MLBPowerdFsLive(props) {
         power_dfs_team_rankings = [],
         game_logs = [],
       } = res?.data || {};
-
-
       const teamD = defense[0] || {};
       setRanks(power_dfs_team_rankings[0] || {});
       if (players && players?.length) {
         getPlayers(players, teamD);
       }
-
       const _gameLogs = [...game_logs];
       const sortedGameLogs = _gameLogs.sort((a, b) =>
         a?.play === null && b?.play !== null
           ? new Date(a?.created_at).getTime() -
-          new Date(b?.created_at).getTime()
-          : a?.play !== null && b?.play === null
-            ? new Date(a?.play?.created_at).getTime() -
             new Date(b?.created_at).getTime()
-            : new Date(a?.play?.created_at).getTime() -
+          : a?.play !== null && b?.play === null
+          ? new Date(a?.play?.created_at).getTime() -
+            new Date(b?.created_at).getTime()
+          : new Date(a?.play?.created_at).getTime() -
             new Date(b?.play?.created_at).getTime()
       );
-
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
       setLoading(false);
     });
@@ -514,7 +495,6 @@ function MLBPowerdFsLive(props) {
       score: _totalScore,
     });
 
-
     dispatch(MLBActions.mlbLiveData(playersArr));
   };
 
@@ -543,10 +523,7 @@ function MLBPowerdFsLive(props) {
   };
 
   const onFantasyTeamUpdate = (res) => {
-    const {
-      log = {},
-      updated_player = {},
-    } = res?.data || {};
+    const { log = {}, updated_player = {} } = res?.data || {};
 
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
@@ -562,7 +539,6 @@ function MLBPowerdFsLive(props) {
       dispatch(MLBActions.mlbLiveData(liveData));
     }
   };
-
 
   const onChangeXp = async (xp, player) => {
     const _selectedXp = {
@@ -616,7 +592,7 @@ function MLBPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => { };
+  const onClickStandings = () => {};
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -672,9 +648,9 @@ function MLBPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                        left +
-                        ",top=" +
-                        top
+                          left +
+                          ",top=" +
+                          top
                       );
                     }}
                   >
@@ -689,9 +665,9 @@ function MLBPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                        left +
-                        ",top=" +
-                        top
+                          left +
+                          ",top=" +
+                          top
                       );
                     }}
                   >
@@ -848,18 +824,17 @@ function MLBPowerdFsLive(props) {
                     teamManagerLink="/mlb-live-powerdfs"
                     scoreDetailLink="/mlb-live-powerdfs/my-score-details"
                     onGoBack={() => {
-                      redirectTo(props, { path: "/my-game-center" })
+                      redirectTo(props, { path: "/my-game-center" });
                     }}
                     state={selectedTeam}
                     {...props}
                   />
 
-                  <Card ranks={ranks}>{RenderView()}</Card>
+                  <Card ranks={selectedTeam}>{RenderView()}</Card>
                   <div
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
                   >
-                    {/* <img src={FooterImage} alt="" /> */}
                     <a
                       href="https://fanatics.93n6tx.net/c/2068372/1126094/9663"
                       target="_blank"
@@ -976,17 +951,25 @@ function MLBPowerdFsLive(props) {
         </>
       ) : (
         <>
-          <Mobile data={live_data} ranks={ranks} gameInfo={selectedTeam} updateReduxState={updateReduxState} onChangeXp={onChangeXp} useSwap={useSwap} counts={{
-            swapCounts,
-            dwallCounts,
-            challengeCounts,
-            retroBoostCounts,
-            powerUpCounts,
-            pointMultiplierCounts,
-            pointBooster15x,
-            pointBooster2x,
-            pointBooster3x
-          }} />
+          <Mobile
+            data={live_data}
+            ranks={ranks}
+            gameInfo={selectedTeam}
+            updateReduxState={updateReduxState}
+            onChangeXp={onChangeXp}
+            useSwap={useSwap}
+            counts={{
+              swapCounts,
+              dwallCounts,
+              challengeCounts,
+              retroBoostCounts,
+              powerUpCounts,
+              pointMultiplierCounts,
+              pointBooster15x,
+              pointBooster2x,
+              pointBooster3x,
+            }}
+          />
         </>
       )}
     </>
