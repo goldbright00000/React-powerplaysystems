@@ -24,6 +24,7 @@ import Tooltip from "../ToolTip";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 import NHLFooterStats from "./NHLFooterStats";
+import ClockIcon from "../../assets/icons/nhl/clock.svg";
 
 const NHLSummaryTitles = ["Time", "Type", "Power", "Pts"];
 const text = process.env.REACT_APP_POST_SHARING_TEXT;
@@ -890,8 +891,8 @@ function SportsLiveCardTeamD(props) {
         </p>
       </div>
       <p>
-        Bot 1st
-        <span className={classes.divider_1}>|</span>2 Out
+        <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} /> P1
+        <span className={classes.divider_1}>|</span>12:59
       </p>
     </div>
   );
