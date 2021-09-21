@@ -2,21 +2,49 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import classes from "./index.module.scss";
+import HelmetIcon from "../../assets/icons/nfl/helmet.svg";
+import ClockIcon from "../../assets/icons/nfl/clock.svg";
+import YardsIcon from "../../assets/icons/nfl/yards.svg";
+import AmericanFootballIcon from "../../assets/icons/nfl/american-football.svg";
+
 function NFLFooterStats(props) {
-  const RenderState = ({ title, state }) => (
-    <div className={classes.nfl_stat}>
-      <p className={classes.title_p}>{title}</p>
-      <div className={classes.nfl_stat_value}>
-        <p>{state}</p>
-      </div>
-    </div>
-  );
+  const {
+    onClickBack = () => {},
+    onClickDetails = () => {},
+    showSummary = false,
+    largeView = false,
+    title = "",
+  } = props || {};
 
   return (
-    <div className={classes.nfl_footer_stat}>
-      <RenderState title="Yards to FD/EZ" state="10/55" />
-      <RenderState title="Yards to FD/EZ" state="80%" />
-      <RenderState title="Yards to FD/EZ" state="1/4" />
+    <div>
+      <div className={classes.footer_stats_row}>
+        <img src={HelmetIcon} alt="Hockey Icon" width={12} height={12} />
+        <p>
+          Steelers 10 vs <span>Ravens 2</span>
+        </p>
+      </div>
+      <div className={classes.footer_stats_row}>
+        <img src={YardsIcon} alt="Hockey Icon" width={12} height={12} />
+        <p>
+          Yards to FD/EZ: <span>10/55</span>
+        </p>
+      </div>
+      <div className={classes.footer_stats_row}>
+        <img
+          src={AmericanFootballIcon}
+          alt="Hockey Icon"
+          width={12}
+          height={12}
+        />
+        <p>
+          Downs: <span>1/4</span>
+        </p>
+      </div>
+      <div className={classes.footer_stats_row}>
+        <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
+        <p>P1 | 12:59</p>
+      </div>
     </div>
   );
 }

@@ -778,6 +778,28 @@
     }
   }
 
+  .footer_stats_row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+
+    p {
+      margin: 0 0 0 14px;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      color: $grey;
+
+      span {
+        font-weight: bold;
+        color: $lightBlue;
+      }
+    }
+  }
+
   .card_footer_btn {
     background-color: $primary;
     border: none;
@@ -797,6 +819,28 @@
 
     &:hover {
       cursor: pointer;
+    }
+  }
+
+  .footer_stats_row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+
+    p {
+      margin: 0 0 0 14px;
+      font-size: 12px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.17;
+      letter-spacing: normal;
+      color: $grey;
+
+      span {
+        font-weight: bold;
+        color: $lightBlue;
+      }
     }
   }
 
@@ -1389,6 +1433,7 @@
       .footer {
         padding: 7px 16px;
         margin-top: 5px;
+        margin-bottom: 5px;
 
         .mlb_text {
           font-size: 14px;
@@ -1903,6 +1948,7 @@
       .footer {
         padding: 7px 16px;
         margin-top: 5px;
+        margin-bottom: 5px;
 
         .mlb_text {
           font-size: 12px;
@@ -2510,6 +2556,7 @@
       .footer {
         padding: 7px 16px;
         margin-top: 5px;
+        margin-bottom: 5px;
 
         .mlb_text {
           font-size: 12px;
@@ -3008,6 +3055,7 @@
       .footer {
         padding: 7px 16px;
         margin-top: 5px;
+        margin-bottom: 5px;
 
         .mlb_text {
           font-size: 10px;
@@ -3609,6 +3657,7 @@
       .footer {
         padding: 7px 16px;
         margin-top: 5px;
+        margin-bottom: 5px;
 
         .mlb_text {
           font-size: 10px;

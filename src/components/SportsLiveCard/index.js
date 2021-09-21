@@ -36,6 +36,7 @@ import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
+const NFLSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 
 function SportsLiveCard(props) {
   const [showSummary, setSummaryState] = useState(false);
