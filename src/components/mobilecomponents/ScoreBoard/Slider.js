@@ -43,7 +43,6 @@ const Slider = ({
   player,
   setDetails
 }) => {
-  console.log("player", player);
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",

@@ -61,6 +61,22 @@
         span {
             color: $primary;
         }
+        .dateTime {
+            color: #f2f2f2;
+            opacity: 0.6;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .teamMessage {
+            font-size: 14px;
+            line-height: 20px;
+            display: block;
+            font-weight: 500;
+        }
+        .prizeSpan {
+            color: #f2f2f2;
+            font-size: 30px;
+        }
     }
     .gamePrize {
         margin-top: 4px;

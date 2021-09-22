@@ -4,7 +4,7 @@ import Accordian from "../Accordian";
 import Power from "../../assets/power-play-sidebar-icon.png";
 import Token from "../../assets/points-collected.png";
 import Bitcoin from "../../assets/bitcoin.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum-grey.svg";
 import { printLog } from "../../utility/shared";
 
 const data = [

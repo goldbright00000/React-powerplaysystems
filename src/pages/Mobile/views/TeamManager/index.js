@@ -17,7 +17,9 @@ const TeamManager = ({
   data = [],
   ranks = {},
   counts = {},
-  player = {}
+  player = {},
+  prizePool = 0,
+  gameInfo = {}
 }) => {
   const RenderSubTitle = (
     type,
@@ -377,7 +379,7 @@ const TeamManager = ({
       /> */}
       <PoweredBy />
 
-      <ContestRules />
+      <ContestRules prizePool={prizePool} gameInfo={gameInfo}/>
     </>
   );
 };
