@@ -825,6 +825,10 @@ function MLBPowerdFs(props) {
       {
         document.querySelectorAll("[class*=MLBpowerdFS_container__]")[0].scrollIntoView();
       }
+      else {
+        document.querySelector('[class*=PowerpickCard_card_wrapper__]').scroll(0,0)
+      }
+     
 
       const [_selectedFilter] = filters?.filter(
         (filter) => filter.title === type

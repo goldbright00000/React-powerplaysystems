@@ -33,7 +33,7 @@ function Accordian(props) {
         <span className={classes.accoridan_bar_icon_with_title_span}>
           {iconWithTitle && (
             <span className={classes.accoridan_bar_icon}>
-              <img src={iconWithTitle} width="23" height="20" alt="" />
+              <img src={iconWithTitle}  height="20" alt="" />
             </span>
           )}
         </span>

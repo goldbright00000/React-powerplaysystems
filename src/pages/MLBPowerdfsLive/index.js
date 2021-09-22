@@ -809,6 +809,7 @@ function MLBPowerdFsLive(props) {
                 compressedView
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
+                selectedTeam={selectedTeam}
               />
 
               <div className={classes.container}>
@@ -958,6 +959,7 @@ function MLBPowerdFsLive(props) {
             updateReduxState={updateReduxState}
             onChangeXp={onChangeXp}
             useSwap={useSwap}
+            prizePool={prizePool}
             counts={{
               swapCounts,
               dwallCounts,

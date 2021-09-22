@@ -10,6 +10,7 @@ import Points from "../../icons/Points";
 import ContestRulesPopUp from "../ContestRulesPopUp";
 import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
+import _ from 'underscore';
 function Header4(props) {
   const {
     outof = '',
@@ -30,7 +31,6 @@ function Header4(props) {
     points = [],
     powers = [],
   } = props || {};
-
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
@@ -80,8 +80,8 @@ function Header4(props) {
             >
               {contestBtnTitle && (
                 <ContestRulesPopUp
-                  points={points}
-                  powers={powers}
+                  points={_.groupBy(props?.selectedTeam?.game?.PointsSystems, 'type')}
+                  powers={props?.selectedTeam?.game?.Powers}
                   component={({ showPopUp }) => (
                     <button onClick={showPopUp}>
                       <DocIcon /> {contestBtnTitle}
