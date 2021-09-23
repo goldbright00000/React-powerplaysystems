@@ -2,13 +2,9 @@ import React, { useEffect, useState } from 'react';
 import classes from './teamPointsModal.module.scss';
 import Modal from '../../components/Modal';
 import CloseIcon from '../../assets/close-white-icon.png';
-import { NavLink } from 'react-router-dom';
 import Card from '../../components/PowerpickCard';
-import { dummyData } from '../../pages/NHLPowerdfsLive/dummyData';
-import SportsLiveCardSelection from '../../components/SportsLiveCardSelection';
 import { getMlbLivePlayPlayerTeamData } from '../../actions/MLBActions';
 import { useDispatch } from 'react-redux';
-import SportsTeamSelectionCard from '../../components/SportsTeamSelectionCard';
 import _ from 'lodash';
 import SportsSavedPlayerCard from '../../components/SportsSavedPlayerCard';
 
@@ -87,11 +83,43 @@ const TeamPointsModal = (props) => {
                                 savedTeam && savedTeam.length > 0 && savedTeam.map((item, index) => {
                                     return (
                                         <>
-                                            {console.log('data item ---> ', item)}
-                                            <SportsSavedPlayerCard
-                                                item={item}
-                                                key={index + ""}
-                                            />
+                                            {item.team_d_mlb_team ? (
+                                                <></>
+                                                // <SportsLiveCardTeamD
+                                                // data={item}
+                                                // compressedView={compressedView}
+                                                // key={index + "" + item?.team_d_mlb_team?.type}
+                                                // dwall={dwallCounts}
+                                                // challenge={challengeCounts}
+                                                // useDwall={useDwall}
+                                                // useChallenge={useChallenge}
+                                                // dataMain={selectedTeam}
+                                                // setPowers={setPowers}
+                                                // />
+                                            ) : (
+                                                <SportsSavedPlayerCard
+                                                    data={item}
+                                                // compressedView={compressedView}
+                                                // key={index + ""}
+                                                // onChangeXp={onChangeXp}
+                                                // updateReduxState={updateReduxState}
+                                                // starPlayerCount={starPlayerCount}
+                                                // gameInfo={selectedTeam}
+                                                // useSwap={useSwap}
+                                                // swapCount={swapCounts}
+                                                // dataMain={selectedTeam}
+                                                // setPowers={setPowers}
+                                                // pointXpCount={{
+                                                //     xp1: pointBooster15x,
+                                                //     xp2: pointBooster2x,
+                                                //     xp3: pointBooster3x,
+                                                // }}
+                                                />
+                                                //  <SportsSavedPlayerCard
+                                                //     item={item}
+                                                //     key={index + ""}
+                                                // />
+                                            )}
                                         </>
                                     );
                                 })
