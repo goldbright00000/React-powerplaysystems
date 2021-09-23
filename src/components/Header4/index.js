@@ -80,7 +80,7 @@ function Header4(props) {
             >
               {contestBtnTitle && (
                 <ContestRulesPopUp
-                  points={_.groupBy(props?.selectedTeam?.game?.PointsSystems, 'type')}
+                  points={(typeof props.selectedTeam !== "undefined")? _.groupBy(props?.selectedTeam?.game?.PointsSystems, 'type'):points}
                   powers={props?.selectedTeam?.game?.Powers}
                   component={({ showPopUp }) => (
                     <button onClick={showPopUp}>
