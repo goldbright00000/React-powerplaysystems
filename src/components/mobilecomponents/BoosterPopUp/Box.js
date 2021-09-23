@@ -3,7 +3,6 @@ import { CONSTANTS } from "../../../utility/constants";
 import { useSelector } from "react-redux";
 import "./boxBooster.scss";
 const Box = ({counts, onChangeXp = (xp, player) => {}, data, selectedPlayer, boostModal}) => {
-  const { data: mlbData = [] } = useSelector((state) => state.mlb);
   const [activeBooster, setActiveBooster] = React.useState("");
   const addXP = (type, elem) => {
     if (counts[type] !== 0)

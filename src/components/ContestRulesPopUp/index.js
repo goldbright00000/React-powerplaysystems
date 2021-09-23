@@ -14,7 +14,7 @@ const getIconAndDesc = (powerName) => {
         if (powerName.toLowerCase().match(/wall/g))
             return {
                 icon: DWallIcon,
-                desc: 'Any Runs scored against the Contest Participants Team Defence will not count while the D-Wall power is active.  D-walls will last for the duration of the current or upcoming half-inning.'
+                desc: '<p>Protect your Team-D with this point blocking Power. </p><p>Any points against your Team-Dwill not count while this Power is active.</p>'
             };
 
         else if (powerName.toLowerCase().match(/video|review/g))
@@ -26,30 +26,30 @@ const getIconAndDesc = (powerName) => {
         else if (powerName.toLowerCase().match(/swap/g))
             return {
                 icon: SwapIcon,
-                desc: 'Provides ability to swap any roster player with another player of the same position whose team started playing at the same time as the current roster player. For example, if Player A and Player B both had their games start at 8:00PM, they are eligible to be swapped for one another. If Player A’s game started at 8:00pm but Player B’s game started at 9:00PM, the two players cannot be swapped for one another, even though will be an overlap in playing time.'
+                desc: '<p>Keep your team in the game by swapping out underperforming or injured players.</p><p> You can swap for any same-position player whose game started at the same time asyour original selection.</p><p>For example, you can swap your QB for a new QB whose game started as the same time as your original selection.</p>'
             }
 
-        else if (powerName.toLowerCase().match(/multi|boost|1.5|2.5/g))
+        else if (powerName.toLowerCase().match(/multi|point|1.5|2.5/g))
             return {
                 icon: XPIcon,
-                desc: 'Point Boosters can be activated for any player at any time. They will remain active for the duration of the current or upcoming half-inning. Contest Participants can choose to boost players points by 1.5x, 2x, or 3x. For example, a home run is normally 10 fantasy points, but with a 3x booster, a HR is worth 30. A bases loaded situation might be a good time to activate a 3x point booster.'
+                desc: '<p>Power-up your points with a Point Booster Power! Choose between 1.5x, 2x, and 3x boosters. You chose when to use. Try 3x when bases are loaded... or at the beginning of an drive.</p>'
             }
 
         else if (powerName.toLowerCase().match(/retro/g))
             return {
                 icon: RetroBoostIcon,
-                desc: ''
+                desc: '<p>Our very own time travel machine is ready for you! </p><p> Missed using your point booster before a TD, HR, or goal? </p><p> No worries, you have 30 seconds after the play to retroactively boost any missed opportunities by 2x.</p>'
             }
 
         else if (powerName.toLowerCase().match(/challenge/g))
             return {
                 icon: ChallengeIcon,
-                desc: ''
+                desc: '<p>This is a Coaches Challenge that you can use to challenge the last point generating play scored against your Team-D.</p><p>Activate it and our head office will flip a coin to see if the points scored against your Team-D will be reversed.</p><p> We thought it might be good to use after a Grand Slam or a 50-yard TD.</p>'
             }
         else if (powerName.toLowerCase().match(/power-up/g))
             return {
                 icon: PowerUpIcon,
-                desc: ''
+                desc: '<p>Have you run out of Powers? Need a couple more to push you to the top of the leaderboard?</p><p>Redeem your Power Tokens to get a new supply!</p>'
             }
     }
 }
@@ -60,7 +60,6 @@ const ContestRulesPopUp = props => {
         points,
         powers
     } = props;
-
     const h3Class = 'title-2 __primary-text __bold __m-0  __font-family-teko __line-height-1'
     const [showPopUp, setShowPopUp] = useState(false);
     return (
@@ -109,8 +108,8 @@ const ContestRulesPopUp = props => {
                                     return (
                                         <section className={styles.powersSubSection}>
                                             <img src={getIconAndDesc(item?.powerName).icon} alt='' />
-                                            <h4>{item?.powerName}</h4>
-                                            <p>{getIconAndDesc(item?.powerName).desc}</p>
+                                            <h4>{(item?.powerName == "Retro Boost")? "2x Retro Boost" :  item?.powerName}</h4>
+                                            <p dangerouslySetInnerHTML={{__html: getIconAndDesc(item?.powerName).desc}}/>
                                         </section>
                                     )
                                 })}

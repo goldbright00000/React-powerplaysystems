@@ -7,7 +7,7 @@ import { isEmpty } from "lodash";
 import ChallengePopUp from "../../ChallengePopup";
 import DwallPopUp from "../../DwallPopup";
 import { CONSTANTS } from "../../../utility/constants";
-
+import { useSelector } from "react-redux";
 import XP1_5 from "../../../icons/XP1_5";
 import XP1_5_1 from "../../../icons/XP1_5_1";
 import XP2Icon from "../../../icons/XP2";
@@ -15,6 +15,9 @@ import XP2Icon_1 from "../../../icons/XP2_1";
 import XP3 from "../../../icons/XP3";
 import XP3_1 from "../../../icons/XP3_1";
 import XPIcon from "../../../icons/XPIcon";
+import x3 from "../../../assets/images/3x.svg";
+import x2 from "../../../assets/images/2x.svg";
+import x1 from "../../../assets/images/1x.svg";
 
 const Slider = ({
   icons,
@@ -41,8 +44,12 @@ const Slider = ({
   index,
   counts,
   player,
-  setDetails
+  setDetails,
+  active_power_id
 }) => {
+  const  a  = useSelector((state) => state.mlb);
+  const {live_data = []} = a | {};
+  console.log("data1", a.live_data);
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",
@@ -166,6 +173,21 @@ const Slider = ({
       getStatus() === "Game Over"
     );
   };
+
+  const getImage = () => {
+    if(active_power_id == 1)
+    {
+      return x1;
+    }
+    else if(active_power_id == 2)
+    {
+      return x2;
+    }
+    else if(active_power_id == 3)
+    {
+      return x3;
+    }
+  }
   
   return (
     <Row className="pb-3">
@@ -513,14 +535,14 @@ const Slider = ({
                         ? "/images/2x.svg"
                         : type == "D"
                         ? "/images/sheild.svg"
-                        : "/images/xp.svg"
+                        : (active_power_id == null)?"/images/xp.svg":getImage()
                     }`}
                     alt=""
                   />
                 ) : (
                   <img
                   onClick={
-                    !otherIcons && !imageTochanged ? () => boostModal(true, player) : null
+                    !otherIcons && !imageTochanged ? () => (active_power_id == null)? boostModal(true, player) : null : null
                   }
                   className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
                   style={{width: 40}}
@@ -529,7 +551,7 @@ const Slider = ({
                       ? "/images/2x.svg"
                       : type == "D"
                       ? "/images/sheild.svg"
-                      : "/images/xp.svg"
+                      : (active_power_id == null)?"/images/xp.svg":getImage()
                   }`}
                   alt=""
                 />
