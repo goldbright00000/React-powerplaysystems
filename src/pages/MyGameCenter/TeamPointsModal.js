@@ -14,8 +14,6 @@ const TeamPointsModal = (props) => {
     const { isVisible = false, onClose = () => { }, item = {} } = props || {};
     const [activeTab, setActiveTab] = useState(1);
 
-    const [data, setData] = useState({});
-
     const [savedTeam, setSavedTeam] = useState([]);
 
     useEffect(() => {
@@ -26,8 +24,8 @@ const TeamPointsModal = (props) => {
                 sport_id: item?.power_dfs_games?.sports_id ? item?.power_dfs_games?.sports_id : item?.power_dfs_games?.league === 'MLB' ? 1 : 2
             }))
             const tempStorage = await teamData;
+
             if (!_.isEmpty(tempStorage)) {
-                setData(tempStorage);
                 setSavedTeam([...tempStorage.players, ...tempStorage.teamD]);
             }
         }
