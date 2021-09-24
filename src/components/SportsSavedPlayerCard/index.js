@@ -660,7 +660,7 @@ function SportsSavedPlayerCard(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        {type === "XB" || type === "OF" ? type1 : type}
+        {type === "XB" || type === "OF" ? type : type}
       </p>
       <div className={classes.header_teams}>
         <p
