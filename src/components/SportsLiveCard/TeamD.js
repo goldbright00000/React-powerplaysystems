@@ -25,6 +25,9 @@ import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
+const NFLSummaryTitles = ["Inning", "Types", "Power", "Pts"];
+const NHLSummaryTitles = ["Time", "Type", "Power", "Pts"];
+
 const text = process.env.REACT_APP_POST_SHARING_TEXT;
 
 function SportsLiveCardTeamD(props) {
@@ -44,9 +47,20 @@ function SportsLiveCardTeamD(props) {
   const {
     match_id = "",
     match = {},
-    team_d_mlb_team: team = {},
+    team_d_mlb_team,
+    team_d_nfl_team,
+    team_d_nhl_team,
     score = 0,
   } = data || {};
+
+  let team = {};
+  if (team_d_mlb_team) {
+    team = team_d_mlb_team;
+  } else if (team_d_nfl_team) {
+    team = team_d_nfl_team;
+  } else if (team_d_nhl_team) {
+    team = team_d_nhl_team;
+  }
 
   const {
     away_team = {},
@@ -856,19 +870,6 @@ function SportsLiveCardTeamD(props) {
         <span className={classes.border} />
         Team {type}
       </p>
-      <div className={classes.header_teams}>
-        <p
-          className={team_id === away_team.team_id ? classes.current_team : ""}
-        >
-          {away_team?.name} {away_team_runs}
-        </p>{" "}
-        vs{" "}
-        <span
-          className={team_id === home_team.team_id ? classes.current_team : ""}
-        >
-          {home_team?.name} {home_team_runs}
-        </span>
-      </div>
     </div>
   );
 
@@ -981,37 +982,65 @@ function SportsLiveCardTeamD(props) {
                         </button>
                       </>
                     ) : ( */}
-                    {getStatus() !== "Game Over" &&
-                      !singleView &&
-                      RenderFooter()}
+                    {cardType === CardType.MLB ? (
+                      <>
+                        {getStatus() !== "Game Over" &&
+                          !singleView &&
+                          RenderFooter()}
+                      </>
+                    ) : null}
                   </>
                 )}
               </>
             ) : (
               <>
-                <RenderPointsSummary
-                  titleList={MLBSummaryTitles}
-                  tableList={pointsSummary}
-                  totalPoints={totalPts}
-                  largeView={largeView}
-                />
+                {cardType === CardType.MLB ? (
+                  <RenderPointsSummary
+                    titleList={MLBSummaryTitles}
+                    tableList={pointsSummary}
+                    totalPoints={totalPts}
+                    largeView={largeView}
+                  />
+                ) : null}
+
+                {cardType === CardType.NFL ? (
+                  <RenderPointsSummary
+                    titleList={NFLSummaryTitles}
+                    tableList={pointsSummary}
+                    totalPoints={totalPts}
+                    largeView={largeView}
+                  />
+                ) : null}
+
+                {cardType === CardType.NHL ? (
+                  <RenderPointsSummary
+                    titleList={NHLSummaryTitles}
+                    tableList={pointsSummary}
+                    totalPoints={totalPts}
+                    largeView={largeView}
+                  />
+                ) : null}
               </>
             )}
           </div>
 
-          {!showEndThird() &&
-            !showMidThird() &&
-            getStatus() !== "Game Over" &&
-            !compressedView &&
-            !singleView && (
-              <SportsLiveCardFooter
-                showSummary={showSummary}
-                onClickBack={() => setSummaryState(false)}
-                onClickDetails={() => setSummaryState(true)}
-                title={footerTitle()}
-                largeView={largeView}
-              />
-            )}
+          {cardType === CardType.MLB ? (
+            <>
+              {!showEndThird() &&
+                !showMidThird() &&
+                getStatus() !== "Game Over" &&
+                !compressedView &&
+                !singleView && (
+                  <SportsLiveCardFooter
+                    showSummary={showSummary}
+                    onClickBack={() => setSummaryState(false)}
+                    onClickDetails={() => setSummaryState(true)}
+                    title={footerTitle()}
+                    largeView={largeView}
+                  />
+                )}
+            </>
+          ) : null}
 
           {/* {cardType !== CardType.MLBR && (
             <SportsLiveCardOverlay
