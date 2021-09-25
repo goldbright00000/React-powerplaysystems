@@ -36,6 +36,11 @@ import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import PrizeModal from "../../components/PrizeModal";
+
+import MyScoreCard from "./MyScoreCard";
+import TeamManager from "./TeamManager";
+import LiveStandings from "../../components/LiveStandings";
+
 const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
 const {
   ON_ROOM_SUB,
@@ -786,6 +791,15 @@ function MLBPowerdFsLive(props) {
     setScreenSize(window.screen.width);
   };
 
+  const [activeTab, setActiveTab] = useState(0);
+  const handleChangeTab = () => {
+    setActiveTab(activeTab === 0 ? 1 : 0);
+  };
+  const [showModal, setModalState] = useState(false);
+  const toggleLiveStandingModal = () => {
+    setModalState(!showModal);
+  };
+
   return (
     <>
       {screenSize > 550 ? (
@@ -821,8 +835,10 @@ function MLBPowerdFsLive(props) {
                     onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
                     onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
                     onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
-                    teamManagerLink="/mlb-live-powerdfs"
-                    scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+                    activeTab={activeTab}
+                    handleChangeTab={handleChangeTab}
+                    // teamManagerLink="/mlb-live-powerdfs"
+                    // scoreDetailLink="/mlb-live-powerdfs/my-score-details"
                     onGoBack={() => {
                       redirectTo(props, { path: "/my-game-center" });
                     }}
@@ -830,7 +846,30 @@ function MLBPowerdFsLive(props) {
                     {...props}
                   />
 
-                  <Card ranks={selectedTeam}>{RenderView()}</Card>
+                  <Card ranks={selectedTeam}>
+                    {activeTab === 0 ? (
+                      <TeamManager
+                        compressedView={compressedView}
+                        selectedView={selectedView}
+                        loading={loading}
+                        swapCounts={swapCounts}
+                        dwallCounts={dwallCounts}
+                        challengeCounts={challengeCounts}
+                        pointMultiplierCounts={pointMultiplierCounts}
+                        pointBooster15x={pointBooster15x}
+                        pointBooster2x={pointBooster2x}
+                        pointBooster3x={pointBooster3x}
+                        retroBoostCounts={retroBoostCounts}
+                        powerUpCounts={powerUpCounts}
+                        setPlayerToSwap={setPlayerToSwap}
+                        onPowerApplied={onPowerApplied}
+                        POWER_IDs={POWER_IDs}
+                        setPowers={setPowers}
+                      />
+                    ) : (
+                      <MyScoreCard />
+                    )}
+                  </Card>
                   <div
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
@@ -972,6 +1011,7 @@ function MLBPowerdFsLive(props) {
           />
         </>
       )}
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
     </>
   );
 }

@@ -76,6 +76,20 @@ export const CONSTANTS = {
         FANTASY_TEAM_UPDATE: "FANTASY_TEAM_UPDATE",
       },
     },
+    NFL: {
+      LIVE: {
+        EMIT_ROOM: "NFL_ON_EMIT_LIVE_DATA",
+        ON_ROOM_SUB: "NFL_POWER_DFS_LIVE_SUBSCRIBE",
+        ON_ROOM_UN_SUB: "NFL_POWER_DFS_LIVE_UN_SUBSCRIBE",
+        ON_POWER_APPLIED: "NFL_ON_POWER_APPLIED",
+        ON_GLOBAL_RANKING_REQUEST: "NFL_ON_GLOBAL_RANKING_REQUEST",
+        ON_FANTASY_LOGS_REQUEST: "NFL_ON_FANTASY_LOGS_REQUEST",
+        GET_GLOBAL_RANKING: "NFL_GET_GLOBAL_RANKING",
+        MATCH_UPDATE: "NFL_MATCH_UPDATE",
+        GLOBAL_RANKING: "NFL_GLOBAL_RANKING",
+        FANTASY_TEAM_UPDATE: "NFL_FANTASY_TEAM_UPDATE",
+      },
+    },
     NHL: {
       LIVE: {
         EMIT_ROOM: "NHL_ON_EMIT_LIVE_DATA",
@@ -100,6 +114,7 @@ export const CONSTANTS = {
     ETH_BALANCE: "eth_balance",
     DISPLAY_BALANCE: "display_balance",
     MLB_LIVE_GAME: "mlb_live_game",
+    NFL_LIVE_GAME: "nfl_live_game",
     NHL_LIVE_GAME: "nhl_live_game",
   },
 
@@ -160,6 +175,12 @@ export const CONSTANTS = {
   },
 
   NHL_VIEW: {
+    FV: "fv",
+    C: "c",
+    S: "s",
+  },
+
+  NFL_VIEW: {
     FV: "fv",
     C: "c",
     S: "s",

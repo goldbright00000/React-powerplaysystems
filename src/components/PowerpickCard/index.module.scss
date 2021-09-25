@@ -1,7 +1,7 @@
 @import "../../scss/colors.scss";
 
 .card_wrapper {
-  padding: 22px;
+  // padding: 22px;
   border: 2px solid #000;
   border-radius: 14px;
   background-color: $black2;
@@ -18,7 +18,7 @@
 }
 
 .myScoreDiv {
-  width: 148px !important;
+  width: 200px !important;
   height: 70px;
   margin: 3px 0px -15px 87.7%;
   padding: 8px !important;
@@ -27,7 +27,7 @@
   background-color: #17181a;
   flex-direction: row !important;
   position: absolute;
-  top: -53px;
+  top: -67px;
   right: -2px;
   z-index: -1;
   display: flex;
@@ -57,7 +57,7 @@
 
 @media only screen and (max-width: 1224px) {
   .card_wrapper {
-    padding: 10px;
+    // padding: 10px;
     border: 2px solid $black;
     border-radius: 14px;
     background-color: $black2;
@@ -75,7 +75,7 @@
 
 @media (max-width: 414px) {
   .card_wrapper {
-    padding: 22px;
+    // padding: 22px;
     border: none;
     border-radius: 14px;
     background-color: $lightBlack;

@@ -322,28 +322,38 @@ const InteractiveContests = (props) => {
         await dispatch(MLbActions.setSelectedTeam(item));
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME, encData);
         return redirectTo(props, { path: "/mlb-live-powerdfs", state: item });
-      case "NHL":
+      case "NFL":
         const encData1 = CryptoJS.AES.encrypt(
           JSON.stringify(item),
           CONSTANTS.DATA_ENC_KEY
         ).toString();
+        await dispatch(NFLActions.setSelectedTeam(item));
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NFL_LIVE_GAME, encData1);
+        return redirectTo(props, { path: "/nfl-live-powerdfs", state: item });
+      case "NHL":
+        const encData2 = CryptoJS.AES.encrypt(
+          JSON.stringify(item),
+          CONSTANTS.DATA_ENC_KEY
+        ).toString();
         await dispatch(NHLActions.setSelectedTeam(item));
-        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME, encData1);
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME, encData2);
         return redirectTo(props, { path: "/nhl-live-powerdfs", state: item });
     }
   };
 
   const getLocalDateTime = (date, time) => {
-
     const offset = moment1?.tz("America/New_York")?.format("Z");
-    const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+    const localDateTime = moment
+      .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+      .utcOffset(offset)
+      .format("YYYY-MM-DD=hh:mm A");
 
     const splitted = localDateTime.split("=");
 
     return {
       date: splitted[0],
-      time: splitted[1]
-    }
+      time: splitted[1],
+    };
 
     // const localDateTime = moment(moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()).format("YYYY-MM-DD=hh:mm A");
     // const splitted = localDateTime.split("=");
@@ -379,7 +389,7 @@ const InteractiveContests = (props) => {
   const handleViewResult = async (cardId, game_id) => {
     setViewResults(cardId);
     await dispatch(MLBActions.getFinalStandings(game_id));
-  }
+  };
 
   const myGameCenterCard = (item, redirectUri) => {
     return (
@@ -430,7 +440,7 @@ const InteractiveContests = (props) => {
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
           onViewResults={(cardId, game_id) => {
-            handleViewResult(cardId, game_id)
+            handleViewResult(cardId, game_id);
           }}
           onViewResultsBack={() => setViewResults(-1)}
           onFinalStandings={(cardId) => setFinalStandingsModal(cardId)}
@@ -460,10 +470,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -552,8 +562,8 @@ const InteractiveContests = (props) => {
                 selectedDate === "Today"
                   ? "Today"
                   : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                  ? "All"
+                  : moment(selectedDate).format("ddd,MMM DD")
               }
               options={days}
               onChange={(selectedOption) => {

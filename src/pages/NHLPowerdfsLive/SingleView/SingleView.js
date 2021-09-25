@@ -11,8 +11,8 @@ import PowerPlayIcon from "../../../assets/token.png";
 import { hasText } from "../../../utility/shared";
 import SportsLiveCardSelection from "../../../components/SportsLiveCardSelection";
 import { CONSTANTS } from "../../../utility/constants";
-import SportsLiveCard from "../../../components/SportsLiveCardNHL";
-import SportsLiveCardTeamD from "../../../components/SportsLiveCardNHL/TeamD";
+import SportsLiveCard from "../../../components/SportsLiveCard";
+import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 
 const { TD } = CONSTANTS.FILTERS.NHL;
 let currentCard = 0;
@@ -77,6 +77,7 @@ function SingleView(props) {
                   useDwall={props.useDwall}
                   useChallenge={props.useChallenge}
                   dataMain={props.dataMain}
+                  cardType="nhl"
                 />
               ) : (
                 <SportsLiveCard
@@ -95,6 +96,7 @@ function SingleView(props) {
                   swapCount={props.swapCounts}
                   dataMain={props.dataMain}
                   pointXpCount={{ xp1: xp1, xp2: xp2, xp3: xp3 }}
+                  cardType="nhl"
                 />
               )}
             </>
@@ -115,6 +117,7 @@ function SingleView(props) {
             useDwall={props.useDwall}
             useChallenge={props.useChallenge}
             dataMain={props.dataMain}
+            cardType="nhl"
           />
         ) : (
           <SportsLiveCard
@@ -127,6 +130,7 @@ function SingleView(props) {
             swapCount={props.swapCounts}
             dataMain={props.dataMain}
             pointXpCount={{ xp1: xp1, xp2: xp2, xp3: xp3 }}
+            cardType="nhl"
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
