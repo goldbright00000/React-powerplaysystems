@@ -33,7 +33,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import MyGameCenter from "./pages/MyGameCenter/MyGameCenter";
 import MLBPowerdFs from "./pages/MLBpowerdFS";
 import NFLPowerdFs from "./pages/NFLpowerdFS";
-import NHLPowerdFs from "./pages/NHLPowerdFS";
+import NHLPowerdFs from "./pages/NHLpowerdFS";
 import NBAPowerdFs from "./pages/NBApowerdFS";
 import MLBPowerdFsLive from "./pages/MLBPowerdfsLive";
 import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
