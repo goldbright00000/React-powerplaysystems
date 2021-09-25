@@ -32,7 +32,8 @@ const ScoreBoard = ({
   index,
   ranks,
   counts,
-  player
+  player,
+  active_power_id
 }) => {
   return (
     <section className="transparent board__wrapper">
@@ -68,6 +69,7 @@ const ScoreBoard = ({
           ranks={ranks}
           counts={counts}
           player={player}
+          active_power_id={active_power_id}
         />
       </Container>
     </section>

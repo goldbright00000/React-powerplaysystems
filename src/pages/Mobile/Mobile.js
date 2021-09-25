@@ -16,7 +16,7 @@ import moment from "moment";
 import { truncate, isEmpty } from "lodash";
 
 function App(props) {
-  const { data = [], ranks = {}, onChangeXp = (xp, player) => {}  } = props || {};
+  const { data = [], ranks = {}, onChangeXp = (xp, player) => {}, gameInfo = {}, prizePool = 0  } = props || {};
   const [state, setState] = useState(1);
   const [swap, setSwap] = useState(false);
   const [secondModal, setSecondModal] = useState(false);
@@ -223,6 +223,8 @@ function App(props) {
             data={data}
             ranks={ranks}
             counts={props.counts}
+            prizePool={prizePool}
+            gameInfo={gameInfo}
           />
         );
       case 2:

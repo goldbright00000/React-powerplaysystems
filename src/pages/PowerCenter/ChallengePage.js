@@ -18,7 +18,6 @@ import Challenge from "../../icons/Challenge";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 
 const ChallengePage = (props) => {
-  console.log("props", props);
   const history = useHistory();
   const [showPrizeModal, setPrizeModalState] = React.useState(false);
   const [showContestRulesModal, setContestRulesModalState] = React.useState(false);
@@ -103,13 +102,35 @@ const ChallengePage = (props) => {
             {"< Back"}
           </span>
         </div>
-        <div className={classes.title}>
-          NFL <span>PowerdFS</span> Promotional Contest
-        </div>
-        <div className={classes.gamePrize}>
-          <span className={classes.prize}>$1,000</span>
-          <span className={classes.giveaway}>Give Away</span>
-        </div>
+        {props?.isPromoPage ? (
+          <>
+            <div className={classes.title}>
+              MLB <span>PowerdFS</span> Promotional Contest
+            </div>
+            <div className={classes.gamePrize}>
+              <span className={classes.prize}>$1,000</span>
+              <span className={classes.giveaway}>Give Away</span>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className={classes.title}>
+              MLB <span>PowerdFS</span> <br />200 Point Challenge!
+              <br />
+              <span className={classes.dateTime}>
+                {/* {state?.start_date} */}
+                Oct 24, 2020 | 8:00PM ET
+              </span>
+              <br />
+              <span className={classes.teamMessage}>
+                Manage your team to <br /> 200 points and win
+              </span>
+              <span className={classes.prizeSpan}>
+                $1,000!
+              </span>
+            </div>
+          </>
+        )}
         <div className={classes.rectangle}>
           <span className={classes.youHaveThePower}>
             You have the Powers to win!
@@ -163,7 +184,7 @@ const ChallengePage = (props) => {
         </div>
         <div className={classes.extraDesc}>
           <p>No purchase necessary. Contest closes at <span>11:59pm ET on February 7th, 2022.</span></p>
-          <p>Open to residents of United States who are over the age of majority.</p>
+          <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
         </div>
         <div className={classes.bottomButton}>
           <button onClick={redirectToUrl}>

@@ -17,7 +17,9 @@ const TeamManager = ({
   data = [],
   ranks = {},
   counts = {},
-  player = {}
+  player = {},
+  prizePool = 0,
+  gameInfo = {}
 }) => {
   const RenderSubTitle = (
     type,
@@ -72,7 +74,7 @@ const TeamManager = ({
 
     if (data && data?.length) {
       return data?.map((data, index) => {
-        const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
+        const { player = {}, match = {}, xp = {}, score = 0, active_power_id = 0 } = data || {};
 
         // const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -220,6 +222,7 @@ const TeamManager = ({
             ranks={ranks}
             counts={counts}
             player={data}
+            active_power_id={active_power_id}
           />
         );
       });
@@ -377,7 +380,7 @@ const TeamManager = ({
       /> */}
       <PoweredBy />
 
-      <ContestRules />
+      <ContestRules prizePool={prizePool} gameInfo={gameInfo}/>
     </>
   );
 };

@@ -196,7 +196,7 @@ const InteractiveContests = (props) => {
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [challengeGame, setChallengeGame] = useState({});
   const [propsGame, setPropsGame] = useState({});
-
+  const [showEntered, setShowEntered] = useState(true);
   const onClosePromoModal = () => {
     setShowPromoModal(false);
     setChallengeGame({});
@@ -360,6 +360,46 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
+                  isPromoPage: false
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
+          if (item.game_type == "PowerdFs_promo") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  isPromoPage: true
                 },
               });
             } else {
@@ -659,6 +699,14 @@ const InteractiveContests = (props) => {
         newArr.push(arr[i]);
       }
     }
+    if(!showEntered)
+    {
+      newArr = newArr.filter(x => {
+        if(typeof x.userHasEntered == "undefined" || x?.userHasEntered == false) {
+            return x;
+        }
+      })
+    }
     return newArr;
   }
 
@@ -796,14 +844,15 @@ const InteractiveContests = (props) => {
   return (
     <>
       <div className="__table-wrapper __mb-6">
-        <div className={isMobile || isTablet ? "" : "__flex"}>
-          <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
+        <div className={isMobile || isTablet ? "" : ""}>
+          <div style={{ flex: 1, display: "flex" }} >
+            
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{display: "flex", flex: 1}}>
               {filters.map((item, index) => {
                 return (
                   <div
                     className={
-                      "__outline-badge __f1 " +
+                      "__outline-badge " +
                       (selectedFilter === item.id && "__active")
                     }
                     onClick={() => {
@@ -824,6 +873,33 @@ const InteractiveContests = (props) => {
                 );
               })}
             </div>
+              {(!isMobile || !isTablet) && 
+                <div style={{display: "flex", width: 330}}>
+                  <div
+                    className={
+                      `__outline-badge __f1 ${showEntered?"__active":""}`
+                    }
+                    style = {{marginRight: 10, cursor: "pointer"}}
+                    onClick={() => {
+                      setShowEntered(true);
+                    }}
+                  >
+                    Show Entered
+                  </div>
+                  <div
+                    className={
+                      `__outline-badge __f1 ${!showEntered?"__active":""}`
+                    }
+                    style = {{cursor: "pointer"}}
+                    onClick={() => {
+                      setShowEntered(false);
+                    }}
+                  >
+                    Hide Entered
+                  </div>
+                </div>
+              }
+            
           </div>
           <div
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}

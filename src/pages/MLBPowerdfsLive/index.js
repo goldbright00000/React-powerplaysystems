@@ -421,11 +421,11 @@ function MLBPowerdFsLive(props) {
       const sortedGameLogs = _gameLogs.sort((a, b) =>
         a?.play === null && b?.play !== null
           ? new Date(a?.created_at).getTime() -
-            new Date(b?.created_at).getTime()
+          new Date(b?.created_at).getTime()
           : a?.play !== null && b?.play === null
-          ? new Date(a?.play?.created_at).getTime() -
+            ? new Date(a?.play?.created_at).getTime() -
             new Date(b?.created_at).getTime()
-          : new Date(a?.play?.created_at).getTime() -
+            : new Date(a?.play?.created_at).getTime() -
             new Date(b?.play?.created_at).getTime()
       );
       dispatch(MLBActions.setGameLogs(sortedGameLogs));
@@ -597,7 +597,7 @@ function MLBPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = () => { };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -628,7 +628,7 @@ function MLBPowerdFsLive(props) {
           {isSvgIcon ? (
             <Icon size={54} />
           ) : (
-            <img src={Icon} width={54} height={54} />
+            <img src={Icon} width={54} height={54} alt="" />
           )}
           {isPowerAvailable(title) === 1 && isPowerLocked(title) === 1 && (
             <div className={classes.sidebar_lock_icon}>
@@ -653,9 +653,9 @@ function MLBPowerdFsLive(props) {
                         `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -670,9 +670,9 @@ function MLBPowerdFsLive(props) {
                         `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
                         "targetWindow",
                         "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
+                        left +
+                        ",top=" +
+                        top
                       );
                     }}
                   >
@@ -751,24 +751,26 @@ function MLBPowerdFsLive(props) {
               setPowers={setPowers}
             />
           ) : (
-            <SportsLiveCard
-              data={item}
-              compressedView={compressedView}
-              key={index + ""}
-              onChangeXp={onChangeXp}
-              updateReduxState={updateReduxState}
-              starPlayerCount={starPlayerCount}
-              gameInfo={selectedTeam}
-              useSwap={useSwap}
-              swapCount={swapCounts}
-              dataMain={selectedTeam}
-              setPowers={setPowers}
-              pointXpCount={{
-                xp1: pointBooster15x,
-                xp2: pointBooster2x,
-                xp3: pointBooster3x,
-              }}
-            />
+            <>
+              <SportsLiveCard
+                data={item}
+                compressedView={compressedView}
+                key={index + ""}
+                onChangeXp={onChangeXp}
+                updateReduxState={updateReduxState}
+                starPlayerCount={starPlayerCount}
+                gameInfo={selectedTeam}
+                useSwap={useSwap}
+                swapCount={swapCounts}
+                dataMain={selectedTeam}
+                setPowers={setPowers}
+                pointXpCount={{
+                  xp1: pointBooster15x,
+                  xp2: pointBooster2x,
+                  xp3: pointBooster3x,
+                }}
+              />
+            </>
           )}
         </>
       ));
@@ -823,6 +825,7 @@ function MLBPowerdFsLive(props) {
                 compressedView
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
+                selectedTeam={selectedTeam}
               />
 
               <div className={classes.container}>
@@ -997,6 +1000,7 @@ function MLBPowerdFsLive(props) {
             updateReduxState={updateReduxState}
             onChangeXp={onChangeXp}
             useSwap={useSwap}
+            prizePool={prizePool}
             counts={{
               swapCounts,
               dwallCounts,

@@ -10,7 +10,7 @@ import Ticket from "../../icons/Ticket";
 import CashBalance from "../../assets/points-collected.png";
 import Token from "../../assets/token.png";
 import Bitcoin from "../../assets/bitcoin.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum-grey.svg";
 import Money from "../../icons/Money";
 import ListItem from "./ListItem";
 import Modal from "../Modal";
