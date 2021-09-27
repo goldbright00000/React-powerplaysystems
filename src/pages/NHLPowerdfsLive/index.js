@@ -825,7 +825,7 @@ function NHLPowerdFsLive(props) {
                     your team up the standings
                   </>
                 }
-                contestBtnTitle="Contest Rules"
+                contestBtnTitle="Gameplay Rules"
                 prizeBtnTitle="Prize Grid"
                 bgImageUri={BaseballImage}
                 compressedView

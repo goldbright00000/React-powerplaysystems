@@ -14,7 +14,7 @@ const getIconAndDesc = (powerName) => {
         if (powerName.toLowerCase().match(/wall/g))
             return {
                 icon: DWallIcon,
-                desc: '<p>Protect your Team-D with this point blocking Power. </p><p>Any points against your Team-Dwill not count while this Power is active.</p>'
+                desc: '<p>Any points scored against your Team Defense will not count while the D-Wall Power is active.</p>'
             };
 
         else if (powerName.toLowerCase().match(/video|review/g))
@@ -26,36 +26,64 @@ const getIconAndDesc = (powerName) => {
         else if (powerName.toLowerCase().match(/swap/g))
             return {
                 icon: SwapIcon,
-                desc: '<p>Keep your team in the game by swapping out underperforming or injured players.</p><p> You can swap for any same-position player whose game started at the same time asyour original selection.</p><p>For example, you can swap your QB for a new QB whose game started as the same time as your original selection.</p>'
+                desc: '<p>Provides ability to swap any roster player with another player of the same position whose team had the same time as your original selection. For example, if Player A and Player B both had their games start at 8:00PM, they are eligible to be swapped for one another. If Player A’s gamestarted at 8:00pm but Player B’s game started at 9:00PM, the two players cannot be swapped for one another, even though there will be an overlap in playing time.</p>'
             }
 
         else if (powerName.toLowerCase().match(/multi|point|1.5|2.5/g))
             return {
                 icon: XPIcon,
-                desc: '<p>Power-up your points with a Point Booster Power! Choose between 1.5x, 2x, and 3x boosters. You chose when to use. Try 3x when bases are loaded... or at the beginning of an drive.</p>'
+                desc: '<p>Point Boosters can be activated for any player at any time. Contest Participants will be able to boost points by the multiplier indicated in the My Powers section. For example, a Home Run is normally 10 fantasy points, but with a 3x booster, a Home Run is worth 30.</p>'
             }
 
         else if (powerName.toLowerCase().match(/retro/g))
             return {
                 icon: RetroBoostIcon,
-                desc: '<p>Our very own time travel machine is ready for you! </p><p> Missed using your point booster before a TD, HR, or goal? </p><p> No worries, you have 30 seconds after the play to retroactively boost any missed opportunities by 2x.</p>'
+                desc: '<p>Retro Boosters allow you to boost points for the preceding scoring play. A Retro Boost will be available for 30 seconds after a scoring play, if you choose to use it, the points for the scoring play will be boosted by 2x.</p>'
             }
 
         else if (powerName.toLowerCase().match(/challenge/g))
             return {
                 icon: ChallengeIcon,
-                desc: '<p>This is a Coaches Challenge that you can use to challenge the last point generating play scored against your Team-D.</p><p>Activate it and our head office will flip a coin to see if the points scored against your Team-D will be reversed.</p><p> We thought it might be good to use after a Grand Slam or a 50-yard TD.</p>'
+                desc: '<p>A Coaches Challenge can be used to challenge the last point generating play scored against your Team-D. Activate it and our random result generator will determine if the points scored against your Team-D will be reversed.</p>'
             }
         else if (powerName.toLowerCase().match(/power-up/g))
             return {
                 icon: PowerUpIcon,
-                desc: '<p>Have you run out of Powers? Need a couple more to push you to the top of the leaderboard?</p><p>Redeem your Power Tokens to get a new supply!</p>'
+                desc: '<p>Power-ups allow you to trade your Power Tokens in exchange for additional Powers. This Power can only be used if all your allocated Powers have been used.</p>'
             }
     }
 }
 
-const ContestRulesPopUp = props => {
+const powerSection = (powerName, altName) => {
+    return (
+        <section className={styles.powersSubSection}>
+            <img src={getIconAndDesc(powerName).icon} alt='' />
+            <h4>{altName}</h4>
+            <p dangerouslySetInnerHTML={{__html: getIconAndDesc(powerName).desc}}/>
+        </section>
+    );
+}
 
+const renderPowerData = (powerArray) => {
+    let finalContent = "";
+    if(powerArray.findIndex(x => (x.powerName == "Swap" || x.powerId == 4)) >= 0)
+    {
+        return (
+            <section className={styles.powersSubSection}>
+                <img src={getIconAndDesc("Swap").icon} alt='' />
+                <h4>Player Swap</h4>
+                <p dangerouslySetInnerHTML={{__html: getIconAndDesc("Swap").desc}}/>
+            </section>
+        )
+    }
+    console.log("finalContent", finalContent);
+    return finalContent;
+}
+
+const ContestRulesPopUp = props => {
+    
+    const powerOrder = ["Swap", "Point Booster", "Retro Booster", "Challenge", "D-Wall", "Power-Up"];
+    const powerNamesToDisplay = ["Player Swap", "Point Boosters", "Retro Booster", "Challenge", "D-Wall", "Power-Up"];
     const {
         points,
         powers
@@ -104,15 +132,36 @@ const ContestRulesPopUp = props => {
                             <h3 className={h3Class}>Powers</h3>
                             <p>Powers are available to be used in this Contest and are included with the Contest Participants entry fee. Powers enable Contest Participants to enhance their fantasy team’s performance. The following powers will be made available for this contest:</p>
                             <div className={styles.powersSubSectionsWrapper}>
-                                {powers && powers.length > 0 && powers.map((item, index) => {
-                                    return (
-                                        <section className={styles.powersSubSection}>
-                                            <img src={getIconAndDesc(item?.powerName).icon} alt='' />
-                                            <h4>{(item?.powerName == "Retro Boost")? "2x Retro Boost" :  item?.powerName}</h4>
-                                            <p dangerouslySetInnerHTML={{__html: getIconAndDesc(item?.powerName).desc}}/>
-                                        </section>
-                                    )
-                                })}
+                                {powers && powers.length > 0 ? (
+                                    (powers.findIndex(x => (x.powerName == "Swap" || x.powerId == 4)) >= 0) ? (
+                                        powerSection("Swap", "Player Swap")
+                                    ) : ""
+                                ) : ""}
+                                {powers && powers.length > 0 ? (
+                                    (powers.findIndex(x => (x.powerId == 1 || x.powerId == 2 || x.powerId == 3)) >= 0) ? (
+                                        powerSection("1.5x Point Booster", "Point Booster")
+                                    ) : ""
+                                ) : "" }
+                                {powers && powers.length > 0 ? (
+                                    (powers.findIndex(x => x.powerId == 10) >= 0) ? (
+                                        powerSection("Retro Boost", "2x Retro Boost")
+                                    ) : ""
+                                ) : "" }
+                                {powers && powers.length > 0 ? (
+                                    (powers.findIndex(x => x.powerId == 6) >= 0) ? (
+                                        powerSection("Challenge", "Challenge")
+                                    ) : ""
+                                ) : "" }
+                                {powers && powers.length > 0 ? (
+                                    (powers.findIndex(x => x.powerId == 5) >= 0) ? (
+                                        powerSection("D-Wall", "D-Wall")
+                                    ) : ""
+                                ) : "" }
+                                {powers && powers.length > 0 ? (
+                                    (powers.findIndex(x => x.powerId == 8) >= 0) ? (
+                                        powerSection("Power-Up", "Power-Up")
+                                    ) : ""
+                                ) : "" }
                             </div>
                         </section>
                         <section className='__mt-3 __mb-3'>

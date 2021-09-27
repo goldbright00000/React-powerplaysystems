@@ -954,7 +954,7 @@ function NHLPowerdFs(props) {
               team up the standings
             </>
           }
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={isMobile ? NHLHeaderImageMobile : NHLHeaderImage}
           onClickPrize={() => setPrizeModalState(true)}

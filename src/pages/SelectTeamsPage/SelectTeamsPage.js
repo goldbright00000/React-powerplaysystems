@@ -10,7 +10,7 @@ const SelectTeamsPage = props => (
                 <div className='__viewport-title __bolder'>2020 NFL <span className='__primary-color'>21's</span></div>
                 <div className='__h5 __light'>Pick 8 Teams & use Powerplays to win!</div>
                 <div className='__flex __m-a __flex-btns __mt-2 __mb-2'>
-                    <button className='__btn __mediam __style-2 __f1 __white-color'>Contest Rules</button>
+                    <button className='__btn __mediam __style-2 __f1 __white-color'>Gameplay Rules</button>
                     <button className='__btn __style-2 __mediam __f1 __white-color'>Prize Grid</button>
                 </div>
                 <div className='__h4'>

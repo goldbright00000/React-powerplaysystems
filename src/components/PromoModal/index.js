@@ -101,7 +101,7 @@ function PromoModal(props) {
               />
               <button
                 type="button"
-              ><span>Contest Rules</span></button>
+              ><span>Gameplay Rules</span></button>
             </div>
             <div className={classes.closeButton}>
               <CloseIcon onClick={onClose} />

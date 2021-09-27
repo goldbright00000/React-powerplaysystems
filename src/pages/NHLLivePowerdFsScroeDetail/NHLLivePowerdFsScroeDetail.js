@@ -87,7 +87,7 @@ function NHLLivePowerdFsScroeDetail(props) {
         <Header3
           titleMain1="NHL 2021"
           titleMain2="PowerdFS"
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           subHeader1="Introducing Live-Play Fantasy Hockey"
           subHeader2="Play for your chance to win $1000!"

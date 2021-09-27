@@ -608,7 +608,7 @@ function NHLLivePowerdFsScroeDetail(props) {
         <Header3
           titleMain1="MLB 2021"
           titleMain2="PowerdFS"
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           subHeader1="Introducing Live-Play Fantasy Hockey"
           bgImageUri={HeaderBgUri}

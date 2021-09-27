@@ -310,7 +310,7 @@ function NFLPowerdFsLive(props) {
         <Header4
           titleMain1="NFL 2021"
           titleMain2="PowerdFS"
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={NFLHeaderImage}
           compressedView
