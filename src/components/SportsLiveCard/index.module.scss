@@ -34,6 +34,23 @@
         height: 1px;
         border-radius: 4px;
       }
+
+      .card_header_points {
+        // width: 56px;
+        height: 28px;
+        margin: 5px 0px 4px 10px;
+        background-image: linear-gradient(124deg, #fb6e00 36%, #fa3800 72%);
+        font-family: Poppins;
+        font-size: 20px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: italic;
+        line-height: normal;
+        letter-spacing: normal;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     }
 
     .current_team {
@@ -1609,7 +1626,7 @@
         font-size: 22px;
 
         .border {
-          width: 24px;
+          width: 28px;
         }
       }
 
@@ -2224,7 +2241,7 @@
         font-size: 22px;
 
         .border {
-          width: 24px;
+          width: 28px;
         }
       }
 
@@ -2731,7 +2748,7 @@
         font-size: 18px;
 
         .border {
-          width: 20px;
+          width: 28px;
         }
       }
 
@@ -3333,7 +3350,7 @@
         font-size: 16px;
 
         .border {
-          width: 16px;
+          width: 28px;
         }
       }
 

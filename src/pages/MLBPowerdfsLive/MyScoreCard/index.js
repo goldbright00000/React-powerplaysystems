@@ -1,49 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
-import * as MLBActions from "../../actions/MLBActions";
+import * as MLBActions from "../../../actions/MLBActions";
 import _ from "underscore";
 import { isEmpty } from "lodash";
 import lodash from "lodash";
 import { useHistory } from "react-router-dom";
 
-import { redirectTo } from "../../utility/shared";
-import { socket } from "../../config/server_connection";
-import { CONSTANTS } from "../../utility/constants";
+import { redirectTo } from "../../../utility/shared";
+import { socket } from "../../../config/server_connection";
+import { CONSTANTS } from "../../../utility/constants";
 import classes from "./index.module.scss";
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
-import Header3 from "../../components/Header3";
-import HeaderBgUri from "../../assets/baseball.jpg";
-import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
-import Card from "../../components/PowerpickCard";
-import SidebarBtnIcon from "../../assets/nhl-sidebar-icon.png";
-import RankCard from "../../components/RankCard";
-import SportsContestRules from "../../components/SportsContestRules";
-import MLBFooterImage from "../../assets/NHL.png";
-import NHLGear from "../../assets/nhl-gear.png";
-import LiveStandings from "../../components/LiveStandings";
-import XP2Icon from "../../icons/XP2";
-import XP3Icon from "../../icons/XP3";
-import XP1_5Icon from "../../icons/XP1_5";
-import FooterImage from "../../assets/NHL-live-footer.png";
-import Replace from "../../icons/Replace";
+import XP2Icon from "../../../icons/XP2";
+import XP3Icon from "../../../icons/XP3";
+import XP1_5Icon from "../../../icons/XP1_5";
+import Replace from "../../../icons/Replace";
 
-const basicRules = [
-  "No purchase necessary.",
-  "Open to residents of United States who are over the age of majority.",
-  "Contest closes at 11:59pm ET - April 22, 2020.",
-];
-
-const detailRules = [
-  "Five (5) prizes to be won. See full rules for complete details of all prizes.",
-  "One entry per person.",
-  "Odds of winning depend on player knowledge.",
-  "Mathematical skill testing question must be correctly answered to win.",
-];
-
-function NHLLivePowerdFsScroeDetail(props) {
-  const [showModal, setModalState] = useState(false);
+export default function MyScoreCard() {
   const [liveStandingData, setLiveStandingData] = useState([]);
   const [logs, setLogs] = useState([]);
   const [ranks, setRanks] = useState({
@@ -95,7 +68,7 @@ function NHLLivePowerdFsScroeDetail(props) {
   }, [game]);
   useEffect(() => {
     if (isEmpty(selectedTeam)) {
-      return redirectTo(props, { path: "/my-game-center" });
+      return redirectTo({ path: "/my-game-center" });
     }
     _socket = socket();
     // return function cleanUP() {
@@ -334,14 +307,6 @@ function NHLLivePowerdFsScroeDetail(props) {
     if (history.location.pathname === "/mlb-live-powerdfs/my-score-details")
       tableRef?.current?.scrollIntoView();
   }, [tableRef]);
-
-  const toggleLiveStandingModal = () => {
-    setModalState(!showModal);
-  };
-
-  const closeModal = () => {
-    setModalState(false);
-  };
 
   const getPoints = (
     id,
@@ -603,212 +568,149 @@ function NHLLivePowerdFsScroeDetail(props) {
 
   return (
     <>
-      <Header />
-      <div className={classes.wrapper}>
-        <Header3
-          titleMain1="MLB 2021"
-          titleMain2="PowerdFS"
-          contestBtnTitle="Contest Rules"
-          prizeBtnTitle="Prize Grid"
-          subHeader1="Introducing Live-Play Fantasy Hockey"
-          bgImageUri={HeaderBgUri}
-          isLive
-          currentState={<RenderLiveState isLive />}
-          points={pointss}
-          powers={powers}
-        />
-
-        <div className={classes.container}>
-          <div className={classes.container_left_side} ref={tableRef}>
-            <div className={classes.container_header}>
-              <NHLLiveSportsHeader
-                buttonTitle="Full Standings"
-                buttonIcon={
-                  <img
-                    src={SidebarBtnIcon}
-                    width={19}
-                    style={{ marginRight: "5px" }}
-                  />
-                }
-                onPress={toggleLiveStandingModal}
-                singleBtn
-                teamManagerLink="/mlb-live-powerdfs"
-                scoreDetailLink="/mlb-live-powerdfs/my-score-details"
-                liveStandingData={liveStandingData}
-                onGoBack={() => {
-                  redirectTo(props, { path: "/my-game-center" });
-                }}
-              />
-              <div className={classes.card_rank}>
-                <RankCard showButton={false} ranks={ranks} game_id={game_id} />
-              </div>
+      <div className={classes.card_header}>
+        <div className={classes.card_row}>
+          <span className={classes.child_1}>Position</span>
+          <span className={classes.child_2}>Name</span>
+          <span className={`${classes.child_3} ${classes.space}`}>
+            Time Stamp
+          </span>
+          <span className={classes.child_3}>Inning</span>
+          <div className={classes.card_header_1}>
+            <p>Game Plays</p>
+            <div className={classes.card_combine_row}>
+              <span>Plays</span>
+              <span>Pts</span>
             </div>
-            <Card className={classes.card}>
-              <div className={classes.card_header}>
-                <div className={classes.card_row}>
-                  <span className={classes.child_1}>Position</span>
-                  <span className={classes.child_2}>Name</span>
-                  <span className={`${classes.child_3} ${classes.space}`}>
-                    Time Stamp
-                  </span>
-                  <span className={classes.child_3}>Inning</span>
-                  <div className={classes.card_header_1}>
-                    <p>Game Plays</p>
-                    <div className={classes.card_combine_row}>
-                      <span>Plays</span>
-                      <span>Pts</span>
-                    </div>
-                  </div>
-                  <div className={classes.card_header_1}>
-                    <p>Runs</p>
-                    <div className={classes.card_combine_row}>
-                      <span>RS</span>
-                      <span>Pts</span>
-                    </div>
-                  </div>
-                  <div className={classes.card_header_1}>
-                    <p>RBI</p>
-                    <div className={classes.card_combine_row}>
-                      <span>RBI</span>
-                      <span>Pts</span>
-                    </div>
-                  </div>
-                  {/* <span className={classes.child_4}>Total Pts</span> */}
-                  <span className={classes.center}>Powers</span>
-                  <span className={classes.center}>My Score</span>
-                  <span className={classes.center}>Running Total</span>
-                </div>
-              </div>
-
-              <div className={classes.card_body}>
-                {logs && logs?.length ? (
-                  logs?.map((row, ind) => {
-                    const {
-                      active_powerplay = null,
-                      effected_player = {},
-                      fantasy_points_occured = 0,
-                      fantasy_points_occured_without_powerplay = 0,
-                      fantasy_points_after = 0,
-                      play = {},
-                      totalScore = 0,
-                      runningTotal = 0,
-                      rbi = 0,
-                      rbiPts = 0,
-                      rs = 0,
-                      rsPts = 0,
-                      playPts = 0,
-                      created_at: createdAt = "",
-                      isNewRow = false,
-                    } = row || {};
-
-                    const {
-                      active = true,
-                      bat_hand = "0",
-                      current_position = "0",
-                      current_team = 0,
-                      datafeed_id = "",
-                      height = "",
-                      is_injured = false,
-                      jersey_number = 0,
-                      name = "",
-                      player_id = 0,
-                      primary_position = "",
-                      throw_hand = "",
-                      type = "",
-                    } = effected_player || {};
-
-                    const {
-                      balls = 0,
-                      created_at = "",
-                      created_at_feed = "",
-                      // datafeed_id = "8850001a-fc26-4a9c-8fa8-482ef6184200",
-                      event_name = null,
-                      half = "",
-                      hitter_id = 0,
-                      inning_number = 0,
-                      inning_sequence = 0,
-                      is_ab_over = false,
-                      is_bunt = false,
-                      is_double_play = false,
-                      is_hit = false,
-                      is_passed_ball = false,
-                      is_triple_play = false,
-                      is_wild_pitch = false,
-                      match_id = 0,
-                      outcome_id = "",
-                      outs = 0,
-                      pitch_count = 0,
-                      pitch_speed = 0,
-                      pitch_type = null,
-                      pitch_zone = 0,
-                      pitcher_id = 0,
-                      play_id = 0,
-                      status = "",
-                      strikes = 0,
-                      type: pType = "",
-                      updated_at = "",
-                      updated_at_feed = "",
-                      runners = [],
-                    } = play || {};
-
-                    return (
-                      <Row
-                        position={type}
-                        name={name}
-                        inning={
-                          `${half}`.toLocaleLowerCase() === "t"
-                            ? `Top ${inning_number}`
-                            : `Bot ${inning_number}`
-                        }
-                        plays={outcome_id}
-                        pts={playPts}
-                        totalPts="8"
-                        powers="1.5"
-                        score={totalScore}
-                        runningTotal={runningTotal}
-                        runs={{
-                          rs: rs,
-                          pts: rsPts,
-                        }}
-                        rbi={{
-                          rbi: rbi,
-                          pts: rbiPts,
-                        }}
-                        isHit={false}
-                        activePower={active_powerplay}
-                        timeStamp={moment(created_at || createdAt).format(
-                          "hh:mm A"
-                        )}
-                        hasPlay={play !== null}
-                        key={ind?.toString()}
-                        isNewRow={isNewRow}
-                      />
-                    );
-                  })
-                ) : (
-                  <>No Data</>
-                )}
-              </div>
-            </Card>
           </div>
-        </div>
-
-        <div className={classes.footer_main}>
-          <img src={FooterImage} className={classes.container_body_img} />
+          <div className={classes.card_header_1}>
+            <p>Runs</p>
+            <div className={classes.card_combine_row}>
+              <span>RS</span>
+              <span>Pts</span>
+            </div>
+          </div>
+          <div className={classes.card_header_1}>
+            <p>RBI</p>
+            <div className={classes.card_combine_row}>
+              <span>RBI</span>
+              <span>Pts</span>
+            </div>
+          </div>
+          {/* <span className={classes.child_4}>Total Pts</span> */}
+          <span className={classes.center}>Powers</span>
+          <span className={classes.center}>My Score</span>
+          <span className={classes.center}>Running Total</span>
         </div>
       </div>
-      <Footer isBlack={true} />
 
-      <LiveStandings
-        visible={showModal}
-        onClose={toggleLiveStandingModal}
-        liveStandingData={liveStandingData}
-        prizePool={prizePool}
-      />
+      <div className={classes.card_body}>
+        {logs && logs?.length ? (
+          logs?.map((row, ind) => {
+            const {
+              active_powerplay = null,
+              effected_player = {},
+              fantasy_points_occured = 0,
+              fantasy_points_occured_without_powerplay = 0,
+              fantasy_points_after = 0,
+              play = {},
+              totalScore = 0,
+              runningTotal = 0,
+              rbi = 0,
+              rbiPts = 0,
+              rs = 0,
+              rsPts = 0,
+              playPts = 0,
+              created_at: createdAt = "",
+              isNewRow = false,
+            } = row || {};
+
+            const {
+              active = true,
+              bat_hand = "0",
+              current_position = "0",
+              current_team = 0,
+              datafeed_id = "",
+              height = "",
+              is_injured = false,
+              jersey_number = 0,
+              name = "",
+              player_id = 0,
+              primary_position = "",
+              throw_hand = "",
+              type = "",
+            } = effected_player || {};
+
+            const {
+              balls = 0,
+              created_at = "",
+              created_at_feed = "",
+              // datafeed_id = "8850001a-fc26-4a9c-8fa8-482ef6184200",
+              event_name = null,
+              half = "",
+              hitter_id = 0,
+              inning_number = 0,
+              inning_sequence = 0,
+              is_ab_over = false,
+              is_bunt = false,
+              is_double_play = false,
+              is_hit = false,
+              is_passed_ball = false,
+              is_triple_play = false,
+              is_wild_pitch = false,
+              match_id = 0,
+              outcome_id = "",
+              outs = 0,
+              pitch_count = 0,
+              pitch_speed = 0,
+              pitch_type = null,
+              pitch_zone = 0,
+              pitcher_id = 0,
+              play_id = 0,
+              status = "",
+              strikes = 0,
+              type: pType = "",
+              updated_at = "",
+              updated_at_feed = "",
+              runners = [],
+            } = play || {};
+
+            return (
+              <Row
+                position={type}
+                name={name}
+                inning={
+                  `${half}`.toLocaleLowerCase() === "t"
+                    ? `Top ${inning_number}`
+                    : `Bot ${inning_number}`
+                }
+                plays={outcome_id}
+                pts={playPts}
+                totalPts="8"
+                powers="1.5"
+                score={totalScore}
+                runningTotal={runningTotal}
+                runs={{
+                  rs: rs,
+                  pts: rsPts,
+                }}
+                rbi={{
+                  rbi: rbi,
+                  pts: rbiPts,
+                }}
+                isHit={false}
+                activePower={active_powerplay}
+                timeStamp={moment(created_at || createdAt).format("hh:mm A")}
+                hasPlay={play !== null}
+                key={ind?.toString()}
+                isNewRow={isNewRow}
+              />
+            );
+          })
+        ) : (
+          <>No Data</>
+        )}
+      </div>
     </>
   );
 }
-
-NHLLivePowerdFsScroeDetail.propTypes = {};
-
-export default NHLLivePowerdFsScroeDetail;
