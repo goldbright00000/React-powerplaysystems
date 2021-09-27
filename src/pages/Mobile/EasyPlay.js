@@ -60,7 +60,7 @@ const EasyPlay = () => {
               offset={[-60, 0]}
               image={StepThree}
               description={`From <span class="color">My Game Center</span> you can see when <br  class="d-none d-sm-block d-md-none"/>  games are due to start or are in progress.<br  class="d-none d-sm-block d-md-none"/>
-              Click <span class="color">Team Manager</span> to launch the live Team<br  class="d-none d-sm-block d-md-none"/> Manager page.`}
+              Click <span class="color">Manage My Team</span> to launch the live Team<br  class="d-none d-sm-block d-md-none"/> Manager page.`}
               number={3}
             />
           </Col>
@@ -73,7 +73,7 @@ const EasyPlay = () => {
               valueAlign={-51}
               offset={[-65, 0]}
               image={StepFour}
-              description={`<span class="color">Team Manager</span> page overview – this is where <br  class="d-none d-sm-block d-md-none"/> you can see your entire team in one view, see<br  class="d-none d-sm-block d-md-none"/> you current standings, and see how many<br class="d-none d-sm-block d-md-none"/> powers you have remaining.`}
+              description={`<span class="color">Manage My Team</span> page overview – this is where <br  class="d-none d-sm-block d-md-none"/> you can see your entire team in one view, see<br  class="d-none d-sm-block d-md-none"/> you current standings, and see how many<br class="d-none d-sm-block d-md-none"/> powers you have remaining.`}
               number={4}
             />
           </Col>
