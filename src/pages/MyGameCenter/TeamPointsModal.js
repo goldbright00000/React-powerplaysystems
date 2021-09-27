@@ -65,7 +65,7 @@ const TeamPointsModal = (props) => {
                   className={activeTab == 1 && classes.active}
                   onClick={() => setActiveTab(1)}
                 >
-                  Team Manager
+                  Manage My Team
                 </a>
               </li>
               {/* <li>

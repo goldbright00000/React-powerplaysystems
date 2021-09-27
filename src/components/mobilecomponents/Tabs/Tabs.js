@@ -35,7 +35,7 @@ const Tabs = ({ state, setState }) => {
                     : null
                 }
               >
-                Team Manager
+                Manage My Team
               </Link>
             </h3>
           </Col>
