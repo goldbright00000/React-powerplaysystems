@@ -29,13 +29,18 @@ import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
-import SportsLiveCard from "../../components/SportsLiveCardNHL";
+import SportsLiveCard from "../../components/SportsLiveCard";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
 import { socket } from "../../config/server_connection";
-import SportsLiveCardTeamD from "../../components/SportsLiveCardNHL/TeamD";
+import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import PrizeModal from "../../components/PrizeModal";
+
+import LiveStandings from "../../components/LiveStandings";
+import MyScoreCard from "./MyScoreCard";
+import TeamManager from "./TeamManager";
+
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 const {
   ON_ROOM_SUB,
@@ -808,6 +813,15 @@ function NHLPowerdFsLive(props) {
     setScreenSize(window.screen.width);
   };
 
+  const [activeTab, setActiveTab] = useState(0);
+  const handleChangeTab = () => {
+    setActiveTab(activeTab === 0 ? 1 : 0);
+  };
+  const [showModal, setModalState] = useState(false);
+  const toggleLiveStandingModal = () => {
+    setModalState(!showModal);
+  };
+
   return (
     <>
       {screenSize > 550 ? (
@@ -843,8 +857,10 @@ function NHLPowerdFsLive(props) {
                     onFullView={() => setView(CONSTANTS.NHL_VIEW.FV)}
                     onCompressedView={() => setView(CONSTANTS.NHL_VIEW.C)}
                     onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
-                    teamManagerLink="/nhl-live-powerdfs"
-                    scoreDetailLink="/nhl-live-powerdfs/my-score-details"
+                    activeTab={activeTab}
+                    handleChangeTab={handleChangeTab}
+                    // teamManagerLink="/nhl-live-powerdfs"
+                    // scoreDetailLink="/nhl-live-powerdfs/my-score-details"
                     onGoBack={() => {
                       redirectTo(props, { path: "/my-game-center" });
                     }}
@@ -852,7 +868,30 @@ function NHLPowerdFsLive(props) {
                     {...props}
                   />
 
-                  <Card ranks={ranks}>{RenderView()}</Card>
+                  <Card ranks={ranks}>
+                    {activeTab === 0 ? (
+                      <TeamManager
+                        compressedView={compressedView}
+                        selectedView={selectedView}
+                        loading={loading}
+                        swapCounts={swapCounts}
+                        dwallCounts={dwallCounts}
+                        challengeCounts={challengeCounts}
+                        pointMultiplierCounts={pointMultiplierCounts}
+                        pointBooster15x={pointBooster15x}
+                        pointBooster2x={pointBooster2x}
+                        pointBooster3x={pointBooster3x}
+                        retroBoostCounts={retroBoostCounts}
+                        powerUpCounts={powerUpCounts}
+                        setPlayerToSwap={setPlayerToSwap}
+                        onPowerApplied={onPowerApplied}
+                        POWER_IDs={POWER_IDs}
+                        setPowers={setPowers}
+                      />
+                    ) : (
+                      <MyScoreCard />
+                    )}
+                  </Card>
                   <div
                     className={classes.left_side_footer}
                     style={{ position: "relative" }}
@@ -988,6 +1027,7 @@ function NHLPowerdFsLive(props) {
           />
         </>
       )}
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
     </>
   );
 }

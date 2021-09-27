@@ -1,6 +1,7 @@
 import React from "react";
 import classes from "./historyInfoComponent.module.scss";
 import moment from "moment";
+import moment1 from "moment-timezone";
 
 import TickIcon from "../../assets/icons/correct-copy.png";
 
@@ -14,10 +15,13 @@ const HistoryInfoComponent = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
 
     const getDate = (timestamp) => {
-      return moment(timestamp).format("MMM D");
+      const offset = moment1?.tz("America/New_York")?.format("Z");
+      return moment.utc(timestamp, 'YYYY-MM-DD hh:mm A').utcOffset('-07:00').format("MMM D");
     };
+
     const getTime = (timestamp) => {
-      return moment(timestamp).format("hh:mm A");
+      const offset = moment1?.tz("America/New_York")?.format("Z");
+      return moment.utc(timestamp, 'YYYY-MM-DD hh:mm A').utcOffset('-07:00').format("hh:mm A");
     };
 
     return (

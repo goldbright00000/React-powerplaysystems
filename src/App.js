@@ -32,15 +32,12 @@ import AccountPage from "./pages/AccountPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyGameCenter from "./pages/MyGameCenter/MyGameCenter";
 import MLBPowerdFs from "./pages/MLBpowerdFS";
-// import NFLPowerdFs from "./pages/NFLpowerdFS";
-import NFLPowerdFs from "./pages/NFLPowerdFS_new";
-// import NHLPowerdFs from "./pages/NHLpowerdFS";
-import NHLPowerdFs from "./pages/NHLPowerdFS_new";
+import NFLPowerdFs from "./pages/NFLpowerdFS";
+import NHLPowerdFs from "./pages/NHLpowerdFS";
 import NBAPowerdFs from "./pages/NBApowerdFS";
-import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import MLBPowerdFsLive from "./pages/MLBPowerdfsLive";
-import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail";
-import MLBLivePowerdFsScroeDetail from "./pages/MLBLivePowerdFsScroeDetail/MLBLivePowerdFsScroeDetail";
+import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
+import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 import { setupUser } from "./actions/authActions";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
@@ -57,7 +54,6 @@ import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
 import MLBPowerLevels from "./pages/MLBPowerLevels";
 import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
-import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
 import MLBRecharge from "./pages/MLBRecharge";
 import { isEmpty } from "lodash";
 
@@ -108,16 +104,6 @@ const App = (props) => {
             exact
             path="/power-play-sponsors"
             component={PowerPlaySponsorsPage}
-          />
-          <Route
-            exact
-            path="/nhl-live-powerdfs/my-score-details"
-            component={NHLLivePowerdFsScroeDetail}
-          />
-          <Route
-            exact
-            path="/mlb-live-powerdfs/my-score-details"
-            component={MLBLivePowerdFsScroeDetail}
           />
           <Route
             path="/power-play-sponsors/sponsor-a-contest"
