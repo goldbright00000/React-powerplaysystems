@@ -79,7 +79,7 @@ function NHLLiveSportsHeader(props) {
                 href="/"
                 onClick={(e) => e.preventDefault()}
               >
-                Team Manager
+                Manage My Team
               </a>
             </Tab>
             <Tab>
