@@ -11,6 +11,7 @@ import NFLPlayerMobile from "../../assets/nfl-player-mobile.png";
 import NBAPlayerMobile from "../../assets/nba-player-mobile.png";
 import NHLPlayerMobile from "../../assets/nhl-player-mobile-left.png";
 import BlueTick from "../../assets/blue_tick.png";
+import EditPencilIcon from "../../assets/icons/edit-pencil.svg";
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
 import OutlineButton from "../OutlineButton";
 import ViewResults from "../../pages/MyGameCenter/ViewResults";
@@ -21,7 +22,7 @@ import PointSystem from "../PowerCenterCardDetails/PointSystem";
 import PowersAvailable from "../PowerCenterMobileCard/PowersAvailable";
 import PrizeGrid from "../PowerCenterMobileCard/PrizeGrid";
 import TeamRoster from "../PowerCenterCardDetails/TeamRoster";
-import Pitchers from '../PowerCenterMobileCard/Pitcher';
+import Pitchers from "../PowerCenterMobileCard/Pitcher";
 import PowerLearnMoreModal from "./PowerLearnMoreModal";
 import { socket } from "../../config/server_connection";
 import { CONSTANTS } from "../../utility/constants";
@@ -33,7 +34,6 @@ import { printLog, redirectTo } from "../../utility/shared";
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
-
   const history = useHistory();
   const dispatch = useDispatch();
   const {
@@ -69,20 +69,23 @@ const MyGameCenterCard = (props) => {
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
-    onDetailsClick = () => { },
-    onBackClick = () => { },
-    onNextClick = () => { },
-    onEnter = () => { },
-    onEdit = () => { },
-    onViewResults = () => { },
-    onViewResultsBack = () => { },
-    onFinalStandings = () => { },
+    onDetailsClick = () => {},
+    onBackClick = () => {},
+    onNextClick = () => {},
+    onEnter = () => {},
+    onEdit = () => {},
+    onViewResults = () => {},
+    onViewResultsBack = () => {},
+    onFinalStandings = () => {},
     game_id = 0,
     currency = "USD",
   } = props || {};
 
   const [ranks, setRanks] = React.useState({
-    ranking: 0, score: 0, game_id: 0, team_id: 0
+    ranking: 0,
+    score: 0,
+    game_id: 0,
+    team_id: 0,
   });
 
   let _socket = null;
@@ -110,17 +113,13 @@ const MyGameCenterCard = (props) => {
       gameId: gameId,
       userId: userId,
     });
-
-
   };
 
   //All listen events
   const onSocketListen = () => {
     //fetch data first time
     _socket?.on(EMIT_ROOM, (res) => {
-      const {
-        power_dfs_team_rankings = []
-      } = res?.data || {};
+      const { power_dfs_team_rankings = [] } = res?.data || {};
 
       // const teamD = defense[0] || {};
       setRanks(power_dfs_team_rankings[0] || {});
@@ -140,14 +139,8 @@ const MyGameCenterCard = (props) => {
     });
 
     //MATCH_UPDATE
-
-
-
-
   };
-  const getRank = (game_id) => {
-
-  }
+  const getRank = (game_id) => {};
 
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
@@ -211,19 +204,17 @@ const MyGameCenterCard = (props) => {
   };
 
   const onLeaveClick = async () => {
-
     setIsLoading(true);
     let user_id = localStorage.PERSONA_USER_ID;
 
     if (game_id && user_id) {
-
       const res = await dispatch(MLBActions.leaveGame(user_id, game_id));
       if (res) {
         window.location.reload();
       }
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <>
@@ -273,12 +264,15 @@ const MyGameCenterCard = (props) => {
                         <div
                           className={classes.__my_game_center_card_full_text}
                         >
-                          Full {<CurrencyFormat
-                            value={total}
-                            displayType={"text"}
-                            thousandSeparator={total >= 10000 ? true : false}
-                            renderText={(value) => value}
-                          />}
+                          Full{" "}
+                          {
+                            <CurrencyFormat
+                              value={total}
+                              displayType={"text"}
+                              thousandSeparator={total >= 10000 ? true : false}
+                              renderText={(value) => value}
+                            />
+                          }
                         </div>
                       </div>
                     ) : null}
@@ -335,7 +329,8 @@ const MyGameCenterCard = (props) => {
                 {inProgress || completed || timeToStart != "" ? null : (
                   <div className={classes.__my_game_center_card_total}>
                     <p>
-                      {outOf} of <span>{total}</span>
+                      {outOf}
+                      <span> of {total}</span>
                     </p>
                   </div>
                 )}
@@ -382,7 +377,14 @@ const MyGameCenterCard = (props) => {
                         fontSize: "12px",
                         margin: ".25rem",
                       }}
-                    //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                      icon={
+                        <img
+                          alt="Edit Icon"
+                          src={EditPencilIcon}
+                          width="16px"
+                          height="16px"
+                        />
+                      }
                     />
                   )}
 
@@ -448,7 +450,14 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                 /> */}
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={false} />
+                <ContestRules
+                  game_set_start={game_set_start}
+                  prize={prize}
+                  powers={Power}
+                  points={PointsSystem}
+                  isMobileGameCenter={true}
+                  showDateTime={false}
+                />
               </>
               {/* today */}
 
@@ -526,7 +535,8 @@ const MyGameCenterCard = (props) => {
                   title={title}
                   inProgress={inProgress}
                   learnMore={() => setPowerLearnMoreModal(true)}
-                  game_set_start={game_set_start} start_time={start_time}
+                  game_set_start={game_set_start}
+                  start_time={start_time}
                   showDateTime={false}
                 />
               </>
@@ -596,7 +606,13 @@ const MyGameCenterCard = (props) => {
                     </div>
                   )}
                 </div>
-                <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} showDateTime={false} />
+                <Pitchers
+                  title={title}
+                  PointsSystem={PointsSystem}
+                  game_set_start={game_set_start}
+                  start_time={start_time}
+                  showDateTime={false}
+                />
               </>
 
               <>
@@ -700,6 +716,16 @@ const MyGameCenterCard = (props) => {
                 }
               ></span>
             </div>
+            {!completed && (
+              <div className={classes.__start_time}>
+                {game_set_start} | {start_time} ET
+              </div>
+            )}
+            {completed && (
+              <div className={classes.__start_time}>
+                {game_set_start} | {start_time} ET
+              </div>
+            )}
             <div className={classes.__my_game_center_card_date_time}>
               {/* {userGames?.game?.game_set_end} | {userGames?.game?.start_time} ET */}
             </div>
@@ -758,7 +784,14 @@ const MyGameCenterCard = (props) => {
                   title="Edit Picks"
                   onClick={onEdit}
                   styles={{ color: "#f2f2f2", marginTop: 14 }}
-                //   icon={<img src={PencilIcon} width="16px" height="16px" />}
+                  icon={
+                    <img
+                      alt="Edit Icon"
+                      src={EditPencilIcon}
+                      width="16px"
+                      height="16px"
+                    />
+                  }
                 />
               )}
 
@@ -768,12 +801,6 @@ const MyGameCenterCard = (props) => {
                   onClick={onEnter}
                   styles={{ color: "#f2f2f2" }}
                 />
-              )}
-
-              {!completed && (
-                <div style={{ marginTop: 5 }}>
-                  {game_set_start} | {start_time} ET
-                </div>
               )}
 
               {completed && (
@@ -791,22 +818,17 @@ const MyGameCenterCard = (props) => {
                   styles={{ marginTop: 14 }}
                 />
               )}
-              {completed && (
-                <div style={{ marginTop: 5 }}>
-                  {game_set_start} | {start_time} ET
-                </div>
-              )}
             </div>
             <div className={classes.__my_game_center_card_status_and_details}>
               {/* {inProgress || completed || timeToStart != "" ? ( */}
               {total == outOf ? (
-
                 <div className={classes.__my_game_center_card_full}>
                   <div className={classes.__my_game_center_card_full_img}>
                     <img src={BlueTick} width="18" height="18" alt="" />
                   </div>
                   <div className={classes.__my_game_center_card_full_text}>
-                    Full <CurrencyFormat
+                    Full{" "}
+                    <CurrencyFormat
                       value={total}
                       displayType={"text"}
                       thousandSeparator={total >= 10000 ? true : false}
@@ -817,17 +839,22 @@ const MyGameCenterCard = (props) => {
               ) : (
                 <div className={classes.__my_game_center_card_total}>
                   <p>
-                    {outOf} of <span>{total}</span>
+                    {outOf}
+                    <span> of {total}</span>
                   </p>
                 </div>
               )}
 
               <div>
-                <span style={{
-                  marginLeft: 25,
-                  color: "#688fbd",
-                  fontSize: 14
-                }}>{game_id}</span>
+                <span
+                  style={{
+                    marginLeft: 25,
+                    color: "#688fbd",
+                    fontSize: 14,
+                  }}
+                >
+                  {game_id}
+                </span>
               </div>
 
               <div className={classes.__my_game_center_card_details}>
@@ -873,9 +900,7 @@ const MyGameCenterCard = (props) => {
                 onLeave={() => onLeaveClick()}
               />
             )}
-
           </div>
-
         ) : (
           <ViewResults
             title={title}
@@ -893,7 +918,7 @@ const MyGameCenterCard = (props) => {
             onNextClick={() => onNextClick()}
             myGameCenter={true}
             game_set_start={game_set_start}
-            prize={(prize)}
+            prize={prize}
           />
         </>
       )}
