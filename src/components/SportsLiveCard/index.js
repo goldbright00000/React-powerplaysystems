@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import * as mlbActions from "../../actions/MLBActions";
+import * as nflActions from "../../actions/NFLActions";
+import * as nhlActions from "../../actions/NHLActions";
 import classes from "./index.module.scss";
 import Replace from "../../icons/Replace";
 import XPIcon from "../../icons/XPIcon";
@@ -49,6 +51,8 @@ function SportsLiveCard(props) {
 
   const dispatch = useDispatch();
   const { data: mlbData = [] } = useSelector((state) => state.mlb);
+  const { data: nflData = [] } = useSelector((state) => state.nfl);
+  const { data: nhlData = [] } = useSelector((state) => state.nhl);
 
   const {
     data = {},
@@ -215,7 +219,75 @@ function SportsLiveCard(props) {
       }
       setLoadingPlayerList(false);
     }
-  }, [mlbData]);
+    if (cardType === CardType.NFL) {
+      setLoadingPlayerList(true);
+      setReplaceModalState(!showReplaceModal);
+      const response = await dispatch(nflActions.nflData(gameId));
+
+      if (response?.filterdList && response?.filterdList?.length) {
+        const _nflData = [...response?.filterdList];
+        const [swapablePlayerData] = _nflData?.filter(
+          (data) => data?.type === `${type}`?.toLocaleLowerCase()
+        );
+
+        if (
+          swapablePlayerData &&
+          swapablePlayerData?.listData &&
+          swapablePlayerData?.listData?.length
+        ) {
+          const _time = moment(date_time).clone().format("h:mm A");
+          const newListData = swapablePlayerData?.listData?.filter(
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player_id &&
+              currentPlayerList[index]?.player_id !== player_id
+          );
+
+          const _dataToRender = {
+            type: swapablePlayerData.type,
+            listData: newListData,
+          };
+
+          setPlayerList(_dataToRender);
+        }
+      }
+      setLoadingPlayerList(false);
+    }
+    if (cardType === CardType.NHL) {
+      setLoadingPlayerList(true);
+      setReplaceModalState(!showReplaceModal);
+      const response = await dispatch(nhlActions.nhlData(gameId));
+
+      if (response?.filterdList && response?.filterdList?.length) {
+        const _nhlData = [...response?.filterdList];
+        const [swapablePlayerData] = _nhlData?.filter(
+          (data) => data?.type === `${type2}`?.toLocaleLowerCase()
+        );
+
+        if (
+          swapablePlayerData &&
+          swapablePlayerData?.listData &&
+          swapablePlayerData?.listData?.length
+        ) {
+          const _time = moment(date_time).clone().format("h:mm A");
+          const newListData = swapablePlayerData?.listData?.filter(
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player_id &&
+              currentPlayerList[index]?.player_id !== player_id
+          );
+
+          const _dataToRender = {
+            type: swapablePlayerData.type,
+            listData: newListData,
+          };
+
+          setPlayerList(_dataToRender);
+        }
+      }
+      setLoadingPlayerList(false);
+    }
+  }, [mlbData, nflData, nhlData]);
 
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
@@ -449,7 +521,7 @@ function SportsLiveCard(props) {
 
   const RenderXpToolTip = () => (
     <div className={classes.stat_xp}>
-      {cardType === CardType.MLBR ? (
+      {cardType !== CardType.MLBR ? (
         <div
           className={classes.stat_xp_mlbr}
           onClick={() => onChangeXp(0, data)}
@@ -646,44 +718,51 @@ function SportsLiveCard(props) {
   const RenderNHLStatPoints = ({}) => (
     <div className={classes.stat_points}>
       <div className={classes.stat_points_container}>
-        <p
-          className={`${classes.stat_points_title} ${
-            largeView && classes.large_view
-          }`}
-        >
-          Stats
-        </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            G: {goals} | A: {assists}
+          <p
+            className={`${classes.stat_points_title} ${
+              largeView && classes.large_view
+            }`}
+          >
+            Stats
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
+            G: {goals} | A: {assists}
+            <br />
             SOG:
           </p>
         </div>
       </div>
 
       <div className={classes.stat_points_container}>
-        <p
-          className={`${classes.stat_points_title} ${
-            largeView && classes.large_view
-          }`}
-        >
-          {xp?.xpVal} Points
-        </p>
         <div
           className={`${classes.points} ${largeView && classes.large_view} ${
             largeView && classes.large_view_d
           }`}
         >
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            {points}
+          <p
+            className={`${classes.points_points_title} ${
+              largeView && classes.large_view
+            }`}
+          >
+            {xp?.xpVal} Points
           </p>
-          {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
-            <div style={{ opacity: 0.5 }}>{renderXp()}</div>
-          ) : (
-            <RenderXpToolTip />
-          )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              minHeight: 28,
+            }}
+          >
+            <p className={`${classes.p} ${largeView && classes.large_view}`}>
+              {points}
+            </p>
+            {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
+              <div style={{ opacity: 0.5 }}>{renderXp()}</div>
+            ) : (
+              <RenderXpToolTip />
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -782,13 +861,13 @@ function SportsLiveCard(props) {
     <>
       {props.swapCount === 0 ? (
         <div style={{ opacity: 0.5 }}>
-          <Replace size={singleView ? 23 : 22} />
+          <Replace size={singleView ? 23 : 22} className={classes.disabled} />
         </div>
       ) : (
         <Replace
           size={singleView ? 23 : 22}
           onClick={toggleReplaceModal}
-          className={isGameOverOrNotStarted() && classes.disabled}
+          className={isGameOverOrNotStarted()}
         />
       )}
     </>

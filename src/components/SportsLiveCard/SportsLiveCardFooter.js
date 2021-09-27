@@ -38,7 +38,7 @@ function SportsLiveCardFooter(props) {
             }`}
             onClick={onClickDetails}
           >
-            Details <span className={`${classes.arrow} ${classes.right}`} />
+            Pts Details <span className={`${classes.arrow} ${classes.right}`} />
           </button>
         </>
       )}
