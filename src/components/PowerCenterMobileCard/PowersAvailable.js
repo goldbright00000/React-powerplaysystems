@@ -127,19 +127,6 @@ const PowersAvailable = (props) => {
             <div className={classes.__powers_available_data_container}>
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
-                        <img src={getIcon("Point Booster")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
-                        <div className={classes.__powers_available_data_power_count}>
-                            <p>
-                                {getPowerCount("Point Booster")}
-                            </p>
-                        </div>
-                    </div>
-                    <div className={classes.__powers_available_data_value_div}>
-                        <p className={classes.__powers_available_data_value}>Point Booster</p>
-                    </div>
-                </div>
-                <div className={classes.__powers_available_data}>
-                    <div className={classes.__powers_available_data_icon_div}>
                         <img src={getIcon("Swap Players")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
                         <div className={classes.__powers_available_data_power_count}>
                             <p>
@@ -153,15 +140,28 @@ const PowersAvailable = (props) => {
                 </div>
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
-                        <img src={getIcon("D-Wall")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <img src={getIcon("Point Booster")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
                         <div className={classes.__powers_available_data_power_count}>
                             <p>
-                                {getPowerCount("D-Wall")}
+                                {getPowerCount("Point Booster")}
                             </p>
                         </div>
                     </div>
                     <div className={classes.__powers_available_data_value_div}>
-                        <p className={classes.__powers_available_data_value}>D-Wall</p>
+                        <p className={classes.__powers_available_data_value}>Point Booster</p>
+                    </div>
+                </div>
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Retro Boost")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Retro Boost")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Retro Boost</p>
                     </div>
                 </div>
             </div>
@@ -179,19 +179,21 @@ const PowersAvailable = (props) => {
                         <p className={classes.__powers_available_data_value}>Challenge</p>
                     </div>
                 </div>
+
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
-                        <img src={getIcon("Retro Boost")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <img src={getIcon("D-Wall")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
                         <div className={classes.__powers_available_data_power_count}>
                             <p>
-                                {getPowerCount("Retro Boost")}
+                                {getPowerCount("D-Wall")}
                             </p>
                         </div>
                     </div>
                     <div className={classes.__powers_available_data_value_div}>
-                        <p className={classes.__powers_available_data_value}>Retro Boost</p>
+                        <p className={classes.__powers_available_data_value}>D-Wall</p>
                     </div>
                 </div>
+                
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
                         <img src={getIcon("Power-Up")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />

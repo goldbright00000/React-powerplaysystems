@@ -63,9 +63,9 @@ const ContestRules = (props) => {
         <p className={`${classes.__contest_rules_main_title} ${props?.showDateTime?classes.__contest_rules_main_title_nopadding:''}`}>
           <span>MLB</span>
           <span style={{color: "#fb6e00", fontWeight: "bold"}}> PowerdFS </span>
-          <span className={classes.subtitle}>Contest Rules</span></p>
+          <span className={classes.subtitle}>Gameplay Rules</span></p>
       ):(
-        <p className={classes.__contest_rules_main_title}>Contest Rules</p>
+        <p className={classes.__contest_rules_main_title}>Gameplay Rules</p>
       )}
       
       <ul>

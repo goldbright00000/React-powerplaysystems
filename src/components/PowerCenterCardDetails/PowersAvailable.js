@@ -68,9 +68,9 @@ const PowersAvailable = (props) => {
     learnMore = () => { },
     Power = [],
   } = props || {};
-
+  
   const [learnMoreModal, setLearnMoreModal] = useState(false);
-
+  const powerSorting = [4,1,2,3,10,6,5,8];
   const onOpenModal = () => setLearnMoreModal(true);
   const onCloseModal = () => setLearnMoreModal(false);
 
@@ -195,38 +195,40 @@ const PowersAvailable = (props) => {
           </div>
 
           <div className={classes.__power_scroll_bar}>
-            {Power.map((item, index) => {
-              return (
-                <div className={classes.__powers_available_data}>
-                  <div className={classes.__powers_available_data_icon_div}>
-                    <img
-                      src={getIcon(item?.powerName)}
-                      width="36"
-                      height="36"
-                      className={classes.__powers_available_data_icon}
-                      alt=""
-                    />
-                    <div className={classes.__powers_available_data_power_count}>
-                      {item.amount}
+            {powerSorting.map((items, index) => {
+              let item = Power[Power.findIndex(x => x.powerId == items)];
+              if (item !== undefined) 
+                return (
+                  <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                      <img
+                        src={getIcon(item?.powerName)}
+                        width="36"
+                        height="36"
+                        className={classes.__powers_available_data_icon}
+                        alt=""
+                      />
+                      <div className={classes.__powers_available_data_power_count}>
+                        {item.amount}
+                      </div>
                     </div>
-                  </div>
-                  <div className={classes.__powers_available_data_value_div}>
-                    <p className={classes.__powers_available_data_value}>
-                      {item?.powerName}
-                    </p>
-                  </div>
-                  {/* {Power.length === index + 1 && (
-                    <div
-                      className={classes.__powers_available_learn_more_div}
-                      onClick={() => onOpenModal()}
-                    >
-                      <p className={classes.__powers_available_learn_more_text}>
-                        Learn more
+                    <div className={classes.__powers_available_data_value_div}>
+                      <p className={classes.__powers_available_data_value}>
+                        {item?.powerName}
                       </p>
                     </div>
-                  )} */}
-                </div>
-              );
+                    {/* {Power.length === index + 1 && (
+                      <div
+                        className={classes.__powers_available_learn_more_div}
+                        onClick={() => onOpenModal()}
+                      >
+                        <p className={classes.__powers_available_learn_more_text}>
+                          Learn more
+                        </p>
+                      </div>
+                    )} */}
+                  </div>
+                );
             })}
           </div>
         </>

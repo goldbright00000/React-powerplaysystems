@@ -821,13 +821,13 @@ function MLBPowerdFs(props) {
 
       setResetSearch(true);
 
-      if(isMobile)
-      {
-        document.querySelectorAll("[class*=MLBpowerdFS_container__]")[0].scrollIntoView();
-      }
-      else {
-        document.querySelector('[class*=PowerpickCard_card_wrapper__]').scroll(0,0)
-      }
+      // if(isMobile)
+      // {
+      //   document.querySelectorAll("[class*=MLBpowerdFS_container__]")[0].scrollIntoView();
+      // }
+      // else {
+      //   document.querySelector('[class*=PowerpickCard_card_wrapper__]').scroll(0,0)
+      // }
      
 
       const [_selectedFilter] = filters?.filter(
@@ -1214,7 +1214,7 @@ function MLBPowerdFs(props) {
                       window.scrollTo({ top: 0, behavior: "smooth" });
                       showPopUp();
                     }}
-                    title={"Contest Rules"}
+                    title={"Gameplay Rules"}
                     icon={
                       <img
                         src={ContestRuleIcon}
@@ -1297,7 +1297,7 @@ function MLBPowerdFs(props) {
               team up the standings
             </>
           }
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={isMobile ? BaseballImageMobile : BaseballImage}
           onClickPrize={() => setPrizeModalState(true)}

@@ -37,6 +37,155 @@ const data2 = [
     },
 ];
 
+const data = [
+    {
+      type: "MLB",
+      heading: "The 8 roster positions:",
+      teamRoster: {
+          d1: [{
+            count: 1,
+            title: "P",
+            value: "(Pitcher)",
+          },
+          {
+            count: 1,
+            title: "C",
+            value: "(Catcher)",
+          },
+          {
+            count: 1,
+            title: "SS",
+            value: "(Shortstop)",
+          }
+          ],
+          d2: [{
+            count: 2,
+            title: "xB",
+            value: "(1B, 2B or 3B)",
+          },{
+            count: 2,
+            title: "OF",
+            value: "(Outfielders)",
+          },
+          {
+            count: 1,
+            title: "Team Defense",
+            value: "",
+          }]
+        }
+    },
+    {
+      type: "NFL",
+      heading: "The 8 roster positions:",
+      teamRoster: 
+          {
+              d1: [{
+                count: 1,
+                title: "QB",
+                value: "(Quarterback)",
+              },
+              {
+                count: 2,
+                title: "RB",
+                value: "(Running Backs)",
+              },
+              {
+                count: 2,
+                title: "WR",
+                value: "(Wide Receivers)",
+              },],
+              d2: [{
+                count: 1,
+                title: "TE",
+                value: "(Tight End)",
+              },
+              {
+                count: 1,
+                title: "K",
+                value: "(Kicker)",
+              },
+              {
+                count: 1,
+                title: "Team Defense",
+                value: "",
+              }]
+          }
+        
+        
+      
+    },
+    {
+      type: "NHL",
+      heading: "The 8 roster positions:",
+      teamRoster: 
+          {
+              d1: [{
+                count: 1,
+                title: "C",
+                value: "(Center)",
+              },
+              {
+                count: 3,
+                title: "XW",
+                value: "(Wingers)",
+              },
+              {
+                count: 2,
+                title: "D",
+                value: "(Defensemen)",
+              },],
+              d2: [{
+                count: 1,
+                title: "G",
+                value: "(Goalie)",
+              },
+              {
+                count: 1,
+                title: "Team Defense",
+                value: "",
+              }]
+          }
+        
+        
+      
+    },
+    {
+      type: "NBA",
+      heading: "The 8 roster positions:",
+      teamRoster: 
+          {
+              d1: [{
+                count: 1,
+                title: "C",
+                value: "(Center)",
+              },
+              {
+                count: 2,
+                title: "PG",
+                value: "(Point Guard)",
+              },
+              {
+                count: 2,
+                title: "SG",
+                value: "(Shooting Guard)",
+              }],
+              d2: [{
+                count: 2,
+                title: "F",
+                value: "(Small/Power Forward)",
+              },
+              {
+                count: 1,
+                title: "Team Defense",
+                value: "",
+              }]
+          }
+        
+        
+      
+    },
+  ];
+
 const TeamRoster = (props) => {
 
     const {
@@ -44,6 +193,7 @@ const TeamRoster = (props) => {
         game_set_start = '',
         start_time = '',
     } = props || {};
+    let finalData = data[data.findIndex(x => x.type == title)];
     return (
         <div className={classes.__team_roster}>
             <div className={classes.__team_roster_date_time}>
@@ -65,7 +215,7 @@ const TeamRoster = (props) => {
             <div className={classes.__team_roster_data_container}>
                 <div className={classes.__team_roster_data_content}>
                     {
-                        data1.map((item, index) => {
+                        finalData.teamRoster.d1.map((item, index) => {
                             return (
                                 <div className={classes.__team_roster_data} key={index}>
                                     <div className={classes.__team_roster_data_title_div}>
@@ -84,7 +234,7 @@ const TeamRoster = (props) => {
                 </div>
                 <div className={classes.__team_roster_data_content}>
                     {
-                        data2.map((item, index) => {
+                        finalData.teamRoster.d2.map((item, index) => {
                             return (
                                 <div className={classes.__team_roster_data} key={index}>
                                     <div className={classes.__team_roster_data_title_div}>
@@ -93,9 +243,11 @@ const TeamRoster = (props) => {
                                             <p className={classes.__team_roster_data_count}>{item.count}</p>
                                         </div>
                                     </div>
-                                    <div className={classes.__team_roster_data_value_div}>
-                                        <p className={classes.__team_roster_data_value}>{item.value}</p>
-                                    </div>
+                                    {item.value !== "" && 
+                                        <div className={classes.__team_roster_data_value_div}>
+                                            <p className={classes.__team_roster_data_value}>{item.value}</p>
+                                        </div>
+                                    }
                                 </div>
                             );
                         })

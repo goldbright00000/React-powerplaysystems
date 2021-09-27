@@ -7,7 +7,8 @@ const Footer = (props) => {
         onBack = () => { },
         onNext = () => { },
         onEnter = () => { },
-        myGameCenter = false
+        myGameCenter = false,
+        userHasEntered = false
     } = props || {};
     return (
         <div className={classes.__power_center_card_details_footer}>
@@ -23,7 +24,11 @@ const Footer = (props) => {
                 !myGameCenter
                 &&
                 <div className={classes.__power_center_card_details_enter}>
-                    <button onClick={onEnter}>{`Enter  •  $${entry_fee}`}</button>
+                    {userHasEntered == true ? (
+                        <button>{`Entered`}</button>
+                    ) : (
+                        <button onClick={onEnter}>{`Enter  •  $${entry_fee}`}</button>
+                    )}
                 </div>
             }
             <div className={classes.__power_center_card_details_footer_next}>

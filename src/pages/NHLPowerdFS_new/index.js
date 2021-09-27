@@ -8,21 +8,21 @@ import { useHistory } from "react-router-dom";
 import dateFormat from "dateformat";
 import _ from "underscore";
 
-import * as NFLActions from "../../actions/NFLActions";
+import * as NHLActions from "../../actions/NHLActions";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
-import NFLHeaderImage from "../../assets/nfl-header-background.png";
-import NFLHeaderImageMobile from "../../assets/nfl-header-background-mobile.png";
+import NHLHeaderImage from "../../assets/nhl-bg.png";
+import NHLHeaderImageMobile from "../../assets/nhl-player-mobile-left.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
-import MLBFooterImage from "../../assets/MLB.png";
+import NHLFooterImage from "../../assets/NHL.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import SportsSidebarContent from "../../components/SportsSidebarContent";
+import SportsSidebarContent from "../../components/SportsSidebarContent/indexNHL";
 import SelectionCard3 from "../../components/SportsSelectionCard3";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
@@ -35,7 +35,7 @@ import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import StarPlayersCheck from "../../components/StarPlayersCheck";
 import PrizeModal from "../../components/PrizeModal";
 import { PAGE_TYPES } from "../../components/SportsSelectionCard3/PageTypes";
-import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCardNFL";
+import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCardNHL";
 import Button from "../../components/Button";
 import ButtonFloating from "../../components/ButtonFloating";
 import ModalBottom from "../../components/ModalBottom";
@@ -73,150 +73,57 @@ const getIcon = (powerName) => {
   }
 };
 
-const { QB, RB, WR, TE, K, D } = CONSTANTS.FILTERS.NFL;
+const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 
 const SIDEBAR_INITIAL_LIST = [
   {
-    title: QB,
-    filter: QB,
+    title: CENTER,
+    filter: CENTER,
     name: "",
     playerId: "",
   },
   {
-    title: `${RB}1`,
-    filter: RB,
+    title: `${XW}1`,
+    filter: XW,
     name: "",
     playerId: "",
   },
   {
-    title: `${RB}2`,
-    filter: RB,
+    title: `${XW}2`,
+    filter: XW,
     name: "",
     playerId: "",
   },
   {
-    title: `${WR}1`,
-    filter: WR,
+    title: `${XW}3`,
+    filter: XW,
     name: "",
     playerId: "",
   },
   {
-    title: `${WR}2`,
-    filter: WR,
-    name: "",
-    playerId: "",
-  },
-  {
-    title: TE,
-    filter: TE,
-    name: "",
-    playerId: "",
-  },
-  {
-    title: K,
-    filter: K,
-    name: "",
-    playerId: "",
-  },
-  {
-    title: D,
-    icon: EmployeeIcon,
+    title: `${D}1`,
     filter: D,
     name: "",
     playerId: "",
   },
-];
-
-const FILTERS_INITIAL_VALUES = [
   {
-    id: 1,
-    title: QB,
-    remaining: 1,
+    title: `${D}2`,
+    filter: D,
+    name: "",
+    playerId: "",
   },
   {
-    id: 2,
-    title: RB,
-    remaining: 2,
+    title: G,
+    filter: G,
+    name: "",
+    playerId: "",
   },
   {
-    id: 3,
-    title: WR,
-    remaining: 2,
-  },
-  {
-    id: 4,
-    title: TE,
-    remaining: 1,
-  },
-  {
-    id: 5,
-    title: K,
-    remaining: 1,
-  },
-  {
-    id: 6,
-    title: D,
-    remaining: 1,
-  },
-];
-
-const contestScoring = {
-  data1: [
-    {
-      title: "Hitters",
-      data: [
-        { title: "Single", points: "+3 pts" },
-        { title: "Double", points: "+5 pts" },
-        { title: "Triple", points: "+8 pts" },
-        { title: "Home Run", points: "+10 pts" },
-        { title: "Run Batted in", points: "+2 pts" },
-        { title: "Run", points: "+2 pts" },
-        { title: "Base on Balls", points: "+1 pts" },
-        { title: "Stolen Base", points: "+5 pts" },
-      ],
-    },
-  ],
-  data2: [
-    {
-      title: "Pitchers",
-      data: [
-        { title: "Innings 1-8 Outs", points: "+1 Pt per Out" },
-        { title: "Innings 9+ Outs", points: "+ 2 Pts per Out" },
-        { title: "Innings 1-7 K’s", points: "+ 2 Pts" },
-        { title: "Innings 8+ K’s", points: "+ 3 Pts" },
-      ],
-    },
-    {
-      title: "Team Defence",
-      data: [{ title: "Runs Against", points: "- 5 Pts" }],
-    },
-  ],
-};
-
-const headerText = [
-  {
-    id: 1,
-    text: `Select 1 Quaterback, you can use your Swap Power to change QB's during the game.`,
-  },
-  {
-    id: 2,
-    text: `Select 2 Running Backs.`,
-  },
-  {
-    id: 3,
-    text: `Select 2 Wide Receivers.`,
-  },
-  {
-    id: 4,
-    text: `Select 1 players from the pool of players at Tight End(TE).`,
-  },
-  {
-    id: 5,
-    text: `Select 2 Kickers (K) from the pool of players.`,
-  },
-  {
-    id: 6,
-    text: `Select 1 Team Defense, Goals against result in negative points for your team.`,
+    title: TD,
+    icon: EmployeeIcon,
+    filter: TD,
+    name: "",
+    playerId: "",
   },
 ];
 
@@ -233,10 +140,86 @@ const prizeData = [
   { place: "21st - 30th", payout: "$40.00" },
 ];
 
+const FILTERS_INITIAL_VALUES = [
+  {
+    id: 1,
+    title: CONSTANTS.FILTERS.NHL.CENTER,
+    remaining: 1,
+  },
+  {
+    id: 2,
+    title: CONSTANTS.FILTERS.NHL.XW,
+    remaining: 3,
+  },
+  {
+    id: 4,
+    title: CONSTANTS.FILTERS.NHL.D,
+    remaining: 2,
+  },
+  {
+    id: 5,
+    title: CONSTANTS.FILTERS.NHL.G,
+    remaining: 1,
+  },
+  {
+    id: 6,
+    title: CONSTANTS.FILTERS.NHL.TD,
+    remaining: 1,
+  },
+];
+
+const basicRules = [
+  "No purchase necessary.",
+  "Open to residents of United States who are over the age of majority.",
+  "Contest closes at 11:59pm ET - April 22, 2020.",
+];
+
+const detailRules = [
+  "Five (5) prizes to be won. See full rules for complete details of all prizes.",
+  "One entry per person.",
+  "Odds of winning depend on player knowledge.",
+  "Mathematical skill testing question must be correctly answered to win.",
+];
+
+let starPlayerCount = 0;
+const dropDown = [
+  { title: "Team A" },
+  { title: "Team B" },
+  { title: "Team C" },
+  { title: "Team D" },
+];
+
+const headerText = [
+  {
+    id: 1,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team.`,
+  },
+  {
+    id: 2,
+    text: `Select 1 Catcher.`,
+  },
+  {
+    id: 3,
+    text: `Select 1 Shortstop.`,
+  },
+  {
+    id: 4,
+    text: `Select 2 players from the pool of players at First Base (1B), Second Base (2B), and Third Base (3B). You may only select one Star player from the XB pool.`,
+  },
+  {
+    id: 5,
+    text: `Select 2 Outfielders (OF) from the pool of players at Left Field (LF), Center Field (CF), and Right Field (RF). You may select only one Star player from the OF pool.`,
+  },
+  {
+    id: 6,
+    text: `Select 1 Team Defense, Goals against result in negative points for your team. You can see the Average Runs Against (ARA) for each team below. Click the Arrow icon to see starting Pitchers.`,
+  },
+];
+
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
-function MLBPowerdFs(props) {
+function NHLPowerdFs(props) {
   const onGoBack = () => {
     redirectTo(props, { path: "/my-game-center" });
   };
@@ -275,9 +258,9 @@ function MLBPowerdFs(props) {
     isEdit = false,
     allData = [],
     savedPlayers = [],
-  } = useSelector((state) => state.nfl);
+  } = useSelector((state) => state.nhl);
 
-  const selector_team_id = useSelector((state) => state?.nfl?.team_id);
+  const selector_team_id = useSelector((state) => state?.nhl?.team_id);
 
   const { auth: { user = {} } = {} } = useSelector((state) => state);
 
@@ -305,7 +288,7 @@ function MLBPowerdFs(props) {
 
   //reset the states
   useEffect(() => {
-    dispatch(NFLActions.setStarPlayerCount(0));
+    dispatch(NHLActions.setStarPlayerCount(0));
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
     setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
@@ -327,7 +310,7 @@ function MLBPowerdFs(props) {
     return function cleanUp() {
       starPowerIndex = 0;
       selectedPlayerCount = 0;
-      dispatch(NFLActions.setEditPlayers({ data: [], isEdit: false }));
+      dispatch(NHLActions.setEditPlayers({ data: [], isEdit: false }));
     };
   }, []);
 
@@ -338,7 +321,7 @@ function MLBPowerdFs(props) {
   const getData = async () => {
     setLoading(true);
     const response = await dispatch(
-      NFLActions.nflData(history.location?.state?.game_id)
+      NHLActions.nhlData(history.location?.state?.game_id)
     );
 
     console.log(response);
@@ -353,7 +336,7 @@ function MLBPowerdFs(props) {
 
       //set dropdown
       const _dropDownlist = filterdList?.filter(
-        (list) => list?.type === "d" || list?.type === "D"
+        (list) => list?.type === "td" || list?.type === "TD"
       );
       const dropDownTeams = [
         {
@@ -402,7 +385,7 @@ function MLBPowerdFs(props) {
         );
         _selected = res.selected;
         _playerList = [...res._playersList];
-        dispatch(NFLActions.setStarPlayerCount(res._starPlayerCount));
+        dispatch(NHLActions.setStarPlayerCount(res._starPlayerCount));
         activateFilter(
           res.currentPlayer,
           res.currentPlayer?.type?.toLocaleLowerCase()
@@ -411,7 +394,7 @@ function MLBPowerdFs(props) {
       }
       setSelected(_selected);
       setSidebarList(_playerList);
-      document.getElementById("qb-filter").click(); // Patch to activate P Tab in Edit Mode instead of D Tab
+      document.getElementById("c-filter").click(); // Patch to activate P Tab in Edit Mode instead of D Tab
     }
   };
 
@@ -422,7 +405,7 @@ function MLBPowerdFs(props) {
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
 
-      dispatch(NFLActions.setStarPlayerCount(res._starPlayerCount));
+      dispatch(NHLActions.setStarPlayerCount(res._starPlayerCount));
       setSelected(res.selected);
       setSidebarList(res._playersList);
       activateFilter(
@@ -441,7 +424,7 @@ function MLBPowerdFs(props) {
     playerList = []
   ) => {
     const [currentPlayer] = allData?.filter((player) => {
-      if (player?.type?.toLocaleLowerCase() === D) {
+      if (player?.type?.toLocaleLowerCase() === TD) {
         return player?.team_id === id && player?.match_id === matchId;
       } else {
         return player?.playerId === id && player?.match_id === matchId;
@@ -457,7 +440,7 @@ function MLBPowerdFs(props) {
     if (!selected.get(selectionId)) {
       const [_player] = _playersList?.filter((player) => {
         let obj = {};
-        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+        if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
           obj = player?.team;
         } else {
           obj = player?.player;
@@ -470,7 +453,7 @@ function MLBPowerdFs(props) {
       });
       if (!isEmpty(_player)) {
         let selectedObj = {};
-        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+        if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
           selectedObj = _player?.team;
         } else {
           selectedObj = _player?.player;
@@ -480,7 +463,7 @@ function MLBPowerdFs(props) {
           const playerListIndex = _playersList?.indexOf(_player);
           let player = { ..._player };
 
-          if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+          if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
             player.team = { ...currentPlayer };
           } else {
             player.player = { ...currentPlayer };
@@ -500,7 +483,7 @@ function MLBPowerdFs(props) {
       }
     } else {
       let existingPlayerIndex = _playersList?.findIndex((player) => {
-        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+        if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
           return (
             player?.team?.team_id === id && player?.team?.match_id === matchId
           );
@@ -525,7 +508,7 @@ function MLBPowerdFs(props) {
         _playersList[existingPlayerIndex].type = "";
         _playersList[existingPlayerIndex].matchId = "";
 
-        if (currentPlayer?.type?.toLocaleLowerCase() === D) {
+        if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
           _playersList[existingPlayerIndex].team = {};
         } else {
           _playersList[existingPlayerIndex].player = {};
@@ -582,7 +565,7 @@ function MLBPowerdFs(props) {
     );
     const filter = _selectedFilter;
     let _remaining = filter?.remaining;
-    let id = type === D ? player?.team_id : player?.playerId;
+    let id = type === TD ? player?.team_id : player?.playerId;
     const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
@@ -623,7 +606,7 @@ function MLBPowerdFs(props) {
     var tempIds = [];
     if (!isEmpty(value)) {
       setSearchText(value);
-      if (selectedData?.type == "d") {
+      if (selectedData?.type == "td") {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.city
             ?.toLocaleLowerCase()
@@ -709,7 +692,7 @@ function MLBPowerdFs(props) {
     setSelectedDropDown(team);
   };
 
-  const onSubmitNFL = async () => {
+  const onSubmitNHL = async () => {
     setIsLoading(true);
     if (isEmpty(user)) {
       setIsLoading(false);
@@ -729,7 +712,7 @@ function MLBPowerdFs(props) {
       });
     }
 
-    const [teamD] = sideBarList?.filter((team) => team?.type === D);
+    const [teamD] = sideBarList?.filter((team) => team?.type === TD);
     const { team = {} } = teamD || {};
 
     if (!isEmpty(team) && players?.length === 7) {
@@ -745,16 +728,16 @@ function MLBPowerdFs(props) {
       };
 
       if (isEdit) {
-        await dispatch(NFLActions.editDfsTeamPlayer(payload));
+        await dispatch(NHLActions.editDfsTeamPlayer(payload));
         setIsLoading(false);
       } else {
-        await dispatch(NFLActions.saveAndGetSelectPlayers(payload));
+        await dispatch(NHLActions.saveAndGetSelectPlayers(payload));
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
-            dispatch(NFLActions.calculateAdminFee(user_id, game_id));
+            dispatch(NHLActions.calculateAdminFee(user_id, game_id));
           }
-          dispatch(NFLActions.deductUserBalance(user_id, game_id));
-          dispatch(NFLActions.savePrizePool(user_id, game_id));
+          dispatch(NHLActions.deductUserBalance(user_id, game_id));
+          dispatch(NHLActions.savePrizePool(user_id, game_id));
         }
         setIsLoading(false);
       }
@@ -848,7 +831,7 @@ function MLBPowerdFs(props) {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
       backgroundColor: "#17181a",
-      backgroundImage: `url(${MLBFooterImage})`,
+      backgroundImage: `url(${NHLFooterImage})`,
       backgroundSize: "cover",
       opacity: 0.6,
     };
@@ -928,7 +911,7 @@ function MLBPowerdFs(props) {
 
             <div className={classes.__buttons_div}>
               <Button
-                title={"Gameplay Rules"}
+                title={"Contest Rules"}
                 icon={
                   <img src={ContestRuleIcon} width="18" height="18" alt="" />
                 }
@@ -962,7 +945,7 @@ function MLBPowerdFs(props) {
           enrolledUsers={enrolledUsers}
           points={points}
           powers={powers}
-          titleMain1="NFL 2021"
+          titleMain1="NHL 2021"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Football"
           subHeader2={
@@ -973,7 +956,7 @@ function MLBPowerdFs(props) {
           }
           contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
-          bgImageUri={isMobile ? NFLHeaderImageMobile : NFLHeaderImage}
+          bgImageUri={isMobile ? NHLHeaderImageMobile : NHLHeaderImage}
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
           isMobile={isMobile}
@@ -1047,7 +1030,7 @@ function MLBPowerdFs(props) {
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (
                           <>
-                            {selectedFilter?.title === D ? (
+                            {selectedFilter?.title === TD ? (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               (item?.date, item?.time) && (
                                 <SportsTeamSelectionCard
@@ -1083,7 +1066,7 @@ function MLBPowerdFs(props) {
                                       }
                                       loading={loading}
                                       onSelectDeselect={onPlayerSelectDeselect}
-                                      pageType={PAGE_TYPES.NFL}
+                                      pageType={PAGE_TYPES.NHL}
                                       type={selectedData?.type}
                                     // disabled={
                                     //   item.isStarPlayer &&
@@ -1352,7 +1335,7 @@ function MLBPowerdFs(props) {
                 </div>
 
                 <img
-                  src={MLBFooterImage}
+                  src={NHLFooterImage}
                   className={classes.container_body_img}
                   alt=""
                 />
@@ -1409,7 +1392,7 @@ function MLBPowerdFs(props) {
               ) : (
                 <button
                   className={classes.sidebar_button}
-                  onClick={onSubmitNFL}
+                  onClick={onSubmitNHL}
                 >
                   Submit!
                 </button>
@@ -1473,7 +1456,7 @@ function MLBPowerdFs(props) {
               {selectedPlayerCount === sideBarList.length && (
                 <button
                   className={classes.sidebar_button}
-                  onClick={onSubmitNFL}
+                  onClick={onSubmitNHL}
                 >
                   Submit!
                 </button>
@@ -1509,7 +1492,7 @@ function MLBPowerdFs(props) {
                 selectedPlayerCount={selectedPlayerCount}
               />
 
-              <button className={classes.sidebar_button} onClick={onSubmitNFL}>
+              <button className={classes.sidebar_button} onClick={onSubmitNHL}>
                 Submit!
               </button>
             </>
@@ -1530,7 +1513,7 @@ function MLBPowerdFs(props) {
       {showPowerInfoModal && powerInfoModal()}
       <PrizeModal
         visible={showPrizeModal}
-        sportsName="MLB"
+        sportsName="NHL"
         data={prizes}
         onClose={() => setPrizeModalState(false)}
       />
@@ -1538,4 +1521,4 @@ function MLBPowerdFs(props) {
   );
 }
 
-export default MLBPowerdFs;
+export default NHLPowerdFs;

@@ -49,7 +49,6 @@ const Slider = ({
 }) => {
   const  a  = useSelector((state) => state.mlb);
   const {live_data = []} = a | {};
-  console.log("data1", a.live_data);
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",
