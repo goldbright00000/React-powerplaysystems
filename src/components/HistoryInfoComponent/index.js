@@ -16,11 +16,12 @@ const HistoryInfoComponent = (props) => {
 
     const getDate = (timestamp) => {
       const offset = moment1?.tz("America/New_York")?.format("Z");
-      return moment.utc(timestamp, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format("MMM D");
+      return moment.utc(timestamp, 'YYYY-MM-DD hh:mm A').utcOffset('-07:00').format("MMM D");
     };
+
     const getTime = (timestamp) => {
       const offset = moment1?.tz("America/New_York")?.format("Z");
-      return moment.utc(timestamp, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format("hh:mm A");
+      return moment.utc(timestamp, 'YYYY-MM-DD hh:mm A').utcOffset('-07:00').format("hh:mm A");
     };
 
     return (
