@@ -79,7 +79,7 @@ const HowToPlayPage = () => {
               <p>
                 {" "}
                 <Link to="/">Team Manager</Link> page overview – this is where
-                you can see your entire team in one view, see you current
+                you can see your entire team in one view, see your current
                 standings, and see how many powers you have remaining.
               </p>
               <Animate>

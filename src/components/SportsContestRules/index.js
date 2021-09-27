@@ -14,7 +14,7 @@ function SportsContestRules(props) {
                 <ContestRulesIcon />
                 <div className={classes.container_footer_title}>
                     <h2>
-                        Contest Rules
+                    Gameplay Rules
                     </h2>
                     <span className={classes.separator} />
                 </div>

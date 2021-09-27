@@ -3,6 +3,7 @@ import classes from "./teamRoster.module.scss";
 
 const data = [
   {
+    type: "MLB",
     heading: "The 8 roster positions:",
     teamRoster: [
       {
@@ -34,14 +35,112 @@ const data = [
         count: 1,
         title: "Team Defense",
         value: "",
+      }
+    ]
+  },
+  {
+    type: "NFL",
+    heading: "The 8 roster positions:",
+    teamRoster: [
+      {
+        count: 1,
+        title: "QB",
+        value: "(Quarterback)",
       },
-    ],
+      {
+        count: 2,
+        title: "RB",
+        value: "(Running Backs)",
+      },
+      {
+        count: 2,
+        title: "WR",
+        value: "(Wide Receivers)",
+      },
+      {
+        count: 1,
+        title: "TE",
+        value: "(Tight End)",
+      },
+      {
+        count: 1,
+        title: "K",
+        value: "(Kicker)",
+      },
+      {
+        count: 1,
+        title: "Team Defense",
+        value: "",
+      }
+    ]
+  },
+  {
+    type: "NHL",
+    heading: "The 8 roster positions:",
+    teamRoster: [
+      {
+        count: 1,
+        title: "C",
+        value: "(Center)",
+      },
+      {
+        count: 3,
+        title: "XW",
+        value: "(Wingers)",
+      },
+      {
+        count: 2,
+        title: "D",
+        value: "(Defensemen)",
+      },
+      {
+        count: 1,
+        title: "G",
+        value: "(Goalie)",
+      },
+      {
+        count: 1,
+        title: "Team Defense",
+        value: "",
+      }
+    ]
+  },
+  {
+    type: "NBA",
+    heading: "The 8 roster positions:",
+    teamRoster: [
+      {
+        count: 1,
+        title: "C",
+        value: "(Center)",
+      },
+      {
+        count: 2,
+        title: "PG",
+        value: "(Point Guard)",
+      },
+      {
+        count: 2,
+        title: "SG",
+        value: "(Shooting Guard)",
+      },
+      {
+        count: 2,
+        title: "F",
+        value: "(Small/Power Forward)",
+      },
+      {
+        count: 1,
+        title: "Team Defense",
+        value: "",
+      }
+    ]
   },
 ];
 
 const TeamRoster = (props) => {
-  const { title = "", isMobile = false } = props || {};
-
+  const { title = "", isMobile = false, league = "" } = props || {};
+  let finalData = data[data.findIndex(x => x.type == league)];
   return (
     <div className={classes.__team_roster}>
       {isMobile ? (
@@ -128,11 +227,11 @@ const TeamRoster = (props) => {
       ) : (
         <>
           <p className={classes.__team_roster_main_title}>Team Roster</p>
-          {data.map((d, i) => {
-            return (
+          
+            
               <>
-                <div className={classes.__team_roster_heading}>{d.heading}</div>
-                {d.teamRoster.map((item, index) => {
+                <div className={classes.__team_roster_heading}>{finalData.heading}</div>
+                {finalData.teamRoster.map((item, index) => {
                   return (
                     <div className={classes.__team_roster_data}>
                       <div className={classes.__team_roster_data_count_div}>
@@ -154,8 +253,8 @@ const TeamRoster = (props) => {
                   );
                 })}
               </>
-            );
-          })}
+            
+         
         </>
       )}
     </div>

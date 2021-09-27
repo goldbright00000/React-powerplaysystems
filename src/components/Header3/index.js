@@ -53,7 +53,7 @@ function Header3(props) {
           <ContestRulesPopUp
             component={({ showPopUp }) => (
               <button onClick={showPopUp}>
-                <DocIcon /> Contest Rules
+                <DocIcon /> Gameplay Rules
               </button>
             )}
             points={points}

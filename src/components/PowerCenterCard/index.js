@@ -294,6 +294,7 @@ const PowerCenterCard = (props) => {
                 onEnter={onEnter}
                 game_set_start={game_set_start}
                 prize={numberWithCommas(prize)}
+                userHasEntered={userHasEntered}
             />
     );
 };

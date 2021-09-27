@@ -911,7 +911,7 @@ function NHLPowerdFs(props) {
 
             <div className={classes.__buttons_div}>
               <Button
-                title={"Contest Rules"}
+                title={"Gameplay Rules"}
                 icon={
                   <img src={ContestRuleIcon} width="18" height="18" alt="" />
                 }
@@ -954,7 +954,7 @@ function NHLPowerdFs(props) {
               team up the standings
             </>
           }
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={isMobile ? NHLHeaderImageMobile : NHLHeaderImage}
           onClickPrize={() => setPrizeModalState(true)}

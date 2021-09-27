@@ -17,7 +17,7 @@ const ContestRules = ({prizePool = 0, gameInfo = {}}) => {
       <Container fluid={true}>
         <Row>
           <Col>
-            <h1>Contest Rules</h1>
+            <h1>Gameplay Rules</h1>
             <div className="border-line"></div>
 
             <div className="list">
