@@ -23,6 +23,7 @@ import { nodeName } from "jquery";
 import Tooltip from "../ToolTip";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
+import NHLFooterStats from "./NHLFooterStats";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 const NFLSummaryTitles = ["Inning", "Types", "Power", "Pts"];
@@ -80,6 +81,8 @@ function SportsLiveCardTeamD(props) {
     range = "",
     xp = {},
     mlb_team_stats = [],
+    nfl_team_stats = [],
+    nhl_team_stats = [],
     team_id,
     team_match_stats = [],
   } = team || {};
@@ -100,6 +103,13 @@ function SportsLiveCardTeamD(props) {
     status: teamStatus = null,
     wins: teamWins = 0,
   } = mlb_team_stats[0] || {};
+
+  const {
+    games_played = 0,
+    goals = 0,
+    assists = 0,
+    // points = 0,
+  } = nhl_team_stats[0] || {};
 
   const {
     hits = 0,
@@ -835,6 +845,211 @@ function SportsLiveCardTeamD(props) {
     </div>
   );
 
+  const RenderNHLStatPoints = ({}) => (
+    <div className={classes.stat_points}>
+      <div className={classes.stat_points_container}>
+        <div className={`${classes.stat} ${largeView && classes.large_view}`}>
+          <p
+            className={`${classes.stat_points_title} ${
+              largeView && classes.large_view
+            }`}
+          >
+            Stats
+          </p>
+          <p className={`${classes.p} ${largeView && classes.large_view}`}>
+            GA: {goals}
+            <br />
+            SA:
+          </p>
+        </div>
+      </div>
+
+      <div className={classes.stat_points_container}>
+        <div
+          className={`${classes.points} ${largeView && classes.large_view} ${
+            largeView && classes.large_view_d
+          }`}
+        >
+          <p
+            className={`${classes.stat_points_title} ${
+              largeView && classes.large_view
+            }`}
+          >
+            {xp?.xpVal} Powers
+          </p>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              minHeight: 28,
+            }}
+          >
+            {isPowerAvailable("D-Wall") === 0 ||
+            isPowerLocked("D-Wall") === 1 ? (
+              <Tooltip
+                disabled={isGameOverOrNotStarted()}
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    {isPowerAvailable("D-Wall") === 0 ? (
+                      <div>Not Available</div>
+                    ) : isPowerLocked("D-Wall") === 1 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <p
+                          style={{
+                            paddingTop: "1px",
+                            paddingRight: "2px",
+                            paddingLeft: "5px",
+                          }}
+                        >
+                          Share to unlock:
+                        </p>
+                        <div>
+                          <button
+                            onClick={() => {
+                              var left = window.screen.width / 2 - 600 / 2,
+                                top = window.screen.height / 2 - 600 / 2;
+                              window.open(
+                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                "targetWindow",
+                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                  left +
+                                  ",top=" +
+                                  top
+                              );
+                            }}
+                          >
+                            <FacebookIcon />
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              var left = window.screen.width / 2 - 600 / 2,
+                                top = window.screen.height / 2 - 600 / 2;
+                              window.open(
+                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                "targetWindow",
+                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                  left +
+                                  ",top=" +
+                                  top
+                              );
+                            }}
+                          >
+                            <TwitterIcon />
+                          </button>
+                        </div>
+                      </div>
+                    ) : isPowerLocked("D-Wall") === 1 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <p
+                          style={{
+                            paddingTop: "1px",
+                            paddingRight: "2px",
+                            paddingLeft: "5px",
+                          }}
+                        >
+                          Share to unlock:
+                        </p>
+                        <div>
+                          <button
+                            onClick={() => {
+                              var left = window.screen.width / 2 - 600 / 2,
+                                top = window.screen.height / 2 - 600 / 2;
+                              window.open(
+                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                "targetWindow",
+                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                  left +
+                                  ",top=" +
+                                  top
+                              );
+                            }}
+                          >
+                            <FacebookIcon />
+                          </button>
+
+                          <button
+                            onClick={() => {
+                              var left = window.screen.width / 2 - 600 / 2,
+                                top = window.screen.height / 2 - 600 / 2;
+                              window.open(
+                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                "targetWindow",
+                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                  left +
+                                  ",top=" +
+                                  top
+                              );
+                            }}
+                          >
+                            <TwitterIcon />
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                }
+              >
+                <button className={classes.team_d_icon_button}>
+                  <ShieldIcon size={largeView ? 28 : 24} />
+                </button>
+              </Tooltip>
+            ) : props.dwall == 0 ? (
+              <div style={{ opacity: 0.5 }}>
+                <DwallPopUp
+                  component={({ showPopUp }) => (
+                    <button className={classes.team_d_icon_button}>
+                      <ShieldIcon size={largeView ? 28 : 24} />
+                    </button>
+                  )}
+                  dwall={props.dwall}
+                  useDwall={props.useDwall}
+                />
+              </div>
+            ) : (
+              <DwallPopUp
+                component={({ showPopUp }) => (
+                  <button
+                    onClick={showPopUp}
+                    className={classes.team_d_icon_button}
+                    style={
+                      isGameOverOrNotStarted()
+                        ? { opacity: 0.3, pointerEvents: "none" }
+                        : {}
+                    }
+                  >
+                    <ShieldIcon size={largeView ? 28 : 24} />
+                  </button>
+                )}
+                dwall={props.dwall}
+                useDwall={props.useDwall}
+              />
+            )}
+            {/* {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
+              <div style={{ opacity: 0.5 }}>{renderXp()}</div>
+            ) : (
+              <RenderXpToolTip />
+            )} */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   const RenderStatus = ({ success = false, danger = false }) => (
     <p
       className={`${classes.container_status} ${
@@ -868,7 +1083,10 @@ function SportsLiveCardTeamD(props) {
     <div className={classes.card_header}>
       <p className={classes.card_header_title}>
         <span className={classes.border} />
-        Team {type}
+        <span>
+          Team D:
+          <span className={classes.card_header_points}>14 Pts</span>
+        </span>
       </p>
     </div>
   );
@@ -958,7 +1176,18 @@ function SportsLiveCardTeamD(props) {
           <div className={classes.container_body}>
             {!showSummary ? (
               <>
-                {!singleView && <RenderStatPoints />}
+                {!singleView && cardType === CardType.MLB ? (
+                  <RenderStatPoints />
+                ) : null}
+
+                {!singleView && cardType === CardType.NFL ? (
+                  <RenderNHLStatPoints />
+                ) : null}
+
+                {!singleView && cardType === CardType.NHL ? (
+                  <RenderNHLStatPoints />
+                ) : null}
+
                 {!compressedView && (
                   <>
                     {singleView && <RenderSingleViewStats />}
@@ -988,6 +1217,12 @@ function SportsLiveCardTeamD(props) {
                           !singleView &&
                           RenderFooter()}
                       </>
+                    ) : null}
+
+                    {getStatus() !== "Game Over" &&
+                    cardType === CardType.NHL &&
+                    !singleView ? (
+                      <NHLFooterStats />
                     ) : null}
                   </>
                 )}
@@ -1024,23 +1259,19 @@ function SportsLiveCardTeamD(props) {
             )}
           </div>
 
-          {cardType === CardType.MLB ? (
-            <>
-              {!showEndThird() &&
-                !showMidThird() &&
-                getStatus() !== "Game Over" &&
-                !compressedView &&
-                !singleView && (
-                  <SportsLiveCardFooter
-                    showSummary={showSummary}
-                    onClickBack={() => setSummaryState(false)}
-                    onClickDetails={() => setSummaryState(true)}
-                    title={footerTitle()}
-                    largeView={largeView}
-                  />
-                )}
-            </>
-          ) : null}
+          {!showEndThird() &&
+            !showMidThird() &&
+            getStatus() !== "Game Over" &&
+            !compressedView &&
+            !singleView && (
+              <SportsLiveCardFooter
+                showSummary={showSummary}
+                onClickBack={() => setSummaryState(false)}
+                onClickDetails={() => setSummaryState(true)}
+                title={footerTitle()}
+                largeView={largeView}
+              />
+            )}
 
           {/* {cardType !== CardType.MLBR && (
             <SportsLiveCardOverlay
