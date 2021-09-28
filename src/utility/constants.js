@@ -62,6 +62,9 @@ export const CONSTANTS = {
       SUCCESS: "on_payment_success",
       FAILURE: "on_payment_failure",
     },
+    GAMES: {
+      NEWLY_ADDED: "on_newly_added_game"
+    },
     MLB: {
       LIVE: {
         EMIT_ROOM: "ON_EMIT_LIVE_DATA",
