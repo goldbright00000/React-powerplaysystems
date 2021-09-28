@@ -66,7 +66,7 @@ const HowToPlayPage = () => {
                 <p className={styles.blogSection3}>
                   From <Link to="/">My Game Center</Link> you can see when games
                   are due to start or are in progress. <br /> Click{" "}
-                  <Link to="/">Team Manager</Link> to launch the live Team
+                  <Link to="/">Manage My Team</Link> to launch the live Team
                   Manager page.
                 </p>
               </div>
@@ -78,7 +78,7 @@ const HowToPlayPage = () => {
             <section className={styles.contectSection4}>
               <p>
                 {" "}
-                <Link to="/">Team Manager</Link> page overview – this is where
+                <Link to="/">Manage My Team</Link> page overview – this is where
                 you can see your entire team in one view, see your current
                 standings, and see how many powers you have remaining.
               </p>

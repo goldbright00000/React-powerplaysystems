@@ -24,81 +24,9 @@ import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmoun
 import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
+import { socket } from "../../config/server_connection";
 
 import PromoModal from "../../components/PromoModal";
-
-const powerCenterCardData1 = [
-  {
-    id: 1,
-    title: "MLB",
-    prize: "10,000",
-    outOf: "60,589",
-    total: "200,000",
-    percent: "29",
-    url: "/mlb-select-team",
-  },
-  {
-    id: 2,
-    title: "NFL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nfl-select-team",
-  },
-  {
-    id: 3,
-    title: "NBA",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nba-select-team",
-  },
-  {
-    id: 4,
-    title: "NHL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nhl-select-team",
-  },
-  {
-    id: 5,
-    title: "NFL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nfl-select-team",
-  },
-  {
-    id: 6,
-    title: "Levels",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/mlb-power-levels",
-  },
-  {
-    id: 7,
-    title: "NHL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-  },
-  {
-    id: 8,
-    title: "NBA",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-  },
-];
 
 const filters = [
   {
@@ -149,6 +77,8 @@ let nbaData = [];
 let nhlData = [];
 
 const InteractiveContests = (props) => {
+  let _socket = null;
+
   let isAuthenticated = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -197,6 +127,8 @@ const InteractiveContests = (props) => {
   const [challengeGame, setChallengeGame] = useState({});
   const [propsGame, setPropsGame] = useState({});
   const [showEntered, setShowEntered] = useState(true);
+  const [newGame, setNewGame] = useState({});
+
   const onClosePromoModal = () => {
     setShowPromoModal(false);
     setChallengeGame({});
@@ -209,6 +141,25 @@ const InteractiveContests = (props) => {
     if (JSON.stringify(propss) !== JSON.stringify(propsGame))
       setPropsGame(propss);
   };
+
+  useEffect(() => {
+    _socket = socket();
+    return function cleanUp() {
+      _socket = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.NEWLY_ADDED, (response) => {
+      setNewGame(response);
+    });
+  }, [_socket]);
+
+  useEffect(() => {
+    const obj = [...filteredData];
+    obj.push(newGame);
+    setFilteredData(obj);
+  }, [newGame]);
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -345,7 +296,7 @@ const InteractiveContests = (props) => {
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
                     },
                     0
                   ),
@@ -384,7 +335,7 @@ const InteractiveContests = (props) => {
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
                     },
                     0
                   ),
@@ -421,7 +372,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -461,7 +412,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -501,7 +452,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -699,11 +650,10 @@ const InteractiveContests = (props) => {
         newArr.push(arr[i]);
       }
     }
-    if(!showEntered)
-    {
+    if (!showEntered) {
       newArr = newArr.filter(x => {
-        if(typeof x.userHasEntered == "undefined" || x?.userHasEntered == false) {
-            return x;
+        if (typeof x.userHasEntered == "undefined" || x?.userHasEntered == false) {
+          return x;
         }
       })
     }
@@ -734,7 +684,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount) * parseInt(num.prize);
             },
             0
           )}
@@ -781,7 +731,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount) * parseInt(num.prize);
             },
             0
           )}
@@ -846,8 +796,8 @@ const InteractiveContests = (props) => {
       <div className="__table-wrapper __mb-6">
         <div className={isMobile || isTablet ? "" : ""}>
           <div style={{ flex: 1, display: "flex" }} >
-            
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{display: "flex", flex: 1}}>
+
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{ display: "flex", flex: 1 }}>
               {filters.map((item, index) => {
                 return (
                   <div
@@ -873,33 +823,33 @@ const InteractiveContests = (props) => {
                 );
               })}
             </div>
-              {(!isMobile || !isTablet) && 
-                <div style={{display: "flex", width: 330}}>
-                  <div
-                    className={
-                      `__outline-badge __f1 ${showEntered?"__active":""}`
-                    }
-                    style = {{marginRight: 10, cursor: "pointer"}}
-                    onClick={() => {
-                      setShowEntered(true);
-                    }}
-                  >
-                    Show Entered
-                  </div>
-                  <div
-                    className={
-                      `__outline-badge __f1 ${!showEntered?"__active":""}`
-                    }
-                    style = {{cursor: "pointer"}}
-                    onClick={() => {
-                      setShowEntered(false);
-                    }}
-                  >
-                    Hide Entered
-                  </div>
+            {(!isMobile || !isTablet) &&
+              <div style={{ display: "flex", width: 330 }}>
+                <div
+                  className={
+                    `__outline-badge __f1 ${showEntered ? "__active" : ""}`
+                  }
+                  style={{ marginRight: 10, cursor: "pointer" }}
+                  onClick={() => {
+                    setShowEntered(true);
+                  }}
+                >
+                  Show Entered
                 </div>
-              }
-            
+                <div
+                  className={
+                    `__outline-badge __f1 ${!showEntered ? "__active" : ""}`
+                  }
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setShowEntered(false);
+                  }}
+                >
+                  Hide Entered
+                </div>
+              </div>
+            }
+
           </div>
           <div
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}

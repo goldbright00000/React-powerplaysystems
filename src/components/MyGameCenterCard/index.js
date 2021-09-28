@@ -358,7 +358,7 @@ const MyGameCenterCard = (props) => {
                 >
                   {!completed && (
                     <OutlineButton
-                      title="Team Manager"
+                      title="Manage My Team"
                       onClick={onEnter}
                       styles={{
                         width: "140px",
@@ -776,7 +776,7 @@ const MyGameCenterCard = (props) => {
                 </div>
               )}
               {!completed && (
-                <OutlineButton title="Team Manager" onClick={onEnter} />
+                <OutlineButton title="Manage My Team" onClick={onEnter} />
               )}
 
               {editPicks && (
