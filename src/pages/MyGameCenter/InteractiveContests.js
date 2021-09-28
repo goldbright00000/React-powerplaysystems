@@ -197,7 +197,7 @@ const InteractiveContests = (props) => {
             prizePool: _.reduce(
               item?.game?.PrizePayouts,
               function (memo, num) {
-                return memo + parseInt(num.amount) * parseInt(num.prize);
+                return memo + parseFloat(num.amount) * parseInt(num.prize);
               },
               0
             ),
@@ -243,7 +243,7 @@ const InteractiveContests = (props) => {
             prizePool: _.reduce(
               item?.game?.PrizePayouts,
               function (memo, num) {
-                return memo + parseInt(num.amount) * parseInt(num.prize);
+                return memo + parseFloat(num.amount) * parseInt(num.prize);
               },
               0
             ),
@@ -289,7 +289,7 @@ const InteractiveContests = (props) => {
             prizePool: _.reduce(
               item?.game?.PrizePayouts,
               function (memo, num) {
-                return memo + parseInt(num.amount) * parseInt(num.prize);
+                return memo + parseFloat(num.amount) * parseInt(num.prize);
               },
               0
             ),
@@ -403,7 +403,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.game?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount) * parseInt(num.prize);
             },
             0
           )}
@@ -470,10 +470,10 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  cardItem?.game?.league === item.title
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                cardItem?.game?.league === item.title
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -562,8 +562,8 @@ const InteractiveContests = (props) => {
                 selectedDate === "Today"
                   ? "Today"
                   : selectedDate === "All"
-                  ? "All"
-                  : moment(selectedDate).format("ddd,MMM DD")
+                    ? "All"
+                    : moment(selectedDate).format("ddd,MMM DD")
               }
               options={days}
               onChange={(selectedOption) => {

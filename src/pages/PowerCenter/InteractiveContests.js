@@ -345,7 +345,7 @@ const InteractiveContests = (props) => {
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
                     },
                     0
                   ),
@@ -384,7 +384,7 @@ const InteractiveContests = (props) => {
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
                     },
                     0
                   ),
@@ -421,7 +421,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -461,7 +461,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -501,7 +501,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -699,11 +699,10 @@ const InteractiveContests = (props) => {
         newArr.push(arr[i]);
       }
     }
-    if(!showEntered)
-    {
+    if (!showEntered) {
       newArr = newArr.filter(x => {
-        if(typeof x.userHasEntered == "undefined" || x?.userHasEntered == false) {
-            return x;
+        if (typeof x.userHasEntered == "undefined" || x?.userHasEntered == false) {
+          return x;
         }
       })
     }
@@ -734,7 +733,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount) * parseInt(num.prize);
             },
             0
           )}
@@ -781,7 +780,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount) * parseInt(num.prize);
             },
             0
           )}
@@ -846,8 +845,8 @@ const InteractiveContests = (props) => {
       <div className="__table-wrapper __mb-6">
         <div className={isMobile || isTablet ? "" : ""}>
           <div style={{ flex: 1, display: "flex" }} >
-            
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{display: "flex", flex: 1}}>
+
+            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{ display: "flex", flex: 1 }}>
               {filters.map((item, index) => {
                 return (
                   <div
@@ -873,33 +872,33 @@ const InteractiveContests = (props) => {
                 );
               })}
             </div>
-              {(!isMobile || !isTablet) && 
-                <div style={{display: "flex", width: 330}}>
-                  <div
-                    className={
-                      `__outline-badge __f1 ${showEntered?"__active":""}`
-                    }
-                    style = {{marginRight: 10, cursor: "pointer"}}
-                    onClick={() => {
-                      setShowEntered(true);
-                    }}
-                  >
-                    Show Entered
-                  </div>
-                  <div
-                    className={
-                      `__outline-badge __f1 ${!showEntered?"__active":""}`
-                    }
-                    style = {{cursor: "pointer"}}
-                    onClick={() => {
-                      setShowEntered(false);
-                    }}
-                  >
-                    Hide Entered
-                  </div>
+            {(!isMobile || !isTablet) &&
+              <div style={{ display: "flex", width: 330 }}>
+                <div
+                  className={
+                    `__outline-badge __f1 ${showEntered ? "__active" : ""}`
+                  }
+                  style={{ marginRight: 10, cursor: "pointer" }}
+                  onClick={() => {
+                    setShowEntered(true);
+                  }}
+                >
+                  Show Entered
                 </div>
-              }
-            
+                <div
+                  className={
+                    `__outline-badge __f1 ${!showEntered ? "__active" : ""}`
+                  }
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setShowEntered(false);
+                  }}
+                >
+                  Hide Entered
+                </div>
+              </div>
+            }
+
           </div>
           <div
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}
