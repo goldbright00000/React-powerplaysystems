@@ -281,7 +281,7 @@ const MyGameCenterCard = (props) => {
 
                 <div
                   className={classes.__my_game_center_card_powerdfs}
-                  style={{ marginTop: inProgress || !completed ? -3 : 10 }}
+                  style={{ marginTop: inProgress || !completed ? 5 : 10 }}
                 >
                   <div className={classes.__my_game_center_card_powerdfs_title}>
                     <p>
@@ -691,7 +691,7 @@ const MyGameCenterCard = (props) => {
             )}
             <div
               className={classes.__my_game_center_card_powerdfs}
-              style={{ marginTop: inProgress || !completed ? -3 : 10 }}
+              style={{ marginTop: inProgress || !completed ? 5 : 10 }}
             >
               <span
                 className={
