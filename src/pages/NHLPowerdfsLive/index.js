@@ -845,6 +845,7 @@ function NHLPowerdFsLive(props) {
                 compressedView
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
+                selectedTeam={selectedTeam}
               />
 
               <div className={classes.container}>
