@@ -17,7 +17,8 @@
         .__power_center_card_powerdfs_hr {
             width: 30px;
             height: 1px;
-            border: solid 2px $grey2;
+            border: solid 1px #f2f2f2;
+            border-bottom: 0;
         }
 
         .__power_center_card_powerdfs_hr_left {
@@ -123,7 +124,9 @@
             span {
                 font-size: 14px;
                 font-weight: 300;
-                opacity: 0.6;
+                opacity: 1;
+                vertical-align: -1px;
+                color: #a2a3a3;
             }
         }
     }

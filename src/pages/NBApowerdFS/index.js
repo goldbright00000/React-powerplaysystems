@@ -791,6 +791,7 @@ function NBAPowerdFs() {
                             See Full Rules <img src={RightArrow} />
                           </button>
                         )}
+                        title="NBA"
                       />
                     </div>
                   </div>

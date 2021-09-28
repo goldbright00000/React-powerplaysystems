@@ -236,7 +236,7 @@ const prizeData = [
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
-function MLBPowerdFs(props) {
+function NFLPowerdFs(props) {
   const onGoBack = () => {
     redirectTo(props, { path: "/my-game-center" });
   };
@@ -1181,6 +1181,7 @@ function MLBPowerdFs(props) {
                             See Full Rules <img src={RightArrow} alt="" />
                           </button>
                         )}
+                        title="NFL"
                       />
                     </div>
                   </div>
@@ -1347,6 +1348,7 @@ function MLBPowerdFs(props) {
                           See Full Rules <img src={RightArrow} alt="" />
                         </button>
                       )}
+                      title="NFL"
                     />
                   </div>
                 </div>
@@ -1538,4 +1540,4 @@ function MLBPowerdFs(props) {
   );
 }
 
-export default MLBPowerdFs;
+export default NFLPowerdFs;

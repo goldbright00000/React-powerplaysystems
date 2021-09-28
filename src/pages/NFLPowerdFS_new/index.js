@@ -1347,6 +1347,7 @@ function MLBPowerdFs(props) {
                           See Full Rules <img src={RightArrow} alt="" />
                         </button>
                       )}
+                      title="NFL"
                     />
                   </div>
                 </div>

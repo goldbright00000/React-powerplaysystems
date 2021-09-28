@@ -84,6 +84,7 @@ const ContestRules = (props) => {
                 See Full Gameplay Rules
             </a>
         )}
+        title={title}
         />
     </div>
   );

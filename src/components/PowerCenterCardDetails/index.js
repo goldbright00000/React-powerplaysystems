@@ -91,7 +91,7 @@ const PowerCenterCardDetails = (props) => {
             {
                 currentIndex == 4
                 &&
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={false} showDateTime={false}/>
+                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={false} showDateTime={false} title={title}/>
             }
             <Footer
                 onEnter={onEnter}

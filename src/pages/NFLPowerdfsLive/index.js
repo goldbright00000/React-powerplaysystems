@@ -837,6 +837,7 @@ function NFLPowerdFsLive(props) {
           bgImageUri={NFLHeaderImage}
           compressedView
           currentState={<RenderLiveState />}
+          selectedTeam={selectedTeam}
         />
 
         <div className={classes.container}>
