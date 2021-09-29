@@ -179,9 +179,8 @@ const InteractiveContests = (props) => {
           }
         })
       })
+      setFilteredData(obj);
     }
-    setFilteredData(obj);
-
   }, [inProgressGame]);
 
   useEffect(() => {
@@ -194,8 +193,8 @@ const InteractiveContests = (props) => {
           }
         })
       })
+      setFilteredData(obj);
     }
-    setFilteredData(obj);
   }, [cancelledsGame]);
 
   useEffect(() => {
