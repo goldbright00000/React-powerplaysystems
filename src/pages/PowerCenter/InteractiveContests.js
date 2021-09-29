@@ -161,7 +161,6 @@ const InteractiveContests = (props) => {
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.CANCELLED, (response) => {
       setCancelledGame(response);
     });
-
   }, [_socket]);
 
   useEffect(() => {
