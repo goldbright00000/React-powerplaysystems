@@ -77,7 +77,7 @@ const PointSystem = (props) => {
                         {title}
                     </span>
                     <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
-                    <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px', opacity:0.6 }}>
+                    <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px', opacity: 0.6 }}>
                         Point System
                     </span>
                 </p>
@@ -87,7 +87,7 @@ const PointSystem = (props) => {
                     <>
                         <div className={classes.__point_system_heading}>{typeOne}</div>
                         {groupedPoints[typeOne]?.map((item, index) => {
-                            if(index < 5) {
+                            if (index < 5) {
                                 return (
                                     <div className={classes.__point_system_data} key={index}>
                                         <div className={classes.__point_system_data_title_div}>
@@ -106,7 +106,7 @@ const PointSystem = (props) => {
                     <>
                         <div className={classes.__point_system_heading}></div>
                         {groupedPoints[typeOne]?.map((item, index) => {
-                            if(index >= 5) {
+                            if (index >= 5) {
                                 return (
                                     <div className={classes.__point_system_data} key={index}>
                                         <div className={classes.__point_system_data_title_div}>
@@ -122,7 +122,6 @@ const PointSystem = (props) => {
                     </>
                 </div>
             </div>
-            
         </div>
     );
 };
