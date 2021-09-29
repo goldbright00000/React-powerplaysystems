@@ -128,6 +128,8 @@ const InteractiveContests = (props) => {
   const [propsGame, setPropsGame] = useState({});
   const [showEntered, setShowEntered] = useState(true);
   const [newGame, setNewGame] = useState({});
+  const [inProgressGame, setInProgressGame] = useState([]);
+  const [cancelledsGame, setCancelledGame] = useState([]);
 
   const onClosePromoModal = () => {
     setShowPromoModal(false);
@@ -153,6 +155,12 @@ const InteractiveContests = (props) => {
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.NEWLY_ADDED, (response) => {
       setNewGame(response);
     });
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.IN_PROGRESS, (response) => {
+      setInProgressGame(response);
+    });
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.CANCELLED, (response) => {
+      setCancelledGame(response);
+    });
   }, [_socket]);
 
   useEffect(() => {
@@ -160,6 +168,35 @@ const InteractiveContests = (props) => {
     obj.push(newGame);
     setFilteredData(obj);
   }, [newGame]);
+
+  useEffect(() => {
+    const obj = [...filteredData];
+    if (inProgressGame.length > 0) {
+      inProgressGame.map((item, index) => {
+        obj.map((o, i) => {
+          if (o.game_id === item) {
+            obj.splice(i, 1);
+          }
+        })
+      })
+    }
+    setFilteredData(obj);
+
+  }, [inProgressGame]);
+
+  useEffect(() => {
+    const obj = [...filteredData];
+    if (cancelledsGame.length > 0) {
+      cancelledsGame.map((item, index) => {
+        obj.map((o, i) => {
+          if (o.game_id === item) {
+            obj.splice(i, 1);
+          }
+        })
+      })
+    }
+    setFilteredData(obj);
+  }, [cancelledsGame]);
 
   useEffect(() => {
     const maxWidth = window.matchMedia("(max-width: 1200px)");
