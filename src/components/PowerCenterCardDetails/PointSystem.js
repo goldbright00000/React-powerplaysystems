@@ -93,7 +93,10 @@ const PointSystem = (props) => {
   const {
     title = "",
     isMobile = false,
+    PointsSystem = [],
   } = props || {};
+
+  const groupedPoints = _.groupBy(PointsSystem, 'type');
 
   return (
     <div className={`${classes.__point_system}`}>
@@ -293,23 +296,23 @@ const PointSystem = (props) => {
       ) : (
         <>
           <p className={classes.__point_system_title}>Point System</p>
-          {data.map((d, i) => {
+          {Object.keys(groupedPoints).map((d, i) => {
             return (
               <>
                 <div className={classes.__point_system_heading}>
-                  {d.heading}
+                  {Object.keys(groupedPoints)[i]}
                 </div>
-                {d.points.map((item, index) => {
+                {groupedPoints[Object.keys(groupedPoints)[i]].map((item, index) => {
                   return (
                     <div className={classes.__point_system_data}>
                       <div className={classes.__point_system_data_title_div}>
                         <p className={classes.__point_system_data_title}>
-                          {item.title}
+                          {item?.plays}
                         </p>
                       </div>
                       <div className={classes.__point_system_data_value_div}>
                         <p className={classes.__point_system_data_value}>
-                          {item.value}
+                          {item?.action}{item?.points} Pts
                         </p>
                       </div>
                     </div>
