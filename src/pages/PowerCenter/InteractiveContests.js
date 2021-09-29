@@ -391,6 +391,84 @@ const InteractiveContests = (props) => {
           });
 
         case "NFL":
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  isPromoPage: false
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
+          if (item.game_type == "PowerdFs_promo") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  isPromoPage: true
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
           return redirectTo(props, {
             path: `/nfl-select-team`,
             state: {
@@ -431,6 +509,84 @@ const InteractiveContests = (props) => {
             },
           });
         case "NHL":
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  isPromoPage: false
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
+          if (item.game_type == "PowerdFs_promo") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  isPromoPage: true
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
           return redirectTo(props, {
             path: `/nhl-select-team`,
             state: {
