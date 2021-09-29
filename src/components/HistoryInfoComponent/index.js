@@ -1,14 +1,18 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import classes from "./historyInfoComponent.module.scss";
 import moment from "moment";
 import moment1 from "moment-timezone";
+
 
 import TickIcon from "../../assets/icons/correct-copy.png";
 
 const HistoryInfoComponent = (props) => {
   let { isMobile = false, transactions = [] } = props || {};
-
   transactions = transactions.filter(el => el?.transaction_type_details?.type === "Game Entry" || el?.transaction_type_details?.type === "Game Exit");
+  const getLiveStandingsButton =  (game_id) => {
+    props.getLiveStandings(game_id);
+  };
+
 
 
   const TableRow = (props) => {
@@ -88,6 +92,15 @@ const HistoryInfoComponent = (props) => {
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.transaction_amount || transaction.transaction_amount === 0 ? '' : transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount > 0 ? transaction.transaction_amount : "Free"}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? `Verified` : 'Entered'}</div>
+              <div className="mx-1 text-left text-ellipsis">
+                <button
+                type="button"
+                className={classes.viewButton}
+                onClick={() => {
+                  getLiveStandingsButton(transaction?.game_id || 0);
+                }}
+                >View</button>
+              </div>
             </div>
           </>
         )}
@@ -105,6 +118,7 @@ const HistoryInfoComponent = (props) => {
           <div className="mx-1 text-left">Game Id</div>
           <div className="mx-1 text-left">Currency</div>
           <div className="mx-1 text-left">Amount</div>
+          <div className="mx-1 text-left">Status</div>
           <div className="mx-1 text-left">Results</div>
         </div>
       </div>

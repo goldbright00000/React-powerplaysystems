@@ -6,6 +6,10 @@ import classes from "./index.module.scss";
 function ResultCard(props) {
   const { isMobile = false } = props || {};
   const { transactions = [] } = props || [];
+  const getLiveStandingsButton =  (game_id) => {
+    console.log(game_id);
+    props.getLiveStandings(game_id);
+  };
   function TableRow(props) {
     const { transaction = {}, isMobile = false } = props || {};
     const getDate = (timestamp) => {
@@ -57,7 +61,9 @@ function ResultCard(props) {
               </div>
             </div>
             <div className={classes.row_m_footer}>
-              <button>View Results</button>{" "}
+              <button onClick={() => {
+                  getLiveStandingsButton(transaction?.power_dfs_games?.game_id || 0);
+                }}>View Results</button>{" "}
             </div>
           </>
         ) : (
@@ -72,7 +78,9 @@ function ResultCard(props) {
             <div>{transaction.win_amount || "--"}</div>
             <div>Verfied</div>
             <div>
-              <button>View Results</button>{" "}
+              <button onClick={() => {
+                  getLiveStandingsButton(transaction?.power_dfs_games?.game_id || 0);
+                }}>View Results</button>{" "}
             </div>
           </>
         )}

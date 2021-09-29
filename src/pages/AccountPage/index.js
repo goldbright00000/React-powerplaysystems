@@ -21,12 +21,20 @@ import SnackbarAlert from "../../components/SnackbarAlert";
 import { showDepositForm } from "../../actions/uiActions";
 import * as MLbActions from "../../actions/MLBActions";
 import { getUserWinnigs } from "../../actions/userActions";
+import LiveStandings from "../../components/LiveStandings";
+import * as MLBActions from '../../actions/MLBActions';
+
 
 function AccountPage(props) {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
+  const [showModal, setModalState] = useState(false);
+  const [liveStandingData, setLiveStandingData] = useState([]);
+  const toggleLiveStandingModal = () => {
+    setModalState(!showModal);
+  };
 
   useEffect(() => {
     getUserAccount();
@@ -62,6 +70,49 @@ function AccountPage(props) {
     if (user_id) {
       dispatch(getUserWinnigs(user_id));
     }
+  };
+
+  const getLiveStandings = async (game_id) => {
+    if(game_id == 0)
+    {
+      return;
+    }
+    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(game_id));
+    if(typeof liveStandingsData !== "undefined")
+      {
+        if(liveStandingsData.payload.error == false)
+        {
+          if(JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)) {
+            var finalArr = [];
+            var res = liveStandingsData.payload.data.powerDFSRanking;
+            
+            var user_id = parseInt(localStorage.PERSONA_USER_ID);
+            var userRec = "";
+            var leaderScore = 0;
+            for(var i = 0; i < res.length; i++)
+            {
+              
+              
+              if(res[i].team.user.user_id == user_id)
+              {
+                
+                userRec = res[i];
+                
+              }
+              else {
+                finalArr.push(res[i]);
+              }
+            }
+            if(userRec !== "")
+            {
+              finalArr.unshift(userRec);
+            }
+            if(JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
+              setLiveStandingData(finalArr);
+          }
+        }
+      }
+    setModalState(true);
   };
 
   return (
@@ -115,6 +166,8 @@ function AccountPage(props) {
                     isMobile={isMobile}
                     userWinnigs={userWinnigs}
                     balance={userAccount.balance}
+                    toggleLiveStandingModal={toggleLiveStandingModal}
+                    getLiveStandings={getLiveStandings}
                   />
                 </TabPanel>
                 <TabPanel>
@@ -122,6 +175,8 @@ function AccountPage(props) {
                     isMobile={isMobile}
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}
+                    toggleLiveStandingModal={toggleLiveStandingModal}
+                    getLiveStandings={getLiveStandings}
                   />
                 </TabPanel>
                 <TabPanel>
@@ -143,6 +198,7 @@ function AccountPage(props) {
         </div>
       </div>
       <Footer isBlack logoOnly={false} />
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={0} isMobile={isMobile}/>
     </>
   );
 }
