@@ -81,12 +81,13 @@ function Header4(props) {
               {contestBtnTitle && (
                 <ContestRulesPopUp
                   points={(typeof props.selectedTeam !== "undefined")? _.groupBy(props?.selectedTeam?.game?.PointsSystems, 'type'):points}
-                  powers={props?.selectedTeam?.game?.Powers}
+                  powers={(typeof props.selectedTeam !== "undefined")? props?.selectedTeam?.game?.Powers:powers}
                   component={({ showPopUp }) => (
                     <button onClick={showPopUp}>
                       <DocIcon /> {contestBtnTitle}
                     </button>
                   )}
+                  title={titleMain1.split(" ")[0]}
                 />
               )}
               {prizeBtnTitle && (

@@ -24,6 +24,7 @@ export const SET_ACCOUNT_LIMITS = "SET_ACCOUNT_LIMITS";
 export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
 export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
 export const USER_WINNIGS = "USER_WINNIGS";
+export const COUNTRIES = "COUNTRIES";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -351,4 +352,22 @@ export function getUserWinnigs(user_id) {
       console.log(err);
     }
   };
+}
+
+export function getDBCountries() {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.GET_COUNTRIES}`,
+      )
+
+      dispatch({
+        type: COUNTRIES,
+        payload: response.data?.data,
+      })
+
+    } catch (err) {
+      console.log('Error in GET_COUNTRIES -> ', err);
+    }
+  }
 }

@@ -11,6 +11,10 @@ import _ from "underscore";
 import moment from "moment";
 import moment1 from "moment-timezone";
 
+import NFLbg from "../../assets/group-31.png";
+import NHLbg from "../../assets/NHLPopupBg.png";
+import NBAbg from "../../assets/NBAPopupBg.png";
+import MLBbg from "../../assets/MLBPopupBg.png";
 
 import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
@@ -19,8 +23,23 @@ import Challenge from "../../icons/Challenge";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 
 function PromoModal(props) {
-  const { visible = false, onClose = () => { } } =
+  const { visible = false, onClose = () => { }, item = {} } =
     props || {};
+    const { league = "MLB" } = item || {};
+    const getBG = () => {
+      switch(league) {
+        case "MLB": 
+          return MLBbg;
+        case "NFL": 
+          return NFLbg;
+        case "NHL": 
+          return NHLbg;
+        case "NBA": 
+          return NBAbg;
+        case "default":
+          return MLBbg;
+      }
+    }
   const [showPrizeModal, setPrizeModalState] = React.useState(false);
   const getLocalDateTime = (date, time) => {
     const offset = moment1?.tz("America/New_York")?.format("Z");
@@ -79,7 +98,7 @@ function PromoModal(props) {
 
   return (<>
     <Modal visible={visible}>
-      <div className={classes.wrapper} style={{ width: 780, height: 675, backgroundImage: `url(${bg})` }}>
+      <div className={classes.wrapper} style={{ width: 780, height: 675, backgroundImage: `url(${getBG()})` }}>
         <div className={classes.modal_body}>
           <div className={classes.topButtons}>
             <div className={classes.leftButtons}>
@@ -108,7 +127,7 @@ function PromoModal(props) {
             </div>
           </div>
           <div className={classes.title}>
-            NFL <span>PowerdFS</span> Promotional Contest
+            {league} <span>PowerdFS</span> Promotional Contest
           </div>
           <div className={classes.gamePrize}>
             <span className={classes.prize}>$1,000</span>

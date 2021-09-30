@@ -64,6 +64,143 @@ const powerSection = (powerName, altName) => {
     );
 }
 
+const data = [
+    {
+      type: "MLB",
+      heading: "The 8 roster positions:",
+      teamRoster: [
+        {
+          count: 1,
+          title: "P",
+          value: "(Pitcher)",
+        },
+        {
+          count: 1,
+          title: "C",
+          value: "(Catcher)",
+        },
+        {
+          count: 1,
+          title: "SS",
+          value: "(Shortstop)",
+        },
+        {
+          count: 2,
+          title: "xB",
+          value: "(1B, 2B or 3B)",
+        },
+        {
+          count: 2,
+          title: "OF",
+          value: "(Outfielders)",
+        },
+        {
+          count: 1,
+          title: "Team Defense",
+          value: "",
+        }
+      ]
+    },
+    {
+      type: "NFL",
+      heading: "The 8 roster positions:",
+      teamRoster: [
+        {
+          count: 1,
+          title: "QB",
+          value: "(Quarterback)",
+        },
+        {
+          count: 2,
+          title: "RB",
+          value: "(Running Backs)",
+        },
+        {
+          count: 2,
+          title: "WR",
+          value: "(Wide Receivers)",
+        },
+        {
+          count: 1,
+          title: "TE",
+          value: "(Tight End)",
+        },
+        {
+          count: 1,
+          title: "K",
+          value: "(Kicker)",
+        },
+        {
+          count: 1,
+          title: "Team Defense",
+          value: "",
+        }
+      ]
+    },
+    {
+      type: "NHL",
+      heading: "The 8 roster positions:",
+      teamRoster: [
+        {
+          count: 1,
+          title: "C",
+          value: "(Center)",
+        },
+        {
+          count: 3,
+          title: "XW",
+          value: "(Wingers)",
+        },
+        {
+          count: 2,
+          title: "D",
+          value: "(Defensemen)",
+        },
+        {
+          count: 1,
+          title: "G",
+          value: "(Goalie)",
+        },
+        {
+          count: 1,
+          title: "Team Defense",
+          value: "",
+        }
+      ]
+    },
+    {
+      type: "NBA",
+      heading: "The 8 roster positions:",
+      teamRoster: [
+        {
+          count: 1,
+          title: "C",
+          value: "(Center)",
+        },
+        {
+          count: 2,
+          title: "PG",
+          value: "(Point Guard)",
+        },
+        {
+          count: 2,
+          title: "SG",
+          value: "(Shooting Guard)",
+        },
+        {
+          count: 2,
+          title: "F",
+          value: "(Small/Power Forward)",
+        },
+        {
+          count: 1,
+          title: "Team Defense",
+          value: "",
+        }
+      ]
+    },
+  ];
+
 const renderPowerData = (powerArray) => {
     let finalContent = "";
     if(powerArray.findIndex(x => (x.powerName == "Swap" || x.powerId == 4)) >= 0)
@@ -81,14 +218,13 @@ const renderPowerData = (powerArray) => {
 }
 
 const ContestRulesPopUp = props => {
-    
-    const powerOrder = ["Swap", "Point Booster", "Retro Booster", "Challenge", "D-Wall", "Power-Up"];
-    const powerNamesToDisplay = ["Player Swap", "Point Boosters", "Retro Booster", "Challenge", "D-Wall", "Power-Up"];
     const {
-        points,
-        powers
+        points = [],
+        powers = [],
+        title = "MLB"
     } = props;
     const h3Class = 'title-2 __primary-text __bold __m-0  __font-family-teko __line-height-1'
+    let finalData = data[data.findIndex(x => x.type == title)];
     const [showPopUp, setShowPopUp] = useState(false);
     return (
         <>
@@ -98,36 +234,38 @@ const ContestRulesPopUp = props => {
                     <div className={styles.blur} onClick={() => setShowPopUp(false)}></div>
                     <div className={`__title-6 modal-animation ${styles.popup}`}>
                         <div className={styles.crossicon} onClick={() => setShowPopUp(false)}><span></span></div>
-                        <h1 className={`__m-0 main-title __center ${styles.title}`}>PowerdFS - <span className='__primary-text'>MLB</span></h1>
-                        <h6 className={`__center __title-6 __m-0 __letter-spacing __bold ${styles.subtitle}`}>CONTEST RULES</h6>
+                        <h1 className={`__m-0 main-title __center ${styles.title}`}>PowerdFS - <span className='__primary-text'>{title}</span></h1>
+                        <h6 className={`__center __title-6 __m-0 __letter-spacing __bold ${styles.subtitle}`}>GAMEPLAY RULES</h6>
                         <section className='__mt-4 __mb-3'>
-                            <h1 className='__title-1 __primary-text __bold __m-0 __font-family-teko'>PowerdFS - MLB</h1>
-                            <p className='m-0'>In Powered DFS MLB contests, Contest Participants will create a lineup by selecting players listed on the Player Selection Page. Star players have a Star identifier and participants may select a maximum of three star players on their fantasy team. Only one star player may be selected for each position.</p>
+                            <h1 className='__title-1 __primary-text __bold __m-0 __font-family-teko'>PowerdFS - {title}</h1>
+                            <p className='m-0'>In Powered DFS {title} contests, Contest Participants will create a lineup by selecting players listed on the Player Selection Page. Star players have a Star identifier and participants may select a maximum of three star players on their fantasy team. Only one star player may be selected for each position.</p>
                             <p className='__mt-1 __mb-1'>Contest results will be determined by the total points accumulated by each Contest Participant (scoring rules summarized below).</p>
                             <p>Participation in each contest must be made only as specified in the Terms of Use. Failure to comply with these Terms of Use will result in disqualification and, if applicable, prize forfeiture.</p>
                         </section>
-                        <section className='__mb-3 __mt-3'>
-                            <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko'>Scoring</h3>
-                            <div className={styles.cardWrapper}>
-                                {Object.keys(points).map((data, index) => {
-                                    return (
-                                        <div className={styles.card}>
-                                            <h5 className='__title-5 __mt-0 __mb-s'>{data}</h5>
-                                            <ul>
-                                                {points[data]?.map((item, i) => {
-                                                    return (
-                                                        <>
-                                                            <li>{item.plays}</li>
-                                                            <li>{item?.action} {item.points} Pts</li>
-                                                        </>
-                                                    )
-                                                })}
-                                            </ul>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </section>
+                        {title === "MLB" && 
+                            <section className='__mb-3 __mt-3'>
+                                <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko'>Scoring</h3>
+                                <div className={styles.cardWrapper}>
+                                    {Object.keys(points).map((data, index) => {
+                                        return (
+                                            <div className={styles.card}>
+                                                <h5 className='__title-5 __mt-0 __mb-s'>{data}</h5>
+                                                <ul>
+                                                    {points[data]?.map((item, i) => {
+                                                        return (
+                                                            <>
+                                                                <li>{item.plays}</li>
+                                                                <li>{item?.action} {item.points} Pts</li>
+                                                            </>
+                                                        )
+                                                    })}
+                                                </ul>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </section>
+                        }
                         <section className='__mt-3 __mb-3'>
                             <h3 className={h3Class}>Powers</h3>
                             <p>Powers are available to be used in this Contest and are included with the Contest Participants entry fee. Powers enable Contest Participants to enhance their fantasy team’s performance. The following powers will be made available for this contest:</p>
@@ -173,17 +311,16 @@ const ContestRulesPopUp = props => {
                             <p>Lineups will consist of 8 players.</p>
                             <p className='__mt-2'>The 8 roster positions are:</p>
                             <ul className={styles.linupRequrementsList}>
-                                <li><span>1</span><b>P</b>  (Pitcher – Includes SPs and RPs)</li>
-                                <li><span>1</span><b>C</b>  (Catcher)</li>
-                                <li><span>1</span><b>SS</b>  (Shortstop)</li>
-                                <li><span>2</span><b>xB</b>  (1B, 2B, or 3B)</li>
-                                <li><span>2</span><b>OF</b>  (Outfielders)</li>
+                                {finalData.teamRoster.map((item) => {
+                                    if(item.title !== "Team Defense")
+                                        return(<li><span>{item.count}</span><b>{item.title}</b>  {item.value}</li>)
+                                })}
                                 <li><span>1</span><b>Team Defense</b>  (Runs against are deducted from the contest participants point total)</li>
                             </ul>
                         </section>
                         <section className='__mt-3 __mb-3'>
                             <h3 className={h3Class}>Players available for Selection</h3>
-                            <p className='__mb-2'>The Players available for selection will consist of all MLB players expected to be on the active roster for the teams scheduled to play. Occasionally a player may be missing from the list of available players due to trades or other unforeseen circumstances.</p>
+                            <p className='__mb-2'>The Players available for selection will consist of all {title} players expected to be on the active roster for the teams scheduled to play. Occasionally a player may be missing from the list of available players due to trades or other unforeseen circumstances.</p>
                             <p>In most cases, once the Player selection list is established, the Player List will not be adjusted. A "Game Set" is a set of games used for contests; each contest is linked to one Game Set.</p>
                         </section>
                         <section className='__mt-3 __mb-3'>
@@ -195,11 +332,11 @@ const ContestRulesPopUp = props => {
                             <p>If a game is canceled, postponed, or rescheduled to a time outside of the original Scoring Period, the game will be disabled from the Game Set and players listed to play in that game will not be eligible to accrue points. Contest participants are free to swap out inactive players for other active players if they have Swaps available.</p>
                             <p className='__mt-2 __mb-2'>The Scoring Period for each contest participant’s fantasy team is defined as the time of the scheduled start of the first game within the Game Set wherein the contest participant has a player selected and the official end of all games where the contest participant has a player selected.</p>
                             <p className='__mt-2 __mb-2'>Any games that are disabled will be indicated as such on the Power Center page. Emails and other notifications may also be used to notify users of disabled games.</p>
-                            <p>Games are "known" to be canceled or postponed once their status is updated as such by PowerPlay Games MLB stats-provider, Sportradar.</p>
+                            <p>Games are "known" to be canceled or postponed once their status is updated as such by PowerPlay Games {title} stats-provider, Sportradar.</p>
                         </section>
                         <section className='mt-3'>
                             <h3 className={h3Class}>Suspended or Shortened Games</h3>
-                            <p>PowerPlay Games uses official MLB statistics and only includes statistics from games MLB deems to be official. If the MLB declares a game "suspended" then the statistics generated before the game is suspended will count in Game Sets containing said game. Any statistics generated on a later date when the game resumes will not be included.</p>
+                            <p>PowerPlay Games uses official {title} statistics and only includes statistics from games {title} deems to be official. If the {title} declares a game "suspended" then the statistics generated before the game is suspended will count in Game Sets containing said game. Any statistics generated on a later date when the game resumes will not be included.</p>
                         </section>
                     </div>
                 </div>

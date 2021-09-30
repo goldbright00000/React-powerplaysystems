@@ -65,7 +65,7 @@ function Accordian(props) {
       </div>
 
       {visible && (
-        <ResultCard isMobile={isMobile} transactions={transactions} />
+        <ResultCard isMobile={isMobile} transactions={transactions} getLiveStandings={props.getLiveStandings}/>
       )}
     </div>
   );
@@ -80,6 +80,7 @@ Accordian.propTypes = {
   isSvg: PropTypes.bool,
   onClick: PropTypes.func,
   isMobile: PropTypes.bool,
+  getLiveStandings: PropTypes.func
 };
 
 export default Accordian;

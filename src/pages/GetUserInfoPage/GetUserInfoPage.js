@@ -3,9 +3,6 @@ import { Link, useHistory } from "react-router-dom";
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
 import {
-  getCountries,
-  getStates,
-  getProvinces,
   redirectTo,
   printLog,
 } from "../../utility/shared";
@@ -16,7 +13,7 @@ import {
   savePersonaUserId,
 } from "../../actions/personaActions";
 //lodash
-import { isEmpty, isEqual } from "lodash";
+import { isEmpty } from "lodash";
 //ui component imports
 import Input from "../../ui/Input/Input";
 import Select from "../../ui/Select/Select";
@@ -32,6 +29,7 @@ import img2 from "../../assets/group-14.png";
 import HeroSection from "../../components/CreateAccountsHeroSection/HeroSection";
 import formStyles from "../../scss/formstyles.module.scss";
 import styles from "./styles.module.scss";
+import { getDBCountries } from "../../actions/userActions";
 
 const INITIAL_STATE = {
   //from step 1
@@ -42,7 +40,7 @@ const INITIAL_STATE = {
   firstName: "",
   lastName: "",
 
-  country: "",
+  country: 0,
   stateOrProvince: "",
   dateOfBirth: "",
 
@@ -69,6 +67,8 @@ const getWindowDimensions = () => {
 
 const GetUserInfoPage = (props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const cont = useSelector((state) => state?.user?.countries);
   const [windowDimensions, setWindowDimensions] = React.useState(
     getWindowDimensions()
   );
@@ -78,6 +78,11 @@ const GetUserInfoPage = (props) => {
     email: props.location.state.email,
     password: props.location.state.password,
   });
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    dispatch(getDBCountries());
+  }, []);
 
   useEffect(() => {
     if (user.isSuccess || isEmpty(props.location.state.email)) {
@@ -85,6 +90,7 @@ const GetUserInfoPage = (props) => {
       redirectTo(props, { path: "verify-your-identity" });
     }
   }, [user]);
+
   useEffect(() => {
     setUser({ ...user, stateOrProvince: "" });
   }, [user.country]);
@@ -94,15 +100,10 @@ const GetUserInfoPage = (props) => {
     removePersonaUserId();
   }, []);
 
-  const getStatesOrProvinces = () => {
-    if (user.country == "USA") {
-      return getStates();
-    } else if (user.country == "Canada") {
-      return getProvinces();
-    } else {
-      return [];
-    }
-  };
+  useEffect(() => {
+    setCountries(cont);
+  }, [cont])
+
   const addressChnageHandler = (e) => {
     const { target: { value = "", name = "" } = {} } = e || {};
     setUser({ ...user, [name]: value });
@@ -127,7 +128,7 @@ const GetUserInfoPage = (props) => {
       firstName = "",
       lastName = "",
 
-      country = "",
+      country = 0,
       stateOrProvince = "",
 
       dateOfBirth = "",
@@ -204,7 +205,7 @@ const GetUserInfoPage = (props) => {
       isSuccess: true,
       errorMsg: response.data.message,
     });
-    
+
     redirectTo(
       { history },
       { path: "verify-your-identity", state: props.data }
@@ -318,11 +319,11 @@ const GetUserInfoPage = (props) => {
               <option hidden disabled value="">
                 Country
               </option>
-              {getCountries().map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
+              {countries && countries.map((item, index) => {
+                return (
+                  <option key={index} value={item.name}>{item?.name}</option>
+                )
+              })}
             </Select>
             <Select
               id="stateOrProvince"
@@ -335,11 +336,17 @@ const GetUserInfoPage = (props) => {
               <option hidden disabled value="">
                 State/Province
               </option>
-              {getStatesOrProvinces().map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
+              {countries && countries.map((item, index) => {
+                return (
+                  item.name == user.country && (
+                    item.country_state_provs.map((sp, index) => {
+                      return (
+                        <option key={index} value={sp?.name}>{sp?.name}</option>
+                      )
+                    })
+                  )
+                )
+              })}
             </Select>
           </div>
           <div>

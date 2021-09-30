@@ -1326,6 +1326,7 @@ function NHLPowerdFs(props) {
                           See Full Rules <img src={RightArrow} alt="" />
                         </button>
                       )}
+                      title="NHL"
                     />
                   </div>
                 </div>

@@ -67,6 +67,7 @@ function ResultsInfoComponent(props) {
                 transaction.currency === v.balanceType
             )}
             iconWithTitle={v.iconWithTitle}
+            getLiveStandings={props.getLiveStandings}
           />
         </>
       ))}
