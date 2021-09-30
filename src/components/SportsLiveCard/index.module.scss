@@ -6,6 +6,11 @@
   opacity: 0.5;
 }
 
+.team_d_icon_button {
+  background-color: transparent;
+  border: 0;
+}
+
 .card_wrapper {
   display: flex;
   flex-direction: column;
@@ -22,7 +27,7 @@
     .card_header_title {
       display: flex;
       flex-direction: column;
-      text-transform: uppercase;
+      // text-transform: uppercase;
       font-family: Poppins;
       font-size: 24px;
       font-weight: bold;

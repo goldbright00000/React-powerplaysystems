@@ -859,16 +859,23 @@ function SportsLiveCard(props) {
 
   const RenderHeaderIcons = () => (
     <>
-      {props.swapCount === 0 ? (
-        <div style={{ opacity: 0.5 }}>
-          <Replace size={singleView ? 23 : 22} className={classes.disabled} />
-        </div>
-      ) : (
-        <Replace
-          size={singleView ? 23 : 22}
-          onClick={toggleReplaceModal}
-          className={isGameOverOrNotStarted()}
-        />
+      {!showSummary && (
+        <>
+          {props.swapCount === 0 ? (
+            <div style={{ opacity: 0.5 }}>
+              <Replace
+                size={singleView ? 23 : 22}
+                className={classes.disabled}
+              />
+            </div>
+          ) : (
+            <Replace
+              size={singleView ? 23 : 22}
+              onClick={toggleReplaceModal}
+              className={isGameOverOrNotStarted()}
+            />
+          )}
+        </>
       )}
     </>
   );
