@@ -24,7 +24,7 @@ export const URLS = {
     VERIFY_CONFIRMATION_CODE: "users/verify-nopass",
     CONTACT_US: "users/contact-us",
     GET_USER_WINNINGS: "users/get-user-winnigs",
-
+    GET_COUNTRIES: "users/countries",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
