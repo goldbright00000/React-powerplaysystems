@@ -98,6 +98,58 @@ const PointSystem = (props) => {
 
   const groupedPoints = _.groupBy(PointsSystem, 'type');
 
+  let pointTypes = [];
+  if (title === 'NHL') {
+    console.log('pointTypes', Object.keys(groupedPoints));
+    if (Object.keys(groupedPoints).includes('Skater')) {
+      pointTypes.push('Skater');
+      if (groupedPoints['Skater'].length > 0) {
+        groupedPoints['Skater'].map((item, index) => {
+          if (item.plays === 'Goal') {
+            groupedPoints['Skater'].push(item);
+            delete groupedPoints['Skater'][index];
+          }
+        })
+
+        groupedPoints['Skater'].map((item, index) => {
+          if (item.plays === 'Primary Asst') {
+            groupedPoints['Skater'].push(item);
+            delete groupedPoints['Skater'][index];
+          }
+        })
+
+        groupedPoints['Skater'].map((item, index) => {
+          if (item.plays === 'Secondary Asst') {
+            groupedPoints['Skater'].push(item);
+            delete groupedPoints['Skater'][index];
+          }
+        })
+
+        groupedPoints['Skater'].map((item, index) => {
+          if (item.plays === 'Short-handed Goal') {
+            groupedPoints['Skater'].push(item);
+            delete groupedPoints['Skater'][index];
+          }
+        })
+
+        groupedPoints['Skater'].map((item, index) => {
+          if (item.plays === 'OT Goal') {
+            groupedPoints['Skater'].push(item);
+            delete groupedPoints['Skater'][index];
+          }
+        })
+      }
+    }
+    if (Object.keys(groupedPoints).includes('Goalie')) {
+      pointTypes.push('Goalie');
+    }
+    if (Object.keys(groupedPoints).includes('Team-D')) {
+      pointTypes.push('Team-D');
+    }
+  } else {
+    pointTypes = Object.keys(groupedPoints);
+  }
+
   return (
     <div className={`${classes.__point_system}`}>
       {isMobile ? (
@@ -296,13 +348,13 @@ const PointSystem = (props) => {
       ) : (
         <>
           <p className={classes.__point_system_title}>Point System</p>
-          {Object.keys(groupedPoints).map((d, i) => {
+          {pointTypes.map((d, i) => {
             return (
               <>
                 <div className={classes.__point_system_heading}>
-                  {Object.keys(groupedPoints)[i]}
+                  {pointTypes[i]}
                 </div>
-                {groupedPoints[Object.keys(groupedPoints)[i]].map((item, index) => {
+                {groupedPoints[pointTypes[i]].map((item, index) => {
                   return (
                     <div className={classes.__point_system_data}>
                       <div className={classes.__point_system_data_title_div}>
