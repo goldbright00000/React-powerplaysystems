@@ -184,7 +184,7 @@ function AccountInfo(props) {
       <div className={`${classes.list_item}`}>
         <span>{title}</span>
         <span>
-          {buttonTitle == "Edit" && (
+          {(buttonTitle == "Edit" || buttonTitle == 'NoEvent') && (
             <>
               {id == editItem ? (
                 <>
@@ -259,7 +259,7 @@ function AccountInfo(props) {
                   if (id === 2) onSave("last_name");
                   if (id === 3) onSave("display_name");
                   if (id === 4) onSave("email");
-                  // if (id === 5) onSave("date_of_birth");
+                  if (id === 5) onSave("date_of_birth");
                   if (id === 6) onSave("country");
                   if (id === 7) onSave("state_or_province");
                 } else {
@@ -268,7 +268,7 @@ function AccountInfo(props) {
               } else onButtonClick();
             }}
           >
-            {id == editItem ? "Save" : buttonTitle}
+            {id == editItem ? "Save" : buttonTitle !== 'NoEvent' ? buttonTitle : ''}
           </button>
         </span>
       </div>
@@ -292,9 +292,8 @@ function AccountInfo(props) {
         setEditItem(3)
       )}
       {renderItem(4, "Email", user.email, "Edit", () => setEditItem(4))}
-      {/* {renderItem(5, "Date of Birth", user.date_of_birth, "Edit", () =>
-        setEditItem(5)
-      )} */}
+      {renderItem(5, "Date of Birth", user.date_of_birth, "NoEvent",
+      )}
       {renderItem(6, "Country", user.country, "Edit", () => setEditItem(6))}
       {renderItem(
         7,
