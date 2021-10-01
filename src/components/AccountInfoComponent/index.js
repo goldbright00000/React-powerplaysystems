@@ -208,7 +208,6 @@ function AccountInfo(props) {
                       ))} */}
                     </select>
                   ) : null}
-
                   {id === 7 ? (
                     <select
                       id="stateOrProvince"
