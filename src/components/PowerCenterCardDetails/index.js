@@ -61,60 +61,60 @@ const PowerCenterCardDetails = (props) => {
     return (
         <div className={classes.__power_center_card_details} >
             <div style={getBackgroundImageWithStyle()}></div>
-            <div style={{zIndex: 1}}>
-            <Header title={title} />
-            {
-                currentIndex == 0
-                &&
-                <PrizeGrid PrizePayout={PrizePayout} onEnter={onEnter} />
-            }
-            {
-                currentIndex == 1 && title !== 'NHL'
-                &&
-                <Hitters PointsSystem={PointsSystem} onEnter={onEnter} />
-            }
-            {
-                currentIndex == 1 && title === 'NHL'
-                &&
-                <PointSystem PointsSystem={PointsSystem} onEnter={onEnter} />
-            }
-            {
-                currentIndex == 2
-                &&
-                <PowersAvailable title={title} Power={Power} onEnter={onEnter} />
-            }
-            {
-                currentIndex == 3
-                &&
-                <TeamRoster league={title} onEnter={onEnter} />
-            }
-            {
-                currentIndex == 4
-                &&
-                <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={false} showDateTime={false} title={title}/>
-            }
-            <Footer
-                onEnter={onEnter}
-                entry_fee={entry_fee}
-                onBack={() => {
-                    if (currentIndex > 0) {
-                        setCurrentIndex(currentIndex - 1);
-                    } else {
-                        onBackClick();
-                    }
-                }}
-                onNext={() => {
-                    if (currentIndex < 2) {
-                        setCurrentIndex(currentIndex + 1);
-                    } else if (currentIndex < 4) {
-                        setCurrentIndex(currentIndex + 1);
-                    } else {
-                        onNextClick();
-                    }
-                }}
-                myGameCenter={myGameCenter}
-                userHasEntered={userHasEntered}
-            />
+            <div style={{ zIndex: 1 }}>
+                <Header title={title} />
+                {
+                    currentIndex == 0
+                    &&
+                    <PrizeGrid PrizePayout={PrizePayout} onEnter={onEnter} />
+                }
+                {
+                    currentIndex == 1 && title !== 'NHL'
+                    &&
+                    <Hitters PointsSystem={PointsSystem} onEnter={onEnter} />
+                }
+                {
+                    currentIndex == 1 && title === 'NHL'
+                    &&
+                    <PointSystem PointsSystem={PointsSystem} onEnter={onEnter} title={title} />
+                }
+                {
+                    currentIndex == 2
+                    &&
+                    <PowersAvailable title={title} Power={Power} onEnter={onEnter} />
+                }
+                {
+                    currentIndex == 3
+                    &&
+                    <TeamRoster league={title} onEnter={onEnter} />
+                }
+                {
+                    currentIndex == 4
+                    &&
+                    <ContestRules game_set_start={game_set_start} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={false} showDateTime={false} title={title} />
+                }
+                <Footer
+                    onEnter={onEnter}
+                    entry_fee={entry_fee}
+                    onBack={() => {
+                        if (currentIndex > 0) {
+                            setCurrentIndex(currentIndex - 1);
+                        } else {
+                            onBackClick();
+                        }
+                    }}
+                    onNext={() => {
+                        if (currentIndex < 2) {
+                            setCurrentIndex(currentIndex + 1);
+                        } else if (currentIndex < 4) {
+                            setCurrentIndex(currentIndex + 1);
+                        } else {
+                            onNextClick();
+                        }
+                    }}
+                    myGameCenter={myGameCenter}
+                    userHasEntered={userHasEntered}
+                />
             </div>
         </div>
     );
