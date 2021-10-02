@@ -44,7 +44,6 @@ function AccountPage(props) {
   }, []);
 
   useEffect(() => {
-    console.log('useEffect')
     dispatch(getDBCountries());
   }, []);
 
