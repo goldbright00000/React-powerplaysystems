@@ -69,6 +69,10 @@ const ALL_CURRENCIES = [
     label: "Ethereum",
     value: "ethereum",
   },
+  {
+    label: "PWRS",
+    value: "pwrs",
+  },
 ];
 
 let mlbData = [];
@@ -146,6 +150,7 @@ const InteractiveContests = (props) => {
   }, [powerCenterCardData])
 
   const onOpenPromoModal = (items, propss) => {
+    console.log("propss", propss);
     setShowPromoModal(true);
     if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
@@ -356,7 +361,8 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
-                  isPromoPage: false
+                  isPromoPage: false,
+                  game_type:item?.game_type
                 },
               });
             } else {
@@ -395,7 +401,8 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
-                  isPromoPage: true
+                  isPromoPage: true,
+                  game_type:item?.game_type
                 },
               });
             } else {
@@ -432,6 +439,8 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
+              game_type:item?.game_type,
+              game_type:item?.game_type
             },
           });
 
@@ -467,6 +476,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
+                  game_type:item?.game_type,
                   isPromoPage: false
                 },
               });
@@ -506,6 +516,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
+                  game_type:item?.game_type,
                   isPromoPage: true
                 },
               });
@@ -551,6 +562,7 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
+              game_type:item?.game_type,
             },
           });
         case "NHL":
@@ -585,6 +597,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
+                  game_type:item?.game_type,
                   isPromoPage: false
                 },
               });
@@ -624,6 +637,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
+                  game_type:item?.game_type,
                   isPromoPage: true
                 },
               });
@@ -669,6 +683,7 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
+              game_type:item?.game_type,
             },
           });
         default:
