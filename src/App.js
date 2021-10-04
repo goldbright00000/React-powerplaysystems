@@ -58,6 +58,7 @@ import MLBRecharge from "./pages/MLBRecharge";
 import { isEmpty } from "lodash";
 
 import ChallengePage from "./pages/PowerCenter/ChallengePage";
+import ContestRulesPage from "./pages/ContestRules";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -154,6 +155,7 @@ const App = (props) => {
           <Route path="/mlb-recharge" component={MLBRecharge} />
           <Route path="/users-gateway" component={UsersPaymentGateway} />
           <Route path="/livee" component={LiveStanding} />
+          <Route path="/contest-rules" component={ContestRulesPage} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}
