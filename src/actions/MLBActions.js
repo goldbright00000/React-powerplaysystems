@@ -493,7 +493,7 @@ export function getUserRemainingPowers(game_id, user_id) {
   };
 }
 
-export function updateUserRemainingPowers(game_id, user_id, power_id) {
+export function updateUserRemainingPowers(game_id, user_id, power_id, type = "powerDec") {
   return async (dispatch) => {
     try {
       // console.log("PAYLOAD: ", game_id, user_id, power_id);
@@ -503,6 +503,7 @@ export function updateUserRemainingPowers(game_id, user_id, power_id) {
           game_id: game_id,
           user_id: user_id,
           power_id: power_id,
+          type: type
         }
       );
       return dispatch({

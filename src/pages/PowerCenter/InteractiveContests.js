@@ -362,7 +362,9 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   isPromoPage: false,
-                  game_type:item?.game_type
+                  game_type:item?.game_type,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
               });
             } else {
@@ -402,7 +404,9 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   isPromoPage: true,
-                  game_type:item?.game_type
+                  game_type:item?.game_type,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
               });
             } else {
@@ -440,7 +444,8 @@ const InteractiveContests = (props) => {
               entry_fee: item?.entry_fee,
               currency: item?.currency,
               game_type:item?.game_type,
-              game_type:item?.game_type
+              game_type:item?.game_type,
+              league: item?.league
             },
           });
 
@@ -477,7 +482,9 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   game_type:item?.game_type,
-                  isPromoPage: false
+                  isPromoPage: false,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
               });
             } else {
@@ -517,7 +524,9 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   game_type:item?.game_type,
-                  isPromoPage: true
+                  isPromoPage: true,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
               });
             } else {
@@ -598,7 +607,9 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   game_type:item?.game_type,
-                  isPromoPage: false
+                  isPromoPage: false,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
               });
             } else {
@@ -638,7 +649,9 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   game_type:item?.game_type,
-                  isPromoPage: true
+                  isPromoPage: true,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
               });
             } else {
