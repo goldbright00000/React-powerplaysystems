@@ -89,6 +89,7 @@ const InteractiveContests = (props) => {
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
   );
+
   const { user } = useSelector((state) => state?.auth);
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
@@ -97,6 +98,7 @@ const InteractiveContests = (props) => {
   const isTablet = useMediaQuery({ query: "(max-width: 768px)" });
   const isBigScreenTablet = useMediaQuery({ query: "(max-width: 1024px)" });
 
+  const [isAgeRestricted, setIsAgeRestricted] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
   const [showCardDetails, setShowCardDetails] = useState(-1);
   const [selectedFilter, setSelectedFilter] = useState(1);
@@ -140,6 +142,13 @@ const InteractiveContests = (props) => {
     setChallengeGame({});
     setPropsGame({});
   };
+
+  useEffect(() => {
+    if (powerCenterCardData === 'Age Restriction') {
+      setIsAgeRestricted(true);
+    }
+  }, [powerCenterCardData])
+
   const onOpenPromoModal = (items, propss) => {
     console.log("propss", propss);
     setShowPromoModal(true);
@@ -1247,94 +1256,108 @@ const InteractiveContests = (props) => {
             </div>
           </div>
         )}
-        {filteredData && filterCurrency(filteredData)?.length > 0 ? (
-          isMobile ? (
-            (() => {
-              const itemsInaRow = 1;
-              const numberOfRows = Math.ceil(
-                powerCenterCardData.length / itemsInaRow
-              );
-              var filterByCurrency = filterCurrency(filteredData);
-              var a1 = sortArray(filterByCurrency);
-              const powerCenterMobileCardView = Array(numberOfRows)
-                .fill(undefined)
-                .map((item, i) => {
-                  const start = (i + 1) * itemsInaRow - 1;
-                  const end = (i + 1) * itemsInaRow;
-                  const items = a1.slice(start, end);
-                  return (
-                    <div
-                      className={
-                        classes.__interactive_contests_power_center_card_row
-                      }
-                    >
-                      {items.map((power) => {
-                        return powerCenterMobileCard(power, power.url);
-                      })}
-                    </div>
-                  );
-                });
-              return powerCenterMobileCardView;
-            })()
-          ) : isTablet || isBigScreenTablet ? (
-            (() => {
-              const itemsInaRow = 2;
-              const numberOfRows = Math.ceil(
-                powerCenterCardData.length / itemsInaRow
-              );
-              var filterByCurrency = filterCurrency(filteredData);
-              var a1 = sortArray(filterByCurrency);
-              const powerCenterCardView = Array(numberOfRows)
-                .fill(undefined)
-                .map((item, i) => {
-                  const start = (i + 1) * itemsInaRow - 2;
-                  const end = (i + 1) * itemsInaRow;
-                  const items = a1.slice(start, end);
-                  return (
-                    <div
-                      className={
-                        classes.__interactive_contests_power_center_card_row
-                      }
-                    >
-                      {items.map((power) => {
-                        return powerCenterCard(power, power.url);
-                      })}
-                    </div>
-                  );
-                });
-              return powerCenterCardView;
-            })()
+        {!isAgeRestricted ? (
+          filteredData && filterCurrency(filteredData)?.length > 0 ? (
+            isMobile ? (
+              (() => {
+                const itemsInaRow = 1;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterMobileCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 1;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterMobileCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterMobileCardView;
+              })()
+            ) : isTablet || isBigScreenTablet ? (
+              (() => {
+                const itemsInaRow = 2;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 2;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterCardView;
+              })()
+            ) : (
+              (() => {
+                const itemsInaRow = 4;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 4;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterCardView;
+              })()
+            )
           ) : (
-            (() => {
-              const itemsInaRow = 4;
-              const numberOfRows = Math.ceil(
-                powerCenterCardData.length / itemsInaRow
-              );
-              var filterByCurrency = filterCurrency(filteredData);
-              var a1 = sortArray(filterByCurrency);
-              const powerCenterCardView = Array(numberOfRows)
-                .fill(undefined)
-                .map((item, i) => {
-                  const start = (i + 1) * itemsInaRow - 4;
-                  const end = (i + 1) * itemsInaRow;
-                  const items = a1.slice(start, end);
-                  return (
-                    <div
-                      className={
-                        classes.__interactive_contests_power_center_card_row
-                      }
-                    >
-                      {items.map((power) => {
-                        return powerCenterCard(power, power.url);
-                      })}
-                    </div>
-                  );
-                });
-              return powerCenterCardView;
-            })()
+            <>
+              <h1>No Games</h1>
+            </>
           )
         ) : (
-          <h1>No games</h1>
+          <div className={classes.__age_restirction}>
+            Age Limit Restriction
+            <p className={classes.__age_restirction_desctiprion}>
+              Based on the Date of Birth you entered, you have not
+              reached the age of majority in your State or Province.
+              <p className={classes.__age_restirction_contact_us}>If this is an error please contact us at</p>
+              <a className={classes.__age_restirction_link} href="mailto:support@powerplaygames.com" >support@powerplaygames.com</a>
+            </p>
+          </div>
         )}
         {isMobile && (
           <>
