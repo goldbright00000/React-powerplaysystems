@@ -100,11 +100,11 @@ const PowerCenterCard = (props) => {
     }
 
     const onEnterModal = () => {
-        
+
     }
 
     return (
-        
+
         !showDetails
             ?
             game_type == 'PowerdFS' ? (
@@ -405,10 +405,12 @@ const PowerCenterCard = (props) => {
                                     </p>
                                 )}
                             </div> */}
+                            {id}
                             <div className={classes.__power_center_card_details}>
                                 <div className={classes.__power_center_card_details_link} onClick={() => {
                                     onDetailsClick(id)
                                 }}>
+
                                     Details
                                 </div>
                                 <div className={classes.__power_center_card_details_link_forward_arrow}>
