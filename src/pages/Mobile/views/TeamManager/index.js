@@ -19,7 +19,7 @@ const TeamManager = ({
   counts = {},
   player = {},
   prizePool = 0,
-  gameInfo = {}
+  gameInfo = {},
 }) => {
   const RenderSubTitle = (
     type,
@@ -74,7 +74,13 @@ const TeamManager = ({
 
     if (data && data?.length) {
       return data?.map((data, index) => {
-        const { player = {}, match = {}, xp = {}, score = 0, active_power_id = 0 } = data || {};
+        const {
+          player = {},
+          match = {},
+          xp = {},
+          score = 0,
+          active_power_id = 0,
+        } = data || {};
 
         // const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -93,6 +99,8 @@ const TeamManager = ({
           range = "",
           id = "",
           mlb_player_stats = [],
+          nfl_player_stats = [],
+          nhl_player_stats = [],
           boost = {},
           current_team = "",
           player_id = "",
@@ -118,6 +126,10 @@ const TeamManager = ({
           walks_hits_per_innings_pitched = 0,
           wins = 0,
         } = mlb_player_stats[0] || {};
+
+        const {} = nfl_player_stats[0] || {};
+
+        const {} = nhl_player_stats[0] || {};
 
         const {
           data_id = 0,
@@ -380,7 +392,7 @@ const TeamManager = ({
       /> */}
       <PoweredBy />
 
-      <ContestRules prizePool={prizePool} gameInfo={gameInfo}/>
+      <ContestRules prizePool={prizePool} gameInfo={gameInfo} />
     </>
   );
 };
