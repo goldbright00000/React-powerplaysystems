@@ -31,6 +31,7 @@ import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
 import LiveStandings from "../../components/LiveStandings";
+import PowerSidebar from "../../components/PowerSidebar";
 import MyScoreCard from "./MyScoreCard";
 import TeamManager from "./TeamManager";
 
@@ -203,80 +204,6 @@ function NFLPowerdFsLive(props) {
     setPointBooster15xCounts(p15);
     setPointBooster2xCounts(p2);
     setPointBooster3xCounts(p3);
-  }
-
-  function isPowerAvailable(type) {
-    let powerss = game?.Powers;
-    let available = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    if (type === "Power Up") {
-      type = "Power-Up";
-    }
-    if (typeof powerss == "undefined") {
-      return;
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (type === "Point Booster") {
-        if (
-          powerss[i].powerName === "1.5x Point Booster" ||
-          powerss[i].powerName === "2x Point Booster" ||
-          powerss[i].powerName === "3x Point Booster"
-        ) {
-          available = 1;
-          break;
-        }
-      } else {
-        if (powerss[i].powerName === type) {
-          available = 1;
-          break;
-        }
-      }
-    }
-    return available;
-  }
-
-  function isPowerLocked(type) {
-    let powerss = game?.Powers;
-    if (typeof powerss == "undefined") {
-      return;
-    }
-    let locked = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    if (type === "Power Up") {
-      type = "Power-Up";
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (type === "Point Booster") {
-        if (
-          powerss[i].powerName === "1.5x Point Booster" ||
-          powerss[i].powerName === "2x Point Booster" ||
-          powerss[i].powerName === "3x Point Booster"
-        ) {
-          if (
-            powerss[i].SocialMediaUnlock == true ||
-            powerss[i].SocialMediaUnlock == "true"
-          ) {
-            locked = 1;
-          }
-          break;
-        }
-      } else {
-        if (powerss[i].powerName === type) {
-          if (
-            powerss[i].SocialMediaUnlock == true ||
-            powerss[i].SocialMediaUnlock == "true"
-          ) {
-            locked = 1;
-          }
-          break;
-        }
-      }
-    }
-    return locked;
   }
 
   async function useSwap(action) {
@@ -641,82 +568,6 @@ function NFLPowerdFsLive(props) {
     });
   };
 
-  const RenderPower = ({
-    title = "",
-    Icon = "",
-    isSvgIcon = false,
-    count = 0,
-  }) => {
-    const text = process.env.REACT_APP_POST_SHARING_TEXT;
-    return (
-      <div className={classes.sidebar_content_p}>
-        <div className={classes.sidebar_power_header}>
-          {isSvgIcon ? (
-            <Icon size={54} />
-          ) : (
-            <img src={Icon} width={54} height={54} />
-          )}
-          {isPowerAvailable(title) === 1 && isPowerLocked(title) === 1 && (
-            <div className={classes.sidebar_lock_icon}>
-              <LockIcon />
-            </div>
-          )}
-        </div>
-        <p className={classes.power_title}>{title}</p>
-        {isPowerAvailable(title) === 0 ? (
-          <div style={{ opacity: 0.6, fontSize: "0.9rem" }}>Not Available</div>
-        ) : (
-          <div className={classes.power_footer}>
-            {isPowerLocked(title) === 1 ? (
-              <>
-                <p>Share to unlock:</p>
-                <div>
-                  <button
-                    onClick={() => {
-                      var left = window.screen.width / 2 - 600 / 2,
-                        top = window.screen.height / 2 - 600 / 2;
-                      window.open(
-                        `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                        "targetWindow",
-                        "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
-                      );
-                    }}
-                  >
-                    <FacebookIcon />
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      var left = window.screen.width / 2 - 600 / 2,
-                        top = window.screen.height / 2 - 600 / 2;
-                      window.open(
-                        `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                        "targetWindow",
-                        "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                          left +
-                          ",top=" +
-                          top
-                      );
-                    }}
-                  >
-                    <TwitterIcon />
-                  </button>
-                </div>
-              </>
-            ) : (
-              <p className={classes.power_footer_count}>
-                {count} <span>left</span>
-              </p>
-            )}
-          </div>
-        )}
-      </div>
-    );
-  };
-
   const setView = (viewType = CONSTANTS.NFL_VIEW.FV) => {
     switch (viewType) {
       case CONSTANTS.NFL_VIEW.FV:
@@ -890,46 +741,18 @@ function NFLPowerdFsLive(props) {
               />
               <RankCard currentWin={100000} {...props} />
 
-              <div className={classes.sidebar_content}>
-                <p>
-                  <span>My</span> Powers
-                </p>
-                <div className={classes.sidebar_content_1}>
-                  <RenderPower
-                    title="Point Multiplier"
-                    isSvgIcon
-                    Icon={XPIcon}
-                    count={1}
-                  />
-                  <RenderPower
-                    title="Swap Player"
-                    isSvgIcon
-                    Icon={ReplaceAllIcon}
-                    count={0}
-                  />
-                  <RenderPower
-                    title="D-Wall"
-                    isSvgIcon
-                    Icon={ShieldIcon}
-                    count={0}
-                  />
-                  <RenderPower
-                    title="Video Review"
-                    isSvgIcon
-                    Icon={CamIcon}
-                    count={4}
-                  />
-
-                  <RenderPower
-                    title="Retro Boost"
-                    isSvgIcon
-                    Icon={RetroBoost}
-                    count={2}
-                  />
-
-                  <RenderPower title="Undo" isSvgIcon Icon={Undo} count={2} />
-                </div>
-              </div>
+              <PowerSidebar
+                swapCounts={swapCounts}
+                dwallCounts={dwallCounts}
+                challengeCounts={challengeCounts}
+                pointMultiplierCounts={pointMultiplierCounts}
+                pointBooster15x={pointBooster15x}
+                pointBooster2x={pointBooster2x}
+                pointBooster3x={pointBooster3x}
+                retroBoostCounts={retroBoostCounts}
+                powerUpCounts={powerUpCounts}
+                game={game}
+              />
             </Sidebar>
           </div>
         </div>
