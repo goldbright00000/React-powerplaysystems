@@ -24,9 +24,11 @@ import RetroBoostIcon from "../../icons/RetroBoost";
 import PowerUpIcon from "../../icons/PowerUp";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import SwapIcon from "../../icons/Swap";
+import FreeEntryModal from "../FreeEntryModal/index";
 
 function PromoModal(props) {
   const [getPowers, setPowers] = useState([]);
+  const [showFreeEntryModal, setShowFreeEntryModal] = useState(false);
   const { visible = false, onClose = () => { }, item = {} } =
     props || {};
     const { league = "MLB" } = item || {};
@@ -197,9 +199,54 @@ function PromoModal(props) {
         paid_game: item?.is_game_paid,
         entry_fee: item?.entry_fee,
         currency: item?.currency,
+        
       },
     });
   }
+
+  const redirectToContestRules = () => {
+    let item = props.item;
+    return redirectTo(props.propss, {
+      path: `/contest-rules`,
+      state: {
+        game_id: item?.game_id,
+        game_type: item?.game_type,
+        start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
+        game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
+        start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+        end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+        prizePool: _.reduce(
+          item?.PrizePayouts,
+          function (memo, num) {
+            return memo + parseInt(num.amount) * parseInt(num.prize);
+          },
+          0
+        ),
+        topPrize: parseFloat(
+          _.max(item?.PrizePayouts, function (ele) {
+            return ele.amount;
+          }).amount
+        ),
+        PointsSystem: item?.PointsSystems,
+        Power: item?.Powers,
+        prizes: item?.PrizePayouts,
+        paid_game: item?.is_game_paid,
+        entry_fee: item?.entry_fee,
+        currency: item?.currency,
+        league: item?.league,
+        powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+      },
+    });
+  }
+
+  const onCloseFreeEntryModal = () => {
+    setShowFreeEntryModal(false);
+  };
+
+  const onOpenFreeEntryModal = () => {
+    setShowFreeEntryModal(true);
+    onClose();
+  };
 
   useEffect(() => {
     powersList();
@@ -229,6 +276,7 @@ function PromoModal(props) {
               />
               <button
                 type="button"
+                onClick={redirectToContestRules}
               ><span>Constest Rules</span></button>
             </div>
             <div className={classes.closeButton}>
@@ -318,10 +366,10 @@ function PromoModal(props) {
           </div>
           <div className={classes.bottomButton}>
             <button onClick={redirectToUrl}>
-              ${props?.item?.entry_fee ? props?.item?.entry_fee : 0}  •  Enter & unlock Powers!
+              ${props?.item?.entry_fee ? props?.item?.entry_fee : 0}  •  Enter & Unlock Powers!
             </button>
           </div>
-          <span className={classes.freeEntry}>Free Entry</span>
+          <span className={classes.freeEntry} onClick={() => {onOpenFreeEntryModal()}}>Free Entry</span>
         </div>
       </div>
     </Modal>
@@ -330,7 +378,12 @@ function PromoModal(props) {
       sportsName="MLB"
       data={props?.item?.PrizePayouts}
       onClose={() => setPrizeModalState(false)}
-    /></>
+    />
+    <FreeEntryModal
+      visible={showFreeEntryModal}
+      onClose={onCloseFreeEntryModal}
+    />
+    </>
   );
 }
 
