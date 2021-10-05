@@ -18,7 +18,7 @@ import XPIcon from "../../icons/XPIcon";
 import LockIcon from "../../icons/Lock";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
-import PowerSidebar from "../../components/PowerSidebar";
+import PowerSidebar from "../../components/PowerCollapesible";
 import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
 import FooterImage from "../../assets/NHL-live-footer.png";
 import RankCard from "../../components/RankCard";
@@ -896,16 +896,17 @@ function NHLPowerdFsLive(props) {
                     />
 
                     <PowerSidebar
-                      swapCounts={swapCounts}
-                      dwallCounts={dwallCounts}
-                      challengeCounts={challengeCounts}
-                      pointMultiplierCounts={pointMultiplierCounts}
-                      pointBooster15x={pointBooster15x}
-                      pointBooster2x={pointBooster2x}
-                      pointBooster3x={pointBooster3x}
-                      retroBoostCounts={retroBoostCounts}
-                      powerUpCounts={powerUpCounts}
-                      game={game}
+                      collapse={false}
+                      // swapCounts={swapCounts}
+                      // dwallCounts={dwallCounts}
+                      // challengeCounts={challengeCounts}
+                      // pointMultiplierCounts={pointMultiplierCounts}
+                      // pointBooster15x={pointBooster15x}
+                      // pointBooster2x={pointBooster2x}
+                      // pointBooster3x={pointBooster3x}
+                      // retroBoostCounts={retroBoostCounts}
+                      // powerUpCounts={powerUpCounts}
+                      // game={game}
                     />
                   </Sidebar>
                 </div>

@@ -14,10 +14,6 @@ import BaseballImage from "../../assets/mlb_compress_header.jpg";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import XPIcon from "../../icons/XPIcon";
-import LockIcon from "../../icons/Lock";
-import TwitterIcon from "../../icons/TwitterIcon";
-import FacebookIcon from "../../icons/FacebookIcon";
 import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
 import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
@@ -29,7 +25,7 @@ import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PrizeModal from "../../components/PrizeModal";
-import PowerSidebar from "../../components/PowerSidebar";
+import PowerSidebar from "../../components/PowerCollapesible";
 
 import MyScoreCard from "./MyScoreCard";
 import TeamManager from "./TeamManager";
@@ -844,16 +840,17 @@ function MLBPowerdFsLive(props) {
                     />
 
                     <PowerSidebar
-                      swapCounts={swapCounts}
-                      dwallCounts={dwallCounts}
-                      challengeCounts={challengeCounts}
-                      pointMultiplierCounts={pointMultiplierCounts}
-                      pointBooster15x={pointBooster15x}
-                      pointBooster2x={pointBooster2x}
-                      pointBooster3x={pointBooster3x}
-                      retroBoostCounts={retroBoostCounts}
-                      powerUpCounts={powerUpCounts}
-                      game={game}
+                      collapse={false}
+                      // swapCounts={swapCounts}
+                      // dwallCounts={dwallCounts}
+                      // challengeCounts={challengeCounts}
+                      // pointMultiplierCounts={pointMultiplierCounts}
+                      // pointBooster15x={pointBooster15x}
+                      // pointBooster2x={pointBooster2x}
+                      // pointBooster3x={pointBooster3x}
+                      // retroBoostCounts={retroBoostCounts}
+                      // powerUpCounts={powerUpCounts}
+                      // game={game}
                     />
                   </Sidebar>
                 </div>

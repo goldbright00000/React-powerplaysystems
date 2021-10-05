@@ -15,14 +15,6 @@ import NFLHeaderImage from "../../assets/nfl-live.jpg";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import XPIcon from "../../icons/XPIcon";
-import RetroBoost from "../../icons/RetroBoost";
-import LockIcon from "../../icons/Lock";
-import TwitterIcon from "../../icons/TwitterIcon";
-import FacebookIcon from "../../icons/FacebookIcon";
-import ReplaceAllIcon from "../../icons/Replace";
-import ShieldIcon from "../../icons/ShieldIcon";
-import CamIcon from "../../icons/CamIcon";
 import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
 import FooterImage from "../../assets/NHL-live-footer.png";
 import RankCard from "../../components/RankCard";
@@ -31,7 +23,7 @@ import SingleView from "./SingleView/SingleView";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
 import LiveStandings from "../../components/LiveStandings";
-import PowerSidebar from "../../components/PowerSidebar";
+import PowerSidebar from "../../components/PowerCollapesible";
 import MyScoreCard from "./MyScoreCard";
 import TeamManager from "./TeamManager";
 
@@ -742,16 +734,17 @@ function NFLPowerdFsLive(props) {
               <RankCard currentWin={100000} {...props} />
 
               <PowerSidebar
-                swapCounts={swapCounts}
-                dwallCounts={dwallCounts}
-                challengeCounts={challengeCounts}
-                pointMultiplierCounts={pointMultiplierCounts}
-                pointBooster15x={pointBooster15x}
-                pointBooster2x={pointBooster2x}
-                pointBooster3x={pointBooster3x}
-                retroBoostCounts={retroBoostCounts}
-                powerUpCounts={powerUpCounts}
-                game={game}
+                collapse={false}
+                // swapCounts={swapCounts}
+                // dwallCounts={dwallCounts}
+                // challengeCounts={challengeCounts}
+                // pointMultiplierCounts={pointMultiplierCounts}
+                // pointBooster15x={pointBooster15x}
+                // pointBooster2x={pointBooster2x}
+                // pointBooster3x={pointBooster3x}
+                // retroBoostCounts={retroBoostCounts}
+                // powerUpCounts={powerUpCounts}
+                // game={game}
               />
             </Sidebar>
           </div>
