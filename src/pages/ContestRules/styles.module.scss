@@ -4,35 +4,37 @@ html {
 }
 
 /* 2. Make nav sticky */
-main > nav {
-	position: sticky;
-	top: 7rem;
-	align-self: start;
-    width: 340px;
-    height: 613px;
-    padding: 14px 50px 24px 0;
-    border-radius: 8px;
-    background-color: #1b1c1f;
-    ol {
-        list-style: none;
-        li {
-            opacity: 0.7;
-            font-family: Poppins;
-            font-size: 12px;
-            font-weight: normal;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: 0.17px;
-            color: #fff;
-            /* margin-top: 25px; */
-            margin-bottom: 25px;
-            text-transform: uppercase;
+.ContestRulesPageDesktop  {
+    nav{
+        position: sticky;
+        top: 7rem;
+        align-self: start;
+        width: 340px;
+        height: 613px;
+        padding: 14px 50px 24px 0;
+        border-radius: 8px;
+        background-color: #1b1c1f;
+        ol {
+            list-style: none;
+            li {
+                opacity: 0.7;
+                font-family: Poppins;
+                font-size: 12px;
+                font-weight: normal;
+                font-stretch: normal;
+                font-style: normal;
+                line-height: normal;
+                letter-spacing: 0.17px;
+                color: #fff;
+                /* margin-top: 25px; */
+                margin-bottom: 25px;
+                text-transform: uppercase;
+            }
         }
     }
 }
 
-main {
+.ContestRulesPageDesktop {
     display: flex;
     margin-top: 60px;
     margin-left: 100px;

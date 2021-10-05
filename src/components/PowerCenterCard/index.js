@@ -17,6 +17,7 @@ import EthCurrency from '../../assets/ethereum-white.png';
 import OrangePowerCurrency from '../../assets/power-orange.png';
 import OrangeBtcCurrency from '../../assets/btc-orange.png';
 import OrangeEthCurrency from '../../assets/ethereum-orange.png';
+import rechargeIcon from '../../assets/group-25.png';
 
 import { getTimeZone } from '../../utility/shared';
 
@@ -108,6 +109,7 @@ const PowerCenterCard = (props) => {
             ?
             game_type == 'PowerdFS' ? (
                 <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
+                    <span style={{marginLeft: 20, color: "#f2f2f2", opacity: 0.6, marginTop: 10}}>ID {id}</span>
                     <div className={classes.__power_center_card_powerdfs}>
                         <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
                         <p className={classes.__power_center_card_powerdfs_title}>
@@ -192,17 +194,10 @@ const PowerCenterCard = (props) => {
                                 </p>
 
                             ) : (
-                                <p>
-                                    {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                                <p style={{display: "flex", alignItems: "center"}}>
+                                    {outOf} <span style={{paddingLeft: 5}}>of <img src={InfiniteEntry} alt="infinite entry" /></span>
                                 </p>
                             )}
-                        </div>
-                        <div>
-                            <span style={{
-                                marginLeft: 25,
-                                color: "#688fbd",
-                                fontSize: 14
-                            }}>{id}</span>
                         </div>
                         <div className={classes.__power_center_card_details}>
                             <div className={classes.__power_center_card_details_link} onClick={() => {
@@ -219,11 +214,12 @@ const PowerCenterCard = (props) => {
             ) : (
                 game_type === 'PowerdFs_promo' ? (
                     <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                        <span style={{marginLeft: 0, color: "#f2f2f2", opacity: 0.6, marginTop: 0}}>ID {id}</span>
                         <div className={classes.__card_title}>
                             <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> Manager Challenge!</p>
                         </div>
                         <div className={classes.__start_end_date}>
-                            <span className={classes.__date_text}>{game_set_start} | {start_time} ET</span>
+                            <span className={classes.__date_text}  style={{marginBottom: 0}}>{game_set_start} | {start_time} ET</span>
                         </div>
                         <div className={classes.__current_jackpot}>
                             <span className={classes.__current_jackpot_text}>Manage your team to victory and win</span>
@@ -284,12 +280,84 @@ const PowerCenterCard = (props) => {
                         </div>
                     </div>
                 ) : (
-                    <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                    game_type === 'PowerdFs_Recharge' ? (
+                        <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                        <span style={{marginLeft: 0, color: "#f2f2f2", opacity: 0.6, marginTop: 0}}>ID {id}</span>
+                        <div className={classes.__start_end_date} style={{display: "flex", alignItems: "center"}}>
+                            <span className={classes.__date_text} style={{marginBottom: 0, display: "flex", flex: 1}}>{game_set_start} | {start_time} ET</span>
+                            <img src={rechargeIcon} style={{display: "flex"}}/>
+                        </div>
+                        <div className={classes.__card_title}>
+                            <p className={classes.__card_title_text}  style={{height: "auto"}}>{title} <span className={classes.__card__title_first}>Recharge</span></p>
+                        </div>
+                        
+                        <div className={classes.__current_jackpot}>
+                            <span className={classes.__current_jackpot_text} style={{fontWeight: 400}}>Power your team <br />to victory!</span>
+                            <h1 className={classes.__current_jackpot_amount} style={{marginBottom: 0}}> {currency === 'USD' ? (
+                                `$`
+                            ) : (
+                                currency === 'PWRS' ? (
+                                    prize_currency === 'USD' ? (
+                                        `$`
+                                    ) : (
+                                        <img
+                                            src={getCurrency(prize_currency)}
+                                            width="20"
+                                            alt=""
+                                        />
+                                    )
+                                ) : (
+                                    <img
+                                        src={getCurrency(currency)}
+                                        width="20"
+                                        alt=""
+                                    />
+                                )
+                            )}{prize}!</h1>
+                            <p style={{marginBottom: 25, color: "#f2f2f2", opacity: 0.6}}>Prize Pool</p>
+                        </div>
+                        <div className={classes.__win_power}>
+                            <span className={classes.__win_power_span}>You have the Powers to win!</span>
+                        </div>
+                        <div className={classes.__card_button}>
+                            <OutlineButtonViceVersa
+                                title={`Enter  •  $${entry_fee}`}
+                                onClick={onEnter}
+                            />
+                        </div>
+                        <div className={classes.__power_center_card_status_and_details}>
+                            {/* <div className={classes.__power_center_card_total}>
+                                {targeted_game ? (
+                                    <p>
+                                        {outOf} <span>of {total}</span>
+                                    </p>
+
+                                ) : (
+                                    <p>
+                                        {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                                    </p>
+                                )}
+                            </div> */}
+                            <div className={classes.__power_center_card_details}>
+                                <div className={classes.__power_center_card_details_link} onClick={() => {
+                                    onDetailsClick(id)
+                                }}>
+                                    Details
+                                </div>
+                                <div className={classes.__power_center_card_details_link_forward_arrow}>
+                                    {">"}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    ) : (
+                        <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                        <span style={{marginLeft: 0, color: "#f2f2f2", opacity: 0.6, marginTop: 0}}>ID {id}</span>
                         <div className={classes.__card_title}>
                             <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> {totalPoints} Point Challenge!</p>
                         </div>
                         <div className={classes.__start_end_date}>
-                            <span className={classes.__date_text}>{game_set_start} | {start_time} ET</span>
+                            <span className={classes.__date_text} style={{marginBottom: 0}}>{game_set_start} | {start_time} ET</span>
                         </div>
                         <div className={classes.__current_jackpot}>
                             <span className={classes.__current_jackpot_text}>Manage your team to {totalPoints} points and win</span>
@@ -351,6 +419,8 @@ const PowerCenterCard = (props) => {
                             </div>
                         </div>
                     </div>
+                    )
+                    
                 )
             )
             :

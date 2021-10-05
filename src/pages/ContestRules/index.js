@@ -3,7 +3,179 @@ import Footer from '../../components/Footer/Footer';
 import Header from '../../components/Header/Header';
 import { useMediaQuery } from "react-responsive";
 import styles from './styles.module.scss';
+import _ from 'underscore';
 const ContestRulesPage = (props) => {
+    const { state = [] } = props.location || {};
+    const {
+        game_type = "",
+        league = "",
+        start_time = "",
+        game_set_start,
+        end_date,
+        powerdfs_challenge_amount,
+        PointsSystem = [],
+        prizes = []
+    } = state || [];
+    const teamRoasterData = [
+        {
+          type: "MLB",
+          heading: "The 8 roster positions:",
+          teamRoster: [
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "P",
+              value: "(Pitcher)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "C",
+              value: "(Catcher)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "SS",
+              value: "(Shortstop)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "xB",
+              value: "(1B, 2B or 3B)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "OF",
+              value: "(Outfielders)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "Team Defense",
+              value: "",
+            }
+          ]
+        },
+        {
+          type: "NFL",
+          heading: "The 8 roster positions:",
+          teamRoster: [
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "QB",
+              value: "(Quarterback)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "RB",
+              value: "(Running Backs)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "WR",
+              value: "(Wide Receivers)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "TE",
+              value: "(Tight End)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "K",
+              value: "(Kicker)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "Team Defense",
+              value: "",
+            }
+          ]
+        },
+        {
+          type: "NHL",
+          heading: "The 8 roster positions:",
+          teamRoster: [
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "C",
+              value: "(Center)",
+            },
+            {
+              count: "three (3)",
+              countD: 3,
+              title: "XW",
+              value: "(Wingers)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "D",
+              value: "(Defensemen)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "G",
+              value: "(Goalie)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "Team Defense",
+              value: "",
+            }
+          ]
+        },
+        {
+          type: "NBA",
+          heading: "The 8 roster positions:",
+          teamRoster: [
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "C",
+              value: "(Center)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "PG",
+              value: "(Point Guard)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "SG",
+              value: "(Shooting Guard)",
+            },
+            {
+              count: "two (2)",
+              countD: 2,
+              title: "F",
+              value: "(Small/Power Forward)",
+            },
+            {
+              count: "one (1)",
+              countD: 1,
+              title: "Team Defense",
+              value: "",
+            }
+          ]
+        },
+    ];
+    let finalRoasterData = teamRoasterData[teamRoasterData.findIndex(x => x.type == league)];
+    const groupedPoints = _.groupBy(PointsSystem, 'type');
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
     const test = () => {
         window.addEventListener('DOMContentLoaded', () => {
@@ -25,6 +197,35 @@ const ContestRulesPage = (props) => {
             
         });
     };
+    const nth = function(d) {
+        if (d > 3 && d < 21) return 'th';
+        switch (d % 10) {
+            case 1:  return "st";
+            case 2:  return "nd";
+            case 3:  return "rd";
+            default: return "th";
+        }
+    }
+    const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var a = ['','one ','two ','three ','four ', 'five ','six ','seven ','eight ','nine ','ten ','eleven ','twelve ','thirteen ','fourteen ','fifteen ','sixteen ','seventeen ','eighteen ','nineteen '];
+    var b = ['', '', 'twenty','thirty','forty','fifty', 'sixty','seventy','eighty','ninety'];
+    let n;
+    function inWords (num) {
+        if ((num = num.toString()).length > 9) return 'overflow';
+        n = ('000000000' + num).substr(-9).match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
+        if (!n) return; var str = '';
+        str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore ' : '';
+        str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh ' : '';
+        str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand ' : '';
+        str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred ' : '';
+        str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) : '';
+        return str;
+    }
+    const startDate = new Date(game_set_start);
+    const startDateString = `${days[startDate.getUTCDay()]}, ${month[startDate.getUTCMonth()]} ${startDate.getUTCDate() +nth(startDate.getUTCDate())}, ${startDate.getUTCFullYear()}`;
+    const endDate = new Date(end_date);
+    const endDateString = `${days[endDate.getUTCDay()]}, ${month[endDate.getUTCMonth()]} ${endDate.getUTCDate() +nth(endDate.getUTCDate())}, ${endDate.getUTCFullYear()}`;
     useEffect(() => {
         test();
     }, []);
@@ -42,35 +243,35 @@ const ContestRulesPage = (props) => {
         <div>
             <Header isStick={true} />
             {!isMobile ? (
-                <main >
+                <main className={styles.ContestRulesPageDesktop}>
                 <nav class="section-nav nav">
                 <ol>
-                    <li><a href="#point1">1. Entry Period & Content Sponsor.</a></li>
-                    <li><a href="#point2">2. HOW TO ENTER AND PARTICIPATE</a></li>
-                    <li><a href="#point3">3. THE CONTEST GAME</a></li>
-                    <li><a href="#point4">4. CONDITIONS OF ENTRY</a></li>
-                    <li><a href="#point5">5. ELIGIBILITY</a></li>
-                    <li><a href="#point6">6. PRIZE DESCRIPTION</a></li>
-                    <li><a href="#point7">7. GENERAL PRIZE CONDITIONS.</a></li>
-                    <li><a href="#point8">8. ODDS OF WINNING</a></li>
-                    <li><a href="#point9">9. WINNER SELECTION / NOTIFICATION</a></li>
-                    <li><a href="#point10">10. RELEASE OF LIABILITY, INDEMNITY</a></li>
-                    <li><a href="#point11">11. CONSENT TO PUBLICITY</a></li>
-                    <li><a href="#point12">12. LIMITATION OF LIABILITY</a></li>
-                    <li><a href="#point13">13. PRIVACY</a></li>
-                    <li><a href="#point14">14. GENERAL</a></li>
+                    <li><a onClick={() => {document.getElementById('point1').scrollIntoView();}}>1. Entry Period & Content Sponsor.</a></li>
+                    <li><a onClick={() => {document.getElementById('point2').scrollIntoView();}}>2. HOW TO ENTER AND PARTICIPATE</a></li>
+                    <li><a onClick={() => {document.getElementById('point3').scrollIntoView();}}>3. THE CONTEST GAME</a></li>
+                    <li><a onClick={() => {document.getElementById('point4').scrollIntoView();}}>4. CONDITIONS OF ENTRY</a></li>
+                    <li><a onClick={() => {document.getElementById('point5').scrollIntoView();}}>5. ELIGIBILITY</a></li>
+                    <li><a onClick={() => {document.getElementById('point6').scrollIntoView();}}>6. PRIZE DESCRIPTION</a></li>
+                    <li><a onClick={() => {document.getElementById('point7').scrollIntoView();}}>7. GENERAL PRIZE CONDITIONS.</a></li>
+                    <li><a onClick={() => {document.getElementById('point8').scrollIntoView();}}>8. ODDS OF WINNING</a></li>
+                    <li><a onClick={() => {document.getElementById('point9').scrollIntoView();}}>9. WINNER SELECTION / NOTIFICATION</a></li>
+                    <li><a onClick={() => {document.getElementById('point10').scrollIntoView();}}>10. RELEASE OF LIABILITY, INDEMNITY</a></li>
+                    <li><a onClick={() => {document.getElementById('point11').scrollIntoView();}}>11. CONSENT TO PUBLICITY</a></li>
+                    <li><a onClick={() => {document.getElementById('point12').scrollIntoView();}}>12. LIMITATION OF LIABILITY</a></li>
+                    <li><a onClick={() => {document.getElementById('point13').scrollIntoView();}}>13. PRIVACY</a></li>
+                    <li><a onClick={() => {document.getElementById('point14').scrollIntoView();}}>14. GENERAL</a></li>
                 </ol>
         </nav>
                 <div className={styles.contentPart}>
     
             <h1>Contest Rules</h1>
-            <p>(the "Official Rules") PowerPlay Systems – MLB Fantasy Point Challenge Contest (the "Contest")</p>
+            <p>(the "Official Rules") PowerPlay Systems – {league} {game_type === "PowerdFs_challenge" ? "Fantasy Point Challenge" : "Fantasy Manager Challenge" } Contest (the "Contest")</p>
             
             <section id="point1">
                 <h2>1. ENTRY PERIOD & CONTEST SPONSOR.</h2>
                 <ol>
                 <li>The Contest is brought to you by the following entity (the "Contest Sponsor"): PowerPlay Systems Inc.</li> 
-                <li>The contest entry period (the "Entry Period") starts at 1:00 p.m. on August 9th, 2021 and continues until the conclusion of the games that started on August 9th. All times referenced in these Official Rules are Eastern Time (ET).</li>
+                <li>The contest entry period (the "Entry Period") starts at {start_time} on {startDateString} and continues until the conclusion of the games that started on {startDateString}. All times referenced in these Official Rules are Eastern Time (ET).</li>
                 </ol>
             </section>
             <section id="point2">
@@ -78,7 +279,7 @@ const ContestRulesPage = (props) => {
                 <p className={styles.light}>No purchase necessary to enter this Contest. Entry is subject to these OfficialRules, including without limitation the conditions of entry set forth below.</p>
                 <ol>
                     <li>
-                    During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS 200 Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the MLB Player Selection page. Then during the live MLB games starting on August 9th at 1:00PM ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
+                    During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS {powerdfs_challenge_amount} Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the {league} Player Selection page. Then during the live {league} games starting on {startDateString} at {start_time} ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
                     </li>
                     <li>
                     <b>ENTRY LIMIT</b>: One (1) entry per person, per email address. By way of illustration, if two (2) or more otherwise eligible individuals share a single email address, only one (1) of them may create a profile; and, if an eligible individual has multiple email addresses, he or she may only have one profile.
@@ -95,11 +296,18 @@ const ContestRulesPage = (props) => {
                 <h2>3. THE CONTEST GAME</h2>
                 <ol>
                     <li>
-                    The Contest is based on the statistics from all MLB baseball games played on the contest game date starting on Saturday, August 9th, 2021, and ending on or about Sunday, August 10th, 2021, when all MLB games have concluded. </li>
-                    <li>Each participant's objective is to accumulate 200 or more ‘My Points’ in the Contest via his/her selection of a fantasy baseball team, as described below.</li>
-                    <li>Each participant's fantasy football team must consist of 7 players and 1 team defense: one (1) Starting Pitcher ("SP"), two (2) players from 1B, 2B, or 3B (collectively referred to as XB in the Contest) ("XB"), two (2) Outfield players (“OF”), one (1) Catcher (“C”), one (1) Shortstop ("SS"), and one (1) team defense. This will be the participants team. High performing players and high performing team defences (based on season-to-date performance or expected performance) available to be chosen for each position will be assigned a Star Power label. A participant's selections must not exceed 3 Premium selections.</li>
+                    The Contest is based on the statistics from all {league} baseball games played on the contest game date starting on Saturday, {startDateString}, and ending on or about {endDateString}, when all {league} games have concluded. </li>
+                    <li>Each participant's objective is to accumulate {powerdfs_challenge_amount} or more ‘My Points’ in the Contest via his/her selection of a fantasy baseball team, as described below.</li>
+                    <li>Each participant's fantasy football team must consist of 7 players and 1 team defense: 
+                        {finalRoasterData.teamRoster.map((item) => {
+                            if(item.title !== "Team Defense")
+                                return item.count + " " + item.value.replace("(","").replace(")","") + " " + "(\"" + item.title +"\"),";
+                            else
+                                return item.count + " " + item.value.replace("(","").replace(")","") + " " + item.title;
+                        })}
+                        . This will be the participants team. High performing players and high performing team defences (based on season-to-date performance or expected performance) available to be chosen for each position will be assigned a Star Power label. A participant's selections must not exceed 3 Premium selections.</li>
                     <li>The Contest Sponsor reserves the right to add fantasy baseball players during the Contest leading up to the start of the Contest. </li>
-                    <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is August 9th at 1:00PM ET, subject to change in the event of a change in the MLB schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
+                    <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is {startDateString} at {start_time} ET, subject to change in the event of a change in the {league} schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
                     <li>Point Scoring System
                         <div className={styles.tableHeader}>
                             <div className={styles.headerTitle}>
@@ -109,89 +317,28 @@ const ContestRulesPage = (props) => {
                                 <span>Scoring Play=Points</span>
                             </div>
                         </div>
-                        <div className={styles.tableRow}>
-                            <div className={styles.section}>
-                                <span>Starting Pitcher (P)</span>
-                            </div> 
-                            <div className={styles.section}>
-                                <span>Rushing TD = 6<br/>
-                                    Rushing yards = Yards/10<br/>
-                                    Passing TD = 4<br/>
-                                    Passing Yards = Yards/25<br/>
-                                    Two-point convert (rushing) - 2</span>
-                            </div>
-                        </div>
-                        <div className={styles.tableRowEven}>
-                            <div className={styles.section}>
-                                <span>Outfielders (OF)</span>
-                            </div> 
-                            <div className={styles.section}>
-                                <span>
-                                    TD = 6<br />
-                                    Rushing yards = Yards/10<br />
-                                    Receiving yards = Yards/10<br />
-                                    Two-point convert = 2<br />
-                                </span>
-                            </div>
-                        </div>
-                        <div className={styles.tableRow}>
-                            <div className={styles.section}>
-                                <span>1B, 2B, 3B (XB)</span>
-                            </div> 
-                            <div className={styles.section}>
-                                <span>
-                                    TD = 6<br />
-                                    Rushing yards = Yards/10<br />
-                                    Receiving yards = Yards/10<br />
-                                    Two-point convert = 2<br />
-                                </span>
-                            </div>
-                        </div>
-                        <div className={styles.tableRowEven}>
-                            <div className={styles.section}>
-                                <span>Catcher (C)</span>
-                            </div> 
-                            <div className={styles.section}>
-                                <span>
-                                    TD = 6<br />
-                                    Rushing yards = Yards/10<br />
-                                    Receiving yards = Yards/10<br />
-                                    Two-point convert = 2<br />
-                                </span>
-                            </div>
-                        </div>
-                        <div className={styles.tableRow}>
-                            <div className={styles.section}>
-                                <span>Shortstop (SS)</span>
-                            </div> 
-                            <div className={styles.section}>
-                                <span>
-                                FG 0-39 Yards = 3 <br />
-                                FG 40-49 = 4 <br />
-                                FG 50+ = 5<br />
-                                Extra Point = 1<br />
-                                </span>
-                            </div>
-                        </div>
-                        <div className={styles.tableRowEven}>
-                            <div className={styles.section}>
-                                <span>Team Defence (D) – <br />
-                                scoring plays against</span>
-                            </div> 
-                            <div className={styles.section}>
-                                <span>
-                                TD against = -6<br />
-                                FG against = -3<br />
-                                Two-point convert against = -2<br />
-                                Points for = 0<br />
-                                </span>
-                            </div>
-                        </div>
+
+                        {Object.entries(groupedPoints).map((key, value) => {
+                            return key[1].map((item,index) => {
+                                return (
+                                    <div className={(index%2 !== 0) ? styles.tableRowEven : styles.tableRow}>
+                                        <div className={styles.section}>
+                                            <span>{item.plays}</span>
+                                        </div> 
+                                        <div className={styles.section}>
+                                            <span>{item.action}{item.points} Pts</span>
+                                        </div>
+                                    </div>
+                                );
+                            });
+                        })}
+                    
+                    
                     </li>
                     <li>
                     A participant's ranking in the Contest Period is determined by the number of ‘My Points’ that the participant accumulates during the Contest Period.</li>
-                    <li>Unofficial results (the "Unofficial Results") will be posted on-line live during game play and will be final immediately following the completion of the MLB games with a start time occurring on August 9th, 2021. Winner postings will be deemed official fourteen (14) days after such posting. In the event of a discrepancy respecting an Unofficial Result, affected participants must notify the Contest Sponsor by emailing support@powerplaysystems.com within seven (7) calendar days after the applicable Unofficial Results Date. In the event of a discrepancy, the final draft results as posted on the game website shall be considered official and final. If no discrepancies have been received by the Contest Sponsor within seven (7) calendar days after the Unofficial Results Date, it will be assumed that the results are correct as posted, and the Unofficial Results will become official at that time (the "Official Results Date").</li>
-                    <li>In the unlikely event that any MLB game is postponed, cancelled, delayed, suspended, or otherwise not completed on the originally scheduled date for the game, then a notice will be posted on the Contest Website as soon as reasonably possible to indicate how points potentially accumulated by the participant in respect of that game will be treated.
+                    <li>Unofficial results (the "Unofficial Results") will be posted on-line live during game play and will be final immediately following the completion of the {league} games with a start time occurring on {startDateString}. Winner postings will be deemed official fourteen (14) days after such posting. In the event of a discrepancy respecting an Unofficial Result, affected participants must notify the Contest Sponsor by emailing support@powerplaysystems.com within seven (7) calendar days after the applicable Unofficial Results Date. In the event of a discrepancy, the final draft results as posted on the game website shall be considered official and final. If no discrepancies have been received by the Contest Sponsor within seven (7) calendar days after the Unofficial Results Date, it will be assumed that the results are correct as posted, and the Unofficial Results will become official at that time (the "Official Results Date").</li>
+                    <li>In the unlikely event that any {league} game is postponed, cancelled, delayed, suspended, or otherwise not completed on the originally scheduled date for the game, then a notice will be posted on the Contest Website as soon as reasonably possible to indicate how points potentially accumulated by the participant in respect of that game will be treated.
                     </li>
                 </ol>
             </section>
@@ -230,9 +377,14 @@ const ContestRulesPage = (props) => {
             </section>
             <section id="point6">
                 <h2>6. PRIZE DESCRIPTION</h2>
-                <p className={styles.light}>There is a total of One (1) prize available to be won in connection with this Contest, as more particularly set out below:</p>
+                <p className={styles.light}>There is a total of {inWords(prizes.length)} ({prizes.length}) prize available to be won in connection with this Contest, as more particularly set out below:</p>
                 <ol type="a">
-                    <li>One (1) eligible participant will have the opportunity to win the grand prize, consisting of $2000 USD);</li>
+                    {prizes.map((item,index) => {
+                        return (
+                            <li>{inWords(item.prize)} ({item.prize}) eligible participant will have the opportunity to win the {index == 0 ? "grand prize" : (index+1)+nth(index+1)}, consisting of ${item.amount} USD;</li>
+                        );
+                    })}
+                    <li>In the event of a tie, prizes will be split evenly</li>
                 </ol>
                 <p className={styles.light}>All potential winners will be contacted through the information provided by the participant at the time of entry.</p>
             </section>
@@ -254,8 +406,8 @@ const ContestRulesPage = (props) => {
             <section id="point9">
                 <h2>9. WINNER SELECTION / NOTIFICATION</h2>
                 <ol type="a">
-                    <li>The participant accumulating two-hundred (200) or more My Points during the Contest Period will be eligible to win one (1) Grand Prize. In the event of a tie between participants, prizes will be divided equally. </li>
-                    <li>Prizes will be distributed and delivered to the participants Defy Games Account immediately following competition of the MLB Games occurring on August 9th, 2021.</li>
+                    <li>The participant accumulating {powerdfs_challenge_amount} or more My Points during the Contest Period will be eligible to win one (1) Grand Prize. In the event of a tie between participants, prizes will be divided equally. </li>
+                    <li>Prizes will be distributed and delivered to the participants Defy Games Account immediately following competition of the {league} Games occurring on {startDateString}.</li>
                     <li>Decisions and rulings of the Contest Sponsor and/or their representatives are finaland binding without appeal in all matters related to this Contest and the awarding of a prize.</li>
                     <li>To be declared a winner, a potential winner must be in full compliance with these Official Rules; and, in the discretion of the Contest Sponsor, sign and return a release of liability and consent to publicity form (the "Release Form") within the period specified in the Release Form, and any other documentation as may reasonably be required by the Contest Sponsor in their absolute discretion.</li>
                     <li>A potential winner may be required to provide proof of identification to the ContestSponsor when claiming a prize or otherwise in connection with this Contest to facilitate the Contest Sponsor’s accurate identification of a Contest winner.</li>
@@ -300,11 +452,11 @@ const ContestRulesPage = (props) => {
                     <button onClick={() => toggleSection("point1")}>1. Entry Period & Content Sponsor.</button>
                     <section id="point1" style={{display: "none"}}>
                     <h1>Contest Rules</h1>
-                    <p>(the "Official Rules") PowerPlay Systems – MLB Fantasy Point Challenge Contest (the "Contest")</p>
+                    <p>(the "Official Rules") PowerPlay Systems – {league} Fantasy Point Challenge Contest (the "Contest")</p>
                     <h2>1. ENTRY PERIOD & CONTEST SPONSOR.</h2>
                     <ol>
                     <li>The Contest is brought to you by the following entity (the "Contest Sponsor"): PowerPlay Systems Inc.</li> 
-                    <li>The contest entry period (the "Entry Period") starts at 1:00 p.m. on August 9th, 2021 and continues until the conclusion of the games that started on August 9th. All times referenced in these Official Rules are Eastern Time (ET).</li>
+                    <li>The contest entry period (the "Entry Period") starts at {start_time} on {startDateString} and continues until the conclusion of the games that started on {startDateString}. All times referenced in these Official Rules are Eastern Time (ET).</li>
                     </ol>
                     </section>
                     <button onClick={() => toggleSection("point2")}>2. HOW TO ENTER AND PARTICIPATE</button>
@@ -313,7 +465,7 @@ const ContestRulesPage = (props) => {
                         <p className={styles.light}>No purchase necessary to enter this Contest. Entry is subject to these OfficialRules, including without limitation the conditions of entry set forth below.</p>
                         <ol>
                             <li>
-                            During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS 200 Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the MLB Player Selection page. Then during the live MLB games starting on August 9th at 1:00PM ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
+                            During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS {powerdfs_challenge_amount} Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the {league} Player Selection page. Then during the live {league} games starting on {startDateString} at {start_time} ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
                             </li>
                             <li>
                             <b>ENTRY LIMIT</b>: One (1) entry per person, per email address. By way of illustration, if two (2) or more otherwise eligible individuals share a single email address, only one (1) of them may create a profile; and, if an eligible individual has multiple email addresses, he or she may only have one profile.
@@ -331,11 +483,18 @@ const ContestRulesPage = (props) => {
                         <h2>3. THE CONTEST GAME</h2>
                         <ol>
                             <li>
-                            The Contest is based on the statistics from all MLB baseball games played on the contest game date starting on Saturday, August 9th, 2021, and ending on or about Sunday, August 10th, 2021, when all MLB games have concluded. </li>
-                            <li>Each participant's objective is to accumulate 200 or more ‘My Points’ in the Contest via his/her selection of a fantasy baseball team, as described below.</li>
-                            <li>Each participant's fantasy football team must consist of 7 players and 1 team defense: one (1) Starting Pitcher ("SP"), two (2) players from 1B, 2B, or 3B (collectively referred to as XB in the Contest) ("XB"), two (2) Outfield players (“OF”), one (1) Catcher (“C”), one (1) Shortstop ("SS"), and one (1) team defense. This will be the participants team. High performing players and high performing team defences (based on season-to-date performance or expected performance) available to be chosen for each position will be assigned a Star Power label. A participant's selections must not exceed 3 Premium selections.</li>
+                            The Contest is based on the statistics from all {league} baseball games played on the contest game date starting on Saturday, {startDateString}, and ending on or about {endDateString}, when all {league} games have concluded. </li>
+                            <li>Each participant's objective is to accumulate {powerdfs_challenge_amount} or more ‘My Points’ in the Contest via his/her selection of a fantasy baseball team, as described below.</li>
+                            <li>Each participant's fantasy football team must consist of 7 players and 1 team defense: 
+                            {finalRoasterData.teamRoster.map((item) => {
+                                if(item.title !== "Team Defense")
+                                    return item.count + " " + item.value.replace("(","").replace(")","") + " " + "(\"" + item.title +"\"),";
+                                else
+                                    return item.count + " " + item.value.replace("(","").replace(")","") + " " + item.title;
+                            })}
+                                . This will be the participants team. High performing players and high performing team defences (based on season-to-date performance or expected performance) available to be chosen for each position will be assigned a Star Power label. A participant's selections must not exceed 3 Premium selections.</li>
                             <li>The Contest Sponsor reserves the right to add fantasy baseball players during the Contest leading up to the start of the Contest. </li>
-                            <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is August 9th at 1:00PM ET, subject to change in the event of a change in the MLB schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
+                            <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is {startDateString} at {start_time} ET, subject to change in the event of a change in the {league} schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
                             <li>Point Scoring System
                                 <div className={styles.tableHeader}>
                                     <div className={styles.headerTitle}>
@@ -345,89 +504,25 @@ const ContestRulesPage = (props) => {
                                         <span>Scoring Play=Points</span>
                                     </div>
                                 </div>
-                                <div className={styles.tableRow}>
-                                    <div className={styles.section}>
-                                        <span>Starting Pitcher (P)</span>
-                                    </div> 
-                                    <div className={styles.section}>
-                                        <span>Rushing TD = 6<br/>
-                                            Rushing yards = Yards/10<br/>
-                                            Passing TD = 4<br/>
-                                            Passing Yards = Yards/25<br/>
-                                            Two-point convert (rushing) - 2</span>
-                                    </div>
-                                </div>
-                                <div className={styles.tableRowEven}>
-                                    <div className={styles.section}>
-                                        <span>Outfielders (OF)</span>
-                                    </div> 
-                                    <div className={styles.section}>
-                                        <span>
-                                            TD = 6<br />
-                                            Rushing yards = Yards/10<br />
-                                            Receiving yards = Yards/10<br />
-                                            Two-point convert = 2<br />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={styles.tableRow}>
-                                    <div className={styles.section}>
-                                        <span>1B, 2B, 3B (XB)</span>
-                                    </div> 
-                                    <div className={styles.section}>
-                                        <span>
-                                            TD = 6<br />
-                                            Rushing yards = Yards/10<br />
-                                            Receiving yards = Yards/10<br />
-                                            Two-point convert = 2<br />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={styles.tableRowEven}>
-                                    <div className={styles.section}>
-                                        <span>Catcher (C)</span>
-                                    </div> 
-                                    <div className={styles.section}>
-                                        <span>
-                                            TD = 6<br />
-                                            Rushing yards = Yards/10<br />
-                                            Receiving yards = Yards/10<br />
-                                            Two-point convert = 2<br />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={styles.tableRow}>
-                                    <div className={styles.section}>
-                                        <span>Shortstop (SS)</span>
-                                    </div> 
-                                    <div className={styles.section}>
-                                        <span>
-                                        FG 0-39 Yards = 3 <br />
-                                        FG 40-49 = 4 <br />
-                                        FG 50+ = 5<br />
-                                        Extra Point = 1<br />
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className={styles.tableRowEven}>
-                                    <div className={styles.section}>
-                                        <span>Team Defence (D) – <br />
-                                        scoring plays against</span>
-                                    </div> 
-                                    <div className={styles.section}>
-                                        <span>
-                                        TD against = -6<br />
-                                        FG against = -3<br />
-                                        Two-point convert against = -2<br />
-                                        Points for = 0<br />
-                                        </span>
-                                    </div>
-                                </div>
+                                {Object.entries(groupedPoints).map((key, value) => {
+                                    return key[1].map((item,index) => {
+                                        return (
+                                            <div className={(index%2 !== 0) ? styles.tableRowEven : styles.tableRow}>
+                                                <div className={styles.section}>
+                                                    <span>{item.plays}</span>
+                                                </div> 
+                                                <div className={styles.section}>
+                                                    <span>{item.action}{item.points} Pts</span>
+                                                </div>
+                                            </div>
+                                        );
+                                    });
+                                })}
                             </li>
                             <li>
                             A participant's ranking in the Contest Period is determined by the number of ‘My Points’ that the participant accumulates during the Contest Period.</li>
-                            <li>Unofficial results (the "Unofficial Results") will be posted on-line live during game play and will be final immediately following the completion of the MLB games with a start time occurring on August 9th, 2021. Winner postings will be deemed official fourteen (14) days after such posting. In the event of a discrepancy respecting an Unofficial Result, affected participants must notify the Contest Sponsor by emailing support@powerplaysystems.com within seven (7) calendar days after the applicable Unofficial Results Date. In the event of a discrepancy, the final draft results as posted on the game website shall be considered official and final. If no discrepancies have been received by the Contest Sponsor within seven (7) calendar days after the Unofficial Results Date, it will be assumed that the results are correct as posted, and the Unofficial Results will become official at that time (the "Official Results Date").</li>
-                            <li>In the unlikely event that any MLB game is postponed, cancelled, delayed, suspended, or otherwise not completed on the originally scheduled date for the game, then a notice will be posted on the Contest Website as soon as reasonably possible to indicate how points potentially accumulated by the participant in respect of that game will be treated.
+                            <li>Unofficial results (the "Unofficial Results") will be posted on-line live during game play and will be final immediately following the completion of the {league} games with a start time occurring on {startDateString}. Winner postings will be deemed official fourteen (14) days after such posting. In the event of a discrepancy respecting an Unofficial Result, affected participants must notify the Contest Sponsor by emailing support@powerplaysystems.com within seven (7) calendar days after the applicable Unofficial Results Date. In the event of a discrepancy, the final draft results as posted on the game website shall be considered official and final. If no discrepancies have been received by the Contest Sponsor within seven (7) calendar days after the Unofficial Results Date, it will be assumed that the results are correct as posted, and the Unofficial Results will become official at that time (the "Official Results Date").</li>
+                            <li>In the unlikely event that any {league} game is postponed, cancelled, delayed, suspended, or otherwise not completed on the originally scheduled date for the game, then a notice will be posted on the Contest Website as soon as reasonably possible to indicate how points potentially accumulated by the participant in respect of that game will be treated.
                             </li>
                         </ol>
                     </section>
@@ -469,9 +564,14 @@ const ContestRulesPage = (props) => {
                     <button onClick={() => toggleSection("point6")}>6. PRIZE DESCRIPTION</button>
                     <section id="point6"  style={{display: "none"}}>
                         <h2>6. PRIZE DESCRIPTION</h2>
-                        <p className={styles.light}>There is a total of One (1) prize available to be won in connection with this Contest, as more particularly set out below:</p>
+                        <p className={styles.light}>There is a total of {inWords(prizes.length)} ({prizes.length}) prize available to be won in connection with this Contest, as more particularly set out below:</p>
                         <ol type="a">
-                            <li>One (1) eligible participant will have the opportunity to win the grand prize, consisting of $2000 USD);</li>
+                            {prizes.map((item,index) => {
+                                return (
+                                    <li>{inWords(item.prize)} ({item.prize}) eligible participant will have the opportunity to win the {index == 0 ? "grand prize" : (index+1)+nth(index+1)}, consisting of ${item.amount} USD;</li>
+                                );
+                            })}
+                            <li>In the event of a tie, prizes will be split evenly</li>
                         </ol>
                         <p className={styles.light}>All potential winners will be contacted through the information provided by the participant at the time of entry.</p>
                     </section>
@@ -496,8 +596,8 @@ const ContestRulesPage = (props) => {
                     <section id="point9" style={{display: "none"}}>
                         <h2>9. WINNER SELECTION / NOTIFICATION</h2>
                         <ol type="a">
-                            <li>The participant accumulating two-hundred (200) or more My Points during the Contest Period will be eligible to win one (1) Grand Prize. In the event of a tie between participants, prizes will be divided equally. </li>
-                            <li>Prizes will be distributed and delivered to the participants Defy Games Account immediately following competition of the MLB Games occurring on August 9th, 2021.</li>
+                            <li>The participant accumulating {powerdfs_challenge_amount} or more My Points during the Contest Period will be eligible to win one (1) Grand Prize. In the event of a tie between participants, prizes will be divided equally. </li>
+                            <li>Prizes will be distributed and delivered to the participants Defy Games Account immediately following competition of the {league} Games occurring on {startDateString}.</li>
                             <li>Decisions and rulings of the Contest Sponsor and/or their representatives are finaland binding without appeal in all matters related to this Contest and the awarding of a prize.</li>
                             <li>To be declared a winner, a potential winner must be in full compliance with these Official Rules; and, in the discretion of the Contest Sponsor, sign and return a release of liability and consent to publicity form (the "Release Form") within the period specified in the Release Form, and any other documentation as may reasonably be required by the Contest Sponsor in their absolute discretion.</li>
                             <li>A potential winner may be required to provide proof of identification to the ContestSponsor when claiming a prize or otherwise in connection with this Contest to facilitate the Contest Sponsor’s accurate identification of a Contest winner.</li>
@@ -520,7 +620,7 @@ const ContestRulesPage = (props) => {
                         <h2>12. LIMITATION OF LIABILITY</h2>
                         <p className={styles.light}>The Releasees are not responsible for: (a) stolen, late, incomplete, illegible, inaccurate, misdirected, lost, misrouted, scrambled, damaged, delayed, undelivered,mutilated, postage-due or garbled entries, transmissions, email or mail; (b) lost, interrupted or unavailable network, cable, satellite, server, Internet Service Provider, website, or other connections, including those through and/or by any website; (c) jumbled, scrambled, delayed, or misdirected transmissions or computer hardware or software malfunctions, failures or difficulties; (d) failures or malfunctions of phones, phone lines or telephone systems, any error, omission, interruption, defect or delay in transmission, processing, or communication; (e) non-delivered, misdirected, blocked, or delayed email notifications; (f) printing, typographical or other errors appearing within these Official Rules, in any Contest-related advertisements or othermaterials; or (g) any other errors, problems or difficulties of any kind, whether human, mechanical, electronic, network, computer, telephone, mail, typographical, printing or otherwise relating to or in connection with this Contest, including, without limitation, errors or difficulties which may occur in connection with the administration of the Contest, the processing of entries, the announcement of the prize or in any Contest-related materials, or the cancellation or postponement of any event. The Releasees are also not responsible for any incorrect or inaccurate information, including without limitation where caused by website users, tampering, hacking, or by any equipment or programming associated with or utilized in the Contest. The Releasees are not responsible for injury or damage to participants' or to any other person's computer related to or resulting from participation in this Contest or downloading materials from or use of any website.</p>
                     </section>
-                    <button> onClick={() => toggleSection("point13")}13. PRIVACY</button>
+                    <button onClick={() => toggleSection("point13")}>13. PRIVACY</button>
                     <section id="point13" style={{display: "none"}}>
                         <h2>13. PRIVACY</h2>
                         <p className={styles.light}>By entering this Contest, each entrant consents to the collection, use, and disclosureof his/her personal information for the purposes and in the manner described herein.All information submitted by entrants is being collected by the Contest Sponsor and is subject to The Draft Network’s  Privacy Policy, available at</p>
