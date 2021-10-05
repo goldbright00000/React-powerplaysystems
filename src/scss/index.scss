@@ -155,3 +155,18 @@ button {
 .disabled {
   opacity: 0.5;
 }
+
+.section-nav li.active > a {
+	color: #fb6e00;
+	font-weight: 500;
+}
+
+main > nav {
+	position: sticky;
+	top: 2rem;
+	align-self: start;
+}
+
+/* 3. ScrollSpy active styles (see JS tab for activation) */
+
+

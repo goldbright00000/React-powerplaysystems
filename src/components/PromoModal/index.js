@@ -229,7 +229,7 @@ function PromoModal(props) {
               />
               <button
                 type="button"
-              ><span>Gameplay Rules</span></button>
+              ><span>Constest Rules</span></button>
             </div>
             <div className={classes.closeButton}>
               <CloseIcon onClick={onClose} />
@@ -250,44 +250,6 @@ function PromoModal(props) {
             <span className={classes.youHaveThePower}>
               You have the Powers to win!
             </span>
-
-            {/* {powers && powers.length > 0 ? (
-                (powers.findIndex(x => (x.powerName == "Swap" || x.powerId == 4)) >= 0) ? (
-                    powerSection("Swap", "Player Swap")
-                ) : ""
-            ) : ""}
-            {powers && powers.length > 0 ? (
-                (powers.findIndex(x => (x.powerId == 1 || x.powerId == 2 || x.powerId == 3)) >= 0) ? (
-                    powerSection("1.5x Point Booster", "Point Booster")
-                ) : ""
-            ) : "" }
-            {powers && powers.length > 0 ? (
-                (powers.findIndex(x => x.powerId == 10) >= 0) ? (
-                    powerSection("Retro Boost", "2x Retro Boost")
-                ) : ""
-            ) : "" }
-            {powers && powers.length > 0 ? (
-                (powers.findIndex(x => x.powerId == 6) >= 0) ? (
-                    powerSection("Challenge", "Challenge")
-                ) : ""
-            ) : "" }
-            {powers && powers.length > 0 ? (
-                (powers.findIndex(x => x.powerId == 5) >= 0) ? (
-                    powerSection("D-Wall", "D-Wall")
-                ) : ""
-            ) : "" }
-            {powers && powers.length > 0 ? (
-                (powers.findIndex(x => x.powerId == 8) >= 0) ? (
-                    powerSection("Power-Up", "Power-Up")
-                ) : ""
-            ) : "" } */}
-
-
-
-
-
-
-
             <div className={classes.powers}> 
               {typeof getPowers[0] !== "undefined" && 
                 <div className={classes.power}>
@@ -340,7 +302,7 @@ function PromoModal(props) {
           </div>
           <div className={classes.extraDesc}>
             <p>No purchase necessary. Contest entry closes at <span>{item.game_set_start + " " + item.start_time}.</span></p>
-            <p>Open to residents of United States who are over the age of majority.</p>
+            <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
           </div>
           <div className={classes.rules}>
             <ul style={{listStyle: "none"}}>
