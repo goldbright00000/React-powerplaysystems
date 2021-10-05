@@ -37,7 +37,7 @@ const PowerCenterCard = (props) => {
         entry_fee = null,
         targeted_game = false,
         showDetails = false,
-        totalPoints = null,
+        totalPoints = 0,
         onDetailsClick = () => { },
         onBackClick = () => { },
         onNextClick = () => { },
@@ -47,7 +47,7 @@ const PowerCenterCard = (props) => {
         PrizePayout = [],
         userHasEntered = false,
     } = props || {};
-
+    console.log("gameType", game_type);
 
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
@@ -103,9 +103,10 @@ const PowerCenterCard = (props) => {
     }
 
     return (
+        
         !showDetails
             ?
-            game_type !== 'PowerdFs_challenge' ? (
+            game_type == 'PowerdFS' ? (
                 <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
                     <div className={classes.__power_center_card_powerdfs}>
                         <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
@@ -216,71 +217,139 @@ const PowerCenterCard = (props) => {
                     </div>
                 </div>
             ) : (
-                <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
-                    <div className={classes.__card_title}>
-                        <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> {totalPoints} Point Challenge!</p>
-                    </div>
-                    <div className={classes.__start_end_date}>
-                        <span className={classes.__date_text}>{game_set_start} | {start_time} ET</span>
-                    </div>
-                    <div className={classes.__current_jackpot}>
-                        <span className={classes.__current_jackpot_text}>Manage your team to {totalPoints} points and win</span>
-                        <h1 className={classes.__current_jackpot_amount}> {currency === 'USD' ? (
-                            `$`
-                        ) : (
-                            currency === 'PWRS' ? (
-                                prize_currency === 'USD' ? (
-                                    `$`
+                game_type === 'PowerdFs_promo' ? (
+                    <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                        <div className={classes.__card_title}>
+                            <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> Manager Challenge!</p>
+                        </div>
+                        <div className={classes.__start_end_date}>
+                            <span className={classes.__date_text}>{game_set_start} | {start_time} ET</span>
+                        </div>
+                        <div className={classes.__current_jackpot}>
+                            <span className={classes.__current_jackpot_text}>Manage your team to victory and win</span>
+                            <h1 className={classes.__current_jackpot_amount}> {currency === 'USD' ? (
+                                `$`
+                            ) : (
+                                currency === 'PWRS' ? (
+                                    prize_currency === 'USD' ? (
+                                        `$`
+                                    ) : (
+                                        <img
+                                            src={getCurrency(prize_currency)}
+                                            width="20"
+                                            alt=""
+                                        />
+                                    )
                                 ) : (
                                     <img
-                                        src={getCurrency(prize_currency)}
+                                        src={getCurrency(currency)}
                                         width="20"
                                         alt=""
                                     />
                                 )
-                            ) : (
-                                <img
-                                    src={getCurrency(currency)}
-                                    width="20"
-                                    alt=""
-                                />
-                            )
-                        )}{prize}!</h1>
-                    </div>
-                    <div className={classes.__win_power}>
-                        <span className={classes.__win_power_span}>You have the Powers to win!</span>
-                    </div>
-                    <div className={classes.__card_button}>
-                        <OutlineButtonViceVersa
-                            title={`Enter`}
-                            onClick={onEnter}
-                        />
-                    </div>
-                    <div className={classes.__power_center_card_status_and_details}>
-                        {/* <div className={classes.__power_center_card_total}>
-                            {targeted_game ? (
-                                <p>
-                                    {outOf} <span>of {total}</span>
-                                </p>
+                            )}{prize}!</h1>
+                        </div>
+                        <div className={classes.__win_power}>
+                            <span className={classes.__win_power_span}>You have the Powers to win!</span>
+                        </div>
+                        <div className={classes.__card_button}>
+                            <OutlineButtonViceVersa
+                                title={`Enter`}
+                                onClick={onEnter}
+                            />
+                        </div>
+                        <div className={classes.__power_center_card_status_and_details}>
+                            {/* <div className={classes.__power_center_card_total}>
+                                {targeted_game ? (
+                                    <p>
+                                        {outOf} <span>of {total}</span>
+                                    </p>
 
-                            ) : (
-                                <p>
-                                    {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
-                                </p>
-                            )}
-                        </div> */}
-                        <div className={classes.__power_center_card_details}>
-                            <div className={classes.__power_center_card_details_link} onClick={() => {
-                                onDetailsClick(id)
-                            }}>
-                                Details
-                            </div>
-                            <div className={classes.__power_center_card_details_link_forward_arrow}>
-                                {">"}
+                                ) : (
+                                    <p>
+                                        {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                                    </p>
+                                )}
+                            </div> */}
+                            <div className={classes.__power_center_card_details}>
+                                <div className={classes.__power_center_card_details_link} onClick={() => {
+                                    onDetailsClick(id)
+                                }}>
+                                    Details
+                                </div>
+                                <div className={classes.__power_center_card_details_link_forward_arrow}>
+                                    {">"}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                        <div className={classes.__card_title}>
+                            <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> {totalPoints} Point Challenge!</p>
+                        </div>
+                        <div className={classes.__start_end_date}>
+                            <span className={classes.__date_text}>{game_set_start} | {start_time} ET</span>
+                        </div>
+                        <div className={classes.__current_jackpot}>
+                            <span className={classes.__current_jackpot_text}>Manage your team to {totalPoints} points and win</span>
+                            <h1 className={classes.__current_jackpot_amount}> {currency === 'USD' ? (
+                                `$`
+                            ) : (
+                                currency === 'PWRS' ? (
+                                    prize_currency === 'USD' ? (
+                                        `$`
+                                    ) : (
+                                        <img
+                                            src={getCurrency(prize_currency)}
+                                            width="20"
+                                            alt=""
+                                        />
+                                    )
+                                ) : (
+                                    <img
+                                        src={getCurrency(currency)}
+                                        width="20"
+                                        alt=""
+                                    />
+                                )
+                            )}{prize}!</h1>
+                        </div>
+                        <div className={classes.__win_power}>
+                            <span className={classes.__win_power_span}>You have the Powers to win!</span>
+                        </div>
+                        <div className={classes.__card_button}>
+                            <OutlineButtonViceVersa
+                                title={`Enter`}
+                                onClick={onEnter}
+                            />
+                        </div>
+                        <div className={classes.__power_center_card_status_and_details}>
+                            {/* <div className={classes.__power_center_card_total}>
+                                {targeted_game ? (
+                                    <p>
+                                        {outOf} <span>of {total}</span>
+                                    </p>
+
+                                ) : (
+                                    <p>
+                                        {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                                    </p>
+                                )}
+                            </div> */}
+                            <div className={classes.__power_center_card_details}>
+                                <div className={classes.__power_center_card_details_link} onClick={() => {
+                                    onDetailsClick(id)
+                                }}>
+                                    Details
+                                </div>
+                                <div className={classes.__power_center_card_details_link_forward_arrow}>
+                                    {">"}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )
             )
             :
             <PowerCenterCardDetails

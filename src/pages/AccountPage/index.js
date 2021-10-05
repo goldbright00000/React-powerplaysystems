@@ -23,6 +23,7 @@ import * as MLbActions from "../../actions/MLBActions";
 import { getUserWinnigs } from "../../actions/userActions";
 import LiveStandings from "../../components/LiveStandings";
 import * as MLBActions from '../../actions/MLBActions';
+import { getDBCountries } from "../../actions/userActions";
 
 
 function AccountPage(props) {
@@ -40,6 +41,10 @@ function AccountPage(props) {
     getUserAccount();
     getUserGames();
     getuserWinnigs();
+  }, []);
+
+  useEffect(() => {
+    dispatch(getDBCountries());
   }, []);
 
   const { user = "" } = useSelector((state) => state?.auth);
@@ -73,45 +78,35 @@ function AccountPage(props) {
   };
 
   const getLiveStandings = async (game_id) => {
-    if(game_id == 0)
-    {
+    if (game_id == 0) {
       return;
     }
     let liveStandingsData = await dispatch(MLBActions.getLiveStandings(game_id));
-    if(typeof liveStandingsData !== "undefined")
-      {
-        if(liveStandingsData.payload.error == false)
-        {
-          if(JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)) {
-            var finalArr = [];
-            var res = liveStandingsData.payload.data.powerDFSRanking;
-            
-            var user_id = parseInt(localStorage.PERSONA_USER_ID);
-            var userRec = "";
-            var leaderScore = 0;
-            for(var i = 0; i < res.length; i++)
-            {
-              
-              
-              if(res[i].team.user.user_id == user_id)
-              {
-                
-                userRec = res[i];
-                
-              }
-              else {
-                finalArr.push(res[i]);
-              }
+    if (typeof liveStandingsData !== "undefined") {
+      if (liveStandingsData.payload.error == false) {
+        if (JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)) {
+          var finalArr = [];
+          var res = liveStandingsData.payload.data.powerDFSRanking;
+
+          var user_id = parseInt(localStorage.PERSONA_USER_ID);
+          var userRec = "";
+          var leaderScore = 0;
+          for (var i = 0; i < res.length; i++) {
+            if (res[i].team.user.user_id == user_id) {
+              userRec = res[i];
             }
-            if(userRec !== "")
-            {
-              finalArr.unshift(userRec);
+            else {
+              finalArr.push(res[i]);
             }
-            if(JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
-              setLiveStandingData(finalArr);
           }
+          if (userRec !== "") {
+            finalArr.unshift(userRec);
+          }
+          if (JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
+            setLiveStandingData(finalArr);
         }
       }
+    }
     setModalState(true);
   };
 
@@ -198,7 +193,7 @@ function AccountPage(props) {
         </div>
       </div>
       <Footer isBlack logoOnly={false} />
-      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={0} isMobile={isMobile}/>
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={0} isMobile={isMobile} />
     </>
   );
 }
