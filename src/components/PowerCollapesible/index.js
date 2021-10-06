@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Row, Col } from "reactstrap";
 import { useHistory } from "react-router-dom";
-
 import classes from "./index.module.scss";
 import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
@@ -15,7 +14,7 @@ import LockIcon from "../../icons/Lock";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
-
+import batteryIcon from '../../assets/batteryicon.png';
 const getIcon = (powerName) => {
   if (powerName) {
     if (powerName.toLowerCase().match(/wall/g)) return ShieldIcon;
@@ -28,15 +27,12 @@ const getIcon = (powerName) => {
     else if (powerName.toLowerCase().match(/power-up/g)) return PowerUpIcon;
   }
 };
-
 function PowerCollapesible(props) {
   const [collapsed, setCollapseState] = useState(true);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
   const history = useHistory();
   const onCloseModal = () => setLearnMoreModal(false);
-
   const { Power = [] } = history?.location?.state || {};
-
   const [swapCountss, setSwapCountss] = useState(0);
   const [dwallCountss, setDwallCountss] = useState(0);
   const [challengeCountss, setChallengeCountss] = useState(0);
@@ -46,11 +42,8 @@ function PowerCollapesible(props) {
   const [pointBooster3xs, setPointBooster3xCountss] = useState(0);
   const [retroBoostCountss, setRetroBoostCountss] = useState(0);
   const [powerUpCountss, setPowerUpCountss] = useState(0);
-
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
-
-  const { styles = {}, powers = [] } = props || {};
-
+  const { styles = {}, powers = [], game_type="" } = props || {};
   const setPowers = () => {
     let remainingPowers = Power;
     let challenge = 0;
@@ -95,7 +88,6 @@ function PowerCollapesible(props) {
     setPointBooster2xCountss(p2);
     setPointBooster3xCountss(p3);
   };
-
   const isPowerAvailable = (type) => {
     let powerss = powers;
     let available = 0;
@@ -127,7 +119,6 @@ function PowerCollapesible(props) {
     }
     return available;
   };
-
   function isPowerLocked(type) {
     let powerss = powers;
     if (typeof powerss == "undefined") {
@@ -169,14 +160,12 @@ function PowerCollapesible(props) {
     }
     return locked;
   }
-
   React.useEffect(() => {
     setPowers();
     if (props.collapse === false) {
       setCollapseState(false);
     }
   }, []);
-
   const RenderPower = ({
     title = "",
     Icon = "",
@@ -209,46 +198,38 @@ function PowerCollapesible(props) {
               <div className={classes.power_footer}>
                 {isPowerLocked(title) === 1 ? (
                   <>
-                    <p>Share to unlock:</p>
+                      <p>Share to unlock:</p>
 
-                    <button
-                      onClick={() => {
-                        var left = window.screen.width / 2 - 600 / 2,
-                          top = window.screen.height / 2 - 600 / 2;
-                        window.open(
-                          `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                          "targetWindow",
-                          "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                            left +
-                            ",top=" +
-                            top
-                        );
-                      }}
-                    >
-                      <FacebookIcon />
-                    </button>
+                      <button
+                        onClick={() => {
+                          var left = window.screen.width / 2 - 600 / 2,
+                            top = window.screen.height / 2 - 600 / 2;
+                          window.open(
+                            `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                            "targetWindow",
+                            "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                              left +
+                              ",top=" +
+                              top
+                          );
+                        }}
+                      >
+                        <FacebookIcon />
+                      </button>
 
-                    <button
-                      onClick={() => {
-                        var left = window.screen.width / 2 - 600 / 2,
-                          top = window.screen.height / 2 - 600 / 2;
-                        window.open(
-                          `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                          "targetWindow",
-                          "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                            left +
-                            ",top=" +
-                            top
-                        );
-                      }}
-                    >
+                    <button onClick={() => {
+                      var left = (window.screen.width / 2) - (600 / 2),
+                        top = (window.screen.height / 2) - (600 / 2);
+                      window.open(`https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`, 'targetWindow', 'toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=' + left + ',top=' + top);
+                    }}>
                       <TwitterIcon />
                     </button>
                   </>
-                ) : (
-                  <p className={classes.power_footer_count}>
-                    {count} <span>left</span>
-                  </p>
+                ):(
+                  game_type == "PowerdFs_Recharge" ? <img src={batteryIcon} /> :
+                    <p className={classes.power_footer_count}>
+                      {count}
+                    </p>
                 )}
               </div>
             )}
@@ -256,7 +237,7 @@ function PowerCollapesible(props) {
         </Col>
       </Row>
     );
-  };
+  }
 
   return (
     <div className={classes.wrapper} styles={styles}>
@@ -314,10 +295,8 @@ function PowerCollapesible(props) {
       />
     </div>
   );
-}
-
+};
 PowerCollapesible.propTypes = {
   styles: PropTypes.any,
 };
-
 export default PowerCollapesible;

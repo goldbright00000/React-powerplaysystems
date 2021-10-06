@@ -278,6 +278,7 @@ function NHLPowerdFs(props) {
     paid_game = true,
     entry_fee = "",
     currency = "",
+    game_type = ""
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -320,7 +321,6 @@ function NHLPowerdFs(props) {
       NHLActions.nhlData(history.location?.state?.game_id)
     );
 
-    console.log(response);
 
     if (response) {
       setData(response?.filterdList);
@@ -1356,7 +1356,7 @@ function NHLPowerdFs(props) {
                 centered
               />
 
-              <PowerCollapesible powers={powers} />
+              <PowerCollapesible powers={powers} game_type={game_type}/>
 
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>
