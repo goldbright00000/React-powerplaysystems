@@ -234,7 +234,6 @@ const MyGameCenterCard = (props) => {
             >
               <>
                 <div className={classes.__my_game_center_card_mobile_header}>
-                
                   {inProgress && (
                     <div className={classes.__my_game_center_card_in_progress}>
                       <div className={classes.__in_progress}>
@@ -280,11 +279,20 @@ const MyGameCenterCard = (props) => {
                   </div>
                 </div>
 
-                <div style={{marginLeft: 20, color: "#f2f2f2", opacity: 0.6, textAlign: "left"}}>ID {game_id}</div>
+                <div
+                  style={{
+                    marginLeft: 20,
+                    color: "#f2f2f2",
+                    opacity: 0.6,
+                    textAlign: "left",
+                  }}
+                >
+                  ID {game_id}
+                </div>
 
                 <div
                   className={classes.__my_game_center_card_powerdfs}
-                  style={{ marginTop: inProgress || !completed ? -3 : 0 }}
+                  style={{ marginTop: inProgress || !completed ? 5 : 10 }}
                 >
                   <div className={classes.__my_game_center_card_powerdfs_title}>
                     <p>
@@ -677,7 +685,6 @@ const MyGameCenterCard = (props) => {
             className={classes.__my_game_center_card}
             style={getBackgroundImageWithStyle()}
           >
-            
             {inProgress && (
               <div className={classes.__my_game_center_card_in_progress}>
                 <div className={classes.__in_progress}>
@@ -693,10 +700,19 @@ const MyGameCenterCard = (props) => {
                 x
               </div>
             )}
-            <span style={{marginLeft: 20, color: "#f2f2f2", opacity: 0.6, marginTop: 10}}>ID {game_id}</span>
+            <span
+              style={{
+                marginLeft: 20,
+                color: "#f2f2f2",
+                opacity: 0.6,
+                marginTop: 10,
+              }}
+            >
+              ID {game_id}
+            </span>
             <div
               className={classes.__my_game_center_card_powerdfs}
-              style={{ marginTop: inProgress || !completed ? -3 : 0 }}
+              style={{ marginTop: inProgress || !completed ? 5 : 10 }}
             >
               <span
                 className={
@@ -849,7 +865,6 @@ const MyGameCenterCard = (props) => {
                   </p>
                 </div>
               )}
-
 
               <div className={classes.__my_game_center_card_details}>
                 {completed ? (
