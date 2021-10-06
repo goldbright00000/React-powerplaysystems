@@ -152,17 +152,17 @@ const FILTERS_INITIAL_VALUES = [
     remaining: 3,
   },
   {
-    id: 4,
+    id: 3,
     title: CONSTANTS.FILTERS.NHL.D,
     remaining: 2,
   },
   {
-    id: 5,
+    id: 4,
     title: CONSTANTS.FILTERS.NHL.G,
     remaining: 1,
   },
   {
-    id: 6,
+    id: 5,
     title: CONSTANTS.FILTERS.NHL.TD,
     remaining: 1,
   },
@@ -192,27 +192,23 @@ const dropDown = [
 const headerText = [
   {
     id: 1,
-    text: `Select 1 Team Defense, Goals against result in negative points for your team.`,
+    text: `Select 1 Center.`,
   },
   {
     id: 2,
-    text: `Select 1 Catcher.`,
+    text: `Select 3 Wingers.`,
   },
   {
     id: 3,
-    text: `Select 1 Shortstop.`,
+    text: `Select 2 Defensemen.`,
   },
   {
     id: 4,
-    text: `Select 2 players from the pool of players at First Base (1B), Second Base (2B), and Third Base (3B). You may only select one Star player from the XB pool.`,
+    text: `Select 1 Goaltender.`,
   },
   {
     id: 5,
-    text: `Select 2 Outfielders (OF) from the pool of players at Left Field (LF), Center Field (CF), and Right Field (RF). You may select only one Star player from the OF pool.`,
-  },
-  {
-    id: 6,
-    text: `Select 1 Team Defense, Goals against result in negative points for your team. You can see the Average Runs Against (ARA) for each team below. Click the Arrow icon to see starting Pitchers.`,
+    text: `Select 1 Team Defense, Shots and Goals against will result in negative points for your team.`,
   },
 ];
 

@@ -651,13 +651,15 @@ function SportsLiveCard(props) {
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
       <div className={classes.stat_points_container}>
-        <p
-          className={`${classes.stat_points_title} ${
-            largeView && classes.large_view
-          }`}
-        >
-          Stats
-        </p>
+        <Tooltip toolTipContent="Point Generating Plays">
+          <p
+            className={`${classes.stat_points_title} ${
+              largeView && classes.large_view
+            }`}
+          >
+            PGPs
+          </p>
+        </Tooltip>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           {type === "P" ? (
             <>
@@ -724,7 +726,7 @@ function SportsLiveCard(props) {
               largeView && classes.large_view
             }`}
           >
-            Stats
+            <Tooltip toolTipContent="Point Generating Plays">PGPs</Tooltip>
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             G: {goals} | A: {assists}
@@ -859,16 +861,23 @@ function SportsLiveCard(props) {
 
   const RenderHeaderIcons = () => (
     <>
-      {props.swapCount === 0 ? (
-        <div style={{ opacity: 0.5 }}>
-          <Replace size={singleView ? 23 : 22} className={classes.disabled} />
-        </div>
-      ) : (
-        <Replace
-          size={singleView ? 23 : 22}
-          onClick={toggleReplaceModal}
-          className={isGameOverOrNotStarted()}
-        />
+      {!showSummary && (
+        <>
+          {props.swapCount === 0 ? (
+            <div style={{ opacity: 0.5 }}>
+              <Replace
+                size={singleView ? 23 : 22}
+                className={classes.disabled}
+              />
+            </div>
+          ) : (
+            <Replace
+              size={singleView ? 23 : 22}
+              onClick={toggleReplaceModal}
+              className={isGameOverOrNotStarted()}
+            />
+          )}
+        </>
       )}
     </>
   );

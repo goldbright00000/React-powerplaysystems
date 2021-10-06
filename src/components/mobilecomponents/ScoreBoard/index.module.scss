@@ -1,0 +1,32 @@
+@import "../../../scss/colors.scss";
+
+.points_container {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background-color: $lightBlue8;
+
+  p {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: $lightBlue;
+  }
+
+  span {
+    font-family: Poppins;
+    font-size: 22px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: $grey2;
+  }
+}
