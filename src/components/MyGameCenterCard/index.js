@@ -280,6 +280,17 @@ const MyGameCenterCard = (props) => {
                 </div>
 
                 <div
+                  style={{
+                    marginLeft: 20,
+                    color: "#f2f2f2",
+                    opacity: 0.6,
+                    textAlign: "left",
+                  }}
+                >
+                  ID {game_id}
+                </div>
+
+                <div
                   className={classes.__my_game_center_card_powerdfs}
                   style={{ marginTop: inProgress || !completed ? 5 : 10 }}
                 >
@@ -689,6 +700,16 @@ const MyGameCenterCard = (props) => {
                 x
               </div>
             )}
+            <span
+              style={{
+                marginLeft: 20,
+                color: "#f2f2f2",
+                opacity: 0.6,
+                marginTop: 10,
+              }}
+            >
+              ID {game_id}
+            </span>
             <div
               className={classes.__my_game_center_card_powerdfs}
               style={{ marginTop: inProgress || !completed ? 5 : 10 }}
@@ -844,18 +865,6 @@ const MyGameCenterCard = (props) => {
                   </p>
                 </div>
               )}
-
-              <div>
-                <span
-                  style={{
-                    marginLeft: 25,
-                    color: "#688fbd",
-                    fontSize: 14,
-                  }}
-                >
-                  {game_id}
-                </span>
-              </div>
 
               <div className={classes.__my_game_center_card_details}>
                 {completed ? (

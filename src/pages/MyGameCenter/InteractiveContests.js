@@ -28,6 +28,7 @@ import _ from "underscore";
 import moment from "moment";
 import moment1 from "moment-timezone";
 import * as MLBActions from "../../actions/MLBActions";
+import { Link } from "react-router-dom";
 
 import { CONSTANTS } from "../../utility/constants";
 
@@ -694,7 +695,14 @@ const InteractiveContests = (props) => {
                             return myGameCenterCard(power, power.url);
                           })
                         ) : i == 0 ? (
-                          <h1 className="nogamesmessage">No games</h1>
+                            contentType !== "Completed" ?
+                              <div className={classes.noGameDiv}>
+                                <h2>You have not entered any games yet</h2>
+                                <p>Head over to the Power Center, browse the available games, and get in on the action!</p>
+                                <Link to="/power-center">Go to Power Center</Link>
+                              </div>
+                              :
+                              <h1 className="nogamesmessage">No games</h1>
                         ) : (
                           ""
                         )}
@@ -711,7 +719,15 @@ const InteractiveContests = (props) => {
                               return myGameCenterCard(power, power.url);
                             })
                           ) : i == 0 ? (
-                            <h1 className="nogamesmessage">No games</h1>
+                            contentType !== "Completed" ?
+                              <div className={classes.noGameDiv}>
+                                <h2>You have not entered any games yet</h2>
+                                <p>Head over to the Power Center, browse the available games, and get in on the action!</p>
+                                <Link to="/power-center">Go to Power Center</Link>
+                                
+                              </div>
+                              :
+                              <h1 className="nogamesmessage">No games</h1>
                           ) : (
                             ""
                           )}

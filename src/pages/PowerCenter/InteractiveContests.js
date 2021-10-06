@@ -362,7 +362,7 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   isPromoPage: false,
-                  game_type:item?.game_type,
+                  game_type: item?.game_type,
                   league: item?.league,
                   powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
@@ -404,7 +404,7 @@ const InteractiveContests = (props) => {
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
                   isPromoPage: true,
-                  game_type:item?.game_type,
+                  game_type: item?.game_type,
                   league: item?.league,
                   powerdfs_challenge_amount: item?.powerdfs_challenge_amount
                 },
@@ -443,8 +443,7 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
-              game_type:item?.game_type,
-              game_type:item?.game_type,
+              game_type: item?.game_type,
               league: item?.league
             },
           });
@@ -481,7 +480,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
-                  game_type:item?.game_type,
+                  game_type: item?.game_type,
                   isPromoPage: false,
                   league: item?.league,
                   powerdfs_challenge_amount: item?.powerdfs_challenge_amount
@@ -523,7 +522,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
-                  game_type:item?.game_type,
+                  game_type: item?.game_type,
                   isPromoPage: true,
                   league: item?.league,
                   powerdfs_challenge_amount: item?.powerdfs_challenge_amount
@@ -571,7 +570,7 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
-              game_type:item?.game_type,
+              game_type: item?.game_type,
             },
           });
         case "NHL":
@@ -606,7 +605,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
-                  game_type:item?.game_type,
+                  game_type: item?.game_type,
                   isPromoPage: false,
                   league: item?.league,
                   powerdfs_challenge_amount: item?.powerdfs_challenge_amount
@@ -648,7 +647,7 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
-                  game_type:item?.game_type,
+                  game_type: item?.game_type,
                   isPromoPage: true,
                   league: item?.league,
                   powerdfs_challenge_amount: item?.powerdfs_challenge_amount
@@ -696,7 +695,7 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
-              game_type:item?.game_type,
+              game_type: item?.game_type,
             },
           });
         default:
