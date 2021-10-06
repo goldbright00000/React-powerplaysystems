@@ -676,6 +676,16 @@ const InteractiveContests = (props) => {
                 // }
               });
             }
+            if(myGameCenterCardData.length == 0) {
+              return (
+                <div className={classes.noGameDiv}>
+                  <h2>You have not entered any games yet</h2>
+                  <p>Head over to the Power Center, browse the available games, and get in on the action!</p>
+                  <Link to="/power-center">Go to Power Center</Link>
+                </div>
+              );
+            }
+            console.log("numberOfRows", numberOfRows);
             const myGameCenterCardView = Array(numberOfRows)
               .fill(undefined)
               .map((item, i) => {

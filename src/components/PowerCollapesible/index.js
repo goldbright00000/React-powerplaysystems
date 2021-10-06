@@ -13,6 +13,7 @@ import LockIcon from "../../icons/Lock";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 import LearnMoreModal from "../../components/PowerCenterCardDetails/LearnMoreModal";
+import batteryIcon from '../../assets/batteryicon.png';
 import { useHistory } from "react-router-dom";
 const getIcon = (powerName) => {
   if (powerName) {
@@ -63,7 +64,7 @@ function PowerCollapesible(props) {
 
   const text = process.env.REACT_APP_POST_SHARING_TEXT;
 
-  const { styles = {}, powers = [] } = props || {};
+  const { styles = {}, powers = [], game_type="" } = props || {};
 
   const setPowers = () => {
     let remainingPowers = Power;
@@ -243,9 +244,10 @@ function PowerCollapesible(props) {
                 </div>
               </>
             ) : (
-              <p className={classes.power_footer_count}>
-                {count}
-              </p>
+              game_type == "PowerdFs_Recharge" ? <img src={batteryIcon} /> :
+                <p className={classes.power_footer_count}>
+                  {count}
+                </p>
             )}
           </div>
         )}
