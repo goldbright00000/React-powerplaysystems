@@ -316,3 +316,18 @@
     }
   }
 }
+
+
+.__currency__main{
+  text-align: end;
+  .__currency__main{
+    width: auto;
+    margin-left: auto;
+    background-color: #000;
+    border-color: #fb6e00;
+    color: #fff;
+    &:focus{
+      box-shadow: 0 0 0 0.25rem #fb6d0038;
+    }
+  }
+}

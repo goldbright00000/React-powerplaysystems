@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 
-import { redirectTo } from "../../utility/shared";
-
+import { createAlert } from "../../actions/notificationActions";
 import ChooseItem from "../../ui/ChooseItem/ChooseItem";
 import styles from "./styles.module.scss";
 import PayPal from "../../assets/paypal.png";
@@ -18,6 +17,8 @@ import { Link } from "react-router-dom";
 import QRCode from "../../assets/QRCode.png";
 import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
+import { getPersonaUserId } from "../../actions/personaActions";
+import { checkAccountLimit } from "../../actions/userActions";
 
 const paymentGateWay = 'MyUserPay';
 
@@ -46,6 +47,7 @@ class DepositAmountForm extends Component {
     currency: this.props.currency ? this.props.currency : "USD",
     country: this.props.country,
     canadianVisible: this.props.country === "Canada",
+    dispatch: this.props.dispatch
   };
 
   onCurrencyChange = (e) => {
@@ -221,35 +223,47 @@ class DepositAmountForm extends Component {
     });
   };
 
-  onSubmit = (e) => {
+  onSubmit = async (e) => {
     e.preventDefault();
 
-    if (this.state.form.currency === "USD")
-      if (!this.state.canadianVisible) {
-        const object = {
-          currency: this.state.currency,
-          amount: this.state.form.price,
-          city: this.state.city,
-          address: this.state.address,
-          zip: this.state.zip,
-          phone_number: this.state.phoneNumber,
-        };
+    const user_id = getPersonaUserId();
 
-        this.props.ipaySubmitted(object);
-      } else {
-        let { price, paymentMetod } = this.state.form;
+    const response = await this.state.dispatch(checkAccountLimit(user_id, this.state.form.currency));
 
-        // price = parseFloat((price * this.props.cad).toFixed(2));
+    if (response.daily?.exceeded) {
+      this.state.dispatch(createAlert('This transaction exceeds the personal Daily limits which you have set on the Account Limits page.', "info"));
+    } else if (response.weekly?.exceeded) {
+      this.state.dispatch(createAlert('This transaction exceeds the personal Weekly limits which you have set on the Account Limits page.', "info"));
+    } else if (response.montly?.exceeded) {
+      this.state.dispatch(createAlert('This transaction exceeds the personal Monthly limits which you have set on the Account Limits page.', "info"));
+    } else {
+      if (this.state.form.currency === "USD")
+        if (!this.state.canadianVisible) {
+          const object = {
+            currency: this.state.currency,
+            amount: this.state.form.price,
+            city: this.state.city,
+            address: this.state.address,
+            zip: this.state.zip,
+            phone_number: this.state.phoneNumber,
+          };
 
-        this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
+          this.props.ipaySubmitted(object);
+        } else {
+          let { price, paymentMetod } = this.state.form;
 
-        // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
+          // price = parseFloat((price * this.props.cad).toFixed(2));
 
-        // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+          this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
+
+          // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
+
+          // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
+        }
+      else {
+        const { currency, price } = this.state.form;
+        this.props.coinbaseSubmitted(price, currency);
       }
-    else {
-      const { currency, price } = this.state.form;
-      this.props.coinbaseSubmitted(price, currency);
     }
   };
 
@@ -257,77 +271,78 @@ class DepositAmountForm extends Component {
     const { currency, price, paymentMetod, walletAddress } = this.state.form;
     const { isOtherAmount } = this.state;
     return (
-      <form className={styles.form} onSubmit={this.onSubmit}>
-        <section className={styles.formSection}>
-          <h6>Select Currency</h6>
-          <div className="row align-items-center">
-            {Object.keys(this.prices).map((key, index) => (
-              <div className="col-auto mx-0 my-2 px-1">
-                <ChooseItem
-                  name="currency"
-                  title={this.prices[key].title}
-                  value={key}
-                  key={index}
-                  checked={currency === key}
-                  onChange={this.onCurrencyChange}
-                />
-              </div>
-            ))}
-          </div>
-        </section>
-        <section className={`${styles.formSection}`}>
-          <h6>Select Amount ({currency})</h6>
-          <div className="row align-items-center">
-            {this.prices[currency].values.map((data, index) => (
+      <>
+        <form className={styles.form} onSubmit={this.onSubmit}>
+          <section className={styles.formSection}>
+            <h6>Select Currency</h6>
+            <div className="row align-items-center">
+              {Object.keys(this.prices).map((key, index) => (
+                <div className="col-auto mx-0 my-2 px-1">
+                  <ChooseItem
+                    name="currency"
+                    title={this.prices[key].title}
+                    value={key}
+                    key={index}
+                    checked={currency === key}
+                    onChange={this.onCurrencyChange}
+                  />
+                </div>
+              ))}
+            </div>
+          </section>
+          <section className={`${styles.formSection}`}>
+            <h6>Select Amount ({currency})</h6>
+            <div className="row align-items-center">
+              {this.prices[currency].values.map((data, index) => (
+                <div className="col-auto mx-0 my-2 px-1">
+                  <ChooseItem
+                    name="price"
+                    key={index}
+                    onChange={this.onPriceChange}
+                    // helperText={
+                    //   this.state.canadianVisible
+                    //     ? formatePrice(data.value, this.props.cad, true)
+                    //     : null
+                    // }
+                    {...data}
+                    checked={!isOtherAmount && price === data.value}
+                  />
+                </div>
+              ))}
               <div className="col-auto mx-0 my-2 px-1">
                 <ChooseItem
                   name="price"
-                  key={index}
+                  title="Other"
+                  helperText="Your Amount"
+                  type="number"
                   onChange={this.onPriceChange}
-                  // helperText={
-                  //   this.state.canadianVisible
-                  //     ? formatePrice(data.value, this.props.cad, true)
-                  //     : null
-                  // }
-                  {...data}
-                  checked={!isOtherAmount && price === data.value}
+                  value={isOtherAmount ? price : ""}
                 />
               </div>
-            ))}
-            <div className="col-auto mx-0 my-2 px-1">
-              <ChooseItem
-                name="price"
-                title="Other"
-                helperText="Your Amount"
-                type="number"
-                onChange={this.onPriceChange}
-                value={isOtherAmount ? price : ""}
-              />
-            </div>
-          </div>
-        </section>
-        {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
-          < section className={styles.formSection}>
-            <h6>Add Payment Details</h6>
-            <div className="row align-items-center">
-              {this.prices[currency].paymentMetods.map(
-                (data, index) =>
-                  data.visible && (
-                    <div className="col-auto mx-0 my-2 px-1">
-                      <ChooseItem
-                        {...data}
-                        key={index}
-                        checked={paymentMetod === data.value}
-                        onChange={this.onPaymentMethodChange}
-                      />
-                    </div>
-                  )
-              )}
             </div>
           </section>
-        ) : (
-          <section className={styles.formSection}>
-            {/* <h6>
+          {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
+            < section className={styles.formSection}>
+              <h6>Add Payment Details</h6>
+              <div className="row align-items-center">
+                {this.prices[currency].paymentMetods.map(
+                  (data, index) =>
+                    data.visible && (
+                      <div className="col-auto mx-0 my-2 px-1">
+                        <ChooseItem
+                          {...data}
+                          key={index}
+                          checked={paymentMetod === data.value}
+                          onChange={this.onPaymentMethodChange}
+                        />
+                      </div>
+                    )
+                )}
+              </div>
+            </section>
+          ) : (
+            <section className={styles.formSection}>
+              {/* <h6>
               Don’t own any {currency === "BTC" ? "Bitcoin" : "Ethereum"}? Buy
               at our Payment Partner{" "}
             </h6>
@@ -337,54 +352,53 @@ class DepositAmountForm extends Component {
                 Buy {currency} at Coingate
               </button>
             </div> */}
-          </section>
-        )
-        }
-        {
-          currency === "USD" && !this.state.canadianVisible && (
-            <section className={styles.cardSectionn}>
-              <div className={styles.cardDetails}>
-                <div>
-                  {/* <label>City</label> */}
-                  {/* <Link to="/add-card">+ Add New Card</Link> */}
+            </section>
+          )}
+          {
+            currency === "USD" && !this.state.canadianVisible && (
+              <section className={styles.cardSectionn}>
+                <div className={styles.cardDetails}>
+                  <div>
+                    {/* <label>City</label> */}
+                    {/* <Link to="/add-card">+ Add New Card</Link> */}
+                  </div>
+                  <form>
+                    <input
+                      placeholder="City"
+                      value={this.state.city}
+                      name="city"
+                      onChange={this.onFieldChangeHandler}
+                    />
+                    <input
+                      placeholder="Address"
+                      name="address"
+                      onChange={this.onFieldChangeHandler}
+                      value={this.state.address}
+                    />
+                    <input
+                      placeholder="Phone Number"
+                      type="phone"
+                      name="phoneNumber"
+                      onChange={this.onFieldChangeHandler}
+                      value={this.state.phoneNumber}
+                    />
+                    <input
+                      placeholder="Zip"
+                      name="zip"
+                      value={this.state.zip}
+                      onChange={this.onFieldChangeHandler}
+                    />
+                    <select
+                      onChange={this.onFieldChangeHandler}
+                      value={this.state.currency}
+                      name="currency"
+                    >
+                      <option value="USD">USD</option>
+                      <option value="EUR">EUR</option>
+                    </select>
+                  </form>
                 </div>
-                <form>
-                  <input
-                    placeholder="City"
-                    value={this.state.city}
-                    name="city"
-                    onChange={this.onFieldChangeHandler}
-                  />
-                  <input
-                    placeholder="Address"
-                    name="address"
-                    onChange={this.onFieldChangeHandler}
-                    value={this.state.address}
-                  />
-                  <input
-                    placeholder="Phone Number"
-                    type="phone"
-                    name="phoneNumber"
-                    onChange={this.onFieldChangeHandler}
-                    value={this.state.phoneNumber}
-                  />
-                  <input
-                    placeholder="Zip"
-                    name="zip"
-                    value={this.state.zip}
-                    onChange={this.onFieldChangeHandler}
-                  />
-                  <select
-                    onChange={this.onFieldChangeHandler}
-                    value={this.state.currency}
-                    name="currency"
-                  >
-                    <option value="USD">USD</option>
-                    <option value="EUR">EUR</option>
-                  </select>
-                </form>
-              </div>
-              {/* <div className="__mt-2 __flex __sb">
+                {/* <div className="__mt-2 __flex __sb">
               <div>
                 <p>Fred Smith</p>
                 <p className="__mt-s __mb-s">123 Main St</p>
@@ -404,46 +418,46 @@ class DepositAmountForm extends Component {
                 </div>
               </div>
             </div> */}
-            </section>
-          )
-        }
-        {
-          currency !== "USD" ? (
-            // <section className={styles.QRCodeWrapper}>
-            //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
-            //   <div>
-            //     {/* <img alt="" src={QRCode} className={styles.qrImage} />
-            //     <div className={styles.inputField}>
-            //       <label htmlFor="wallet-address">Wallet Address</label>
-            //       <img
-            //         src={copyImage}
-            //         alt=""
-            //         className={styles.copyImage}
-            //         onClick={() => navigator.clipboard.writeText(walletAddress)}
-            //       />
-            //       <input
-            //         type="text"
-            //         id="wallet-address"
-            //         value={walletAddress}
-            //         onChange={this.onWalletAddressChange}
-            //       />
-            //     </div> */}
+              </section>
+            )}
+          {
+            currency !== "USD" ? (
+              // <section className={styles.QRCodeWrapper}>
+              //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
+              //   <div>
+              //     {/* <img alt="" src={QRCode} className={styles.qrImage} />
+              //     <div className={styles.inputField}>
+              //       <label htmlFor="wallet-address">Wallet Address</label>
+              //       <img
+              //         src={copyImage}
+              //         alt=""
+              //         className={styles.copyImage}
+              //         onClick={() => navigator.clipboard.writeText(walletAddress)}
+              //       />
+              //       <input
+              //         type="text"
+              //         id="wallet-address"
+              //         value={walletAddress}
+              //         onChange={this.onWalletAddressChange}
+              //       />
+              //     </div> */}
 
-            //   </div>
-            // </section>
-            <button className={`${styles.submitbtn} w-100 d-block`}>
-              Deposit • {currency === "$USD" && "$"}
-              {price} {currency.replace("$", "")}
-            </button>
-          ) : (
-            <button className={`${styles.submitbtn} w-100 d-block`}>
-              Deposit • {currency === "$USD" && "$"}
-              {price}
-              {currency.replace("$", "")}
-            </button>
-          )
-        }
-      </form >
+              //   </div>
+              // </section>
+              <button className={`${styles.submitbtn} w-100 d-block`}>
+                Deposit • {currency === "$USD" && "$"}
+                {price} {currency.replace("$", "")}
+              </button>
+            ) : (
+              <button className={`${styles.submitbtn} w-100 d-block`}>
+                Deposit • {currency === "$USD" && "$"}
+                {price}
+                {currency.replace("$", "")}
+              </button>
+            )
+          }
+        </form>
+      </>
     );
   }
 }
