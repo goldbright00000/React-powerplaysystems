@@ -12,7 +12,8 @@ import {
   SET_LOADING,
   SET_NOT_lOADING,
   USER_WINNIGS,
-  COUNTRIES
+  COUNTRIES,
+  ACCOUNT_LIMIT
 } from "../../actions/userActions";
 
 const INITIAL_STATE = {
@@ -27,6 +28,7 @@ const INITIAL_STATE = {
   loading: false,
   USER_WINNIGS: [],
   COUNTRIES: [],
+  ACCOUNT_LIMIT: {}
 };
 
 const userReducer = (state = INITIAL_STATE, actions) => {
@@ -106,6 +108,11 @@ const userReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         countries: actions.payload
+      }
+    case ACCOUNT_LIMIT:
+      return {
+        ...state,
+        account_limit: actions.payload
       }
     default:
       return state;

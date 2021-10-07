@@ -34,8 +34,8 @@ const Alert = () => {
     alert.type === "success"
       ? SuccessIcon
       : alert.type === "info"
-      ? InfoIcon
-      : ErrorIcon;
+        ? InfoIcon
+        : ErrorIcon;
   return show ? (
     <div className={`${classes.__wrapper} ${classes[alert.type]}`}>
       <div className={classes.content_div}>
@@ -45,6 +45,7 @@ const Alert = () => {
           height="28px"
           style={{ cursor: "pointer" }}
           onClick={onClose}
+          alt=""
         />
         <div className={classes.message}>
           {" "}
@@ -64,6 +65,7 @@ const Alert = () => {
         height="20px"
         style={{ cursor: "pointer" }}
         onClick={onClose}
+        alt=""
       />
     </div>
   ) : null;

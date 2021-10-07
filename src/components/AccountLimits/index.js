@@ -5,6 +5,13 @@ import { useDispatch } from "react-redux";
 import CloseIconGrey from "../../assets/close-icon-grey.png";
 import InfoIconOrange from "../../assets/icons/info-icon.png";
 
+const CURRENCIES = [
+  'Select for currency',
+  'USD',
+  'BTC',
+  'ETH',
+]
+
 const AccountLimits = (props) => {
   const { isMobile = false } = props || {};
   const dispatch = useDispatch();
@@ -119,6 +126,7 @@ const AccountLimits = (props) => {
                   width="20px"
                   height="20px"
                   onClick={() => setInfoModal(false)}
+                  alt=""
                 />
               </div>
               <br />
@@ -154,6 +162,21 @@ const AccountLimits = (props) => {
               </p>
             </div>
 
+            <div className={classes.__currency__main}>
+              <select
+                name="currency"
+                defaultValue={accountLimit['currency']}
+                onChange={handleLimitChanges}
+                className={`${"form-control"} ${classes.__currency__main}`}
+              >
+                {CURRENCIES.map((item, index) => {
+                  return (
+                    <option key={index} selected={item === accountLimit['currency'] ? true : false} value={item}>{item}</option>
+                  )
+                })}
+              </select>
+            </div>
+
             <div className={classes.__main_title}>
               Deposit Limits and Alerts{" "}
               {isMobile ? (
@@ -166,6 +189,7 @@ const AccountLimits = (props) => {
                     setInfoModal(true);
                     setInfoType("DepositAlert");
                   }}
+                  alt=""
                 />
               ) : null}
             </div>
@@ -211,6 +235,7 @@ const AccountLimits = (props) => {
                   setInfoModal(true);
                   setInfoType("DepositAlert");
                 }}
+                alt=""
               />
             </div>
 
@@ -237,6 +262,7 @@ const AccountLimits = (props) => {
                   setInfoModal(true);
                   setInfoType("DepositLimit");
                 }}
+                alt=""
               />
             </div>
 
@@ -269,6 +295,7 @@ const AccountLimits = (props) => {
                 setInfoModal(true);
                 setInfoType("EntryFeeLimit");
               }}
+              alt=""
             />
           ) : null}
         </div>
