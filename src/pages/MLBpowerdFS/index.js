@@ -327,6 +327,7 @@ function MLBPowerdFs(props) {
     paid_game = true,
     entry_fee = "",
     currency = "",
+    game_type = ""
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -1707,7 +1708,7 @@ function MLBPowerdFs(props) {
                 centered
               />
 
-              <PowerCollapesible powers={powers} />
+              <PowerCollapesible powers={powers} game_type={game_type} />
 
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>

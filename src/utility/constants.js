@@ -97,6 +97,7 @@ export const CONSTANTS = {
     },
     NHL: {
       LIVE: {
+        ALL_UPDATES: "NHL_MATCH_ROOM_",
         EMIT_ROOM: "NHL_ON_EMIT_LIVE_DATA",
         ON_ROOM_SUB: "NHL_POWER_DFS_LIVE_SUBSCRIBE",
         ON_ROOM_UN_SUB: "NHL_POWER_DFS_LIVE_UN_SUBSCRIBE",

@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "reactstrap";
 import { Link } from "react-router-dom";
 import "./score_board.scss";
+import classes from "./index.module.scss";
 import { removeZeroBeforeDecimalPoint } from "../../../utility/shared";
 import { isEmpty } from "lodash";
 import ChallengePopUp from "../../ChallengePopup";
@@ -18,6 +19,9 @@ import XPIcon from "../../../icons/XPIcon";
 import x3 from "../../../assets/images/3x.svg";
 import x2 from "../../../assets/images/2x.svg";
 import x1 from "../../../assets/images/1x.svg";
+import { CardType } from "../../SportsLiveCard/CardType";
+import NHLFooterStats from "../../SportsLiveCard/NHLFooterStats";
+import NFLFooterStats from "../../SportsLiveCard/NFLFooterStats";
 
 const Slider = ({
   icons,
@@ -45,10 +49,11 @@ const Slider = ({
   counts,
   player,
   setDetails,
-  active_power_id
+  active_power_id,
+  cardType = "nhl",
 }) => {
-  const  a  = useSelector((state) => state.mlb);
-  const {live_data = []} = a | {};
+  const a = useSelector((state) => state.mlb);
+  const { live_data = [] } = a | {};
   const {
     active: isHitterActive = false,
     bat_hand: hBatHand = "",
@@ -174,20 +179,15 @@ const Slider = ({
   };
 
   const getImage = () => {
-    if(active_power_id == 1)
-    {
+    if (active_power_id == 1) {
       return x1;
-    }
-    else if(active_power_id == 2)
-    {
+    } else if (active_power_id == 2) {
       return x2;
-    }
-    else if(active_power_id == 3)
-    {
+    } else if (active_power_id == 3) {
       return x3;
     }
-  }
-  
+  };
+
   return (
     <Row className="pb-3">
       <Col xs={10} className="pe-0">
@@ -232,14 +232,11 @@ const Slider = ({
                 }
               >
                 <div className="row">
-                  <div className="col-9">
+                  <div className="col-12">
                     <h2 style={{ marginTop: "5px" }}>{title}</h2>
                     <p>{subTitle}</p>
                   </div>
-                  <div className="col-3 point">
-                    <p>Points {double && "2x"}</p>
-                    <h3>{points}</h3>
-                  </div>
+
                   <div className="col-12 ps-2 pe-2">
                     <div
                       className="board__wrapper__fieldsText"
@@ -248,46 +245,55 @@ const Slider = ({
                       <h4>{fieldText}</h4>
                     </div>
                   </div>
-                  {secondShow && (
-                    <>
-                      <div className="col-4 pe-0">
-                        <img
-                          style={{ maxWidth: "68px" }}
-                          src="/images/bating.svg"
-                          alt=""
-                        />
-                      </div>
 
-                      <div className="col-8 roger">
-                        <div>
-                          {!isEmpty(hitter) && (
-                            <>
-                              <p>
-                                <img src="/images/bat.svg" alt="" />{" "}
-                                <span>{formatName(hitterName)}</span>
-                              </p>
-                              <p>
-                                {removeZeroBeforeDecimalPoint(hbBA)} | {hHits}/
-                                {hPA} | B: {balls}| S: {strikes}
-                              </p>
-                              {notShow ? null : (
-                                <h4 className="mt-1">SINGLE</h4>
+                  {CardType.MLB === cardType ? (
+                    <>
+                      {secondShow && (
+                        <>
+                          <div className="col-4 pe-0">
+                            <img
+                              style={{ maxWidth: "68px" }}
+                              src="/images/bating.svg"
+                              alt=""
+                            />
+                          </div>
+
+                          <div className="col-8 roger">
+                            <div>
+                              {!isEmpty(hitter) && (
+                                <>
+                                  <p>
+                                    <img src="/images/bat.svg" alt="" />{" "}
+                                    <span>{formatName(hitterName)}</span>
+                                  </p>
+                                  <p>
+                                    {removeZeroBeforeDecimalPoint(hbBA)} |{" "}
+                                    {hHits}/{hPA} | B: {balls}| S: {strikes}
+                                  </p>
+                                  {notShow ? null : (
+                                    <h4 className="mt-1">SINGLE</h4>
+                                  )}
+                                </>
                               )}
-                            </>
-                          )}
-                          {!isEmpty(pitcher) && (
-                            <>
-                              <p>
-                                <img src="/images/baseball.svg" alt="" />{" "}
-                                <span>{formatName(pitcherName)}</span>
-                              </p>
-                              <p className="mb-3">ERA: {pERA}</p>
-                            </>
-                          )}
-                        </div>
-                      </div>
+                              {!isEmpty(pitcher) && (
+                                <>
+                                  <p>
+                                    <img src="/images/baseball.svg" alt="" />{" "}
+                                    <span>{formatName(pitcherName)}</span>
+                                  </p>
+                                  <p className="mb-3">ERA: {pERA}</p>
+                                </>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
                     </>
-                  )}
+                  ) : null}
+
+                  {CardType.NHL === cardType ? <NHLFooterStats /> : null}
+
+                  {CardType.NFL === cardType ? <NHLFooterStats /> : null}
                 </div>
               </div>
             </div>
@@ -417,26 +423,30 @@ const Slider = ({
           </div>
         </div>
       </Col>
-      <Col xs={2} className="ps-0">
+      <Col xs={2} className="p-0 points-sidebar">
+        <div className={classes.points_container}>
+          <div style={{ textAlign: "center" }}>
+            <p>Points {double && "2x"}</p>
+            <span>{points}</span>
+          </div>
+        </div>
         <div
           className="iconSides"
-          style={
-            icons
-              ? { padding: "36.4px 0" }
-              : !icons && baseBall
-              ? { padding: "66.3px 0" }
-              : { padding: "55.3px 0" }
-          }
+          // style={
+          //   icons
+          //     ? { padding: "36.4px 0" }
+          //     : !icons && baseBall
+          //     ? { padding: "66.3px 0" }
+          //     : { padding: "55.3px 0" }
+          // }
         >
           {type == "D" ? (
             <>
               {counts.challengeCounts === 0 || isGameOverOrNotStarted() ? (
-                <button
-                  style={{background: "none", borderWidth: 0}}
-                >
+                <button style={{ background: "none", borderWidth: 0 }}>
                   <img
-                    className={"disabled"}
-                    style={{width: 40, height: 40}}
+                    className={"mt-2 disabled"}
+                    style={{ width: 40, height: 40 }}
                     src={`${
                       type == "D"
                         ? "/images/challenge-power.svg"
@@ -450,11 +460,11 @@ const Slider = ({
                   component={({ showPopUp }) => (
                     <button
                       onClick={showPopUp}
-                      style={{background: "none", borderWidth: 0}}
+                      style={{ background: "none", borderWidth: 0 }}
                     >
                       <img
-                        
-                        style={{width: 40, height: 40}}
+                        className={"mt-2 disabled"}
+                        style={{ width: 40, height: 40 }}
                         src={`${
                           type == "D"
                             ? "/images/challenge-power.svg"
@@ -469,26 +479,27 @@ const Slider = ({
                 />
               )}
               {counts.dwallCounts === 0 || isGameOverOrNotStarted() ? (
-                <button style={{background: "none", borderWidth: 0}}>
+                <button style={{ background: "none", borderWidth: 0 }}>
                   <img
-                    className={`${icons === true ? "pt-3 disabled" : "pt-4 mt-2 disabled"}`}
-                    style={{width: 40}}
-                    src={`${
-                      "/images/sheild.svg"
+                    className={`${
+                      icons === true ? "pt-3 disabled" : "pt-4 mt-2 disabled"
                     }`}
+                    style={{ width: 40 }}
+                    src={`${"/images/sheild.svg"}`}
                     alt=""
                   />
                 </button>
               ) : (
                 <DwallPopUp
                   component={({ showPopUp }) => (
-                    <button style={{background: "none", borderWidth: 0}} onClick={showPopUp}>
+                    <button
+                      style={{ background: "none", borderWidth: 0 }}
+                      onClick={showPopUp}
+                    >
                       <img
                         className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
-                        style={{width: 40}}
-                        src={`${
-                          "/images/sheild.svg"
-                        }`}
+                        style={{ width: 40 }}
+                        src={`${"/images/sheild.svg"}`}
                         alt=""
                       />
                     </button>
@@ -502,63 +513,77 @@ const Slider = ({
             <>
               {counts.swapCounts === 0 || isGameOverOrNotStarted() ? (
                 <img
-                  style={{width: 40, height: 40}}
+                  style={{ width: 40, height: 40 }}
                   src={`${
                     type == "D"
                       ? "/images/challenge-power.svg"
                       : "images/shafal.svg"
                   }`}
                   alt=""
-                  className={"disabled"}
+                  className={"mt-2 disabled"}
                 />
               ) : (
                 <img
                   onClick={
-                    !otherIcons && !imageTochanged ? () => swapModal(true, player) : null
+                    !otherIcons && !imageTochanged
+                      ? () => swapModal(true, player)
+                      : null
                   }
-                  style={{width: 40, height: 40}}
+                  style={{ width: 40, height: 40 }}
                   src={`${
                     type == "D"
                       ? "/images/challenge-power.svg"
                       : "images/shafal.svg"
                   }`}
                   alt=""
+                  className={"mt-2 disabled"}
                 />
               )}
-                {counts.pointMultiplierCounts === 0  || isGameOverOrNotStarted()? (
-                  <img
-                    className={`${icons === true ? "pt-3 diabled" : "pt-4 mt-2 disabled"}`}
-                    style={{width: 40}}
-                    src={`${
-                      imageTochanged && !otherIcons
-                        ? "/images/2x.svg"
-                        : type == "D"
-                        ? "/images/sheild.svg"
-                        : (active_power_id == null)?"/images/xp.svg":getImage()
-                    }`}
-                    alt=""
-                  />
-                ) : (
-                  <img
-                  onClick={
-                    !otherIcons && !imageTochanged ? () => (active_power_id == null)? boostModal(true, player) : null : null
-                  }
-                  className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
-                  style={{width: 40}}
+              {counts.pointMultiplierCounts === 0 ||
+              isGameOverOrNotStarted() ? (
+                <img
+                  className={`${
+                    icons === true ? "pt-3 diabled" : "pt-4 mt-2 disabled"
+                  }`}
+                  style={{ width: 40 }}
                   src={`${
                     imageTochanged && !otherIcons
                       ? "/images/2x.svg"
                       : type == "D"
                       ? "/images/sheild.svg"
-                      : (active_power_id == null)?"/images/xp.svg":getImage()
+                      : active_power_id == null
+                      ? "/images/xp.svg"
+                      : getImage()
                   }`}
                   alt=""
                 />
-                )}
-                
+              ) : (
+                <img
+                  onClick={
+                    !otherIcons && !imageTochanged
+                      ? () =>
+                          active_power_id == null
+                            ? boostModal(true, player)
+                            : null
+                      : null
+                  }
+                  className={`${icons === true ? "pt-3" : "pt-4 mt-2"}`}
+                  style={{ width: 40 }}
+                  src={`${
+                    imageTochanged && !otherIcons
+                      ? "/images/2x.svg"
+                      : type == "D"
+                      ? "/images/sheild.svg"
+                      : active_power_id == null
+                      ? "/images/xp.svg"
+                      : getImage()
+                  }`}
+                  alt=""
+                />
+              )}
             </>
           )}
-          
+
           {icons && (
             <>
               <img className="pt-3" src="/images/retro-boost.svg" alt="" />

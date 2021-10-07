@@ -10,6 +10,8 @@ import {
 } from "../../utility/shared";
 import RenderMLBPlayerStats from "./RenderMLBPlayerStats";
 import SportsLiveCardFooter from "./SportsLiveCardFooter";
+import ChallengeIcon from "../../assets/icons/powers/challenge-power.svg";
+import DwallIcon from "../../assets/icons/powers/d-wall-power.svg";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
 import Challenge from "../../icons/Challenge";
@@ -880,7 +882,8 @@ function SportsLiveCardTeamD(props) {
           <div
             style={{
               display: "flex",
-              justifyContent: "space-between",
+              alignItems: "center",
+              // justifyContent: "space-between",
               minHeight: 28,
             }}
           >
@@ -1005,7 +1008,12 @@ function SportsLiveCardTeamD(props) {
                 }
               >
                 <button className={classes.team_d_icon_button}>
-                  <ShieldIcon size={largeView ? 28 : 24} />
+                  <img
+                    alt="power icon"
+                    src={DwallIcon}
+                    width={largeView ? 28 : 24}
+                    height={largeView ? 28 : 24}
+                  />
                 </button>
               </Tooltip>
             ) : props.dwall == 0 ? (
@@ -1013,7 +1021,12 @@ function SportsLiveCardTeamD(props) {
                 <DwallPopUp
                   component={({ showPopUp }) => (
                     <button className={classes.team_d_icon_button}>
-                      <ShieldIcon size={largeView ? 28 : 24} />
+                      <img
+                        alt="power icon"
+                        src={DwallIcon}
+                        width={largeView ? 28 : 24}
+                        height={largeView ? 28 : 24}
+                      />
                     </button>
                   )}
                   dwall={props.dwall}
@@ -1032,13 +1045,30 @@ function SportsLiveCardTeamD(props) {
                         : {}
                     }
                   >
-                    <ShieldIcon size={largeView ? 28 : 24} />
+                    <img
+                      alt="power icon"
+                      src={DwallIcon}
+                      width={largeView ? 28 : 24}
+                      height={largeView ? 28 : 24}
+                    />
                   </button>
                 )}
                 dwall={props.dwall}
                 useDwall={props.useDwall}
               />
             )}
+
+            <button
+              className={classes.team_d_icon_button}
+              style={{ marginLeft: 13 }}
+            >
+              <img
+                alt="power icon"
+                src={ChallengeIcon}
+                width={largeView ? 28 : 24}
+                height={largeView ? 28 : 24}
+              />
+            </button>
             {/* {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
               <div style={{ opacity: 0.5 }}>{renderXp()}</div>
             ) : (

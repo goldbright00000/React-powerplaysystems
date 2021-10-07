@@ -13,8 +13,11 @@ import MLBPlayerOppsite from '../../assets/baseball-player-copy.png';
 import NFLPlayer from '../../assets/nfl-player.png';
 import NBAPlayer from '../../assets/nba-player.png';
 import NHLPlayer from '../../assets/nhl-player.png';
+import onenflbg from '../../assets/group-3-one-nfl.png';
+import onenhlbg from '../../assets/group-3-one-nhl.png';
 
 const PowerCenterCardDetails = (props) => {
+    console.log("props", props);
     const {
         entry_fee = '',
         title = '',
@@ -27,7 +30,8 @@ const PowerCenterCardDetails = (props) => {
         onEnter = () => { },
         game_set_start = '',
         prize = '',
-        userHasEntered = false
+        userHasEntered = false,
+        game_type = ""
     } = props || {};
     const [currentIndex, setCurrentIndex] = useState(0);
     const getBackgroundImageWithStyle = () => {
@@ -51,6 +55,10 @@ const PowerCenterCardDetails = (props) => {
         } else if (title === 'NBA') {
             backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
             backgroundImageStyle.backgroundPosition = "-75px 68px";
+        } else if (title === 'NHL' && game_type === 'PowerdFs_One') {
+            backgroundImageStyle.backgroundImage = `url(${onenhlbg})`;
+        } else if (title === 'NFL' && game_type === 'PowerdFs_One') {
+            backgroundImageStyle.backgroundImage = `url(${onenflbg})`;
         } else {
             backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
             backgroundImageStyle.backgroundPosition = "36px 106px";
