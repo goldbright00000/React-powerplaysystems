@@ -25,7 +25,8 @@ export const URLS = {
     CONTACT_US: "users/contact-us",
     GET_USER_WINNINGS: "users/get-user-winnigs",
     GET_COUNTRIES: "users/countries",
-    TEAM_LIST: 'api/v1/users/account/get-all-team'
+    TEAM_LIST: 'api/v1/users/account/get-all-team',
+    CHECK_LIMIT: "users/account/check-limit",
   },
   DFS: {
     MLB: "/dfs/mlb-selection",
