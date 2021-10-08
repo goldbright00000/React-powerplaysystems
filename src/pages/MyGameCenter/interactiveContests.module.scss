@@ -106,11 +106,11 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
-
+  justify-content: space-between;
   .__interactive_contests_power_center_card {
     display: flex;
-    flex: 1;
-    justify-content: space-evenly;
+    //flex: 1;
+    //justify-content: space-evenly;
   }
 }
 

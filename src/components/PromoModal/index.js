@@ -24,11 +24,13 @@ import RetroBoostIcon from "../../icons/RetroBoost";
 import PowerUpIcon from "../../icons/PowerUp";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import SwapIcon from "../../icons/Swap";
+import {getTeamsList} from ".././../actions/MLBActions"
 
 function PromoModal(props) {
   const [getPowers, setPowers] = useState([]);
   const [isFreeEntryMode, setIsFreeEntryMode] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
+  const [teamData, setTeamData] = useState([]);
   const [freeEntryData, setFreeEntryData] = useState({
     MLBTeam: "",
     NHLTeam: "",
@@ -270,7 +272,13 @@ function PromoModal(props) {
     checkValidation();
   },[freeEntryData]);
 
-  
+  useEffect(async () => {
+    let a = await getTeamsList();
+    if(a.status == 200)
+    {
+      setTeamData(a.data);
+    }
+  }, []);
 
   useEffect(() => {
     powersList();

@@ -572,3 +572,9 @@ export function getFinalStandings(game_id) {
     }
   };
 }
+
+export async function  getTeamsList() {
+  const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.USER.TEAM_LIST}`);
+  console.log(response);
+  return response;
+}

@@ -59,6 +59,7 @@ const Header = (props) => {
     btnBorderStyle = false,
     hasMenu = true,
     headerLogo = null,
+    style = {}
   } = props || {};
 
   const { user } = useSelector((state) => state?.auth);
@@ -191,7 +192,7 @@ const Header = (props) => {
       className="__Header"
       style={{ position: isStick ? "sticky" : "fixed" }}
     >
-      <div className="__container __flex __sb __f1 __light-bold">
+      <div className="__container __flex __sb __f1 __light-bold" style={style}>
         <Link to="/" className="__brand-logo __flex">
           {headerLogo ? headerLogo : <img src={logo} alt="" />}
         </Link>

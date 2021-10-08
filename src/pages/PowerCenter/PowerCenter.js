@@ -27,10 +27,10 @@ const PowerCenter = (props) => {
 
     return (
         <Fragment>
-            <Header />
+            <Header style={{maxWidth: 1240}}/>
             <div className="__power_center">
                 <div className="__power_center_banner">
-                    <div className="__power_center_banner_left __container">
+                    <div className="__power_center_banner_left __container" style={{maxWidth: 1240}}>
                         <div className="__power_center_banner_left_icon">
                             <img
                                 src={PowerCenterBannerTitleIcon}
@@ -55,13 +55,15 @@ const PowerCenter = (props) => {
                             {isMobile ? (
                                 <MobileBalance depositClicked={setShowDepositModal} />
                             ) : (
-                                <Balance depositClicked={setShowDepositModal} />
+                                <div style={{backgroundColor: "#000"}}>
+                                    <Balance depositClicked={setShowDepositModal} style={{maxWidth: 1240, margin: "0 auto"}}/>
+                                </div>
                             )}
                         </>
                     ) : (
                         <div style={{ height: 50 }}></div>
                     )}
-                <div className="__container">
+                <div className="__container" style={{maxWidth: 1240}}>
                     <Route exact path={url} component={InteractiveContests} />
                     <Route path={`${url}/contests`} component={LivePowerPlay} />
                 </div>

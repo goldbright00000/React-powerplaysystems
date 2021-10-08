@@ -26,7 +26,7 @@ const CURRENCY_DATA = [
 ];
 
 const Balance = (props) => {
-  const { isMobile = false, entries = "", totalEntries = "" } = props || {};
+  const { isMobile = false, entries = "", totalEntries = "", style = {} } = props || {};
   const { auth: { user: { userBalance = {} } } = {} } = useSelector(
     (state) => state
   );
@@ -187,7 +187,7 @@ const Balance = (props) => {
           </div>
         </div>
       ) : (
-        <div className={classes.__balance}>
+        <div className={classes.__balance} style={style}>
           {(entries || totalEntries) && (
             <div className={classes.__entries}>
               Entries {entries} <span> / {totalEntries}</span>
