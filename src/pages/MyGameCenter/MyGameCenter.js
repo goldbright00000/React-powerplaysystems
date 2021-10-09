@@ -25,10 +25,10 @@ const MyGameCenter = (props) => {
 
   return (
     <Fragment>
-      <Header/>
+      <Header style={{maxWidth: 1240}}/>
       <div className="__my_game_center">
         <div className="__my_game_center_banner">
-          <div className="__my_game_center_banner_left __container">
+          <div className="__my_game_center_banner_left __container" style={{maxWidth: 1240}}>
             <div className="__my_game_center_banner_left_title_main">
               My Game Center
             </div>
@@ -37,9 +37,11 @@ const MyGameCenter = (props) => {
         {isMobile ? (
             <MobileBalance depositClicked={setShowDepositModal} />
         ) : (
-            <Balance depositClicked={setShowDepositModal} />
+            <div style={{backgroundColor: "#000"}}>
+              <Balance depositClicked={setShowDepositModal} style={{maxWidth: 1240, margin: "0 auto"}}/>
+            </div>
         )}
-        <div className={classes.container}>
+        <div className={classes.container} style={{maxWidth: 1240}}>
           <Route exact path={url} component={InteractiveContests} />
           <Route path={`${url}/contests`} component={MyGameCenterTable} />
         </div>

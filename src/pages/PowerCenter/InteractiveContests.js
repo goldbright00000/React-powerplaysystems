@@ -25,8 +25,10 @@ import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { socket } from "../../config/server_connection";
+import OffSeasonComponent from '../../components/OffSeasonComponent';
 
 import PromoModal from "../../components/PromoModal";
+import ComingSoonComponent from "../../components/ComingSoonComponent";
 
 const filters = [
   {
@@ -1259,6 +1261,9 @@ const InteractiveContests = (props) => {
           filteredData && filterCurrency(filteredData)?.length > 0 ? (
             isMobile ? (
               (() => {
+                if(selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                }
                 const itemsInaRow = 1;
                 const numberOfRows = Math.ceil(
                   powerCenterCardData.length / itemsInaRow
@@ -1287,6 +1292,9 @@ const InteractiveContests = (props) => {
               })()
             ) : isTablet || isBigScreenTablet ? (
               (() => {
+                if(selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                }
                 const itemsInaRow = 2;
                 const numberOfRows = Math.ceil(
                   powerCenterCardData.length / itemsInaRow
@@ -1315,36 +1323,50 @@ const InteractiveContests = (props) => {
               })()
             ) : (
               (() => {
-                const itemsInaRow = 4;
-                const numberOfRows = Math.ceil(
-                  powerCenterCardData.length / itemsInaRow
-                );
-                var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filterByCurrency);
-                const powerCenterCardView = Array(numberOfRows)
-                  .fill(undefined)
-                  .map((item, i) => {
-                    const start = (i + 1) * itemsInaRow - 4;
-                    const end = (i + 1) * itemsInaRow;
-                    const items = a1.slice(start, end);
-                    return (
-                      <div
-                        className={
-                          classes.__interactive_contests_power_center_card_row
-                        }
-                      >
-                        {items.map((power) => {
-                          return powerCenterCard(power, power.url);
-                        })}
-                      </div>
-                    );
-                  });
-                return powerCenterCardView;
+                if(selectedFilter == 4)
+                {
+                  return <OffSeasonComponent />;
+                }
+                else {
+                  const itemsInaRow = 4;
+                  const numberOfRows = Math.ceil(
+                    powerCenterCardData.length / itemsInaRow
+                  );
+                  var filterByCurrency = filterCurrency(filteredData);
+                  var a1 = sortArray(filterByCurrency);
+                  const powerCenterCardView = Array(numberOfRows)
+                    .fill(undefined)
+                    .map((item, i) => {
+                      const start = (i + 1) * itemsInaRow - 4;
+                      const end = (i + 1) * itemsInaRow;
+                      const items = a1.slice(start, end);
+                      console.log(start, end, items);
+                      return (
+                        <div
+                          className={
+                            classes.__interactive_contests_power_center_card_row
+                          }
+                        >
+                          {items.map((power) => {
+                            return powerCenterCard(power, power.url);
+                          })}
+                          
+                         
+                          {(4 - items.length) > 0 && 
+                            _.times((4 - items.length), (i) => (
+                              <div className={classes.__interactive_contests_power_center_card} style={{width: 280}}/>
+                            ))
+                          }
+                        </div>
+                      );
+                    });
+                  return powerCenterCardView;
+                }
               })()
             )
           ) : (
             <>
-              <h1>No Games</h1>
+              <ComingSoonComponent />
             </>
           )
         ) : (
