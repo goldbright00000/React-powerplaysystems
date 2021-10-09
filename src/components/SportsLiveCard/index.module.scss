@@ -157,7 +157,7 @@
       .container_title {
         font-family: Poppins;
         font-size: 16px;
-        font-weight: 600;
+        font-weight: 600 !important;
         padding: 0;
         margin: 0;
         color: $lightBlue2;
@@ -275,7 +275,7 @@
             width: 109px;
             background-color: $lightBlue8;
             height: 56px;
-            padding: 3px 3px 0 6px;
+            padding: 0px 3px 0 6px;
             font-weight: bold !important;
             // text-transform: capitalize;
             border-radius: 6px;
@@ -305,7 +305,7 @@
             width: 103px;
             background-color: $lightBlue8;
             height: 56px;
-            padding: 3px 3px 0 6px;
+            padding: 0px 3px 0 6px;
             font-weight: bold !important;
             // text-transform: capitalize;
             border-radius: 6px;
@@ -1834,8 +1834,8 @@
               }
 
               svg {
-                width: 25px;
-                height: 25px;
+                width: 30px;
+                height: 30px;
               }
 
               .stat_xp {

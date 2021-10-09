@@ -493,7 +493,7 @@ function SportsLiveCard(props) {
   };
 
   const renderXp = () => {
-    let svgSize = singleView ? 14 : largeView ? 28 : 24;
+    let svgSize = singleView ? 14 : largeView ? 30 : 30;
     if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
       return <XP1_5_1 className={classes.xp_svg} size={svgSize} />;
     else if (xp && xp?.xp === CONSTANTS.XP.xp2)
