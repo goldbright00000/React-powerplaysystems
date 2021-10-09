@@ -897,16 +897,16 @@ function NHLPowerdFsLive(props) {
 
                     <PowerSidebar
                       collapse={false}
-                      // swapCounts={swapCounts}
-                      // dwallCounts={dwallCounts}
-                      // challengeCounts={challengeCounts}
-                      // pointMultiplierCounts={pointMultiplierCounts}
-                      // pointBooster15x={pointBooster15x}
-                      // pointBooster2x={pointBooster2x}
-                      // pointBooster3x={pointBooster3x}
-                      // retroBoostCounts={retroBoostCounts}
-                      // powerUpCounts={powerUpCounts}
-                      // game={game}
+                      swapCounts={swapCounts}
+                      dwallCounts={dwallCounts}
+                      challengeCounts={challengeCounts}
+                      pointMultiplierCounts={pointMultiplierCounts}
+                      pointBooster15x={pointBooster15x}
+                      pointBooster2x={pointBooster2x}
+                      pointBooster3x={pointBooster3x}
+                      retroBoostCounts={retroBoostCounts}
+                      powerUpCounts={powerUpCounts}
+                      game={game}
                     />
                   </Sidebar>
                 </div>
@@ -934,6 +934,21 @@ function NHLPowerdFsLive(props) {
               powerUpCounts,
               pointMultiplierCounts,
             }}
+            loading={loading}
+            swapCounts={swapCounts}
+            dwallCounts={dwallCounts}
+            challengeCounts={challengeCounts}
+            pointMultiplierCounts={pointMultiplierCounts}
+            pointBooster15x={pointBooster15x}
+            pointBooster2x={pointBooster2x}
+            pointBooster3x={pointBooster3x}
+            retroBoostCounts={retroBoostCounts}
+            powerUpCounts={powerUpCounts}
+            setPlayerToSwap={setPlayerToSwap}
+            onPowerApplied={onPowerApplied}
+            POWER_IDs={POWER_IDs}
+            setPowers={setPowers}
+            cardType="nhl"
           />
         </>
       )}

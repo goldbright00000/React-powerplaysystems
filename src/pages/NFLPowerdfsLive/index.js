@@ -32,6 +32,7 @@ import { socket } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Undo from "../../icons/Undo";
 import { CardType } from "../../components/SportsLiveCard/CardType";
+import Mobile from "../../pages/Mobile/Mobile";
 
 const { D, K, QB, RB, TE, WR } = CONSTANTS.FILTERS.NFL;
 const {
@@ -274,6 +275,7 @@ function NFLPowerdFsLive(props) {
       byteData.toString(CryptoJS.enc.Utf8)
     );
 
+    console.log("decSelectedTeamData: ", decSelectedTeamData);
     return decSelectedTeamData;
   }
 
@@ -670,92 +672,140 @@ function NFLPowerdFsLive(props) {
 
   return (
     <>
-      <Header />
-      <div className={classes.wrapper}>
-        <Header4
-          titleMain1="NFL 2021"
-          titleMain2="PowerdFS"
-          contestBtnTitle="Gameplay Rules"
-          prizeBtnTitle="Prize Grid"
-          bgImageUri={NFLHeaderImage}
-          compressedView
-          currentState={<RenderLiveState />}
-          selectedTeam={selectedTeam}
-        />
-
-        <div className={classes.container}>
-          <div className={classes.container_left_side}>
-            <NHLLiveSportsHeader
-              btnTitle1="Full View"
-              btnTitle2="Compressed"
-              btnTitle3="Single"
-              selectedView={selectedView}
-              onFullView={() => setView(CONSTANTS.NFL_VIEW.FV)}
-              onCompressedView={() => setView(CONSTANTS.NFL_VIEW.C)}
-              onSingleView={() => setView(CONSTANTS.NFL_VIEW.S)}
-              activeTab={activeTab}
-              handleChangeTab={handleChangeTab}
-              // onPress={toggleLiveStandingModal}
-              // teamManagerLink="/nfl-live-powerdfs"
-              // scoreDetailLink="/nfl-live-powerdfs/my-score-details"
-              onGoBack={() => {
-                redirectTo(props, { path: "/my-game-center" });
-              }}
+      {screenSize > 550 ? (
+        <>
+          <Header />
+          <div className={classes.wrapper}>
+            <Header4
+              titleMain1="NFL 2021"
+              titleMain2="PowerdFS"
+              contestBtnTitle="Gameplay Rules"
+              prizeBtnTitle="Prize Grid"
+              bgImageUri={NFLHeaderImage}
+              compressedView
+              currentState={<RenderLiveState />}
+              selectedTeam={selectedTeam}
             />
-            <Card ranks={ranks}>
-              {activeTab === 0 ? (
-                <TeamManager
-                  compressedView={compressedView}
+
+            <div className={classes.container}>
+              <div className={classes.container_left_side}>
+                <NHLLiveSportsHeader
+                  btnTitle1="Full View"
+                  btnTitle2="Compressed"
+                  btnTitle3="Single"
                   selectedView={selectedView}
+                  onFullView={() => setView(CONSTANTS.NFL_VIEW.FV)}
+                  onCompressedView={() => setView(CONSTANTS.NFL_VIEW.C)}
+                  onSingleView={() => setView(CONSTANTS.NFL_VIEW.S)}
+                  activeTab={activeTab}
+                  handleChangeTab={handleChangeTab}
+                  // onPress={toggleLiveStandingModal}
+                  // teamManagerLink="/nfl-live-powerdfs"
+                  // scoreDetailLink="/nfl-live-powerdfs/my-score-details"
+                  onGoBack={() => {
+                    redirectTo(props, { path: "/my-game-center" });
+                  }}
                 />
-              ) : (
-                <MyScoreCard />
-              )}
-            </Card>
-            <div className={classes.left_side_footer}>
-              <img src={FooterImage} alt="" />
+                <Card ranks={ranks}>
+                  {activeTab === 0 ? (
+                    <TeamManager
+                      compressedView={compressedView}
+                      selectedView={selectedView}
+                      loading={loading}
+                      swapCounts={swapCounts}
+                      dwallCounts={dwallCounts}
+                      challengeCounts={challengeCounts}
+                      pointMultiplierCounts={pointMultiplierCounts}
+                      pointBooster15x={pointBooster15x}
+                      pointBooster2x={pointBooster2x}
+                      pointBooster3x={pointBooster3x}
+                      retroBoostCounts={retroBoostCounts}
+                      powerUpCounts={powerUpCounts}
+                      setPlayerToSwap={setPlayerToSwap}
+                      onPowerApplied={onPowerApplied}
+                      POWER_IDs={POWER_IDs}
+                      setPowers={setPowers}
+                    />
+                  ) : (
+                    <MyScoreCard />
+                  )}
+                </Card>
+                <div className={classes.left_side_footer}>
+                  <img src={FooterImage} alt="" />
+                </div>
+              </div>
+
+              <div className={classes.sidebar_container}>
+                <Sidebar>
+                  <CashPowerBalance
+                    powerBalance={50000}
+                    cashBalance={200000}
+                    styles={{
+                      width: "100%",
+                      marginTop: "-40px",
+                    }}
+                    cashTitle="Prize Pool"
+                    powerTitle="Top Prize"
+                    centered
+                    showIcons={false}
+                  />
+                  <RankCard currentWin={100000} {...props} />
+
+                  <PowerSidebar
+                    collapse={false}
+                    swapCounts={swapCounts}
+                    dwallCounts={dwallCounts}
+                    challengeCounts={challengeCounts}
+                    pointMultiplierCounts={pointMultiplierCounts}
+                    pointBooster15x={pointBooster15x}
+                    pointBooster2x={pointBooster2x}
+                    pointBooster3x={pointBooster3x}
+                    retroBoostCounts={retroBoostCounts}
+                    powerUpCounts={powerUpCounts}
+                    game={game}
+                  />
+                </Sidebar>
+              </div>
             </div>
           </div>
-
-          <div className={classes.sidebar_container}>
-            <Sidebar>
-              <CashPowerBalance
-                powerBalance={50000}
-                cashBalance={200000}
-                styles={{
-                  width: "100%",
-                  marginTop: "-40px",
-                }}
-                cashTitle="Prize Pool"
-                powerTitle="Top Prize"
-                centered
-                showIcons={false}
-              />
-              <RankCard currentWin={100000} {...props} />
-
-              <PowerSidebar
-                collapse={false}
-                // swapCounts={swapCounts}
-                // dwallCounts={dwallCounts}
-                // challengeCounts={challengeCounts}
-                // pointMultiplierCounts={pointMultiplierCounts}
-                // pointBooster15x={pointBooster15x}
-                // pointBooster2x={pointBooster2x}
-                // pointBooster3x={pointBooster3x}
-                // retroBoostCounts={retroBoostCounts}
-                // powerUpCounts={powerUpCounts}
-                // game={game}
-              />
-            </Sidebar>
-          </div>
-        </div>
-      </div>
-      <Footer isBlack={true} />
-      <LearnMoreModal
-        title="Point Multipler"
-        learnMoreModal={learnMoreModal}
-        onCloseModal={onCloseModal}
-      />
+          <Footer isBlack={true} />
+          <LearnMoreModal
+            title="Point Multipler"
+            learnMoreModal={learnMoreModal}
+            onCloseModal={onCloseModal}
+          />
+        </>
+      ) : (
+        <>
+          <Mobile
+            data={live_data}
+            ranks={ranks}
+            counts={{
+              swapCounts,
+              dwallCounts,
+              challengeCounts,
+              retroBoostCounts,
+              powerUpCounts,
+              pointMultiplierCounts,
+            }}
+            loading={loading}
+            swapCounts={swapCounts}
+            dwallCounts={dwallCounts}
+            challengeCounts={challengeCounts}
+            pointMultiplierCounts={pointMultiplierCounts}
+            pointBooster15x={pointBooster15x}
+            pointBooster2x={pointBooster2x}
+            pointBooster3x={pointBooster3x}
+            retroBoostCounts={retroBoostCounts}
+            powerUpCounts={powerUpCounts}
+            setPlayerToSwap={setPlayerToSwap}
+            onPowerApplied={onPowerApplied}
+            POWER_IDs={POWER_IDs}
+            setPowers={setPowers}
+            cardType="nfl"
+          />
+        </>
+      )}
       <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} />
     </>
   );

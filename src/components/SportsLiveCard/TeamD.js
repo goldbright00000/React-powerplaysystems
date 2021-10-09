@@ -45,6 +45,7 @@ function SportsLiveCardTeamD(props) {
     active = false,
     onSelectCard = () => {},
     cardType = CardType.MLB,
+    key = "",
   } = props || {};
 
   const {
@@ -1175,6 +1176,7 @@ function SportsLiveCardTeamD(props) {
   return (
     <>
       <div
+        key={key}
         className={`${classes.card_wrapper} ${
           singleView ? classes.singleViewCardWrapper : ""
         }`}

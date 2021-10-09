@@ -832,9 +832,14 @@
   }
 
   .footer_stats_row {
-    display: flex;
+    display: flex !important;
     align-items: center;
     margin-bottom: 4px;
+
+    img {
+      width: 12 !important;
+      height: 12 !important;
+    }
 
     p {
       margin: 0 0 0 14px;
@@ -876,11 +881,18 @@
   }
 
   .footer_stats_row {
-    display: flex;
+    display: flex !important;
     align-items: center;
     margin-bottom: 4px;
 
+    img {
+      width: 12 !important;
+      height: 12 !important;
+      margin-right: 5;
+    }
+
     p {
+      display: contents;
       margin: 0 0 0 14px;
       font-size: 12px;
       font-weight: normal;
