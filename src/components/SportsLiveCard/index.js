@@ -25,6 +25,10 @@ import XP3_1 from "../../icons/XP3_1";
 import MiniStar from "../../assets/mini_star.png";
 import Tooltip from "../ToolTip";
 import { Tooltip as ReactStrapToolip } from "reactstrap";
+import {
+  Tooltip as ReactBootstrapTooltip,
+  OverlayTrigger,
+} from "react-bootstrap";
 import { isEmpty } from "lodash";
 import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
@@ -664,15 +668,16 @@ function SportsLiveCard(props) {
           }`}
           id={`TooltipPGP1_${key}`}
         >
-          PGPs
-          <ReactStrapToolip
-            placement="top"
-            isOpen={tooltipOpen1}
-            toggle={toggle1}
-            target={`TooltipPGP1_${key}`}
+          <OverlayTrigger
+            placement={"top"}
+            overlay={
+              <ReactBootstrapTooltip>
+                Point Generating Plays
+              </ReactBootstrapTooltip>
+            }
           >
-            Point Generating Plays
-          </ReactStrapToolip>
+            <span>PGPs</span>
+          </OverlayTrigger>
         </p>
 
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
@@ -742,15 +747,16 @@ function SportsLiveCard(props) {
             }`}
             id={`TooltipPGP2_${key}`}
           >
-            PGPs
-            <ReactStrapToolip
-              placement="top"
-              isOpen={tooltipOpen2}
-              toggle={toggle2}
-              target={`TooltipPGP2_${key}`}
+            <OverlayTrigger
+              placement={"top"}
+              overlay={
+                <ReactBootstrapTooltip>
+                  Point Generating Plays
+                </ReactBootstrapTooltip>
+              }
             >
-              Point Generating Plays
-            </ReactStrapToolip>
+              <span>PGPs</span>
+            </OverlayTrigger>
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             G: {goals} | A: {assists}
