@@ -112,6 +112,7 @@ function NFLPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.nfl);
   const { user = {} } = useSelector((state) => state.auth);
+  const { token = "", user_id } = user || {};
 
   const onCloseModal = () => setLearnMoreModal(false);
 
@@ -677,14 +678,28 @@ function NFLPowerdFsLive(props) {
           <Header />
           <div className={classes.wrapper}>
             <Header4
+              // outof={outOf}
+              // enrolledUsers={enrolledUsers}
+              outof={1000}
+              enrolledUsers={10}
               titleMain1="NFL 2021"
               titleMain2="PowerdFS"
+              subHeader1="Introducing Live-Play Fantasy Football"
+              subHeader2={
+                <>
+                  Use your <span>Powers</span> during the live game to drive
+                  your team up the standings
+                </>
+              }
               contestBtnTitle="Gameplay Rules"
               prizeBtnTitle="Prize Grid"
               bgImageUri={NFLHeaderImage}
               compressedView
-              currentState={<RenderLiveState />}
+              currentState={<RenderLiveState isLive />}
+              onClickPrize={() => setPrizeModalState(true)}
               selectedTeam={selectedTeam}
+              token={token}
+              livePage={true}
             />
 
             <div className={classes.container}>
