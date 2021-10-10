@@ -175,6 +175,7 @@ const ContestRulesPage = (props) => {
         },
     ];
     let finalRoasterData = teamRoasterData[teamRoasterData.findIndex(x => x.type == league)];
+    console.log("finalRoasterData", teamRoasterData);
     const groupedPoints = _.groupBy(PointsSystem, 'type');
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
     const test = () => {

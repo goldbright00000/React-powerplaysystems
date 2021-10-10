@@ -24,11 +24,19 @@ import RetroBoostIcon from "../../icons/RetroBoost";
 import PowerUpIcon from "../../icons/PowerUp";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import SwapIcon from "../../icons/Swap";
-import FreeEntryModal from "../FreeEntryModal/index";
+import {getTeamsList} from ".././../actions/MLBActions"
 
 function PromoModal(props) {
   const [getPowers, setPowers] = useState([]);
-  const [showFreeEntryModal, setShowFreeEntryModal] = useState(false);
+  const [isFreeEntryMode, setIsFreeEntryMode] = useState(false);
+  const [isValidated, setIsValidated] = useState(false);
+  const [teamData, setTeamData] = useState([]);
+  const [freeEntryData, setFreeEntryData] = useState({
+    MLBTeam: "",
+    NHLTeam: "",
+    NFLTeam: "",
+    NBATeam: ""
+  });
   const { visible = false, onClose = () => { }, item = {} } =
     props || {};
     const { league = "MLB" } = item || {};
@@ -163,7 +171,6 @@ function PromoModal(props) {
         icon: (<PowerUpIcon />)
       });
     }
-    console.log("finalList", finalList);
     setPowers(finalList);
   };
 
@@ -239,14 +246,39 @@ function PromoModal(props) {
     });
   }
 
-  const onCloseFreeEntryModal = () => {
-    setShowFreeEntryModal(false);
-  };
+  const checkValidation = () => {
+    if(freeEntryData.MLBTeam === "")
+    {
+      setIsValidated(false);
+    }
+    else if(freeEntryData.NBATeam === "")
+    {
+      setIsValidated(false);
+    }
+    else if(freeEntryData.NHLTeam === "")
+    {
+      setIsValidated(false);
+    }
+    else if(freeEntryData.NFLTeam === "")
+    {
+      setIsValidated(false);
+    }
+    else {
+      setIsValidated(true);
+    }
+  }; 
 
-  const onOpenFreeEntryModal = () => {
-    setShowFreeEntryModal(true);
-    onClose();
-  };
+  useEffect(() => {
+    checkValidation();
+  },[freeEntryData]);
+
+  useEffect(async () => {
+    let a = await getTeamsList();
+    if(a.status == 200)
+    {
+      setTeamData(a.data);
+    }
+  }, []);
 
   useEffect(() => {
     powersList();
@@ -256,120 +288,240 @@ function PromoModal(props) {
     <Modal visible={visible}>
       <div className={classes.wrapper} style={{ width: 780, backgroundImage: `url(${getBG()})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', borderRadius: 20, paddingBottom: 20 }}>
         <div className={classes.modal_body}>
-          <div className={classes.topButtons}>
-            <div className={classes.leftButtons}>
-              <button
-                type="button"
-                onClick={() => {
-                  setPrizeModalState(true)
-                }}
-              ><span>Prize Grid</span></button>
-              <ContestRulesPopUp
-                points={[props?.item?.PrizePayouts]}
-                powers={props?.item?.Powers}
-                component={({ showPopUp }) => (
+          {!isFreeEntryMode ? (
+            <>
+              <div className={classes.topButtons}>
+                <div className={classes.leftButtons}>
                   <button
                     type="button"
-                    onClick={showPopUp}
-                  ><span>Game Rules</span></button>
-                )}
-              />
-              <button
-                type="button"
-                onClick={redirectToContestRules}
-              ><span>Constest Rules</span></button>
-            </div>
-            <div className={classes.closeButton}>
-              <CloseIcon onClick={onClose} />
-            </div>
-          </div>
-          <div className={classes.title}>
-            {league} <span>PowerdFS</span> {item.game_type == "PowerdFs_promo" ? "Promotional Contest" : item?.powerdfs_challenge_amount + " Point Challenge"}
-          </div>
-          <div className={classes.gamePrize}>
-            <span className={classes.prize}>${parseFloat(
-              _.max(item?.PrizePayouts, function (ele) {
-                return ele.amount;
-              }).amount
-            )}</span>
-            <span className={classes.giveaway}>Give Away</span>
-          </div>
-          <div className={classes.rectangle}>
-            <span className={classes.youHaveThePower}>
-              You have the Powers to win!
-            </span>
-            <div className={classes.powers}> 
-              {typeof getPowers[0] !== "undefined" && 
-                <div className={classes.power}>
-                  {getPowers[0].icon}
-                  <span>{getPowers[0].powerName}</span>
-                  <span className={classes.orange}> x{getPowers[0].amount}</span>
+                    onClick={() => {
+                      setPrizeModalState(true)
+                    }}
+                  ><span>Prize Grid</span></button>
+                  <ContestRulesPopUp
+                    points={[props?.item?.PrizePayouts]}
+                    powers={props?.item?.Powers}
+                    component={({ showPopUp }) => (
+                      <button
+                        type="button"
+                        onClick={showPopUp}
+                      ><span>Game Rules</span></button>
+                    )}
+                  />
+                  <button
+                    type="button"
+                    onClick={redirectToContestRules}
+                  ><span>Constest Rules</span></button>
                 </div>
-              }
-              {typeof getPowers[1] !== "undefined" && 
-                <div className={classes.power}>
-                  {getPowers[1].icon}
-                  <span>{getPowers[1].powerName}</span>
-                  <span className={classes.orange}> x{getPowers[1].amount}</span>
+                <div className={classes.closeButton}>
+                  <CloseIcon onClick={onClose} />
                 </div>
-              }
-            </div>
-            <div className={`${classes.powers} ${classes.margin}`}>
-              {typeof getPowers[2] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[2].icon}
-                    <span>{getPowers[2].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[2].amount}</span>
+              </div>
+              <div className={classes.title}>
+                {league} <span>PowerdFS</span> {item.game_type == "PowerdFs_promo" ? "Promotional Contest" : item?.powerdfs_challenge_amount + " Point Challenge"}
+              </div>
+              <div className={classes.gamePrize}>
+                <span className={classes.prize}>${parseFloat(
+                  _.max(item?.PrizePayouts, function (ele) {
+                    return ele.amount;
+                  }).amount
+                )}</span>
+                <span className={classes.giveaway}>Give Away</span>
+              </div>
+              <div className={classes.rectangle}>
+                <span className={classes.youHaveThePower}>
+                  You have the Powers to win!
+                </span>
+                <div className={classes.powers}> 
+                  {typeof getPowers[0] !== "undefined" && 
+                    <div className={classes.power}>
+                      {getPowers[0].icon}
+                      <span>{getPowers[0].powerName}</span>
+                      <span className={classes.orange}> x{getPowers[0].amount}</span>
+                    </div>
+                  }
+                  {typeof getPowers[1] !== "undefined" && 
+                    <div className={classes.power}>
+                      {getPowers[1].icon}
+                      <span>{getPowers[1].powerName}</span>
+                      <span className={classes.orange}> x{getPowers[1].amount}</span>
+                    </div>
+                  }
+                </div>
+                <div className={`${classes.powers} ${classes.margin}`}>
+                  {typeof getPowers[2] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[2].icon}
+                        <span>{getPowers[2].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[2].amount}</span>
+                      </div>
+                    }
+                    {typeof getPowers[3] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[3].icon}
+                        <span>{getPowers[3].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[3].amount}</span>
+                      </div>
+                    }
+                </div>
+                <div className={`${classes.powers} ${classes.margin}`}>
+                  
+                  {typeof getPowers[4] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[4].icon}
+                        <span>{getPowers[4].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[4].amount}</span>
+                      </div>
+                    }
+                    {typeof getPowers[5] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[5].icon}
+                        <span>{getPowers[5].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[5].amount}</span>
+                      </div>
+                    }
+                </div>
+              </div>
+              <div className={classes.extraDesc}>
+                <p>No purchase necessary. Contest entry closes at <span>{item.game_set_start + " " + item.start_time}.</span></p>
+                <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
+              </div>
+              <div className={classes.rules}>
+                <ul style={{listStyle: "none"}}>
+                  {item.game_type == "PowerdFs_promo" && 
+                    <li><div className={classes.Oval}></div>Twenty (20) prizes to be won. See full rules for complete details of all prizes.</li>
+                  }
+                  {item.game_type == "PowerdFs_challenge" && 
+                    <li><div className={classes.Oval}></div>One (1) prize to be won. If there are multiple winners, the prize will be evenly devided. See full contest rules for complete details.</li>
+                  }
+                  <li><div className={classes.Oval}></div>One entry per person.</li>
+                  <li><div className={classes.Oval}></div>Odds of winning depend on the number of participants and use of Powers. </li>
+                </ul>
+              </div>
+              <div className={classes.bottomButton}>
+                <button onClick={redirectToUrl}>
+                  ${props?.item?.entry_fee ? props?.item?.entry_fee : 0}  •  Enter & Unlock Powers!
+                </button>
+              </div>
+              <span className={classes.freeEntry} onClick={() => {
+                setFreeEntryData({
+                  MLBTeam: "",
+                  NHLTeam: "",
+                  NFLTeam: "",
+                  NBATeam: ""
+                });
+                setIsValidated(false);
+                setIsFreeEntryMode(true);}}>Free Entry</span>
+            </>
+          ) : (
+            <>
+              <div className={classes.topButtonsFree}>
+                  <div className={classes.closeButton}>
+                      <CloseIcon onClick={() => setIsFreeEntryMode(false)} />
                   </div>
-                }
-                {typeof getPowers[3] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[3].icon}
-                    <span>{getPowers[3].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[3].amount}</span>
+              </div>
+              <div className={classes.modalHeading}>
+                  <p>Please complete the free entry survey below:</p>
+              </div>
+              <div className={classes.modalForm}>
+                  <div className={classes.formElem}>
+                      <p>
+                          What MLB team do you cheer for?
+                      </p>
+                      <select onChange={(e) => {
+                        setFreeEntryData(prevState => {
+                          return {
+                          ...prevState,
+                          MLBTeam: e.target.value
+                          }
+                        });
+                      }}>
+                          <option value="">Select your MLB team</option>
+                          <option value="one">One</option>
+                          <option value="two">Two</option>
+                          <option value="three">Three</option>
+                          <option value="four">Four</option>
+                          <option value="five">Five</option>
+                      </select>
                   </div>
-                }
-            </div>
-            <div className={`${classes.powers} ${classes.margin}`}>
+
+                  <div className={classes.formElem}>
+                      <p>
+                          What NFL team do you cheer for?
+                      </p>
+                      <select onChange={(e) => {
+                        setFreeEntryData(prevState => {
+                          return {
+                          ...prevState,
+                          NFLTeam: e.target.value
+                          }
+                        });
+                      }}>
+                          <option value="">Select your NFL team</option>
+                          <option value="one">One</option>
+                          <option value="two">Two</option>
+                          <option value="three">Three</option>
+                          <option value="four">Four</option>
+                          <option value="five">Five</option>
+                      </select>
+                  </div>
+
+                  <div className={classes.formElem}>
+                      <p>
+                          What NBA team do you cheer for?
+                      </p>
+                      <select onChange={(e) => {
+                        setFreeEntryData(prevState => {
+                          return {
+                          ...prevState,
+                          NBATeam: e.target.value
+                          }
+                        });
+                      }}>
+                          <option value="">Select your NBA team</option>
+                          <option value="one">One</option>
+                          <option value="two">Two</option>
+                          <option value="three">Three</option>
+                          <option value="four">Four</option>
+                          <option value="five">Five</option>
+                      </select>
+                  </div>
+
+                  <div className={classes.formElem}>
+                      <p>
+                          What NHL team do you cheer for?
+                      </p>
+                      <select onChange={(e) => {
+                        setFreeEntryData(prevState => {
+                          return {
+                          ...prevState,
+                          NHLTeam: e.target.value
+                          }
+                        });
+                      }}>
+                          <option value="">Select your NHL team</option>
+                          <option value="one">One</option>
+                          <option value="two">Two</option>
+                          <option value="three">Three</option>
+                          <option value="four">Four</option>
+                          <option value="five">Five</option>
+                      </select>
+                  </div>
               
-              {typeof getPowers[4] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[4].icon}
-                    <span>{getPowers[4].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[4].amount}</span>
+                  <div className={classes.bottomButtons}>
+                      <button className={classes.backButton} onClick={() => setIsFreeEntryMode(false)}>
+                          {"< Back"}
+                      </button>
+                      <button className={classes.entryButton} disabled={!isValidated} onClick={() => {
+                        alert("test");
+                        //submitFreeEntry();
+                      }}>
+                          {"Free Entry"}
+                      </button>
                   </div>
-                }
-                {typeof getPowers[5] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[5].icon}
-                    <span>{getPowers[5].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[5].amount}</span>
-                  </div>
-                }
-            </div>
-          </div>
-          <div className={classes.extraDesc}>
-            <p>No purchase necessary. Contest entry closes at <span>{item.game_set_start + " " + item.start_time}.</span></p>
-            <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
-          </div>
-          <div className={classes.rules}>
-            <ul style={{listStyle: "none"}}>
-              {item.game_type == "PowerdFs_promo" && 
-                <li><div className={classes.Oval}></div>Twenty (20) prizes to be won. See full rules for complete details of all prizes.</li>
-              }
-              {item.game_type == "PowerdFs_challenge" && 
-                <li><div className={classes.Oval}></div>One (1) prize to be won. If there are multiple winners, the prize will be evenly devided. See full contest rules for complete details.</li>
-              }
-              <li><div className={classes.Oval}></div>One entry per person.</li>
-              <li><div className={classes.Oval}></div>Odds of winning depend on the number of participants and use of Powers. </li>
-            </ul>
-          </div>
-          <div className={classes.bottomButton}>
-            <button onClick={redirectToUrl}>
-              ${props?.item?.entry_fee ? props?.item?.entry_fee : 0}  •  Enter & Unlock Powers!
-            </button>
-          </div>
-          <span className={classes.freeEntry} onClick={() => {onOpenFreeEntryModal()}}>Free Entry</span>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </Modal>
@@ -379,10 +531,10 @@ function PromoModal(props) {
       data={props?.item?.PrizePayouts}
       onClose={() => setPrizeModalState(false)}
     />
-    <FreeEntryModal
+    {/* <FreeEntryModal
       visible={showFreeEntryModal}
       onClose={onCloseFreeEntryModal}
-    />
+    /> */}
     </>
   );
 }

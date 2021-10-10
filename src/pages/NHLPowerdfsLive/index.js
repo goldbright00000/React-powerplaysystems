@@ -10,7 +10,7 @@ import _ from "underscore";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
-import BaseballImage from "../../assets/nhl_compress_header.png";
+import BaseballImage from "../../assets/hockey1.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";

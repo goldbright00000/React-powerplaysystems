@@ -106,11 +106,11 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 20px;
-
+  justify-content: space-between;
   .__interactive_contests_power_center_card {
     display: flex;
-    flex: 1;
-    justify-content: space-evenly;
+    //flex: 1;
+    //justify-content: space-evenly;
   }
 }
 
@@ -171,8 +171,8 @@
     letter-spacing: normal;
     text-align: center;
     color: #f2f2f2;
-    margin-bottom: 40px;
     max-width: 464px;
+    margin: 0px auto 40px auto;
   }
   a {
     width: 320px;

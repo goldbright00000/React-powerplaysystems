@@ -9,6 +9,7 @@ import formStyles from "../../scss/formstyles.module.scss";
 import { setRates } from "../../actions/userActions";
 import ArrowLeft from "../../assets/icons/ArrowLeft";
 import DepositAmountFormMobile from "./DepositAmountFormMobile";
+import SnackbarAlert from "../../components/SnackbarAlert";
 
 const DepositAmountPopUp = (props) => {
   const { city, address, phone_number, zip, currency, country } =
@@ -34,6 +35,7 @@ const DepositAmountPopUp = (props) => {
 
   return (
     <CreatePopUpPortal>
+      <SnackbarAlert />
       <div className={`modal fade show d-block ${styles.blur}`}>
         <div className="modal-dialog modal-animation modal-dialog-centered modal-xl" role="document">
           {/* Display only on big screens */}
@@ -61,6 +63,7 @@ const DepositAmountPopUp = (props) => {
                       myUserPaySubmitted={props.myUserPayFormSubmitted}
                       coinbaseSubmitted={props.coinbaseFormSubmitted}
                       formCurrency={formCurrency}
+                      dispatch={dispatch}
                     />
                   </div>
                   <div className="col-auto">
@@ -105,7 +108,6 @@ const DepositAmountPopUp = (props) => {
               </div>
             </div>
           </div>
-
 
           {/* Display only on small screens */}
           <div className="modal-content d-block d-xl-none bg-none">

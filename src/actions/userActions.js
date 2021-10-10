@@ -25,6 +25,7 @@ export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
 export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
 export const USER_WINNIGS = "USER_WINNIGS";
 export const COUNTRIES = "COUNTRIES";
+export const ACCOUNT_LIMIT = "ACCOUNT_LIMIT";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -368,6 +369,26 @@ export function getDBCountries() {
 
     } catch (err) {
       console.log('Error in GET_COUNTRIES -> ', err);
+    }
+  }
+}
+
+export function checkAccountLimit(user_id, currency) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.CHECK_LIMIT}`,
+        {
+          user_id, currency
+        }
+      )
+      dispatch({
+        type: ACCOUNT_LIMIT,
+        payload: response.data,
+      })
+      return response.data
+    } catch (err) {
+      console.log('Error in checkAccountLimit -> ', err)
     }
   }
 }

@@ -31,7 +31,9 @@ const Balance = (props) => {
     entries = "",
     totalEntries = "",
     livePage = false,
+    style = {},
   } = props || {};
+
   const { auth: { user: { userBalance = {} } } = {} } = useSelector(
     (state) => state
   );
@@ -195,7 +197,7 @@ const Balance = (props) => {
           </div>
         </div>
       ) : (
-        <div className={classes.__balance}>
+        <div className={classes.__balance} style={style}>
           {(entries || totalEntries) && (
             <div className={classes.__left_div}>
               <div className={classes.__entries}>

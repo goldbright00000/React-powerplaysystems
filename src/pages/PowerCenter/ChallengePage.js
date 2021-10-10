@@ -31,8 +31,42 @@ const ChallengePage = (props) => {
   const {
     state = []
   } = props.location || {}
+  const [isFreeEntryMode, setIsFreeEntryMode] = useState(true);
+  const [isValidated, setIsValidated] = useState(false);
+  const [freeEntryData, setFreeEntryData] = useState({
+    MLBTeam: "",
+    NHLTeam: "",
+    NFLTeam: "",
+    NBATeam: ""
+  });
 
   const {game_type, Power, league = "MLB", powerdfs_challenge_amount = 0, PointsSystem = [], topPrize = 0, game_set_start, start_time} = state || [];
+
+  const checkValidation = () => {
+    if(freeEntryData.MLBTeam === "")
+    {
+      setIsValidated(false);
+    }
+    else if(freeEntryData.NBATeam === "")
+    {
+      setIsValidated(false);
+    }
+    else if(freeEntryData.NHLTeam === "")
+    {
+      setIsValidated(false);
+    }
+    else if(freeEntryData.NFLTeam === "")
+    {
+      setIsValidated(false);
+    }
+    else {
+      setIsValidated(true);
+    }
+  }; 
+
+  useEffect(() => {
+    checkValidation();
+  },[freeEntryData]);
 
   useEffect(() => {
     powersList();
@@ -238,149 +272,261 @@ const ChallengePage = (props) => {
   return (
     <div>
       <Header />
-      <div className={classes.mainContent} style={{
-        backgroundImage: `url(${getBG()})`,
-        backgroundPosition: 'left',
-        backgroundRepeat: 'no-repeat'
-      }}>
-        <div className={classes.backButton} onClick={onBack}>
-          <span>
-            {"< Back"}
-          </span>
-        </div>
+      {!isFreeEntryMode ? (
         <>
+          
+          <div className={classes.mainContent} style={{
+            backgroundImage: `url(${getBG()})`,
+            backgroundPosition: 'left',
+            backgroundRepeat: 'no-repeat'
+          }}>
+            <div className={classes.backButton} onClick={onBack}>
+              <span>
+                {"< Back"}
+              </span>
+            </div>
+            <>
+                
+                {game_type == "PowerdFs_promo" && 
+                  <>
+                    <div className={classes.title}>
+                    {league} <span>PowerdFS</span> {game_type == "PowerdFs_promo" ? ("Promotional Contest") : (<><br /> {powerdfs_challenge_amount} Point Challenge</>)}
+                    </div>
+                    <div className={classes.gamePrize}>
+                      <span className={classes.prize}>${topPrize}</span>
+                      <span className={classes.giveaway}>Give Away</span>
+                    </div>
+                  </>
+                }
+                {game_type == "PowerdFs_challenge" && 
+                  <>
+                    <div className={classes.title}>
+                    {league} <span>PowerdFS</span> <br />{powerdfs_challenge_amount} Point Challenge!
+                      <br />
+                      <span className={classes.dateTime}>
+                        {/* {state?.start_date} */}
+                        {game_set_start + " | " + start_time + " ET"}
+                      </span>
+                      <br />
+                      <span className={classes.teamMessage}>
+                        Manage your team to <br /> {powerdfs_challenge_amount} points and win
+                      </span>
+                      <span className={classes.prizeSpan}>
+                        ${topPrize}!
+                      </span>
+                    </div>
+                  </>
+                }
+              </>
             
-            {game_type == "PowerdFs_promo" && 
-              <>
-                <div className={classes.title}>
-                {league} <span>PowerdFS</span> {game_type == "PowerdFs_promo" ? ("Promotional Contest") : (<><br /> {powerdfs_challenge_amount} Point Challenge</>)}
+            <div className={classes.rectangle}>
+              <span className={classes.youHaveThePower}>
+                You have the Powers to win!
+              </span>
+              <div className={classes.powers}> 
+                  {typeof getPowers[0] !== "undefined" && 
+                    <div className={classes.power}>
+                      {getPowers[0].icon}
+                      <span>{getPowers[0].powerName}</span>
+                      <span className={classes.orange}> x{getPowers[0].amount}</span>
+                    </div>
+                  }
+                  {typeof getPowers[1] !== "undefined" && 
+                    <div className={classes.power}>
+                      {getPowers[1].icon}
+                      <span>{getPowers[1].powerName}</span>
+                      <span className={classes.orange}> x{getPowers[1].amount}</span>
+                    </div>
+                  }
                 </div>
-                <div className={classes.gamePrize}>
-                  <span className={classes.prize}>${topPrize}</span>
-                  <span className={classes.giveaway}>Give Away</span>
+                <div className={`${classes.powers} ${classes.margin}`}>
+                  {typeof getPowers[2] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[2].icon}
+                        <span>{getPowers[2].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[2].amount}</span>
+                      </div>
+                    }
+                    {typeof getPowers[3] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[3].icon}
+                        <span>{getPowers[3].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[3].amount}</span>
+                      </div>
+                    }
                 </div>
-              </>
-            }
-            {game_type == "PowerdFs_challenge" && 
-              <>
-                <div className={classes.title}>
-                {league} <span>PowerdFS</span> <br />{powerdfs_challenge_amount} Point Challenge!
-                  <br />
-                  <span className={classes.dateTime}>
-                    {/* {state?.start_date} */}
-                    {game_set_start + " | " + start_time + " ET"}
-                  </span>
-                  <br />
-                  <span className={classes.teamMessage}>
-                    Manage your team to <br /> {powerdfs_challenge_amount} points and win
-                  </span>
-                  <span className={classes.prizeSpan}>
-                    ${topPrize}!
-                  </span>
+                <div className={`${classes.powers} ${classes.margin}`}>
+                  
+                  {typeof getPowers[4] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[4].icon}
+                        <span>{getPowers[4].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[4].amount}</span>
+                      </div>
+                    }
+                    {typeof getPowers[5] !== "undefined" && 
+                      <div className={classes.power}>
+                        {getPowers[5].icon}
+                        <span>{getPowers[5].powerName}</span>
+                        <span className={classes.orange}> x{getPowers[5].amount}</span>
+                      </div>
+                    }
                 </div>
-              </>
-            }
-          </>
-        
-        <div className={classes.rectangle}>
-          <span className={classes.youHaveThePower}>
-            You have the Powers to win!
-          </span>
-          <div className={classes.powers}> 
-              {typeof getPowers[0] !== "undefined" && 
-                <div className={classes.power}>
-                  {getPowers[0].icon}
-                  <span>{getPowers[0].powerName}</span>
-                  <span className={classes.orange}> x{getPowers[0].amount}</span>
-                </div>
-              }
-              {typeof getPowers[1] !== "undefined" && 
-                <div className={classes.power}>
-                  {getPowers[1].icon}
-                  <span>{getPowers[1].powerName}</span>
-                  <span className={classes.orange}> x{getPowers[1].amount}</span>
-                </div>
-              }
-            </div>
-            <div className={`${classes.powers} ${classes.margin}`}>
-              {typeof getPowers[2] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[2].icon}
-                    <span>{getPowers[2].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[2].amount}</span>
-                  </div>
-                }
-                {typeof getPowers[3] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[3].icon}
-                    <span>{getPowers[3].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[3].amount}</span>
-                  </div>
-                }
-            </div>
-            <div className={`${classes.powers} ${classes.margin}`}>
-              
-              {typeof getPowers[4] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[4].icon}
-                    <span>{getPowers[4].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[4].amount}</span>
-                  </div>
-                }
-                {typeof getPowers[5] !== "undefined" && 
-                  <div className={classes.power}>
-                    {getPowers[5].icon}
-                    <span>{getPowers[5].powerName}</span>
-                    <span className={classes.orange}> x{getPowers[5].amount}</span>
-                  </div>
-                }
-            </div>
-          <div className={classes.topButtons}>
-            <div className={classes.leftButtons}>
-              <button
-                type="button"
-                onClick={() => setPrizeModalState(true)}
-              ><span>Prize Grid</span></button>
-              <ContestRulesPopUp
-                points={[state?.PrizePayout]}
-                powers={state?.Power}
-                component={({ showPopUp }) => (
+              <div className={classes.topButtons}>
+                <div className={classes.leftButtons}>
                   <button
                     type="button"
-                    onClick={showPopUp}
-                  ><span>Game Rules</span></button>
-                )}
-                title={league}
-              />
-              <button
-                type="button"
-              ><span>Contest Rules</span></button>
+                    onClick={() => setPrizeModalState(true)}
+                  ><span>Prize Grid</span></button>
+                  <ContestRulesPopUp
+                    points={[state?.PrizePayout]}
+                    powers={state?.Power}
+                    component={({ showPopUp }) => (
+                      <button
+                        type="button"
+                        onClick={showPopUp}
+                      ><span>Game Rules</span></button>
+                    )}
+                    title={league}
+                  />
+                  <button
+                    type="button"
+                  ><span>Contest Rules</span></button>
+                </div>
+              </div>
+            </div>
+            <div className={classes.extraDesc}>
+              <p>No purchase necessary. Contest entry closes at <span>{game_set_start + " " + start_time}.</span></p>
+              <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
+            </div>
+            <div className={classes.bottomButton}>
+              <button onClick={redirectToUrl}>
+                ${props?.location?.state?.entry_fee ? (props?.location?.state?.entry_fee) : 0}  •  Enter Now!
+              </button>
+            </div>
+            <div className={classes.freeEntry}  onClick={() => setIsFreeEntryMode(true)} style={{cursor: "pointer"}}>Free Entry</div>
+            <div className={classes.rules}>
+              <ul>
+                {game_type == "PowerdFs_promo" && 
+                  <li><div className={classes.Oval}></div>Twenty (20) prizes to be won. See full rules for complete details of all prizes.</li>
+                }
+                {game_type == "PowerdFs_challenge" && 
+                  <li><div className={classes.Oval}></div>One (1) prize to be won. If there are multiple winners, the prize will be evenly devided. See full contest rules for complete details.</li>
+                }
+                <li><div className={classes.Oval}></div><div className={classes.litext}>One entry per person.</div></li>
+                <li><div className={classes.Oval}></div><div className={classes.litext}>Odds of winning depend on the number of participants and use of Powers.</div> </li>
+              </ul>
             </div>
           </div>
-        </div>
-        <div className={classes.extraDesc}>
-          <p>No purchase necessary. Contest entry closes at <span>{game_set_start + " " + start_time}.</span></p>
-          <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
-        </div>
-        <div className={classes.bottomButton}>
-          <button onClick={redirectToUrl}>
-            ${props?.location?.state?.entry_fee ? (props?.location?.state?.entry_fee) : 0}  •  Enter Now!
-          </button>
-        </div>
-        <div className={classes.freeEntry}>Free Entry</div>
-        <div className={classes.rules}>
-          <ul>
-            {game_type == "PowerdFs_promo" && 
-              <li><div className={classes.Oval}></div>Twenty (20) prizes to be won. See full rules for complete details of all prizes.</li>
-            }
-            {game_type == "PowerdFs_challenge" && 
-              <li><div className={classes.Oval}></div>One (1) prize to be won. If there are multiple winners, the prize will be evenly devided. See full contest rules for complete details.</li>
-            }
-            <li><div className={classes.Oval}></div><div className={classes.litext}>One entry per person.</div></li>
-            <li><div className={classes.Oval}></div><div className={classes.litext}>Odds of winning depend on the number of participants and use of Powers.</div> </li>
-          </ul>
-        </div>
-      </div>
+          
+        </>
+      ) : (
+        <>
+            <div className={classes.modalHeading}>
+              <button className={classes.backButton} onClick={() => setIsFreeEntryMode(false)}>
+                  {"< Back"}
+              </button>
+              <p>Please complete the free entry survey below:</p>
+            </div>
+            <div className={classes.modalForm}>
+                <div className={classes.formElem}>
+                    <p>
+                        What MLB team do you cheer for?
+                    </p>
+                    <select onChange={(e) => {
+                      setFreeEntryData(prevState => {
+                        return {
+                        ...prevState,
+                        MLBTeam: e.target.value
+                        }
+                      });
+                    }}>
+                        <option value="">Select your MLB team</option>
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                        <option value="four">Four</option>
+                        <option value="five">Five</option>
+                    </select>
+                </div>
+
+                <div className={classes.formElem}>
+                    <p>
+                        What NFL team do you cheer for?
+                    </p>
+                    <select onChange={(e) => {
+                      setFreeEntryData(prevState => {
+                        return {
+                        ...prevState,
+                        NFLTeam: e.target.value
+                        }
+                      });
+                    }}>
+                        <option value="">Select your NFL team</option>
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                        <option value="four">Four</option>
+                        <option value="five">Five</option>
+                    </select>
+                </div>
+
+                <div className={classes.formElem}>
+                    <p>
+                        What NBA team do you cheer for?
+                    </p>
+                    <select onChange={(e) => {
+                      setFreeEntryData(prevState => {
+                        return {
+                        ...prevState,
+                        NBATeam: e.target.value
+                        }
+                      });
+                    }}>
+                        <option value="">Select your NBA team</option>
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                        <option value="four">Four</option>
+                        <option value="five">Five</option>
+                    </select>
+                </div>
+
+                <div className={classes.formElem}>
+                    <p>
+                        What NHL team do you cheer for?
+                    </p>
+                    <select onChange={(e) => {
+                      setFreeEntryData(prevState => {
+                        return {
+                        ...prevState,
+                        NHLTeam: e.target.value
+                        }
+                      });
+                    }}>
+                        <option value="">Select your NHL team</option>
+                        <option value="one">One</option>
+                        <option value="two">Two</option>
+                        <option value="three">Three</option>
+                        <option value="four">Four</option>
+                        <option value="five">Five</option>
+                    </select>
+                </div>
+            
+                <div className={classes.bottomButtons}>
+                    <button className={classes.entryButton} disabled={!isValidated} onClick={() => {
+                      alert("test");
+                      //submitFreeEntry();
+                    }}>
+                        {"Free Entry"}
+                    </button>
+                    <button className={classes.backButton} onClick={() => setIsFreeEntryMode(false)}>
+                        {"< Back"}
+                    </button>
+                </div>
+            </div>
+        </>
+      )}
       <Footer />
       <PrizeModal
         visible={showPrizeModal}

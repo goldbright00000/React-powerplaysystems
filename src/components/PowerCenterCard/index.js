@@ -19,6 +19,9 @@ import OrangeBtcCurrency from '../../assets/btc-orange.png';
 import OrangeEthCurrency from '../../assets/ethereum-orange.png';
 import rechargeIcon from '../../assets/group-25.png';
 
+import onenflbg from '../../assets/group-3-one-nfl.png';
+import onenhlbg from '../../assets/group-3-one-nhl.png';
+
 import { getTimeZone } from '../../utility/shared';
 
 const PowerCenterCard = (props) => {
@@ -48,7 +51,6 @@ const PowerCenterCard = (props) => {
         PrizePayout = [],
         userHasEntered = false,
     } = props || {};
-    console.log("gameType", game_type);
 
     const getBackgroundImageWithStyle = () => {
         let backgroundImageStyle = {
@@ -67,6 +69,10 @@ const PowerCenterCard = (props) => {
         } else if (title === 'NBA') {
             backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
             backgroundImageStyle.backgroundPosition = "-75px 68px";
+        } else if (title === 'NHL' && game_type === 'PowerdFs_One') {
+            backgroundImageStyle.backgroundImage = `url(${onenhlbg})`;
+        } else if (title === 'NFL' && game_type === 'PowerdFs_One') {
+            backgroundImageStyle.backgroundImage = `url(${onenflbg})`;
         } else {
             backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
             backgroundImageStyle.backgroundPosition = "36px 106px";
@@ -109,7 +115,7 @@ const PowerCenterCard = (props) => {
             ?
             game_type == 'PowerdFS' ? (
                 <div className={classes.__power_center_card} style={getBackgroundImageWithStyle()}>
-                    <span style={{marginLeft: 20, color: "#f2f2f2", opacity: 0.6, marginTop: 10}}>ID {id}</span>
+                    <span className={classes.topId}>ID {id}</span>
                     <div className={classes.__power_center_card_powerdfs}>
                         <span className={classes.__power_center_card_powerdfs_hr + ' ' + classes.__power_center_card_powerdfs_hr_left}></span>
                         <p className={classes.__power_center_card_powerdfs_title}>
@@ -214,7 +220,7 @@ const PowerCenterCard = (props) => {
             ) : (
                 game_type === 'PowerdFs_promo' ? (
                     <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
-                        <span style={{marginLeft: 0, color: "#f2f2f2", opacity: 0.6, marginTop: 0}}>ID {id}</span>
+                        <span className={classes.topId}>ID {id}</span>
                         <div className={classes.__card_title}>
                             <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> Manager Challenge!</p>
                         </div>
@@ -252,6 +258,7 @@ const PowerCenterCard = (props) => {
                             <OutlineButtonViceVersa
                                 title={`Enter`}
                                 onClick={onEnter}
+                                styles={{width: "100%", fontWeight: 600}}
                             />
                         </div>
                         <div className={classes.__power_center_card_status_and_details}>
@@ -282,7 +289,7 @@ const PowerCenterCard = (props) => {
                 ) : (
                     game_type === 'PowerdFs_Recharge' ? (
                         <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
-                        <span style={{marginLeft: 0, color: "#f2f2f2", opacity: 0.6, marginTop: 0}}>ID {id}</span>
+                        <span className={classes.topId}>ID {id}</span>
                         <div className={classes.__start_end_date} style={{display: "flex", alignItems: "center"}}>
                             <span className={classes.__date_text} style={{marginBottom: 0, display: "flex", flex: 1}}>{game_set_start} | {start_time} ET</span>
                             <img src={rechargeIcon} style={{display: "flex"}}/>
@@ -314,7 +321,7 @@ const PowerCenterCard = (props) => {
                                     />
                                 )
                             )}{prize}!</h1>
-                            <p style={{marginBottom: 25, color: "#f2f2f2", opacity: 0.6}}>Prize Pool</p>
+                            <p style={{marginBottom: 25, color: "#f2f2f2", opacity: 0.6, marginTop: 10}}>Prize Pool</p>
                         </div>
                         <div className={classes.__win_power}>
                             <span className={classes.__win_power_span}>You have the Powers to win!</span>
@@ -323,6 +330,7 @@ const PowerCenterCard = (props) => {
                             <OutlineButtonViceVersa
                                 title={`Enter  •  $${entry_fee}`}
                                 onClick={onEnter}
+                                styles={{width: "100%", fontWeight: 600}}
                             />
                         </div>
                         <div className={classes.__power_center_card_status_and_details}>
@@ -351,74 +359,145 @@ const PowerCenterCard = (props) => {
                         </div>
                     </div>
                     ) : (
-                        <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
-                        <span style={{marginLeft: 0, color: "#f2f2f2", opacity: 0.6, marginTop: 0}}>ID {id}</span>
-                        <div className={classes.__card_title}>
-                            <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> {totalPoints} Point Challenge!</p>
-                        </div>
-                        <div className={classes.__start_end_date}>
-                            <span className={classes.__date_text} style={{marginBottom: 0}}>{game_set_start} | {start_time} ET</span>
-                        </div>
-                        <div className={classes.__current_jackpot}>
-                            <span className={classes.__current_jackpot_text}>Manage your team to {totalPoints} points and win</span>
-                            <h1 className={classes.__current_jackpot_amount}> {currency === 'USD' ? (
-                                `$`
-                            ) : (
-                                currency === 'PWRS' ? (
-                                    prize_currency === 'USD' ? (
+                        game_type === 'PowerdFs_One' ?
+                            <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                                <span className={classes.topId}>ID {id}</span>
+                                <div className={classes.__start_end_date} style={{display: "flex", alignItems: "center", height: 20}}>
+                                    <span className={classes.__date_text} style={{marginBottom: 0, display: "flex", flex: 1}}>{game_set_start} | {start_time} ET</span>
+                                </div>
+                                <div className={classes.__card_title}>
+                                    <p className={classes.__card_title_text}  style={{height: "auto"}}>{title} <span className={classes.__card__title_first}>PowerdFS One</span></p>
+                                </div>
+                                
+                                <div className={classes.__current_jackpot}>
+                                    <span className={classes.__current_jackpot_text} style={{fontWeight: 400, height: "auto", marginTop: 16}}>Try our fast paced <br />{title == "NFL" ? "One-Quarter" : "One-Period"} Game!</span>
+                                    <h1 className={classes.__current_jackpot_amount} style={{marginBottom: 10, marginTop: 20}}> {currency === 'USD' ? (
                                         `$`
                                     ) : (
+                                        currency === 'PWRS' ? (
+                                            prize_currency === 'USD' ? (
+                                                `$`
+                                            ) : (
+                                                <img
+                                                    src={getCurrency(prize_currency)}
+                                                    width="20"
+                                                    alt=""
+                                                />
+                                            )
+                                        ) : (
+                                            <img
+                                                src={getCurrency(currency)}
+                                                width="20"
+                                                alt=""
+                                            />
+                                        )
+                                    )}{prize}</h1>
+                                    <p style={{marginBottom: 48, color: "#f2f2f2", opacity: 0.6, marginTop: 10}}>Prize Pool</p>
+                                </div>
+                                <div className={classes.__win_power} style={{width: "auto", marginRight: 50}}>
+                                    <span className={classes.__win_power_span}>Use your Powers to maximize <br />your fantasy points!</span>
+                                </div>
+                                <div className={classes.__card_button} >
+                                    <OutlineButtonViceVersa
+                                        title={`Enter  •  $${entry_fee}`}
+                                        onClick={onEnter}
+                                        styles={{width: "100%", fontWeight: 600}}
+                                    />
+                                </div>
+                                <div className={classes.__power_center_card_status_and_details}>
+                                    {/* <div className={classes.__power_center_card_total}>
+                                        {targeted_game ? (
+                                            <p>
+                                                {outOf} <span>of {total}</span>
+                                            </p>
+
+                                        ) : (
+                                            <p>
+                                                {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                                            </p>
+                                        )}
+                                    </div> */}
+                                    <div className={classes.__power_center_card_details}>
+                                        <div className={classes.__power_center_card_details_link} onClick={() => {
+                                            onDetailsClick(id)
+                                        }}>
+                                            Details
+                                        </div>
+                                        <div className={classes.__power_center_card_details_link_forward_arrow}>
+                                            {">"}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        :
+                        <div className={classes.__power_center__challenge_card} style={getBackgroundImageWithStyle()}>
+                            <span className={classes.topId}>ID {id}</span>
+                            <div className={classes.__card_title}>
+                                <p className={classes.__card_title_text}>{title} <span className={classes.__card__title_first}>PowerdFS</span><br /> {totalPoints} Point Challenge!</p>
+                            </div>
+                            <div className={classes.__start_end_date}>
+                                <span className={classes.__date_text} style={{marginBottom: 0}}>{game_set_start} | {start_time} ET</span>
+                            </div>
+                            <div className={classes.__current_jackpot}>
+                                <span className={classes.__current_jackpot_text}>Manage your team to {totalPoints} points and win</span>
+                                <h1 className={classes.__current_jackpot_amount}> {currency === 'USD' ? (
+                                    `$`
+                                ) : (
+                                    currency === 'PWRS' ? (
+                                        prize_currency === 'USD' ? (
+                                            `$`
+                                        ) : (
+                                            <img
+                                                src={getCurrency(prize_currency)}
+                                                width="20"
+                                                alt=""
+                                            />
+                                        )
+                                    ) : (
                                         <img
-                                            src={getCurrency(prize_currency)}
+                                            src={getCurrency(currency)}
                                             width="20"
                                             alt=""
                                         />
                                     )
-                                ) : (
-                                    <img
-                                        src={getCurrency(currency)}
-                                        width="20"
-                                        alt=""
-                                    />
-                                )
-                            )}{prize}!</h1>
-                        </div>
-                        <div className={classes.__win_power}>
-                            <span className={classes.__win_power_span}>You have the Powers to win!</span>
-                        </div>
-                        <div className={classes.__card_button}>
-                            <OutlineButtonViceVersa
-                                title={`Enter`}
-                                onClick={onEnter}
-                            />
-                        </div>
-                        <div className={classes.__power_center_card_status_and_details}>
-                            {/* <div className={classes.__power_center_card_total}>
-                                {targeted_game ? (
-                                    <p>
-                                        {outOf} <span>of {total}</span>
-                                    </p>
+                                )}{prize}!</h1>
+                            </div>
+                            <div className={classes.__win_power}>
+                                <span className={classes.__win_power_span}>You have the Powers to win!</span>
+                            </div>
+                            <div className={classes.__card_button}>
+                                <OutlineButtonViceVersa
+                                    title={`Enter`}
+                                    onClick={onEnter}
+                                    styles={{width: "100%", fontWeight: 600}}
+                                />
+                            </div>
+                            <div className={classes.__power_center_card_status_and_details}>
+                                {/* <div className={classes.__power_center_card_total}>
+                                    {targeted_game ? (
+                                        <p>
+                                            {outOf} <span>of {total}</span>
+                                        </p>
 
-                                ) : (
-                                    <p>
-                                        {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
-                                    </p>
-                                )}
-                            </div> */}
-                            {id}
-                            <div className={classes.__power_center_card_details}>
-                                <div className={classes.__power_center_card_details_link} onClick={() => {
-                                    onDetailsClick(id)
-                                }}>
+                                    ) : (
+                                        <p>
+                                            {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
+                                        </p>
+                                    )}
+                                </div> */}
+                                <div className={classes.__power_center_card_details}>
+                                    <div className={classes.__power_center_card_details_link} onClick={() => {
+                                        onDetailsClick(id)
+                                    }}>
 
-                                    Details
-                                </div>
-                                <div className={classes.__power_center_card_details_link_forward_arrow}>
-                                    {">"}
+                                        Details
+                                    </div>
+                                    <div className={classes.__power_center_card_details_link_forward_arrow}>
+                                        {">"}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     )
                     
                 )
@@ -436,6 +515,7 @@ const PowerCenterCard = (props) => {
                 game_set_start={game_set_start}
                 prize={numberWithCommas(prize)}
                 userHasEntered={userHasEntered}
+                game_type={game_type}
             />
     );
 };

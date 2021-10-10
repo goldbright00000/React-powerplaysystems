@@ -13,8 +13,8 @@ import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Header4 from "../../components/Header4";
-import NHLHeaderImage from "../../assets/nhl-bg.png";
-import NHLHeaderImageMobile from "../../assets/nhl-player-mobile-left.png";
+import NHLHeaderImage from "../../assets/hockey2.png";
+import NHLHeaderImageMobile from "../../assets/hockey3.png";
 import Tick2 from "../../icons/Tick2";
 import ContestRulesIcon from "../../icons/ContestRules";
 import RightArrow from "../../assets/right-arrow.png";
@@ -278,6 +278,7 @@ function NHLPowerdFs(props) {
     paid_game = true,
     entry_fee = "",
     currency = "",
+    game_type = ""
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -320,7 +321,6 @@ function NHLPowerdFs(props) {
       NHLActions.nhlData(history.location?.state?.game_id)
     );
 
-    console.log(response);
 
     if (response) {
       setData(response?.filterdList);
@@ -1357,7 +1357,7 @@ function NHLPowerdFs(props) {
                 centered
               />
 
-              <PowerCollapesible powers={powers} />
+              <PowerCollapesible powers={powers} game_type={game_type}/>
 
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>
