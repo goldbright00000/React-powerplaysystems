@@ -13,11 +13,18 @@ import { getLocalStorage, printLog, redirectTo } from "../../../utility/shared";
 import { socket } from "../../../config/server_connection";
 import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 import x1_5Power from "../../../assets/icons/powers/x_1.5.png";
+import x1_2Power from "../../../assets/icons/powers/x_1.2.svg";
 import classes from "./index.module.scss";
+import ScoreBoard from "../../../components/mobilecomponents/ScoreBoard";
+import moment from "moment";
 
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 
 export default function TeamManager(props) {
+  const [screenSize, setScreenSize] = useState(window.screen.width);
+  window.onresize = () => {
+    setScreenSize(window.screen.width);
+  };
   let {
     selectedView,
     compressedView,
@@ -62,6 +69,8 @@ export default function TeamManager(props) {
     const decSelectedTeamData = JSON.parse(
       byteData.toString(CryptoJS.enc.Utf8)
     );
+
+    console.log("decSelectedTeamData: ", decSelectedTeamData);
 
     return decSelectedTeamData;
   }
@@ -216,14 +225,82 @@ export default function TeamManager(props) {
           style={{ objectFit: "contain" }}
           width={24}
           height={25}
-          src={x1_5Power}
+          src={x1_2Power}
         />
         <p className={classes.team_manager_card_header_title}>
-          1.5x Booster Applied to all your players!
+          1.2x Booster Applied to all your players!
         </p>
       </div>
     );
   };
+
+  const [swap, setSwap] = useState(false);
+  const [secondModal, setSecondModal] = useState(false);
+  const [selectedPlayer, setSelectedPlayer] = useState({});
+  const [loadingPlayerList, setLoadingPlayerList] = useState(false);
+  const [swapPlayerList, setPlayerList] = useState({});
+  const [filteredPlayerList, setFilteredPlayerList] = useState({});
+  const { data: nhlData = [] } = useSelector((state) => state.nhl);
+
+  const boostModal = (value, player = {}) => {
+    if (value) {
+      setSelectedPlayer(player);
+    } else {
+      setSelectedPlayer({});
+    }
+    setSecondModal(!secondModal);
+  };
+
+  const swapModal = (value, player = {}) => {
+    if (value) {
+      setSelectedPlayer(player);
+    } else {
+      setSelectedPlayer({});
+    }
+    toggleReplaceModal(player);
+    //setSwap(!swap);
+  };
+
+  const toggleReplaceModal = useCallback(
+    async (player) => {
+      setLoadingPlayerList(true);
+      setSwap(true);
+      const response = await dispatch(
+        NHLActions.nhlData(props?.gameInfo?.game_id)
+      );
+      if (response?.filterdList && response?.filterdList?.length) {
+        const _mlbData = [...response?.filterdList];
+        const [swapablePlayerData] = _mlbData?.filter(
+          (data) =>
+            data?.type === `${player?.player?.type}`?.toLocaleLowerCase()
+        );
+        if (
+          swapablePlayerData &&
+          swapablePlayerData?.listData &&
+          swapablePlayerData?.listData?.length
+        ) {
+          const _time = moment(player?.match?.date_time)
+            .clone()
+            .format("h:mm A");
+          const newListData = swapablePlayerData?.listData?.filter(
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player?.player_id &&
+              data[index]?.player_id !== player?.player_id
+          );
+          const _dataToRender = {
+            type: swapablePlayerData.type,
+            listData: newListData,
+          };
+          setPlayerList(_dataToRender);
+          setFilteredPlayerList(_dataToRender);
+          //setSwap(true)
+        }
+      }
+      setLoadingPlayerList(false);
+    },
+    [nhlData]
+  );
 
   if (loading) {
     return <p>Loading...</p>;
@@ -257,25 +334,53 @@ export default function TeamManager(props) {
   } else if (live_data && live_data?.length) {
     return (
       <>
-        <TeamManagerCardHeader />
-
-        {live_data?.map((item, index) => (
+        {screenSize > 550 ? (
           <>
-            {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
-              <SportsLiveCardTeamD
-                data={item}
-                compressedView={compressedView}
-                key={index + "" + item?.team_d_nhl_team?.type}
-                dwall={dwallCounts}
-                challenge={challengeCounts}
-                useDwall={useDwall}
-                useChallenge={useChallenge}
-                dataMain={selectedTeam}
-                setPowers={setPowers}
-                cardType="nhl"
-              />
-            ) : (
-              <SportsLiveCard
+            <TeamManagerCardHeader />
+
+            {live_data?.map((item, index) => (
+              <>
+                {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
+                  <SportsLiveCardTeamD
+                    data={item}
+                    compressedView={compressedView}
+                    key={index + "" + item?.team_d_nhl_team?.type}
+                    dwall={dwallCounts}
+                    challenge={challengeCounts}
+                    useDwall={useDwall}
+                    useChallenge={useChallenge}
+                    dataMain={selectedTeam}
+                    setPowers={setPowers}
+                    cardType="nhl"
+                  />
+                ) : (
+                  <SportsLiveCard
+                    data={item}
+                    compressedView={compressedView}
+                    key={index + ""}
+                    onChangeXp={onChangeXp}
+                    updateReduxState={updateReduxState}
+                    starPlayerCount={starPlayerCount}
+                    gameInfo={selectedTeam}
+                    useSwap={useSwap}
+                    swapCount={swapCounts}
+                    dataMain={selectedTeam}
+                    setPowers={setPowers}
+                    pointXpCount={{
+                      xp1: pointBooster15x,
+                      xp2: pointBooster2x,
+                      xp3: pointBooster3x,
+                    }}
+                    cardType="nhl"
+                  />
+                )}
+              </>
+            ))}
+          </>
+        ) : (
+          <>
+            {live_data?.map((item, index) => (
+              <ScoreBoard
                 data={item}
                 compressedView={compressedView}
                 key={index + ""}
@@ -293,10 +398,66 @@ export default function TeamManager(props) {
                   xp3: pointBooster3x,
                 }}
                 cardType="nhl"
+                counts={{
+                  swapCounts,
+                  dwallCounts,
+                  challengeCounts,
+                  retroBoostCounts,
+                  powerUpCounts,
+                  pointMultiplierCounts,
+                }}
+                // boostModal={boostModal}
+                // swapModal={swapModal}
+                // showTagLine={true}
+                // tagLine={item?.team_d_nhl_team?.type}
+                // tagLine={
+                //   data?.team_d_mlb_team?.type === CONSTANTS.FILTERS.MLB.D
+                //     ? `${data?.team_d_mlb_team?.type}`.toLocaleUpperCase()
+                //     : primary_position
+                // }
+                // firstTeam={`${away_team?.name} ${away_team_runs}`}
+                // secondTeam={`${home_team?.name} ${home_team_runs}`}
+                // double={false}
+                // featured={false}
+                // icons={false}
+                // baseBall={type === "P" ? false : !isEmpty(hitter)}
+                // title={name}
+                // subTitle={RenderSubTitle(
+                //   type,
+                //   innings_pitched,
+                //   pitch_count,
+                //   strike_outs,
+                //   walks,
+                //   batting_average,
+                //   hits,
+                //   plate_appearances,
+                //   runs_batted_in,
+                //   runs
+                // )}
+                // hitter={hitter}
+                // pitcher={pitcher}
+                // strikes={strikes}
+                // balls={balls}
+                // fieldText={showStatusText(status, date_time)}
+                // fieldColor="#3f9946"
+                // points={score}
+                // footerText={footerTitle(
+                //   current_inning_half,
+                //   current_inning,
+                //   outs
+                // )}
+                // secondShow={true}
+                // key={`${index}`}
+                // type={type}
+                // index={index}
+                // ranks={ranks}
+                // counts={counts}
+                // player={data}
+                // active_power_id={active_power_id}
               />
-            )}
+            ))}
           </>
-        ))}
+        )}
       </>
     );
   }

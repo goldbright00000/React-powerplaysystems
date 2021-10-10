@@ -112,6 +112,7 @@ function NHLPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.nhl);
   const { user = {} } = useSelector((state) => state.auth);
+  const { token = "", user_id } = user || {};
 
   const {
     game_id: gameId = "",
@@ -779,6 +780,10 @@ function NHLPowerdFsLive(props) {
           <div className="teamManagerDiv">
             <div className={classes.wrapper}>
               <Header4
+                // outof={outOf}
+                // enrolledUsers={enrolledUsers}
+                outof={1000}
+                enrolledUsers={10}
                 titleMain1="NHL 2021"
                 titleMain2="PowerdFS"
                 subHeader1="Introducing Live-Play Fantasy Baseball"
@@ -795,6 +800,8 @@ function NHLPowerdFsLive(props) {
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
                 selectedTeam={selectedTeam}
+                token={token}
+                livePage={true}
               />
 
               <div className={classes.container}>
@@ -897,16 +904,16 @@ function NHLPowerdFsLive(props) {
 
                     <PowerSidebar
                       collapse={false}
-                      // swapCounts={swapCounts}
-                      // dwallCounts={dwallCounts}
-                      // challengeCounts={challengeCounts}
-                      // pointMultiplierCounts={pointMultiplierCounts}
-                      // pointBooster15x={pointBooster15x}
-                      // pointBooster2x={pointBooster2x}
-                      // pointBooster3x={pointBooster3x}
-                      // retroBoostCounts={retroBoostCounts}
-                      // powerUpCounts={powerUpCounts}
-                      // game={game}
+                      swapCounts={swapCounts}
+                      dwallCounts={dwallCounts}
+                      challengeCounts={challengeCounts}
+                      pointMultiplierCounts={pointMultiplierCounts}
+                      pointBooster15x={pointBooster15x}
+                      pointBooster2x={pointBooster2x}
+                      pointBooster3x={pointBooster3x}
+                      retroBoostCounts={retroBoostCounts}
+                      powerUpCounts={powerUpCounts}
+                      game={game}
                     />
                   </Sidebar>
                 </div>
@@ -934,6 +941,21 @@ function NHLPowerdFsLive(props) {
               powerUpCounts,
               pointMultiplierCounts,
             }}
+            loading={loading}
+            swapCounts={swapCounts}
+            dwallCounts={dwallCounts}
+            challengeCounts={challengeCounts}
+            pointMultiplierCounts={pointMultiplierCounts}
+            pointBooster15x={pointBooster15x}
+            pointBooster2x={pointBooster2x}
+            pointBooster3x={pointBooster3x}
+            retroBoostCounts={retroBoostCounts}
+            powerUpCounts={powerUpCounts}
+            setPlayerToSwap={setPlayerToSwap}
+            onPowerApplied={onPowerApplied}
+            POWER_IDs={POWER_IDs}
+            setPowers={setPowers}
+            cardType="nhl"
           />
         </>
       )}

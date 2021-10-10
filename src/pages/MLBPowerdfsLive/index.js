@@ -107,6 +107,7 @@ function MLBPowerdFsLive(props) {
     game_id = 0,
   } = useSelector((state) => state.mlb);
   const { user = {} } = useSelector((state) => state.auth);
+  const { token = "", user_id } = user || {};
 
   const onCloseModal = () => setLearnMoreModal(false);
 
@@ -724,6 +725,10 @@ function MLBPowerdFsLive(props) {
           <div className="teamManagerDiv">
             <div className={classes.wrapper}>
               <Header4
+                // outof={outOf}
+                // enrolledUsers={enrolledUsers}
+                outof={1000}
+                enrolledUsers={10}
                 titleMain1="MLB 2021"
                 titleMain2="PowerdFS"
                 subHeader1="Introducing Live-Play Fantasy Baseball"
@@ -740,6 +745,8 @@ function MLBPowerdFsLive(props) {
                 currentState={<RenderLiveState isLive />}
                 onClickPrize={() => setPrizeModalState(true)}
                 selectedTeam={selectedTeam}
+                token={token}
+                livePage={true}
               />
 
               <div className={classes.container}>

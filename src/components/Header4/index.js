@@ -10,13 +10,13 @@ import Points from "../../icons/Points";
 import ContestRulesPopUp from "../ContestRulesPopUp";
 import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
-import _ from 'underscore';
+import _ from "underscore";
 function Header4(props) {
   const {
-    outof = '',
-    enrolledUsers = '',
-    onClickContest = () => { },
-    onClickPrize = () => { },
+    outof = "",
+    enrolledUsers = "",
+    onClickContest = () => {},
+    onClickPrize = () => {},
     titleMain1 = "",
     titleMain2 = "",
     subHeader1 = "",
@@ -30,6 +30,7 @@ function Header4(props) {
     isMobile = false,
     points = [],
     powers = [],
+    livePage = false,
   } = props || {};
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
@@ -43,72 +44,84 @@ function Header4(props) {
 
   const RenderHeader = () => (
     <div
-      className={`${classes.header_container} ${compressedView && classes.compressedView
-        }`}
+      className={`${classes.header_container} ${
+        compressedView && classes.compressedView
+      }`}
       style={{ backgroundImage: "url(" + bgImageUri + ")" }}
     >
-      {
-        isMobile
-          ?
-          <div className={classes.header_top}>
+      {isMobile ? (
+        <div className={classes.header_top}>
+          <div className={classes.header_title}>Select your team</div>
+          <div>
+            <span className={classes.horizontal_line}></span>
+            <span className={classes.header_sub_title}>
+              7 starters + 1 team D
+            </span>
+            <span className={classes.horizontal_line}></span>
+          </div>
+        </div>
+      ) : (
+        <div className={classes.header_top}>
+          {titleMain1 && (
             <div className={classes.header_title}>
-              Select your team
+              <h2 className={compressedView && classes.compressedView}>
+                {titleMain1} <span>{titleMain2}</span>
+              </h2>
             </div>
-            <div>
-              <span className={classes.horizontal_line}></span>
-              <span className={classes.header_sub_title}>7 starters + 1 team D</span>
-              <span className={classes.horizontal_line}></span>
-            </div>
-          </div>
-          :
-          <div className={classes.header_top}>
-            {titleMain1 && (
-              <div className={classes.header_title}>
-                <h2 className={compressedView && classes.compressedView}>
-                  {titleMain1} <span>{titleMain2}</span>
-                </h2>
-              </div>
-            )}
-            {!compressedView && subHeader1 && <p>{subHeader1}</p>}
-            {!compressedView && subHeader2 && (
-              <p className={classes.p2}>{subHeader2}</p>
-            )}
+          )}
+          {!compressedView && subHeader1 && <p>{subHeader1}</p>}
+          {!compressedView && subHeader2 && (
+            <p className={classes.p2}>{subHeader2}</p>
+          )}
 
-            <div
-              className={`${classes.header_buttons} ${compressedView && classes.compressedView
-                }`}
-            >
-              {contestBtnTitle && (
-                <ContestRulesPopUp
-                  points={(typeof props.selectedTeam !== "undefined")? _.groupBy(props?.selectedTeam?.game?.PointsSystems, 'type'):points}
-                  powers={(typeof props.selectedTeam !== "undefined")? props?.selectedTeam?.game?.Powers:powers}
-                  component={({ showPopUp }) => (
-                    <button onClick={showPopUp}>
-                      <DocIcon /> {contestBtnTitle}
-                    </button>
-                  )}
-                  title={titleMain1.split(" ")[0]}
-                />
-              )}
-              {prizeBtnTitle && (
-                <button
-                  className={compressedView && classes.compressedView}
-                  onClick={onClickPrize}
-                >
-                  <Trophy /> Prize Grid
-                </button>
-              )}
-            </div>
+          <div
+            className={`${classes.header_buttons} ${
+              compressedView && classes.compressedView
+            }`}
+          >
+            {contestBtnTitle && (
+              <ContestRulesPopUp
+                points={
+                  typeof props.selectedTeam !== "undefined"
+                    ? _.groupBy(
+                        props?.selectedTeam?.game?.PointsSystems,
+                        "type"
+                      )
+                    : points
+                }
+                powers={
+                  typeof props.selectedTeam !== "undefined"
+                    ? props?.selectedTeam?.game?.Powers
+                    : powers
+                }
+                component={({ showPopUp }) => (
+                  <button onClick={showPopUp}>
+                    <DocIcon /> {contestBtnTitle}
+                  </button>
+                )}
+                title={titleMain1.split(" ")[0]}
+              />
+            )}
+            {prizeBtnTitle && (
+              <button
+                className={compressedView && classes.compressedView}
+                onClick={onClickPrize}
+              >
+                <Trophy /> Prize Grid
+              </button>
+            )}
           </div>
-      }
+        </div>
+      )}
 
-      {
-        (token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))
-        &&
-        !isMobile
-        &&
-        <Balance entries={enrolledUsers} totalEntries={outof} />
-      }
+      {/* {(token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)) &&
+        !isMobile && ( */}
+      <Balance
+        entries={enrolledUsers}
+        totalEntries={outof}
+        livePage={livePage}
+      />
+      {/* )} */}
     </div>
   );
 

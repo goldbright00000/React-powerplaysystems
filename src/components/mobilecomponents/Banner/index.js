@@ -6,24 +6,33 @@ import { getLocalStorage } from "../../../utility/shared";
 import { CONSTANTS } from "../../../utility/constants";
 import * as CryptoJS from "crypto-js";
 
-function getTeamFromLocalStorage() {
-  const encData = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME);
+function getTeamFromLocalStorage(cardType) {
+  let key = CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME;
+  if (cardType === "mlb") {
+    key = CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME;
+  } else if (cardType === "nhl") {
+    key = CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME;
+  } else if (cardType === "nfl") {
+    key = CONSTANTS.LOCAL_STORAGE_KEYS.NFL_LIVE_GAME;
+  }
+
+  const encData = getLocalStorage(key);
   const byteData = CryptoJS.AES.decrypt(encData, CONSTANTS.DATA_ENC_KEY);
-  const decSelectedTeamData = JSON.parse(
-    byteData.toString(CryptoJS.enc.Utf8)
-  );
+  const decSelectedTeamData = JSON.parse(byteData.toString(CryptoJS.enc.Utf8));
   return decSelectedTeamData;
 }
 
-const Banner = () => {
-  const selectedTeam = getTeamFromLocalStorage();
+const Banner = (props) => {
+  const { cardType = "mlb" } = props || {};
+  const selectedTeam = getTeamFromLocalStorage(cardType);
+
   return (
-    <div className="mobile__banner">
+    <div className={`mobile__banner_${cardType}`}>
       <Container fluid={true}>
         <Row>
           <Col className="text-center">
             <h1>
-              MLB 2021 <span className="color">PowerdFS</span>{" "}
+              {cardType.toUpperCase()} <span className="color">PowerdFS</span>{" "}
             </h1>
             <h2>
               Entries <span className="ten">{selectedTeam.enrolled_users}</span>{" "}
