@@ -976,8 +976,8 @@ function NHLPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                      ? "Edit your team"
-                      : "Select your team"}
+                    ? "Edit your team"
+                    : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1064,11 +1064,11 @@ function NHLPowerdFs(props) {
                                       onSelectDeselect={onPlayerSelectDeselect}
                                       pageType={PAGE_TYPES.NHL}
                                       type={selectedData?.type}
-                                    // disabled={
-                                    //   item.isStarPlayer &&
-                                    //   item.isStarPlayer &&
-                                    //   starPlayerCount >= 3
-                                    // }
+                                      // disabled={
+                                      //   item.isStarPlayer &&
+                                      //   item.isStarPlayer &&
+                                      //   starPlayerCount >= 3
+                                      // }
                                     />
                                   </>
                                 )}
@@ -1195,8 +1195,9 @@ function NHLPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
-                              }`}
+                            className={`${activeTab === 2 && classes.active} ${
+                              classes.__last_tab_header
+                            }`}
                           >
                             Powers Available
                           </Tab>

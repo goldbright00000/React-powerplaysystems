@@ -24,6 +24,11 @@ import XP3 from "../../icons/XP3";
 import XP3_1 from "../../icons/XP3_1";
 import MiniStar from "../../assets/mini_star.png";
 import Tooltip from "../ToolTip";
+import { Tooltip as ReactStrapToolip } from "reactstrap";
+import {
+  Tooltip as ReactBootstrapTooltip,
+  OverlayTrigger,
+} from "react-bootstrap";
 import { isEmpty } from "lodash";
 import { CONSTANTS } from "../../utility/constants";
 import RenderPointsSummary from "./RenderPointsSummary";
@@ -54,6 +59,11 @@ function SportsLiveCard(props) {
   const { data: nflData = [] } = useSelector((state) => state.nfl);
   const { data: nhlData = [] } = useSelector((state) => state.nhl);
 
+  const [tooltipOpen1, setTooltipOpen1] = useState(false);
+  const toggle1 = () => setTooltipOpen1(!tooltipOpen1);
+  const [tooltipOpen2, setTooltipOpen2] = useState(false);
+  const toggle2 = () => setTooltipOpen2(!tooltipOpen2);
+
   const {
     data = {},
     compressedView = false,
@@ -69,6 +79,7 @@ function SportsLiveCard(props) {
     gameInfo = {},
     pointXpCount = {},
     currentPlayerList = [],
+    key = "",
   } = props || {};
 
   const { game: { game_id: gameId } = {} } = gameInfo || {};
@@ -482,7 +493,7 @@ function SportsLiveCard(props) {
   };
 
   const renderXp = () => {
-    let svgSize = singleView ? 14 : largeView ? 28 : 24;
+    let svgSize = singleView ? 14 : largeView ? 30 : 30;
     if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
       return <XP1_5_1 className={classes.xp_svg} size={svgSize} />;
     else if (xp && xp?.xp === CONSTANTS.XP.xp2)
@@ -651,15 +662,24 @@ function SportsLiveCard(props) {
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
       <div className={classes.stat_points_container}>
-        <Tooltip toolTipContent="Point Generating Plays">
-          <p
-            className={`${classes.stat_points_title} ${
-              largeView && classes.large_view
-            }`}
+        <p
+          className={`${classes.stat_points_title} ${
+            largeView && classes.large_view
+          }`}
+          id={`TooltipPGP1_${key}`}
+        >
+          <OverlayTrigger
+            placement={"top"}
+            overlay={
+              <ReactBootstrapTooltip>
+                Point Generating Plays
+              </ReactBootstrapTooltip>
+            }
           >
-            PGPs
-          </p>
-        </Tooltip>
+            <span>PGPs</span>
+          </OverlayTrigger>
+        </p>
+
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           {type === "P" ? (
             <>
@@ -725,8 +745,18 @@ function SportsLiveCard(props) {
             className={`${classes.stat_points_title} ${
               largeView && classes.large_view
             }`}
+            id={`TooltipPGP2_${key}`}
           >
-            <Tooltip toolTipContent="Point Generating Plays">PGPs</Tooltip>
+            <OverlayTrigger
+              placement={"top"}
+              overlay={
+                <ReactBootstrapTooltip>
+                  Point Generating Plays
+                </ReactBootstrapTooltip>
+              }
+            >
+              <span>PGPs</span>
+            </OverlayTrigger>
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             G: {goals} | A: {assists}
@@ -885,6 +915,7 @@ function SportsLiveCard(props) {
   return (
     <>
       <div
+        key={key}
         className={`${classes.card_wrapper} ${
           singleView ? classes.singleViewCardWrapper : ""
         }`}

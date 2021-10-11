@@ -45,6 +45,7 @@ function SportsLiveCardTeamD(props) {
     active = false,
     onSelectCard = () => {},
     cardType = CardType.MLB,
+    key = "",
   } = props || {};
 
   const {
@@ -236,7 +237,7 @@ function SportsLiveCardTeamD(props) {
             largeView && classes.large_view
           }`}
         >
-          Stats
+          PGPs
         </p>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
@@ -337,7 +338,10 @@ function SportsLiveCardTeamD(props) {
                 }
               >
                 <button className={classes.team_d_icon_button}>
-                  <Challenge size={largeView ? 28 : 24} />
+                  <Challenge
+                    size={30}
+                    // size={largeView ? 28 : 24}
+                  />
                 </button>
               </Tooltip>
             ) : props.challenge == 0 ? (
@@ -345,7 +349,10 @@ function SportsLiveCardTeamD(props) {
                 <ChallengePopUp
                   component={({ showPopUp }) => (
                     <button className={classes.team_d_icon_button}>
-                      <Challenge size={largeView ? 28 : 24} />
+                      <Challenge
+                        size={30}
+                        // size={largeView ? 28 : 24}
+                      />
                     </button>
                   )}
                   challenge={props.challenge}
@@ -364,7 +371,10 @@ function SportsLiveCardTeamD(props) {
                         : {}
                     }
                   >
-                    <Challenge size={largeView ? 28 : 24} />
+                    <Challenge
+                      size={30}
+                      // size={largeView ? 28 : 24}
+                    />
                   </button>
                 )}
                 challenge={props.challenge}
@@ -493,7 +503,10 @@ function SportsLiveCardTeamD(props) {
                 }
               >
                 <button className={classes.team_d_icon_button}>
-                  <ShieldIcon size={largeView ? 28 : 24} />
+                  <ShieldIcon
+                    size={30}
+                    // size={largeView ? 28 : 24}
+                  />
                 </button>
               </Tooltip>
             ) : props.dwall == 0 ? (
@@ -501,7 +514,10 @@ function SportsLiveCardTeamD(props) {
                 <DwallPopUp
                   component={({ showPopUp }) => (
                     <button className={classes.team_d_icon_button}>
-                      <ShieldIcon size={largeView ? 28 : 24} />
+                      <ShieldIcon
+                        size={30}
+                        // size={largeView ? 28 : 24}
+                      />
                     </button>
                   )}
                   dwall={props.dwall}
@@ -520,7 +536,10 @@ function SportsLiveCardTeamD(props) {
                         : {}
                     }
                   >
-                    <ShieldIcon size={largeView ? 28 : 24} />
+                    <ShieldIcon
+                      size={30}
+                      // size={largeView ? 28 : 24}
+                    />
                   </button>
                 )}
                 dwall={props.dwall}
@@ -652,7 +671,10 @@ function SportsLiveCardTeamD(props) {
                 disabled={isGameOverOrNotStarted()}
               >
                 <button className={classes.team_d_icon_button}>
-                  <Challenge size={largeView ? 28 : 24} />
+                  <Challenge
+                    size={30}
+                    // size={largeView ? 28 : 24}
+                  />
                 </button>
               </Tooltip>
             ) : props.challenge == 0 ? (
@@ -808,7 +830,10 @@ function SportsLiveCardTeamD(props) {
                 }
               >
                 <button className={classes.team_d_icon_button}>
-                  <ShieldIcon size={largeView ? 28 : 24} />
+                  <ShieldIcon
+                    size={30}
+                    // size={largeView ? 28 : 24}
+                  />
                 </button>
               </Tooltip>
             ) : props.dwall == 0 ? (
@@ -816,7 +841,10 @@ function SportsLiveCardTeamD(props) {
                 <DwallPopUp
                   component={({ showPopUp }) => (
                     <button>
-                      <ShieldIcon size={largeView ? 28 : 24} />
+                      <ShieldIcon
+                        size={30}
+                        // size={largeView ? 28 : 24}
+                      />
                     </button>
                   )}
                   dwall={props.dwall}
@@ -834,7 +862,10 @@ function SportsLiveCardTeamD(props) {
                         : {}
                     }
                   >
-                    <ShieldIcon size={largeView ? 28 : 24} />
+                    <ShieldIcon
+                      size={30}
+                      // size={largeView ? 28 : 24}
+                    />
                   </button>
                 )}
                 dwall={props.dwall}
@@ -856,7 +887,7 @@ function SportsLiveCardTeamD(props) {
               largeView && classes.large_view
             }`}
           >
-            Stats
+            PGPs
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             GA: {goals}
@@ -1011,8 +1042,10 @@ function SportsLiveCardTeamD(props) {
                   <img
                     alt="power icon"
                     src={DwallIcon}
-                    width={largeView ? 28 : 24}
-                    height={largeView ? 28 : 24}
+                    width={30}
+                    height={30}
+                    // width={largeView ? 30 : 24}
+                    // height={largeView ? 30 : 24}
                   />
                 </button>
               </Tooltip>
@@ -1024,8 +1057,10 @@ function SportsLiveCardTeamD(props) {
                       <img
                         alt="power icon"
                         src={DwallIcon}
-                        width={largeView ? 28 : 24}
-                        height={largeView ? 28 : 24}
+                        width={30}
+                        height={30}
+                        // width={largeView ? 28 : 24}
+                        // height={largeView ? 28 : 24}
                       />
                     </button>
                   )}
@@ -1048,8 +1083,10 @@ function SportsLiveCardTeamD(props) {
                     <img
                       alt="power icon"
                       src={DwallIcon}
-                      width={largeView ? 28 : 24}
-                      height={largeView ? 28 : 24}
+                      width={30}
+                      height={30}
+                      // width={largeView ? 28 : 24}
+                      // height={largeView ? 28 : 24}
                     />
                   </button>
                 )}
@@ -1065,8 +1102,10 @@ function SportsLiveCardTeamD(props) {
               <img
                 alt="power icon"
                 src={ChallengeIcon}
-                width={largeView ? 28 : 24}
-                height={largeView ? 28 : 24}
+                width={30}
+                height={30}
+                // width={largeView ? 28 : 24}
+                // height={largeView ? 28 : 24}
               />
             </button>
             {/* {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
@@ -1175,6 +1214,7 @@ function SportsLiveCardTeamD(props) {
   return (
     <>
       <div
+        key={key}
         className={`${classes.card_wrapper} ${
           singleView ? classes.singleViewCardWrapper : ""
         }`}

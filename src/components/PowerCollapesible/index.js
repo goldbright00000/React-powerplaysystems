@@ -28,6 +28,19 @@ const getIcon = (powerName) => {
   }
 };
 function PowerCollapesible(props) {
+  let {
+    swapCounts = 0,
+    dwallCounts = 0,
+    challengeCounts = 0,
+    pointMultiplierCounts = 0,
+    pointBooster15x = 0,
+    pointBooster2x = 0,
+    pointBooster3x = 0,
+    retroBoostCounts = 0,
+    powerUpCounts = 0,
+    game = {},
+  } = props || {};
+
   const [collapsed, setCollapseState] = useState(true);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
   const history = useHistory();
@@ -90,6 +103,10 @@ function PowerCollapesible(props) {
   };
   const isPowerAvailable = (type) => {
     let powerss = powers;
+    console.log("Game Powers: ", game);
+    if (game?.Powers) {
+      powerss = game.Powers;
+    }
     let available = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -121,6 +138,10 @@ function PowerCollapesible(props) {
   };
   function isPowerLocked(type) {
     let powerss = powers;
+    console.log("Game Powers: ", game);
+    if (game?.Powers) {
+      powerss = game.Powers;
+    }
     if (typeof powerss == "undefined") {
       return;
     }
@@ -175,7 +196,7 @@ function PowerCollapesible(props) {
     const text = process.env.REACT_APP_POST_SHARING_TEXT;
     return (
       <Row style={{ padding: "20px 5px 20px 5px", width: "100%" }}>
-        <Col xs="3" className={classes.sidebar_power_header}>
+        <Col xs="4" className={classes.sidebar_power_header}>
           {isSvgIcon ? (
             <Icon size={54} />
           ) : (
@@ -187,7 +208,10 @@ function PowerCollapesible(props) {
             </div>
           )}
         </Col>
-        <Col xs="9" style={{ display: "flex", alignItems: "center" }}>
+        <Col
+          xs="8"
+          style={{ display: "flex", alignItems: "center", paddingLeft: 0 }}
+        >
           <div>
             <p className={classes.power_title}>{title}</p>
             {isPowerAvailable(title) === 0 ? (
@@ -251,41 +275,36 @@ function PowerCollapesible(props) {
 
       <div className={`${classes.body} ${collapsed && classes.collapse}`}>
         <RenderPower
-          title="Point Booster"
-          isSvgIcon
-          Icon={XpIcon}
-          count={pointMultiplierCountss}
-        />
-        <RenderPower
           title="Swap Player"
           isSvgIcon
           Icon={ReplaceIcon}
-          count={swapCountss}
+          count={swapCountss || swapCounts}
         />
         <RenderPower
-          title="D-Wall"
+          title="Point Booster"
           isSvgIcon
-          Icon={ShieldIcon}
-          count={dwallCountss}
-        />
-        <RenderPower
-          title="Challenge"
-          isSvgIcon
-          Icon={ChallengeIcon}
-          count={challengeCountss}
+          Icon={XpIcon}
+          count={pointMultiplierCountss || pointMultiplierCounts}
         />
         <RenderPower
           title="Retro Boost"
           isSvgIcon
           Icon={RetroBoostIcon}
-          count={retroBoostCountss}
+          count={retroBoostCountss || retroBoostCounts}
         />
         <RenderPower
-          title="Power Up"
+          title="D-Wall"
           isSvgIcon
-          Icon={PowerUpIcon}
-          count={powerUpCountss}
+          Icon={ShieldIcon}
+          count={dwallCountss || dwallCounts}
         />
+        <RenderPower
+          title="Challenge"
+          isSvgIcon
+          Icon={ChallengeIcon}
+          count={challengeCountss || challengeCounts}
+        />
+
         <button onClick={() => setLearnMoreModal(true)}>Learn more</button>
       </div>
       <LearnMoreModal
