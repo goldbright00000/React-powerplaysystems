@@ -84,6 +84,7 @@ const PowerCenterMobileCard = (props) => {
         <div className={classes.__power_center_card_container}>
           <div style={{ flex: 1 }}></div>
           <div className={classes.__power_center_card_content}>
+            <span className={classes.__power_center_card_game_id}>ID {id}</span>
             <div className={classes.__power_center_card_date_time}>
               {game_set_start} | {start_time} ET
             </div>

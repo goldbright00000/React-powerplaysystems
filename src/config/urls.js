@@ -54,6 +54,7 @@ export const URLS = {
   GAMES: {
     ALL_POWER_GAMES: "api/v1/users/games",
     LEAVE_GAME: "admin/leave-game",
-    GET_FINAL_STANDINGS: 'api/v1/dfs/get-game-standing'
+    GET_FINAL_STANDINGS: 'api/v1/dfs/get-game-standing',
+    FREE_ENTRY: 'api/v1/users/account/save-user-survey-team'
   },
 };
