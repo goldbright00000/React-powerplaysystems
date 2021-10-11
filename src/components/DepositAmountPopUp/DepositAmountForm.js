@@ -230,14 +230,14 @@ class DepositAmountForm extends Component {
 
     const response = await this.state.dispatch(checkAccountLimit(user_id, this.state.form.currency));
 
-    if (response.daily?.exceeded) {
+    if (response?.daily?.exceeded) {
       this.state.dispatch(createAlert('This transaction exceeds the personal Daily limits which you have set on the Account Limits page.', "info"));
-    } else if (response.weekly?.exceeded) {
+    } else if (response?.weekly?.exceeded) {
       this.state.dispatch(createAlert('This transaction exceeds the personal Weekly limits which you have set on the Account Limits page.', "info"));
-    } else if (response.montly?.exceeded) {
+    } else if (response?.montly?.exceeded) {
       this.state.dispatch(createAlert('This transaction exceeds the personal Monthly limits which you have set on the Account Limits page.', "info"));
     } else {
-      if (this.state.form.currency === "USD")
+      if (this.state.form.currency === "USD") {
         if (!this.state.canadianVisible) {
           const object = {
             currency: this.state.currency,
@@ -260,6 +260,7 @@ class DepositAmountForm extends Component {
 
           // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
         }
+      }
       else {
         const { currency, price } = this.state.form;
         this.props.coinbaseSubmitted(price, currency);
