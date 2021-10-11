@@ -43,7 +43,7 @@ const data = [
 ];
 
 function ResultsInfoComponent(props) {
-  const [activeTab, setActiveTab] = useState();
+  const [activeTab, setActiveTab] = useState(null);
   const { isMobile = false, balance = {}, userWinnigs = [] } = props || {};
   const onClickAccordian = (index) => {
     setActiveTab(activeTab === null ? index : null);

@@ -6,7 +6,6 @@ import CloseIconGrey from "../../assets/close-icon-grey.png";
 import InfoIconOrange from "../../assets/icons/info-icon.png";
 
 const CURRENCIES = [
-  'Select for currency',
   'USD',
   'BTC',
   'ETH',
@@ -16,6 +15,10 @@ const AccountLimits = (props) => {
   const { isMobile = false } = props || {};
   const dispatch = useDispatch();
   let { accountLimit = {} } = props || {};
+
+  if (!accountLimit?.currency) {
+    accountLimit.currency = 'USD';
+  }
 
   let handleLimitChanges = (e) => {
     if (e.target.value === "") accountLimit[e.target.name] = null;
