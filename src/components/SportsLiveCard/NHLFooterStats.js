@@ -21,7 +21,7 @@ function NHLFooterStats(props) {
       <div className="footer_stats_row">
         <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          Mapple Leafs 10 vs <span>Bruins 2</span>
+          Mapple Leafs 10 vs <span> Bruins 2</span>
         </p>
       </div>
       <div className="footer_stats_row">

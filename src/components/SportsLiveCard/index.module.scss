@@ -842,7 +842,7 @@
     }
 
     p {
-      margin: 0 0 0 14px;
+      // margin: 0 0 0 14px;
       font-size: 12px;
       font-weight: normal;
       font-stretch: normal;
@@ -850,10 +850,12 @@
       line-height: 1.17;
       letter-spacing: normal;
       color: $grey;
+      align-self: center;
 
       span {
         font-weight: bold;
         color: $lightBlue;
+        align-self: center;
       }
     }
   }
@@ -892,8 +894,8 @@
     }
 
     p {
-      display: contents;
-      margin: 0 0 0 14px;
+      display: block;
+      // margin: 0 0 0 14px;
       font-size: 12px;
       font-weight: normal;
       font-stretch: normal;
