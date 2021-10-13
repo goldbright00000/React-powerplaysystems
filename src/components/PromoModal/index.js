@@ -25,6 +25,7 @@ import PowerUpIcon from "../../icons/PowerUp";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import SwapIcon from "../../icons/Swap";
 import {getTeamsList, saveFreeEntry} from ".././../actions/MLBActions"
+import RulesPopup from "../../components/Rules";
 
 function PromoModal(props) {
   const [getPowers, setPowers] = useState([]);
@@ -39,7 +40,8 @@ function PromoModal(props) {
   });
   const { visible = false, onClose = () => { }, item = {} } =
     props || {};
-    const { league = "MLB" } = item || {};
+    const { league = "MLB", Powers = [], PointsSystems = [], PrizePayouts = [] } = item || {};
+    console.log("item", item);
     const getBG = () => {
       switch(league) {
         case "MLB": 
@@ -316,19 +318,28 @@ function PromoModal(props) {
                     }}
                   ><span>Prize Grid</span></button>
                   <ContestRulesPopUp
-                    points={[props?.item?.PrizePayouts]}
-                    powers={props?.item?.Powers}
+                    points={_.groupBy(
+                      PointsSystems,
+                      "type"
+                    )}
+                    powers={Powers}
                     component={({ showPopUp }) => (
                       <button
                         type="button"
                         onClick={showPopUp}
                       ><span>Game Rules</span></button>
                     )}
+                    title={props?.item?.league}
                   />
-                  <button
-                    type="button"
-                    onClick={redirectToContestRules}
-                  ><span>Constest Rules</span></button>
+                  <RulesPopup
+                  component={({ showPopUp }) => (
+                    <button
+                      type="button"
+                      onClick={showPopUp}
+                    ><span>Constest Rules</span></button>
+                    )}
+                    gameDetails={props?.item}
+                  />
                 </div>
                 <div className={classes.closeButton}>
                   <CloseIcon onClick={onClose} />
@@ -556,7 +567,7 @@ function PromoModal(props) {
     </Modal>
     <PrizeModal
       visible={showPrizeModal}
-      sportsName="MLB"
+      sportsName={props?.item?.league}
       data={props?.item?.PrizePayouts}
       onClose={() => setPrizeModalState(false)}
     />
