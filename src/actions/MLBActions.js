@@ -578,3 +578,12 @@ export async function  getTeamsList() {
   console.log(response);
   return response;
 }
+
+export async function  saveFreeEntry(payload) {
+  try {
+    let res = await http.post(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.FREE_ENTRY}`, payload);
+    return res;
+  } catch (error) {
+    return false;
+  }
+}
