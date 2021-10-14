@@ -10,6 +10,7 @@ import { redirectTo } from "../../utility/shared";
 import _ from "underscore";
 import moment from "moment";
 import moment1 from "moment-timezone";
+import RulesPopup from "../../components/Rules";
 
 import ReplaceIcon from "../../icons/Replace";
 import XpIcon from "../../icons/XPIcon";
@@ -31,7 +32,7 @@ const ChallengePage = (props) => {
   const {
     state = []
   } = props.location || {}
-  const [isFreeEntryMode, setIsFreeEntryMode] = useState(true);
+  const [isFreeEntryMode, setIsFreeEntryMode] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [freeEntryData, setFreeEntryData] = useState({
     MLBTeam: "",
@@ -389,9 +390,15 @@ const ChallengePage = (props) => {
                     )}
                     title={league}
                   />
-                  <button
-                    type="button"
-                  ><span>Contest Rules</span></button>
+                  <RulesPopup
+                  component={({ showPopUp }) => (
+                    <button
+                      type="button"
+                      onClick={showPopUp}
+                    ><span>Constest Rules</span></button>
+                    )}
+                    gameDetails={state}
+                  />
                 </div>
               </div>
             </div>

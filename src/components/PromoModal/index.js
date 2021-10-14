@@ -6,7 +6,7 @@ import PrizeModal from "../PrizeModal";
 import CloseIcon from "../../icons/Close";
 import bg from "../../assets/group-31.png";
 import { urlencoded } from "body-parser";
-import { redirectTo } from "../../utility/shared";
+import { redirectTo, getLocalStorage } from "../../utility/shared";
 import _ from "underscore";
 import moment from "moment";
 import moment1 from "moment-timezone";
@@ -24,7 +24,8 @@ import RetroBoostIcon from "../../icons/RetroBoost";
 import PowerUpIcon from "../../icons/PowerUp";
 import ContestRulesPopUp from "../../components/ContestRulesPopUp";
 import SwapIcon from "../../icons/Swap";
-import {getTeamsList} from ".././../actions/MLBActions"
+import {getTeamsList, saveFreeEntry} from ".././../actions/MLBActions"
+import RulesPopup from "../../components/Rules";
 
 function PromoModal(props) {
   const [getPowers, setPowers] = useState([]);
@@ -39,7 +40,8 @@ function PromoModal(props) {
   });
   const { visible = false, onClose = () => { }, item = {} } =
     props || {};
-    const { league = "MLB" } = item || {};
+    const { league = "MLB", Powers = [], PointsSystems = [], PrizePayouts = [] } = item || {};
+    console.log("item", item);
     const getBG = () => {
       switch(league) {
         case "MLB": 
@@ -176,9 +178,26 @@ function PromoModal(props) {
 
   const redirectToUrl = () => {
     let item = props.item;
-    
+    let url = "/mlb-select-team";
+    switch(item?.league) {
+      case "MLB": 
+        url = "/mlb-select-team";
+        break;
+      case "NFL": 
+        url = "/nfl-select-team";
+        break
+      case "NHL": 
+        url = "/nhl-select-team";
+        break
+      case "NBA": 
+        url = "/nba-select-team";
+        break
+      case "default":
+        url = "/mlb-select-team";
+        break
+    }
     return redirectTo(props.propss, {
-      path: `/mlb-select-team`,
+      path: url,
       state: {
         game_id: item?.game_id,
         sport_id: item?.sports_id,
@@ -299,19 +318,28 @@ function PromoModal(props) {
                     }}
                   ><span>Prize Grid</span></button>
                   <ContestRulesPopUp
-                    points={[props?.item?.PrizePayouts]}
-                    powers={props?.item?.Powers}
+                    points={_.groupBy(
+                      PointsSystems,
+                      "type"
+                    )}
+                    powers={Powers}
                     component={({ showPopUp }) => (
                       <button
                         type="button"
                         onClick={showPopUp}
                       ><span>Game Rules</span></button>
                     )}
+                    title={props?.item?.league}
                   />
-                  <button
-                    type="button"
-                    onClick={redirectToContestRules}
-                  ><span>Constest Rules</span></button>
+                  <RulesPopup
+                  component={({ showPopUp }) => (
+                    <button
+                      type="button"
+                      onClick={showPopUp}
+                    ><span>Constest Rules</span></button>
+                    )}
+                    gameDetails={props?.item}
+                  />
                 </div>
                 <div className={classes.closeButton}>
                   <CloseIcon onClick={onClose} />
@@ -429,6 +457,7 @@ function PromoModal(props) {
                           What MLB team do you cheer for?
                       </p>
                       <select onChange={(e) => {
+                        console.log(e.target.value);
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,
@@ -437,11 +466,11 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your MLB team</option>
-                          <option value="one">One</option>
-                          <option value="two">Two</option>
-                          <option value="three">Three</option>
-                          <option value="four">Four</option>
-                          <option value="five">Five</option>
+                          {teamData.mlb_teams.map((item, index) => {
+                            return  (
+                              <option value={`${item.team_id}`}>{item.name}</option>
+                            )
+                          })}
                       </select>
                   </div>
 
@@ -458,11 +487,11 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your NFL team</option>
-                          <option value="one">One</option>
-                          <option value="two">Two</option>
-                          <option value="three">Three</option>
-                          <option value="four">Four</option>
-                          <option value="five">Five</option>
+                          {teamData.nfl_teams.map((item, index) => {
+                            return  (
+                              <option value={`${item.team_id}`}>{item.name}</option>
+                            )
+                          })}
                       </select>
                   </div>
 
@@ -500,11 +529,11 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your NHL team</option>
-                          <option value="one">One</option>
-                          <option value="two">Two</option>
-                          <option value="three">Three</option>
-                          <option value="four">Four</option>
-                          <option value="five">Five</option>
+                          {teamData.nhl_teams.map((item, index) => {
+                            return  (
+                              <option value={`${item.team_id}`}>{item.name}</option>
+                            )
+                          })}
                       </select>
                   </div>
               
@@ -513,8 +542,19 @@ function PromoModal(props) {
                           {"< Back"}
                       </button>
                       <button className={classes.entryButton} disabled={!isValidated} onClick={() => {
-                        alert("test");
-                        //submitFreeEntry();
+                        const user_id = getLocalStorage("PERSONA_USER_ID");
+                        let payload = {
+                          "user_id" : parseInt(user_id),
+                          "mlb_team_id" : parseInt(freeEntryData.MLBTeam),
+                          "nhl_team_id" : parseInt(freeEntryData.NHLTeam),
+                          "nfl_team_id" : parseInt(freeEntryData.NFLTeam)
+                        }
+                        let res = saveFreeEntry(payload);
+                        console.log("res", res);
+                        const { message = "", error = false } = res.data || {};
+                        if (1) {
+                          redirectToUrl();
+                        }
                       }}>
                           {"Free Entry"}
                       </button>
@@ -527,7 +567,7 @@ function PromoModal(props) {
     </Modal>
     <PrizeModal
       visible={showPrizeModal}
-      sportsName="MLB"
+      sportsName={props?.item?.league}
       data={props?.item?.PrizePayouts}
       onClose={() => setPrizeModalState(false)}
     />

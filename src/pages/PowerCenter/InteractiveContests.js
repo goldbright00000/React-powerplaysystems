@@ -120,7 +120,7 @@ const InteractiveContests = (props) => {
   const [tokenBalance, setTokenBalance] = useState(0);
   const [btcBalance, setBtcBalance] = useState(0);
   const [ethBalance, setEthBalance] = useState(0);
-
+  const [isLoading, setLoading] = useState(false);
   const [haveBalance, setHaveBalance] = useState(true);
 
   const [sortedBy, setSortedBy] = useState("Most Popular");
@@ -265,15 +265,22 @@ const InteractiveContests = (props) => {
 
   useEffect(() => {
     const user_id = getLocalStorage("PERSONA_USER_ID");
+    setLoading(true);
     async function getData() {
-      return await dispatch(getAllGames(user_id));
+      let b = await dispatch(getAllGames(user_id));
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+      return b;
     }
     getData();
   }, []);
 
   useEffect(() => {
+
     async function getFilteredData() {
       setFilteredData(powerCenterCardData);
+
     }
     getFilteredData();
   }, [powerCenterCardData]);
@@ -1259,76 +1266,47 @@ const InteractiveContests = (props) => {
           </div>
         )}
         {!isAgeRestricted ? (
-          filteredData && filterCurrency(filteredData)?.length > 0 ? (
-            isMobile ? (
-              (() => {
-                if (selectedFilter == 4) {
-                  return <OffSeasonComponent />;
-                }
-                const itemsInaRow = 1;
-                const numberOfRows = Math.ceil(
-                  powerCenterCardData.length / itemsInaRow
-                );
-                var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filterByCurrency);
-                const powerCenterMobileCardView = Array(numberOfRows)
-                  .fill(undefined)
-                  .map((item, i) => {
-                    const start = (i + 1) * itemsInaRow - 1;
-                    const end = (i + 1) * itemsInaRow;
-                    const items = a1.slice(start, end);
-                    return (
-                      <div
-                        className={
-                          classes.__interactive_contests_power_center_card_row
-                        }
-                      >
-                        {items.map((power) => {
-                          return powerCenterMobileCard(power, power.url);
-                        })}
-                      </div>
-                    );
-                  });
-                return powerCenterMobileCardView;
-              })()
-            ) : isTablet || isBigScreenTablet ? (
-              (() => {
-                if (selectedFilter == 4) {
-                  return <OffSeasonComponent />;
-                }
-                const itemsInaRow = 2;
-                const numberOfRows = Math.ceil(
-                  powerCenterCardData.length / itemsInaRow
-                );
-                var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filterByCurrency);
-                const powerCenterCardView = Array(numberOfRows)
-                  .fill(undefined)
-                  .map((item, i) => {
-                    const start = (i + 1) * itemsInaRow - 2;
-                    const end = (i + 1) * itemsInaRow;
-                    const items = a1.slice(start, end);
-                    return (
-                      <div
-                        className={
-                          classes.__interactive_contests_power_center_card_row
-                        }
-                      >
-                        {items.map((power) => {
-                          return powerCenterCard(power, power.url);
-                        })}
-                      </div>
-                    );
-                  });
-                return powerCenterCardView;
-              })()
-            ) : (
-              (() => {
-                if (selectedFilter == 4) {
-                  return <OffSeasonComponent />;
-                }
-                else {
-                  const itemsInaRow = 4;
+          isLoading ? (
+            <h2>Loading ....</h2>
+          ) : (
+            isLoading == false && filteredData && filterCurrency(filteredData)?.length > 0 ? (
+              isMobile ? (
+                (() => {
+                  if (selectedFilter == 4) {
+                    return <OffSeasonComponent />;
+                  }
+                  const itemsInaRow = 1;
+                  const numberOfRows = Math.ceil(
+                    powerCenterCardData.length / itemsInaRow
+                  );
+                  var filterByCurrency = filterCurrency(filteredData);
+                  var a1 = sortArray(filterByCurrency);
+                  const powerCenterMobileCardView = Array(numberOfRows)
+                    .fill(undefined)
+                    .map((item, i) => {
+                      const start = (i + 1) * itemsInaRow - 1;
+                      const end = (i + 1) * itemsInaRow;
+                      const items = a1.slice(start, end);
+                      return (
+                        <div
+                          className={
+                            classes.__interactive_contests_power_center_card_row
+                          }
+                        >
+                          {items.map((power) => {
+                            return powerCenterMobileCard(power, power.url);
+                          })}
+                        </div>
+                      );
+                    });
+                  return powerCenterMobileCardView;
+                })()
+              ) : isTablet || isBigScreenTablet ? (
+                (() => {
+                  if (selectedFilter == 4) {
+                    return <OffSeasonComponent />;
+                  }
+                  const itemsInaRow = 2;
                   const numberOfRows = Math.ceil(
                     powerCenterCardData.length / itemsInaRow
                   );
@@ -1337,10 +1315,9 @@ const InteractiveContests = (props) => {
                   const powerCenterCardView = Array(numberOfRows)
                     .fill(undefined)
                     .map((item, i) => {
-                      const start = (i + 1) * itemsInaRow - 4;
+                      const start = (i + 1) * itemsInaRow - 2;
                       const end = (i + 1) * itemsInaRow;
                       const items = a1.slice(start, end);
-                      console.log(start, end, items);
                       return (
                         <div
                           className={
@@ -1350,24 +1327,58 @@ const InteractiveContests = (props) => {
                           {items.map((power) => {
                             return powerCenterCard(power, power.url);
                           })}
-
-
-                          {(4 - items.length) > 0 &&
-                            _.times((4 - items.length), (i) => (
-                              <div className={classes.__interactive_contests_power_center_card} style={{ width: 280 }} />
-                            ))
-                          }
-                        </div>
+                        </div >
                       );
                     });
                   return powerCenterCardView;
-                }
-              })()
+                })()
+              ) : (
+                (() => {
+                  if (selectedFilter == 4) {
+                    return <OffSeasonComponent />;
+                  }
+                  else {
+                    const itemsInaRow = 4;
+                    const numberOfRows = Math.ceil(
+                      powerCenterCardData.length / itemsInaRow
+                    );
+                    var filterByCurrency = filterCurrency(filteredData);
+                    var a1 = sortArray(filterByCurrency);
+                    const powerCenterCardView = Array(numberOfRows)
+                      .fill(undefined)
+                      .map((item, i) => {
+                        const start = (i + 1) * itemsInaRow - 4;
+                        const end = (i + 1) * itemsInaRow;
+                        const items = a1.slice(start, end);
+                        console.log(start, end, items);
+                        return (
+                          <div
+                            className={
+                              classes.__interactive_contests_power_center_card_row
+                            }
+                          >
+                            {items.map((power) => {
+                              return powerCenterCard(power, power.url);
+                            })}
+
+
+                            {(4 - items.length) > 0 &&
+                              _.times((4 - items.length), (i) => (
+                                <div className={classes.__interactive_contests_power_center_card} style={{ width: 280 }} />
+                              ))
+                            }
+                          </div>
+                        );
+                      });
+                    return powerCenterCardView;
+                  }
+                })()
+              )
+            ) : (
+              <>
+                <ComingSoonComponent />
+              </>
             )
-          ) : (
-            <>
-              <ComingSoonComponent />
-            </>
           )
         ) : (
           <div className={classes.__age_restirction}>
@@ -1380,24 +1391,26 @@ const InteractiveContests = (props) => {
             </p>
           </div>
         )}
-        {isMobile && (
-          <>
-            <div className={`${classes.__power_up_text} w-100 mx-0`}>
-              Power-Up to experience our ground-breaking live-play games where
-              you have the Power to control your team’s destiny. *
-            </div>
-            <button className={`${classes.__power_up_btn} w-100 mx-0`}>
-              Power Up!
-            </button>
-          </>
-        )}
+        {
+          isMobile && (
+            <>
+              <div className={`${classes.__power_up_text} w-100 mx-0`}>
+                Power-Up to experience our ground-breaking live-play games where
+                you have the Power to control your team’s destiny. *
+              </div>
+              <button className={`${classes.__power_up_btn} w-100 mx-0`}>
+                Power Up!
+              </button>
+            </>
+          )
+        }
         <PromoModal
           visible={showPromoModal}
           onClose={onClosePromoModal}
           item={challengeGame}
           propss={propsGame}
         />
-      </div>
+      </div >
     </>
   );
 };

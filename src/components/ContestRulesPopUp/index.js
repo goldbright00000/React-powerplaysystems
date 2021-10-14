@@ -274,7 +274,7 @@ const ContestRulesPopUp = props => {
                         </section>
                         {title === "MLB" && 
                             <section className='__mb-3 __mt-3'>
-                                <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko'>Scoring</h3>
+                                <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko' style={{marginBottom: 10}}>Scoring</h3>
                                 <div className={styles.cardWrapper}>
                                     {Object.keys(points).map((data, index) => {
                                         return (

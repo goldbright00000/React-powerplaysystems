@@ -375,6 +375,7 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
+                        height: 33
                       }}
                     />
                   )}
@@ -387,6 +388,7 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
+                        height: 33
                       }}
                       icon={
                         <img
@@ -407,6 +409,7 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
+                        height: 33
                       }}
                     />
                   )}
@@ -419,6 +422,7 @@ const MyGameCenterCard = (props) => {
                         marginTop: 14,
                         margin: ".25rem",
                         fontSize: "12px",
+                        height: 33
                       }}
                     />
                   )}
