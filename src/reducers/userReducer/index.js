@@ -13,7 +13,8 @@ import {
   SET_NOT_lOADING,
   USER_WINNIGS,
   COUNTRIES,
-  ACCOUNT_LIMIT
+  ACCOUNT_LIMIT,
+  PSIGATE_MONTHLY_TRANSACTION
 } from "../../actions/userActions";
 
 const INITIAL_STATE = {
@@ -28,7 +29,8 @@ const INITIAL_STATE = {
   loading: false,
   USER_WINNIGS: [],
   COUNTRIES: [],
-  ACCOUNT_LIMIT: {}
+  ACCOUNT_LIMIT: {},
+  PSIGATE_MONTHLY_TRANSACTION: 0
 };
 
 const userReducer = (state = INITIAL_STATE, actions) => {
@@ -113,6 +115,11 @@ const userReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         account_limit: actions.payload
+      }
+    case PSIGATE_MONTHLY_TRANSACTION:
+      return {
+        ...state,
+        PSiGate_monthly_amount: actions.payload
       }
     default:
       return state;

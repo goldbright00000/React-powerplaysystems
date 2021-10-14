@@ -268,19 +268,19 @@ const InteractiveContests = (props) => {
     setLoading(true);
     async function getData() {
       let b = await dispatch(getAllGames(user_id));
-      setTimeout(()=>{
+      setTimeout(() => {
         setLoading(false);
-      },1000);
+      }, 1000);
       return b;
     }
     getData();
   }, []);
 
   useEffect(() => {
-    
+
     async function getFilteredData() {
       setFilteredData(powerCenterCardData);
-      
+
     }
     getFilteredData();
   }, [powerCenterCardData]);
@@ -333,7 +333,8 @@ const InteractiveContests = (props) => {
     if (!isAuthenticated) {
       history.push("/login");
       return;
-    }
+    };
+
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
@@ -1268,10 +1269,10 @@ const InteractiveContests = (props) => {
           isLoading ? (
             <h2>Loading ....</h2>
           ) : (
-            isLoading ==  false && filteredData && filterCurrency(filteredData)?.length > 0 ? (
+            isLoading == false && filteredData && filterCurrency(filteredData)?.length > 0 ? (
               isMobile ? (
                 (() => {
-                  if(selectedFilter == 4) {
+                  if (selectedFilter == 4) {
                     return <OffSeasonComponent />;
                   }
                   const itemsInaRow = 1;
@@ -1302,7 +1303,7 @@ const InteractiveContests = (props) => {
                 })()
               ) : isTablet || isBigScreenTablet ? (
                 (() => {
-                  if(selectedFilter == 4) {
+                  if (selectedFilter == 4) {
                     return <OffSeasonComponent />;
                   }
                   const itemsInaRow = 2;
@@ -1326,15 +1327,14 @@ const InteractiveContests = (props) => {
                           {items.map((power) => {
                             return powerCenterCard(power, power.url);
                           })}
-                        </div>
+                        </div >
                       );
                     });
                   return powerCenterCardView;
                 })()
               ) : (
                 (() => {
-                  if(selectedFilter == 4)
-                  {
+                  if (selectedFilter == 4) {
                     return <OffSeasonComponent />;
                   }
                   else {
@@ -1360,11 +1360,11 @@ const InteractiveContests = (props) => {
                             {items.map((power) => {
                               return powerCenterCard(power, power.url);
                             })}
-                            
-                           
-                            {(4 - items.length) > 0 && 
+
+
+                            {(4 - items.length) > 0 &&
                               _.times((4 - items.length), (i) => (
-                                <div className={classes.__interactive_contests_power_center_card} style={{width: 280}}/>
+                                <div className={classes.__interactive_contests_power_center_card} style={{ width: 280 }} />
                               ))
                             }
                           </div>
@@ -1391,24 +1391,26 @@ const InteractiveContests = (props) => {
             </p>
           </div>
         )}
-        {isMobile && (
-          <>
-            <div className={`${classes.__power_up_text} w-100 mx-0`}>
-              Power-Up to experience our ground-breaking live-play games where
-              you have the Power to control your team’s destiny. *
-            </div>
-            <button className={`${classes.__power_up_btn} w-100 mx-0`}>
-              Power Up!
-            </button>
-          </>
-        )}
+        {
+          isMobile && (
+            <>
+              <div className={`${classes.__power_up_text} w-100 mx-0`}>
+                Power-Up to experience our ground-breaking live-play games where
+                you have the Power to control your team’s destiny. *
+              </div>
+              <button className={`${classes.__power_up_btn} w-100 mx-0`}>
+                Power Up!
+              </button>
+            </>
+          )
+        }
         <PromoModal
           visible={showPromoModal}
           onClose={onClosePromoModal}
           item={challengeGame}
           propss={propsGame}
         />
-      </div>
+      </div >
     </>
   );
 };
