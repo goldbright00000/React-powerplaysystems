@@ -28,17 +28,17 @@ const PowerCenterCard = (props) => {
     const {
         id = null,
         title = '',
-        prize = null,
+        prize = 0,
         currency = '$',
         prize_currency = 'USD',
-        outOf = null,
-        total = null,
-        percent = null,
+        outOf = 0,
+        total = 0,
+        percent = 0,
         game_type = 'PowerdFS',
         game_set_start = '',
         start_time = '',
         paid_game = false,
-        entry_fee = null,
+        entry_fee = 0,
         targeted_game = false,
         showDetails = false,
         totalPoints = 0,
@@ -56,12 +56,9 @@ const PowerCenterCard = (props) => {
             backgroundRepeat: 'no-repeat',
             backgroundAttachment: 'inherit',
         };
-        if (title === 'MLB' && game_type === 'PowerdFs_challenge') {
+        if (title === 'MLB') {
             backgroundImageStyle.backgroundImage = `url(${MLBPlayerOppsite})`;
-            backgroundImageStyle.backgroundPosition = "106px 60px";
-        } else if (title === 'MLB') {
-            backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
-            backgroundImageStyle.backgroundPosition = "-46px 18px";
+            backgroundImageStyle.backgroundPosition = "100px 0px";
         } else if (title === 'NFL') {
             backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
             backgroundImageStyle.backgroundPosition = "65px 60px";
@@ -254,7 +251,7 @@ const PowerCenterCard = (props) => {
                             <span className={classes.__win_power_span}>You have the Powers to win!</span>
                         </div>
                         <div className={classes.__card_button}>
-                            <OutlineButtonViceVersa
+                            <OutlineButton
                                 title={`Enter`}
                                 onClick={onEnter}
                                 styles={{width: "100%", fontWeight: 600}}
@@ -326,14 +323,14 @@ const PowerCenterCard = (props) => {
                             <span className={classes.__win_power_span}>You have the Powers to win!</span>
                         </div>
                         <div className={classes.__card_button}>
-                            <OutlineButtonViceVersa
+                            <OutlineButton
                                 title={`Enter  •  $${entry_fee}`}
                                 onClick={onEnter}
                                 styles={{width: "100%", fontWeight: 600}}
                             />
                         </div>
                         <div className={classes.__power_center_card_status_and_details}>
-                            {/* <div className={classes.__power_center_card_total}>
+                            <div className={classes.__power_center_card_total}>
                                 {targeted_game ? (
                                     <p>
                                         {outOf} <span>of {total}</span>
@@ -344,7 +341,7 @@ const PowerCenterCard = (props) => {
                                         {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry" /></span>
                                     </p>
                                 )}
-                            </div> */}
+                            </div>
                             <div className={classes.__power_center_card_details}>
                                 <div className={classes.__power_center_card_details_link} onClick={() => {
                                     onDetailsClick(id)
@@ -397,7 +394,7 @@ const PowerCenterCard = (props) => {
                                     <span className={classes.__win_power_span}>Use your Powers to maximize <br />your fantasy points!</span>
                                 </div>
                                 <div className={classes.__card_button} >
-                                    <OutlineButtonViceVersa
+                                    <OutlineButton
                                         title={`Enter  •  $${entry_fee}`}
                                         onClick={onEnter}
                                         styles={{width: "100%", fontWeight: 600}}
@@ -465,7 +462,7 @@ const PowerCenterCard = (props) => {
                                 <span className={classes.__win_power_span}>You have the Powers to win!</span>
                             </div>
                             <div className={classes.__card_button}>
-                                <OutlineButtonViceVersa
+                                <OutlineButton
                                     title={`Enter`}
                                     onClick={onEnter}
                                     styles={{width: "100%", fontWeight: 600}}

@@ -336,7 +336,7 @@ function PromoModal(props) {
                     <button
                       type="button"
                       onClick={showPopUp}
-                    ><span>Constest Rules</span></button>
+                    ><span>Contest Rules</span></button>
                     )}
                     gameDetails={props?.item}
                   />
