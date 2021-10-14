@@ -49,6 +49,7 @@ import HowToPlayPage from "./pages/HowToPlayPage";
 
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import UsersPaymentGateway from "./pages/UsersPaymentGateway/UsersGateway";
+import PSiGateway from "./pages/UsersPaymentGateway/psiGateway";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
@@ -154,6 +155,7 @@ const App = (props) => {
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
           <Route path="/users-gateway" component={UsersPaymentGateway} />
+          <Route path="/psi-gateway" component={PSiGateway} />
           <Route path="/livee" component={LiveStanding} />
           <Route path="/contest-rules" component={ContestRulesPage} />
           <Route
