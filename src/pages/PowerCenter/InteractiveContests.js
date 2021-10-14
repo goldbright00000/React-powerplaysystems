@@ -326,7 +326,8 @@ const InteractiveContests = (props) => {
     if (!isAuthenticated) {
       history.push("/login");
       return;
-    }
+    };
+
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
@@ -1261,7 +1262,7 @@ const InteractiveContests = (props) => {
           filteredData && filterCurrency(filteredData)?.length > 0 ? (
             isMobile ? (
               (() => {
-                if(selectedFilter == 4) {
+                if (selectedFilter == 4) {
                   return <OffSeasonComponent />;
                 }
                 const itemsInaRow = 1;
@@ -1292,7 +1293,7 @@ const InteractiveContests = (props) => {
               })()
             ) : isTablet || isBigScreenTablet ? (
               (() => {
-                if(selectedFilter == 4) {
+                if (selectedFilter == 4) {
                   return <OffSeasonComponent />;
                 }
                 const itemsInaRow = 2;
@@ -1323,8 +1324,7 @@ const InteractiveContests = (props) => {
               })()
             ) : (
               (() => {
-                if(selectedFilter == 4)
-                {
+                if (selectedFilter == 4) {
                   return <OffSeasonComponent />;
                 }
                 else {
@@ -1350,11 +1350,11 @@ const InteractiveContests = (props) => {
                           {items.map((power) => {
                             return powerCenterCard(power, power.url);
                           })}
-                          
-                         
-                          {(4 - items.length) > 0 && 
+
+
+                          {(4 - items.length) > 0 &&
                             _.times((4 - items.length), (i) => (
-                              <div className={classes.__interactive_contests_power_center_card} style={{width: 280}}/>
+                              <div className={classes.__interactive_contests_power_center_card} style={{ width: 280 }} />
                             ))
                           }
                         </div>

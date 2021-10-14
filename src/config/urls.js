@@ -56,4 +56,7 @@ export const URLS = {
     LEAVE_GAME: "admin/leave-game",
     GET_FINAL_STANDINGS: 'api/v1/dfs/get-game-standing'
   },
+  PAYMENT: {
+    GET_PSIGATE_MONTHLY_TRANSACTION: "api/v1/users/get-monthly-transaction"
+  }
 };

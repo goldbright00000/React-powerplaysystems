@@ -15,6 +15,7 @@ import {
   setZumToken,
   getCoinbaseLink,
   removeCoinbaseLink,
+  payWithPSiGate
 } from "../../actions/userActions";
 import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
@@ -66,6 +67,8 @@ const Header = (props) => {
   const zumToken = useSelector((state) => state?.user?.zumToken);
   const coinbaseUrl = useSelector((state) => state?.user.coinbaseRedirectUrl);
   const showDepositModal = useSelector((state) => state.ui.depositFormData);
+
+  const psiGateMonthlyAmount = useSelector((state) => state?.user.PSiGate_monthly_amount);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -146,6 +149,16 @@ const Header = (props) => {
   const onMyUserPayment = (data) => {
     if (data.amount < 1) {
       alert("Please add amount at least more than 1.");
+    } else if (data.amount + psiGateMonthlyAmount < 5000) {
+      const { amount, paymentMethod } = data;
+      const obj = {
+        amount,
+        paymentMethod,
+        email: user?.email,
+      };
+
+      dispatch(payWithPSiGate(obj, history));
+      setHideDepositModal();
     } else {
       const { amount, paymentMethod } = data;
       const obj = {
@@ -215,12 +228,12 @@ const Header = (props) => {
               {user?.token ||
                 getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
                 <>
-                  <li  key="1">
+                  <li key="1">
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
                   {isMobile ? (
                     MY_ACCOUNT_MENU_OPTIONS.map((item, index) => (
-                      <li  key={`li-${index}`}>
+                      <li key={`li-${index}`}>
                         <NavLink
                           to={item.value}
                           onClick={(e) => {
