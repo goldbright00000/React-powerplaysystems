@@ -63,7 +63,7 @@ const PSiGateway = (props) => {
                     <p>CustomerRefNo:</p> <input type="text" name="CustomerRefNo" value="32323232" /><br />
                 </div>
                 <div className="form-input">
-                    <p>PaymentType:</p> <input type="text" name="PaymentType" value="DB" /><br />
+                    <p>PaymentType:</p> <input type="text" name="PaymentType" value="CC" /><br />
                 </div>
                 <div className="form-input">
                     <p>TestResult:</p> <input type="text" name="TestResult" value="" /><br />
@@ -78,7 +78,7 @@ const PSiGateway = (props) => {
                     <p>CardAction:</p> <input type="text" name="CardAction" value="0" /><br />
                 </div>
                 <div className="form-input">
-                    <p>CardNumber:</p> <input type="text" name="CardNumber" value="2624970525726523" /><br />
+                    <p>CardNumber:</p> <input type="text" name="CardNumber" value="5555555555554444" /><br />
                 </div>
                 <div className="form-input">
                     <p>Email:</p> <input type="text" name="Email" value="someone@somewhere.com" /><br />
