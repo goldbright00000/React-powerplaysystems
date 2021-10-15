@@ -213,12 +213,14 @@ const InteractiveContests = (props) => {
     }
   }, [cancelledsGame]);
 
-  useEffect(() => {
-    const maxWidth = window.matchMedia("(max-width: 1200px)");
-    responsiveHandler(maxWidth);
-    maxWidth.addEventListener("change", responsiveHandler);
-    return () => maxWidth.removeEventListener("change", responsiveHandler);
-  }, []);
+  // useEffect(() => {
+  //   const maxWidth = window.matchMedia("(max-width: 1200px)");
+  //   if(maxWidth) {
+  //     responsiveHandler(maxWidth);
+  //     maxWidth.addEventListener("change", responsiveHandler);
+  //     return () => maxWidth.removeEventListener("change", responsiveHandler);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // get user balance
@@ -922,7 +924,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseFloat(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount==""?0:num.amount) * parseInt(num.prize==""?0:num.prize);
             },
             0
           )}

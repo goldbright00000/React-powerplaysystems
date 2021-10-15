@@ -272,7 +272,7 @@ const ContestRulesPopUp = props => {
                             <p className='__mt-1 __mb-1'>Contest results will be determined by the total points accumulated by each Contest Participant (scoring rules summarized below).</p>
                             <p>Participation in each contest must be made only as specified in the Terms of Use. Failure to comply with these Terms of Use will result in disqualification and, if applicable, prize forfeiture.</p>
                         </section>
-                        {title === "MLB" && 
+                        {points && 
                             <section className='__mb-3 __mt-3'>
                                 <h3 className='title-2 __primary-text __bold __m-0  __font-family-teko' style={{marginBottom: 10}}>Scoring</h3>
                                 <div className={styles.cardWrapper}>
