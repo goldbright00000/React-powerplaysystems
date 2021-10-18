@@ -29,10 +29,16 @@
     line-height: 1.17;
     letter-spacing: normal;
     color: $grey;
+  }
 
-    span {
-      font-weight: bold;
-      color: $lightBlue;
-    }
+  .bold_text {
+    font-size: 12px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.17;
+    letter-spacing: normal;
+    font-weight: bold !important;
+    color: $lightBlue !important;
+    align-self: center;
   }
 }

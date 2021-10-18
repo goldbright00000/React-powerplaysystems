@@ -30,7 +30,7 @@ function SportsSelectionCard3(props) {
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => {},
+    onSelectDeselect = (id, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -40,13 +40,13 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
-    playerName = "",
+    full_name = "",
     homeTeam = "",
     awayTeam = "",
     date = "",
     time = "",
     stadium = "",
-    playerId = "",
+    id = "",
     isStarPlayer = false,
     playerStats = {},
     injured = false,
@@ -137,7 +137,7 @@ function SportsSelectionCard3(props) {
           }`}
         >
           <span>{primary_position}</span>
-          {playerName}
+          {full_name}
         </p>
         {props.player.isInjured && (
           <div className={classes.injured}>
@@ -147,7 +147,7 @@ function SportsSelectionCard3(props) {
         )}
         {!isSelected ? (
           <button
-            onClick={() => onSelectDeselect(playerId, match_id)}
+            onClick={() => onSelectDeselect(id, match_id)}
             className={disabled && classes.disabled}
             disabled={disabled}
           >
@@ -159,7 +159,7 @@ function SportsSelectionCard3(props) {
               <Tick2 /> Selected{" "}
               <img
                 src={DeleteIcon}
-                onClick={() => onSelectDeselect(playerId, match_id)}
+                onClick={() => onSelectDeselect(id, match_id)}
               />
             </p>
           </div>

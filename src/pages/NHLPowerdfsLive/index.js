@@ -26,7 +26,7 @@ import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
-import { socket } from "../../config/server_connection";
+import { socket, socketNHL } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PrizeModal from "../../components/PrizeModal";
@@ -37,6 +37,8 @@ import TeamManager from "./TeamManager";
 
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 const {
+  CONNECT_MATCH_ROOM,
+  GET_MATCH_ROOM_UPDATES,
   ALL_UPDATES,
   ON_ROOM_SUB,
   ON_ROOM_UN_SUB,
@@ -312,6 +314,13 @@ function NHLPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
+    _socket.emit(CONNECT_MATCH_ROOM, {
+      gameID: 101,
+    });
+
+    // setTimeout(()=>{socket.emit("NHL_GET_MATCH_ROOM_UPDATES",{gameID:101})},500);
+    _socket.emit(GET_MATCH_ROOM_UPDATES, { gameID: 101 });
+
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -338,6 +347,43 @@ function NHLPowerdFsLive(props) {
   const onSocketListen = () => {
     //fetch data first time
     setLoading(true);
+
+    _socket.on("NHL_ROOM_DATA", (data) => {
+      console.log("ROOM DATA: ", data);
+    });
+
+    _socket.on("HI", (data) => {
+      console.log("socket HI says:", data);
+    });
+
+    _socket.on("ROOM_CONNECTED", (data) => {
+      console.log("ON ROOM CONNECTED: ", data);
+    });
+    _socket.on("ROOM_DATA", (data) => {
+      console.log("ROOM DATA: ", data);
+    });
+
+    _socket.on("NHL_MATCH_EVENT", (data) => {
+      data.forEach((event) => {
+        // var node = document.createElement("LI");
+        const str =
+          "Event: " +
+          event.event +
+          " " +
+          "away Team: " +
+          event.away.name +
+          "" +
+          "Home Team: " +
+          event.home.name +
+          "Event Type: " +
+          event.eventData.event_type; // Create a <li> node
+        console.log(str);
+        // var textnode = document.createTextNode(str);         // Create a text node
+        // node.appendChild(textnode);
+        // node.className = "list-group-item";                      // Append the text to <li>
+        // document.getElementById("my-list").appendChild(node);     // Append <li> to <ul> with id="myList"
+      });
+    });
 
     _socket?.on(ALL_UPDATES + game_id, (res) => {
       console.log("ALL UPDATES");

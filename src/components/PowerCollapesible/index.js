@@ -103,7 +103,7 @@ function PowerCollapesible(props) {
   };
   const isPowerAvailable = (type) => {
     let powerss = powers;
-    console.log("Game Powers: ", game);
+    // console.log("Game Powers: ", game);
     if (game?.Powers) {
       powerss = game.Powers;
     }
@@ -138,7 +138,7 @@ function PowerCollapesible(props) {
   };
   function isPowerLocked(type) {
     let powerss = powers;
-    console.log("Game Powers: ", game);
+    // console.log("Game Powers: ", game);
     if (game?.Powers) {
       powerss = game.Powers;
     }

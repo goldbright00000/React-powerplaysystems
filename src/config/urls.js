@@ -8,8 +8,8 @@ export const URLS = {
     DELETE_USER_ACCOUNT: "/users/delete",
     CHANGE_PASSWORD: "/users/changepassword",
     VERIFY_REGISTERED_EMAIL: "api/v1/users/verify-registered-email",
-    RESET_PASSWORD: 'users/reset-password',
-    RESEND_VERIFICATION_EMAIL: 'users/resend-verification-email',
+    RESET_PASSWORD: "users/reset-password",
+    RESEND_VERIFICATION_EMAIL: "users/resend-verification-email",
   },
   USER: {
     BALANCE: "/users/account/balance",
@@ -25,7 +25,7 @@ export const URLS = {
     CONTACT_US: "users/contact-us",
     GET_USER_WINNINGS: "users/get-user-winnigs",
     GET_COUNTRIES: "users/countries",
-    TEAM_LIST: 'api/v1/users/account/get-all-team',
+    TEAM_LIST: "api/v1/users/account/get-all-team",
     CHECK_LIMIT: "users/account/check-limit",
   },
   DFS: {
@@ -54,6 +54,6 @@ export const URLS = {
   GAMES: {
     ALL_POWER_GAMES: "api/v1/users/games",
     LEAVE_GAME: "admin/leave-game",
-    GET_FINAL_STANDINGS: 'api/v1/dfs/get-game-standing'
+    GET_FINAL_STANDINGS: "api/v1/dfs/get-game-standing",
   },
 };
