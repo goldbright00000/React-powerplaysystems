@@ -26,6 +26,7 @@ export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
 export const USER_WINNIGS = "USER_WINNIGS";
 export const COUNTRIES = "COUNTRIES";
 export const ACCOUNT_LIMIT = "ACCOUNT_LIMIT";
+export const PSIGATE_MONTHLY_TRANSACTION = "PSIGATE_MONTHLY_TRANSACTION";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -191,6 +192,26 @@ export function payWithMyUserPay(data, history) {
       { history },
       {
         path: "users-gateway",
+        state: {
+          previousPath: history?.location?.pathname,
+          amount,
+          email
+        },
+      }
+    );
+  };
+}
+
+export function payWithPSiGate(data, history) {
+  const { amount, email, paymentMethod } = data;
+
+  return (dispatch) => {
+    dispatch({ type: SET_LOADING });
+
+    redirectTo(
+      { history },
+      {
+        path: "psi-gateway",
         state: {
           previousPath: history?.location?.pathname,
           amount,
@@ -389,6 +410,22 @@ export function checkAccountLimit(user_id, currency) {
       return response.data
     } catch (err) {
       console.log('Error in checkAccountLimit -> ', err)
+    }
+  }
+}
+
+export function getPSiGateMonthlyTransaction() {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.PAYMENT.GET_PSIGATE_MONTHLY_TRANSACTION}`)
+
+      dispatch({
+        type: PSIGATE_MONTHLY_TRANSACTION,
+        payload: response.data,
+      })
+
+    } catch (err) {
+      console.log('catch err', err);
     }
   }
 }

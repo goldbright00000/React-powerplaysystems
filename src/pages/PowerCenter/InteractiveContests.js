@@ -120,7 +120,7 @@ const InteractiveContests = (props) => {
   const [tokenBalance, setTokenBalance] = useState(0);
   const [btcBalance, setBtcBalance] = useState(0);
   const [ethBalance, setEthBalance] = useState(0);
-
+  const [isLoading, setLoading] = useState(false);
   const [haveBalance, setHaveBalance] = useState(true);
 
   const [sortedBy, setSortedBy] = useState("Most Popular");
@@ -213,12 +213,14 @@ const InteractiveContests = (props) => {
     }
   }, [cancelledsGame]);
 
-  useEffect(() => {
-    const maxWidth = window.matchMedia("(max-width: 1200px)");
-    responsiveHandler(maxWidth);
-    maxWidth.addEventListener("change", responsiveHandler);
-    return () => maxWidth.removeEventListener("change", responsiveHandler);
-  }, []);
+  // useEffect(() => {
+  //   const maxWidth = window.matchMedia("(max-width: 1200px)");
+  //   if(maxWidth) {
+  //     responsiveHandler(maxWidth);
+  //     maxWidth.addEventListener("change", responsiveHandler);
+  //     return () => maxWidth.removeEventListener("change", responsiveHandler);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // get user balance
@@ -265,8 +267,13 @@ const InteractiveContests = (props) => {
 
   useEffect(() => {
     const user_id = getLocalStorage("PERSONA_USER_ID");
+    setLoading(true);
     async function getData() {
-      return await dispatch(getAllGames(user_id));
+      let b = await dispatch(getAllGames(user_id));
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+      return b;
     }
     getData();
   }, []);
@@ -338,6 +345,7 @@ const InteractiveContests = (props) => {
       history.push("/login");
       return;
     }
+
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
@@ -1007,7 +1015,11 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseFloat(num.amount) * parseInt(num.prize);
+              return (
+                memo +
+                parseFloat(num.amount == "" ? 0 : num.amount) *
+                  parseInt(num.prize == "" ? 0 : num.prize)
+              );
             },
             0
           )}
@@ -1353,7 +1365,11 @@ const InteractiveContests = (props) => {
           </div>
         )}
         {!isAgeRestricted ? (
-          filteredData && filterCurrency(filteredData)?.length > 0 ? (
+          isLoading ? (
+            <h2>Loading ....</h2>
+          ) : isLoading == false &&
+            filteredData &&
+            filterCurrency(filteredData)?.length > 0 ? (
             isMobile ? (
               (() => {
                 if (selectedFilter == 4) {

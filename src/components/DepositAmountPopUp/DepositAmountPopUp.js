@@ -6,7 +6,7 @@ import DepositAmountForm from "./DepositAmountForm";
 import styles from "./styles.module.scss";
 import formStyles from "../../scss/formstyles.module.scss";
 
-import { setRates } from "../../actions/userActions";
+import { setRates, getPSiGateMonthlyTransaction } from "../../actions/userActions";
 import ArrowLeft from "../../assets/icons/ArrowLeft";
 import DepositAmountFormMobile from "./DepositAmountFormMobile";
 import SnackbarAlert from "../../components/SnackbarAlert";
@@ -25,6 +25,10 @@ const DepositAmountPopUp = (props) => {
     if (country === "Canada") {
       dispatch(setRates());
     }
+  }, []);
+
+  useEffect(() => {
+    dispatch(getPSiGateMonthlyTransaction());
   }, []);
 
   const handleDepositFormForMobile = () => {

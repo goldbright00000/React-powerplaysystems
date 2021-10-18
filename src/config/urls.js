@@ -55,5 +55,9 @@ export const URLS = {
     ALL_POWER_GAMES: "api/v1/users/games",
     LEAVE_GAME: "admin/leave-game",
     GET_FINAL_STANDINGS: "api/v1/dfs/get-game-standing",
+    FREE_ENTRY: "api/v1/users/account/save-user-survey-team",
+  },
+  PAYMENT: {
+    GET_PSIGATE_MONTHLY_TRANSACTION: "api/v1/users/get-monthly-transaction",
   },
 };

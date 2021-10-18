@@ -1,11 +1,17 @@
-import { useEffect } from 'react';
-import Footer from '../../components/Footer/Footer';
-import Header from '../../components/Header/Header';
-import { useMediaQuery } from "react-responsive";
+import React, { useState, useMemo, useEffect } from 'react';
 import styles from './styles.module.scss';
+import CreatePopUpPortal from '../../utility/CreatePopUpPortal';
+import { useMediaQuery } from "react-responsive";
 import _ from 'underscore';
-const ContestRulesPage = (props) => {
-    const { state = [] } = props.location || {};
+
+const Rules = props => {
+    const [titled, setTitled] = useState("");
+    const [showPopUp, setShowPopUp] = useState(false);
+    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
+    const {
+        title = "MLB",
+        gameDetails = []
+    } = props;
     const {
         game_type = "",
         league = "",
@@ -13,9 +19,11 @@ const ContestRulesPage = (props) => {
         game_set_start,
         end_date,
         powerdfs_challenge_amount,
-        PointsSystem = [],
-        prizes = []
-    } = state || [];
+        PointsSystems = [],
+        prizes = [],
+        PointsSystem = []
+    } = gameDetails || [];
+    console.log("gameDetails", gameDetails);
     const teamRoasterData = [
         {
           type: "MLB",
@@ -175,28 +183,9 @@ const ContestRulesPage = (props) => {
         },
     ];
     let finalRoasterData = teamRoasterData[teamRoasterData.findIndex(x => x.type == league)];
-    const groupedPoints = _.groupBy(PointsSystem, 'type');
-    const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
-    const test = () => {
-        window.addEventListener('DOMContentLoaded', () => {
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    const id = entry.target.getAttribute('id');
-                    if (entry.intersectionRatio > 0) {
-                        document.querySelector(`nav li a[href="#${id}"]`)?.parentElement.classList.add('active');
-                    } else {
-                        document.querySelector(`nav li a[href="#${id}"]`)?.parentElement.classList.remove('active');
-                    }
-                });
-            });
-        
-            // Track all sections that have an `id` applied
-            document.querySelectorAll('section[id]').forEach((section) => {
-                observer.observe(section);
-            });
-            
-        });
-    };
+    const groupedPoints = _.groupBy(PointsSystems, 'type');
+    const groupedPointsmobile = _.groupBy(PointsSystem, 'type');
+    console.log("groupedPoints", groupedPoints);
     const nth = function(d) {
         if (d > 3 && d < 21) return 'th';
         switch (d % 10) {
@@ -226,9 +215,6 @@ const ContestRulesPage = (props) => {
     const startDateString = `${days[startDate.getUTCDay()]}, ${month[startDate.getUTCMonth()]} ${startDate.getUTCDate() +nth(startDate.getUTCDate())}, ${startDate.getUTCFullYear()}`;
     const endDate = new Date(end_date);
     const endDateString = `${days[endDate.getUTCDay()]}, ${month[endDate.getUTCMonth()]} ${endDate.getUTCDate() +nth(endDate.getUTCDate())}, ${endDate.getUTCFullYear()}`;
-    useEffect(() => {
-        test();
-    }, []);
     const toggleSection = (id) => {
         let elem = document.getElementById(id);
         if (elem.style.display !== "none") {  
@@ -238,11 +224,18 @@ const ContestRulesPage = (props) => {
             elem.style.display = "block";  
         }  
     };
+    useEffect(() => {
+        setTitled(title);
+    }, [title]);
     return (
-        
-        <div>
-            <Header isStick={true} />
-            {!isMobile ? (
+        <>
+            {useMemo(() => props.component && props.component({ showPopUp: () => {setShowPopUp(true) } }), [props])}
+            {showPopUp && <CreatePopUpPortal>
+                <div className={styles.popupWrapper} style={{ width: "100%", borderRadius: 20, paddingBottom: 20 }}>
+                    <div className={styles.blur} onClick={() => setShowPopUp(false)}></div>
+                    <div className={`__title-6 modal-animation ${styles.popup}`} style={{marginTop: 20}}>
+                        <div className={styles.crossicon} onClick={() => setShowPopUp(false)}><span></span></div>
+                        {!isMobile ? (
                 <main className={styles.ContestRulesPageDesktop}>
                 <nav class="section-nav nav">
                 <ol>
@@ -314,7 +307,10 @@ const ContestRulesPage = (props) => {
                                 <span>Position</span>
                             </div> 
                             <div className={styles.headerTitle}>
-                                <span>Scoring Play=Points</span>
+                                <span>Scoring Play</span>
+                            </div>
+                            <div className={styles.headerTitle}>
+                                <span>Points</span>
                             </div>
                         </div>
 
@@ -323,8 +319,11 @@ const ContestRulesPage = (props) => {
                                 return (
                                     <div className={(index%2 !== 0) ? styles.tableRowEven : styles.tableRow}>
                                         <div className={styles.section}>
-                                            <span>{item.plays}</span>
+                                            <span>{item.type}</span>
                                         </div> 
+                                        <div className={styles.section}>
+                                            <span>{item.plays}</span>
+                                        </div>
                                         <div className={styles.section}>
                                             <span>{item.action}{item.points} Pts</span>
                                         </div>
@@ -504,20 +503,23 @@ const ContestRulesPage = (props) => {
                                         <span>Scoring Play=Points</span>
                                     </div>
                                 </div>
-                                {Object.entries(groupedPoints).map((key, value) => {
-                                    return key[1].map((item,index) => {
-                                        return (
-                                            <div className={(index%2 !== 0) ? styles.tableRowEven : styles.tableRow}>
-                                                <div className={styles.section}>
-                                                    <span>{item.plays}</span>
-                                                </div> 
-                                                <div className={styles.section}>
-                                                    <span>{item.action}{item.points} Pts</span>
+                                    {Object.entries(groupedPointsmobile).map((key, value) => {
+                                        return key[1].map((item,index) => {
+                                            return (
+                                                <div className={(index%2 !== 0) ? styles.tableRowEven : styles.tableRow}>
+                                                    <div className={styles.section}>
+                                                        <span>{item.type}</span>
+                                                    </div> 
+                                                    <div className={styles.section}>
+                                                        <span>{item.plays}</span>
+                                                    </div>
+                                                    <div className={styles.section}>
+                                                        <span>{item.action}{item.points} Pts</span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        );
-                                    });
-                                })}
+                                            );
+                                        });
+                                    })}
                             </li>
                             <li>
                             A participant's ranking in the Contest Period is determined by the number of ‘My Points’ that the participant accumulates during the Contest Period.</li>
@@ -641,9 +643,10 @@ const ContestRulesPage = (props) => {
                     </section>
                 </div>
             )}
-            
-            <Footer isBlack={true} />
-        </div>
+                    </div>
+                </div>
+            </CreatePopUpPortal>}
+        </>
     )
 }
-export default ContestRulesPage;
+export default Rules;
