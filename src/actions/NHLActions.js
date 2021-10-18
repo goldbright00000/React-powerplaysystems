@@ -134,9 +134,13 @@ export function getFantasyPlayers(gameID) {
 
       teams.forEach((item) => {
         item.type = TD;
+        item.match_id = 1;
       });
       players.forEach((item) => {
-        if (item.primary_position == LW || item.primary_position == RW) {
+        if (
+          item.primary_position.toLocaleLowerCase() === LW ||
+          item.primary_position.toLocaleLowerCase() === RW
+        ) {
           item.type = XW;
         } else {
           item.type = item.primary_position;
