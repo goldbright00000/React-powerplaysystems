@@ -466,7 +466,7 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your MLB team</option>
-                          {teamData.mlb_teams.map((item, index) => {
+                          {teamData.mlb_teams && teamData.mlb_teams.map((item, index) => {
                             return  (
                               <option value={`${item.team_id}`}>{item.name}</option>
                             )
@@ -487,7 +487,7 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your NFL team</option>
-                          {teamData.nfl_teams.map((item, index) => {
+                          {teamData.nfl_teams && teamData.nfl_teams.map((item, index) => {
                             return  (
                               <option value={`${item.team_id}`}>{item.name}</option>
                             )
@@ -529,7 +529,7 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your NHL team</option>
-                          {teamData.nhl_teams.map((item, index) => {
+                          {teamData.nhl_teams && teamData.nhl_teams.map((item, index) => {
                             return  (
                               <option value={`${item.team_id}`}>{item.name}</option>
                             )
