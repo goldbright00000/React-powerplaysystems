@@ -7,19 +7,53 @@
     background-color: $black2;
     display: flex;
     flex-direction: column;
-    padding: 0px 16px 16px 16px;
+    padding: 0px 24px 24px 24px;
+    position: relative;
     .topId {
         margin-left: 0px;
         color: rgb(242, 242, 242);
         opacity: 0.6;
         margin-top: 0px;
         font-family: Poppins;
-        font-size: 12px;
+        font-size: 10px;
         font-weight: normal;
         font-stretch: normal;
         font-style: normal;
         line-height: normal;
         letter-spacing: normal;
+    }
+    .__win_power {
+        width: 138px;
+        height: 32px;
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        color: $primary;
+        position: absolute;
+        right: 10px;
+        text-align: end;
+        .__win_power_span {
+            color: $primary
+        }
+    }
+    .__start_end_date{
+        width: 120px;
+        height: 15px;
+        margin: 0 auto;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        font-family: Poppins;
+        font-size: 10px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: center;
+        color: rgba(242, 242, 242, 0.75);
     }
     .__power_center_card_powerdfs {
         display: flex;
@@ -64,13 +98,18 @@
     }
 
     .__power_center_card_prize_pool {
+            position: absolute;
+            top: 135px;
+            text-align: center;
             margin: 0 auto;
+            left: 24px;
+            right: 24px;
 
         .__power_center_card_prize_pool_common {
             width: 100%;
             height: 40px;
             font-family: Poppins;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
@@ -81,11 +120,12 @@
         }
 
         .__power_center_card_prize_pool_price {
-            font-size: 34px;
+            font-size: 32px;
             margin-bottom: 5px;
             display: flex;
             align-items: center;
             font-weight: bold !important;
+            justify-content: center;
         }
 
         .__power_center_card_prize_pool_text {
@@ -144,11 +184,23 @@
         }
     }
 
+    .__card_button {
+        margin-bottom: 11px;
+        position: absolute;
+        bottom: 60px;
+
+    }
+
     .__power_center_card_status_and_details {
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 50px;
+        /* height: 50px; */
+        position: absolute;
+        bottom: 18px;
+        right: 24px;
+        width: 100%;
+        padding-left: 24px;
 
         .__power_center_card_details {
             display: flex;
@@ -189,7 +241,7 @@
     background-color: $black2;
     display: flex;
     flex-direction: column;
-    padding: 0px 16px 16px 16px;
+    padding: 0px 24px 24px 24px;
     position: relative;
     .topId {
         margin-left: 0px;
@@ -204,53 +256,68 @@
         line-height: normal;
         letter-spacing: normal;
     }
+    .__win_power {
+        width: 138px;
+        height: 32px;
+        font-family: Poppins;
+        font-size: 12px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.33;
+        letter-spacing: normal;
+        color: $primary;
+        position: absolute;
+        right: 10px;
+        text-align: end;
+        .__win_power_span {
+            color: $primary
+        }
+    }
     .__card_title{
         .__card_title_text{            
-            height: 56px;
-            margin: 0 20px 4px 0;
+            height: 44px;
+            margin: 8px 56px 7px 0;
             font-family: Poppins;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold !important;
             font-stretch: normal;
             font-style: normal;
-            line-height: normal;
+            line-height: 1.22;
             letter-spacing: normal;
             color: #f2f2f2;
-
+            width: 212px;
             .__card__title_first{
                 color: #fb6e00;
             }
         }
     }
-
-    .__start_end_date {
-        .__date_text{
-            display: block;
-            margin-bottom: 30px;
-            width: 160px;
-            height: 17px;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-            font-family: Poppins;
-            font-size: 12px;
-            font-weight: 600;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: rgba(242, 242, 242, 0.75);
-        }
+    .__start_end_date{
+        width: 120px;
+        height: 15px;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        font-family: Poppins;
+        font-size: 10px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        text-align: left;
+        color: rgba(242, 242, 242, 0.75);
     }
-    
     .__current_jackpot {
-
+        position: absolute;
+        top: 135px;
         .__current_jackpot_text {
             width: 158px;
             display: block;
             //height: 30px;
-            margin: 14px 40px 12px 0;
+            margin: 0px 40px 12px 0;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             font-family: Poppins;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
             font-stretch: normal;
             font-style: normal;
@@ -272,30 +339,11 @@
         }
     }
 
-    .__win_power {
-        width: 121px;
-        height: 32px;
-        margin: 0px 77px 0px 0;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-        font-family: Poppins;
-        font-size: 12px;
-        font-weight: bold;
-        font-stretch: normal;
-        font-style: normal;
-        line-height: 1.33;
-        letter-spacing: normal;
-        color: #f2f2f2;
-        opacity: 0.6;
-        position: absolute;
-        bottom: 90px;
-        .__win_power_span {
-            color: rgba(242, 242, 242, 0.75);
-        }
-    }
+    
     .__card_button {
         margin-bottom: 11px;
         position: absolute;
-        bottom: 30px;
+        bottom: 60px;
         width: 88%;
     }
 
@@ -327,11 +375,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        height: 50px;
+        /* height: 50px; */
         position: absolute;
-        bottom: 0;
-        right: 17px;
-        width: 88%;
+        bottom: 18px;
+        right: 24px;
+        width: 100%;
+        padding-left: 24px;
+        padding-left: 24px;
+        left: 0;
+        padding-right: 24px;
         .__power_center_card_details {
             display: flex;
             flex-direction: row;
@@ -353,7 +405,6 @@
                 color: $primary;
                 text-decoration: underline;
                 cursor: pointer;
-                padding-top: 3px;
             }
 
             .__power_center_card_details_link_forward_arrow {
