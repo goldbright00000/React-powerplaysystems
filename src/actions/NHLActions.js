@@ -20,6 +20,7 @@ const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
 export function nhlData(gameId) {
   return async (dispatch) => {
     try {
+      console.log("NHL Get Data called");
       const response = await http.get(`${URLS.DFS.NHL}?game_id=${gameId}`);
 
       const { data: { nhlSchedule = [], game_id = "", sport_id = "" } = {} } =
@@ -90,6 +91,11 @@ export function nhlData(gameId) {
       const dTypePlayers = getFilterPlayersList(D, nhlPlayerList);
       const gTypePlayers = getFilterPlayersList(G, nhlPlayerList);
       const tdTypePlayers = { type: TD, listData: nhlTeams };
+      // console.log("centerTypePlayers: ", centerTypePlayers);
+      // console.log("xwTypePlayers: ", xwTypePlayers);
+      // console.log("dTypePlayers: ", dTypePlayers);
+      // console.log("gTypePlayers: ", gTypePlayers);
+      // console.log("tdTypePlayers: ", tdTypePlayers);
       filterdList.push(centerTypePlayers);
       filterdList.push(xwTypePlayers);
       filterdList.push(dTypePlayers);
@@ -113,6 +119,94 @@ export function nhlData(gameId) {
     } catch (err) {
       return err;
     }
+  };
+}
+
+export function getFantasyPlayers(gameID) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyPlayers`,
+        { gameID: gameID }
+      );
+
+      let { teams = [], players = [] } = response.data || {};
+
+      teams.forEach((item) => {
+        item.type = TD;
+        item.match_id = 1;
+      });
+      players.forEach((item) => {
+        if (
+          item.primary_position.toLocaleLowerCase() === LW ||
+          item.primary_position.toLocaleLowerCase() === RW
+        ) {
+          item.type = XW;
+        } else {
+          item.type = item.primary_position;
+        }
+      });
+
+      //filter the data on the basis of types
+      const filterdList = [];
+      const centerTypePlayers = getFilterPlayersList(CENTER, players);
+      const lwTypePlayers = getFilterPlayersList(LW, players);
+      const rwTypePlayers = getFilterPlayersList(RW, players);
+      const xwTypePlayers = {
+        type: XW,
+        listData: [...lwTypePlayers.listData, ...rwTypePlayers.listData],
+      };
+      const dTypePlayers = getFilterPlayersList(D, players);
+      const gTypePlayers = getFilterPlayersList(G, players);
+      const tdTypePlayers = { type: TD, listData: teams };
+      filterdList.push(centerTypePlayers);
+      filterdList.push(xwTypePlayers);
+      filterdList.push(dTypePlayers);
+      filterdList.push(gTypePlayers);
+      filterdList.push(tdTypePlayers);
+      // nhlPlayerList.push(...nhlTeams);
+
+      dispatch({
+        type: NHL_DATA,
+        payload: { filterdList: filterdList, allData: [...players, ...teams] },
+        game_id: gameID,
+        sport_id: 2,
+      });
+
+      return {
+        filterdList: filterdList,
+        allData: [...players, ...teams],
+        game_id: gameID,
+        sport_id: 2,
+      };
+    } catch (err) {
+      return err;
+    }
+  };
+}
+
+export function createFantasyTeam(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        "https://nhl.powerplaysystems.com/api/v1/services/fantasy/createTeam",
+        payload
+      );
+      const { message = "", error = false } = response.data || {};
+      if (!error && message === "Success") {
+        //get the live page players and save them in redux
+        try {
+          if (!payload.game_id || !payload.sport_id || !payload.user_id) {
+            return alert(
+              "Invalid informations",
+              payload.game_id,
+              payload.user_id,
+              payload.sport_id
+            );
+          }
+        } catch (er) {}
+      }
+    } catch (err) {}
   };
 }
 
@@ -191,11 +285,16 @@ function getPlayers(
 }
 
 function getFilterPlayersList(filter = "", playersList = []) {
-  const list =
+  let list =
     playersList?.length &&
     playersList?.filter(
       (player) => `${player.primary_position}`?.toLocaleLowerCase() === filter
     );
+
+  list.forEach((item) => {
+    item.match_id = 1;
+    // item.type = item.primary_position;
+  });
 
   const players = {
     type: filter,
@@ -446,7 +545,12 @@ export function getUserRemainingPowers(game_id, user_id) {
   };
 }
 
-export function updateUserRemainingPowers(game_id, user_id, power_id, type = "powerDec") {
+export function updateUserRemainingPowers(
+  game_id,
+  user_id,
+  power_id,
+  type = "powerDec"
+) {
   return async (dispatch) => {
     try {
       console.log("PAYLOAD: ", game_id, user_id, power_id);
@@ -456,7 +560,7 @@ export function updateUserRemainingPowers(game_id, user_id, power_id, type = "po
           game_id: game_id,
           user_id: user_id,
           power_id: power_id,
-          type: type
+          type: type,
         }
       );
       return dispatch({

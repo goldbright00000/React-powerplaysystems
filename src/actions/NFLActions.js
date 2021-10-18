@@ -21,7 +21,6 @@ export function nflData(gameId) {
   return async (dispatch) => {
     try {
       const response = await http.get(`${URLS.DFS.NFL}?game_id=${gameId}`);
-
       const { data: { nflSchedule = [], game_id = "", sport_id = "" } = {} } =
         response.data || {};
 
@@ -452,7 +451,12 @@ export function getUserRemainingPowers(game_id, user_id) {
   };
 }
 
-export function updateUserRemainingPowers(game_id, user_id, power_id, type = "powerDec") {
+export function updateUserRemainingPowers(
+  game_id,
+  user_id,
+  power_id,
+  type = "powerDec"
+) {
   return async (dispatch) => {
     try {
       console.log("PAYLOAD: ", game_id, user_id, power_id);
@@ -462,7 +466,7 @@ export function updateUserRemainingPowers(game_id, user_id, power_id, type = "po
           game_id: game_id,
           user_id: user_id,
           power_id: power_id,
-          type: type
+          type: type,
         }
       );
       return dispatch({

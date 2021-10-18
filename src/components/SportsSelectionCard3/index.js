@@ -30,7 +30,7 @@ function SportsSelectionCard3(props) {
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => {},
+    onSelectDeselect = (id, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -40,13 +40,15 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
+    playerId = "",
     playerName = "",
+    id = "",
+    full_name = "",
     homeTeam = "",
     awayTeam = "",
     date = "",
     time = "",
     stadium = "",
-    playerId = "",
     isStarPlayer = false,
     playerStats = {},
     injured = false,
@@ -108,7 +110,7 @@ function SportsSelectionCard3(props) {
           <NHLPlayerStat
             playerStats={playerStats}
             active={isSelected}
-            position={primary_position}
+            position={type}
           />
         );
 
@@ -136,8 +138,17 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{primary_position}</span>
-          {playerName}
+          {pageType === PAGE_TYPES.NHL ? (
+            <>
+              <span>{type}</span>
+              {full_name}
+            </>
+          ) : (
+            <>
+              <span>{primary_position}</span>
+              {playerName}
+            </>
+          )}
         </p>
         {props.player.isInjured && (
           <div className={classes.injured}>
@@ -147,7 +158,13 @@ function SportsSelectionCard3(props) {
         )}
         {!isSelected ? (
           <button
-            onClick={() => onSelectDeselect(playerId, match_id)}
+            onClick={() => {
+              if (pageType === PAGE_TYPES.NHL) {
+                onSelectDeselect(id, match_id);
+              } else {
+                onSelectDeselect(playerId, match_id);
+              }
+            }}
             className={disabled && classes.disabled}
             disabled={disabled}
           >
@@ -159,7 +176,7 @@ function SportsSelectionCard3(props) {
               <Tick2 /> Selected{" "}
               <img
                 src={DeleteIcon}
-                onClick={() => onSelectDeselect(playerId, match_id)}
+                onClick={() => onSelectDeselect(id, match_id)}
               />
             </p>
           </div>

@@ -22,6 +22,7 @@ import XP2Icon from "../../icons/XP2";
 import XP2Icon_1 from "../../icons/XP2_1";
 import XP3 from "../../icons/XP3";
 import XP3_1 from "../../icons/XP3_1";
+import ShieldIcon from "../../icons/ShieldIcon";
 import MiniStar from "../../assets/mini_star.png";
 import Tooltip from "../ToolTip";
 import { Tooltip as ReactStrapToolip } from "reactstrap";
@@ -501,8 +502,14 @@ function SportsLiveCard(props) {
     else if (xp && xp?.xp === CONSTANTS.XP.xp3)
       return <XP3_1 className={classes.xp_svg} size={svgSize} />;
 
-    if (!singleView) {
+    if (!singleView && cardType !== CardType.NHL) {
       return <XPIcon size={svgSize} />;
+    } else if (!singleView && cardType === CardType.NHL) {
+      if (type === "G") {
+        return <ShieldIcon size={svgSize} />;
+      } else {
+        return <XPIcon size={svgSize} />;
+      }
     }
 
     return null;
@@ -532,7 +539,7 @@ function SportsLiveCard(props) {
 
   const RenderXpToolTip = () => (
     <div className={classes.stat_xp}>
-      {cardType !== CardType.MLBR ? (
+      {cardType === CardType.MLB ? (
         <div
           className={classes.stat_xp_mlbr}
           onClick={() => onChangeXp(0, data)}
@@ -542,7 +549,49 @@ function SportsLiveCard(props) {
             size={singleView ? 14 : largeView ? 28 : 24}
           />
         </div>
-      ) : (
+      ) : null}
+
+      {cardType === CardType.NFL ? (
+        <div
+          className={classes.stat_xp_mlbr}
+          onClick={() => onChangeXp(0, data)}
+        >
+          <XPIcon
+            className={{ opacity: 0.1 }}
+            size={singleView ? 14 : largeView ? 28 : 24}
+          />
+        </div>
+      ) : null}
+
+      {cardType === CardType.NHL ? (
+        <>
+          {type === "G" ? (
+            <div
+              className={classes.stat_xp_mlbr}
+              // onClick={() => onChangeXp(0, data)}
+            >
+              <ShieldIcon
+                className={{ opacity: 0.1 }}
+                size={singleView ? 14 : largeView ? 30 : 30}
+              />
+            </div>
+          ) : null}
+
+          {type !== "G" ? (
+            <div
+              className={classes.stat_xp_mlbr}
+              onClick={() => onChangeXp(0, data)}
+            >
+              <XPIcon
+                className={{ opacity: 0.1 }}
+                size={singleView ? 14 : largeView ? 28 : 24}
+              />
+            </div>
+          ) : null}
+        </>
+      ) : null}
+
+      {cardType === CardType.MLBR ? (
         <>
           {xp?.xp == CONSTANTS.XP.xp1_5 ||
           xp?.xp == CONSTANTS.XP.xp2 ||
@@ -655,7 +704,7 @@ function SportsLiveCard(props) {
             </Tooltip>
           )}
         </>
-      )}
+      ) : null}
     </div>
   );
 
