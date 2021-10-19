@@ -4,7 +4,7 @@ import MLBPlayer from '../../assets/mlb-player.png';
 import MLBPlayerOppsite from '../../assets/baseball-player-copy.png';
 import NFLPlayer from '../../assets/nfl-player.png';
 import NBAPlayer from '../../assets/nba-player.png';
-import NHLPlayer from '../../assets/nhl-player.png';
+import NHLPlayer from '../../assets/new-hockey-playerlogo.png';
 import InfiniteEntry from '../../assets/invalid-name.svg';
 import PowerCenterCardDetails from '../PowerCenterCardDetails';
 import OutlineButton from '../OutlineButton';
@@ -72,7 +72,6 @@ const PowerCenterCard = (props) => {
             backgroundImageStyle.backgroundImage = `url(${onenflbg})`;
         } else {
             backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
-            backgroundImageStyle.backgroundPosition = "36px 106px";
         }
         return backgroundImageStyle;
     }
