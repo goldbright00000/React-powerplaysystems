@@ -863,6 +863,7 @@ const InteractiveContests = (props) => {
   }
   function sortArray(arr) {
     var type = sortedBy;
+    console.log("type", type);
     if (type === "Most Popular") {
       if (sortedByMPAction === "des") {
         return arr.sort((a, b) =>
@@ -884,22 +885,26 @@ const InteractiveContests = (props) => {
     }
 
     if (type === "Min Entry") {
+      var isFreeGames = arr.filter((x) => x.is_game_free);
+      var isPaidGames = arr.filter((x) => !x.is_game_free);
       if (sortedByMEAction === "des") {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? -1
-            : parseFloat(b.target) > parseFloat(a.target)
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
             ? 1
             : 0
         );
+        return isPaidGames.concat(isFreeGames);
       } else {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? 1
-            : parseFloat(b.target) > parseFloat(a.target)
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
             ? -1
             : 0
         );
+        return isFreeGames.concat(isPaidGames);
       }
     }
 

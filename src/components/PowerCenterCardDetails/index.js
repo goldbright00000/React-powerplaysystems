@@ -122,6 +122,7 @@ const PowerCenterCardDetails = (props) => {
                     }}
                     myGameCenter={myGameCenter}
                     userHasEntered={userHasEntered}
+                    game_type={game_type}
                 />
             </div>
         </div>
