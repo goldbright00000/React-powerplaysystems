@@ -70,11 +70,9 @@ function SportsSidebarContent(props) {
             <SideBarSection
               title={item?.title}
               name={
-                item?.type === TD ? item?.team?.name : item?.player?.playerName
+                item?.type === TD ? item?.team?.name : item?.player?.full_name
               }
-              playerId={
-                item?.type === TD ? item?.team?.team_id : item?.player?.playerId
-              }
+              playerId={item?.type === TD ? item?.team?.id : item?.player?.id}
               keyVal={
                 item?.type === TD ? item?.team?.team_id : item?.player?.playerId
               }

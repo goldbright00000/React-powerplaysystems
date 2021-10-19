@@ -26,7 +26,7 @@ import { CONSTANTS } from "../../utility/constants";
 import SingleView from "./SingleView/SingleView";
 import SportsLiveCard from "../../components/SportsLiveCard";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
-import { socket } from "../../config/server_connection";
+import { socket, socketNHL } from "../../config/server_connection";
 import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PrizeModal from "../../components/PrizeModal";
@@ -37,6 +37,8 @@ import TeamManager from "./TeamManager";
 
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 const {
+  CONNECT_MATCH_ROOM,
+  GET_MATCH_ROOM_UPDATES,
   ALL_UPDATES,
   ON_ROOM_SUB,
   ON_ROOM_UN_SUB,
@@ -198,80 +200,6 @@ function NHLPowerdFsLive(props) {
     setPointBooster3xCounts(p3);
   }
 
-  function isPowerAvailable(type) {
-    let powerss = game?.Powers;
-    let available = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    if (type === "Power Up") {
-      type = "Power-Up";
-    }
-    if (typeof powerss == "undefined") {
-      return;
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (type === "Point Booster") {
-        if (
-          powerss[i].powerName === "1.5x Point Booster" ||
-          powerss[i].powerName === "2x Point Booster" ||
-          powerss[i].powerName === "3x Point Booster"
-        ) {
-          available = 1;
-          break;
-        }
-      } else {
-        if (powerss[i].powerName === type) {
-          available = 1;
-          break;
-        }
-      }
-    }
-    return available;
-  }
-
-  function isPowerLocked(type) {
-    let powerss = game?.Powers;
-    if (typeof powerss == "undefined") {
-      return;
-    }
-    let locked = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    if (type === "Power Up") {
-      type = "Power-Up";
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (type === "Point Booster") {
-        if (
-          powerss[i].powerName === "1.5x Point Booster" ||
-          powerss[i].powerName === "2x Point Booster" ||
-          powerss[i].powerName === "3x Point Booster"
-        ) {
-          if (
-            powerss[i].SocialMediaUnlock == true ||
-            powerss[i].SocialMediaUnlock == "true"
-          ) {
-            locked = 1;
-          }
-          break;
-        }
-      } else {
-        if (powerss[i].powerName === type) {
-          if (
-            powerss[i].SocialMediaUnlock == true ||
-            powerss[i].SocialMediaUnlock == "true"
-          ) {
-            locked = 1;
-          }
-          break;
-        }
-      }
-    }
-    return locked;
-  }
-
   async function useSwap(action) {
     if (action) {
       const current_match_id = selectedTeam.players[0].match_id;
@@ -386,6 +314,13 @@ function NHLPowerdFsLive(props) {
 
   //All Emit Events
   const onSocketEmit = () => {
+    _socket.emit(CONNECT_MATCH_ROOM, {
+      gameID: 101,
+    });
+
+    // setTimeout(()=>{socket.emit("NHL_GET_MATCH_ROOM_UPDATES",{gameID:101})},500);
+    _socket.emit(GET_MATCH_ROOM_UPDATES, { gameID: 101 });
+
     _socket.emit(ON_ROOM_SUB, {
       gameId: gameId,
       userId: userId,
@@ -412,6 +347,43 @@ function NHLPowerdFsLive(props) {
   const onSocketListen = () => {
     //fetch data first time
     setLoading(true);
+
+    _socket.on("NHL_ROOM_DATA", (data) => {
+      console.log("ROOM DATA: ", data);
+    });
+
+    _socket.on("HI", (data) => {
+      console.log("socket HI says:", data);
+    });
+
+    _socket.on("ROOM_CONNECTED", (data) => {
+      console.log("ON ROOM CONNECTED: ", data);
+    });
+    _socket.on("ROOM_DATA", (data) => {
+      console.log("ROOM DATA: ", data);
+    });
+
+    _socket.on("NHL_MATCH_EVENT", (data) => {
+      data.forEach((event) => {
+        // var node = document.createElement("LI");
+        const str =
+          "Event: " +
+          event.event +
+          " " +
+          "away Team: " +
+          event.away.name +
+          "" +
+          "Home Team: " +
+          event.home.name +
+          "Event Type: " +
+          event.eventData.event_type; // Create a <li> node
+        console.log(str);
+        // var textnode = document.createTextNode(str);         // Create a text node
+        // node.appendChild(textnode);
+        // node.className = "list-group-item";                      // Append the text to <li>
+        // document.getElementById("my-list").appendChild(node);     // Append <li> to <ul> with id="myList"
+      });
+    });
 
     _socket?.on(ALL_UPDATES + game_id, (res) => {
       console.log("ALL UPDATES");
@@ -678,73 +650,6 @@ function NHLPowerdFsLive(props) {
         break;
     }
     setSelectedView(viewType);
-  };
-
-  const RenderView = () => {
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-    if (selectedView === CONSTANTS.NHL_VIEW.S) {
-      return (
-        <SingleView
-          data={live_data}
-          onChangeXp={onChangeXp}
-          updateReduxState={updateReduxState}
-          starPlayerCount={starPlayerCount}
-          gameInfo={selectedTeam}
-          dwall={dwallCounts}
-          challenge={challengeCounts}
-          useDwall={useDwall}
-          useChallenge={useChallenge}
-          dataMain={selectedTeam}
-          useSwap={useSwap}
-          swapCount={swapCounts}
-          setPowers={setPowers}
-          pointXpCount={{
-            xp1: pointBooster15x,
-            xp2: pointBooster2x,
-            xp3: pointBooster3x,
-          }}
-        />
-      );
-    } else if (live_data && live_data?.length) {
-      return live_data?.map((item, index) => (
-        <>
-          {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
-            <SportsLiveCardTeamD
-              data={item}
-              compressedView={compressedView}
-              key={index + "" + item?.team_d_nhl_team?.type}
-              dwall={dwallCounts}
-              challenge={challengeCounts}
-              useDwall={useDwall}
-              useChallenge={useChallenge}
-              dataMain={selectedTeam}
-              setPowers={setPowers}
-            />
-          ) : (
-            <SportsLiveCard
-              data={item}
-              compressedView={compressedView}
-              key={index + ""}
-              onChangeXp={onChangeXp}
-              updateReduxState={updateReduxState}
-              starPlayerCount={starPlayerCount}
-              gameInfo={selectedTeam}
-              useSwap={useSwap}
-              swapCount={swapCounts}
-              dataMain={selectedTeam}
-              setPowers={setPowers}
-              pointXpCount={{
-                xp1: pointBooster15x,
-                xp2: pointBooster2x,
-                xp3: pointBooster3x,
-              }}
-            />
-          )}
-        </>
-      ));
-    }
   };
 
   const RenderLiveState = ({ isLive = false }) =>
