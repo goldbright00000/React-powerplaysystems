@@ -23,6 +23,7 @@ import { Carousel } from "react-responsive-carousel";
 import "./carousel.scss";
 
 import { useMediaQuery } from "react-responsive";
+import moment from "moment";
 
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -56,7 +57,10 @@ function SportsSelectionCard3(props) {
     match_id,
     primary_position = "",
     is_star_player = false,
+    match = {},
   } = player || {};
+
+  const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
   const checkIfIsStarPlayer = () => {
     if (type == "p" || type == "P") {
@@ -209,15 +213,32 @@ function SportsSelectionCard3(props) {
 
                   <div className={classes.divider}></div>
                   <p className={classes.container_body_footer}>
-                    <span>
-                      <ClockIcon /> {time}
-                    </span>
-                    <span>
-                      <CalenderIcon /> {date}
-                    </span>
-                    <span>
-                      <StadiumIcon /> {stadium}
-                    </span>
+                    {pageType === PAGE_TYPES.NHL ? (
+                      <>
+                        <span>
+                          <ClockIcon /> {moment(scheduled).format("h:mm A")}
+                        </span>
+                        <span>
+                          <CalenderIcon />
+                          {moment(scheduled).format("YYYY-MM-DD")}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {venue.name}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          <ClockIcon /> {time}
+                        </span>
+                        <span>
+                          <CalenderIcon /> {date}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {stadium}
+                        </span>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>
@@ -234,15 +255,32 @@ function SportsSelectionCard3(props) {
                 <div className={classes.card_footer_left}>
                   <div className={classes.divider}></div>
                   <p className={classes.container_body_footer}>
-                    <span>
-                      <ClockIcon /> {time}
-                    </span>
-                    <span>
-                      <CalenderIcon /> {date}
-                    </span>
-                    <span>
-                      <StadiumIcon /> {stadium}
-                    </span>
+                    {pageType === PAGE_TYPES.NHL ? (
+                      <>
+                        <span>
+                          <ClockIcon /> {moment(scheduled).format("h:mm A")}
+                        </span>
+                        <span>
+                          <CalenderIcon />
+                          {moment(scheduled).format("YYYY-MM-DD")}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {venue.name}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          <ClockIcon /> {time}
+                        </span>
+                        <span>
+                          <CalenderIcon /> {date}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {stadium}
+                        </span>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>
@@ -268,21 +306,43 @@ function SportsSelectionCard3(props) {
           {currentStep === 0 && (
             <div className={classes.card_footer_left}>
               <p>
-                <span className={classes.teamA}>{homeTeam}</span> VS{" "}
-                <span className={classes.teamB}>{awayTeam}</span>
+                <span className={classes.teamA}>
+                  {PAGE_TYPES.NHL === pageType ? home.name : homeTeam}
+                </span>{" "}
+                VS{" "}
+                <span className={classes.teamB}>
+                  {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
+                </span>
               </p>
 
               <div className={classes.divider}></div>
               <p className={classes.container_body_footer}>
-                <span>
-                  <ClockIcon /> {time}
-                </span>
-                <span>
-                  <CalenderIcon /> {date}
-                </span>
-                <span>
-                  <StadiumIcon /> {stadium}
-                </span>
+                {pageType === PAGE_TYPES.NHL ? (
+                  <>
+                    <span>
+                      <ClockIcon /> {moment(scheduled).format("h:mm A")}
+                    </span>
+                    <span>
+                      <CalenderIcon />
+                      {moment(scheduled).format("YYYY-MM-DD")}
+                    </span>
+                    <span>
+                      <StadiumIcon /> {venue.name}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      <ClockIcon /> {time}
+                    </span>
+                    <span>
+                      <CalenderIcon /> {date}
+                    </span>
+                    <span>
+                      <StadiumIcon /> {stadium}
+                    </span>
+                  </>
+                )}
               </p>
             </div>
           )}

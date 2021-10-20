@@ -130,7 +130,7 @@ export function getFantasyPlayers(gameID) {
         { gameID: gameID }
       );
 
-      let { teams = [], players = [] } = response.data || {};
+      let { teams = [], players = [], matches = [] } = response.data || {};
 
       teams.forEach((item) => {
         item.type = TD;
@@ -145,6 +145,15 @@ export function getFantasyPlayers(gameID) {
         } else {
           item.type = item.primary_position;
         }
+        matches.forEach((match) => {
+          if (match?.home?.id === item.team.id) {
+            item.match = match;
+          } else if (match.away.id === item.team.id) {
+            item.match = match;
+            item.match.home = match.away;
+            item.match.away = match.home;
+          }
+        });
       });
 
       //filter the data on the basis of types

@@ -70,7 +70,7 @@ export default function TeamManager(props) {
       byteData.toString(CryptoJS.enc.Utf8)
     );
 
-    console.log("decSelectedTeamData: ", decSelectedTeamData);
+    // console.log("decSelectedTeamData: ", decSelectedTeamData);
 
     return decSelectedTeamData;
   }
