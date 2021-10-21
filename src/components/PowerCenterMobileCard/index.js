@@ -6,15 +6,15 @@ import MLBPlayer from "../../assets/baseball-player-faded.png";
 import NFLPlayer from "../../assets/nfl-player-mobile.png";
 import NBAPlayer from "../../assets/nba-player-mobile.png";
 import NHLPlayer from "../../assets/nhl-player-mobile.png";
-import InfiniteEntry from '../../assets/invalid-name.svg';
+import InfiniteEntry from "../../assets/invalid-name.svg";
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
 import OutlineButton from "../OutlineButton";
 import PrizeGrid from "./PrizeGrid";
 import PowersAvailable from "./PowersAvailable";
 import PointSystem from "./PointSystem";
 import TeamRoster from "./TeamRoster";
-import Pitchers from './Pitcher';
-import ContestRules from '../PowerCenterCardDetails/ContestRules';
+import Pitchers from "./Pitcher";
+import ContestRules from "../PowerCenterCardDetails/ContestRules";
 import "./carousel.scss";
 
 const PowerCenterMobileCard = (props) => {
@@ -22,13 +22,13 @@ const PowerCenterMobileCard = (props) => {
     id = null,
     title = "",
     prize = null,
-    currency = '$',
-    prize_currency = 'USD',
+    currency = "$",
+    prize_currency = "USD",
     outOf = null,
     total = null,
-    game_type = '',
-    game_set_start = '',
-    start_time = '',
+    game_type = "",
+    game_set_start = "",
+    start_time = "",
     entry_fee = null,
     paid_game = false,
     targeted_game = false,
@@ -38,10 +38,10 @@ const PowerCenterMobileCard = (props) => {
     Power = [],
     PrizePayout = [],
     showDetails = false,
-    onDetailsClick = () => { },
-    onBackClick = () => { },
-    onNextClick = () => { },
-    onEnter = () => { },
+    onDetailsClick = () => {},
+    onBackClick = () => {},
+    onNextClick = () => {},
+    onEnter = () => {},
     userHasEntered = false,
   } = props || {};
 
@@ -53,7 +53,7 @@ const PowerCenterMobileCard = (props) => {
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
       backgroundImageStyle.backgroundPosition = "-16px -13px";
-      backgroundImageStyle.backgroundSize = 'contain'
+      backgroundImageStyle.backgroundSize = "contain";
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
       backgroundImageStyle.backgroundPosition = "-16px 10px";
@@ -125,39 +125,66 @@ const PowerCenterMobileCard = (props) => {
                 </p>
               ) : (
                 <p>
-                  {outOf} <span>of <img src={InfiniteEntry} alt="infinite entry"/></span>
+                  {outOf}{" "}
+                  <span>
+                    of <img src={InfiniteEntry} alt="infinite entry" />
+                  </span>
                 </p>
               )}
             </div>
             <div className={classes.__power_center_card_enter}>
               {userHasEntered ? (
                 <>
-                  <OutlineButton
-                    title={`Entered`}
-                  />
+                  <OutlineButton title={`Entered`} />
                 </>
+              ) : paid_game || paid_game === null ? (
+                <OutlineButton
+                  title={`Enter  •  $${entry_fee}`}
+                  onClick={onEnter}
+                />
               ) : (
-                paid_game || paid_game === null ? (
-                  <OutlineButton
-                    title={`Enter  •  $${entry_fee}`}
-                    onClick={onEnter}
-                  />
-                ) : (
-                  <OutlineButton
-                    title={`Enter  •  Free`}
-                    onClick={onEnter}
-                  />
-                )
+                <OutlineButton title={`Enter  •  Free`} onClick={onEnter} />
               )}
             </div>
           </div>
         </div>
-        <ContestRules game_set_start={game_set_start} start_time={start_time} prize={prize} powers={Power} points={PointsSystem} isMobileGameCenter={true} showDateTime={true}/>
-        <PrizeGrid PrizePayout={PrizePayout} game_set_start={game_set_start} start_time={start_time} />
-        <PowersAvailable title={title} Power={Power} game_set_start={game_set_start} start_time={start_time} />
-        <PointSystem title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} />
-        <Pitchers title={title} PointsSystem={PointsSystem} game_set_start={game_set_start} start_time={start_time} />
-        <TeamRoster title={title} game_set_start={game_set_start} start_time={start_time} />
+        <ContestRules
+          game_set_start={game_set_start}
+          start_time={start_time}
+          prize={prize}
+          powers={Power}
+          points={PointsSystem}
+          isMobileGameCenter={true}
+          showDateTime={true}
+        />
+        <PrizeGrid
+          PrizePayout={PrizePayout}
+          game_set_start={game_set_start}
+          start_time={start_time}
+        />
+        <PowersAvailable
+          title={title}
+          Power={Power}
+          game_set_start={game_set_start}
+          start_time={start_time}
+        />
+        <PointSystem
+          title={title}
+          PointsSystem={PointsSystem}
+          game_set_start={game_set_start}
+          start_time={start_time}
+        />
+        <Pitchers
+          title={title}
+          PointsSystem={PointsSystem}
+          game_set_start={game_set_start}
+          start_time={start_time}
+        />
+        <TeamRoster
+          title={title}
+          game_set_start={game_set_start}
+          start_time={start_time}
+        />
       </Carousel>
     </div>
   ) : (

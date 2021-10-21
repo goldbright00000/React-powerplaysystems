@@ -106,7 +106,6 @@ function NHLPowerdFsLive(props) {
 
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
-
   const {
     live_data = [],
     starPlayerCount = 0,
