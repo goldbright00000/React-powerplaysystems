@@ -41,6 +41,8 @@ function PowerCollapesible(props) {
     game = {},
   } = props || {};
 
+  const { game_id = 0 } = game;
+
   const [collapsed, setCollapseState] = useState(true);
   const [learnMoreModal, setLearnMoreModal] = useState(false);
   const history = useHistory();
@@ -229,7 +231,7 @@ function PowerCollapesible(props) {
                         var left = window.screen.width / 2 - 600 / 2,
                           top = window.screen.height / 2 - 600 / 2;
                         window.open(
-                          `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                          `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=https://test.powerplaysystems.com/&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=https://test.powerplaysystems.com?fb=1_power_${title}_game_${game_id}`,
                           "targetWindow",
                           "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
                             left +
@@ -246,7 +248,7 @@ function PowerCollapesible(props) {
                         var left = window.screen.width / 2 - 600 / 2,
                           top = window.screen.height / 2 - 600 / 2;
                         window.open(
-                          `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                          `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}&fb=1_power_${title}_game_${game_id}`,
                           "targetWindow",
                           "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
                             left +
