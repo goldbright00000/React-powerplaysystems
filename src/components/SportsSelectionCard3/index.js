@@ -52,29 +52,40 @@ function SportsSelectionCard3(props) {
     stadium = "",
     isStarPlayer = false,
     playerStats = {},
-    injured = false,
     position = "",
     match_id,
     primary_position = "",
     is_star_player = false,
+    is_starPlayer = false,
+    injured = false,
+    is_injured = false,
+    isInjured = false,
     match = {},
+    seasons = {},
   } = player || {};
 
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
+  const { teams = [] } = seasons[0] || {};
+  const { statistics = {} } = teams[0] || {};
 
   const checkIfIsStarPlayer = () => {
-    if (type == "p" || type == "P") {
-      if (player?.playerStats?.earned_runs_average < 3.5) {
-        return true;
-      }
+    if (pageType === PAGE_TYPES.NHL) {
+      if (is_starPlayer) return true;
     } else {
-      if (
-        player?.playerStats?.batting_average > 0.29 ||
-        player?.playerStats?.home_runs > 30
-      ) {
-        return true;
+      if (type == "p" || type == "P") {
+        if (player?.playerStats?.earned_runs_average < 3.5) {
+          return true;
+        }
+      } else {
+        if (
+          player?.playerStats?.batting_average > 0.29 ||
+          player?.playerStats?.home_runs > 30
+        ) {
+          return true;
+        }
       }
     }
+
     return false;
   };
 
@@ -112,7 +123,7 @@ function SportsSelectionCard3(props) {
       case PAGE_TYPES.NHL:
         return (
           <NHLPlayerStat
-            playerStats={playerStats}
+            playerStats={statistics}
             active={isSelected}
             position={type}
           />
@@ -154,7 +165,7 @@ function SportsSelectionCard3(props) {
             </>
           )}
         </p>
-        {props.player.isInjured && (
+        {(isInjured || is_injured || injured) && (
           <div className={classes.injured}>
             <AidIcon />
             <span>Injured</span>
