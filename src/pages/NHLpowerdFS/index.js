@@ -700,12 +700,14 @@ function NHLPowerdFs(props) {
       return;
     }
 
+    const players1 = [];
     const players = [];
     for (let i = 0; i < sideBarList?.length - 1; i++) {
-      players.push({
+      players1.push({
         id: sideBarList[i]?.player?.id,
         matchId: sideBarList[i]?.player?.match_id,
       });
+      players.push(sideBarList[i]?.player);
     }
 
     const [teamD] = sideBarList?.filter((team) => team?.type === TD);
@@ -713,21 +715,31 @@ function NHLPowerdFs(props) {
 
     if (!isEmpty(team) && players?.length === 7) {
       // TODO: Fix user_id issue
-      const payload = {
+      const payload1 = {
         game_id: game_id,
         sport_id: sport_id,
         user_id: user_id,
-        players: [...players],
+        players: [...players1],
         team_d_id: team?.id,
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
       };
 
+      const payload = {
+        userID: user_id,
+        gameID: game_id,
+        players: [...players],
+        powers: "",
+        teamD: team,
+      };
+      console.log("payload: ", payload);
+
       if (isEdit) {
-        await dispatch(NHLActions.editDfsTeamPlayer(payload));
+        await dispatch(NHLActions.editDfsTeamPlayer(payload1));
         setIsLoading(false);
       } else {
-        await dispatch(NHLActions.saveAndGetSelectPlayers(payload));
+        await dispatch(NHLActions.saveAndGetSelectPlayers(payload1));
+        await dispatch(NHLActions.createFantasyTeam(payload));
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
             dispatch(NHLActions.calculateAdminFee(user_id, game_id));
