@@ -1,6 +1,6 @@
 import React from "react";
 import classes from "./pointSystem.module.scss";
-import _ from 'underscore';
+import _ from "underscore";
 
 const data = [
   {
@@ -89,62 +89,56 @@ const data = [
 ];
 
 const PointSystem = (props) => {
+  const { title = "", isMobile = false, PointsSystem = [] } = props || {};
 
-  const {
-    title = "",
-    isMobile = false,
-    PointsSystem = [],
-  } = props || {};
-
-  const groupedPoints = _.groupBy(PointsSystem, 'type');
-
+  const groupedPoints = _.groupBy(PointsSystem, "type");
   let pointTypes = [];
-  if (title === 'NHL') {
-    console.log('pointTypes', Object.keys(groupedPoints));
-    if (Object.keys(groupedPoints).includes('Skater')) {
-      pointTypes.push('Skater');
-      if (groupedPoints['Skater'].length > 0) {
-        groupedPoints['Skater'].map((item, index) => {
-          if (item.plays === 'Goal') {
-            groupedPoints['Skater'].push(item);
-            delete groupedPoints['Skater'][index];
+  if (title === "NHL") {
+    console.log("pointTypes", Object.keys(groupedPoints));
+    if (Object.keys(groupedPoints).includes("Skater")) {
+      pointTypes.push("Skater");
+      if (groupedPoints["Skater"].length > 0) {
+        groupedPoints["Skater"].map((item, index) => {
+          if (item.plays === "Goal") {
+            groupedPoints["Skater"].push(item);
+            delete groupedPoints["Skater"][index];
           }
-        })
+        });
 
-        groupedPoints['Skater'].map((item, index) => {
-          if (item.plays === 'Primary Asst') {
-            groupedPoints['Skater'].push(item);
-            delete groupedPoints['Skater'][index];
+        groupedPoints["Skater"].map((item, index) => {
+          if (item.plays === "Primary Asst") {
+            groupedPoints["Skater"].push(item);
+            delete groupedPoints["Skater"][index];
           }
-        })
+        });
 
-        groupedPoints['Skater'].map((item, index) => {
-          if (item.plays === 'Secondary Asst') {
-            groupedPoints['Skater'].push(item);
-            delete groupedPoints['Skater'][index];
+        groupedPoints["Skater"].map((item, index) => {
+          if (item.plays === "Secondary Asst") {
+            groupedPoints["Skater"].push(item);
+            delete groupedPoints["Skater"][index];
           }
-        })
+        });
 
-        groupedPoints['Skater'].map((item, index) => {
-          if (item.plays === 'Short-handed Goal') {
-            groupedPoints['Skater'].push(item);
-            delete groupedPoints['Skater'][index];
+        groupedPoints["Skater"].map((item, index) => {
+          if (item.plays === "Short-handed Goal") {
+            groupedPoints["Skater"].push(item);
+            delete groupedPoints["Skater"][index];
           }
-        })
+        });
 
-        groupedPoints['Skater'].map((item, index) => {
-          if (item.plays === 'OT Goal') {
-            groupedPoints['Skater'].push(item);
-            delete groupedPoints['Skater'][index];
+        groupedPoints["Skater"].map((item, index) => {
+          if (item.plays === "OT Goal") {
+            groupedPoints["Skater"].push(item);
+            delete groupedPoints["Skater"][index];
           }
-        })
+        });
       }
     }
-    if (Object.keys(groupedPoints).includes('Goalie')) {
-      pointTypes.push('Goalie');
+    if (Object.keys(groupedPoints).includes("Goalie")) {
+      pointTypes.push("Goalie");
     }
-    if (Object.keys(groupedPoints).includes('Team-D')) {
-      pointTypes.push('Team-D');
+    if (Object.keys(groupedPoints).includes("Team-D")) {
+      pointTypes.push("Team-D");
     }
   } else {
     pointTypes = Object.keys(groupedPoints);
@@ -156,11 +150,23 @@ const PointSystem = (props) => {
         <>
           <div className={classes.__my_game_center_card_powerdfs}>
             <p className={`text-left`}>
-              <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
+              <span
+                className={classes.__my_game_center_card_powerdfs_title_first}
+                style={{ fontSize: "18px", color: "white" }}
+              >
                 {title}
               </span>
-              <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
-              <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px' }}>
+              <span
+                className={classes.__my_game_center_card_powerdfs_title}
+                style={{ fontSize: "18px" }}
+              >
+                {" "}
+                PowerdFS{" "}
+              </span>
+              <span
+                className={`${classes.__my_game_center_card_powerdfs_subtitle}`}
+                style={{ fontSize: "14px" }}
+              >
                 Point System
               </span>
             </p>
@@ -181,27 +187,19 @@ const PointSystem = (props) => {
                             {index < d.points.length / 2 && (
                               <div className={classes.__point_system_data}>
                                 <div
-                                  className={
-                                    `${classes.__point_system_data_title_div}`
-                                  }
+                                  className={`${classes.__point_system_data_title_div}`}
                                 >
                                   <p
-                                    className={
-                                      `${classes.__point_system_data_title} mr-1`
-                                    }
+                                    className={`${classes.__point_system_data_title} mr-1`}
                                   >
                                     {item.title}
                                   </p>
                                 </div>
                                 <div
-                                  className={
-                                    `${classes.__point_system_data_value_div}`
-                                  }
+                                  className={`${classes.__point_system_data_value_div}`}
                                 >
                                   <p
-                                    className={
-                                      `${classes.__point_system_data_value} ml-1`
-                                    }
+                                    className={`${classes.__point_system_data_value} ml-1`}
                                   >
                                     {item.value}
                                   </p>
@@ -364,7 +362,8 @@ const PointSystem = (props) => {
                       </div>
                       <div className={classes.__point_system_data_value_div}>
                         <p className={classes.__point_system_data_value}>
-                          {item?.action}{item?.points} Pts
+                          {item?.action}
+                          {item?.points} Pts
                         </p>
                       </div>
                     </div>
