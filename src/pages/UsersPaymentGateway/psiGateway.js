@@ -56,7 +56,7 @@ const PSiGateway = (props) => {
     return (
         <>
             <form action='https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger' method="post" className="main-form">
-                <div className="form-input">
+                {/* <div className="form-input">
                     <p>MerchantID:</p><input type="text" name="MerchantID" value="merchantcardcapture200024" />
                 </div>
                 <div className="form-input">
@@ -76,7 +76,7 @@ const PSiGateway = (props) => {
                 </div>
                 <div className="form-input">
                     <p>CardAction:</p> <input type="text" name="CardAction" value="0" /><br />
-                </div>
+                </div> */}
                 <div className="form-input">
                     <p>CardNumber:</p> <input type="text" name="CardNumber" value="2624970525726523" /><br />
                 </div>
