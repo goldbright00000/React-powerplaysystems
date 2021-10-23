@@ -22,7 +22,7 @@ function SportsTeamSelectionCard(props) {
   const {
     item = {},
     loading = false,
-    onSelectDeselect = (team_id, matchId) => {},
+    onSelectDeselect = (id, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -31,7 +31,7 @@ function SportsTeamSelectionCard(props) {
   } = props || {};
 
   const {
-    team_id = "",
+    id = "",
     name = "",
     teamBName = "",
     teamBCity = "",
@@ -85,7 +85,7 @@ function SportsTeamSelectionCard(props) {
             </p>
             {!isSelected ? (
               <button
-                onClick={() => onSelectDeselect(team_id, match_id)}
+                onClick={() => onSelectDeselect(id, match_id)}
                 className={disabled && classes.disabled}
                 disabled={disabled}
               >
@@ -99,7 +99,7 @@ function SportsTeamSelectionCard(props) {
                 </p>
                 <img
                   src={DeleteIcon}
-                  onClick={() => onSelectDeselect(team_id, match_id)}
+                  onClick={() => onSelectDeselect(id, match_id)}
                 />
               </div>
             )}

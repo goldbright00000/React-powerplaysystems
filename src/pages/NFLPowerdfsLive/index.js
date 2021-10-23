@@ -105,6 +105,8 @@ function NFLPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
+  console.log("selectedTeam1", selectedTeam);
+
   const {
     live_data = [],
     starPlayerCount = 0,

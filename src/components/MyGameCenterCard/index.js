@@ -2,16 +2,16 @@ import React, { useState } from "react";
 import CurrencyFormat from "react-currency-format";
 import { useHistory } from "react-router-dom";
 import classes from "./myGameCenterCard.module.scss";
-import MLBPlayer from "../../assets/mlb-player.png";
+import MLBPlayer from "../../assets/baseball-player-copy-new.png";
 import NFLPlayer from "../../assets/nfl-player.png";
 import NBAPlayer from "../../assets/nba-player.png";
-import NHLPlayer from "../../assets/nhl-player.png";
-import MLBPlayerMobile from "../../assets/mlb-player-mobile.png";
-import NFLPlayerMobile from "../../assets/nfl-player-mobile.png";
-import NBAPlayerMobile from "../../assets/nba-player-mobile.png";
-import NHLPlayerMobile from "../../assets/nhl-player-mobile-left.png";
+import NHLPlayer from "../../assets/new-hockey-playerlogo.png";
+import MLBPlayerMobile from "../../assets/mobMLBCardBg.png";
+import NFLPlayerMobile from "../../assets/mobNFLCardBg.png";
+import NBAPlayerMobile from "../../assets/mobNBACardBg.png";
+import NHLPlayerMobile from "../../assets/mobNHLCardBg.png";
 import BlueTick from "../../assets/blue_tick.png";
-import EditPencilIcon from "../../assets/icons/edit-pencil.svg";
+import EditPencilIcon from "../../assets/icons/edit-pencil-primary.svg";
 import PowerCenterCardDetails from "../PowerCenterCardDetails";
 import OutlineButton from "../OutlineButton";
 import ViewResults from "../../pages/MyGameCenter/ViewResults";
@@ -161,20 +161,22 @@ const MyGameCenterCard = (props) => {
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
-      border: inProgress && "1px solid #214f24",
+      border:
+        (inProgress && "1px solid #214f24") ||
+        (completed && "1px solid #8cc2ff"),
     };
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
-      backgroundImageStyle.backgroundPosition = "-46px 18px";
+      //backgroundImageStyle.backgroundPosition = "-46px 18px";
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "65px 60px";
+      backgroundImageStyle.backgroundPosition = "100px 60px";
     } else if (title === "NBA") {
       backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
       backgroundImageStyle.backgroundPosition = "-75px 68px";
     } else {
       backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "36px 106px";
+      //backgroundImageStyle.backgroundPosition = "36px 106px";
     }
     return backgroundImageStyle;
   };
@@ -183,13 +185,17 @@ const MyGameCenterCard = (props) => {
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
-      border: inProgress ? "1px solid #214f24" : "1px solid #17181a",
+      border: inProgress
+        ? "1px solid #214f24"
+        : completed
+        ? "1px solid #688fbd"
+        : "1px solid #17181a",
       backgroundColor: "#17181a",
       // backgroundSize: "auto"
     };
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayerMobile})`;
-      backgroundImageStyle.backgroundPosition = "180px -10px";
+      //backgroundImageStyle.backgroundPosition = "180px -10px";
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayerMobile})`;
       backgroundImageStyle.backgroundPosition = "175px 0px";
@@ -249,7 +255,8 @@ const MyGameCenterCard = (props) => {
 
                   <div
                     style={{
-                      padding: !inProgress && !completed && "10px 20px",
+                      padding:
+                        !inProgress && !completed && "31px 16px 0px 16px",
                     }}
                   >
                     <div className={classes.__my_game_center_card_date_time}>
@@ -279,7 +286,7 @@ const MyGameCenterCard = (props) => {
                   </div>
                 </div>
 
-                <div
+                {/* <div
                   style={{
                     marginLeft: 20,
                     color: "#f2f2f2",
@@ -288,7 +295,7 @@ const MyGameCenterCard = (props) => {
                   }}
                 >
                   ID {game_id}
-                </div>
+                </div> */}
 
                 <div
                   className={classes.__my_game_center_card_powerdfs}
@@ -361,21 +368,24 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_buttons_your_current_rank
                     }
                   >
-                    {ranks.ranking} <span>Your Current Rank</span>
+                    {ranks.ranking}
+                    <br /> <span>Your Current Rank</span>
                   </div>
                 )}
+
                 <div
                   className={`${classes.__my_game_center_card_buttons} d-flex align-items-center justify-content-between`}
                 >
                   {!completed && (
                     <OutlineButton
-                      title="Manage My Team"
+                      title="Team Manager"
                       onClick={onEnter}
                       styles={{
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
-                        height: 33
+                        height: 33,
+                        flex: 1,
                       }}
                     />
                   )}
@@ -388,7 +398,8 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
-                        height: 33
+                        height: 33,
+                        flex: 1,
                       }}
                       icon={
                         <img
@@ -409,23 +420,31 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
-                        height: 33
+                        height: 33,
+                        flex: 1,
                       }}
                     />
                   )}
 
                   {completed && (
                     <OutlineButton
-                      title="Final Standings"
+                      title="View Results"
                       onClick={() => onFinalStandings(id)}
                       styles={{
                         marginTop: 14,
                         margin: ".25rem",
                         fontSize: "12px",
-                        height: 33
+                        height: 33,
+                        flex: 1,
+                        marginTop: 45,
+                        color: "#688fbd",
+                        border: "1px solid #688fbd",
                       }}
                     />
                   )}
+                </div>
+                <div style={{ textAlign: "left", paddingLeft: 20 }}>
+                  <span style={{ fontSize: 10 }}>ID {game_id}</span>
                 </div>
               </>
 
@@ -692,7 +711,16 @@ const MyGameCenterCard = (props) => {
             {inProgress && (
               <div className={classes.__my_game_center_card_in_progress}>
                 <div className={classes.__in_progress}>
-                  <span></span>In Progress
+                  <span></span>
+                  {game_id} In Progress
+                </div>
+              </div>
+            )}
+            {completed && (
+              <div className={classes.__my_game_center_card_in_completed}>
+                <div className={classes.__completed}>
+                  <span></span>
+                  {game_id} Completed
                 </div>
               </div>
             )}
@@ -704,16 +732,21 @@ const MyGameCenterCard = (props) => {
                 x
               </div>
             )}
-            <span
-              style={{
-                marginLeft: 20,
-                color: "#f2f2f2",
-                opacity: 0.6,
-                marginTop: 10,
-              }}
-            >
-              ID {game_id}
-            </span>
+            {!completed && !inProgress && (
+              <span
+                style={{
+                  marginLeft: 24,
+                  color: "#f2f2f2",
+                  opacity: 0.6,
+                  marginTop: 0,
+                  fontSize: 10,
+                  position: "absolute",
+                  top: 5,
+                }}
+              >
+                ID {game_id}
+              </span>
+            )}
             <div
               className={classes.__my_game_center_card_powerdfs}
               style={{ marginTop: inProgress || !completed ? 5 : 10 }}
@@ -808,7 +841,7 @@ const MyGameCenterCard = (props) => {
                 <OutlineButton
                   title="Edit Picks"
                   onClick={onEdit}
-                  styles={{ color: "#f2f2f2", marginTop: 14 }}
+                  styles={{ marginTop: 14 }}
                   icon={
                     <img
                       alt="Edit Icon"
@@ -821,26 +854,19 @@ const MyGameCenterCard = (props) => {
               )}
 
               {makePicks && (
-                <OutlineButton
-                  title="Make Picks"
-                  onClick={onEnter}
-                  styles={{ color: "#f2f2f2" }}
-                />
-              )}
-
-              {completed && (
-                <div
-                  className={classes.__my_game_center_card_buttons_completed}
-                >
-                  COMPLETED
-                </div>
+                <OutlineButton title="Make Picks" onClick={onEnter} />
               )}
 
               {completed && (
                 <OutlineButton
-                  title="Final Standings"
+                  title="View Results"
                   onClick={() => onFinalStandings(id)}
-                  styles={{ marginTop: 14 }}
+                  styles={{
+                    marginTop: 14,
+                    backgroundColor: "rgba(104, 143, 189, 0.06)",
+                    color: "#688fbd",
+                    border: "solid 1px #688fbd",
+                  }}
                 />
               )}
             </div>

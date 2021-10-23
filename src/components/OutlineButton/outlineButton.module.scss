@@ -1,13 +1,14 @@
 @import "../../scss/colors.scss";
 
 .__outline_button {
-  width: 170px;
+  width: 232px;
   height: 38px;
+  background: #000;
   border-radius: 6px;
   border: solid 1px $primary;
-  background-color: $black3;
+  background-color: rgba(17, 17, 17, 0.6);
   font-family: Poppins;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;

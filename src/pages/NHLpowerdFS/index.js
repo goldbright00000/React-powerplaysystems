@@ -80,50 +80,50 @@ const SIDEBAR_INITIAL_LIST = [
     title: CENTER,
     filter: CENTER,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: `${XW}1`,
     filter: XW,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: `${XW}2`,
     filter: XW,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: `${XW}3`,
     filter: XW,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: `${D}1`,
     filter: D,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: `${D}2`,
     filter: D,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: G,
     filter: G,
     name: "",
-    playerId: "",
+    id: "",
   },
   {
     title: TD,
     icon: EmployeeIcon,
     filter: TD,
     name: "",
-    playerId: "",
+    id: "",
   },
 ];
 
@@ -278,7 +278,7 @@ function NHLPowerdFs(props) {
     paid_game = true,
     entry_fee = "",
     currency = "",
-    game_type = ""
+    game_type = "",
   } = history?.location?.state || {};
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -312,16 +312,18 @@ function NHLPowerdFs(props) {
   }, []);
 
   useEffect(() => {
-    getData();
+    if (user) {
+      getData();
+    }
   }, [user]);
 
   const getData = async () => {
     setLoading(true);
     const response = await dispatch(
-      NHLActions.nhlData(history.location?.state?.game_id)
+      NHLActions.getFantasyPlayers(history.location?.state?.game_id)
     );
 
-
+    console.log("response: ", response);
     if (response) {
       setData(response?.filterdList);
 
@@ -341,8 +343,10 @@ function NHLPowerdFs(props) {
         },
         ..._dropDownlist?.[0]?.listData,
       ];
-      const noDuplicatedTeam = uniqBy(dropDownTeams, (team) => team.team_id);
+      const noDuplicatedTeam = uniqBy(dropDownTeams, (team) => team.id);
       setDropDownTeam(noDuplicatedTeam);
+
+      console.log("filterd Data: ", filterdData);
     }
 
     setLoading(false);
@@ -356,14 +360,14 @@ function NHLPowerdFs(props) {
     if (isEdit === true && !loading && selected.entries().next().done) {
       const pls = [];
       savedPlayers.forEach((element) => {
-        if (element.team_id) {
+        if (element.id) {
           pls.push({
-            team_id: element?.team_id,
+            team_id: element?.id,
             matchId: element?.match_id,
           });
         } else {
           pls.push({
-            playerId: element?.playerId,
+            id: element?.id,
             matchId: element?.matchId,
           });
         }
@@ -374,7 +378,7 @@ function NHLPowerdFs(props) {
 
       for (let i = 0; i < pls.length; i++) {
         const res = setPlayerSelection(
-          pls[i].playerId || pls[i].team_id,
+          pls[i].id || pls[i].id,
           pls[i].matchId || pls[i].match_id,
           _selected,
           _playerList
@@ -400,6 +404,7 @@ function NHLPowerdFs(props) {
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
+      console.log("RES: ", res);
 
       dispatch(NHLActions.setStarPlayerCount(res._starPlayerCount));
       setSelected(res.selected);
@@ -421,11 +426,12 @@ function NHLPowerdFs(props) {
   ) => {
     const [currentPlayer] = allData?.filter((player) => {
       if (player?.type?.toLocaleLowerCase() === TD) {
-        return player?.team_id === id && player?.match_id === matchId;
+        return player?.id === id && player?.match_id === matchId;
       } else {
-        return player?.playerId === id && player?.match_id === matchId;
+        return player?.id === id && player?.match_id === matchId;
       }
     });
+    console.log("Current Player: ", currentPlayer);
 
     let _starPlayerCount = starPlayerCount;
     const selectionId = `${id} - ${matchId}`;
@@ -480,13 +486,10 @@ function NHLPowerdFs(props) {
     } else {
       let existingPlayerIndex = _playersList?.findIndex((player) => {
         if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
-          return (
-            player?.team?.team_id === id && player?.team?.match_id === matchId
-          );
+          return player?.team?.id === id && player?.team?.match_id === matchId;
         } else {
           return (
-            player?.player?.playerId === id &&
-            player?.player?.match_id === matchId
+            player?.player?.id === id && player?.player?.match_id === matchId
           );
         }
       });
@@ -561,7 +564,7 @@ function NHLPowerdFs(props) {
     );
     const filter = _selectedFilter;
     let _remaining = filter?.remaining;
-    let id = type === TD ? player?.team_id : player?.playerId;
+    let id = type === TD ? player?.id : player?.id;
     const selectionId = `${id} - ${player?.match_id}`;
 
     if (_remaining > 0) {
@@ -639,14 +642,14 @@ function NHLPowerdFs(props) {
             ?.includes(value?.toLocaleLowerCase())
         );
         for (var i = 0; i < _filterdData.length; i++) {
-          var id = _filterdData[i].playerId;
+          var id = _filterdData[i].id;
           if (tempIds.indexOf(id) == -1) {
             tempIds.push(id);
             tempObj.push(_filterdData[i]);
           }
         }
         for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
-          var id = _filterdDataHomeTeam[i].playerId;
+          var id = _filterdDataHomeTeam[i].id;
           if (tempIds.indexOf(id) == -1) {
             tempIds.push(id);
             tempObj.push(_filterdDataHomeTeam[i]);
@@ -667,12 +670,9 @@ function NHLPowerdFs(props) {
     if (team === selectedDropDown) return setSelectedDropDown(null);
 
     if (team) {
-      if (team?.team_id !== "all") {
+      if (team?.id !== "all") {
         const _filterdData = selectedData?.listData?.filter((player) => {
-          return (
-            player?.team_id === team?.team_id ||
-            player?.awayTeam_id === team?.team_id
-          );
+          return player?.id === team?.id || player?.awayTeam_id === team?.id;
         });
 
         const _filterdDataObj = {
@@ -700,12 +700,14 @@ function NHLPowerdFs(props) {
       return;
     }
 
+    const players1 = [];
     const players = [];
     for (let i = 0; i < sideBarList?.length - 1; i++) {
-      players.push({
-        playerId: sideBarList[i]?.player?.playerId,
+      players1.push({
+        id: sideBarList[i]?.player?.id,
         matchId: sideBarList[i]?.player?.match_id,
       });
+      players.push(sideBarList[i]?.player);
     }
 
     const [teamD] = sideBarList?.filter((team) => team?.type === TD);
@@ -713,21 +715,31 @@ function NHLPowerdFs(props) {
 
     if (!isEmpty(team) && players?.length === 7) {
       // TODO: Fix user_id issue
-      const payload = {
+      const payload1 = {
         game_id: game_id,
         sport_id: sport_id,
         user_id: user_id,
-        players: [...players],
-        team_d_id: team?.team_id,
+        players: [...players1],
+        team_d_id: team?.id,
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
       };
 
+      const payload = {
+        userID: user_id,
+        gameID: game_id,
+        players: [...players],
+        powers: "",
+        teamD: team,
+      };
+      console.log("payload: ", payload);
+
       if (isEdit) {
-        await dispatch(NHLActions.editDfsTeamPlayer(payload));
+        await dispatch(NHLActions.editDfsTeamPlayer(payload1));
         setIsLoading(false);
       } else {
-        await dispatch(NHLActions.saveAndGetSelectPlayers(payload));
+        await dispatch(NHLActions.saveAndGetSelectPlayers(payload1));
+        await dispatch(NHLActions.createFantasyTeam(payload));
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
             dispatch(NHLActions.calculateAdminFee(user_id, game_id));
@@ -1028,50 +1040,46 @@ function NHLPowerdFs(props) {
                           <>
                             {selectedFilter?.title === TD ? (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
-                              (item?.date, item?.time) && (
-                                <SportsTeamSelectionCard
-                                  item={item}
-                                  isSelected={
-                                    !!selected.get(
-                                      `${item.team_id} - ${item.match_id}`
-                                    )
-                                  }
-                                  key={item?.team_id + " - " + item?.match_id}
-                                  onSelectDeselect={onPlayerSelectDeselect}
-                                  disabled={
-                                    item.isStarPlayer &&
-                                    item.isStarPlayer &&
-                                    starPowerIndex >= 3
-                                  }
-                                />
-                              )
+                              // (item?.date, item?.time) &&
+                              <SportsTeamSelectionCard
+                                item={item}
+                                isSelected={
+                                  !!selected.get(
+                                    `${item.id} - ${item.match_id}`
+                                  )
+                                }
+                                key={item?.id + " - " + item?.match_id}
+                                onSelectDeselect={onPlayerSelectDeselect}
+                                disabled={
+                                  item.isStarPlayer &&
+                                  item.isStarPlayer &&
+                                  starPowerIndex >= 3
+                                }
+                              />
                             ) : (
                               /*Remove isAfterTime function from here because edit picks was not working due to this function*/
                               <>
-                                {(item?.date, item?.time) && (
-                                  <>
-                                    <SelectionCard3
-                                      player={item}
-                                      isSelected={
-                                        !!selected.get(
-                                          `${item.playerId} - ${item?.match_id}`
-                                        )
-                                      }
-                                      key={
-                                        item.playerId + " - " + item?.match_id
-                                      }
-                                      loading={loading}
-                                      onSelectDeselect={onPlayerSelectDeselect}
-                                      pageType={PAGE_TYPES.NHL}
-                                      type={selectedData?.type}
-                                      // disabled={
-                                      //   item.isStarPlayer &&
-                                      //   item.isStarPlayer &&
-                                      //   starPlayerCount >= 3
-                                      // }
-                                    />
-                                  </>
-                                )}
+                                {/* {(item?.date, item?.time) &&  */}
+                                <>
+                                  <SelectionCard3
+                                    player={item}
+                                    isSelected={
+                                      !!selected.get(
+                                        `${item.id} - ${item?.match_id}`
+                                      )
+                                    }
+                                    key={item.id + " - " + item?.match_id}
+                                    loading={loading}
+                                    onSelectDeselect={onPlayerSelectDeselect}
+                                    pageType={PAGE_TYPES.NHL}
+                                    type={selectedData?.type}
+                                    // disabled={
+                                    //   item.isStarPlayer &&
+                                    //   item.isStarPlayer &&
+                                    //   starPlayerCount >= 3
+                                    // }
+                                  />
+                                </>
                               </>
                             )}
                           </>
@@ -1357,7 +1365,7 @@ function NHLPowerdFs(props) {
                 centered
               />
 
-              <PowerCollapesible powers={powers} game_type={game_type}/>
+              <PowerCollapesible powers={powers} game_type={game_type} />
 
               <div className={classes.sidebar_header}>
                 <h2>My Selections</h2>

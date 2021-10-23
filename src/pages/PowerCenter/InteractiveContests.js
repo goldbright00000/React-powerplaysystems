@@ -25,7 +25,7 @@ import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
 import { socket } from "../../config/server_connection";
-import OffSeasonComponent from '../../components/OffSeasonComponent';
+import OffSeasonComponent from "../../components/OffSeasonComponent";
 
 import PromoModal from "../../components/PromoModal";
 import ComingSoonComponent from "../../components/ComingSoonComponent";
@@ -105,6 +105,8 @@ const InteractiveContests = (props) => {
   const [showCardDetails, setShowCardDetails] = useState(-1);
   const [selectedFilter, setSelectedFilter] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
+  const [tempFilteredData, setTempFilteredData] = useState([]);
+  const [socketCalled, setSocketCalled] = useState(false);
   const [currencyMenu, setCurrencyMenu] = useState(false);
   const [selectedCurrencies, setSelectedCurrencies] = useState([
     "usd",
@@ -146,13 +148,12 @@ const InteractiveContests = (props) => {
   };
 
   useEffect(() => {
-    if (powerCenterCardData === 'Age Restriction') {
+    if (powerCenterCardData === "Age Restriction") {
       setIsAgeRestricted(true);
     }
-  }, [powerCenterCardData])
+  }, [powerCenterCardData]);
 
   const onOpenPromoModal = (items, propss) => {
-    console.log("propss", propss);
     setShowPromoModal(true);
     if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
@@ -170,20 +171,29 @@ const InteractiveContests = (props) => {
   useEffect(() => {
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.NEWLY_ADDED, (response) => {
       setNewGame(response);
+      setSocketCalled(true);
     });
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.IN_PROGRESS, (response) => {
       setInProgressGame(response);
+      setSocketCalled(true);
+
     });
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.CANCELLED, (response) => {
       setCancelledGame(response);
+      setSocketCalled(true);
     });
   }, [_socket]);
 
   useEffect(() => {
-    const obj = [...filteredData];
-    obj.push(newGame);
-    setFilteredData(obj);
-  }, [newGame]);
+    async function setGame() {
+      setTempFilteredData([...filteredData, newGame]);
+      await setFilteredData(tempFilteredData);
+      setSocketCalled(false);
+    }
+    if (socketCalled) {
+      setGame();
+    }
+  }, [filteredData, newGame, socketCalled, tempFilteredData]);
 
   useEffect(() => {
     const obj = [...filteredData];
@@ -193,11 +203,12 @@ const InteractiveContests = (props) => {
           if (o.game_id === item) {
             obj.splice(i, 1);
           }
-        })
-      })
+        });
+      });
       setFilteredData(obj);
+      setSocketCalled(false);
     }
-  }, [inProgressGame]);
+  }, [inProgressGame, socketCalled]);
 
   useEffect(() => {
     const obj = [...filteredData];
@@ -207,18 +218,21 @@ const InteractiveContests = (props) => {
           if (o.game_id === item) {
             obj.splice(i, 1);
           }
-        })
-      })
+        });
+      });
       setFilteredData(obj);
+      setSocketCalled(false);
     }
-  }, [cancelledsGame]);
+  }, [cancelledsGame, socketCalled]);
 
-  useEffect(() => {
-    const maxWidth = window.matchMedia("(max-width: 1200px)");
-    responsiveHandler(maxWidth);
-    maxWidth.addEventListener("change", responsiveHandler);
-    return () => maxWidth.removeEventListener("change", responsiveHandler);
-  }, []);
+  // useEffect(() => {
+  //   const maxWidth = window.matchMedia("(max-width: 1200px)");
+  //   if(maxWidth) {
+  //     responsiveHandler(maxWidth);
+  //     maxWidth.addEventListener("change", responsiveHandler);
+  //     return () => maxWidth.removeEventListener("change", responsiveHandler);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // get user balance
@@ -277,10 +291,8 @@ const InteractiveContests = (props) => {
   }, []);
 
   useEffect(() => {
-
     async function getFilteredData() {
       setFilteredData(powerCenterCardData);
-
     }
     getFilteredData();
   }, [powerCenterCardData]);
@@ -324,6 +336,17 @@ const InteractiveContests = (props) => {
           },
         });
 
+      case "NFL":
+        return redirectTo(props, {
+          path: `/nfl-powerdfs`,
+          state: {
+            game_id: item?.game_id,
+            sport_id: item?.sports_id,
+            start_date: item?.start_date,
+            end_date: item?.end_date,
+          },
+        });
+
       default:
         return redirectTo(props, { path: "/" });
     }
@@ -333,7 +356,7 @@ const InteractiveContests = (props) => {
     if (!isAuthenticated) {
       history.push("/login");
       return;
-    };
+    }
 
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
@@ -347,16 +370,28 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -374,7 +409,7 @@ const InteractiveContests = (props) => {
                   isPromoPage: false,
                   game_type: item?.game_type,
                   league: item?.league,
-                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
             } else {
@@ -389,16 +424,28 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -416,7 +463,7 @@ const InteractiveContests = (props) => {
                   isPromoPage: true,
                   game_type: item?.game_type,
                   league: item?.league,
-                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
             } else {
@@ -429,9 +476,16 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
               end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
@@ -454,7 +508,7 @@ const InteractiveContests = (props) => {
               entry_fee: item?.entry_fee,
               currency: item?.currency,
               game_type: item?.game_type,
-              league: item?.league
+              league: item?.league,
             },
           });
 
@@ -466,16 +520,28 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -493,7 +559,7 @@ const InteractiveContests = (props) => {
                   game_type: item?.game_type,
                   isPromoPage: false,
                   league: item?.league,
-                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
             } else {
@@ -508,16 +574,28 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -535,7 +613,7 @@ const InteractiveContests = (props) => {
                   game_type: item?.game_type,
                   isPromoPage: true,
                   league: item?.league,
-                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
             } else {
@@ -591,16 +669,28 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -618,7 +708,7 @@ const InteractiveContests = (props) => {
                   game_type: item?.game_type,
                   isPromoPage: false,
                   league: item?.league,
-                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
             } else {
@@ -633,16 +723,28 @@ const InteractiveContests = (props) => {
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseFloat(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -660,7 +762,7 @@ const InteractiveContests = (props) => {
                   game_type: item?.game_type,
                   isPromoPage: true,
                   league: item?.league,
-                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
             } else {
@@ -794,22 +896,26 @@ const InteractiveContests = (props) => {
     }
 
     if (type === "Min Entry") {
+      var isFreeGames = arr.filter((x) => x.is_game_free);
+      var isPaidGames = arr.filter((x) => !x.is_game_free);
       if (sortedByMEAction === "des") {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? -1
-            : parseFloat(b.target) > parseFloat(a.target)
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
               ? 1
               : 0
         );
+        return isPaidGames.concat(isFreeGames);
       } else {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? 1
-            : parseFloat(b.target) > parseFloat(a.target)
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
               ? -1
               : 0
         );
+        return isFreeGames.concat(isPaidGames);
       }
     }
 
@@ -882,18 +988,21 @@ const InteractiveContests = (props) => {
         isBetween1 = 1;
       }
       if (
-        selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1 &&
+        selectedCurrencies.indexOf(arr[i]?.currency?.toLowerCase()) > -1 &&
         isBetween1
       ) {
         newArr.push(arr[i]);
       }
     }
     if (!showEntered) {
-      newArr = newArr.filter(x => {
-        if (typeof x.userHasEntered == "undefined" || x?.userHasEntered == false) {
+      newArr = newArr.filter((x) => {
+        if (
+          typeof x.userHasEntered == "undefined" ||
+          x?.userHasEntered == false
+        ) {
           return x;
         }
-      })
+      });
     }
     return newArr;
   }
@@ -922,7 +1031,11 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseFloat(num.amount) * parseInt(num.prize);
+              return (
+                memo +
+                parseFloat(num.amount == "" ? 0 : num.amount) *
+                parseInt(num.prize == "" ? 0 : num.prize)
+              );
             },
             0
           )}
@@ -1020,7 +1133,6 @@ const InteractiveContests = (props) => {
       setFilteredData(data);
     } else {
       powerCenterCardData.map((item) => {
-        //console.log(item?.start_date, "==", day, item);
         if (item?.start_date == day) {
           data.push(item);
         }
@@ -1033,9 +1145,11 @@ const InteractiveContests = (props) => {
     <>
       <div className="__table-wrapper __mb-6">
         <div className={isMobile || isTablet ? "" : ""}>
-          <div style={{ flex: 1, display: "flex" }} >
-
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{ display: "flex", flex: 1 }}>
+          <div style={{ flex: 1, display: "flex" }}>
+            <div
+              className="__badges-wrapper __text-in-one-line __mediam filtersTab"
+              style={{ display: "flex", flex: 1 }}
+            >
               {filters.map((item, index) => {
                 return (
                   <div
@@ -1061,12 +1175,11 @@ const InteractiveContests = (props) => {
                 );
               })}
             </div>
-            {(!isMobile || !isTablet) &&
+            {(!isMobile || !isTablet) && (
               <div style={{ display: "flex", width: 330 }}>
                 <div
-                  className={
-                    `__outline-badge __f1 ${showEntered ? "__active" : ""}`
-                  }
+                  className={`__outline-badge __f1 ${showEntered ? "__active" : ""
+                    }`}
                   style={{ marginRight: 10, cursor: "pointer" }}
                   onClick={() => {
                     setShowEntered(true);
@@ -1075,9 +1188,8 @@ const InteractiveContests = (props) => {
                   Show Entered
                 </div>
                 <div
-                  className={
-                    `__outline-badge __f1 ${!showEntered ? "__active" : ""}`
-                  }
+                  className={`__outline-badge __f1 ${!showEntered ? "__active" : ""
+                    }`}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     setShowEntered(false);
@@ -1086,8 +1198,7 @@ const InteractiveContests = (props) => {
                   Hide Entered
                 </div>
               </div>
-            }
-
+            )}
           </div>
           <div
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}
@@ -1268,45 +1379,77 @@ const InteractiveContests = (props) => {
         {!isAgeRestricted ? (
           isLoading ? (
             <h2>Loading ....</h2>
-          ) : (
-            isLoading == false && filteredData && filterCurrency(filteredData)?.length > 0 ? (
-              isMobile ? (
-                (() => {
-                  if (selectedFilter == 4) {
-                    return <OffSeasonComponent />;
-                  }
-                  const itemsInaRow = 1;
-                  const numberOfRows = Math.ceil(
-                    powerCenterCardData.length / itemsInaRow
-                  );
-                  var filterByCurrency = filterCurrency(filteredData);
-                  var a1 = sortArray(filterByCurrency);
-                  const powerCenterMobileCardView = Array(numberOfRows)
-                    .fill(undefined)
-                    .map((item, i) => {
-                      const start = (i + 1) * itemsInaRow - 1;
-                      const end = (i + 1) * itemsInaRow;
-                      const items = a1.slice(start, end);
-                      return (
-                        <div
-                          className={
-                            classes.__interactive_contests_power_center_card_row
-                          }
-                        >
-                          {items.map((power) => {
-                            return powerCenterMobileCard(power, power.url);
-                          })}
-                        </div>
-                      );
-                    });
-                  return powerCenterMobileCardView;
-                })()
-              ) : isTablet || isBigScreenTablet ? (
-                (() => {
-                  if (selectedFilter == 4) {
-                    return <OffSeasonComponent />;
-                  }
-                  const itemsInaRow = 2;
+          ) : isLoading == false &&
+            filteredData &&
+            filterCurrency(filteredData)?.length > 0 ? (
+            isMobile ? (
+              (() => {
+                if (selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                }
+                const itemsInaRow = 1;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterMobileCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 1;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterMobileCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterMobileCardView;
+              })()
+            ) : isTablet || isBigScreenTablet ? (
+              (() => {
+                if (selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                }
+                const itemsInaRow = 2;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 2;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterCardView;
+              })()
+            ) : (
+              (() => {
+                if (selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                } else {
+                  const itemsInaRow = 4;
                   const numberOfRows = Math.ceil(
                     powerCenterCardData.length / itemsInaRow
                   );
@@ -1315,7 +1458,7 @@ const InteractiveContests = (props) => {
                   const powerCenterCardView = Array(numberOfRows)
                     .fill(undefined)
                     .map((item, i) => {
-                      const start = (i + 1) * itemsInaRow - 2;
+                      const start = (i + 1) * itemsInaRow - 4;
                       const end = (i + 1) * itemsInaRow;
                       const items = a1.slice(start, end);
                       return (
@@ -1327,90 +1470,64 @@ const InteractiveContests = (props) => {
                           {items.map((power) => {
                             return powerCenterCard(power, power.url);
                           })}
-                        </div >
+
+                          {4 - items.length > 0 &&
+                            _.times(4 - items.length, (i) => (
+                              <div
+                                className={
+                                  classes.__interactive_contests_power_center_card
+                                }
+                                style={{ width: 280 }}
+                              />
+                            ))}
+                        </div>
                       );
                     });
                   return powerCenterCardView;
-                })()
-              ) : (
-                (() => {
-                  if (selectedFilter == 4) {
-                    return <OffSeasonComponent />;
-                  }
-                  else {
-                    const itemsInaRow = 4;
-                    const numberOfRows = Math.ceil(
-                      powerCenterCardData.length / itemsInaRow
-                    );
-                    var filterByCurrency = filterCurrency(filteredData);
-                    var a1 = sortArray(filterByCurrency);
-                    const powerCenterCardView = Array(numberOfRows)
-                      .fill(undefined)
-                      .map((item, i) => {
-                        const start = (i + 1) * itemsInaRow - 4;
-                        const end = (i + 1) * itemsInaRow;
-                        const items = a1.slice(start, end);
-                        console.log(start, end, items);
-                        return (
-                          <div
-                            className={
-                              classes.__interactive_contests_power_center_card_row
-                            }
-                          >
-                            {items.map((power) => {
-                              return powerCenterCard(power, power.url);
-                            })}
-
-
-                            {(4 - items.length) > 0 &&
-                              _.times((4 - items.length), (i) => (
-                                <div className={classes.__interactive_contests_power_center_card} style={{ width: 280 }} />
-                              ))
-                            }
-                          </div>
-                        );
-                      });
-                    return powerCenterCardView;
-                  }
-                })()
-              )
-            ) : (
-              <>
-                <ComingSoonComponent />
-              </>
+                }
+              })()
             )
+          ) : (
+            <>
+              <ComingSoonComponent />
+            </>
           )
         ) : (
           <div className={classes.__age_restirction}>
             Age Limit Restriction
             <p className={classes.__age_restirction_desctiprion}>
-              Based on the Date of Birth you entered, you have not
-              reached the age of majority in your State or Province.
-              <p className={classes.__age_restirction_contact_us}>If this is an error please contact us at</p>
-              <a className={classes.__age_restirction_link} href="mailto:support@powerplaygames.com" >support@powerplaygames.com</a>
+              Based on the Date of Birth you entered, you have not reached the
+              age of majority in your State or Province.
+              <p className={classes.__age_restirction_contact_us}>
+                If this is an error please contact us at
+              </p>
+              <a
+                className={classes.__age_restirction_link}
+                href="mailto:support@powerplaygames.com"
+              >
+                support@powerplaygames.com
+              </a>
             </p>
           </div>
         )}
-        {
-          isMobile && (
-            <>
-              <div className={`${classes.__power_up_text} w-100 mx-0`}>
-                Power-Up to experience our ground-breaking live-play games where
-                you have the Power to control your team’s destiny. *
-              </div>
-              <button className={`${classes.__power_up_btn} w-100 mx-0`}>
-                Power Up!
-              </button>
-            </>
-          )
-        }
+        {isMobile && (
+          <>
+            <div className={`${classes.__power_up_text} w-100 mx-0`}>
+              Power-Up to experience our ground-breaking live-play games where
+              you have the Power to control your team’s destiny. *
+            </div>
+            <button className={`${classes.__power_up_btn} w-100 mx-0`}>
+              Power Up!
+            </button>
+          </>
+        )}
         <PromoModal
           visible={showPromoModal}
           onClose={onClosePromoModal}
           item={challengeGame}
           propss={propsGame}
         />
-      </div >
+      </div>
     </>
   );
 };

@@ -8,7 +8,8 @@ const Footer = (props) => {
         onNext = () => { },
         onEnter = () => { },
         myGameCenter = false,
-        userHasEntered = false
+        userHasEntered = false,
+        game_type = ""
     } = props || {};
     return (
         <div className={classes.__power_center_card_details_footer}>
@@ -27,7 +28,8 @@ const Footer = (props) => {
                     {userHasEntered == true ? (
                         <button>{`Entered`}</button>
                     ) : (
-                        <button onClick={onEnter}>{`Enter  •  $${entry_fee}`}</button>
+                        game_type == "PowerdFs_challenge" || game_type == "PowerdFs_promo" ? 
+                        <button onClick={onEnter}>{`Enter`}</button> : <button onClick={onEnter}>{`Enter  •  $${entry_fee}`}</button>
                     )}
                 </div>
             }

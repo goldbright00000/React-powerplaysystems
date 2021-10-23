@@ -61,7 +61,7 @@ const DepositWithdrawComponent = (props) => {
               <div className="mx-1 text-left text-ellipsis">{getDate(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{getTime(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type} </div>
-              <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.balance_type === 'cash' ? 'USD' : transaction.balance_type?.toUpperCase()}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount || "--"}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type === 'Deposit' ? (transaction.balance_result === 'increase' ? `Verified` : 'Entered') : (transaction.balance_result === 'increase' ? `Increased` : 'Decreased')}</div>
             </div>
