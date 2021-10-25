@@ -10,6 +10,7 @@ import StarIcon from "../../icons/Star";
 import ForwardIcon from "../../icons/ForwardIcon";
 import img4 from "../../assets/group-3-copy-3@2x.png";
 import img5 from "../../assets/group-10@2x.png";
+import img6 from '../../assets/rechargeiconbottomsection.png'
 import backgroundImage from "../../assets/rectangle@2x.png";
 import Animate from "../../ui/Animation/Animate";
 import EasyPlay from "../Mobile/EasyPlay";
@@ -95,6 +96,18 @@ const HowToPlayPage = () => {
                 stats related to each individual player on your team.
               </p>
             </section>
+            
+            <section>
+              <Link to="/recharge-how-to-play">
+                <div className={styles.contectSection6}>
+                  <img src={img6} />
+                  <p>
+                    Also see how to play our exciting new game
+                  </p>
+                </div>
+              </Link>
+            </section>
+            
           </main>
         </div>
       ) : (

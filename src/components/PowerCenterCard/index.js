@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./powerCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
-import MLBPlayerOppsite from "../../assets/baseball-player-copy.png";
+import MLBPlayerOppsite from "../../assets/baseball-player-copynew.png";
 import NFLPlayer from "../../assets/nflCardBg.png";
 import NBAPlayer from "../../assets/nbaCardBg.png";
 import NHLPlayer from "../../assets/new-hockey-playerlogo.png";
@@ -60,7 +60,7 @@ const PowerCenterCard = (props) => {
     };
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayerOppsite})`;
-      backgroundImageStyle.backgroundPosition = "100px 0px";
+      //backgroundImageStyle.backgroundPosition = "100px 0px";
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
       //backgroundImageStyle.backgroundPosition = "65px 60px";
@@ -143,7 +143,7 @@ const PowerCenterCard = (props) => {
         <div className={classes.__card_title}>
           <p className={classes.__card_title_text}>
             {title}
-            <img src={rechargeHeading} />
+            <img src={rechargeHeading} style={{marginLeft: 2}}/>
           </p>
         </div>
       );

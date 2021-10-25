@@ -91,11 +91,18 @@ function SportsSelectionCard3(props) {
 
   const nextStep = () => {
     let _currentStep = currentStep;
-    if (currentStep !== 2) {
-      _currentStep++;
-    } else {
+    console.log("_currentStep", _currentStep);
+    if(_currentStep == 0) {
+      _currentStep = 2;
+    }
+    else if(_currentStep == 2) {
       _currentStep = 0;
     }
+    // if (currentStep !== 2) {
+    //   _currentStep++;
+    // } else {
+    //   _currentStep = 0;
+    // }
 
     setCurrentStep(_currentStep);
   };

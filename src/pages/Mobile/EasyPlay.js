@@ -8,6 +8,8 @@ import StepThree from "../../assets/images/stepThree.png";
 import StepFour from "../../assets/images/stepFour.png";
 import StepFive from "../../assets/images/stepFive.png";
 import Star from "../../assets/images/gradientStar.svg";
+import rechargeImage from "../../assets/rechargeiconbottomobile.png";
+import { Link } from "react-router-dom";
 // import EasyPlayFooter from "../../components/mobilecomponents/EasyPlay/EasyPlayFooter";
 // import Footer from "../../components/Footer/Footer";
 import { Container, Row, Col } from "reactstrap";
@@ -91,6 +93,17 @@ const EasyPlay = () => {
               description={`<span class="color">Individual player card overview</span> – this card <br  class="d-none d-sm-block d-md-none"/>shows the current stats related to each<br  class="d-none d-sm-block d-md-none"/> individual player on your team.`}
               number={5}
             />
+          </Col>
+
+          <Col xs={12} style={{padding: 0}}>
+            <Link to="/recharge-how-to-play">
+              <div className="rechargeSection">
+                <img src={rechargeImage} />
+                <p>
+                  Also see how to play our exciting new game
+                </p>
+              </div>
+            </Link>
           </Col>
         </Row>
       </Container>
