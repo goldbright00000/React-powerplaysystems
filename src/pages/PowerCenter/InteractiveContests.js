@@ -105,8 +105,6 @@ const InteractiveContests = (props) => {
   const [showCardDetails, setShowCardDetails] = useState(-1);
   const [selectedFilter, setSelectedFilter] = useState(1);
   const [filteredData, setFilteredData] = useState([]);
-  const [tempFilteredData, setTempFilteredData] = useState([]);
-  const [socketCalled, setSocketCalled] = useState(false);
   const [currencyMenu, setCurrencyMenu] = useState(false);
   const [selectedCurrencies, setSelectedCurrencies] = useState([
     "usd",
@@ -171,29 +169,20 @@ const InteractiveContests = (props) => {
   useEffect(() => {
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.NEWLY_ADDED, (response) => {
       setNewGame(response);
-      setSocketCalled(true);
     });
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.IN_PROGRESS, (response) => {
       setInProgressGame(response);
-      setSocketCalled(true);
-
     });
     _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.CANCELLED, (response) => {
       setCancelledGame(response);
-      setSocketCalled(true);
     });
   }, [_socket]);
 
   useEffect(() => {
-    async function setGame() {
-      setTempFilteredData([...filteredData, newGame]);
-      await setFilteredData(tempFilteredData);
-      setSocketCalled(false);
-    }
-    if (socketCalled) {
-      setGame();
-    }
-  }, [filteredData, newGame, socketCalled, tempFilteredData]);
+    const obj = [...filteredData];
+      obj.push(newGame);
+      setFilteredData(obj);
+  }, [ newGame]);
 
   useEffect(() => {
     const obj = [...filteredData];
@@ -206,9 +195,8 @@ const InteractiveContests = (props) => {
         });
       });
       setFilteredData(obj);
-      setSocketCalled(false);
     }
-  }, [inProgressGame, socketCalled]);
+  }, [inProgressGame]);
 
   useEffect(() => {
     const obj = [...filteredData];
@@ -221,9 +209,8 @@ const InteractiveContests = (props) => {
         });
       });
       setFilteredData(obj);
-      setSocketCalled(false);
     }
-  }, [cancelledsGame, socketCalled]);
+  }, [cancelledsGame]);
 
   // useEffect(() => {
   //   const maxWidth = window.matchMedia("(max-width: 1200px)");
@@ -1449,18 +1436,21 @@ const InteractiveContests = (props) => {
                 if (selectedFilter == 4) {
                   return <OffSeasonComponent />;
                 } else {
-                  const itemsInaRow = 4;
+                  const itemsInaRow = 1000;
+
                   const numberOfRows = Math.ceil(
                     powerCenterCardData.length / itemsInaRow
                   );
+
                   var filterByCurrency = filterCurrency(filteredData);
                   var a1 = sortArray(filterByCurrency);
                   const powerCenterCardView = Array(numberOfRows)
                     .fill(undefined)
                     .map((item, i) => {
-                      const start = (i + 1) * itemsInaRow - 4;
+                      const start = (i + 1) * itemsInaRow - 1000;
                       const end = (i + 1) * itemsInaRow;
                       const items = a1.slice(start, end);
+
                       return (
                         <div
                           className={
