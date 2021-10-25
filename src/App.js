@@ -46,6 +46,7 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+import RechargeHowToPlayPage from "./pages/HowToPlayPage/rechargePage";
 
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import UsersPaymentGateway from "./pages/UsersPaymentGateway/UsersGateway";
@@ -151,6 +152,7 @@ const App = (props) => {
           <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
           <Route path="/responsible-gaming" component={ResponsibleGaming} />
           <Route path="/how-to-play" component={HowToPlayPage} />
+          <Route path="/recharge-how-to-play" component={RechargeHowToPlayPage} />
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
