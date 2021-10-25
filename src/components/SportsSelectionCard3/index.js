@@ -67,24 +67,30 @@ function SportsSelectionCard3(props) {
 
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
-  let [teams, setTeams] = useState([]);
-  let [statistics, setStatistics] = useState([]);
+  const { teams = [] } = seasons[seasons.length - 1] || {};
+  const { statistics = {} } = teams[teams.length - 1] || {};
 
-  useEffect(() => {
-    if (seasons) {
-      if (seasons.length > 0) {
-        setTeams(seasons[seasons.length - 1]);
-      }
-    }
-    if (teams) {
-      for (let item of teams) {
-        if (item.id == team.id) {
-          setStatistics(item.statistics);
-          break;
-        }
-      }
-    }
-  }, [player]);
+  // let [teams, setTeams] = useState([]);
+  // let [statistics, setStatistics] = useState({});
+
+  // useEffect(() => {
+  //   if (seasons) {
+  //     if (seasons.length > 0) {
+  //       setTeams(seasons[seasons.length - 1]);
+  //     }
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (teams) {
+  //     for (let item of teams) {
+  //       if (item.id == team.id) {
+  //         setStatistics(item.statistics);
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }, [teams]);
 
   const checkIfIsStarPlayer = () => {
     if (pageType === PAGE_TYPES.NHL) {
