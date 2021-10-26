@@ -38,8 +38,10 @@ const AccountLimits = (props) => {
     setCurrentCurrency(CurrentVal);
 
     if(CurrentVal !== "" && CurrentVal != undefined) {
+      var emptyVal = 0;
       accountLimit.forEach(element => {
         if(CurrentVal === element.currency) {
+          emptyVal++;
           setDailyAmountAlert(element.dailyAlert);
           setWeeklyAmountAlert(element.weeklyAlert);
           setMonthlyAmountAlert(element.monthlyAlert);
@@ -51,6 +53,18 @@ const AccountLimits = (props) => {
           setEntryFeeLimit(element.entryFeeLimit);
         }
       });
+    }
+    if(emptyVal==0)
+    {
+      setDailyAmountAlert(0);
+      setWeeklyAmountAlert(0);
+      setMonthlyAmountAlert(0);
+      
+      setDailyAmountLimit(0);
+      setWeeklyAmountLimit(0);
+      setMonthlyAmountLimit(0);
+
+      setEntryFeeLimit(0);
     }
   };
 
@@ -65,6 +79,7 @@ const AccountLimits = (props) => {
       weeklyLimit: WeeklyAmountLimit
     };
     dispatch(setAccountLimit(data));
+    window.location.reload();
   };
 
   const renderLimitsAndAlerts = (
