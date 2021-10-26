@@ -14,6 +14,7 @@ import TDBadge from "../../assets/tdBadge.png";
 import ForwardArrow from "../../icons/ForwardArrow";
 import { isEmpty } from "lodash";
 import NHLTeamStats from "./NHLTeamStats";
+import moment from "moment";
 
 function SportsTeamSelectionCard(props) {
   const selector_all_data = useSelector((state) => state?.nhl?.allData);
@@ -33,19 +34,29 @@ function SportsTeamSelectionCard(props) {
   const {
     id = "",
     name = "",
-    teamBName = "",
-    teamBCity = "",
     city = "",
     nhl_team_season_stats: awayTeamStats = [],
-    date = "",
-    time = "",
     steps = [],
     playerStats = {},
     match_id,
     venue = {},
+    teamStats = {},
+    teamB = {},
+    matchVenue = {},
+    matchScheduled = "",
   } = item || {};
 
-  const { venue_id = "", name: stadium = "" } = venue || {};
+  console.log("matchVenue: ", matchVenue);
+  console.log("matchScheduled: ", matchScheduled);
+
+  const { name: stadium = "" } = matchVenue || {};
+  const { name: teamBName } = teamB;
+  const date = moment(matchScheduled).format("yyyy-MM-DD"),
+    time = moment(matchScheduled).format("h:mm A");
+
+  console.log(stadium);
+  console.log(date);
+  console.log(time);
 
   return (
     <div
@@ -106,7 +117,7 @@ function SportsTeamSelectionCard(props) {
           </div>
           {mlbCard && currentStep === 1 && (
             <div className={classes.card_mlb_vs}>
-              <p>Vs {teamBCity + " " + teamBName}</p>
+              <p>Vs {teamBName}</p>
             </div>
           )}
 
@@ -121,7 +132,7 @@ function SportsTeamSelectionCard(props) {
               <RenderMLBState team="home" name={name} />
             ) */}
 
-            <NHLTeamStats teamStats={awayTeamStats[0]} />
+            <NHLTeamStats teamStats={teamStats} />
           </div>
 
           {currentStep === 0 && (
@@ -131,7 +142,7 @@ function SportsTeamSelectionCard(props) {
                   isSelected ? classes.selectedColor : ""
                 }`}
               >
-                <p>Vs {teamBCity + " " + teamBName}</p>
+                <p>Vs {teamBName}</p>
               </div>
               <div
                 className={`
