@@ -1,7 +1,7 @@
 import React from "react";
 import classes from "./powerCenterCard.module.scss";
 import MLBPlayer from "../../assets/mlb-player.png";
-import MLBPlayerOppsite from "../../assets/baseball-player-copy.png";
+import MLBPlayerOppsite from "../../assets/baseball-player-copynew.png";
 import NFLPlayer from "../../assets/nflCardBg.png";
 import NBAPlayer from "../../assets/nbaCardBg.png";
 import NHLPlayer from "../../assets/new-hockey-playerlogo.png";
@@ -23,7 +23,7 @@ import onenflbg from "../../assets/group-3-one-nfl.png";
 import onenhlbg from "../../assets/group-3-one-nhl.png";
 
 import { getTimeZone } from "../../utility/shared";
-import rechargeHeading from "../../assets/group-18.png";
+import rechargeHeading from "../../assets/rechargeIcon.png";
 
 const PowerCenterCard = (props) => {
   const {
@@ -52,6 +52,7 @@ const PowerCenterCard = (props) => {
     PrizePayout = [],
     userHasEntered = false,
   } = props || {};
+  console.log("propsprops", props);
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
@@ -59,7 +60,7 @@ const PowerCenterCard = (props) => {
     };
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayerOppsite})`;
-      backgroundImageStyle.backgroundPosition = "100px 0px";
+      //backgroundImageStyle.backgroundPosition = "100px 0px";
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
       //backgroundImageStyle.backgroundPosition = "65px 60px";
@@ -141,7 +142,8 @@ const PowerCenterCard = (props) => {
       return (
         <div className={classes.__card_title}>
           <p className={classes.__card_title_text}>
-            <img src={rechargeHeading} />
+            {title}
+            <img src={rechargeHeading} style={{marginLeft: 2}}/>
           </p>
         </div>
       );
@@ -283,7 +285,12 @@ const PowerCenterCard = (props) => {
             style={{ fontWeight: 400, height: "auto", marginTop: 16 }}
           >
             Try our fast paced <br />
-            {title == "NFL" ? "One-Quarter" : "One-Period"} Game!
+            {title == "NFL" || title == "NBA"
+              ? "One-Quarter"
+              : title == "MLB"
+              ? "One-Inning"
+              : "One-Period"}{" "}
+            Game!
           </span>
           <h1
             className={classes.__current_jackpot_amount}
@@ -368,9 +375,15 @@ const PowerCenterCard = (props) => {
             onClick={onEnter}
             styles={{ fontWeight: 600 }}
           />
-        ) : (
+        ) : paid_game ? (
           <OutlineButton
             title={`Enter  •  $${entry_fee}`}
+            onClick={onEnter}
+            styles={{ fontWeight: 600 }}
+          />
+        ) : (
+          <OutlineButton
+            title={`Free Entry`}
             onClick={onEnter}
             styles={{ fontWeight: 600 }}
           />

@@ -61,12 +61,36 @@ function SportsSelectionCard3(props) {
     is_injured = false,
     isInjured = false,
     match = {},
-    seasons = {},
+    seasons = [],
+    team = {},
   } = player || {};
 
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
-  const { teams = [] } = seasons[0] || {};
-  const { statistics = {} } = teams[0] || {};
+
+  const { teams = [] } = seasons[seasons.length - 1] || {};
+  const { statistics = {} } = teams[teams.length - 1] || {};
+
+  // let [teams, setTeams] = useState([]);
+  // let [statistics, setStatistics] = useState({});
+
+  // useEffect(() => {
+  //   if (seasons) {
+  //     if (seasons.length > 0) {
+  //       setTeams(seasons[seasons.length - 1]);
+  //     }
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (teams) {
+  //     for (let item of teams) {
+  //       if (item.id == team.id) {
+  //         setStatistics(item.statistics);
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }, [teams]);
 
   const checkIfIsStarPlayer = () => {
     if (pageType === PAGE_TYPES.NHL) {
@@ -91,11 +115,18 @@ function SportsSelectionCard3(props) {
 
   const nextStep = () => {
     let _currentStep = currentStep;
-    if (currentStep !== 2) {
-      _currentStep++;
-    } else {
+    console.log("_currentStep", _currentStep);
+    if(_currentStep == 0) {
+      _currentStep = 2;
+    }
+    else if(_currentStep == 2) {
       _currentStep = 0;
     }
+    // if (currentStep !== 2) {
+    //   _currentStep++;
+    // } else {
+    //   _currentStep = 0;
+    // }
 
     setCurrentStep(_currentStep);
   };

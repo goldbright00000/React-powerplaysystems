@@ -12,9 +12,25 @@ const { G } = CONSTANTS.FILTERS.NHL;
 function NHLPlayerStat(props) {
   const { active = false, playerStats = {}, position } = props || {};
 
-  const { total = {}, average = {} } = playerStats || {};
+  const { total = {}, average = {}, goaltending = {} } = playerStats || {};
   const { games_played = 0, goals = 0, assists = 0, points = 0 } = total || {};
   const { shots: average_shots = 0 } = average || {};
+  const { total: goaltending_total } = goaltending || {};
+  const {
+    games_played: g_games_played = 0,
+    shutouts: g_shutouts = 0,
+    saves_pct: g_saves_pct = 0,
+    avg_goals_against: g_avg_goals_against = 0,
+  } = goaltending_total || {};
+
+  if (goaltending) {
+    console.log(goaltending);
+  }
+
+  // if (g_games_played) console.log("g_games_played: ", g_games_played);
+  // if (g_shutouts) console.log("g_games_played: ", g_shutouts);
+  // if (g_saves_pct) console.log("g_games_played: ", g_saves_pct);
+  // if (g_avg_goals_against) console.log("g_games_played: ", g_avg_goals_against);
 
   const getTwoDecimal = (value) => {
     if (value) return parseFloat(value).toFixed(2);
@@ -51,10 +67,10 @@ function NHLPlayerStat(props) {
 
       {position === G ? (
         <div className={classes.card_state_values}>
-          <RenderItem value={games_played ? games_played : 0} />
-          <RenderItem value={goals ? goals : 0} />
-          <RenderItem value={assists ? assists : 0} />
-          <RenderItem value={getTwoDecimal(points)} />
+          <RenderItem value={g_games_played ? g_games_played : 0} />
+          <RenderItem value={g_avg_goals_against ? g_avg_goals_against : 0} />
+          <RenderItem value={g_saves_pct ? g_saves_pct + "%" : 0} />
+          <RenderItem value={g_shutouts} />
         </div>
       ) : (
         <div className={classes.card_state_values}>

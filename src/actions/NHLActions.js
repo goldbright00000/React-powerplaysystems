@@ -7,6 +7,7 @@ import { printLog } from "../utility/shared";
 
 export const NHL_DATA = "[NHL] GET_SET_DATA";
 export const NHL_LIVE_DATA = "[NHL] NHL_LIVE_DATA";
+export const NHL_LIVE_DATA_UPDATE = "[NHL] NHL_LIVE_DATA_UPDATE";
 export const NHL_STAR_PLAYER_COUNT = "[NHL] STAR_PLAYER_COUNT";
 export const NHL_EDIT_PLAYERS = "[NHL] NHL_EDIT_PLAYERS";
 export const NHL_USER_SAVED_GAMES = "[NHL] NHL_USER_SAVED_GAMES";
@@ -149,9 +150,10 @@ export function getFantasyPlayers(gameID) {
           if (match?.home?.id === item.team.id) {
             item.match = match;
           } else if (match.away.id === item.team.id) {
-            item.match = match;
-            item.match.home = match.away;
-            item.match.away = match.home;
+            item.match = { ...match };
+            let { home, away } = match;
+            item.match.home = { ...away };
+            item.match.away = { ...home };
           }
         });
       });
@@ -213,6 +215,29 @@ export function createFantasyTeam(payload) {
               payload.sport_id
             );
           }
+        } catch (er) {}
+      }
+    } catch (err) {}
+  };
+}
+
+export function getFantasyTeam(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        "https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyTeam",
+        payload
+      );
+      const { message = "", error = false } = response.data || {};
+      if (!error && message === "Success") {
+        //get the live page players and save them in redux
+        try {
+          // dispatch({
+          //   type: NHL_DATA,
+          //   payload: { filterdList: filterdList, allData: [...players, ...teams] },
+          //   game_id: gameID,
+          //   sport_id: 2,
+          // });
         } catch (er) {}
       }
     } catch (err) {}
@@ -317,6 +342,14 @@ export function nhlLiveData(payload) {
   return (dispatch) =>
     dispatch({
       type: NHL_LIVE_DATA,
+      payload,
+    });
+}
+
+export function nhlLiveDataUpdate(payload) {
+  return (dispatch) =>
+    dispatch({
+      type: NHL_LIVE_DATA_UPDATE,
       payload,
     });
 }

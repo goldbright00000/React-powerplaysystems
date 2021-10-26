@@ -21,4 +21,26 @@
       }
     }
   }
+  .rechargeSection {
+    background-image: url(../../assets/rechargehowtoplaybgmobile.png);
+    height: 180px;
+    text-align: center;
+    img {
+      margin-top: 32px;
+    }
+    p{
+      width: 185px;
+      height: 46px;
+      margin: 16px auto;
+      font-family: Poppins;
+      font-size: 16px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #f2f2f2;
+    }
+  }
 }
