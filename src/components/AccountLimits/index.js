@@ -23,6 +23,7 @@ const AccountLimits = (props) => {
   const [MonthlyAmountLimit, setMonthlyAmountLimit] = React.useState(0);
   const [EntryFeeLimit, setEntryFeeLimit] = React.useState(0);
   const [CurrentCurrency, setCurrentCurrency] = React.useState(0);
+  const [AccountLimitVal, setAccountLimitVal] = React.useState(accountLimit);
 
   useEffect(()=> {
     handleLimitChanges("");
@@ -39,7 +40,8 @@ const AccountLimits = (props) => {
 
     if(CurrentVal !== "" && CurrentVal != undefined) {
       var emptyVal = 0;
-      accountLimit.forEach(element => {
+      accountLimit.length > 0 && accountLimit.forEach(element => {
+         
         if(CurrentVal === element.currency) {
           emptyVal++;
           setDailyAmountAlert(element.dailyAlert);
@@ -68,7 +70,7 @@ const AccountLimits = (props) => {
     }
   };
 
-  let handleApplyLimitChanges = () => {
+  let handleApplyLimitChanges = async () => {
     let data = {
       currency: CurrentCurrency,
       dailyAlert: DailyAmountAlert,
@@ -76,10 +78,10 @@ const AccountLimits = (props) => {
       monthlyAlert: MonthlyAmountAlert,
       monthlyLimit: MonthlyAmountLimit,
       weeklyAlert: WeeklyAmountAlert,
-      weeklyLimit: WeeklyAmountLimit
+      weeklyLimit: WeeklyAmountLimit,
+      entryFeeLimit: EntryFeeLimit
     };
-    dispatch(setAccountLimit(data));
-    window.location.reload();
+    await dispatch(setAccountLimit(data));
   };
 
   const renderLimitsAndAlerts = (
