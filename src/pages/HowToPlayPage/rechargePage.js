@@ -62,7 +62,7 @@ const RechargeHowToPlayPage = () => {
                     <img src={RechargeBlock} />
                 </div>
                 <span className={styles.rightText}>
-                        Recharge contest entry, player selection, and managing your team all work the same as our PowerdFS games (click <a href="#" style={{color: "#688fbd"}}>here</a> to read about playing PowerdFS).
+                        Recharge contest entry, player selection, and managing your team all work the same as our PowerdFS games (click <Link to="/how-to-play" style={{color: "#688fbd"}}>here</Link> to read about playing PowerdFS).
                         <br />The difference between PowerdFS and Recharge is in the Powers Section and how Powers are obtained and used.
                         <br /><br />
                         On the Recharge Team Manager page, instead of a fixed inventory for Powers, you have power levels ranging from fully charged to no power.
@@ -89,7 +89,7 @@ const RechargeHowToPlayPage = () => {
                 />
             </section>
 
-            <section className={styles.contectSection} style={{paddingLeft: 108, marginBottom: 86}}>
+            <section className={styles.contectSection} style={{paddingLeft: 138, marginBottom: 86}}>
               <Animate>
                 {" "}
                 <img alt="" src={swapImage} style={{width: 593, marginBottom: 0}}/>{" "}
@@ -114,7 +114,7 @@ const RechargeHowToPlayPage = () => {
               </Animate>
             </section>
 
-            <section className={styles.bottomButtons}>
+            {/* <section className={styles.bottomButtons}>
                 <h2 className={styles.header}>See Also:</h2>
                 <div className={styles.linksBlock}>
                     <div className={styles.leftSideLinks}>
@@ -140,7 +140,7 @@ const RechargeHowToPlayPage = () => {
                         </Link>
                     </div>
                 </div>
-            </section>
+            </section> */}
 
 
             {/* <section className={styles.contectSection}>

@@ -1289,7 +1289,7 @@ function MLBPowerdFs(props) {
           enrolledUsers={enrolledUsers}
           points={points}
           powers={powers}
-          titleMain1="MLB 2021"
+          titleMain1="MLB"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
           subHeader2={
