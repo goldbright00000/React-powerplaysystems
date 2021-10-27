@@ -77,7 +77,7 @@ function NHLPlayerStat(props) {
           <RenderItem value={games_played ? games_played : 0} />
           <RenderItem value={goals ? goals : 0} />
           <RenderItem value={assists ? assists : 0} />
-          <RenderItem value={getTwoDecimal(points)} />
+          <RenderItem value={points} />
           <RenderItem value={getTwoDecimal(average_shots)} />
         </div>
       )}

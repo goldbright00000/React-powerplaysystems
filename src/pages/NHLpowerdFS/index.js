@@ -704,7 +704,7 @@ function NHLPowerdFs(props) {
     let players = [];
     for (let i = 0; i < sideBarList?.length - 1; i++) {
       players1.push({
-        id: sideBarList[i]?.player?.id,
+        playerId: sideBarList[i]?.player?.id,
         matchId: sideBarList[i]?.player?.match_id,
       });
       players.push(sideBarList[i]?.player);
