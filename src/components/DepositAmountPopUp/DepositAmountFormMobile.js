@@ -406,6 +406,51 @@ class DepositAmountFormMobile extends Component {
             </div> */}
                             </section>
                         )}
+                        <div className={`${styles.card_wrp} w-100 d-block mt-5`}>
+          <div className="row">
+              <div className="col-lg-12">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Cardholder Name</h6>
+                  <input type="text" name="cardname" placeholder="e.g. Mr J Smith"/>
+                </div>
+              </div>
+              <div className="col-lg-12">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Card Number</h6>
+                  <input type="number" name="cardno" placeholder="e.g. 1234 5678 1234 5678"/>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Expiry Date</h6>
+                  <input type="number" name="expirydate" placeholder="MM / YY"/>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>CVV</h6>
+                  <input type="number" name="cvv" placeholder="e.g. 123"/>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>State / Province</h6>
+                  <select>
+                      <option>Select</option>
+                      <option>Demo</option>
+                      <option>Test Testing</option>
+                  </select>
+                </div>
+              </div>
+              <div className="col-6">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>ZIP / Postal Code</h6>
+                  <input type="number" name="zip" placeholder="e.g. 12345"/>
+                </div>
+              </div>
+          </div>
+          
+        </div>
                         {currency !== "USD" ? (
                             // <section className={styles.QRCodeWrapper}>
                             //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}
