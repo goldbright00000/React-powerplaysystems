@@ -8,12 +8,12 @@ const DEFAULT_TITLES = ["GP", "W", "L", "GA"];
 function NHLPlayerStat(props) {
   const { active = false, teamStats = {}, position } = props || {};
 
+  const { own_record = {}, shootout = {}, goaltending = {} } = teamStats || {};
+  const { total = {}, average = {} } = own_record || {};
+  const { games_played = 0 } = total || {};
   const {
-    games_played = 0,
-    wins = 0,
-    losses = 0,
-    goals_against = 0,
-  } = teamStats || {};
+    total: { wins = 0, losses = 0, goals_against = 0 },
+  } = goaltending || {};
 
   const getTwoDecimal = (value) => {
     if (value) return parseFloat(value).toFixed(2);

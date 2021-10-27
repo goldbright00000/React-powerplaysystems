@@ -136,6 +136,17 @@ export function getFantasyPlayers(gameID) {
       teams.forEach((item) => {
         item.type = TD;
         item.match_id = 1;
+        matches.forEach((match) => {
+          if (match?.home?.id === item.id) {
+            item.teamB = match.home;
+            item.matchVenue = match.venue;
+            item.matchScheduled = match.scheduled;
+          } else if (match.away.id === item.id) {
+            item.teamB = match.away;
+            item.matchVenue = match.venue;
+            item.matchScheduled = match.scheduled;
+          }
+        });
       });
       players.forEach((item) => {
         if (
@@ -217,6 +228,24 @@ export function createFantasyTeam(payload) {
           }
         } catch (er) {}
       }
+    } catch (err) {}
+  };
+}
+
+export function editFantasyTeam(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        "https://nhl.powerplaysystems.com/api/v1/services/fantasy/editFantasyTeam",
+        payload
+      );
+      const { message = "", error = false } = response.data || {};
+      const { data = {} } = response || {};
+
+      await dispatch({
+        type: NHL_USER_EDITED_GAMES,
+        payload: data?.data,
+      });
     } catch (err) {}
   };
 }
