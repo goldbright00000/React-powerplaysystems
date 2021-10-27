@@ -3,17 +3,18 @@ import PropTypes from "prop-types";
 
 import classes from "./playerStat.module.scss";
 
-const DEFAULT_TITLES = ["GP", "W", "L", "GA"];
+const DEFAULT_TITLES = ["GP", "W", "L", "AGA", "ASA"];
 
 function NHLPlayerStat(props) {
   const { active = false, teamStats = {}, position } = props || {};
 
+  const { own_record = {}, goaltending = {} } = teamStats || {};
+  const { total = {} } = own_record || {};
+  const { games_played = 0 } = total || {};
   const {
-    games_played = 0,
-    wins = 0,
-    losses = 0,
-    goals_against = 0,
-  } = teamStats || {};
+    total: { wins = 0, losses = 0 },
+    average: { goals_against = 0, shots_against = 0 },
+  } = goaltending || {};
 
   const getTwoDecimal = (value) => {
     if (value) return parseFloat(value).toFixed(2);
@@ -35,6 +36,7 @@ function NHLPlayerStat(props) {
         <RenderItem value={wins ? wins : 0} />
         <RenderItem value={losses ? losses : 0} />
         <RenderItem value={goals_against ? goals_against : 0} />
+        <RenderItem value={shots_against ? shots_against : 0} />
       </div>
     </>
   );

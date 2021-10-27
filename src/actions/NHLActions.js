@@ -136,6 +136,17 @@ export function getFantasyPlayers(gameID) {
       teams.forEach((item) => {
         item.type = TD;
         item.match_id = 1;
+        matches.forEach((match) => {
+          if (match?.home?.id === item.id) {
+            item.teamB = match.away;
+            item.matchVenue = match.venue;
+            item.matchScheduled = match.scheduled;
+          } else if (match.away.id === item.id) {
+            item.teamB = match.home;
+            item.matchVenue = match.venue;
+            item.matchScheduled = match.scheduled;
+          }
+        });
       });
       players.forEach((item) => {
         if (
@@ -221,6 +232,24 @@ export function createFantasyTeam(payload) {
   };
 }
 
+export function editFantasyTeam(payload) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        "https://nhl.powerplaysystems.com/api/v1/services/fantasy/editFantasyTeam",
+        payload
+      );
+      const { message = "", error = false } = response.data || {};
+      const { data = {} } = response || {};
+
+      await dispatch({
+        type: NHL_USER_EDITED_GAMES,
+        payload: data?.data,
+      });
+    } catch (err) {}
+  };
+}
+
 export function getFantasyTeam(payload) {
   return async (dispatch) => {
     try {
@@ -232,6 +261,7 @@ export function getFantasyTeam(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
+          return response.data.fantasyTeam;
           // dispatch({
           //   type: NHL_DATA,
           //   payload: { filterdList: filterdList, allData: [...players, ...teams] },

@@ -701,14 +701,47 @@ function NHLPowerdFs(props) {
     }
 
     const players1 = [];
-    const players = [];
+    let players = [];
     for (let i = 0; i < sideBarList?.length - 1; i++) {
       players1.push({
-        id: sideBarList[i]?.player?.id,
+        playerId: sideBarList[i]?.player?.id,
         matchId: sideBarList[i]?.player?.match_id,
       });
       players.push(sideBarList[i]?.player);
     }
+
+    let cTypePlayers = players.filter(
+      (item) => item.type.toLocaleLowerCase() === CENTER
+    );
+    let xwTypePlayers = players.filter(
+      (item) => item.type.toLocaleLowerCase() === XW
+    );
+    let dTypePlayers = players.filter(
+      (item) => item.type.toLocaleLowerCase() === D
+    );
+    let gTypePlayers = players.filter(
+      (item) => item.type.toLocaleLowerCase() === G
+    );
+
+    cTypePlayers.forEach((item, index) => {
+      item.positionID = index + 1;
+    });
+    xwTypePlayers.forEach((item, index) => {
+      item.positionID = index + 1;
+    });
+    dTypePlayers.forEach((item, index) => {
+      item.positionID = index + 1;
+    });
+    gTypePlayers.forEach((item, index) => {
+      item.positionID = index + 1;
+    });
+
+    players = [
+      ...cTypePlayers,
+      ...xwTypePlayers,
+      ...dTypePlayers,
+      ...gTypePlayers,
+    ];
 
     const [teamD] = sideBarList?.filter((team) => team?.type === TD);
     const { team = {} } = teamD || {};
@@ -736,6 +769,7 @@ function NHLPowerdFs(props) {
 
       if (isEdit) {
         await dispatch(NHLActions.editDfsTeamPlayer(payload1));
+        await dispatch(NHLActions.editFantasyTeam(payload));
         setIsLoading(false);
       } else {
         await dispatch(NHLActions.saveAndGetSelectPlayers(payload1));
