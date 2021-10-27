@@ -2,10 +2,16 @@ import React, { useState } from "react";
 import CurrencyFormat from "react-currency-format";
 import { useHistory } from "react-router-dom";
 import classes from "./myGameCenterCard.module.scss";
-import MLBPlayer from "../../assets/baseball-player-copy-new.png";
-import NFLPlayer from "../../assets/nfl-player.png";
-import NBAPlayer from "../../assets/nba-player.png";
+// import MLBPlayer from "../../assets/baseball-player-copy-new.png";
+// import NFLPlayer from "../../assets/nfl-player.png";
+// import NBAPlayer from "../../assets/nba-player.png";
+// import NHLPlayer from "../../assets/new-hockey-playerlogo.png";
+import MLBPlayerOppsite from "../../assets/baseball-player-copynew.png";
+import NFLPlayer from "../../assets/nflCardBg.png";
+import NBAPlayer from "../../assets/nbaCardBg.png";
 import NHLPlayer from "../../assets/new-hockey-playerlogo.png";
+import onenflbg from "../../assets/group-3-one-nfl.png";
+import onenhlbg from "../../assets/group-3-one-nhl.png";
 import MLBPlayerMobile from "../../assets/mobMLBCardBg.png";
 import NFLPlayerMobile from "../../assets/mobNFLCardBg.png";
 import NBAPlayerMobile from "../../assets/mobNBACardBg.png";
@@ -30,6 +36,14 @@ import ContestRules from "../PowerCenterCardDetails/ContestRules";
 import * as MLBActions from "../../actions/MLBActions";
 import { isEmpty } from "lodash";
 import { printLog, redirectTo } from "../../utility/shared";
+import rechargeHeading from "../../assets/rechargeIcon.png";
+
+import BtcCurrency from "../../assets/btc-white.png";
+import EthCurrency from "../../assets/ethereum-white.png";
+
+import OrangePowerCurrency from "../../assets/power-orange.png";
+import OrangeBtcCurrency from "../../assets/btc-orange.png";
+import OrangeEthCurrency from "../../assets/ethereum-orange.png";
 
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -53,6 +67,8 @@ const MyGameCenterCard = (props) => {
     id = null,
     title = "",
     prize = null,
+    prize_currency = "USD",
+    totalPoints = 0,
     outOf = null,
     total = null,
     percent = null,
@@ -79,6 +95,7 @@ const MyGameCenterCard = (props) => {
     onFinalStandings = () => {},
     game_id = 0,
     currency = "USD",
+    game_type = "PowerdFS",
   } = props || {};
 
   const [ranks, setRanks] = React.useState({
@@ -158,25 +175,53 @@ const MyGameCenterCard = (props) => {
   // },[game_id]);
 
   const getBackgroundImageWithStyle = () => {
+    // let backgroundImageStyle = {
+    //   backgroundRepeat: "no-repeat",
+    //   backgroundAttachment: "inherit",
+    //   border:
+    //     (inProgress && "1px solid #214f24") ||
+    //     (completed && "1px solid #8cc2ff"),
+    // };
+    // if (title === "MLB") {
+    //   backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
+    //   //backgroundImageStyle.backgroundPosition = "-46px 18px";
+    // } else if (title === "NFL") {
+    //   backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
+    //   backgroundImageStyle.backgroundPosition = "100px 60px";
+    // } else if (title === "NBA") {
+    //   backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
+    //   backgroundImageStyle.backgroundPosition = "-75px 68px";
+    // } else {
+    //   backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
+    //   //backgroundImageStyle.backgroundPosition = "36px 106px";
+    // }
+    // return backgroundImageStyle;
+
+
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
       border:
         (inProgress && "1px solid #214f24") ||
-        (completed && "1px solid #8cc2ff"),
+        (completed && "1px solid #8cc2ff")
     };
+    console.log("game_type", game_type, title);
     if (title === "MLB") {
-      backgroundImageStyle.backgroundImage = `url(${MLBPlayer})`;
-      //backgroundImageStyle.backgroundPosition = "-46px 18px";
+      backgroundImageStyle.backgroundImage = `url(${MLBPlayerOppsite})`;
+      //backgroundImageStyle.backgroundPosition = "100px 0px";
+    } else if (title === "NFL" && game_type === "PowerdFs_One") {
+      console.log("1");
+      backgroundImageStyle.backgroundImage = `url(${onenflbg})`;
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;
-      backgroundImageStyle.backgroundPosition = "100px 60px";
+      //backgroundImageStyle.backgroundPosition = "65px 60px";
     } else if (title === "NBA") {
       backgroundImageStyle.backgroundImage = `url(${NBAPlayer})`;
-      backgroundImageStyle.backgroundPosition = "-75px 68px";
-    } else {
+      //backgroundImageStyle.backgroundPosition = "-75px 68px";
+    } else if (title === "NHL" && game_type === "PowerdFs_One") {
+      backgroundImageStyle.backgroundImage = `url(${onenhlbg})`;
+    }  else {
       backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
-      //backgroundImageStyle.backgroundPosition = "36px 106px";
     }
     return backgroundImageStyle;
   };
@@ -219,6 +264,268 @@ const MyGameCenterCard = (props) => {
         window.location.reload();
       }
       setIsLoading(false);
+    }
+  };
+
+  const getPrizeContestByGameType = (gameType) => {
+    if (gameType === "PowerdFS") {
+      return (
+        <div className={classes.__power_center_card_prize_pool}>
+          <p
+            className={
+              classes.__power_center_card_prize_pool_common +
+              " " +
+              classes.__power_center_card_prize_pool_price
+            }
+          >
+            {currency === "USD" ? (
+              `$`
+            ) : currency === "PWRS" ? (
+              prize_currency === "USD" ? (
+                `$`
+              ) : (
+                <img src={getCurrency(prize_currency)} width="20" alt="" />
+              )
+            ) : (
+              <img src={getCurrency(currency)} width="20" alt="" />
+            )}
+            {numberWithCommas(prize)}
+          </p>
+          <p
+            className={
+              classes.__power_center_card_prize_pool_common +
+              " " +
+              classes.__power_center_card_prize_pool_text
+            }
+          >
+            Prize Pool
+          </p>
+        </div>
+      );
+    } else if (gameType === "PowerdFs_promo") {
+      return (
+        <div className={classes.__current_jackpot}>
+         
+          <h1 className={classes.__current_jackpot_amount}>
+            {" "}
+            {currency === "USD" ? (
+              `$`
+            ) : currency === "PWRS" ? (
+              prize_currency === "USD" ? (
+                `$`
+              ) : (
+                <img src={getCurrency(prize_currency)} width="20" alt="" />
+              )
+            ) : (
+              <img src={getCurrency(currency)} width="20" alt="" />
+            )}
+            {prize}!
+          </h1>
+        </div>
+      );
+    } else if (gameType === "PowerdFs_Recharge") {
+      return (
+        <div className={classes.__current_jackpot}>
+          
+          <h1
+            className={classes.__current_jackpot_amount}
+            style={{ marginBottom: 0 }}
+          >
+            {" "}
+            {currency === "USD" ? (
+              `$`
+            ) : currency === "PWRS" ? (
+              prize_currency === "USD" ? (
+                `$`
+              ) : (
+                <img src={getCurrency(prize_currency)} width="20" alt="" />
+              )
+            ) : (
+              <img src={getCurrency(currency)} width="20" alt="" />
+            )}
+            {prize}!
+          </h1>
+          <p
+            style={{
+              marginBottom: 25,
+              color: "#f2f2f2",
+              opacity: 0.6,
+              marginTop: 10,
+            }}
+          >
+            Prize Pool
+          </p>
+        </div>
+      );
+    } else if (gameType === "PowerdFs_One") {
+      return (
+        <div className={classes.__current_jackpot}>
+          {/* <span
+            className={classes.__current_jackpot_text}
+            style={{ fontWeight: 400, height: "auto", marginTop: 16 }}
+          >
+            Try our fast paced <br />
+            {title == "NFL" || title == "NBA"
+              ? "One-Quarter"
+              : title == "MLB"
+              ? "One-Inning"
+              : "One-Period"}{" "}
+            Game!
+          </span> */}
+          <h1
+            className={classes.__current_jackpot_amount}
+            style={{ marginBottom: 10, marginTop: 20 }}
+          >
+            {" "}
+            {currency === "USD" ? (
+              `$`
+            ) : currency === "PWRS" ? (
+              prize_currency === "USD" ? (
+                `$`
+              ) : (
+                <img src={getCurrency(prize_currency)} width="20" alt="" />
+              )
+            ) : (
+              <img src={getCurrency(currency)} width="20" alt="" />
+            )}
+            {prize}
+          </h1>
+          <p
+            style={{
+              marginBottom: 48,
+              color: "#f2f2f2",
+              opacity: 0.6,
+              marginTop: 10,
+            }}
+          >
+            Prize Pool
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className={classes.__current_jackpot}>
+          
+          <h1 className={classes.__current_jackpot_amount}>
+            {" "}
+            {currency === "USD" ? (
+              `$`
+            ) : currency === "PWRS" ? (
+              prize_currency === "USD" ? (
+                `$`
+              ) : (
+                <img src={getCurrency(prize_currency)} width="20" alt="" />
+              )
+            ) : (
+              <img src={getCurrency(currency)} width="20" alt="" />
+            )}
+            {prize}!
+          </h1>
+        </div>
+      );
+    }
+  };
+
+  const getTitleContestByGameType = (gameType) => {
+    if (gameType === "PowerdFS") {
+      return (
+        <div
+              className={classes.__my_game_center_card_powerdfs}
+              style={{ marginTop: inProgress || !completed ? 5 : 10 }}
+            >
+              <span
+                className={
+                  classes.__my_game_center_card_powerdfs_hr +
+                  " " +
+                  classes.__my_game_center_card_powerdfs_hr_left
+                }
+              ></span>
+              <p className={classes.__my_game_center_card_powerdfs_title}>
+                <span
+                  className={classes.__my_game_center_card_powerdfs_title_first}
+                >
+                  {title}
+                </span>{" "}
+                PowerdFS
+              </p>
+              <span
+                className={
+                  classes.__my_game_center_card_powerdfs_hr +
+                  " " +
+                  classes.__my_game_center_card_powerdfs_hr_right
+                }
+              ></span>
+            </div>
+      );
+    } else if (gameType === "PowerdFs_promo") {
+      return (
+        <div className={classes.__card_title}>
+          <p className={classes.__card_title_text}>
+            {title}{" "}
+            <span className={classes.__card__title_first}>PowerdFS</span>
+            <br /> Manager Challenge!
+          </p>
+        </div>
+      );
+    } else if (gameType === "PowerdFs_Recharge") {
+      return (
+        <div className={classes.__card_title}>
+          <p className={classes.__card_title_text}>
+            {title}
+            <img src={rechargeHeading} style={{marginLeft: 2}}/>
+          </p>
+        </div>
+      );
+    } else if (gameType === "PowerdFs_One") {
+      return (
+        <div className={classes.__card_title}>
+          <p className={classes.__card_title_text} style={{ fontSize: 20 }}>
+            {title}{" "}
+            <span className={classes.__card__title_first}>PowerdFS One</span>
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div className={classes.__card_title}>
+          <p className={classes.__card_title_text}>
+            {title}{" "}
+            <span className={classes.__card__title_first}>PowerdFS</span>
+            <br /> {totalPoints} Point Challenge!
+          </p>
+        </div>
+      );
+    }
+  };
+  const getDateContent = () => {
+    return (
+      <div className={classes.__start_end_date}>
+        <span className={classes.__date_text} style={{ marginBottom: 0 }}>
+          {game_set_start} | {start_time} ET
+        </span>
+      </div>
+    );
+  };
+  const numberWithCommas = (x) => {
+    if (x >= 10000) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    else return x;
+  };
+
+  const getCurrency = (currency) => {
+    if (currency.toUpperCase() === "BTC") {
+      return BtcCurrency;
+    } else if (currency.toUpperCase() === "ETH") {
+      return EthCurrency;
+    }
+  };
+
+  const getEnterCurrency = (currency) => {
+    if (currency.toUpperCase() === "PWRS") {
+      return OrangePowerCurrency;
+    } else if (currency.toUpperCase() === "BTC") {
+      return OrangeBtcCurrency;
+    } else if (currency.toUpperCase() === "ETH") {
+      return OrangeEthCurrency;
     }
   };
 
@@ -747,34 +1054,11 @@ const MyGameCenterCard = (props) => {
                 ID {game_id}
               </span>
             )}
-            <div
-              className={classes.__my_game_center_card_powerdfs}
-              style={{ marginTop: inProgress || !completed ? 5 : 10 }}
-            >
-              <span
-                className={
-                  classes.__my_game_center_card_powerdfs_hr +
-                  " " +
-                  classes.__my_game_center_card_powerdfs_hr_left
-                }
-              ></span>
-              <p className={classes.__my_game_center_card_powerdfs_title}>
-                <span
-                  className={classes.__my_game_center_card_powerdfs_title_first}
-                >
-                  {title}
-                </span>{" "}
-                PowerdFS
-              </p>
-              <span
-                className={
-                  classes.__my_game_center_card_powerdfs_hr +
-                  " " +
-                  classes.__my_game_center_card_powerdfs_hr_right
-                }
-              ></span>
-            </div>
-            {!completed && (
+            
+            {getTitleContestByGameType(game_type)}
+            {getDateContent()}
+            {/* {getPrizeContestByGameType(game_type)} */}
+            {/* {!completed && (
               <div className={classes.__start_time}>
                 {game_set_start} | {start_time} ET
               </div>
@@ -783,17 +1067,18 @@ const MyGameCenterCard = (props) => {
               <div className={classes.__start_time}>
                 {game_set_start} | {start_time} ET
               </div>
-            )}
+            )} */}
             <div className={classes.__my_game_center_card_date_time}>
               {/* {userGames?.game?.game_set_end} | {userGames?.game?.start_time} ET */}
             </div>
-            <div className={classes.__my_game_center_card_prize_pool}>
+            <div className={classes.__my_game_center_card_prize_pool} style={{margin: 0, paddingLeft: 24, textAlign: game_type === "PowerdFS" ? "center" : "left"}}>
               <p
                 className={
                   classes.__my_game_center_card_prize_pool_common +
                   " " +
                   classes.__my_game_center_card_prize_pool_price
                 }
+                style={{textAlign: game_type === "PowerdFS" ? "center" : "left"}}
               >
                 <CurrencyFormat
                   value={prize}
@@ -809,6 +1094,7 @@ const MyGameCenterCard = (props) => {
                   " " +
                   classes.__my_game_center_card_prize_pool_text
                 }
+                style={{textAlign: game_type === "PowerdFS" ? "center" : "left", fontWeight: "normal"}}
               >
                 {inProgress ? "Currently Winning" : "Prize Pool"}
               </p>

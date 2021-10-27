@@ -11,6 +11,7 @@ import ContestRulesPopUp from "../ContestRulesPopUp";
 import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
 import _ from "underscore";
+import group2 from '../../assets/group-2.png';
 function Header4(props) {
   const {
     outof = "",
@@ -31,7 +32,10 @@ function Header4(props) {
     points = [],
     powers = [],
     livePage = false,
+    selectedTeam = {}
   } = props || {};
+  const { game = {} } = selectedTeam;
+  const { game_type = "" } = game;
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
@@ -41,6 +45,30 @@ function Header4(props) {
       </div>
     </div>
   );
+
+  const getGameTypeText = (game_type) => {
+    if(game_type === "PowerdFS") {
+      return "";
+    }
+    else if(game_type === "PowerdFs_Recharge") {
+      return "";
+    }
+    else if(game_type === "PowerdFs_open") {
+      return "";
+    }
+    else if(game_type === "PowerdFs_promo") {
+      return "Manager Challenge";
+    }
+    else if(game_type === "PowerdFs_challenge") {
+      return "200 Point Challenge";
+    }
+    else if(game_type === "PowerdFs_Progressive") {
+      return "Progressive Jackpot";
+    }
+    else if(game_type === "PowerdFs_One") {
+      return "One";
+    }
+  }
 
   const RenderHeader = () => (
     <div
@@ -65,10 +93,17 @@ function Header4(props) {
           {titleMain1 && (
             <div className={classes.header_title}>
               <h2 className={compressedView && classes.compressedView}>
-                {titleMain1} <span>{titleMain2}</span>
+                {titleMain1} {(game_type === "PowerdFs_Recharge") ? (<img src={group2} />) : (<><span>{titleMain2}</span> {getGameTypeText(game_type)}</>)}
               </h2>
             </div>
           )}
+          
+          {(game_type === "PowerdFs_promo" || game_type === "PowerdFs_Recharge") && <p>Power your team to victory and win big!</p>}
+          {(game_type === "PowerdFs_Progressive") && <p>Jackpot starts from $1,000 and will grow with each entry!</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "NFL" || titleMain1 == "NBA")) && <p>One-Quarter Fantasy Football</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "NHL")) && <p>One-Period Fantasy Football</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "MLB")) && <p>One-Inning Fantasy Football</p>}
+
           {!compressedView && subHeader1 && <p>{subHeader1}</p>}
           {!compressedView && subHeader2 && (
             <p className={classes.p2}>{subHeader2}</p>

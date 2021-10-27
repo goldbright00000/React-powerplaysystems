@@ -25,6 +25,8 @@ import "./carousel.scss";
 import { useMediaQuery } from "react-responsive";
 import moment from "moment";
 
+var teamsArray = ["Anaheim Ducks	Ducks	https://fanatics.93n6tx.net/c/2068372/620845/9663", "Arizona Coyotes	Coyotes	https://fanatics.93n6tx.net/c/2068372/620810/9663", "Boston Bruins	Bruins	https://fanatics.93n6tx.net/c/2068372/620812/9663", "Buffalo Sabres	Sabres	https://fanatics.93n6tx.net/c/2068372/620814/9663", "Calgary Flames	Flames	https://fanatics.93n6tx.net/c/2068372/620815/9663", "Carolina Hurricanes	Hurricanes	https://fanatics.93n6tx.net/c/2068372/620816/9663", "Chicago Blackhawks	Blackhawks	https://fanatics.93n6tx.net/c/2068372/620817/9663", "Colorado Avalanche	Avalanche	https://fanatics.93n6tx.net/c/2068372/620819/9663", "Columbus Blue Jackets	Jackets	https://fanatics.93n6tx.net/c/2068372/620820/9663", "Dallas Stars	Stars	https://fanatics.93n6tx.net/c/2068372/620822/9663", "Detroit Red Wings	Wings	https://fanatics.93n6tx.net/c/2068372/620823/9663", "Edmonton Oilers	Oilers	https://fanatics.93n6tx.net/c/2068372/620824/9663", "Florida Panthers	Panthers	https://fanatics.93n6tx.net/c/2068372/620825/9663", "Los Angeles Kings	Kings	https://fanatics.93n6tx.net/c/2068372/620826/9663", "Minnesota Wild	Wild	https://fanatics.93n6tx.net/c/2068372/620828/9663", "Montreal Canadiens	Canadiens	https://fanatics.93n6tx.net/c/2068372/620830/9663", "Nashville Predators	Predators	https://fanatics.93n6tx.net/c/2068372/620831/9663", "New Jersey Devils	Devils	https://fanatics.93n6tx.net/c/2068372/620833/9663", "New York Islanders	Islanders	https://fanatics.93n6tx.net/c/2068372/620835/9663", "New York Rangers	Rangers	https://fanatics.93n6tx.net/c/2068372/620836/9663", "Ottawa Senators	Senators	https://fanatics.93n6tx.net/c/2068372/620838/9663", "Philadelphia Flyers	Flyers	https://fanatics.93n6tx.net/c/2068372/620839/9663", "Pittsburgh Penguins	Penguins	https://fanatics.93n6tx.net/c/2068372/620840/9663", "San Jose Sharks	Sharks	https://fanatics.93n6tx.net/c/2068372/620841/9663", "Seattle Kracken	Kracken	https://fanatics.93n6tx.net/c/2068372/860547/9663?subId1=Seattle_Kraken", "St. Louis Blues	Blues	https://fanatics.93n6tx.net/c/2068372/620842/9663", "Tampa Bay Lightning	Lightning	https://fanatics.93n6tx.net/c/2068372/620843/9663", "Toronto Maple Leafs	Leafs	https://fanatics.93n6tx.net/c/2068372/620844/9663", "Vancouver Canucks	Canucks	https://fanatics.93n6tx.net/c/2068372/620845/9663", "Vegas Golden Knights	Knights	https://fanatics.93n6tx.net/c/2068372/620846/9663", "Washington Capitals	Capitals	https://fanatics.93n6tx.net/c/2068372/620847/9663", "Winnipeg Jets	Jets	https://fanatics.93n6tx.net/c/2068372/620848/9663"]
+
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
@@ -328,7 +330,23 @@ function SportsSelectionCard3(props) {
               </div>
             </>
 
-            <img src={AdImage} />
+            <img src={AdImage} onClick={() => {
+              if(pageType == "nhl") {
+                console.log("player", player);
+                let teamName = player?.team?.name;
+                if(teamName)
+                {
+                  let teamIndex = teamsArray.findIndex(x => x.indexOf(teamName) >= 0);
+                  if(teamIndex >= 0)
+                  {
+                    let teamRecord = teamsArray[teamIndex];
+                    let convertSpace = teamRecord.replaceAll(/\t/g, ' ');
+                    let splitted = convertSpace.split(" ");
+                    window.open(splitted[splitted.length - 1]);
+                  }
+                }
+              }
+            }}/>
           </Carousel>
         ) : (
           <>
@@ -337,7 +355,23 @@ function SportsSelectionCard3(props) {
             ) : currentStep === 1 ? (
               <MLBDetailStats position={primary_position} />
             ) : (
-              <img src={AdImage} />
+              <img src={AdImage} onClick={() => {
+                if(pageType == "nhl") {
+                  console.log("player", player);
+                  let teamName = player?.team?.name;
+                  if(teamName)
+                  {
+                    let teamIndex = teamsArray.findIndex(x => x.indexOf(teamName) >= 0);
+                    if(teamIndex >= 0)
+                    {
+                      let teamRecord = teamsArray[teamIndex];
+                      let convertSpace = teamRecord.replaceAll(/\t/g, ' ');
+                      let splitted = convertSpace.split(" ");
+                      window.open(splitted[splitted.length - 1]);
+                    }
+                  }
+                }
+              }}/>
             )}
           </>
         )}
