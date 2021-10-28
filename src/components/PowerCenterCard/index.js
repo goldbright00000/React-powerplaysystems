@@ -369,24 +369,31 @@ const PowerCenterCard = (props) => {
       {getDateContent()}
       {getPrizeContestByGameType(game_type)}
       <div className={classes.__card_button}>
-        {game_type == "PowerdFs_challenge" || game_type == "PowerdFs_promo" ? (
+        {userHasEntered ? (
           <OutlineButton
-            title={`Enter`}
-            onClick={onEnter}
-            styles={{ fontWeight: 600 }}
-          />
-        ) : paid_game ? (
-          <OutlineButton
-            title={`Enter  •  $${entry_fee}`}
-            onClick={onEnter}
+            title={`Entered`}
             styles={{ fontWeight: 600 }}
           />
         ) : (
-          <OutlineButton
-            title={`Free Entry`}
-            onClick={onEnter}
-            styles={{ fontWeight: 600 }}
-          />
+          game_type == "PowerdFs_challenge" || game_type == "PowerdFs_promo" ? (
+            <OutlineButton
+              title={`Enter`}
+              onClick={onEnter}
+              styles={{ fontWeight: 600 }}
+            />
+          ) : paid_game ? (
+            <OutlineButton
+              title={`Enter  •  $${entry_fee}`}
+              onClick={onEnter}
+              styles={{ fontWeight: 600 }}
+            />
+          ) : (
+            <OutlineButton
+              title={`Free Entry`}
+              onClick={onEnter}
+              styles={{ fontWeight: 600 }}
+            />
+          )
         )}
       </div>
       <div className={classes.__power_center_card_status_and_details}>

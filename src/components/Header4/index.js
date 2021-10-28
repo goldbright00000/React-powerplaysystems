@@ -36,6 +36,7 @@ function Header4(props) {
   } = props || {};
   const { game = {} } = selectedTeam;
   const { game_type = "" } = game;
+  
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
@@ -155,6 +156,7 @@ function Header4(props) {
         entries={enrolledUsers}
         totalEntries={outof}
         livePage={livePage}
+        depositClicked={props.depositClicked}
       />
       {/* )} */}
     </div>
