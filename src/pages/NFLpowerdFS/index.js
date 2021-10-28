@@ -963,7 +963,7 @@ function NFLPowerdFs(props) {
           enrolledUsers={enrolledUsers}
           points={points}
           powers={powers}
-          titleMain1="NFL 2021"
+          titleMain1="NFL"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Football"
           subHeader2={

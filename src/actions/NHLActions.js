@@ -138,11 +138,11 @@ export function getFantasyPlayers(gameID) {
         item.match_id = 1;
         matches.forEach((match) => {
           if (match?.home?.id === item.id) {
-            item.teamB = match.home;
+            item.teamB = match.away;
             item.matchVenue = match.venue;
             item.matchScheduled = match.scheduled;
           } else if (match.away.id === item.id) {
-            item.teamB = match.away;
+            item.teamB = match.home;
             item.matchVenue = match.venue;
             item.matchScheduled = match.scheduled;
           }
@@ -261,6 +261,7 @@ export function getFantasyTeam(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
+          return response.data.fantasyTeam;
           // dispatch({
           //   type: NHL_DATA,
           //   payload: { filterdList: filterdList, allData: [...players, ...teams] },

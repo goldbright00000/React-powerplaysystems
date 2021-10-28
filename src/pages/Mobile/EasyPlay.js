@@ -2,11 +2,11 @@ import React from "react";
 import "./easyplay.scss";
 // import Header from "../../components/Header/Header";
 import LetsPlayBanner from "../../components/mobilecomponents/EasyPlay/LetsPlayBanner";
-import StepOne from "../../assets/images/stepOne.png";
+import StepOne from "../../assets/group-3.png";
 import StepTwo from "../../assets/images/stepTwo.png";
-import StepThree from "../../assets/images/stepThree.png";
-import StepFour from "../../assets/images/stepFour.png";
-import StepFive from "../../assets/images/stepFive.png";
+import StepThree from "../../assets/group-12@2x.png";
+import StepFour from "../../assets/group-7@2x.png";
+import StepFive from "../../assets/group-13@2x.png";
 import Star from "../../assets/images/gradientStar.svg";
 import rechargeImage from "../../assets/rechargeiconbottomobile.png";
 import { Link } from "react-router-dom";
@@ -46,8 +46,7 @@ const EasyPlay = () => {
               valueAlign={-41}
               offset={[-55, 0]}
               image={StepTwo}
-              description={`Select your team. You will pick eight (8)<br  class="d-block d-md-none"/> players and you can have a maximum of <br  class="d-none d-sm-block d-md-none"/>three (3) <span class="gradient-text"><img src=${Star} />STAR POWER </span> Players.<br  class="d-none d-sm-block d-md-none"/>
-              Flip cards for more player stats. When<br  class="d-none d-sm-block d-md-none"/> done, click Submit.`}
+              description={`Select your team. You will pick seven (7)<br  class="d-block d-md-none"/> players and one (1) Team defence, you can have a maximum of <br  class="d-none d-sm-block d-md-none"/>three (3) <span class="gradient-text"><img src=${Star} />STAR POWER </span> selections.`}
               number={2}
             />
           </Col>
@@ -90,20 +89,22 @@ const EasyPlay = () => {
               valueAlign={-120}
               offset={[-130, 0]}
               image={StepFive}
-              description={`<span class="color">Individual player card overview</span> – this card <br  class="d-none d-sm-block d-md-none"/>shows the current stats related to each<br  class="d-none d-sm-block d-md-none"/> individual player on your team.`}
+              description={`<span class="color">Individual Player Cards</span> – these cards show the current stats for your selected player as well as the live game stats.
+              <br />The live game section will contain relevant information depending on the sport.`}
               number={5}
             />
           </Col>
 
           <Col xs={12} style={{padding: 0}}>
-            <Link to="/recharge-how-to-play">
               <div className="rechargeSection">
                 <img src={rechargeImage} />
                 <p>
-                  Also see how to play our exciting new game
+                  Explore games on the Power Center page and enter to experience PowerdFS. You have the Powers to win!
                 </p>
+                <Link to="/power-center">Explore ReCharge games</Link>
+                <br />
+                <Link to="/recharge-how-to-play" className="learnMoreLink">Learn more</Link>
               </div>
-            </Link>
           </Col>
         </Row>
       </Container>

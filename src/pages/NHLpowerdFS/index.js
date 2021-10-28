@@ -632,12 +632,12 @@ function NHLPowerdFs(props) {
         }
       } else {
         var _filterdData = selectedData?.listData?.filter((player) =>
-          player?.playerName
+          player?.full_name
             ?.toLocaleLowerCase()
             ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
-          player?.homeTeam
+        player?.team?.market
             ?.toLocaleLowerCase()
             ?.includes(value?.toLocaleLowerCase())
         );
@@ -704,7 +704,7 @@ function NHLPowerdFs(props) {
     let players = [];
     for (let i = 0; i < sideBarList?.length - 1; i++) {
       players1.push({
-        id: sideBarList[i]?.player?.id,
+        playerId: sideBarList[i]?.player?.id,
         matchId: sideBarList[i]?.player?.match_id,
       });
       players.push(sideBarList[i]?.player);
@@ -987,7 +987,7 @@ function NHLPowerdFs(props) {
           enrolledUsers={enrolledUsers}
           points={points}
           powers={powers}
-          titleMain1="NHL 2021"
+          titleMain1="NHL"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Football"
           subHeader2={

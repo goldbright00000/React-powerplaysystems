@@ -729,7 +729,7 @@ function MLBPowerdFsLive(props) {
                 // enrolledUsers={enrolledUsers}
                 outof={1000}
                 enrolledUsers={10}
-                titleMain1="MLB 2021"
+                titleMain1="MLB"
                 titleMain2="PowerdFS"
                 subHeader1="Introducing Live-Play Fantasy Baseball"
                 subHeader2={

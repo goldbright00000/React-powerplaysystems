@@ -22,15 +22,16 @@
     }
   }
   .rechargeSection {
-    background-image: url(../../assets/rechargehowtoplaybgmobile.png);
-    height: 180px;
+    background-image: url(../../assets/group-11@2x.png);
+    height: 360px;
     text-align: center;
+    background-size: cover;
     img {
       margin-top: 32px;
     }
     p{
-      width: 185px;
-      height: 46px;
+      width: 290px;
+      //height: 46px;
       margin: 16px auto;
       font-family: Poppins;
       font-size: 16px;
@@ -41,6 +42,42 @@
       letter-spacing: normal;
       text-align: center;
       color: #f2f2f2;
+      margin-bottom: 42px
+    }
+    a {
+      width: 258px;
+      height: 52px;
+      margin: 42px 16px 24px;
+      padding: 16px 39px 16px 40px;
+      border-radius: 8px;
+      background-color: #fb6e00;
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #111;
+    }
+    .learnMoreLink {
+      width: 80px;
+      height: 20px;
+      margin: 40px 150px 0;
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      text-align: center;
+      color: #f2f2f2;
+      padding: 0;
+      background: none;
+      display: block;
+      text-decoration: underline !important;
     }
   }
 }

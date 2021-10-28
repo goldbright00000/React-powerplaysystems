@@ -18,7 +18,7 @@ const LetsPlayBanner = ({
   return (
     <Row className={`imagebox flex-column-reverse ${rowReverse}`}>
       <Col md={6}>
-        <div className="numberBox">
+        <div className="numberBox" style={{marginTop: number == 1 ? 0 : 20}}>
           <span className="number" style={{ top: offset[0], left: offset[1] }}>
             {number}
           </span>

@@ -85,7 +85,7 @@ function NHLLivePowerdFsScroeDetail(props) {
       <Header />
       <div className={classes.wrapper}>
         <Header3
-          titleMain1="NHL 2021"
+          titleMain1="NHL"
           titleMain2="PowerdFS"
           contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
