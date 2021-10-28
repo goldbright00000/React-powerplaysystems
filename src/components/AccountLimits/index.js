@@ -115,7 +115,7 @@ const AccountLimits = (props) => {
             </div>
           </div>
           <div className={classes.__input_field}>
-            <div className="mx-2">
+            <div className="">
               <div>{limitFieldLabel}</div>
               <input
                 defaultValue={accountLimit?.[`${fieldType}Limit`]}
@@ -230,18 +230,11 @@ const AccountLimits = (props) => {
             </div>
 
             <div className={classes.__currency__main}>
-              <select
-                name="currency"
-                defaultValue={accountLimit['currency']}
-                onChange={handleLimitChanges}
-                className={`${"form-control"} ${classes.__currency__main}`}
-              >
-                {CURRENCIES.map((item, index) => {
-                  return (
-                    <option key={index} selected={item === accountLimit['currency'] ? true : false} value={item}>{item}</option>
-                  )
-                })}
-              </select>
+               {CURRENCIES.map((item, index) => {
+                return (
+                  <input type="button" onClick={handleLimitChanges} name={item} className={`${classes.__currency__button} ${" btn mx-2"} ${item === CurrentCurrency && classes.__currency__button__active}`} value={item} />
+                )
+              })}
             </div>
 
             <div className={classes.__main_title}>
@@ -302,7 +295,15 @@ const AccountLimits = (props) => {
           </>
         )}
         {isMobile ? (
+          
           <div className="container-fluid">
+            <div className={classes.__currency__main}>
+               {CURRENCIES.map((item, index) => {
+                return (
+                  <input type="button" onClick={handleLimitChanges} name={item} className={`${classes.__currency__button} ${" btn mx-2"} ${item === CurrentCurrency && classes.__currency__button__active}`} value={item} />
+                )
+              })}
+            </div>
             <div className={classes.__main_title}>
               Deposit Alerts{" "}
               <img
