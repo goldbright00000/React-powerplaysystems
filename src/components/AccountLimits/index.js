@@ -238,7 +238,7 @@ const AccountLimits = (props) => {
             </div>
 
             <div className={classes.__main_title}>
-              Deposit Limits and Alerts{" "}
+             {CurrentCurrency} Deposit Limits and Alerts{" "}
               {isMobile ? (
                 <img
                   style={{ alignSelf: "center" }}
@@ -364,7 +364,7 @@ const AccountLimits = (props) => {
           <button onClick={handleApplyLimitChanges}>Apply</button>
         </div>
         <div className={`${classes.__main_title} container-fluid`}>
-          Entry Fee Limit{" "}
+        {CurrentCurrency} Entry Fee Limit{" "}
           {isMobile ? (
             <img
               style={{ alignSelf: "center" }}
