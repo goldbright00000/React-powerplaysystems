@@ -13,7 +13,7 @@ import img5 from "../../assets/group-10@2x.png";
 import img6 from '../../assets/rechargeiconbottomsection.png'
 import backgroundImage from "../../assets/rectangle@2x.png";
 import Animate from "../../ui/Animation/Animate";
-import EasyPlay from "../Mobile/EasyPlay";
+import RechargeEasyPlay from "../Mobile/RechargeEasyPlay";
 import RechargeBlock from '../../assets/recharge-block.png';
 import section2Bg from '../../assets/group-12-recharge.png';
 import image1Booster from '../../assets/image1Booster.png';
@@ -223,7 +223,7 @@ const RechargeHowToPlayPage = () => {
           </main>
         </div>
       ) : (
-        <EasyPlay />
+        <RechargeEasyPlay />
       )}
 
       <Footer />

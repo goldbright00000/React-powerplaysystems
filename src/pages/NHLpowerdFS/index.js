@@ -39,6 +39,7 @@ import SportsTeamSelectionCard from "../../components/SportsTeamSelectionCardNHL
 import Button from "../../components/Button";
 import ButtonFloating from "../../components/ButtonFloating";
 import ModalBottom from "../../components/ModalBottom";
+import { showDepositForm } from "../../actions/uiActions";
 
 import ContestRuleIcon from "../../assets/icons/contest-rules.png";
 import PrizeCupIcon from "../../assets/icons/prize-cup.png";
@@ -603,6 +604,7 @@ function NHLPowerdFs(props) {
     const { value } = e.target;
     var tempObj = [];
     var tempIds = [];
+    console.log("selectedData?.listData", selectedData?.listData);
     if (!isEmpty(value)) {
       setSearchText(value);
       if (selectedData?.type == "td") {
@@ -632,9 +634,11 @@ function NHLPowerdFs(props) {
         }
       } else {
         var _filterdData = selectedData?.listData?.filter((player) =>
-          player?.full_name
-            ?.toLocaleLowerCase()
-            ?.startsWith(value?.toLocaleLowerCase())
+          player?.first_name
+          ?.toLocaleLowerCase()
+          ?.startsWith(value?.toLocaleLowerCase()) || player?.last_name
+          ?.toLocaleLowerCase()
+          ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
         player?.team?.market
@@ -884,6 +888,7 @@ function NHLPowerdFs(props) {
   };
 
   const [showPowerInfoModal, setShowPowerInfoModal] = useState(false);
+  const setShowDepositModal = () => dispatch(showDepositForm());
   const [isExpanded, setIsExpanded] = useState(false);
   const focusRef = useRef();
   const sheetRef = useRef();
@@ -1002,6 +1007,7 @@ function NHLPowerdFs(props) {
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
           isMobile={isMobile}
+          depositClicked={setShowDepositModal}
         />
 
         <div className={classes.container}>
