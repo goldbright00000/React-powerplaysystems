@@ -46,6 +46,10 @@ class DepositAmountForm extends Component {
     zip: this.props.zip,
     currency: this.props.currency ? this.props.currency : "USD",
     country: this.props.country,
+    cvv: this.props.cvv,
+    cardno: this.props.cardno,
+    expiredate: this.props.expiredate,
+    cardname: this.props.cardname,
     canadianVisible: this.props.country === "Canada",
     dispatch: this.props.dispatch
   };
@@ -227,7 +231,11 @@ class DepositAmountForm extends Component {
     e.preventDefault();
 
     const user_id = getPersonaUserId();
+    console.log("--->--- user_id ---<---", user_id);
+    console.log("--->--- this.state ---<---", this.state);
 
+    console.log("--->--- this.state.form.currency ---<---", this.state.form.currency);
+    
     const response = await this.state.dispatch(checkAccountLimit(user_id, this.state.form.currency));
 
     if (response?.daily?.exceeded) {
@@ -246,8 +254,11 @@ class DepositAmountForm extends Component {
             address: this.state.address,
             zip: this.state.zip,
             phone_number: this.state.phoneNumber,
+            cardno: this.state.cardno,
+            cvv: this.state.cvv,
+            cardname: this.state.cardname,
+            expiredate: this.state.expiredate
           };
-
           this.props.ipaySubmitted(object);
         } else {
           let { price, paymentMetod } = this.state.form;
@@ -260,8 +271,7 @@ class DepositAmountForm extends Component {
 
           // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
         }
-      }
-      else {
+      } else {
         const { currency, price } = this.state.form;
         this.props.coinbaseSubmitted(price, currency);
       }
@@ -421,33 +431,60 @@ class DepositAmountForm extends Component {
             </div> */}
               </section>
             )}
-            <div className={`${styles.card_wrp} w-100 d-block`}>
+            {currency === "USD" && (<div className={`${styles.card_wrp} w-100 d-block`}>
           <div className="row">
               <div className="col-md-12">
                 <div className={`${styles.card_field} w-100 d-block`}>
                   <h6>Cardholder Name</h6>
-                  <input type="text" name="cardname" placeholder="e.g. Mr J Smith"/>
+                  <input
+                    type="text"
+                    name="cardname"
+                    placeholder="e.g. Mr J Smith"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.cardname}
+                  />
                 </div>
               </div>
               <div className="col-md-8">
                 <div className={`${styles.card_field} w-100 d-block`}>
                   <h6>Card Number</h6>
-                  <input type="number" name="cardno" placeholder="e.g. 1234 5678 1234 5678"/>
+                  <input
+                    type="number"
+                    name="cardno"
+                    placeholder="e.g. 1234 5678 1234 5678"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.cardno}
+                  />
                 </div>
               </div>
               <div className="col-md-2">
                 <div className={`${styles.card_field} w-100 d-block`}>
                   <h6>Expiry Date</h6>
-                  <input type="number" name="expirydate" placeholder="MM / YY"/>
+                  <input
+                    type="number"
+                    name="expiredate"
+                    placeholder="MM / YY"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.expiredate}
+                  />
                 </div>
               </div>
               <div className="col-md-2">
                 <div className={`${styles.card_field} w-100 d-block`}>
                   <h6>CVV</h6>
-                  <input type="number" name="cvv" placeholder="e.g. 123"/>
+                  <input
+                    type="number"
+                    className={styles.cvvInput}
+                    maxLength={3}
+                    minLength={3}
+                    name="cvv"
+                    placeholder="e.g. 123"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.cvv}
+                  />
                 </div>
               </div>
-              <div className="col-md-8">
+              {/* <div className="col-md-8">
                 <div className={`${styles.card_field} w-100 d-block`}>
                   <h6>State / Province</h6>
                   <select>
@@ -462,10 +499,10 @@ class DepositAmountForm extends Component {
                   <h6>ZIP / Postal Code</h6>
                   <input type="number" name="zip" placeholder="e.g. 12345"/>
                 </div>
-              </div>
+              </div> */}
           </div>
           
-        </div>
+            </div>)}
           {
             currency !== "USD" ? (
               // <section className={styles.QRCodeWrapper}>
@@ -502,7 +539,7 @@ class DepositAmountForm extends Component {
               </button>
             )
           }
-          <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged $25.00 by PowerPlay Systems Inc.</p>
+          <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged ${price}.00 by PowerPlay Systems Inc.</p>
         </form>
       </>
     );

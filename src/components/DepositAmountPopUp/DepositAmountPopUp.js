@@ -109,6 +109,7 @@ const DepositAmountPopUp = (props) => {
                       currency={currency}
                       country={country}
                       cad={rate}
+                      dispatch={dispatch}
                       ipaySubmitted={props.ipayFormSubmitted}
                       zumSubmitted={props.zumFormSubmitted}
                       myUserPaySubmitted={props.myUserPayFormSubmitted}
@@ -121,8 +122,6 @@ const DepositAmountPopUp = (props) => {
               </div>
             </div>
           </div>
-
-
           {/* Display only on small screens */}
           <div className="modal-content d-block d-xl-none bg-none">
             <div className={`${formStyles.root} pt-2 px-4 position-relative`}>
