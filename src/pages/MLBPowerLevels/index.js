@@ -539,7 +539,7 @@ function MLBPowerLevels(props) {
       <Header />
       <div className={classes.wrapper}>
         <Header4
-          titleMain1="MLB 2021"
+          titleMain1="MLB"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
           subHeader2={

@@ -105,6 +105,8 @@ function NFLPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
+  console.log("selectedTeam1", selectedTeam);
+
   const {
     live_data = [],
     starPlayerCount = 0,
@@ -682,7 +684,7 @@ function NFLPowerdFsLive(props) {
               // enrolledUsers={enrolledUsers}
               outof={1000}
               enrolledUsers={10}
-              titleMain1="NFL 2021"
+              titleMain1="NFL"
               titleMain2="PowerdFS"
               subHeader1="Introducing Live-Play Fantasy Football"
               subHeader2={

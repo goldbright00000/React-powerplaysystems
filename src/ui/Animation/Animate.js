@@ -17,7 +17,7 @@ const Animate = ({ className, children }) => {
         onScroll();
     }, [])
     return (
-        <div className={`__Animate ${className}`} ref={elm}>
+        <div className={`__Animate active`} ref={elm}>
             {useMemo(() => children, [])}
         </div>
     )

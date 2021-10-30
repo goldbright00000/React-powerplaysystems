@@ -43,6 +43,10 @@ class DepositAmountFormMobile extends Component {
         zip: this.props.zip,
         currency: this.props.currency ? this.props.currency : "USD",
         country: this.props.country,
+        cvv: this.props.cvv,
+        cardno: this.props.cardno,
+        expiredate: this.props.expiredate,
+        cardname: this.props.cardname,
         canadianVisible: this.props.country === "Canada",
     };
 
@@ -222,7 +226,7 @@ class DepositAmountFormMobile extends Component {
     onSubmit = (e) => {
         e.preventDefault();
 
-        if (this.state.form.currency === "USD")
+        if (this.state.form.currency === "USD"){
             if (!this.state.canadianVisible) {
                 const object = {
                     currency: this.state.currency,
@@ -231,6 +235,10 @@ class DepositAmountFormMobile extends Component {
                     address: this.state.address,
                     zip: this.state.zip,
                     phone_number: this.state.phoneNumber,
+                    cardno: this.state.cardno,
+                    cvv: this.state.cvv,
+                    cardname: this.state.cardname,
+                    expiredate: this.state.expiredate
                 };
 
                 this.props.ipaySubmitted(object);
@@ -241,7 +249,7 @@ class DepositAmountFormMobile extends Component {
 
                 // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
             }
-        else {
+        } else {
             const { currency, price } = this.state.form;
             this.props.coinbaseSubmitted(price, currency);
         }
@@ -406,6 +414,77 @@ class DepositAmountFormMobile extends Component {
             </div> */}
                             </section>
                         )}
+                        {currency === "USD" && (<div className={`${styles.card_wrp} w-100 d-block mt-5`}>
+                            <div className="row">
+                                <div className="col-lg-12">
+                                    <div className={`${styles.card_field} w-100 d-block`}>
+                                    <h6>Cardholder Name</h6>
+                                    <input
+                                        type="text"
+                                        name="cardname"
+                                        placeholder="e.g. Mr J Smith"
+                                        onChange={this.onFieldChangeHandler}
+                                        value={this.state.cardname}
+                                    />
+                                    </div>
+                                </div>
+                                <div className="col-lg-12">
+                                    <div className={`${styles.card_field} w-100 d-block`}>
+                                    <h6>Card Number</h6>
+                                    <input
+                                        type="number"
+                                        name="cardno"
+                                        placeholder="e.g. 1234 5678 1234 5678"
+                                        onChange={this.onFieldChangeHandler}
+                                        value={this.state.cardno}
+                                    />
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                    <div className={`${styles.card_field} w-100 d-block`}>
+                                    <h6>Expiry Date</h6>
+                                    <input
+                                        type="number"
+                                        name="expirydate"
+                                        placeholder="MM / YY"
+                                        onChange={this.onFieldChangeHandler}
+                                        value={this.state.expiredate}
+                                    />
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                    <div className={`${styles.card_field} w-100 d-block`}>
+                                    <h6>CVV</h6>
+                                    <input
+                                        type="number"
+                                        name="cvv"
+                                        placeholder="e.g. 123"
+                                        className={styles.cvvInput}
+                                        maxLength={3}
+                                        minLength={3}
+                                        onChange={this.onFieldChangeHandler}
+                                        value={this.state.cvv}
+                                    />
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                    <div className={`${styles.card_field} w-100 d-block`}>
+                                    <h6>State / Province</h6>
+                                    <select>
+                                        <option>Select</option>
+                                        <option>Demo</option>
+                                        <option>Test Testing</option>
+                                    </select>
+                                    </div>
+                                </div>
+                                <div className="col-6">
+                                    <div className={`${styles.card_field} w-100 d-block`}>
+                                    <h6>ZIP / Postal Code</h6>
+                                    <input type="number" name="zip" placeholder="e.g. 12345"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>)}
                         {currency !== "USD" ? (
                             // <section className={styles.QRCodeWrapper}>
                             //   {/* <h6>Deposit Bitcoin Directly to Your Defy Games Account</h6> */}

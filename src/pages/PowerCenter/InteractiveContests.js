@@ -152,7 +152,6 @@ const InteractiveContests = (props) => {
   }, [powerCenterCardData]);
 
   const onOpenPromoModal = (items, propss) => {
-    console.log("propss", propss);
     setShowPromoModal(true);
     if (JSON.stringify(items) !== JSON.stringify(challengeGame))
       setChallengeGame(items);
@@ -181,9 +180,9 @@ const InteractiveContests = (props) => {
 
   useEffect(() => {
     const obj = [...filteredData];
-    obj.push(newGame);
-    setFilteredData(obj);
-  }, [newGame]);
+      obj.push(newGame);
+      setFilteredData(obj);
+  }, [ newGame]);
 
   useEffect(() => {
     const obj = [...filteredData];
@@ -869,37 +868,41 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
 
     if (type === "Min Entry") {
+      var isFreeGames = arr.filter((x) => x.is_game_free);
+      var isPaidGames = arr.filter((x) => !x.is_game_free);
       if (sortedByMEAction === "des") {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? -1
-            : parseFloat(b.target) > parseFloat(a.target)
-            ? 1
-            : 0
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
+              ? 1
+              : 0
         );
+        return isPaidGames.concat(isFreeGames);
       } else {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? 1
-            : parseFloat(b.target) > parseFloat(a.target)
-            ? -1
-            : 0
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
+              ? -1
+              : 0
         );
+        return isFreeGames.concat(isPaidGames);
       }
     }
 
@@ -909,16 +912,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -929,16 +932,16 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -972,7 +975,7 @@ const InteractiveContests = (props) => {
         isBetween1 = 1;
       }
       if (
-        selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1 &&
+        selectedCurrencies.indexOf(arr[i]?.currency?.toLowerCase()) > -1 &&
         isBetween1
       ) {
         newArr.push(arr[i]);
@@ -1018,7 +1021,7 @@ const InteractiveContests = (props) => {
               return (
                 memo +
                 parseFloat(num.amount == "" ? 0 : num.amount) *
-                  parseInt(num.prize == "" ? 0 : num.prize)
+                parseInt(num.prize == "" ? 0 : num.prize)
               );
             },
             0
@@ -1117,7 +1120,6 @@ const InteractiveContests = (props) => {
       setFilteredData(data);
     } else {
       powerCenterCardData.map((item) => {
-        //console.log(item?.start_date, "==", day, item);
         if (item?.start_date == day) {
           data.push(item);
         }
@@ -1148,9 +1150,9 @@ const InteractiveContests = (props) => {
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -1163,9 +1165,8 @@ const InteractiveContests = (props) => {
             {(!isMobile || !isTablet) && (
               <div style={{ display: "flex", width: 330 }}>
                 <div
-                  className={`__outline-badge __f1 ${
-                    showEntered ? "__active" : ""
-                  }`}
+                  className={`__outline-badge __f1 ${showEntered ? "__active" : ""
+                    }`}
                   style={{ marginRight: 10, cursor: "pointer" }}
                   onClick={() => {
                     setShowEntered(true);
@@ -1174,9 +1175,8 @@ const InteractiveContests = (props) => {
                   Show Entered
                 </div>
                 <div
-                  className={`__outline-badge __f1 ${
-                    !showEntered ? "__active" : ""
-                  }`}
+                  className={`__outline-badge __f1 ${!showEntered ? "__active" : ""
+                    }`}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     setShowEntered(false);
@@ -1213,8 +1213,8 @@ const InteractiveContests = (props) => {
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
@@ -1321,12 +1321,11 @@ const InteractiveContests = (props) => {
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
@@ -1352,8 +1351,8 @@ const InteractiveContests = (props) => {
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
@@ -1437,19 +1436,21 @@ const InteractiveContests = (props) => {
                 if (selectedFilter == 4) {
                   return <OffSeasonComponent />;
                 } else {
-                  const itemsInaRow = 4;
+                  const itemsInaRow = 1000;
+
                   const numberOfRows = Math.ceil(
                     powerCenterCardData.length / itemsInaRow
                   );
+
                   var filterByCurrency = filterCurrency(filteredData);
                   var a1 = sortArray(filterByCurrency);
                   const powerCenterCardView = Array(numberOfRows)
                     .fill(undefined)
                     .map((item, i) => {
-                      const start = (i + 1) * itemsInaRow - 4;
+                      const start = (i + 1) * itemsInaRow - 1000;
                       const end = (i + 1) * itemsInaRow;
                       const items = a1.slice(start, end);
-                      console.log(start, end, items);
+
                       return (
                         <div
                           className={

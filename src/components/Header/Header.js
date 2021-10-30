@@ -178,12 +178,35 @@ const Header = (props) => {
   };
 
   useEffect(() => {
+    console.log("teeeest");
     // add when mounted
+    document.addEventListener("click", function(evt) {
+      
+      var flyoutElement = document.getElementById('menuItem2'),
+        targetElement = evt.target;  // clicked element
+      var menuAccount = document.getElementById('menuAccount1');
+      var menuAccount2 = document.getElementById('menuAccount2');
+      var menuAccount3 = document.getElementById('menuAccount3');
+      do {
+          if (targetElement == flyoutElement || targetElement == menuAccount || targetElement == menuAccount2 || targetElement == menuAccount3) {
+              // This is a click inside. Do nothing, just return.
+              return;
+          }
+          // Go up the DOM
+          targetElement = targetElement.parentNode;
+      } while (targetElement);
+
+      // This is a click outside.
+      setMyAccountMenu(false);
+    });
     document.addEventListener("mousedown", handleClick);
     // return function to be called when unmounted
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
+
+    
+
   }, []);
 
   const handleClick = (e) => {
@@ -246,16 +269,17 @@ const Header = (props) => {
                       </li>
                     ))
                   ) : (
-                    <li className="__my_account_li" ref={myAccountMenuRef} key="4">
+                    <li className="__my_account_li" ref={myAccountMenuRef} key="4" id="menuAccount1">
                       <NavLink
                         to="#"
                         onClick={(e) => { e.preventDefault(); setMyAccountMenu(!myAccountMenu) }}
+                        id="menuAccount2"
                       >
                         My Account
                         {!myAccountMenu ? (
-                          <FilledArrow down={true} />
+                          <FilledArrow down={true} id="menuAccount3"/>
                         ) : (
-                          <FilledArrow up={true} />
+                          <FilledArrow up={true} id="menuAccount3"/>
                         )}
                       </NavLink>
                       {myAccountMenu && (

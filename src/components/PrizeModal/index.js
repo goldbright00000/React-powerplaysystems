@@ -18,7 +18,7 @@ function PrizeModal(props) {
   const Item = ({ place, payout }) => (
     <div className={classes.item}>
       <div className={classes.item_text}>{place}</div>
-      <div className={`${classes.item_text} ${classes.primary}`}>{payout}</div>
+      <div className={`${classes.item_text} ${classes.primary}`}>${payout}</div>
     </div>
   );
 

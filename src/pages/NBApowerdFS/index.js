@@ -619,7 +619,7 @@ function NBAPowerdFs() {
       <Header />
       <div className={classes.wrapper}>
         <Header4
-          titleMain1="NBA 2021"
+          titleMain1="NBA"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Football"
           subHeader2={

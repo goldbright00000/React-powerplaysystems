@@ -31,6 +31,29 @@
   color: $primary;
   margin: 1.29em 0 0.95em 0;
 }
+.titleRecharge {
+  font-size: 4.43rem;
+  font-weight: 900;
+  text-align: center;
+  font-family: Teko;
+  color: $primary;
+  margin: 1.29em 0 10px 0;
+}
+.subtitle {
+  width: 232px;
+  height: 28px;
+  margin: 0px auto 82px auto;
+  font-family: Poppins;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.56;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #f2f2f2;
+  opacity: 0.6;
+}
 
 .contectSection,
 .contectSection4,
@@ -63,6 +86,7 @@
       text-decoration: underline !important;
     }
   }
+  
 }
 
 .contectSection {
@@ -74,6 +98,33 @@
   img {
     width: 32.14rem;
     margin-bottom: -5rem;
+  }
+  .headings {
+    width: 340px;
+    height: 28px;
+    margin: 0 0 22px;
+    font-family: Teko;
+    font-size: 34px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.82;
+    letter-spacing: normal;
+    color: #fb6e00;
+    margin-top: 94px;
+  }
+  .descs {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.75;
+    letter-spacing: normal;
+    color: #f2f2f2;
+    padding: 0px;
+    margin: 0px;
+    max-width: 340px;
   }
 }
 
@@ -124,7 +175,7 @@
 
 .contectSection5 {
   display: flex;
-  margin: 0 auto 5rem auto;
+  margin: 0 auto 33px auto;
   max-width: 95%;
   img {
     max-width: 59.285rem;
@@ -134,6 +185,258 @@
     margin: auto 2rem;
     &::before {
       content: "5";
+    }
+  }
+}
+
+.contectSection6 {
+  background-image: url(../../assets/howtoplayrechargebg.png);
+  width: 780px;
+  height: 200px;
+  margin: 0 auto;
+  margin-bottom: 80px;
+  text-align: center;
+  img {
+    margin-top: 30px;
+  }
+  p {
+    width: 208px;
+    height: 50px;
+    margin: 20px auto;
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #f2f2f2;
+  }
+}
+
+.leftImageRightText {
+  padding-left: 345px;
+  padding-right: 350px;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 85px;
+  .leftImage {
+    width: 240px;
+  }
+  .rightText {
+    width: 510px;
+    height: 364px;
+    padding: 32px 0 51px 80px;
+      font-family: Poppins;
+      font-size: 14px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.75;
+      letter-spacing: normal;
+      color: #f2f2f2;
+    
+  }
+}
+
+.section2details{
+  width: 1043px;
+  height: 995px;
+  margin: 0 auto;
+  background-image: url(../../assets/group-12-recharge.png);
+  padding-top: 21px;
+  padding-bottom: 21px;
+  margin-bottom: 80px;
+  .boosterBlock {
+    padding-left: 382px; 
+    padding-right: 101px; 
+    display: flex;
+    margin-bottom: 25px;
+    .leftSide {
+      display: flex;
+      flex-direction: column;
+      padding-top: 40px;
+      h2 {
+        width: 340px;
+        height: 28px;
+        font-family: Teko;
+        font-size: 34px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 0.82;
+        letter-spacing: normal;
+        color: #fb6e00;
+      }
+      p {
+        width: 340px;
+        height: 112px;
+        font-family: Poppins;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.75;
+        letter-spacing: normal;
+        color: #f2f2f2;
+      }
+    }
+    .rightSide {
+      display: flex;
+    }
+  }
+}
+
+.bottomButtons {
+  margin-left: 330px;
+  margin-right: 330px;
+  margin-bottom: 96px;
+  .header {
+    margin: 0 53px 20px 20px;
+    font-family: Teko;
+    font-size: 32px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 0.88;
+    letter-spacing: normal;
+    color: #f2f2f2;
+  }
+  .linksBlock {
+    display: flex;
+    flex-direction: row;
+    .leftSideLinks {
+      display: flex;
+      flex-direction: column;
+      a {
+        width: 380px;
+        height: 48px;
+        margin: 10px 10px 5px 0px;
+        padding: 8px 33px 12px 20px;
+        border-radius: 8px;
+        background-color: rgba(216, 216, 216, 0.08);
+        font-family: Poppins;
+        font-size: 18px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.56;
+        letter-spacing: normal;
+        color: #f2f2f2;
+      }
+    }
+    .rightSideLinks {
+      display: flex;
+      flex-direction: column;
+      a {
+        width: 380px;
+        height: 48px;
+        margin: 10px 10px 5px 0px;
+        padding: 8px 33px 12px 20px;
+        border-radius: 8px;
+        background-color: rgba(216, 216, 216, 0.08);
+        font-family: Poppins;
+        font-size: 18px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.56;
+        letter-spacing: normal;
+        color: #f2f2f2;
+      }
+    }
+  }
+}
+
+.section1 {
+  display: flex;
+  flex-direction: row;
+  margin-top: -86px;
+  .leftText {
+    div {
+      display: flex; 
+      flex-direction: row;
+      span {
+        width: 48px;
+        height: 48px;
+        margin: 226px 20px 132.5px 332px;
+        padding: 8px 20px 9px;
+        border-radius: 4px;
+        background-color: #fb6e00;
+        font-family: Poppins;
+        font-size: 22px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #f2f2f2;
+      }
+      p {
+        width: 232px;
+        height: 84px;
+        margin: 217px 42px 105.5px 20px;
+        font-family: Poppins;
+        font-size: 18px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.56;
+        letter-spacing: normal;
+        color: #f2f2f2;
+        a {
+          font-weight: 600;
+          color: #fb6e00;
+        }
+      }
+    }
+  }
+}
+
+.section2 {
+  display: flex;
+  margin-top: -210px;
+  .leftImage {
+    width: 796px;
+    height: 636px;
+  }
+  .rightText {
+    padding-top: 220px;
+    //margin-left: -81px;
+    div {
+      display: flex;
+      span {
+        width: 48px;
+        height: 48px;
+        padding: 8px 17px 9px 18px;
+        border-radius: 4px;
+        background-color: #fb6e00;
+        font-family: Poppins;
+        font-size: 22px;
+        font-weight: 600;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #f2f2f2;
+        margin-top: 8px;
+      }
+      p {
+        width: 399px;
+        height: 112px;
+        /* margin: 14.5px 252px 67.5px 64px; */
+        /* padding: 63px 6px 33px 267px; */
+        font-family: Poppins;
+        font-size: 18px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.56;
+        letter-spacing: normal;
+        color: #f2f2f2;
+        margin-left: 20px;
+      }
     }
   }
 }

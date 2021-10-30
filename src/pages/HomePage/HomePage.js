@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./HomePage.module.scss";
 import { Link } from "react-router-dom";
 import Header from "../../components/Header/Header";
@@ -11,8 +11,31 @@ import Tick from "../../assets/home_page_tick.png";
 import NFL from "../../assets/home_page_nfl.png";
 import PowerPlay from "../../assets/home_page_power_play.png";
 import { redirectTo } from "../../utility/shared";
-
+import { useDispatch } from "react-redux";
+import * as MLBActions from "../../actions/MLBActions";
+function parse_query_string(query) {
+  var vars = query.split("&");
+  var query_string = {};
+  for (var i = 0; i < vars.length; i++) {
+    var pair = vars[i].split("=");
+    var key = decodeURIComponent(pair[0]);
+    var value = decodeURIComponent(pair[1]);
+    // If first entry with this name
+    if (typeof query_string[key] === "undefined") {
+      query_string[key] = decodeURIComponent(value);
+      // If second entry with this name
+    } else if (typeof query_string[key] === "string") {
+      var arr = [query_string[key], decodeURIComponent(value)];
+      query_string[key] = arr;
+      // If third or later entry with this name
+    } else {
+      query_string[key].push(decodeURIComponent(value));
+    }
+  }
+  return query_string;
+}
 const HomePage = (props) => {
+  const dispatch = useDispatch();
   const renderFirstSectionTicks = () => {
     return <img src={Tick} width="24" height="24" />;
   };
@@ -50,6 +73,50 @@ const HomePage = (props) => {
   const renderNumSquareBox = (num) => {
     return <p>{num}</p>;
   };
+
+  useEffect(async () => {
+    console.log("props.location", props.location);
+    if (props?.location?.search !== "") {
+      let queryParameters = parse_query_string(
+        props.location.search.substring(1)
+      );
+      if (queryParameters) {
+        if (queryParameters?.fb) {
+          let splitFb = queryParameters?.fb.split("_");
+          let powerArray = [
+            { key: "Swap Player", val: 4 },
+            { key: "Challenge", val: 6 },
+            { key: "D-Wall", val: 5 },
+            { key: "1.5x Point Booster", val: 1 },
+            { key: "2x Point Booster", val: 2 },
+            { key: "3x Point Booster", val: 3 },
+            { key: "Retro Boost", val: 7 },
+            { key: "Power Up", val: 10 },
+          ];
+          let powerName = splitFb[2];
+          let gameId = splitFb[4];
+          let powerId = powerArray.find((x) => x.key == powerName).val;
+          let user_id = parseInt(localStorage.PERSONA_USER_ID);
+          console.log("splitFb", powerName, gameId, powerId, user_id);
+          let requests = await dispatch(
+            MLBActions.updateUserRemainingPowers(
+              gameId,
+              user_id,
+              powerId,
+              "socialMediaUnlock"
+            )
+          );
+          if (requests.payload) {
+            window.close();
+          } else {
+            alert(
+              "We are experiencing technical issues with the Power functionality. Please try again shortly."
+            );
+          }
+        }
+      }
+    }
+  }, []);
 
   return (
     <div className={classes.__home_page}>

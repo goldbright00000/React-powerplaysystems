@@ -52,9 +52,11 @@ export function setAccountLimit(accountLimits) {
     return request.then((response) => {
       if (response.status === 200) {
         dispatch(createAlert(response?.data?.message, "success"));
-        return dispatch({ type: SET_ACCOUNT_LIMITS, payload: accountLimits });
+        dispatch({ type: SET_ACCOUNT_LIMITS, payload: accountLimits });
+        return response.data;
       } else {
-        return dispatch(createAlert(response?.data?.message, "error"));
+        dispatch(createAlert(response?.data?.message, "error"));
+        return response.data;
       }
     });
   };
@@ -69,6 +71,7 @@ export function fetchUserBalance() {
       .catch((err) => console.log(err?.response));
 }
 
+// PHP - In-Process this module.
 export async function payNowWithIpay(data) {
   http.post(URLS.USER.SMALL_TOKEN).then((res) => {
     let token = res.data;
@@ -79,13 +82,15 @@ export async function payNowWithIpay(data) {
       address,
       zip,
       phone_number,
-      city,
       amount,
       currency,
-      country,
-      state_or_province,
+      city,
+      // country,
+      // state_or_province,
       email,
     } = data;
+
+    // console.log("--->--- country ---<---", country);
 
     const obj = {
       api_key: process.env.REACT_APP_IPAY_API_KEY,
@@ -94,9 +99,9 @@ export async function payNowWithIpay(data) {
       first_name,
       last_name,
       address,
-      country: country.substring(0, 2)?.toUpperCase(),
-      state: state_or_province,
       city,
+      // state: state_or_province,
+      // country: country.substring(0, 2)?.toUpperCase(),
       zip,
       phone_no: phone_number,
       email,
@@ -106,13 +111,12 @@ export async function payNowWithIpay(data) {
       sulte_apt_no: token,
       webhook_url: `${process.env.REACT_APP_IPAY_WEBHOOK_URL}/api/v1/users/account/balance`,
     };
+    console.log("--->--- obj ---<---", obj);
 
-    axios
-      .post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj)
-      .then((res) => {
-        window.open(res.data.payment_redirect_url, "_blank");
-      })
-      .catch((er) => console.log(er));
+    axios.post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj).then((res) => {
+      console.log("--->--- res ---<---", res);
+      window.open(res.data.payment_redirect_url, "_blank");
+    }).catch((er) => console.log(er));
   });
 }
 
