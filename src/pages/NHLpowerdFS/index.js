@@ -359,20 +359,24 @@ function NHLPowerdFs(props) {
 
   const autoSelectOnEdit = () => {
     if (isEdit === true && !loading && selected.entries().next().done) {
+      console.log("savedPlayers");
+      console.log(savedPlayers);
       const pls = [];
       savedPlayers.forEach((element) => {
-        if (element.id) {
-          pls.push({
-            team_id: element?.id,
-            matchId: element?.match_id,
-          });
-        } else {
-          pls.push({
-            id: element?.id,
-            matchId: element?.matchId,
-          });
-        }
+        // if (element?.type?.toLocaleLowerCase() === TD) {
+        //   pls.push({
+        //     team_id: element?.id,
+        //     matchId: element?.match_id,
+        //   });
+        // } else {
+        pls.push({
+          id: element?.id,
+          matchId: element?.match_id,
+        });
+        // }
       });
+      console.log("pls");
+      console.log(pls);
 
       let _selected = new Map(selected);
       let _playerList = [...sideBarList];

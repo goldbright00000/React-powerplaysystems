@@ -9,7 +9,7 @@ import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import OffSeasonComponent from '../../components/OffSeasonComponent';
+import OffSeasonComponent from "../../components/OffSeasonComponent";
 import {
   redirectTo,
   getDaysFromToday,
@@ -339,6 +339,7 @@ const InteractiveContests = (props) => {
         ).toString();
         await dispatch(NHLActions.setSelectedTeam(item));
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME, encData2);
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID, game_id);
         return redirectTo(props, { path: "/nhl-live-powerdfs", state: item });
     }
   };
@@ -393,22 +394,27 @@ const InteractiveContests = (props) => {
     await dispatch(MLBActions.getFinalStandings(game_id));
   };
 
-  const myGameCenterCard = (item, redirectUri) => {
+  const myGameCenterCard = (item, redirectUri, index) => {
     return (
       <div
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
+        key={index}
       >
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
           title={item?.game?.league}
-          prize={_.reduce(
-            item?.game?.PrizePayouts,
-            function (memo, num) {
-              return memo + parseFloat(num.amount) * parseInt(num.prize);
-            },
-            0
-          )}
+          prize={
+            item?.game?.PrizePayouts.length > 0
+              ? _.reduce(
+                  item?.game?.PrizePayouts,
+                  function (memo, num) {
+                    return memo + parseFloat(num.amount) * parseInt(num.prize);
+                  },
+                  0
+                )
+              : 0
+          }
           outOf={item?.enrolled_users}
           total={item?.game?.target}
           percent={item?.game?.percent}
@@ -456,7 +462,10 @@ const InteractiveContests = (props) => {
       <div className="__table-wrapper __mb-6">
         <div className={`${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab" style={{display: "flex"}}>
+            <div
+              className="__badges-wrapper __text-in-one-line __mediam filtersTab"
+              style={{ display: "flex" }}
+            >
               {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
@@ -466,17 +475,17 @@ const InteractiveContests = (props) => {
                         (selectedFilter == item.id && "__active")
                       }
                       key={index}
-                      style={{maxWidth: 120}}
+                      style={{ maxWidth: 120 }}
                       onClick={() => {
                         setSelectedFilter(item.id);
                         const filteredData =
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  cardItem?.game?.league === item.title
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -565,8 +574,8 @@ const InteractiveContests = (props) => {
                 selectedDate === "Today"
                   ? "Today"
                   : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                  ? "All"
+                  : moment(selectedDate).format("ddd,MMM DD")
               }
               options={days}
               onChange={(selectedOption) => {
@@ -579,7 +588,7 @@ const InteractiveContests = (props) => {
 
         {myGameCenterCardData &&
           (() => {
-            if(selectedFilter == 4) {
+            if (selectedFilter == 4) {
               return <OffSeasonComponent />;
             }
             const itemsInaRow = 4;
@@ -681,11 +690,14 @@ const InteractiveContests = (props) => {
                 // }
               });
             }
-            if(myGameCenterCardData.length == 0) {
+            if (myGameCenterCardData.length == 0) {
               return (
                 <div className={classes.noGameDiv}>
                   <h2>You are not currently entered in any games</h2>
-                  <p>Head over to the Power Center, browse the available games, and get in on the action!</p>
+                  <p>
+                    Head over to the Power Center, browse the available games,
+                    and get in on the action!
+                  </p>
                   <Link to="/power-center">Go to Power Center</Link>
                 </div>
               );
@@ -696,6 +708,7 @@ const InteractiveContests = (props) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
                 var items = subFiltered.slice(start, end);
+                console.log("items: ", items);
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                 //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
                 //   item?.game?.game_set_end + ' 11:59 AM'
@@ -705,18 +718,24 @@ const InteractiveContests = (props) => {
                     {isMobile ? (
                       <div>
                         {items?.length > 0 ? (
-                          items.map((power) => {
-                            return myGameCenterCard(power, power.url);
+                          items.map((power, index) => {
+                            return myGameCenterCard(power, power.url, index);
                           })
                         ) : i == 0 ? (
-                            contentType !== "Completed" ?
-                              <div className={classes.noGameDiv}>
-                                <h2>You are not currently entered in any games</h2>
-                                <p>Head over to the Power Center, browse the available games, and get in on the action!</p>
-                                <Link to="/power-center">Go to Power Center</Link>
-                              </div>
-                              :
-                              <h1 className="nogamesmessage">No games</h1>
+                          contentType !== "Completed" ? (
+                            <div className={classes.noGameDiv}>
+                              <h2>
+                                You are not currently entered in any games
+                              </h2>
+                              <p>
+                                Head over to the Power Center, browse the
+                                available games, and get in on the action!
+                              </p>
+                              <Link to="/power-center">Go to Power Center</Link>
+                            </div>
+                          ) : (
+                            <h1 className="nogamesmessage">No games</h1>
+                          )
                         ) : (
                           ""
                         )}
@@ -727,35 +746,43 @@ const InteractiveContests = (props) => {
                           className={
                             classes.__interactive_contests_power_center_card_row
                           }
-                        > 
+                        >
                           {items?.length > 0 ? (
-                            items.map((power) => {
-                              return myGameCenterCard(power, power.url);
+                            items.map((power, index) => {
+                              return myGameCenterCard(power, power.url, index);
                             })
-                            
-                            // _.times((4 - items.length), (i) => (
-                            //   <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`} style={{width: 280}}/>
-                            // ))
-                          ) : i == 0 ? (
-                            contentType !== "Completed" ?
+                          ) : // _.times((4 - items.length), (i) => (
+                          //   <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`} style={{width: 280}}/>
+                          // ))
+                          i == 0 ? (
+                            contentType !== "Completed" ? (
                               <div className={classes.noGameDiv}>
-                                <h2>You are not currently entered in any games</h2>
-                                <p>Head over to the Power Center, browse the available games, and get in on the action!</p>
-                                <Link to="/power-center">Go to Power Center</Link>
-                                
+                                <h2>
+                                  You are not currently entered in any games
+                                </h2>
+                                <p>
+                                  Head over to the Power Center, browse the
+                                  available games, and get in on the action!
+                                </p>
+                                <Link to="/power-center">
+                                  Go to Power Center
+                                </Link>
                               </div>
-                              :
+                            ) : (
                               <h1 className="nogamesmessage">No games</h1>
+                            )
                           ) : (
                             ""
                           )}
 
-                        {items?.length > 0 && 
-                          (4 - items.length) > 0 && 
-                          _.times((4 - items.length), (i) => (
-                            <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`} style={{width: 280}}/>
-                          ))
-                        }
+                          {items?.length > 0 &&
+                            4 - items.length > 0 &&
+                            _.times(4 - items.length, (i) => (
+                              <div
+                                className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
+                                style={{ width: 280 }}
+                              />
+                            ))}
                         </div>
                       </>
                     )}

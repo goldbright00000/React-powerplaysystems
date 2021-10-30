@@ -97,8 +97,8 @@ export const CONSTANTS = {
     },
     NHL: {
       LIVE: {
-        CONNECT_MATCH_ROOM: "NHL_CONNECT_MATCH_ROOM",
-        GET_MATCH_ROOM_UPDATES: "NHL_GET_MATCH_ROOM_UPDATES",
+        NHL_CONNECT_MATCH_ROOM: "NHL_CONNECT_MATCH_ROOM",
+        NHL_GET_MATCH_ROOM_UPDATES: "NHL_GET_MATCH_ROOM_UPDATES",
         ALL_UPDATES: "NHL_MATCH_ROOM_",
         EMIT_ROOM: "NHL_ON_EMIT_LIVE_DATA",
         ON_ROOM_SUB: "NHL_POWER_DFS_LIVE_SUBSCRIBE",
@@ -124,6 +124,7 @@ export const CONSTANTS = {
     MLB_LIVE_GAME: "mlb_live_game",
     NFL_LIVE_GAME: "nfl_live_game",
     NHL_LIVE_GAME: "nhl_live_game",
+    NHL_LIVE_GAME_ID: "nhl_live_game_id",
   },
 
   BUTTON_TYPE: {

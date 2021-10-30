@@ -70,7 +70,7 @@ function SportsSelectionCard3(props) {
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
   const { teams = [] } = seasons[seasons.length - 1] || {};
-  const { statistics = {} } = teams[teams.length - 1] || {};
+  const { statistics = {}, goaltending = {} } = teams[teams.length - 1] || {};
 
   // let [teams, setTeams] = useState([]);
   // let [statistics, setStatistics] = useState({});
@@ -156,7 +156,7 @@ function SportsSelectionCard3(props) {
       case PAGE_TYPES.NHL:
         return (
           <NHLPlayerStat
-            playerStats={statistics}
+            playerStats={{ statistics, goaltending }}
             active={isSelected}
             position={type}
           />

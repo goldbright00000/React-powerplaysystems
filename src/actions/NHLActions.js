@@ -5,6 +5,7 @@ import moment from "moment";
 import { CONSTANTS } from "../utility/constants";
 import { printLog } from "../utility/shared";
 
+export const NHL_UPDATE_STATE = "[NHL] NHL_UPDATE_STATE";
 export const NHL_DATA = "[NHL] GET_SET_DATA";
 export const NHL_LIVE_DATA = "[NHL] NHL_LIVE_DATA";
 export const NHL_LIVE_DATA_UPDATE = "[NHL] NHL_LIVE_DATA_UPDATE";
@@ -257,20 +258,29 @@ export function getFantasyTeam(payload) {
         "https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyTeam",
         payload
       );
-      const { message = "", error = false } = response.data || {};
-      if (!error && message === "Success") {
-        //get the live page players and save them in redux
-        try {
-          return response.data.fantasyTeam;
-          // dispatch({
-          //   type: NHL_DATA,
-          //   payload: { filterdList: filterdList, allData: [...players, ...teams] },
-          //   game_id: gameID,
-          //   sport_id: 2,
-          // });
-        } catch (er) {}
+      const {
+        message = "",
+        error = false,
+        fantasyTeam = {},
+      } = response.data || {};
+
+      try {
+        dispatch({
+          type: NHL_LIVE_DATA_UPDATE,
+          payload: {
+            live_players: fantasyTeam.players,
+            live_teamD: fantasyTeam.teamD,
+            gameID: fantasyTeam.gameID,
+            powersApplied: fantasyTeam.powersApplied,
+            powersAvailable: fantasyTeam.powersAvailable,
+          },
+        });
+      } catch (er) {
+        console.log(er);
       }
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   };
 }
 
@@ -416,32 +426,35 @@ export function saveAndGetSelectPlayers(payload) {
 
 export async function getSavedTeamPlayers(payload) {
   try {
-    const playersResponse = await http.post(URLS.DFS.NHL_LIVE_PAGE_PLAYERS, {
-      game_id: payload.game_id,
-      sport_id: payload.sport_id,
-      user_id: payload.user_id,
-    });
+    const playersResponse = await http.post(
+      "https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyTeam",
+      {
+        gameID: payload.game_id,
+        sportID: payload.sport_id,
+        userID: payload.user_id,
+      }
+    );
 
-    const { data = {} } = playersResponse.data || {};
+    const { fantasyTeam = {} } = playersResponse.data || {};
 
     const {
       game_id,
       sport_id,
       user_id,
-      team_id,
+      _id: team_id = "",
       teamD = {},
       players = [],
-    } = data || {};
+    } = fantasyTeam || {};
 
-    for (let i = 0; i < players?.length; i++) {
-      const player = players[i];
-      Object.assign(player, {
-        playerName: player?.name,
-        playerId: player?.player_id,
-      });
+    // for (let i = 0; i < players?.length; i++) {
+    //   const player = players[i];
+    //   Object.assign(player, {
+    //     playerName: player?.name,
+    //     playerId: player?.player_id,
+    //   });
 
-      delete player?.name;
-    }
+    //   delete player?.name;
+    // }
 
     return {
       players,
@@ -467,20 +480,21 @@ export function getAndSetEditPlayers(
   return async (dispatch) => {
     const teamPlayers = await getSavedTeamPlayers(payload);
     const players = teamPlayers?.players || [];
-    const teamD = teamPlayers?.teamD;
-    const savedPlayers = [];
-    for (let i = 0; i < players?.length; i++) {
-      const obj = {
-        matchId: players[i]?.match_id,
-        playerId: players[i]?.player_id,
-      };
-      savedPlayers.push(obj);
-    }
+    const teamD = teamPlayers?.teamD || {};
+    const savedPlayers = [...players];
+    // for (let i = 0; i < players?.length; i++) {
+    //   const obj = {
+    //     matchId: players[i]?.match_id,
+    //     playerId: players[i]?.player_id,
+    //   };
+    //   savedPlayers.push(obj);
+    // }
 
-    const teamDObj = {
-      team_id: teamD[0]?.team_d,
-      match_id: teamD[0]?.match_id,
-    };
+    // const teamDObj = {
+    //   team_id: teamD[0]?.team_d,
+    //   match_id: teamD[0]?.match_id,
+    // };
+    const teamDObj = teamD;
 
     savedPlayers.push(teamDObj);
 
