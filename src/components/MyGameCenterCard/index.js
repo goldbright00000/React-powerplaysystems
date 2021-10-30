@@ -52,9 +52,9 @@ const MyGameCenterCard = (props) => {
     isMobile = false,
     id = null,
     title = "",
-    prize = null,
+    prize = 0,
     outOf = null,
-    total = null,
+    total = 0,
     percent = null,
     showDetails = false,
     inProgress = false,
@@ -319,7 +319,7 @@ const MyGameCenterCard = (props) => {
                     <CurrencyFormat
                       value={prize}
                       displayType={"text"}
-                      thousandSeparator={true}
+                      // thousandSeparator={true}
                       thousandSeparator={prize >= 10000 ? true : false}
                       prefix={"$"}
                       renderText={(value) => <div>{value}</div>}
@@ -375,7 +375,7 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
-                        height: 33
+                        height: 33,
                       }}
                     />
                   )}
@@ -388,7 +388,7 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
-                        height: 33
+                        height: 33,
                       }}
                       icon={
                         <img
@@ -409,7 +409,7 @@ const MyGameCenterCard = (props) => {
                         width: "140px",
                         fontSize: "12px",
                         margin: ".25rem",
-                        height: 33
+                        height: 33,
                       }}
                     />
                   )}
@@ -422,7 +422,7 @@ const MyGameCenterCard = (props) => {
                         marginTop: 14,
                         margin: ".25rem",
                         fontSize: "12px",
-                        height: 33
+                        height: 33,
                       }}
                     />
                   )}

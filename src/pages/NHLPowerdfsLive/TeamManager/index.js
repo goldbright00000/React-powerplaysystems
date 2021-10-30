@@ -50,6 +50,22 @@ export default function TeamManager(props) {
     sport_id = 0,
     game_id = 0,
   } = useSelector((state) => state.nhl);
+
+  const {
+    gameID = 0,
+    live_players = [],
+    live_teamD = {},
+    live_home = {},
+    live_away = {},
+    period = 0,
+    powersApplied = [],
+    powersAvailable = "",
+  } = useSelector((state) => state.nhl);
+
+  useEffect(() => {
+    console.log("live_players: ", live_players);
+  }, [live_players]);
+
   const { user = {} } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
@@ -331,51 +347,63 @@ export default function TeamManager(props) {
         />
       </>
     );
-  } else if (live_data && live_data?.length) {
+  } else if (live_players && live_players?.length) {
     return (
       <>
         {screenSize > 550 ? (
           <>
             <TeamManagerCardHeader />
 
-            {live_data?.map((item, index) => (
-              <>
-                {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
-                  <SportsLiveCardTeamD
-                    data={item}
-                    compressedView={compressedView}
-                    key={index + "" + item?.team_d_nhl_team?.type}
-                    dwall={dwallCounts}
-                    challenge={challengeCounts}
-                    useDwall={useDwall}
-                    useChallenge={useChallenge}
-                    dataMain={selectedTeam}
-                    setPowers={setPowers}
-                    cardType="nhl"
-                  />
-                ) : (
-                  <SportsLiveCard
-                    data={item}
-                    compressedView={compressedView}
-                    key={index + ""}
-                    onChangeXp={onChangeXp}
-                    updateReduxState={updateReduxState}
-                    starPlayerCount={starPlayerCount}
-                    gameInfo={selectedTeam}
-                    useSwap={useSwap}
-                    swapCount={swapCounts}
-                    dataMain={selectedTeam}
-                    setPowers={setPowers}
-                    pointXpCount={{
-                      xp1: pointBooster15x,
-                      xp2: pointBooster2x,
-                      xp3: pointBooster3x,
-                    }}
-                    cardType="nhl"
-                  />
-                )}
-              </>
+            {live_players.map((item, index) => (
+              <SportsLiveCard
+                data={{ player: item, ...item }}
+                // data={{
+                //   ...item,
+                //   player: {
+                //     name: item?.full_name,
+                //     positionID: item?.positionID,
+                //     primary_position: item?.primary_position,
+                //   },
+                // }}
+                compressedView={compressedView}
+                key={index + ""}
+                onChangeXp={onChangeXp}
+                updateReduxState={updateReduxState}
+                starPlayerCount={starPlayerCount}
+                gameInfo={selectedTeam}
+                useSwap={useSwap}
+                swapCount={swapCounts}
+                dataMain={selectedTeam}
+                setPowers={setPowers}
+                pointXpCount={{
+                  xp1: pointBooster15x,
+                  xp2: pointBooster2x,
+                  xp3: pointBooster3x,
+                }}
+                cardType="nhl"
+                counts={{
+                  swapCounts,
+                  dwallCounts,
+                  challengeCounts,
+                  retroBoostCounts,
+                  powerUpCounts,
+                  pointMultiplierCounts,
+                }}
+              />
             ))}
+
+            <SportsLiveCardTeamD
+              data={live_teamD}
+              compressedView={compressedView}
+              key={live_teamD?.id}
+              dwall={dwallCounts}
+              challenge={challengeCounts}
+              useDwall={useDwall}
+              useChallenge={useChallenge}
+              dataMain={selectedTeam}
+              setPowers={setPowers}
+              cardType="nhl"
+            />
           </>
         ) : (
           <>
@@ -406,54 +434,6 @@ export default function TeamManager(props) {
                   powerUpCounts,
                   pointMultiplierCounts,
                 }}
-                // boostModal={boostModal}
-                // swapModal={swapModal}
-                // showTagLine={true}
-                // tagLine={item?.team_d_nhl_team?.type}
-                // tagLine={
-                //   data?.team_d_mlb_team?.type === CONSTANTS.FILTERS.MLB.D
-                //     ? `${data?.team_d_mlb_team?.type}`.toLocaleUpperCase()
-                //     : primary_position
-                // }
-                // firstTeam={`${away_team?.name} ${away_team_runs}`}
-                // secondTeam={`${home_team?.name} ${home_team_runs}`}
-                // double={false}
-                // featured={false}
-                // icons={false}
-                // baseBall={type === "P" ? false : !isEmpty(hitter)}
-                // title={name}
-                // subTitle={RenderSubTitle(
-                //   type,
-                //   innings_pitched,
-                //   pitch_count,
-                //   strike_outs,
-                //   walks,
-                //   batting_average,
-                //   hits,
-                //   plate_appearances,
-                //   runs_batted_in,
-                //   runs
-                // )}
-                // hitter={hitter}
-                // pitcher={pitcher}
-                // strikes={strikes}
-                // balls={balls}
-                // fieldText={showStatusText(status, date_time)}
-                // fieldColor="#3f9946"
-                // points={score}
-                // footerText={footerTitle(
-                //   current_inning_half,
-                //   current_inning,
-                //   outs
-                // )}
-                // secondShow={true}
-                // key={`${index}`}
-                // type={type}
-                // index={index}
-                // ranks={ranks}
-                // counts={counts}
-                // player={data}
-                // active_power_id={active_power_id}
               />
             ))}
           </>

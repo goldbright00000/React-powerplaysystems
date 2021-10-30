@@ -49,6 +49,8 @@ function SportsLiveCardTeamD(props) {
   } = props || {};
 
   const {
+    name = "",
+    type = "",
     match_id = "",
     match = {},
     team_d_mlb_team,
@@ -75,8 +77,6 @@ function SportsLiveCardTeamD(props) {
   } = match || {};
 
   const {
-    name = "",
-    type = "",
     points = 0,
     playerStats = {},
     pointsSummary = [],
