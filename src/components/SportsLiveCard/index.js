@@ -89,16 +89,20 @@ function SportsLiveCard(props) {
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   const {
-    name = "",
+    full_name = "",
+    positionID = "",
+    name = "" || full_name,
     type = "",
     type1 = "",
-    primary_position: type2 = "",
+    primary_position = "",
+    fantasyPlayerPosition = "",
     pointsSummary = [],
     totalPts = 0,
     range = "",
     mlb_player_stats = [],
     nfl_player_season_stats = [],
     nhl_player_season_stats = [],
+    stats = {},
     boost = {},
     current_team = "",
     player_id = "",
@@ -111,21 +115,17 @@ function SportsLiveCard(props) {
     home_runs = 0,
   } = mlb_player_stats[0] || {};
 
-  const {
-    // batting_average = 0,
-    // earned_runs_average = 0,
-    // home_runs = 0,
-  } = nhl_player_season_stats[0] || {};
+  // const {
+  //   games_played = 0,
+  //   goals = 0,
+  //   assists = 0,
+  //   points = 0,
+  //   // batting_average = 0,
+  //   // earned_runs_average = 0,
+  //   // home_runs = 0,
+  // } = nhl_player_season_stats[0] || {};
 
-  const {
-    games_played = 0,
-    goals = 0,
-    assists = 0,
-    points = 0,
-    // batting_average = 0,
-    // earned_runs_average = 0,
-    // home_runs = 0,
-  } = nhl_player_season_stats[0] || {};
+  const { goals = 0, assists = 0, points = 0 } = stats || {};
 
   const {
     match_id = 0,
@@ -273,7 +273,7 @@ function SportsLiveCard(props) {
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
         const [swapablePlayerData] = _nhlData?.filter(
-          (data) => data?.type === `${type2}`?.toLocaleLowerCase()
+          (data) => data?.type === `${primary_position}`?.toLocaleLowerCase()
         );
 
         if (
@@ -911,8 +911,10 @@ function SportsLiveCard(props) {
 
         {cardType === CardType.NHL ? (
           <span>
-            {type2 === "XW" || type === "D" ? type1 : type2}:
-            <span className={classes.card_header_points}>14 Pts</span>
+            {primary_position === "XW" || type === "D"
+              ? fantasyPlayerPosition + positionID
+              : fantasyPlayerPosition}
+            :<span className={classes.card_header_points}>14 Pts</span>
           </span>
         ) : null}
       </p>

@@ -13,10 +13,26 @@ const INITIAL_STATE = {
   team_id: 0,
   is_loading: false,
   selectedTeam: {},
+
+  // Live States
+  gameID: 0,
+  live_players: [],
+  live_teamD: {},
+  live_home: {},
+  live_away: {},
+  period: 0,
+  powersApplied: [],
+  powersAvailable: "",
 };
 
 const nhlReducer = (state = INITIAL_STATE, actions) => {
   switch (actions.type) {
+    case Actions.NHL_UPDATE_STATE:
+      return {
+        ...state,
+        ...actions.payload,
+      };
+
     case Actions.NHL_DATA:
       return {
         ...state,
@@ -30,6 +46,12 @@ const nhlReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         live_data: actions.payload,
+      };
+
+    case Actions.NHL_LIVE_DATA_UPDATE:
+      return {
+        ...state,
+        ...actions.payload,
       };
 
     case Actions.NHL_STAR_PLAYER_COUNT:

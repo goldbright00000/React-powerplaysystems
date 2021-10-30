@@ -37,8 +37,8 @@ import TeamManager from "./TeamManager";
 
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 const {
-  CONNECT_MATCH_ROOM,
-  GET_MATCH_ROOM_UPDATES,
+  NHL_CONNECT_MATCH_ROOM,
+  NHL_GET_MATCH_ROOM_UPDATES,
   ALL_UPDATES,
   ON_ROOM_SUB,
   ON_ROOM_UN_SUB,
@@ -107,14 +107,56 @@ function NHLPowerdFsLive(props) {
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
+  function getGameIDFromLocalStorage() {
+    const gameID = getLocalStorage(
+      CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
+    );
+    if (gameID) {
+      dispatch({
+        type: NHLActions.NHL_UPDATE_STATE,
+        payload: { gameID },
+      });
+    }
+    return gameID;
+  }
+
   const {
     live_data = [],
     starPlayerCount = 0,
     sport_id = 0,
     game_id = 0,
   } = useSelector((state) => state.nhl);
+
+  const {
+    gameID = 0,
+    live_players = [],
+    live_teamD = {},
+    live_home = {},
+    live_away = {},
+    period = 0,
+    powersApplied = [],
+    powersAvailable = "",
+  } = useSelector((state) => state.nhl);
+
   const { user = {} } = useSelector((state) => state.auth);
   const { token = "", user_id } = user || {};
+
+  const getFantasyTeam = async () => {
+    setLoading(true);
+    let payload = {
+      gameID: getGameIDFromLocalStorage(),
+      userID: user_id,
+    };
+    // NHLActions.getFantasyTeam(payload);
+    await dispatch(NHLActions.getFantasyTeam(payload));
+
+    setLoading(false);
+  };
+  useEffect(() => {
+    if (user_id) {
+      getFantasyTeam();
+    }
+  }, [user_id]);
 
   const {
     game_id: gameId = "",
@@ -282,223 +324,48 @@ function NHLPowerdFsLive(props) {
   useEffect(async () => {
     _socket = socket();
     setPowers();
-    // return function cleanUP() {
-    //   isMatchUpdate = false;
-
-    //   //reset logs
-    //   dispatch(NHLActions.setGameLogs([]));
-
-    //   //disconnect the socket
-    //   _socket?.emit(ON_ROOM_UN_SUB);
-    //   _socket?.on(ON_ROOM_UN_SUB, () => {
-    //     _socket?.disconnect();
-    //     _socket = null;
-    //   });
-    // };
   }, []);
 
   useEffect(() => {
     setPlayerToSwap({});
-    if (_socket) {
+    if (_socket && gameID && user_id) {
       onSocketEmit();
-
       onSocketListen();
     }
-  }, [_socket]);
-
-  useEffect(() => {
-    if (isEmpty(matchUpdateData) && isEmpty(matchUpdateData.data)) return;
-
-    setMatchUpdates();
-  }, [matchUpdateData]);
+  }, [_socket, gameID, user_id]);
 
   //All Emit Events
   const onSocketEmit = () => {
-    _socket.emit(CONNECT_MATCH_ROOM, {
-      gameID: 101,
-    });
+    console.log("Came here socket emit");
+    if (gameID) {
+      console.log("Came here socket emit 1");
+      _socket.emit("NHL_CONNECT_MATCH_ROOM", {
+        gameID: gameID,
+      });
 
-    // setTimeout(()=>{socket.emit("NHL_GET_MATCH_ROOM_UPDATES",{gameID:101})},500);
-    _socket.emit(GET_MATCH_ROOM_UPDATES, { gameID: 101 });
-
-    _socket.emit(ON_ROOM_SUB, {
-      gameId: gameId,
-      userId: userId,
-    });
-
-    //ON_GLOBAL_RANKING_REQUEST
-    _socket.emit(ON_GLOBAL_RANKING_REQUEST, {
-      gameId: gameId,
-    });
-    //ON_FANTASY_LOGS_REQUEST
-    _socket.emit(ON_FANTASY_LOGS_REQUEST, {
-      fantasyTeamId: 172,
-    });
-
-    //GET_GLOBAL_RANKING -> Standings
-    _socket.emit(GET_GLOBAL_RANKING, {
-      gameId: gameId,
-      upperLimit: 0,
-      lowerLimit: 10,
-    });
+      _socket.emit("NHL_GET_MATCH_ROOM_UPDATES", { gameID: gameID });
+    }
   };
 
   //All listen events
   const onSocketListen = () => {
     //fetch data first time
-    setLoading(true);
-
-    _socket.on("NHL_ROOM_DATA", (data) => {
-      console.log("ROOM DATA: ", data);
-    });
-
-    _socket.on("HI", (data) => {
-      console.log("socket HI says:", data);
-    });
-
-    _socket.on("ROOM_CONNECTED", (data) => {
-      console.log("ON ROOM CONNECTED: ", data);
-    });
-    _socket.on("ROOM_DATA", (data) => {
-      console.log("ROOM DATA: ", data);
-    });
-
-    _socket.on("NHL_MATCH_EVENT", (data) => {
-      data.forEach((event) => {
-        // var node = document.createElement("LI");
-        const str =
-          "Event: " +
-          event.event +
-          " " +
-          "away Team: " +
-          event.away.name +
-          "" +
-          "Home Team: " +
-          event.home.name +
-          "Event Type: " +
-          event.eventData.event_type; // Create a <li> node
-        console.log(str);
-        // var textnode = document.createTextNode(str);         // Create a text node
-        // node.appendChild(textnode);
-        // node.className = "list-group-item";                      // Append the text to <li>
-        // document.getElementById("my-list").appendChild(node);     // Append <li> to <ul> with id="myList"
+    // setLoading(true);
+    console.log("Came here socket listen");
+    if (gameID && user_id) {
+      console.log("Came here socket listen");
+      _socket.on("ROOM_CONNECTED", (data) => {
+        console.log("ON ROOM CONNECTED: ", data);
       });
-    });
 
-    _socket?.on(ALL_UPDATES + game_id, (res) => {
-      console.log("ALL UPDATES");
-      console.log(res);
+      _socket.on(`NHL-GAME-${gameID}-${user_id}`, (x) => {
+        console.log("THIS IS TEAM LOGS", x);
+      });
 
-      // onFantasyTeamUpdate(res);
-    });
-
-    _socket?.on(EMIT_ROOM, (res) => {
-      console.log("Socket Emit Room");
-      const {
-        defense = [],
-        players = [],
-        power_dfs_team_rankings = [],
-        game_logs = [],
-      } = res?.data || {};
-
-      console.log("res?.data Full Data", res?.data);
-      console.log("res?.data", power_dfs_team_rankings[0]);
-
-      const teamD = defense[0] || {};
-      setRanks(power_dfs_team_rankings[0] || {});
-      if (players && players?.length) {
-        getPlayers(players, teamD);
-      }
-
-      const _gameLogs = [...game_logs];
-      const sortedGameLogs = _gameLogs.sort((a, b) =>
-        a?.play === null && b?.play !== null
-          ? new Date(a?.created_at).getTime() -
-            new Date(b?.created_at).getTime()
-          : a?.play !== null && b?.play === null
-          ? new Date(a?.play?.created_at).getTime() -
-            new Date(b?.created_at).getTime()
-          : new Date(a?.play?.created_at).getTime() -
-            new Date(b?.play?.created_at).getTime()
-      );
-
-      dispatch(NHLActions.setGameLogs(sortedGameLogs));
-      setLoading(false);
-    });
-
-    //MATCH_UPDATE
-    _socket?.on(MATCH_UPDATE, (res) => {
-      printLog(res);
-      setMatchUpdateData(res);
-    });
-
-    //GLOBAL_RANKING
-    _socket?.on(GLOBAL_RANKING, (res) => {
-      printLog("GLOBAL_RANKING: ", res);
-    });
-
-    //FANTASY_TEAM_UPDATE
-    _socket?.on(FANTASY_TEAM_UPDATE, (res) => {
-      onFantasyTeamUpdate(res);
-    });
-  };
-
-  const getPlayers = async (players = [], teamD = {}) => {
-    console.log("players players: ", players);
-    const playersArr = new Array(8);
-    const [playerCenter] = players?.filter(
-      (plr) =>
-        `${plr?.player?.primary_position}`?.toLocaleLowerCase() === CENTER
-    );
-    const playerXW = players?.filter(
-      (plr) => `${plr?.player?.primary_position}`?.toLocaleLowerCase() === XW
-    );
-    const playerD = players?.filter(
-      (plr) => `${plr?.player?.primary_position}`?.toLocaleLowerCase() === D
-    );
-    const [playerG] = players?.filter(
-      (plr) => `${plr?.player?.primary_position}`?.toLocaleLowerCase() === G
-    );
-
-    console.log("playerCenter", playerCenter);
-    playersArr[0] = { ...playerCenter };
-
-    if (playerXW?.length) {
-      playersArr[1] = { ...playerXW[0] };
-      playersArr[1].player.type1 = "XW1";
-      playersArr[2] = { ...playerXW[1] };
-      playersArr[2].player.type1 = "XW2";
-      playersArr[3] = { ...playerXW[2] };
-      playersArr[3].player.type1 = "XW3";
+      _socket.on("ROOM_DATA", (data) => {
+        console.log("ROOM DATA: ", data);
+      });
     }
-
-    if (playerD?.length) {
-      playersArr[4] = { ...playerD[0] };
-      playersArr[4].player.type1 = "D1";
-      playersArr[5] = { ...playerD[1] };
-      playersArr[5].player.type1 = "D2";
-    }
-
-    playersArr[6] = { ...playerG };
-
-    playersArr[7] = teamD;
-    playersArr[7].team_d_nhl_team.type = TD;
-
-    let _totalScore = 0;
-    for (let i = 0; i < playersArr?.length - 1; i++) {
-      _totalScore += playersArr[i]?.score;
-    }
-
-    const _ranks = { ...ranks };
-
-    setRanks({
-      ..._ranks,
-      score: _totalScore,
-    });
-
-    console.log("PLAYER: ", playersArr);
-
-    dispatch(NHLActions.nhlLiveData(playersArr));
   };
 
   const setMatchUpdates = () => {
@@ -543,8 +410,10 @@ function NHLPowerdFsLive(props) {
     }
   };
 
-  const onFantasyScoreUpdate = (res) => {
-    const { fantasyScores } = res?.data || {};
+  const onFantasyScoreUpdate = (fantasyScores) => {
+    fantasyScores.forEach((item) => {
+      console.log(item);
+    });
   };
 
   const onEventDataUpdate = (res) => {
