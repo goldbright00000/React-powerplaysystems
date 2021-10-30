@@ -33,6 +33,7 @@ function AccountPage(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const [showModal, setModalState] = useState(false);
   const [liveStandingData, setLiveStandingData] = useState([]);
+  const [AccountLimitsVal, setAccountLimitsVal] = React.useState([]);
   const toggleLiveStandingModal = () => {
     setModalState(!showModal);
   };
@@ -51,7 +52,7 @@ function AccountPage(props) {
 
   const { userWinnigs } = useSelector((state) => state?.user)
 
-  const [userAccount, setUserAccount] = useState({});
+  const [userAccount, setUserAccount] = useState([]);
 
   const getUserAccount = async () => {
     const response = await http.get(URLS.AUTH.ACCOUNT);
@@ -60,6 +61,7 @@ function AccountPage(props) {
       printLog(response.data);
     } else {
       setUserAccount(response.data);
+      setAccountLimitsVal(response.data.accountLimit);
     }
   };
 
@@ -109,6 +111,10 @@ function AccountPage(props) {
     }
     setModalState(true);
   };
+
+  const SetAccountLists = (data) => {
+    setAccountLimitsVal(data);
+  }
 
   return (
     <>
@@ -184,7 +190,8 @@ function AccountPage(props) {
                 <TabPanel>
                   <AccountLimits
                     isMobile={isMobile}
-                    accountLimit={userAccount.accountLimit}
+                    accountLimit={AccountLimitsVal}
+                    SetAccountList={SetAccountLists}
                   />
                 </TabPanel>
               </div>

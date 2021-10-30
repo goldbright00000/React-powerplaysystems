@@ -23,11 +23,14 @@ const AccountLimits = (props) => {
   const [MonthlyAmountLimit, setMonthlyAmountLimit] = React.useState(0);
   const [EntryFeeLimit, setEntryFeeLimit] = React.useState(0);
   const [CurrentCurrency, setCurrentCurrency] = React.useState(0);
-  const [AccountLimitVal, setAccountLimitVal] = React.useState(accountLimit);
-
+  
   useEffect(()=> {
     handleLimitChanges("");
   },[])
+
+  useEffect(()=> {
+    handleLimitChanges("");
+  },[accountLimit])
 
   let handleLimitChanges = (e) => {
     if (e == '') {
@@ -81,7 +84,8 @@ const AccountLimits = (props) => {
       weeklyLimit: WeeklyAmountLimit,
       entryFeeLimit: EntryFeeLimit
     };
-    await dispatch(setAccountLimit(data));
+    var responseData = await dispatch(setAccountLimit(data));
+    props.SetAccountList(responseData.data);
   };
 
   const renderLimitsAndAlerts = (
