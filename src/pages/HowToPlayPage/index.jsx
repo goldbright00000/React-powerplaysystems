@@ -159,14 +159,13 @@ const HowToPlayPage = () => {
             </section> */}
             
             <section>
-              <Link to="/recharge-how-to-play">
                 <div className={styles.contectSection6}>
                   <img src={img6} />
+                  <Link to="/recharge-how-to-play"><button>How to Play Recharge</button></Link>
                   <p>
-                    Also see how to play our exciting new game
+                    Visit the <Link to="power-center">Power Center</Link> to enter games. You have the Powers to win!
                   </p>
                 </div>
-              </Link>
             </section>
             
           </main>

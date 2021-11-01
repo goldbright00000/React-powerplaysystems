@@ -699,6 +699,7 @@ const InteractiveContests = (props) => {
                 },
               });
             } else {
+              
               onOpenPromoModal(item, props);
               return;
             }
@@ -1019,9 +1020,9 @@ const InteractiveContests = (props) => {
             item?.PrizePayouts,
             function (memo, num) {
               return (
-                memo +
+                parseFloat(memo) +
                 parseFloat(num.amount == "" ? 0 : num.amount) *
-                parseInt(num.prize == "" ? 0 : num.prize)
+                parseInt(num.prize == "" || num.prize == null ? 1 : num.prize)
               );
             },
             0

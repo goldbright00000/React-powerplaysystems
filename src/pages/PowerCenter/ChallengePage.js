@@ -95,6 +95,7 @@ const ChallengePage = (props) => {
 
   const redirectToUrl = () => {
     let item = props.location.state;
+    console.log("itemitem", item);
     let url = "/mlb-select-team";
     switch(league) {
       case "MLB": 
@@ -142,6 +143,7 @@ const ChallengePage = (props) => {
         paid_game: item?.is_game_paid,
         entry_fee: item?.entry_fee,
         currency: item?.currency,
+        game_type: item?.game_type
       },
     });
   }
