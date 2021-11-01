@@ -48,6 +48,7 @@ const ScoreBoard = (props) => {
     type = "",
     type1 = "",
     primary_position: type2 = "",
+    positionID = "",
   } = player || {};
 
   // const {
@@ -66,13 +67,7 @@ const ScoreBoard = (props) => {
     <section className="transparent board__wrapper" key={key}>
       <Container fluid={true}>
         <TagLines
-          title={
-            team_d_nhl_team && team_d_nhl_team?.type === TD
-              ? "Team D"
-              : type1
-              ? type1
-              : type2
-          }
+          title={type1 ? type1 + positionID : type2 + positionID}
           points={score}
         />
         <Slider

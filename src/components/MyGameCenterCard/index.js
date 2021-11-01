@@ -66,11 +66,11 @@ const MyGameCenterCard = (props) => {
     isMobile = false,
     id = null,
     title = "",
-    prize = null,
+    prize = 0,
     prize_currency = "USD",
     totalPoints = 0,
     outOf = null,
-    total = null,
+    total = 0,
     percent = null,
     showDetails = false,
     inProgress = false,
@@ -197,13 +197,12 @@ const MyGameCenterCard = (props) => {
     // }
     // return backgroundImageStyle;
 
-
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",
       backgroundAttachment: "inherit",
       border:
         (inProgress && "1px solid #214f24") ||
-        (completed && "1px solid #8cc2ff")
+        (completed && "1px solid #8cc2ff"),
     };
     console.log("game_type", game_type, title);
     if (title === "MLB") {
@@ -220,7 +219,7 @@ const MyGameCenterCard = (props) => {
       //backgroundImageStyle.backgroundPosition = "-75px 68px";
     } else if (title === "NHL" && game_type === "PowerdFs_One") {
       backgroundImageStyle.backgroundImage = `url(${onenhlbg})`;
-    }  else {
+    } else {
       backgroundImageStyle.backgroundImage = `url(${NHLPlayer})`;
     }
     return backgroundImageStyle;
@@ -305,7 +304,6 @@ const MyGameCenterCard = (props) => {
     } else if (gameType === "PowerdFs_promo") {
       return (
         <div className={classes.__current_jackpot}>
-         
           <h1 className={classes.__current_jackpot_amount}>
             {" "}
             {currency === "USD" ? (
@@ -326,7 +324,6 @@ const MyGameCenterCard = (props) => {
     } else if (gameType === "PowerdFs_Recharge") {
       return (
         <div className={classes.__current_jackpot}>
-          
           <h1
             className={classes.__current_jackpot_amount}
             style={{ marginBottom: 0 }}
@@ -405,7 +402,6 @@ const MyGameCenterCard = (props) => {
     } else {
       return (
         <div className={classes.__current_jackpot}>
-          
           <h1 className={classes.__current_jackpot_amount}>
             {" "}
             {currency === "USD" ? (
@@ -430,32 +426,32 @@ const MyGameCenterCard = (props) => {
     if (gameType === "PowerdFS") {
       return (
         <div
-              className={classes.__my_game_center_card_powerdfs}
-              style={{ marginTop: inProgress || !completed ? 5 : 10 }}
+          className={classes.__my_game_center_card_powerdfs}
+          style={{ marginTop: inProgress || !completed ? 5 : 10 }}
+        >
+          <span
+            className={
+              classes.__my_game_center_card_powerdfs_hr +
+              " " +
+              classes.__my_game_center_card_powerdfs_hr_left
+            }
+          ></span>
+          <p className={classes.__my_game_center_card_powerdfs_title}>
+            <span
+              className={classes.__my_game_center_card_powerdfs_title_first}
             >
-              <span
-                className={
-                  classes.__my_game_center_card_powerdfs_hr +
-                  " " +
-                  classes.__my_game_center_card_powerdfs_hr_left
-                }
-              ></span>
-              <p className={classes.__my_game_center_card_powerdfs_title}>
-                <span
-                  className={classes.__my_game_center_card_powerdfs_title_first}
-                >
-                  {title}
-                </span>{" "}
-                PowerdFS
-              </p>
-              <span
-                className={
-                  classes.__my_game_center_card_powerdfs_hr +
-                  " " +
-                  classes.__my_game_center_card_powerdfs_hr_right
-                }
-              ></span>
-            </div>
+              {title}
+            </span>{" "}
+            PowerdFS
+          </p>
+          <span
+            className={
+              classes.__my_game_center_card_powerdfs_hr +
+              " " +
+              classes.__my_game_center_card_powerdfs_hr_right
+            }
+          ></span>
+        </div>
       );
     } else if (gameType === "PowerdFs_promo") {
       return (
@@ -472,7 +468,7 @@ const MyGameCenterCard = (props) => {
         <div className={classes.__card_title}>
           <p className={classes.__card_title_text}>
             {title}
-            <img src={rechargeHeading} style={{marginLeft: 2}}/>
+            <img src={rechargeHeading} style={{ marginLeft: 2 }} />
           </p>
         </div>
       );
@@ -633,7 +629,7 @@ const MyGameCenterCard = (props) => {
                     <CurrencyFormat
                       value={prize}
                       displayType={"text"}
-                      thousandSeparator={true}
+                      // thousandSeparator={true}
                       thousandSeparator={prize >= 10000 ? true : false}
                       prefix={"$"}
                       renderText={(value) => <div>{value}</div>}
@@ -738,7 +734,7 @@ const MyGameCenterCard = (props) => {
                       title="View Results"
                       onClick={() => onFinalStandings(id)}
                       styles={{
-                        marginTop: 14,
+                        // marginTop: 14,
                         margin: ".25rem",
                         fontSize: "12px",
                         height: 33,
@@ -1054,7 +1050,7 @@ const MyGameCenterCard = (props) => {
                 ID {game_id}
               </span>
             )}
-            
+
             {getTitleContestByGameType(game_type)}
             {getDateContent()}
             {/* {getPrizeContestByGameType(game_type)} */}
@@ -1071,14 +1067,23 @@ const MyGameCenterCard = (props) => {
             <div className={classes.__my_game_center_card_date_time}>
               {/* {userGames?.game?.game_set_end} | {userGames?.game?.start_time} ET */}
             </div>
-            <div className={classes.__my_game_center_card_prize_pool} style={{margin: 0, paddingLeft: 24, textAlign: game_type === "PowerdFS" ? "center" : "left"}}>
+            <div
+              className={classes.__my_game_center_card_prize_pool}
+              style={{
+                margin: 0,
+                paddingLeft: 24,
+                textAlign: game_type === "PowerdFS" ? "center" : "left",
+              }}
+            >
               <p
                 className={
                   classes.__my_game_center_card_prize_pool_common +
                   " " +
                   classes.__my_game_center_card_prize_pool_price
                 }
-                style={{textAlign: game_type === "PowerdFS" ? "center" : "left"}}
+                style={{
+                  textAlign: game_type === "PowerdFS" ? "center" : "left",
+                }}
               >
                 <CurrencyFormat
                   value={prize}
@@ -1094,7 +1099,10 @@ const MyGameCenterCard = (props) => {
                   " " +
                   classes.__my_game_center_card_prize_pool_text
                 }
-                style={{textAlign: game_type === "PowerdFS" ? "center" : "left", fontWeight: "normal"}}
+                style={{
+                  textAlign: game_type === "PowerdFS" ? "center" : "left",
+                  fontWeight: "normal",
+                }}
               >
                 {inProgress ? "Currently Winning" : "Prize Pool"}
               </p>
