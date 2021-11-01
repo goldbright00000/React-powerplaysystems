@@ -187,7 +187,7 @@ const InteractiveContests = (props) => {
   }, [ newGame ]);
 
   useEffect(() => {
-    const obj = [];
+    let obj = [];
     if(filteredData.length > 0) {
       obj = [...filteredData];
     }
@@ -204,7 +204,7 @@ const InteractiveContests = (props) => {
   }, [inProgressGame]);
 
   useEffect(() => {
-    const obj = [];
+    let obj = [];
     if(filteredData.length > 0) {
       obj = [...filteredData];
     }
