@@ -179,13 +179,18 @@ const InteractiveContests = (props) => {
   }, [_socket]);
 
   useEffect(() => {
-    const obj = [...filteredData];
+    if(filteredData.length > 0) {
+      const obj = [...filteredData];
       obj.push(newGame);
       setFilteredData(obj);
-  }, [ newGame]);
+    }
+  }, [ newGame ]);
 
   useEffect(() => {
-    const obj = [...filteredData];
+    let obj = [];
+    if(filteredData.length > 0) {
+      obj = [...filteredData];
+    }
     if (inProgressGame.length > 0) {
       inProgressGame.map((item, index) => {
         obj.map((o, i) => {
@@ -199,7 +204,10 @@ const InteractiveContests = (props) => {
   }, [inProgressGame]);
 
   useEffect(() => {
-    const obj = [...filteredData];
+    let obj = [];
+    if(filteredData.length > 0) {
+      obj = [...filteredData];
+    }
     if (cancelledsGame.length > 0) {
       cancelledsGame.map((item, index) => {
         obj.map((o, i) => {
