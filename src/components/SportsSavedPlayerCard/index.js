@@ -252,7 +252,6 @@ function SportsSavedPlayerCard(props) {
   }
 
   const onSwap = (playerId, match_id) => {
-    // console.log("props.swapCount", props.swapCount);
     if (props.swapCount === 0) {
       alert("You cannot swap the players.");
       return;

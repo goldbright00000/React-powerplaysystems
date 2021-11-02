@@ -9,7 +9,6 @@ let selected = 0;
 function StarPlayersCheck(props) {
   const [starPlayers, setStarPlayers] = useState([]);
   const { totalStarPlayers = 0, selectedCount = 0 } = props || {};
-
   useEffect(() => {
     console.log("selectedCount", selectedCount);
     selected = selectedCount;
@@ -32,11 +31,11 @@ function StarPlayersCheck(props) {
   }, [totalStarPlayers, selectedCount]);
 
   return (
-    <div className={classes.wrapper}>
-      {starPlayers?.map((isSelected, index) =>
-        isSelected ? <CheckIcon /> : <Circle key={index.toString()} />
-      )}
-    </div>
+      <div className={classes.wrapper}>
+        {starPlayers?.map((isSelected, index) =>
+          isSelected ? <CheckIcon /> : <Circle key={index.toString()} />
+        )}
+      </div>
   );
 }
 

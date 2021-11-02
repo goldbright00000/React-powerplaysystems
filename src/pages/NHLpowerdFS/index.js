@@ -286,7 +286,7 @@ function NHLPowerdFs(props) {
 
   //reset the states
   useEffect(() => {
-    dispatch(NHLActions.setStarPlayerCount(0));
+    dispatch(NHLActions.setStarPlayerCount(starPlayerCount));
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
     setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
@@ -476,12 +476,12 @@ function NHLPowerdFs(props) {
           }
           player.type = currentPlayer?.type?.toLocaleLowerCase();
           player.matchId = currentPlayer?.match_id;
-          player.isStarPlayer = currentPlayer?.isStarPlayer;
+          player.isStarPlayer = currentPlayer?.is_starPlayer;
           _playersList[playerListIndex] = player;
 
           selected.set(selectionId, !selected.get(selectionId));
           //Star Power Player selection (sidebar)
-          if (starPlayerCount < 3 && currentPlayer?.isStarPlayer) {
+          if (starPlayerCount < 3 && currentPlayer?.is_starPlayer) {
             _starPlayerCount++;
           }
           selectedPlayerCount++;
@@ -1345,7 +1345,7 @@ function NHLPowerdFs(props) {
                                           title={item?.powerName}
                                           Icon={getIcon(item?.powerName)}
                                           iconSize={54}
-                                          count={2}
+                                          count={item.amount}
                                         />
                                       )}
                                     </>
@@ -1363,7 +1363,7 @@ function NHLPowerdFs(props) {
                                           title="Swap Player"
                                           Icon={SwapPlayerIcon}
                                           iconSize={54}
-                                          count={2}
+                                          count={item.amount}
                                         />
                                       )}
                                     </>
