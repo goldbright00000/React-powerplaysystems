@@ -299,8 +299,10 @@ function NFLPowerdFs(props) {
     paid_game = true,
     entry_fee = "",
     currency = "",
-    game_type=""
+    game_type="",
+    powerdfs_challenge_amount= 0
   } = history?.location?.state || {};
+
 
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
@@ -978,6 +980,17 @@ function NFLPowerdFs(props) {
           onClickPrize={() => setPrizeModalState(true)}
           token={token}
           isMobile={isMobile}
+          selectedTeam={
+            {
+              game: {
+                game_type: game_type,
+                powerdfs_challenge_amount: powerdfs_challenge_amount,
+                prizePool: topPrize
+              }
+            }
+          }
+          isTeamSelectionPage={true}
+          teamSelectionPageText={`Manage your team to ${powerdfs_challenge_amount} points and win`}
         />
 
         <div className={classes.container}>

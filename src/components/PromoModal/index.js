@@ -178,6 +178,7 @@ function PromoModal(props) {
 
   const redirectToUrl = () => {
     let item = props.item;
+    console.log("item1", item);
     let url = "/mlb-select-team";
     switch(item?.league) {
       case "MLB": 
@@ -225,7 +226,8 @@ function PromoModal(props) {
         paid_game: item?.is_game_paid,
         entry_fee: item?.entry_fee,
         currency: item?.currency,
-        
+        game_type: item?.game_type,
+        powerdfs_challenge_amount: item?.powerdfs_challenge_amount
       },
     });
   }
@@ -349,11 +351,11 @@ function PromoModal(props) {
                 {league} <span>PowerdFS</span> {item.game_type == "PowerdFs_promo" ? "Promotional Contest" : item?.powerdfs_challenge_amount + " Point Challenge"}
               </div>
               <div className={classes.gamePrize}>
-                <span className={classes.prize}>${parseFloat(
+                <span className={classes.prize}>${item?.PrizePayouts?.length > 0 ? parseFloat(
                   _.max(item?.PrizePayouts, function (ele) {
                     return ele.amount;
                   }).amount
-                )}</span>
+                ) : 0}</span>
                 <span className={classes.giveaway}>Give Away</span>
               </div>
               <div className={classes.rectangle}>

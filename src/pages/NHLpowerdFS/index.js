@@ -280,8 +280,8 @@ function NHLPowerdFs(props) {
     entry_fee = "",
     currency = "",
     game_type = "",
+    powerdfs_challenge_amount= 0
   } = history?.location?.state || {};
-
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
   //reset the states
@@ -436,7 +436,6 @@ function NHLPowerdFs(props) {
         return player?.id === id && player?.match_id === matchId;
       }
     });
-    console.log("Current Player: ", currentPlayer);
 
     let _starPlayerCount = starPlayerCount;
     const selectionId = `${id} - ${matchId}`;
@@ -608,7 +607,6 @@ function NHLPowerdFs(props) {
     const { value } = e.target;
     var tempObj = [];
     var tempIds = [];
-    console.log("selectedData?.listData", selectedData?.listData);
     if (!isEmpty(value)) {
       setSearchText(value);
       if (selectedData?.type == "td") {
@@ -998,7 +996,7 @@ function NHLPowerdFs(props) {
           powers={powers}
           titleMain1="NHL"
           titleMain2="PowerdFS"
-          subHeader1="Introducing Live-Play Fantasy Football"
+          subHeader1="Introducing Live-Play Fantasy Hockey"
           subHeader2={
             <>
               Use your <span>Powers</span> during the live game to drive your
@@ -1012,6 +1010,17 @@ function NHLPowerdFs(props) {
           token={token}
           isMobile={isMobile}
           depositClicked={setShowDepositModal}
+          selectedTeam={
+            {
+              game: {
+                game_type: game_type,
+                powerdfs_challenge_amount: powerdfs_challenge_amount,
+                prizePool: topPrize
+              }
+            }
+          }
+          isTeamSelectionPage={true}
+          teamSelectionPageText={`Manage your team to ${powerdfs_challenge_amount} points and win`}
         />
 
         <div className={classes.container}>

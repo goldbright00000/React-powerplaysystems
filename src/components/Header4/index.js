@@ -35,7 +35,7 @@ function Header4(props) {
     selectedTeam = {}
   } = props || {};
   const { game = {} } = selectedTeam;
-  const { game_type = "" } = game;
+  const { game_type = "", powerdfs_challenge_amount = 0, prizePool = 0 } = game;
   
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
@@ -46,6 +46,11 @@ function Header4(props) {
       </div>
     </div>
   );
+
+  const numberWithCommas = (x) => {
+    if (x >= 10000) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    else return x;
+  };
 
   const getGameTypeText = (game_type) => {
     if(game_type === "PowerdFS") {
@@ -58,13 +63,31 @@ function Header4(props) {
       return "";
     }
     else if(game_type === "PowerdFs_promo") {
-      return "Manager Challenge";
+      if(props.isTeamSelectionPage)
+      {
+        return <><br /> Manager Challenge </>;
+      }
+      else {
+        return "Manager Challenge";
+      }
     }
     else if(game_type === "PowerdFs_challenge") {
-      return "200 Point Challenge";
+      if(props.isTeamSelectionPage)
+      {
+        return <><br /> {powerdfs_challenge_amount} Point Challenge </>;
+      }
+      else {
+        return `${powerdfs_challenge_amount} Point Challenge`;
+      }
     }
     else if(game_type === "PowerdFs_Progressive") {
-      return "Progressive Jackpot";
+      if(props.isTeamSelectionPage)
+      {
+        return <><br /> Progressive Jackpot </>;
+      }
+      else {
+        return "Progressive Jackpot";
+      }
     }
     else if(game_type === "PowerdFs_One") {
       return "One";
@@ -93,7 +116,7 @@ function Header4(props) {
         <div className={classes.header_top}>
           {titleMain1 && (
             <div className={classes.header_title}>
-              <h2 className={compressedView && classes.compressedView}>
+              <h2 className={compressedView && classes.compressedView} style={{textAlign: "center",lineHeight: "50px"}}>
                 {titleMain1} {(game_type === "PowerdFs_Recharge") ? (<img src={group2} />) : (<><span>{titleMain2}</span> {getGameTypeText(game_type)}</>)}
               </h2>
             </div>
@@ -102,13 +125,24 @@ function Header4(props) {
           {(game_type === "PowerdFs_promo" || game_type === "PowerdFs_Recharge") && <p>Power your team to victory and win big!</p>}
           {(game_type === "PowerdFs_Progressive") && <p>Jackpot starts from $1,000 and will grow with each entry!</p>}
           {(game_type === "PowerdFs_One" && (titleMain1 == "NFL" || titleMain1 == "NBA")) && <p>One-Quarter Fantasy Football</p>}
-          {(game_type === "PowerdFs_One" && (titleMain1 == "NHL")) && <p>One-Period Fantasy Football</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "NHL")) && <p>One-Period Fantasy Hockey</p>}
           {(game_type === "PowerdFs_One" && (titleMain1 == "MLB")) && <p>One-Inning Fantasy Football</p>}
 
-          {!compressedView && subHeader1 && <p>{subHeader1}</p>}
-          {!compressedView && subHeader2 && (
+          {props?.isTeamSelectionPage && game_type !== "PowerdFS" && <p>{props.teamSelectionPageText}</p>}
+
+          {!compressedView && subHeader1 && game_type == "PowerdFS" && <p>{subHeader1}</p>}
+          {!compressedView && subHeader2 && game_type == "PowerdFS" && (
             <p className={classes.p2}>{subHeader2}</p>
           )}
+
+          {props?.isTeamSelectionPage && game_type == "PowerdFs_challenge" && <div style={{
+            fontFamily: "Teko",
+            fontSize: 60,
+            fontWeight: "bold",
+            textAlign: "center",
+            color: "#f2f2f2"
+          }}>${numberWithCommas(prizePool)}</div>}
+          
 
           <div
             className={`${classes.header_buttons} ${
