@@ -911,10 +911,10 @@ function SportsLiveCard(props) {
 
         {cardType === CardType.NHL ? (
           <span>
-            {primary_position === "XW" || type === "D"
+            {fantasyPlayerPosition === "XW" || type === "D"
               ? fantasyPlayerPosition + positionID
               : fantasyPlayerPosition}
-            :<span className={classes.card_header_points}>14 Pts</span>
+            :<span className={classes.card_header_points}>{points} Pts</span>
           </span>
         ) : null}
       </p>

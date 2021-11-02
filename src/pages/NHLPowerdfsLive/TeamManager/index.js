@@ -236,15 +236,15 @@ export default function TeamManager(props) {
           borderTopRightRadius: 14,
         }}
       >
-        <img
+        {/* <img
           alt="Power Icon"
           style={{ objectFit: "contain" }}
           width={24}
           height={25}
           src={x1_2Power}
-        />
+        /> */}
         <p className={classes.team_manager_card_header_title}>
-          1.2x Booster Applied to all your players!
+          Use your power to increase your point total.
         </p>
       </div>
     );
@@ -326,7 +326,7 @@ export default function TeamManager(props) {
       <>
         <TeamManagerCardHeader />
         <SingleView
-          data={live_data}
+          data={live_players}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}
