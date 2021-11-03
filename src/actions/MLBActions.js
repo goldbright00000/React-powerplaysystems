@@ -388,8 +388,8 @@ export function setEditPlayers(
 export function getUserGames(user_id) {
   return async (dispatch) => {
     try {
-      const userGamesResponse = await http.post(URLS.DFS.MLB_USER_GAMES, {
-        user_id: user_id,
+      const userGamesResponse = await http.post("https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyGames", {
+        userID: user_id,
       });
       const { data = {} } = userGamesResponse || {};
       await dispatch({

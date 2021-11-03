@@ -24,6 +24,8 @@ function RenderModal(props) {
     loading = false,
   } = props || {};
 
+  console.log("render props", props);
+
   useEffect(() => {
     if (loading) return;
     setSelectedData(playerList);
@@ -37,7 +39,6 @@ function RenderModal(props) {
   //     setSelectedData(filteredData);
   //   }
   // }, [filterString]);
-
   const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
 
   const onSearch = (e) => {
@@ -114,7 +115,7 @@ function RenderModal(props) {
               <p>Choose player to replace</p>
               <p className={classes.header_player_name}>
                 <img src={PowerPlayIcon} />
-                {playerName}
+                {(typeof currentPlayer.name !== "undefined") ? currentPlayer.name : currentPlayer.full_name}
               </p>
             </div>
             <Search

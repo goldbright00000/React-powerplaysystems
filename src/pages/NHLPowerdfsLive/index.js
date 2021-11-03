@@ -103,7 +103,6 @@ function NHLPowerdFsLive(props) {
   const [showGameLogs, setGameLogsPageState] = useState(false);
   const [showPrizeModal, setPrizeModalState] = useState(false);
   const [prizes, setPrizes] = useState([]);
-
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
 
@@ -166,6 +165,8 @@ function NHLPowerdFsLive(props) {
     game = {},
     Prizes = [],
   } = selectedTeam || {};
+
+
 
   let prizePool,
     topPrize = 0,
@@ -675,7 +676,6 @@ function NHLPowerdFsLive(props) {
                       prizePool={prizePool}
                       {...props}
                     />
-
                     <PowerSidebar
                       collapse={false}
                       swapCounts={swapCounts}
@@ -688,6 +688,7 @@ function NHLPowerdFsLive(props) {
                       retroBoostCounts={retroBoostCounts}
                       powerUpCounts={powerUpCounts}
                       game={game}
+                      powers={props?.location?.state?.game?.Powers}
                     />
                   </Sidebar>
                 </div>
