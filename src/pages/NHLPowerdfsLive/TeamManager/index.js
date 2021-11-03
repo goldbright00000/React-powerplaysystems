@@ -348,6 +348,7 @@ export default function TeamManager(props) {
       </>
     );
   } else if (live_players && live_players?.length) {
+    console.log("live_players", live_players);
     return (
       <>
         {screenSize > 550 ? (

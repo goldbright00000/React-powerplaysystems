@@ -38,7 +38,7 @@ function PowerCollapesible(props) {
     pointBooster3x = 0,
     retroBoostCounts = 0,
     powerUpCounts = 0,
-    game = {},
+    game = {}
   } = props || {};
 
   const { game_id = 0 } = game;
@@ -105,10 +105,13 @@ function PowerCollapesible(props) {
   };
   const isPowerAvailable = (type) => {
     let powerss = powers;
+    console.log("powersspowerss", powerss);
     // console.log("Game Powers: ", game);
-    if (game?.Powers) {
-      powerss = game.Powers;
-    }
+    // if (game?.Powers) {
+    //   if(game?.Powers.length > 0)
+    //   powerss = game.Powers;
+    // }
+    
     let available = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -130,12 +133,14 @@ function PowerCollapesible(props) {
           break;
         }
       } else {
+        console.log("powerss[i].powerName === type", powerss[i].powerName, type);
         if (powerss[i].powerName === type) {
           available = 1;
           break;
         }
       }
     }
+    console.log("type", type, available);
     return available;
   };
   function isPowerLocked(type) {
@@ -195,6 +200,7 @@ function PowerCollapesible(props) {
     isSvgIcon = false,
     count = 0,
   }) => {
+    console.log("count", count);
     const text = process.env.REACT_APP_POST_SHARING_TEXT;
     return (
       <Row style={{ padding: "20px 5px 20px 5px", width: "100%" }}>
