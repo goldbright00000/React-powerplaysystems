@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./stats.scss";
 import HockeyIcon from "../../assets/icons/nhl/hockey.svg";
@@ -16,6 +17,8 @@ function NHLFooterStats(props) {
     title = "",
   } = props || {};
 
+  const { live_clock = 0, live_period = 0 } = useSelector((state) => state.nhl);
+
   return (
     <div>
       <div className="footer_stats_row">
@@ -29,7 +32,9 @@ function NHLFooterStats(props) {
       </div>
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>P1 | 12:59</p>
+        <p>
+          P{live_period} | {live_clock}
+        </p>
       </div>
       <div className="footer_stats_row">
         <img src={SoccerJerseyIcon} alt="Hockey Icon" width={12} height={12} />

@@ -20,7 +20,9 @@ const INITIAL_STATE = {
   live_teamD: {},
   live_home: {},
   live_away: {},
-  period: 0,
+  live_period: 0,
+  live_clock: 0,
+  live_totalTeamPts: 0,
   powersApplied: [],
   powersAvailable: "",
 };
