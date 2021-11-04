@@ -23,6 +23,9 @@ const INITIAL_STATE = {
   live_period: 0,
   live_clock: 0,
   live_totalTeamPts: 0,
+  live_all_team_logs: [],
+  live_team_logs: [],
+  live_score_details: [],
   powersApplied: [],
   powersAvailable: "",
 };
