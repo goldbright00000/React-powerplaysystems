@@ -10,7 +10,6 @@ import SingleView from "../SingleView/SingleView";
 import LearnMoreModal from "../../../components/PowerCenterCardDetails/LearnMoreModal";
 import SportsLiveCard from "../../../components/SportsLiveCard";
 import { getLocalStorage, printLog, redirectTo } from "../../../utility/shared";
-import { socket } from "../../../config/server_connection";
 import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 import x1_5Power from "../../../assets/icons/powers/x_1.5.png";
 import x1_2Power from "../../../assets/icons/powers/x_1.2.svg";
@@ -61,10 +60,6 @@ export default function TeamManager(props) {
     powersApplied = [],
     powersAvailable = "",
   } = useSelector((state) => state.nhl);
-
-  useEffect(() => {
-    console.log("live_players: ", live_players);
-  }, [live_players]);
 
   const { user = {} } = useSelector((state) => state.auth);
   const dispatch = useDispatch();

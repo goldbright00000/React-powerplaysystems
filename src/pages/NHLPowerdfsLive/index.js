@@ -122,1154 +122,13 @@ function NHLPowerdFsLive(props) {
   }
 
   const {
-    live_data = [
-      {
-        _id: "6151cee50676e7bcd619f83f",
-        id: "053ce05a-4ae2-4a9f-a1bd-59dcd4fd3452",
-        abbr_name: "J.Finley",
-        birth_place: "Kelowna, BC, CAN",
-        birthdate: "2002-09-02",
-        created_date: "2021-09-27 14:01:57",
-        draft: {
-          team_id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          year: 2020,
-          round: "2",
-          pick: "57",
-        },
-        first_name: "Jack",
-        full_name: "Jack Finley",
-        handedness: "R",
-        height: 78,
-        jersey_number: "62",
-        last_name: "Finley",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "F",
-        primary_position: "C",
-        sr_id: "sr:player:2079231",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-24T04:05:58+00:00",
-        weight: 221,
-        fantasyPlayerPosition: "C",
-        type: "C",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 1,
-      },
-      {
-        _id: "6151ced50676e7bcd619d7f1",
-        id: "4c7dc8da-7b5d-4eb2-a2b8-301f74edf88f",
-        abbr_name: "B.Katchouk",
-        birth_place: "Waterloo, ON, CAN",
-        birthdate: "1998-06-18",
-        created_date: "2021-09-27 14:01:56",
-        draft: {
-          team_id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          year: 2016,
-          round: "2",
-          pick: "44",
-        },
-        experience: "0",
-        first_name: "Boris",
-        full_name: "Boris Katchouk",
-        handedness: "L",
-        height: 74,
-        jersey_number: "13",
-        last_name: "Katchouk",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "F",
-        primary_position: "LW",
-        reference: "8479383",
-        seasons: [
-          {
-            id: "906a801f-c326-4232-b687-08304f752e64",
-            year: 2020,
-            type: "PST",
-            teams: [
-              {
-                id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-                name: "Lightning",
-                market: "Tampa Bay",
-                alias: "TB",
-                sr_id: "sr:team:3694",
-                reference: "14",
-                statistics: {
-                  total: {
-                    games_played: 0,
-                    goals: 0,
-                    assists: 0,
-                    penalties: 0,
-                    penalty_minutes: 0,
-                    shots: 0,
-                    blocked_att: 0,
-                    missed_shots: 0,
-                    hits: 0,
-                    giveaways: 0,
-                    takeaways: 0,
-                    blocked_shots: 0,
-                    faceoffs_won: 0,
-                    faceoffs_lost: 0,
-                    winning_goals: 0,
-                    plus_minus: 0,
-                    games_scratched: 23,
-                    games_started: 0,
-                    shooting_pct: 0,
-                    faceoff_win_pct: 0,
-                    faceoffs: 0,
-                    points: 0,
-                    overtime_goals: 0,
-                    overtime_assists: 0,
-                    overtime_shots: 0,
-                    penalties_major: 0,
-                    penalties_minor: 0,
-                    penalties_misconduct: 0,
-                    emptynet_goals: 0,
-                  },
-                  powerplay: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  shorthanded: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  evenstrength: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  penalty: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  shootout: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  average: {
-                    assists: 0,
-                    blocked_shots: 0,
-                    points: 0,
-                    blocked_att: 0,
-                    penalties: 0,
-                    missed_shots: 0,
-                    hits: 0,
-                    shots: 0,
-                    takeaways: 0,
-                    giveaways: 0,
-                    goals: 0,
-                    penalty_minutes: 0,
-                  },
-                },
-              },
-            ],
-          },
-        ],
-        sr_id: "sr:player:983657",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-23T16:06:21+00:00",
-        weight: 206,
-        fantasyPlayerPosition: "XW",
-        type: "xw",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 1,
-      },
-      {
-        _id: "6151ceda0676e7bcd619dea3",
-        id: "23a80fff-26fe-4db0-8007-dc032e876c59",
-        abbr_name: "R.Colton",
-        birth_place: "Robbinsville, NJ, USA",
-        birthdate: "1996-09-11",
-        college: "Vermont",
-        created_date: "2021-09-27 14:01:56",
-        draft: {
-          team_id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          year: 2016,
-          round: "4",
-          pick: "118",
-        },
-        experience: "1",
-        first_name: "Ross",
-        full_name: "Ross Colton",
-        handedness: "L",
-        height: 72,
-        jersey_number: "79",
-        last_name: "Colton",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "F",
-        primary_position: "LW",
-        reference: "8479525",
-        rookie_year: 2020,
-        seasons: [
-          {
-            id: "906a801f-c326-4232-b687-08304f752e64",
-            year: 2020,
-            type: "PST",
-            teams: [
-              {
-                id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-                name: "Lightning",
-                market: "Tampa Bay",
-                alias: "TB",
-                sr_id: "sr:team:3694",
-                reference: "14",
-                statistics: {
-                  total: {
-                    games_played: 23,
-                    goals: 4,
-                    assists: 2,
-                    penalties: 2,
-                    penalty_minutes: 12,
-                    shots: 32,
-                    blocked_att: 9,
-                    missed_shots: 14,
-                    hits: 46,
-                    giveaways: 6,
-                    takeaways: 3,
-                    blocked_shots: 12,
-                    faceoffs_won: 22,
-                    faceoffs_lost: 23,
-                    winning_goals: 1,
-                    plus_minus: 4,
-                    games_scratched: 0,
-                    games_started: 1,
-                    shooting_pct: 12.5,
-                    faceoff_win_pct: 48.9,
-                    faceoffs: 45,
-                    points: 6,
-                    overtime_goals: 0,
-                    overtime_assists: 0,
-                    overtime_shots: 2,
-                    penalties_major: 0,
-                    penalties_minor: 1,
-                    penalties_misconduct: 1,
-                    emptynet_goals: 0,
-                  },
-                  powerplay: {
-                    shots: 1,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 1,
-                    faceoffs: 1,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 100,
-                  },
-                  shorthanded: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 1,
-                    faceoffs: 1,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 100,
-                  },
-                  evenstrength: {
-                    shots: 31,
-                    goals: 4,
-                    missed_shots: 14,
-                    assists: 2,
-                    faceoffs_won: 20,
-                    faceoffs: 43,
-                    faceoffs_lost: 23,
-                    faceoff_win_pct: 46.5,
-                  },
-                  penalty: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  shootout: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  average: {
-                    assists: 0.09,
-                    blocked_shots: 0.52,
-                    points: 0.26,
-                    blocked_att: 0.39,
-                    penalties: 0.09,
-                    missed_shots: 0.61,
-                    hits: 2,
-                    shots: 1.39,
-                    takeaways: 0.13,
-                    giveaways: 0.26,
-                    goals: 0.17,
-                    penalty_minutes: 0.52,
-                  },
-                },
-                time_on_ice: {
-                  total: {
-                    shifts: 338,
-                    total: "235:20",
-                    overtime: "2:19",
-                    powerplay: "1:17",
-                    shorthanded: "2:14",
-                    evenstrength: "231:49",
-                  },
-                  average: {
-                    shifts: 14.7,
-                    total: "10:14",
-                    overtime: "00:35",
-                    powerplay: "00:03",
-                    shorthanded: "00:06",
-                    evenstrength: "10:05",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            id: "d8f9b71d-eb0e-42a0-8373-748aeace6d27",
-            year: 2020,
-            type: "REG",
-            teams: [
-              {
-                id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-                name: "Lightning",
-                market: "Tampa Bay",
-                alias: "TB",
-                sr_id: "sr:team:3694",
-                reference: "14",
-                statistics: {
-                  total: {
-                    games_played: 30,
-                    goals: 9,
-                    assists: 3,
-                    penalties: 4,
-                    penalty_minutes: 16,
-                    shots: 46,
-                    blocked_att: 14,
-                    missed_shots: 14,
-                    hits: 36,
-                    giveaways: 4,
-                    takeaways: 5,
-                    blocked_shots: 6,
-                    faceoffs_won: 101,
-                    faceoffs_lost: 107,
-                    winning_goals: 4,
-                    plus_minus: 3,
-                    games_scratched: 0,
-                    games_started: 8,
-                    shooting_pct: 19.6,
-                    faceoff_win_pct: 48.6,
-                    faceoffs: 208,
-                    points: 12,
-                    overtime_goals: 0,
-                    overtime_assists: 0,
-                    overtime_shots: 0,
-                    penalties_major: 0,
-                    penalties_minor: 3,
-                    penalties_misconduct: 1,
-                    emptynet_goals: 1,
-                  },
-                  powerplay: {
-                    shots: 4,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 2,
-                    faceoffs: 7,
-                    faceoffs_lost: 5,
-                    faceoff_win_pct: 28.6,
-                  },
-                  shorthanded: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  evenstrength: {
-                    shots: 42,
-                    goals: 9,
-                    missed_shots: 14,
-                    assists: 3,
-                    faceoffs_won: 99,
-                    faceoffs: 201,
-                    faceoffs_lost: 102,
-                    faceoff_win_pct: 49.3,
-                  },
-                  penalty: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  shootout: {
-                    shots: 2,
-                    goals: 2,
-                    missed_shots: 0,
-                  },
-                  average: {
-                    assists: 0.1,
-                    blocked_shots: 0.2,
-                    points: 0.4,
-                    blocked_att: 0.47,
-                    penalties: 0.13,
-                    missed_shots: 0.47,
-                    hits: 1.2,
-                    shots: 1.53,
-                    takeaways: 0.17,
-                    giveaways: 0.13,
-                    goals: 0.3,
-                    penalty_minutes: 0.53,
-                  },
-                },
-                time_on_ice: {
-                  total: {
-                    shifts: 441,
-                    total: "316:56",
-                    overtime: "00:00",
-                    powerplay: "20:27",
-                    shorthanded: "00:00",
-                    evenstrength: "296:29",
-                  },
-                  average: {
-                    shifts: 14.7,
-                    total: "10:34",
-                    overtime: "00:00",
-                    powerplay: "00:41",
-                    shorthanded: "00:00",
-                    evenstrength: "9:53",
-                  },
-                },
-              },
-            ],
-          },
-        ],
-        sr_id: "sr:player:1004591",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-24T03:54:29+00:00",
-        weight: 191,
-        fantasyPlayerPosition: "XW",
-        type: "xw",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 2,
-      },
-      {
-        _id: "6151cedd0676e7bcd619e772",
-        id: "2fc50ed6-3626-45c9-bb74-ac86446a7f7c",
-        abbr_name: "D.Walcott",
-        birth_place: "Ile Perrot, QC, CAN",
-        birthdate: "1994-02-19",
-        created_date: "2021-09-27 14:01:56",
-        draft: {
-          team_id: "441781b9-0f24-11e2-8525-18a905767e44",
-          year: 2014,
-          round: "5",
-          pick: "140",
-        },
-        experience: "1",
-        first_name: "Daniel",
-        full_name: "Daniel Walcott",
-        handedness: "L",
-        height: 73,
-        jersey_number: "85",
-        last_name: "Walcott",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "F",
-        primary_position: "LW",
-        reference: "8478069",
-        rookie_year: 2020,
-        seasons: [
-          {
-            id: "906a801f-c326-4232-b687-08304f752e64",
-            year: 2020,
-            type: "PST",
-            teams: [
-              {
-                id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-                name: "Lightning",
-                market: "Tampa Bay",
-                alias: "TB",
-                sr_id: "sr:team:3694",
-                reference: "14",
-                statistics: {
-                  total: {
-                    games_played: 0,
-                    goals: 0,
-                    assists: 0,
-                    penalties: 0,
-                    penalty_minutes: 0,
-                    shots: 0,
-                    blocked_att: 0,
-                    missed_shots: 0,
-                    hits: 0,
-                    giveaways: 0,
-                    takeaways: 0,
-                    blocked_shots: 0,
-                    faceoffs_won: 0,
-                    faceoffs_lost: 0,
-                    winning_goals: 0,
-                    plus_minus: 0,
-                    games_scratched: 23,
-                    games_started: 0,
-                    shooting_pct: 0,
-                    faceoff_win_pct: 0,
-                    faceoffs: 0,
-                    points: 0,
-                    overtime_goals: 0,
-                    overtime_assists: 0,
-                    overtime_shots: 0,
-                    penalties_major: 0,
-                    penalties_minor: 0,
-                    penalties_misconduct: 0,
-                    emptynet_goals: 0,
-                  },
-                  powerplay: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  shorthanded: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  evenstrength: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  penalty: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  shootout: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  average: {
-                    assists: 0,
-                    blocked_shots: 0,
-                    points: 0,
-                    blocked_att: 0,
-                    penalties: 0,
-                    missed_shots: 0,
-                    hits: 0,
-                    shots: 0,
-                    takeaways: 0,
-                    giveaways: 0,
-                    goals: 0,
-                    penalty_minutes: 0,
-                  },
-                },
-              },
-            ],
-          },
-          {
-            id: "d8f9b71d-eb0e-42a0-8373-748aeace6d27",
-            year: 2020,
-            type: "REG",
-            teams: [
-              {
-                id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-                name: "Lightning",
-                market: "Tampa Bay",
-                alias: "TB",
-                sr_id: "sr:team:3694",
-                reference: "14",
-                statistics: {
-                  total: {
-                    games_played: 1,
-                    goals: 0,
-                    assists: 0,
-                    penalties: 1,
-                    penalty_minutes: 5,
-                    shots: 1,
-                    blocked_att: 0,
-                    missed_shots: 0,
-                    hits: 7,
-                    giveaways: 0,
-                    takeaways: 1,
-                    blocked_shots: 0,
-                    faceoffs_won: 0,
-                    faceoffs_lost: 1,
-                    winning_goals: 0,
-                    plus_minus: -1,
-                    games_scratched: 0,
-                    games_started: 1,
-                    shooting_pct: 0,
-                    faceoff_win_pct: 0,
-                    faceoffs: 1,
-                    points: 0,
-                    overtime_goals: 0,
-                    overtime_assists: 0,
-                    overtime_shots: 0,
-                    penalties_major: 1,
-                    penalties_minor: 0,
-                    penalties_misconduct: 0,
-                    emptynet_goals: 0,
-                  },
-                  powerplay: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  shorthanded: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 0,
-                    faceoffs_lost: 0,
-                    faceoff_win_pct: 0,
-                  },
-                  evenstrength: {
-                    shots: 1,
-                    goals: 0,
-                    missed_shots: 0,
-                    assists: 0,
-                    faceoffs_won: 0,
-                    faceoffs: 1,
-                    faceoffs_lost: 1,
-                    faceoff_win_pct: 0,
-                  },
-                  penalty: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  shootout: {
-                    shots: 0,
-                    goals: 0,
-                    missed_shots: 0,
-                  },
-                  average: {
-                    assists: 0,
-                    blocked_shots: 0,
-                    points: 0,
-                    blocked_att: 0,
-                    penalties: 1,
-                    missed_shots: 0,
-                    hits: 7,
-                    shots: 1,
-                    takeaways: 1,
-                    giveaways: 0,
-                    goals: 0,
-                    penalty_minutes: 5,
-                  },
-                },
-                time_on_ice: {
-                  total: {
-                    shifts: 15,
-                    total: "10:03",
-                    overtime: "00:00",
-                    powerplay: "00:11",
-                    shorthanded: "00:00",
-                    evenstrength: "9:52",
-                  },
-                  average: {
-                    shifts: 15,
-                    total: "10:03",
-                    overtime: "00:00",
-                    powerplay: "00:11",
-                    shorthanded: "00:00",
-                    evenstrength: "9:52",
-                  },
-                },
-              },
-            ],
-          },
-        ],
-        sr_id: "sr:player:844859",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-24T04:37:15+00:00",
-        weight: 175,
-        fantasyPlayerPosition: "XW",
-        type: "xw",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 3,
-      },
-      {
-        _id: "6151ceda0676e7bcd619de98",
-        id: "3bf81e26-c3d9-46e3-905f-e4e19de0de95",
-        abbr_name: "D.Semykin",
-        birth_place: "Moscow,, RUS",
-        birthdate: "2000-02-24",
-        created_date: "2021-09-27 14:01:56",
-        draft: {
-          team_id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          year: 2018,
-          round: "3",
-          pick: "90",
-        },
-        experience: "0",
-        first_name: "Dmitri",
-        full_name: "Dmitri Semykin",
-        handedness: "R",
-        height: 75,
-        jersey_number: "78",
-        last_name: "Semykin",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "D",
-        primary_position: "D",
-        sr_id: "sr:player:1403213",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-24T04:44:04+00:00",
-        weight: 212,
-        fantasyPlayerPosition: "D",
-        type: "D",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 1,
-      },
-      {
-        _id: "6151cedd0676e7bcd619e77c",
-        id: "147faf4f-64e4-4bca-99ff-c4d6a9506d31",
-        abbr_name: "R.Schmidt",
-        birth_place: "Midland, MI, USA",
-        birthdate: "2003-02-27",
-        created_date: "2021-09-27 14:01:56",
-        draft: {
-          year: 2021,
-        },
-        first_name: "Roman",
-        full_name: "Roman Schmidt",
-        handedness: "R",
-        height: 77,
-        jersey_number: "76",
-        last_name: "Schmidt",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "D",
-        primary_position: "D",
-        sr_id: "sr:player:2174350",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-24T04:43:15+00:00",
-        weight: 211,
-        fantasyPlayerPosition: "D",
-        type: "D",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 2,
-      },
-      {
-        _id: "6151cf350676e7bcd61a7d07",
-        id: "38fd5dbf-31cb-4faa-8fe1-60c4c2706550",
-        abbr_name: "H.Alnefelt",
-        birth_place: "Danderyd,, SWE",
-        birthdate: "2001-06-04",
-        created_date: "2021-09-27 14:03:12",
-        draft: {
-          team_id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          year: 2019,
-          round: "3",
-          pick: "71",
-        },
-        first_name: "Hugo",
-        full_name: "Hugo Alnefelt",
-        handedness: "L",
-        height: 74,
-        jersey_number: "60",
-        last_name: "Alnefelt",
-        last_updated: "2021-09-27 14:33:29",
-        league: {
-          id: "fd560107-a85b-4388-ab0d-655ad022aff7",
-          name: "NHL",
-          alias: "NHL",
-        },
-        position: "G",
-        primary_position: "G",
-        sr_id: "sr:player:1425637",
-        status: "ACT",
-        team: {
-          id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-          name: "Lightning",
-          market: "Tampa Bay",
-          alias: "TB",
-          sr_id: "sr:team:3694",
-          reference: "14",
-        },
-        updated: "2021-09-24T04:47:10+00:00",
-        weight: 185,
-        fantasyPlayerPosition: "G",
-        type: "G",
-        match: {
-          _id: "6151bbde0676e7bcd6ff2d66",
-          id: "6c0c3325-bd98-469d-879b-16378ac5f051",
-          away: {
-            id: "44153da1-0f24-11e2-8525-18a905767e44",
-            name: "Arizona Coyotes",
-            alias: "ARI",
-            sr_id: "sr:team:3698",
-            reference: "53",
-          },
-          coverage: "full",
-          created_date: "2021-09-27 12:41:00",
-          home: {
-            id: "4417d3cb-0f24-11e2-8525-18a905767e44",
-            name: "Tampa Bay Lightning",
-            alias: "TB",
-            sr_id: "sr:team:3694",
-            reference: "14",
-          },
-          last_updated: "2021-09-28 09:34:12",
-          reference: "20102",
-          scheduled: "2021-10-28T23:00:00+00:00",
-          status: "scheduled",
-          venue: {
-            id: "05aa49b2-f72d-4d42-ab30-f219d32ed97b",
-            name: "Amalie Arena",
-            capacity: 19092,
-            address: "401 Channelside Drive",
-            city: "Tampa",
-            state: "FL",
-            zip: "33602",
-            country: "USA",
-            time_zone: "US/Eastern",
-            sr_id: "sr:venue:6036",
-          },
-        },
-        match_id: 1,
-        positionID: 1,
-      },
-    ],
-    starPlayerCount = 0,
-    sport_id = 0,
     game_id = 0,
-  } = useSelector((state) => state.nhl);
-
-  let {
     gameID = 0,
     live_players = [],
     live_totalTeamPts = 0,
+    live_all_team_logs = [],
+    live_team_logs = [],
+    live_score_details = [],
     live_teamD = {},
     live_home = {},
     live_away = {},
@@ -1277,6 +136,9 @@ function NHLPowerdFsLive(props) {
     powersApplied = [],
     powersAvailable = "",
   } = useSelector((state) => state.nhl);
+  useEffect(() => {
+    console.log("live_players: ", live_players);
+  }, [live_players]);
 
   const { user = {} } = useSelector((state) => state.auth);
   const { token = "", user_id } = user || {};
@@ -1461,6 +323,92 @@ function NHLPowerdFsLive(props) {
     return decSelectedTeamData;
   }
 
+  let evaluateTeamLogs = () => {
+    dispatch({
+      type: NHLActions.NHL_UPDATE_STATE,
+      payload: {
+        live_all_team_logs: [...live_all_team_logs, ...live_team_logs],
+      },
+    });
+
+    live_team_logs.forEach((item, index) => {
+      console.log(item);
+
+      let { fantasyLog, period, clock, totalTeamPts } = item;
+
+      let { type, player, playerPts, goal, assists } = fantasyLog || {};
+
+      let lp = [...live_players];
+      lp.forEach((playr) => {
+        if (playr.id === player.id) {
+          if (!Array.isArray(playr.events)) {
+            playr.events = [];
+          }
+
+          playr.events.push(fantasyLog);
+          if (playerPts) {
+            if (playr?.stats?.points) {
+              playr.stats.points = playr.stats.points + playerPts;
+            } else {
+              if (!playr.stats) {
+                playr.stats = {};
+              }
+              playr.stats.points = playerPts;
+            }
+          }
+
+          if (goal) {
+            if (playr?.stats?.goals) {
+              playr.stats.goals = playr.stats.goals + 1;
+            } else {
+              if (!playr.stats) {
+                playr.stats = {};
+              }
+              playr.stats.goals = 1;
+            }
+          }
+
+          if (assists) {
+            if (playr?.stats?.assists) {
+              playr.stats.assists = playr.stats.assists + 1;
+            } else {
+              if (!playr.stats) {
+                playr.stats = {};
+              }
+              playr.stats.assists = 1;
+            }
+          }
+
+          if (type === "shot") {
+            if (playr?.stats?.shots) {
+              playr.stats.shots = playr.stats.shots + 1;
+            } else {
+              if (!playr.stats) {
+                playr.stats = {};
+              }
+              playr.stats.shots = 1;
+            }
+          }
+
+          console.log("Player Stats: ", playr.stats);
+        }
+      });
+
+      dispatch({
+        type: NHLActions.NHL_UPDATE_STATE,
+        payload: {
+          live_period: period,
+          live_clock: clock,
+          live_totalTeamPts: live_totalTeamPts + totalTeamPts,
+          live_players: lp,
+        },
+      });
+    });
+  };
+  useEffect(() => {
+    evaluateTeamLogs();
+  }, [live_team_logs]);
+
   useEffect(async () => {
     setPowers();
   }, []);
@@ -1472,7 +420,7 @@ function NHLPowerdFsLive(props) {
     });
 
     _socket.on("connected", () => {
-      console.log("Event Came here");
+      console.log("Socket Connected");
       _socket.emit("NHL_CONNECT_MATCH_ROOM", {
         gameID: 894,
       });
@@ -1480,82 +428,32 @@ function NHLPowerdFsLive(props) {
 
     _socket.on("ROOM_CONNECTED", (data) => {
       console.log("ON ROOM CONNECTED: ", data);
+      dispatch({
+        type: NHLActions.NHL_UPDATE_STATE,
+        payload: {
+          live_score_details: data,
+        },
+      });
     });
 
     _socket.on(`NHL-GAME-894-112`, (data) => {
       console.log("THIS IS TEAM LOGS", data);
 
       if (Array.isArray(data)) {
-        data.forEach((item, index) => {
-          console.log(item);
-
-          let { fantasyLog, period, clock, totalTeamPts } = item;
-
-          let { type, player, playerPts, goal, assists } = fantasyLog || {};
-          console.log("Fantasy Player: ", player.id + " " + player.name);
-          let lp = [...live_players];
-
-          lp.forEach((playr) => {
-            if (playr.id === player.id) {
-              console.log("Its a match");
-              console.log("Player: ", playr.id + " " + playr.name);
-              // if (type === "shot") {
-              if (!Array.isArray(playr.events)) {
-                playr.events = [];
-              }
-
-              playr.events.push(fantasyLog);
-              if (playr?.stats?.points) {
-                playr.stats.points = playr.stats.points + playerPts;
-              } else {
-                playr.stats = {};
-                playr.stats.points = playerPts;
-              }
-
-              if (goal) {
-                if (playr?.stats?.goals) {
-                  playr.stats.goals = playr.stats.goals + 1;
-                } else {
-                  playr.stats = {};
-                  playr.stats.goals = 1;
-                }
-              }
-
-              if (assists) {
-                if (playr?.stats?.assists) {
-                  playr.stats.assists = playr.stats.assists + 1;
-                } else {
-                  playr.stats = {};
-                  playr.stats.assists = 1;
-                }
-              }
-
-              // }
-            }
-          });
-
-          console.log(`lp ${index}: `, lp);
-
-          dispatch({
-            type: NHLActions.NHL_UPDATE_STATE,
-            payload: {
-              live_period: period,
-              live_clock: clock,
-              live_totalTeamPts: totalTeamPts,
-              live_players: lp,
-            },
-          });
+        dispatch({
+          type: NHLActions.NHL_UPDATE_STATE,
+          payload: {
+            live_team_logs: data,
+          },
         });
       }
     });
-
-    console.log(`NHL-GAME-894-112`);
 
     _socket.on("ROOM_DATA", (data) => {
       console.log("ROOM DATA: ", data);
     });
     // }
-  }, [_socket]);
+  }, [_socket, live_players]);
 
   useEffect(() => {
     setPlayerToSwap({});
@@ -1563,7 +461,7 @@ function NHLPowerdFsLive(props) {
 
   const setMatchUpdates = () => {
     const { match_id } = matchUpdateData?.data || {};
-    const dataToUpdate = live_data?.filter(
+    const dataToUpdate = live_players?.filter(
       (match) => match?.match_id === match_id
     );
 
@@ -1579,7 +477,7 @@ function NHLPowerdFsLive(props) {
         dataToUpdate[i].match = updateMatch;
       }
 
-      const liveData = union(live_data, dataToUpdate);
+      const liveData = union(live_players, dataToUpdate);
 
       dispatch(NHLActions.nhlLiveData(liveData));
     }
@@ -1590,9 +488,9 @@ function NHLPowerdFsLive(props) {
 
     const { fantasy_points_after = 0 } = log || {};
     setPoints(fantasy_points_after);
-    if (!live_data?.length) return;
+    if (!live_players?.length) return;
 
-    const liveData = [...live_data];
+    const liveData = [...live_players];
     if (!isEmpty(playerToSwap)) {
       const updatedPlayerIndex = liveData?.indexOf(playerToSwap);
       if (updatedPlayerIndex !== -1) {
@@ -1639,11 +537,11 @@ function NHLPowerdFsLive(props) {
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
     let indexOfPlayer = -1;
-    indexOfPlayer = live_data?.indexOf(player);
+    indexOfPlayer = live_players?.indexOf(player);
     if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
 
-      live_data[indexOfPlayer] = player;
+      live_players[indexOfPlayer] = player;
       let power = 0;
       if (_selectedXp.xpVal === "1.5x") {
         power = 1;
@@ -1672,7 +570,7 @@ function NHLPowerdFsLive(props) {
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
         );
       }
-      return dispatch(NHLActions.nhlLiveData(live_data));
+      return dispatch(NHLActions.nhlLiveData(live_players));
     }
   };
 
@@ -1898,7 +796,7 @@ function NHLPowerdFsLive(props) {
       ) : (
         <>
           <Mobile
-            data={live_data}
+            data={live_players}
             ranks={ranks}
             counts={{
               swapCounts,

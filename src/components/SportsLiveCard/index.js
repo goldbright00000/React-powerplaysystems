@@ -125,7 +125,7 @@ function SportsLiveCard(props) {
   //   // home_runs = 0,
   // } = nhl_player_season_stats[0] || {};
 
-  const { goals = 0, assists = 0, points = 0 } = stats || {};
+  const { goals = 0, assists = 0, points = 0, shots = 0 } = stats || {};
 
   const {
     match_id = 0,
@@ -810,7 +810,7 @@ function SportsLiveCard(props) {
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             G: {goals} | A: {assists}
             <br />
-            SOG:
+            SOG: {shots}
           </p>
         </div>
       </div>
