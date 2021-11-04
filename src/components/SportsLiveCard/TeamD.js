@@ -147,7 +147,8 @@ function SportsLiveCardTeamD(props) {
   } = boxscore[0] || {};
 
   const isPowerAvailable = (type) => {
-    let powerss = props.dataMain?.game?.Powers;
+    console.log("isPowerAvailable", props);
+    let powerss = props.dataMain?.powersAvailable;
 
     let available = 0;
     if (type === "Swap Player") {
@@ -163,7 +164,7 @@ function SportsLiveCardTeamD(props) {
   };
 
   const isPowerLocked = (type) => {
-    let powerss = props.dataMain?.game?.Powers;
+    let powerss = props.dataMain?.powersAvailable;
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";

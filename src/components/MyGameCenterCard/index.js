@@ -65,7 +65,7 @@ const MyGameCenterCard = (props) => {
   const {
     isMobile = false,
     id = null,
-    title = "",
+    title = "NHL",
     prize = 0,
     prize_currency = "USD",
     totalPoints = 0,

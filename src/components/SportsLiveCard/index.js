@@ -82,6 +82,7 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
     key = "",
   } = props || {};
+  console.log("props1", props);
 
   const { game: { game_id: gameId } = {} } = gameInfo || {};
 
@@ -108,6 +109,7 @@ function SportsLiveCard(props) {
     player_id = "",
     match_stats = [],
   } = player || {};
+
 
   const {
     batting_average = 0,
@@ -145,8 +147,9 @@ function SportsLiveCard(props) {
     status = "",
     boxscore = [],
     date_time = "",
+    last_updated = ""
   } = match || {};
-
+  
   const {
     strikes = 0,
     balls = 0,
@@ -269,19 +272,26 @@ function SportsLiveCard(props) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
       const response = await dispatch(nhlActions.nhlData(gameId));
-
+      
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
+        console.log("_nhlData", _nhlData);
         const [swapablePlayerData] = _nhlData?.filter(
-          (data) => data?.type === `${primary_position}`?.toLocaleLowerCase()
+          (data) => {
+            let a = primary_position;
+            if(primary_position == "LW")
+              a = "XW";
+            return data?.type === `${a}`?.toLocaleLowerCase()
+          }
         );
-
+          console.log("swapablePlayerData", swapablePlayerData);
         if (
           swapablePlayerData &&
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
           const _time = moment(date_time).clone().format("h:mm A");
+          console.log("_time", _time);
           const newListData = swapablePlayerData?.listData?.filter(
             (data, index) =>
               `${data?.time}` === _time &&
@@ -293,7 +303,7 @@ function SportsLiveCard(props) {
             type: swapablePlayerData.type,
             listData: newListData,
           };
-
+          console.log("_dataToRender", _dataToRender);
           setPlayerList(_dataToRender);
         }
       }

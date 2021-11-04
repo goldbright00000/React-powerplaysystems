@@ -114,6 +114,21 @@ const RechargeHowToPlayPage = () => {
               </Animate>
             </section>
 
+            <section>
+                <div className={styles.contectSection6}>
+                  <h1>PowerdFS</h1>
+                  <p style={{
+                    margin: "0 auto",
+                    width: 448,
+                    height: 46,
+                    marginTop: 24
+                  }}>
+                  Explore games on the Power Center page and enter to experience PowerdFS. You have the Powers to win!
+                  </p>
+                  <Link to="/power-center"><button>Explore games</button></Link>
+                </div>
+            </section>
+
             {/* <section className={styles.bottomButtons}>
                 <h2 className={styles.header}>See Also:</h2>
                 <div className={styles.linksBlock}>
