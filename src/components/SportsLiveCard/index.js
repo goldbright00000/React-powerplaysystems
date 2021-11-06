@@ -110,7 +110,6 @@ function SportsLiveCard(props) {
     match_stats = [],
   } = player || {};
 
-
   const {
     batting_average = 0,
     earned_runs_average = 0,
@@ -146,10 +145,10 @@ function SportsLiveCard(props) {
     home_team = {},
     status = "",
     boxscore = [],
-    date_time = "",
-    last_updated = ""
+    scheduled = "",
+    last_updated = "",
   } = match || {};
-  
+
   const {
     strikes = 0,
     balls = 0,
@@ -216,7 +215,7 @@ function SportsLiveCard(props) {
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
-          const _time = moment(date_time).clone().format("h:mm A");
+          const _time = moment(scheduled).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
             (data, index) =>
               `${data?.time}` === _time &&
@@ -250,7 +249,7 @@ function SportsLiveCard(props) {
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
-          const _time = moment(date_time).clone().format("h:mm A");
+          const _time = moment(scheduled).clone().format("h:mm A");
           const newListData = swapablePlayerData?.listData?.filter(
             (data, index) =>
               `${data?.time}` === _time &&
@@ -272,25 +271,22 @@ function SportsLiveCard(props) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
       const response = await dispatch(nhlActions.nhlData(gameId));
-      
+
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
         console.log("_nhlData", _nhlData);
-        const [swapablePlayerData] = _nhlData?.filter(
-          (data) => {
-            let a = primary_position;
-            if(primary_position == "LW")
-              a = "XW";
-            return data?.type === `${a}`?.toLocaleLowerCase()
-          }
-        );
-          console.log("swapablePlayerData", swapablePlayerData);
+        const [swapablePlayerData] = _nhlData?.filter((data) => {
+          let a = primary_position;
+          if (primary_position == "LW") a = "XW";
+          return data?.type === `${a}`?.toLocaleLowerCase();
+        });
+        console.log("swapablePlayerData", swapablePlayerData);
         if (
           swapablePlayerData &&
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
-          const _time = moment(date_time).clone().format("h:mm A");
+          const _time = moment(scheduled).clone().format("h:mm A");
           console.log("_time", _time);
           const newListData = swapablePlayerData?.listData?.filter(
             (data, index) =>
@@ -400,8 +396,8 @@ function SportsLiveCard(props) {
 
   const getStatus = () => {
     if (`${status}`?.toLocaleLowerCase() === "scheduled") {
-      return `${moment(date_time).format("MMM Do")} - ${moment(
-        date_time
+      return `${moment(scheduled).format("MMM Do")} - ${moment(
+        scheduled
       ).format("hh:mm A")}`;
     } else if (
       `${status}`?.toLocaleLowerCase() === "closed" ||
@@ -1026,33 +1022,55 @@ function SportsLiveCard(props) {
                     {singleView && <RenderSingleViewStats />}
                     {cardType === CardType.MLBR ? (
                       <RenderMlbRechargeStatus />
-                    ) : (
-                      <RenderStatus
-                        success={
-                          hasText(status, "batting") ||
-                          hasText(status, "pitching") ||
-                          hasText(status, "hitting")
-                        }
-                        danger={hasText(status, "deck")}
-                      />
-                    )}
+                    ) : null}
 
                     {getStatus() !== "Game Over" &&
                     cardType === CardType.MLB &&
-                    !singleView
-                      ? showFooterStats()
-                      : null}
+                    !singleView ? (
+                      <>
+                        (
+                        <RenderStatus
+                          success={
+                            hasText(status, "batting") ||
+                            hasText(status, "pitching") ||
+                            hasText(status, "hitting")
+                          }
+                          danger={hasText(status, "deck")}
+                        />
+                        ){showFooterStats()}
+                      </>
+                    ) : null}
 
                     {getStatus() !== "Game Over" &&
                     cardType === CardType.NFL &&
                     !singleView ? (
-                      <NFLFooterStats />
+                      <>
+                        <RenderStatus
+                          success={
+                            hasText(status, "batting") ||
+                            hasText(status, "pitching") ||
+                            hasText(status, "hitting")
+                          }
+                          danger={hasText(status, "deck")}
+                        />
+                        <NFLFooterStats />
+                      </>
                     ) : null}
 
                     {getStatus() !== "Game Over" &&
                     cardType === CardType.NHL &&
                     !singleView ? (
-                      <NHLFooterStats />
+                      <>
+                        <RenderStatus
+                          success={
+                            hasText(status, "batting") ||
+                            hasText(status, "pitching") ||
+                            hasText(status, "hitting")
+                          }
+                          danger={hasText(status, "deck")}
+                        />
+                        <NHLFooterStats player={player} />
+                      </>
                     ) : null}
                   </>
                 )}

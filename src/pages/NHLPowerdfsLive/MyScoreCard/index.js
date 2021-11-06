@@ -115,7 +115,7 @@ export default function MyScoreCard() {
             pts={item?.fantasyLog?.playerPts}
             totalPts="8"
             powers="-"
-            score={16}
+            score={item?.fantasyLog?.playerPts}
             runningTotal="16"
           />
         ))}
