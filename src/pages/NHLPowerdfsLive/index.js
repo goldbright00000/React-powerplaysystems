@@ -122,7 +122,7 @@ function NHLPowerdFsLive(props) {
 
   const {
     game_id = 0,
-    gameID = 0,
+    gameID = getGameIDFromLocalStorage(),
     live_players = [],
     live_totalTeamPts = 0,
     live_all_team_logs = [],
