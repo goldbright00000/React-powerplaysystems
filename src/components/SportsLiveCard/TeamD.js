@@ -150,17 +150,19 @@ function SportsLiveCardTeamD(props) {
     console.log("isPowerAvailable", props);
     let powerss = props.dataMain?.powersAvailable;
 
-    let available = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (powerss[i].powerName === type) {
-        available = 1;
-        break;
+    if (powerss) {
+      let available = 0;
+      if (type === "Swap Player") {
+        type = "Swap";
       }
+      for (var i = 0; i < powerss.length; i++) {
+        if (powerss[i].powerName === type) {
+          available = 1;
+          break;
+        }
+      }
+      return available;
     }
-    return available;
   };
 
   const isPowerLocked = (type) => {
@@ -169,15 +171,17 @@ function SportsLiveCardTeamD(props) {
     if (type === "Swap Player") {
       type = "Swap";
     }
-    for (var i = 0; i < powerss.length; i++) {
-      if (powerss[i].powerName === type) {
-        if (
-          powerss[i].SocialMediaUnlock == true ||
-          powerss[i].SocialMediaUnlock == "true"
-        ) {
-          locked = 1;
+    if (powerss) {
+      for (var i = 0; i < powerss.length; i++) {
+        if (powerss[i].powerName === type) {
+          if (
+            powerss[i].SocialMediaUnlock == true ||
+            powerss[i].SocialMediaUnlock == "true"
+          ) {
+            locked = 1;
+          }
+          break;
         }
-        break;
       }
     }
     return locked;
