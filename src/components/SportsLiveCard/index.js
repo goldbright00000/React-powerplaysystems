@@ -125,7 +125,13 @@ function SportsLiveCard(props) {
   //   // home_runs = 0,
   // } = nhl_player_season_stats[0] || {};
 
-  const { goals = 0, assists = 0, points = 0, shots = 0 } = stats || {};
+  let {
+    goals = 0,
+    assists = 0,
+    points = 0,
+    shots = 0,
+    status: playerStatus = "",
+  } = stats || {};
 
   const {
     match_id = 0,
@@ -147,6 +153,22 @@ function SportsLiveCard(props) {
     scheduled = "",
     last_updated = "",
   } = match || {};
+
+  let [matchStatus, setMatchStatus] = useState(status);
+
+  useEffect(() => {
+    setMatchStatus(status);
+
+    let diff = moment().diff(moment(scheduled).format());
+
+    if (diff > 0) {
+    } else {
+      const id = setTimeout(() => {
+        playerStatus = "inprogress";
+      }, diff);
+      return () => clearTimeout(id);
+    }
+  }, [status]);
 
   const {
     strikes = 0,
@@ -394,39 +416,46 @@ function SportsLiveCard(props) {
   };
 
   const getStatus = () => {
-    if (`${status}`?.toLocaleLowerCase() === "scheduled") {
+    if (
+      `${status}`?.toLocaleLowerCase() === "scheduled" &&
+      moment().diff(moment(scheduled).format()) < 0
+    ) {
       return `${moment(scheduled).format("MMM Do")} - ${moment(
         scheduled
       ).format("hh:mm A")}`;
-    } else if (
-      `${status}`?.toLocaleLowerCase() === "closed" ||
-      `${status}`?.toLocaleLowerCase() === "completed"
-    ) {
-      return "Game Over";
-    } else if (
-      (!showEndThird() || !showMidThird()) &&
-      (type === "P" || type === "p") &&
-      player_id === pitcher?.player_id
-    ) {
-      return "Pitching";
-    } else if (
-      (!showEndThird() || !showMidThird()) &&
-      (type === "P" || type === "p") &&
-      !isPitching()
-    ) {
-      return "Dugout";
-    } else if (
-      (!showEndThird() || !showMidThird()) &&
-      player_id === hitter?.player_id &&
-      hitter
-    ) {
-      return "Hitting";
-    } else if (
-      (showEndThird() || showMidThird()) &&
-      `${status}`.toLocaleUpperCase() === "inprogress"
-    )
-      return "In Progress";
-    else if (status === "inprogress") return "In Progress";
+    } else {
+      return playerStatus;
+    }
+    // if (
+    //   `${status}`?.toLocaleLowerCase() === "closed" ||
+    //   `${status}`?.toLocaleLowerCase() === "completed"
+    // ) {
+    //   return "Game Over";
+    // }
+    // else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   (type === "P" || type === "p") &&
+    //   player_id === pitcher?.player_id
+    // ) {
+    //   return "Pitching";
+    // } else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   (type === "P" || type === "p") &&
+    //   !isPitching()
+    // ) {
+    //   return "Dugout";
+    // } else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   player_id === hitter?.player_id &&
+    //   hitter
+    // ) {
+    //   return "Hitting";
+    // } else if (
+    //   (showEndThird() || showMidThird()) &&
+    //   `${status}`.toLocaleUpperCase() === "inprogress"
+    // )
+    //   return "In Progress";
+    // else if (status === "inprogress") return "In Progress";
 
     return status;
   };

@@ -354,7 +354,6 @@ function NHLPowerdFsLive(props) {
       let lv_teamD = live_teamD;
       // Team D
       if (myscore_description === "shotagainst") {
-        console.log("myscore_description: shotagainst");
         if (lv_teamD?.stats?.savesAgainst) {
           lv_teamD.stats.savesAgainst = lv_teamD?.stats?.savesAgainst + 1;
         } else {
@@ -457,8 +456,6 @@ function NHLPowerdFsLive(props) {
               playr.stats.assists = 1;
             }
           }
-
-          console.log("Player Stats: ", playr.stats);
         }
       });
 
