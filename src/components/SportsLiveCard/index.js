@@ -82,7 +82,6 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
     key = "",
   } = props || {};
-  console.log("props1", props);
 
   const { game: { game_id: gameId } = {} } = gameInfo || {};
 

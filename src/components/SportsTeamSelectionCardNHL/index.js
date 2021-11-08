@@ -44,6 +44,7 @@ function SportsTeamSelectionCard(props) {
     teamB = {},
     matchVenue = {},
     matchScheduled = "",
+    is_starTeamD,
   } = item || {};
 
   console.log("matchVenue: ", matchVenue);
@@ -82,6 +83,11 @@ function SportsTeamSelectionCard(props) {
               Star Power{" "}
             </span>
           )} */}
+          {is_starTeamD ? (
+            <span className={classes.container_body_card_start_power}>
+              <StarIcon solidcolor="#000" /> <p>Star Power</p>
+            </span>
+          ) : null}
           <div
             className={`${classes.container_body_card_header} ${
               isSelected ? classes.header_flex : ""

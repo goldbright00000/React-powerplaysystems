@@ -48,6 +48,10 @@ function SportsLiveCardTeamD(props) {
     key = "",
   } = props || {};
 
+  // NHL TeamD
+  const { stats } = data || {};
+  const { savesAgainst = 0, goalsAgainst = 0, points = 0 } = stats || {};
+
   const {
     name = "",
     type = "",
@@ -77,7 +81,6 @@ function SportsLiveCardTeamD(props) {
   } = match || {};
 
   const {
-    points = 0,
     playerStats = {},
     pointsSummary = [],
     totalPts = 0,
@@ -895,9 +898,9 @@ function SportsLiveCardTeamD(props) {
             PGPs
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            GA: {goals}
+            GA: {goalsAgainst}
             <br />
-            SA:
+            SA: {savesAgainst}
           </p>
         </div>
       </div>
@@ -1159,7 +1162,7 @@ function SportsLiveCardTeamD(props) {
         <span className={classes.border} />
         <span>
           Team D:
-          <span className={classes.card_header_points}>14 Pts</span>
+          <span className={classes.card_header_points}>{points} Pts</span>
         </span>
       </p>
     </div>
@@ -1297,7 +1300,7 @@ function SportsLiveCardTeamD(props) {
                     {getStatus() !== "Game Over" &&
                     cardType === CardType.NHL &&
                     !singleView ? (
-                      <NHLFooterStats />
+                      <NHLFooterStats isTeamD={true} teamD={data} />
                     ) : null}
                   </>
                 )}
