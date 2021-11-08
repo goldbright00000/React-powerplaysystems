@@ -217,7 +217,7 @@ export default function TeamManager(props) {
           src={x1_2Power}
         /> */}
         <p className={classes.team_manager_card_header_title}>
-          Use your power to increase your point total.
+          Use your Power to increase your point total.
         </p>
       </div>
     );

@@ -129,6 +129,7 @@ function NHLPowerdFsLive(props) {
     live_team_logs = [],
     live_score_details = [],
     live_teamD = {},
+    live_eventData = [],
     live_home = {},
     live_away = {},
     period = 0,
@@ -336,10 +337,78 @@ function NHLPowerdFsLive(props) {
 
       let { fantasyLog, period, clock, totalTeamPts } = item;
 
-      let { type, player, playerPts, goal, assists, myscore_description } =
-        fantasyLog || {};
+      let {
+        type,
+        player,
+        playerPts,
+        goal,
+        saved,
+        assists,
+        myscore_description,
+        strength,
+        homeTeamD,
+        awayTeamD,
+      } = fantasyLog || {};
 
+      // Team D
+      let lv_teamD = live_teamD;
+      // Team D
+      if (myscore_description === "shotagainst") {
+        console.log("myscore_description: shotagainst");
+        if (lv_teamD?.stats?.savesAgainst) {
+          lv_teamD.stats.savesAgainst = lv_teamD?.stats?.savesAgainst + 1;
+        } else {
+          if (!lv_teamD.stats) {
+            lv_teamD.stats = {};
+          }
+          if (lv_teamD?.stats) {
+            lv_teamD.stats.savesAgainst = 1;
+          }
+        }
+      }
+
+      if (goal && saved === false) {
+        if (lv_teamD?.stats?.goalsAgainst) {
+          lv_teamD.stats.goalsAgainst = lv_teamD?.stats?.goalsAgainst + 1;
+        } else {
+          if (!lv_teamD.stats) {
+            lv_teamD.stats = {};
+          }
+          if (lv_teamD?.stats) {
+            lv_teamD.stats.goalsAgainst = 1;
+          }
+        }
+      }
+
+      if (homeTeamD) {
+        if (lv_teamD?.stats?.points) {
+          lv_teamD.stats.points = lv_teamD.stats.points + homeTeamD;
+        } else {
+          if (!lv_teamD.stats) {
+            lv_teamD.stats = {};
+          }
+          if (lv_teamD?.stats) {
+            lv_teamD.stats.points = homeTeamD;
+          }
+        }
+      }
+
+      if (awayTeamD) {
+        if (lv_teamD?.stats?.points) {
+          lv_teamD.stats.points = lv_teamD.stats.points + awayTeamD;
+        } else {
+          if (!lv_teamD.stats) {
+            lv_teamD.stats = {};
+          }
+          if (lv_teamD?.stats) {
+            lv_teamD.stats.points = awayTeamD;
+          }
+        }
+      }
+
+      // Players
       let lp = [...live_players];
+
       lp.forEach((playr) => {
         if (playr.id === player.id) {
           if (!Array.isArray(playr.events)) {
@@ -377,8 +446,6 @@ function NHLPowerdFsLive(props) {
               playr.stats.shots = 1;
             }
           }
-          // if (goal) { }
-          // if (type === "shot") {}
 
           if (assists) {
             if (playr?.stats?.assists) {
@@ -402,59 +469,135 @@ function NHLPowerdFsLive(props) {
           live_clock: clock,
           live_totalTeamPts: live_totalTeamPts + totalTeamPts,
           live_players: lp,
+          live_strength: strength,
+          live_teamD: lv_teamD,
         },
       });
     });
   };
+
+  let evaluateEventData = () => {
+    live_eventData.forEach((item) => {
+      let { eventData } = item || {};
+      let { on_ice } = eventData || {};
+      if (on_ice) {
+        let team1 = on_ice[0]?.team || {};
+        let team2 = on_ice[1]?.team || {};
+
+        // Players
+        let lp = [...live_players];
+
+        lp.forEach((live_playr) => {
+          let { match } = live_playr;
+          let { home } = match || {};
+          if (home.id !== team1.id && home.id === team2.id) {
+            team1?.players?.map((i) => {
+              if (i.primary_position === "G") {
+                live_playr.OppGoalie = i.full_name;
+              }
+            });
+
+            team2.players.map((i) => {
+              if (i.id === live_playr) {
+                if (live_playr.stats.status) {
+                  live_playr.stats.status = "on-ice";
+                } else {
+                  if (!live_playr.stats) {
+                    live_playr.stats = {};
+                  }
+                  lp.stats.status = "on-ice";
+                }
+              }
+            });
+          } else if (home.id === team1.id && home.id !== team2.id) {
+            team2?.players?.map((i) => {
+              if (i.primary_position === "G") {
+                live_playr.OppGoalie = i.full_name;
+              }
+            });
+
+            team1.players.map((i) => {
+              if (i.id === live_playr) {
+                if (live_playr.stats.status) {
+                  live_playr.stats.status = "on-ice";
+                } else {
+                  if (!live_playr.stats) {
+                    live_playr.stats = {};
+                  }
+                  live_playr.stats.status = "on-ice";
+                }
+              }
+            });
+          }
+
+          if (live_playr?.stats?.status === "inprogress") {
+            live_playr = "on-bench";
+          }
+        });
+
+        dispatch({
+          type: NHLActions.NHL_UPDATE_STATE,
+          payload: {
+            live_players: lp,
+          },
+        });
+      }
+    });
+  };
+
   useEffect(() => {
     evaluateTeamLogs();
   }, [live_team_logs]);
+
+  useEffect(() => {
+    evaluateEventData();
+  }, [live_eventData]);
 
   useEffect(async () => {
     setPowers();
   }, []);
 
   useEffect(() => {
-    // if (live_players?.length > 0) {
-    _socket.on("disconnect", () => {
-      console.log("Socket Disconnected");
-    });
-
-    _socket.on("connected", () => {
-      console.log("Socket Connected");
-      _socket.emit("NHL_CONNECT_MATCH_ROOM", {
-        gameID: gameID,
+    if (gameID !== 0) {
+      _socket.on("disconnect", () => {
+        console.log("Socket Disconnected");
       });
-    });
 
-    _socket.on("ROOM_CONNECTED", (data) => {
-      console.log("ON ROOM CONNECTED: ", data);
-      dispatch({
-        type: NHLActions.NHL_UPDATE_STATE,
-        payload: {
-          live_score_details: data,
-        },
+      _socket.on("connected", () => {
+        console.log("Socket Connected");
+        _socket.emit("NHL_CONNECT_MATCH_ROOM", {
+          gameID: gameID,
+        });
       });
-    });
 
-    _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
-      console.log("THIS IS TEAM LOGS", data);
-
-      if (Array.isArray(data)) {
+      _socket.on("ROOM_CONNECTED", (data) => {
+        console.log("ON ROOM CONNECTED: ", data);
         dispatch({
           type: NHLActions.NHL_UPDATE_STATE,
           payload: {
-            live_team_logs: data,
+            live_score_details: data,
           },
         });
-      }
-    });
+      });
 
-    _socket.on("ROOM_DATA", (data) => {
-      console.log("ROOM DATA: ", data);
-    });
-    // }
-  }, [_socket]);
+      _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
+        console.log("THIS IS TEAM LOGS", data);
+
+        if (Array.isArray(data)) {
+          dispatch({
+            type: NHLActions.NHL_UPDATE_STATE,
+            payload: {
+              live_team_logs: data,
+            },
+          });
+        }
+      });
+
+      _socket.on("ROOM_DATA", (data) => {
+        console.log("ROOM DATA: ", data);
+      });
+    }
+  }, [_socket, gameID]);
 
   useEffect(() => {
     setPlayerToSwap({});
