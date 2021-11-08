@@ -72,7 +72,6 @@ const MyGameCenterCard = (props) => {
     outOf = null,
     total = 0,
     percent = null,
-    showDetails = false,
     inProgress = false,
     completed = false,
     editPicks = false,
@@ -97,6 +96,8 @@ const MyGameCenterCard = (props) => {
     currency = "USD",
     game_type = "PowerdFS",
   } = props || {};
+
+  const [showDetails, setShowDetails] = useState(false);
 
   const [ranks, setRanks] = React.useState({
     ranking: 0,
@@ -588,7 +589,6 @@ const MyGameCenterCard = (props) => {
                     ) : null}
                   </div>
                 </div>
-
                 {/* <div
                   style={{
                     marginLeft: 20,
@@ -599,7 +599,6 @@ const MyGameCenterCard = (props) => {
                 >
                   ID {game_id}
                 </div> */}
-
                 <div
                   className={classes.__my_game_center_card_powerdfs}
                   style={{ marginTop: inProgress || !completed ? 5 : 10 }}
@@ -617,7 +616,6 @@ const MyGameCenterCard = (props) => {
                     </p>
                   </div>
                 </div>
-
                 <div className={classes.__my_game_center_card_prize_pool}>
                   <p
                     className={
@@ -646,7 +644,6 @@ const MyGameCenterCard = (props) => {
                     {inProgress ? "Currently Winning" : "Prize Pool"}
                   </p>
                 </div>
-
                 {inProgress || completed || timeToStart != "" ? null : (
                   <div className={classes.__my_game_center_card_total}>
                     <p>
@@ -655,7 +652,6 @@ const MyGameCenterCard = (props) => {
                     </p>
                   </div>
                 )}
-
                 {timeToStart && (
                   <div
                     className={
@@ -675,7 +671,7 @@ const MyGameCenterCard = (props) => {
                     <br /> <span>Your Current Rank</span>
                   </div>
                 )}
-
+                Prize Pool
                 <div
                   className={`${classes.__my_game_center_card_buttons} d-flex align-items-center justify-content-between`}
                 >
@@ -1201,7 +1197,10 @@ const MyGameCenterCard = (props) => {
                 ) : (
                   <div
                     className={classes.__my_game_center_card_details_link}
-                    onClick={() => onDetailsClick(id)}
+                    onClick={() => {
+                      onDetailsClick(id);
+                      setShowDetails(true);
+                    }}
                   >
                     Details
                   </div>
@@ -1252,6 +1251,9 @@ const MyGameCenterCard = (props) => {
             myGameCenter={true}
             game_set_start={game_set_start}
             prize={prize}
+            hideCard={() => {
+              setShowDetails(false);
+            }}
           />
         </>
       )}
