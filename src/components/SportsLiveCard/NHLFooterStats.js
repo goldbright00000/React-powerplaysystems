@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import _ from "lodash";
 
 import "./stats.scss";
 import HockeyIcon from "../../assets/icons/nhl/hockey.svg";
@@ -11,6 +12,8 @@ import SoccerJerseyIcon from "../../assets/icons/nhl/soccer-jersey.svg";
 function NHLFooterStats(props) {
   const {
     player = {},
+    isTeamD = false,
+    teamD = {},
     onClickBack = () => {},
     onClickDetails = () => {},
     showSummary = false,
@@ -18,21 +21,37 @@ function NHLFooterStats(props) {
     title = "",
   } = props || {};
 
-  const { match } = player || {};
+  //Player Details
+  const { match, OppGoalie = "" } = player || {};
   const { home, away } = match || {};
 
-  const { live_clock = 0, live_period = 0 } = useSelector((state) => state.nhl);
+  //TeamD Details
+  const { name = "", teamB = {} } = teamD || {};
+
+  const {
+    live_clock = "20:00",
+    live_period = 1,
+    live_strength = "even",
+  } = useSelector((state) => state.nhl);
 
   return (
     <div>
-      <div className="footer_stats_row">
-        <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>{away?.name} vs</p>
-        <p className="bold_text"> {home?.name}</p>
-      </div>
+      {isTeamD ? (
+        <div className="footer_stats_row">
+          <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
+          <p>{name} vs</p>
+          <p className="bold_text"> {teamB.name}</p>
+        </div>
+      ) : (
+        <div className="footer_stats_row">
+          <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
+          <p>{away?.name} vs</p>
+          <p className="bold_text"> {home?.name}</p>
+        </div>
+      )}
       <div className="footer_stats_row">
         <img src={SoccerIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>Opp. G: P. Roy .976</p>
+        <p>Opp. G: {OppGoalie}</p>
       </div>
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
@@ -42,7 +61,12 @@ function NHLFooterStats(props) {
       </div>
       <div className="footer_stats_row">
         <img src={SoccerJerseyIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>DET - Shorthanded 5 on 4</p>
+        <p>
+          DET -{" "}
+          {live_strength === "even"
+            ? "Even Strength"
+            : _.startCase(_.toLower(live_strength))}{" "}
+        </p>
       </div>
     </div>
   );

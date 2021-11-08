@@ -380,33 +380,21 @@
   }
 
   .container_body_card_start_power {
-    border-radius: 6px;
-    background-image: linear-gradient(110deg, #fda700, #fb6e00 72%);
+    border-radius: 2px;
+    background-image: linear-gradient(110deg, $primary 60%, $yellow);
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 100px;
-    height: 22px;
-    padding: 5px;
-    font-size: 14px;
-    color: $darkblack;
+    justify-content: center;
+    width: 130px;
+    height: 16px;
+    line-height: 16px;
     position: absolute;
-    font-family: Teko;
-    transform: translate(0, -25px);
+    transform: translate(-17px, -14px);
+    box-shadow: 0 0px 8px 4px $black;
 
-    &.inset {
-      border-radius: 2px;
-      background-image: linear-gradient(110deg, $primary 60%, $yellow);
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      width: 130px;
-      height: 16px;
-      position: absolute;
-      transform: translate(-18px, -23px);
-      box-shadow: 0 0px 8px 4px $black;
-      font-size: 13px;
+    p {
+      font-size: var(--font-size-13);
       text-align: center;
       text-transform: uppercase;
       font-weight: 550;
@@ -414,18 +402,12 @@
       font-family: Teko;
       margin: 3px 0 0 0;
       padding: 0;
-
-      svg {
-        padding: 0;
-        margin: 0;
-        margin-right: 2px;
-      }
     }
 
-    img {
-      width: 20px;
-      height: 20px;
-      margin-right: 5px;
+    svg {
+      padding: 0;
+      margin: 0;
+      margin-right: 2px;
     }
   }
 }
@@ -577,33 +559,26 @@
     }
 
     .container_body_card_start_power {
-      width: 100px;
-      height: 22px;
-      padding: 5px;
-      font-size: 14px;
-      color: $darkblack;
-      position: absolute;
-      font-family: Teko;
-      transform: translate(0, -25px);
+      width: 140px;
+      height: 20px;
+      line-height: 20px;
+      transform: translate(-18px, -15px);
 
-      &.inset {
-        width: 150px;
-        height: 20px;
-        transform: translate(-18px, -24px);
-        font-size: 16px;
-
-        svg {
-          padding: 0;
-          margin: 0 2px 3px 0;
-          width: 18px;
-          height: 18px;
-        }
+      p {
+        font-size: 15px;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: 550;
+        color: $darkblack;
+        font-family: Teko;
+        margin: 3px 0 0 0;
+        padding: 0;
       }
 
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
+      svg {
+        padding: 0;
+        margin: 0;
+        margin-right: 2px;
       }
     }
   }
@@ -754,33 +729,18 @@
     }
 
     .container_body_card_start_power {
-      width: 100px;
-      height: 22px;
-      padding: 5px;
-      font-size: 14px;
-      color: $darkblack;
-      position: absolute;
-      font-family: Teko;
-      transform: translate(0, -25px);
+      width: 130px;
+      height: 16px;
+      line-height: 16px;
 
-      &.inset {
-        width: 150px;
-        height: 20px;
-        transform: translate(-18px, -24px);
-        font-size: 16px;
-
-        svg {
-          padding: 0;
-          margin: 0 2px 3px 0;
-          width: 18px;
-          height: 18px;
-        }
+      p {
+        font-size: var(--font-size-13);
+        font-weight: 550;
+        margin: 3px 0 0 0;
       }
 
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
+      svg {
+        margin-right: 2px;
       }
     }
   }
@@ -932,33 +892,18 @@
     }
 
     .container_body_card_start_power {
-      width: 100px;
-      height: 22px;
-      padding: 5px;
-      font-size: 14px;
-      color: $darkblack;
-      position: absolute;
-      font-family: Teko;
-      transform: translate(0, -25px);
+      width: 130px;
+      height: 16px;
+      line-height: 16px;
 
-      &.inset {
-        width: 150px;
-        height: 20px;
-        transform: translate(-18px, -24px);
-        font-size: 16px;
-
-        svg {
-          padding: 0;
-          margin: 0 2px 3px 0;
-          width: 18px;
-          height: 18px;
-        }
+      p {
+        font-size: var(--font-size-13);
+        font-weight: 550;
+        margin: 3px 0 0 0;
       }
 
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
+      svg {
+        margin-right: 2px;
       }
     }
   }
@@ -1079,34 +1024,18 @@
     }
 
     .container_body_card_start_power {
-      width: 80px;
-      height: 22px;
-      padding: 5px;
-      font-size: 14px;
-      color: $darkblack;
-      position: absolute;
-      font-family: Teko;
-      transform: translate(0, -25px);
+      width: 130px;
+      height: 16px;
+      line-height: 16px;
 
-      &.inset {
-        width: 110px;
-        height: 15px;
-        position: absolute;
-        transform: translate(-18px, -20px);
-
-        svg {
-          padding: 0;
-          margin: 0 0 2px 0;
-          margin-right: 2px;
-          width: 12px;
-          height: 12px;
-        }
+      p {
+        font-size: var(--font-size-13);
+        font-weight: 550;
+        margin: 3px 0 0 0;
       }
 
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
+      svg {
+        margin-right: 2px;
       }
     }
   }
@@ -1227,34 +1156,20 @@
     }
 
     .container_body_card_start_power {
-      width: 80px;
-      height: 22px;
-      padding: 5px;
-      font-size: 14px;
-      color: $darkblack;
-      position: absolute;
-      font-family: Teko;
-      transform: translate(0, -25px);
+      width: 120px;
+      height: 15px;
+      line-height: 15px;
 
-      &.inset {
-        width: 110px;
-        height: 15px;
-        position: absolute;
-        transform: translate(-18px, -20px);
-
-        svg {
-          padding: 0;
-          margin: 0 0 2px 0;
-          margin-right: 2px;
-          width: 12px;
-          height: 12px;
-        }
+      p {
+        font-size: var(--font-size-12);
       }
 
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
+      svg {
+        padding: 0;
+        margin: 0;
+        margin-right: 2px;
+        width: 12px;
+        height: 12px;
       }
     }
   }
@@ -1375,34 +1290,20 @@
     }
 
     .container_body_card_start_power {
-      width: 80px;
-      height: 22px;
-      padding: 5px;
-      font-size: 14px;
-      color: $darkblack;
-      position: absolute;
-      font-family: Teko;
-      transform: translate(0, -25px);
+      width: 120px;
+      height: 15px;
+      line-height: 15px;
 
-      &.inset {
-        width: 110px;
-        height: 15px;
-        position: absolute;
-        transform: translate(-18px, -20px);
-
-        svg {
-          padding: 0;
-          margin: 0 0 2px 0;
-          margin-right: 2px;
-          width: 12px;
-          height: 12px;
-        }
+      p {
+        font-size: var(--font-size-12);
       }
 
-      img {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
+      svg {
+        padding: 0;
+        margin: 0;
+        margin-right: 2px;
+        width: 12px;
+        height: 12px;
       }
     }
   }
