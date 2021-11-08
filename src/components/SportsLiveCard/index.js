@@ -130,7 +130,7 @@ function SportsLiveCard(props) {
     assists = 0,
     points = 0,
     shots = 0,
-    status: playerStatus = "",
+    status: playerStatus = "inprogress",
   } = stats || {};
 
   const {
@@ -154,21 +154,21 @@ function SportsLiveCard(props) {
     last_updated = "",
   } = match || {};
 
-  let [matchStatus, setMatchStatus] = useState(status);
+  // let [matchStatus, setMatchStatus] = useState(status);
 
-  useEffect(() => {
-    setMatchStatus(status);
+  // useEffect(() => {
+  //   setMatchStatus(status);
 
-    let diff = moment().diff(moment(scheduled).format());
+  //   let diff = moment().diff(moment(scheduled).format());
 
-    if (diff > 0) {
-    } else {
-      const id = setTimeout(() => {
-        playerStatus = "inprogress";
-      }, diff);
-      return () => clearTimeout(id);
-    }
-  }, [status]);
+  //   if (diff > 0) {
+  //   } else {
+  //     const id = setTimeout(() => {
+  //       playerStatus = "inprogress";
+  //     }, diff);
+  //     return () => clearTimeout(id);
+  //   }
+  // }, [status]);
 
   const {
     strikes = 0,
