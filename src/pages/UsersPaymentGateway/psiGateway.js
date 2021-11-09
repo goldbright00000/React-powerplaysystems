@@ -41,7 +41,7 @@ const PSiGateway = (props) => {
             redirectTo(
                 { history },
                 {
-                    path: `${state.previousPath}`,
+                    path: `${state?.previousPath}`,
                 }
             );
         });
@@ -96,7 +96,7 @@ const PSiGateway = (props) => {
                     <p>Tax1:</p> <input type="text" name="Tax1" value="5" /><br />
                 </div>
                 <div className="form-input">
-                    <p>SubTotal:</p> <input type="text" name="SubTotal" value={state.amount} /><br />
+                    <p>SubTotal:</p> <input type="text" name="SubTotal" value={state?.amount} /><br />
                 </div>
 
                 <input type="hidden" name="ThanksURL" value={`${process.env.REACT_APP_API_URL}/api/v1/users/catch-thanks-url?user_id=${user_id}`} />
