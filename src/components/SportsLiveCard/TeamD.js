@@ -48,6 +48,10 @@ function SportsLiveCardTeamD(props) {
     key = "",
   } = props || {};
 
+  // NHL TeamD
+  const { stats } = data || {};
+  const { savesAgainst = 0, goalsAgainst = 0, points = 0 } = stats || {};
+
   const {
     name = "",
     type = "",
@@ -77,7 +81,6 @@ function SportsLiveCardTeamD(props) {
   } = match || {};
 
   const {
-    points = 0,
     playerStats = {},
     pointsSummary = [],
     totalPts = 0,
@@ -147,36 +150,41 @@ function SportsLiveCardTeamD(props) {
   } = boxscore[0] || {};
 
   const isPowerAvailable = (type) => {
-    let powerss = props.dataMain?.game?.Powers;
+    console.log("isPowerAvailable", props);
+    let powerss = props.dataMain?.powersAvailable;
 
-    let available = 0;
-    if (type === "Swap Player") {
-      type = "Swap";
-    }
-    for (var i = 0; i < powerss.length; i++) {
-      if (powerss[i].powerName === type) {
-        available = 1;
-        break;
+    if (powerss) {
+      let available = 0;
+      if (type === "Swap Player") {
+        type = "Swap";
       }
+      for (var i = 0; i < powerss.length; i++) {
+        if (powerss[i].powerName === type) {
+          available = 1;
+          break;
+        }
+      }
+      return available;
     }
-    return available;
   };
 
   const isPowerLocked = (type) => {
-    let powerss = props.dataMain?.game?.Powers;
+    let powerss = props.dataMain?.powersAvailable;
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
     }
-    for (var i = 0; i < powerss.length; i++) {
-      if (powerss[i].powerName === type) {
-        if (
-          powerss[i].SocialMediaUnlock == true ||
-          powerss[i].SocialMediaUnlock == "true"
-        ) {
-          locked = 1;
+    if (powerss) {
+      for (var i = 0; i < powerss.length; i++) {
+        if (powerss[i].powerName === type) {
+          if (
+            powerss[i].SocialMediaUnlock == true ||
+            powerss[i].SocialMediaUnlock == "true"
+          ) {
+            locked = 1;
+          }
+          break;
         }
-        break;
       }
     }
     return locked;
@@ -890,9 +898,9 @@ function SportsLiveCardTeamD(props) {
             PGPs
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            GA: {goals}
+            GA: {goalsAgainst}
             <br />
-            SA:
+            SA: {savesAgainst}
           </p>
         </div>
       </div>
@@ -1154,7 +1162,7 @@ function SportsLiveCardTeamD(props) {
         <span className={classes.border} />
         <span>
           Team D:
-          <span className={classes.card_header_points}>14 Pts</span>
+          <span className={classes.card_header_points}>{points} Pts</span>
         </span>
       </p>
     </div>
@@ -1292,7 +1300,7 @@ function SportsLiveCardTeamD(props) {
                     {getStatus() !== "Game Over" &&
                     cardType === CardType.NHL &&
                     !singleView ? (
-                      <NHLFooterStats />
+                      <NHLFooterStats isTeamD={true} teamD={data} />
                     ) : null}
                   </>
                 )}

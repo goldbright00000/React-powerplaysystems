@@ -273,7 +273,68 @@ const InteractiveContests = (props) => {
             user_id: item?.user_id,
           })
         );
-
+        let tempPowers = [
+          {
+            id: 2667,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 3,
+            powerName: "3x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2666,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 2,
+            powerName: "2x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2665,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 8,
+            powerName: "Power-Up",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2664,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 7,
+            powerName: "Retro Boost",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2668,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 1,
+            powerName: "1.5x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+        ];
         return redirectTo(props, {
           path: `/nhl-select-team`,
           state: {
@@ -302,7 +363,7 @@ const InteractiveContests = (props) => {
             ),
             game_set_start: item?.game?.game_set_start,
             PointsSystem: item?.game?.PointsSystems,
-            Power: item?.game?.Powers,
+            Power: tempPowers, //item?.game?.Powers,
             prizes: item?.game?.PrizePayouts,
             paid_game: item?.game?.is_game_paid,
             entry_fee: item?.game?.entry_fee,
@@ -313,8 +374,15 @@ const InteractiveContests = (props) => {
   };
 
   const onEnter = async (item) => {
-    const { game = {}, sport_id, team_id, user_id, game_id } = item || {};
-    const { league = "" } = game || {};
+    console.log("test", item);
+    const {
+      game = {},
+      sport_id,
+      team_id,
+      userID: user_id,
+      gameID: game_id,
+    } = item || {};
+    const { league = "NHL" } = game || {};
     switch (league) {
       case "MLB":
         const encData = CryptoJS.AES.encrypt(
@@ -374,14 +442,14 @@ const InteractiveContests = (props) => {
       setFilteredData(getUserSavedGames);
     } else if (selectedOption === "Today") {
       myGameCenterCardData.map((item) => {
-        if (item?.game?.start_date == today.format("YYYY-MM-DD")) {
+        if (item?.startDate == today.format("YYYY-MM-DD")) {
           data.push(item);
         }
       });
       setFilteredData(data);
     } else {
       myGameCenterCardData.map((item) => {
-        if (item?.game?.start_date == day) {
+        if (item?.startDate == day) {
           data.push(item);
         }
       });
@@ -403,11 +471,11 @@ const InteractiveContests = (props) => {
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
-          title={item?.game?.league}
+          title={"NHL"} //item?.game?.league}
           prize={
-            item?.game?.PrizePayouts.length > 0
+            item?.reward.length > 0
               ? _.reduce(
-                  item?.game?.PrizePayouts,
+                  item?.reward,
                   function (memo, num) {
                     return memo + parseFloat(num.amount) * parseInt(num.prize);
                   },
@@ -418,22 +486,18 @@ const InteractiveContests = (props) => {
           outOf={item?.enrolled_users}
           total={item?.game?.target}
           percent={item?.game?.percent}
-          game_type={item?.game?.game_type}
-          game_id={item?.game_id}
+          game_type={item?.gameType}
+          game_id={item?.gameID}
           game_set_start={
-            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
-              ?.date
+            getLocalDateTime(item?.startDate, item?.startTime)?.date
           }
-          start_time={
-            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
-              ?.time
-          }
-          PointsSystem={item?.game?.PointsSystems}
-          Power={item?.game?.Powers}
-          PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={item?.game?.status === "In-Progress" ? true : false}
-          completed={item?.game?.status === "Completed" ? true : false}
-          editPicks={item?.game?.status === "Activated" ? true : false}
+          start_time={getLocalDateTime(item?.startDate, item?.startTime)?.time}
+          PointsSystem={item?.pointSystem}
+          Power={item?.powersAvailable}
+          PrizePayout={_.sortBy(item?.reward, "from")}
+          inProgress={item?.gameStatus === "In-Progress" ? true : false}
+          completed={item?.gameStatus === "closed" ? true : false}
+          editPicks={item?.gameStatus === "Activated" ? true : false}
           currency={item?.game?.currency}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
@@ -484,7 +548,8 @@ const InteractiveContests = (props) => {
                             : myGameCenterCardData?.length > 0 &&
                               myGameCenterCardData.filter(
                                 (cardItem) =>
-                                  cardItem?.game?.league === item.title
+                                  //cardItem?.game?.league === item.title
+                                  item.title === "NHL"
                               );
                         setFilteredData(filteredData);
                       }}
@@ -600,22 +665,22 @@ const InteractiveContests = (props) => {
               filteredData.map(function (power) {
                 if (
                   contentType === "In Progress" &&
-                  power.game.status === "In-Progress"
+                  power?.gameStatus === "In-Progress"
                 ) {
                   subFiltered.push(power);
                 } else if (
                   contentType === "Completed" &&
-                  power.game.status === "Completed"
+                  power?.gameStatus === "closed"
                 ) {
                   subFiltered.push(power);
                 } else if (
                   contentType === "Not Started" &&
-                  power.game.status === "Activated"
+                  power?.gameStatus === "Activated"
                 ) {
                   subFiltered.push(power);
                 } else if (
                   contentType === "All Active" &&
-                  power.game.status !== "Completed"
+                  power?.gameStatus !== "closed"
                 ) {
                   subFiltered.push(power);
                 }

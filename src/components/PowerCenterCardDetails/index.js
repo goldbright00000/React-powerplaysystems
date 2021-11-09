@@ -32,6 +32,7 @@ const PowerCenterCardDetails = (props) => {
     prize = "",
     userHasEntered = false,
     game_type = "",
+    hideCard,
   } = props || {};
   const [currentIndex, setCurrentIndex] = useState(0);
   const getBackgroundImageWithStyle = () => {
@@ -114,8 +115,9 @@ const PowerCenterCardDetails = (props) => {
               setCurrentIndex(currentIndex + 1);
             } else if (currentIndex < 4) {
               setCurrentIndex(currentIndex + 1);
-            } else {
-              onNextClick();
+            } else if (currentIndex === 4) {
+              // onNextClick();
+              hideCard(false);
             }
           }}
           myGameCenter={myGameCenter}

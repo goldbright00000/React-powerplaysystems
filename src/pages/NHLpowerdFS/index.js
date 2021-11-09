@@ -7,6 +7,7 @@ import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import { useHistory } from "react-router-dom";
 import dateFormat from "dateformat";
 import _ from "underscore";
+import { showToast } from "../../actions/uiActions";
 
 import * as NHLActions from "../../actions/NHLActions";
 import classes from "./index.module.scss";
@@ -280,7 +281,7 @@ function NHLPowerdFs(props) {
     entry_fee = "",
     currency = "",
     game_type = "",
-    powerdfs_challenge_amount= 0
+    powerdfs_challenge_amount = 0,
   } = history?.location?.state || {};
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
 
@@ -476,13 +477,20 @@ function NHLPowerdFs(props) {
           }
           player.type = currentPlayer?.type?.toLocaleLowerCase();
           player.matchId = currentPlayer?.match_id;
-          player.isStarPlayer = currentPlayer?.is_starPlayer;
+          player.is_starPlayer = currentPlayer?.is_starPlayer;
           _playersList[playerListIndex] = player;
 
           selected.set(selectionId, !selected.get(selectionId));
           //Star Power Player selection (sidebar)
           if (starPlayerCount < 3 && currentPlayer?.is_starPlayer) {
             _starPlayerCount++;
+          } else if (currentPlayer?.is_starPlayer) {
+            dispatch(
+              showToast(
+                "You have reached the Star Power limit for your team. Please select another player or team that does not have the 'Star Power' identifier.",
+                "success"
+              )
+            );
           }
           selectedPlayerCount++;
         }
@@ -502,12 +510,12 @@ function NHLPowerdFs(props) {
         selected.set(selectionId, !selected.get(selectionId));
         if (
           starPlayerCount > 0 &&
-          _playersList[existingPlayerIndex].isStarPlayer
+          _playersList[existingPlayerIndex].is_starPlayer
         ) {
           _starPlayerCount--;
         }
 
-        _playersList[existingPlayerIndex].isStarPlayer = false;
+        _playersList[existingPlayerIndex].is_starPlayer = false;
         _playersList[existingPlayerIndex].type = "";
         _playersList[existingPlayerIndex].matchId = "";
 
@@ -635,15 +643,17 @@ function NHLPowerdFs(props) {
           }
         }
       } else {
-        var _filterdData = selectedData?.listData?.filter((player) =>
-          player?.first_name
-          ?.toLocaleLowerCase()
-          ?.startsWith(value?.toLocaleLowerCase()) || player?.last_name
-          ?.toLocaleLowerCase()
-          ?.startsWith(value?.toLocaleLowerCase())
+        var _filterdData = selectedData?.listData?.filter(
+          (player) =>
+            player?.first_name
+              ?.toLocaleLowerCase()
+              ?.startsWith(value?.toLocaleLowerCase()) ||
+            player?.last_name
+              ?.toLocaleLowerCase()
+              ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
-        player?.team?.market
+          player?.team?.market
             ?.toLocaleLowerCase()
             ?.includes(value?.toLocaleLowerCase())
         );
@@ -1010,15 +1020,13 @@ function NHLPowerdFs(props) {
           token={token}
           isMobile={isMobile}
           depositClicked={setShowDepositModal}
-          selectedTeam={
-            {
-              game: {
-                game_type: game_type,
-                powerdfs_challenge_amount: powerdfs_challenge_amount,
-                prizePool: topPrize
-              }
-            }
-          }
+          selectedTeam={{
+            game: {
+              game_type: game_type,
+              powerdfs_challenge_amount: powerdfs_challenge_amount,
+              prizePool: topPrize,
+            },
+          }}
           isTeamSelectionPage={true}
           teamSelectionPageText={`Manage your team to ${powerdfs_challenge_amount} points and win`}
         />
@@ -1104,8 +1112,8 @@ function NHLPowerdFs(props) {
                                 key={item?.id + " - " + item?.match_id}
                                 onSelectDeselect={onPlayerSelectDeselect}
                                 disabled={
-                                  item.isStarPlayer &&
-                                  item.isStarPlayer &&
+                                  item.is_starPlayer &&
+                                  item.is_starPlayer &&
                                   starPowerIndex >= 3
                                 }
                               />
@@ -1127,8 +1135,8 @@ function NHLPowerdFs(props) {
                                     pageType={PAGE_TYPES.NHL}
                                     type={selectedData?.type}
                                     // disabled={
-                                    //   item.isStarPlayer &&
-                                    //   item.isStarPlayer &&
+                                    //   item.is_starPlayer &&
+                                    //   item.is_starPlayer &&
                                     //   starPlayerCount >= 3
                                     // }
                                   />
