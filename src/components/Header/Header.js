@@ -68,8 +68,7 @@ const Header = (props) => {
   const coinbaseUrl = useSelector((state) => state?.user.coinbaseRedirectUrl);
   const showDepositModal = useSelector((state) => state.ui.depositFormData);
 
-  const psiGateMonthlyAmount = useSelector((state) => state?.user.PSiGate_monthly_amount);
-
+  const psiGateMonthlyAmount = useSelector((state) => state?.user.PSIGATE_MONTHLY_TRANSACTION);
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
@@ -150,25 +149,30 @@ const Header = (props) => {
     if (data.amount < 1) {
       alert("Please add amount at least more than 1.");
     } else if (data.amount + psiGateMonthlyAmount < 5000) {
-      const { amount, paymentMethod } = data;
-      const obj = {
-        amount,
-        paymentMethod,
-        email: user?.email,
-      };
+      // const { amount, paymentMethod } = data;
+      // const obj = {
+      //   amount,
+      //   paymentMethod,
+      //   email: user?.email,
+      // };
 
-      dispatch(payWithPSiGate(obj, history));
-      setHideDepositModal();
+      // dispatch(payWithPSiGate(obj, history));
+      // setHideDepositModal();
+      return false;
     } else {
-      const { amount, paymentMethod } = data;
-      const obj = {
-        amount,
-        paymentMethod,
-        email: user?.email,
-      };
+      if(data.isMyUser){
+        const { amount, paymentMethod } = data;
+        const obj = {
+          amount,
+          paymentMethod,
+          email: user?.email,
+        };
 
-      dispatch(payWithMyUserPay(obj, history));
-      setHideDepositModal();
+        dispatch(payWithMyUserPay(obj, history));
+        setHideDepositModal();
+      } else {
+        return true;
+      }
     }
   };
 
