@@ -7,7 +7,6 @@ function ResultCard(props) {
   const { isMobile = false } = props || {};
   const { transactions = [] } = props || [];
   const getLiveStandingsButton =  (game_id) => {
-    console.log(game_id);
     props.getLiveStandings(game_id);
   };
   function TableRow(props) {

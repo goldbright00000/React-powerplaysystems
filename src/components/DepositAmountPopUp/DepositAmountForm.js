@@ -231,10 +231,6 @@ class DepositAmountForm extends Component {
     e.preventDefault();
 
     const user_id = getPersonaUserId();
-    console.log("--->--- user_id ---<---", user_id);
-    console.log("--->--- this.state ---<---", this.state);
-
-    console.log("--->--- this.state.form.currency ---<---", this.state.form.currency);
     
     const response = await this.state.dispatch(checkAccountLimit(user_id, this.state.form.currency));
 

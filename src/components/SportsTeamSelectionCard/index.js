@@ -58,7 +58,6 @@ function SportsTeamSelectionCard(props) {
     let temp = [];
     for (let i = 0; i < selector_all_data.length; i++) {
       let rec = selector_all_data[i];
-      console.log("rec", rec);
       if (rec.match_id == match_id) {
         if (rec.type == "P" || rec.type == "p") {
           temp.push(rec);
