@@ -111,10 +111,8 @@ export async function payNowWithIpay(data) {
       sulte_apt_no: token,
       webhook_url: `${process.env.REACT_APP_IPAY_WEBHOOK_URL}/api/v1/users/account/balance`,
     };
-    console.log("--->--- obj ---<---", obj);
 
     axios.post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj).then((res) => {
-      console.log("--->--- res ---<---", res);
       window.open(res.data.payment_redirect_url, "_blank");
     }).catch((er) => console.log(er));
   });

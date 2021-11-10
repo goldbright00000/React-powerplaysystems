@@ -24,7 +24,6 @@ function RenderModal(props) {
     loading = false,
   } = props || {};
 
-  console.log("render props", props);
 
   useEffect(() => {
     if (loading) return;
@@ -39,7 +38,7 @@ function RenderModal(props) {
   //     setSelectedData(filteredData);
   //   }
   // }, [filterString]);
-  const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
+  const { full_name: playerName = "", primary_position: type = "", type1 = "" } = currentPlayer || {};
 
   const onSearch = (e) => {
     const { value } = e.target;

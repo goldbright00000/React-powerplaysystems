@@ -43,15 +43,11 @@ const ThreeBoxes = ({ state, showTime, priceModal, setModal, data }) => {
 
     if (selectedTema.game_id) {
       let liveStandingsData = await dispatch(MLBActions.getLiveStandings(selectedTema.game_id));
-      console.log("liveStandingsData1222", liveStandingsData);
       if (typeof liveStandingsData !== "undefined") {
-        console.log("liveStandingsData2");
         if (liveStandingsData.payload.error == false) {
-          console.log("liveStandingsData3");
           if (
             JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
           ) {
-            console.log("liveStandingsData4");
             var finalArr = [];
             var res = liveStandingsData.payload.data.powerDFSRanking;
 
