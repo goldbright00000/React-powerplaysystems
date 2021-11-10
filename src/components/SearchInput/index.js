@@ -24,6 +24,7 @@ function SearchInput(props) {
   } = props || {};
 
   React.useEffect(() => {
+    console.log("in reset");
     if(isReset)
     {
       setSearch("");

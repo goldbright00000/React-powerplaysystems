@@ -53,7 +53,7 @@ const {
 } = CONSTANTS.SOCKET_EVENTS.NHL.LIVE;
 
 // let _socket = null;
-let _socket;
+let _socket = socketNHL();
 let isMatchUpdate = false;
 
 const POWER_IDs = {
@@ -106,7 +106,7 @@ function NHLPowerdFsLive(props) {
   const [prizes, setPrizes] = useState([]);
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
-console.log("selectedTeam", selectedTeam);
+
   function getGameIDFromLocalStorage() {
     const gameID = getLocalStorage(
       CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
@@ -134,6 +134,7 @@ console.log("selectedTeam", selectedTeam);
     live_away = {},
     period = 0,
     powersApplied = [],
+    powersAvailable = "",
   } = useSelector((state) => state.nhl);
   useEffect(() => {
     console.log("live_players: ", live_players);
@@ -158,42 +159,36 @@ console.log("selectedTeam", selectedTeam);
     if (user_id) {
       getFantasyTeam();
     }
-    _socket = socketNHL();
-    console.log("_socket", _socket);
   }, [user_id]);
 
   const {
-    gameID: gameId = "",
-    userID: userId = "",
+    game_id: gameId = "",
+    user_id: userId = "",
     team_id: teamId = "",
     sport_id: sportId = "",
     game = {},
     Prizes = [],
-    reward = [],
-    powersAvailable = "",
-    entryFee = 0,
-     currencys = "$"
   } = selectedTeam || {};
-  console.log(game);
+
   let prizePool,
     topPrize = 0,
     entry_fee = 0,
     currency;
 
   prizePool = _.reduce(
-    reward,
+    game?.PrizePayouts,
     function (memo, num) {
       return memo + parseInt(num.amount) * parseInt(num.prize);
     },
     0
   );
   topPrize = parseFloat(
-    _.max(reward, function (ele) {
+    _.max(game?.PrizePayouts, function (ele) {
       return ele.amount;
     }).amount
   );
-  entry_fee = entryFee;
-  currency = currencys;
+  entry_fee = game?.entry_fee;
+  currency = game?.currency;
 
   async function setPowers() {
     let a = await dispatch(NHLActions.getUserRemainingPowers(gameId, userId));
@@ -230,7 +225,7 @@ console.log("selectedTeam", selectedTeam);
           p3 = remainingPowers[i].remaining_amount;
           point_booster =
             point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "Swap" || rec.name === "Swap Players") {
+        } else if (rec.name === "Swap") {
           swap = remainingPowers[i].remaining_amount;
         } else if (rec.name === "Retro Boost") {
           retro_boost = remainingPowers[i].remaining_amount;
@@ -858,8 +853,6 @@ console.log("selectedTeam", selectedTeam);
                         onPowerApplied={onPowerApplied}
                         POWER_IDs={POWER_IDs}
                         setPowers={setPowers}
-                        useChallenge={useChallenge}
-                        useDwall={useDwall}
                       />
                     ) : (
                       <MyScoreCard />
@@ -929,7 +922,7 @@ console.log("selectedTeam", selectedTeam);
                       retroBoostCounts={retroBoostCounts}
                       powerUpCounts={powerUpCounts}
                       game={game}
-                      powers={powersAvailable == "" ? [] : powersAvailable}
+                      powers={props?.location?.state?.game?.Powers}
                     />
                   </Sidebar>
                 </div>

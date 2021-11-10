@@ -77,7 +77,7 @@ function SportsSelectionCard3(props) {
 
   const {
     playerId = "",
-    full_name: playerName = "",
+    playerName = "",
     id = "",
     full_name = "",
     homeTeam = "",
@@ -151,6 +151,7 @@ function SportsSelectionCard3(props) {
 
   const nextStep = () => {
     let _currentStep = currentStep;
+    console.log("_currentStep", _currentStep);
     if (_currentStep == 0) {
       _currentStep = 2;
     } else if (_currentStep == 2) {
@@ -366,6 +367,7 @@ function SportsSelectionCard3(props) {
               src={AdImage}
               onClick={() => {
                 if (pageType == "nhl") {
+                  console.log("player", player);
                   let teamName = player?.team?.name;
                   if (teamName) {
                     let teamIndex = teamsArray.findIndex(
@@ -393,6 +395,7 @@ function SportsSelectionCard3(props) {
                 src={AdImage}
                 onClick={() => {
                   if (pageType == "nhl") {
+                    console.log("player", player);
                     let teamName = player?.team?.name;
                     if (teamName) {
                       let teamIndex = teamsArray.findIndex(

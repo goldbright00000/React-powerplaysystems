@@ -52,6 +52,7 @@ const PowerCenterCard = (props) => {
     PrizePayout = [],
     userHasEntered = false,
   } = props || {};
+  console.log("propsprops", props);
   const getBackgroundImageWithStyle = () => {
     let backgroundImageStyle = {
       backgroundRepeat: "no-repeat",

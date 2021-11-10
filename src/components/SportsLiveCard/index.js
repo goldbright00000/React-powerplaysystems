@@ -82,7 +82,9 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
     key = "",
   } = props || {};
-  const {  gameID: gameId } = gameInfo || {};
+
+  const { game: { game_id: gameId } = {} } = gameInfo || {};
+
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -105,7 +107,7 @@ function SportsLiveCard(props) {
     current_team = "",
     player_id = "",
     match_stats = [],
-  } = data || {};
+  } = player || {};
 
   const {
     batting_average = 0,
@@ -138,8 +140,8 @@ function SportsLiveCard(props) {
   } = match_stats?.[0] || {};
 
   const {
-    away: away_team = {},
-    home: home_team = {},
+    away_team = {},
+    home_team = {},
     status = "",
     boxscore = [],
     scheduled = "",
@@ -267,28 +269,31 @@ function SportsLiveCard(props) {
     if (cardType === CardType.NHL) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      const response = await dispatch(nhlActions.getFantasyPlayers(951));
-      console.log("response", response);
+      const response = await dispatch(nhlActions.nhlData(gameId));
+
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
+        console.log("_nhlData", _nhlData);
         const [swapablePlayerData] = _nhlData?.filter((data) => {
           let a = primary_position;
           if (primary_position == "LW") a = "XW";
           return data?.type === `${a}`?.toLocaleLowerCase();
         });
-        
+        console.log("swapablePlayerData", swapablePlayerData);
         if (
           swapablePlayerData &&
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
           const _time = moment(scheduled).clone().format("h:mm A");
-          
+          console.log("_time", _time);
           const newListData = swapablePlayerData?.listData?.filter(
-            (data, index) => {
-              return moment(data?.match?.scheduled).clone().format("h:mm A") == _time
-            }
+            (data, index) =>
+              `${data?.time}` === _time &&
+              data?.playerId !== player_id &&
+              currentPlayerList[index]?.player_id !== player_id
           );
+
           const _dataToRender = {
             type: swapablePlayerData.type,
             listData: newListData,

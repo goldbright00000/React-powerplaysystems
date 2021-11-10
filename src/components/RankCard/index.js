@@ -20,16 +20,21 @@ function RankCard(props) {
     props || {};
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
   React.useEffect(async () => {
+    console.log("liveStandingsData0", props);
     if(props.game_id)
     {
       let liveStandingsData = await dispatch(MLBActions.getLiveStandings(props.game_id));
+      console.log("liveStandingsData1", liveStandingsData);
       if(typeof liveStandingsData !== "undefined")
       {
+        console.log("liveStandingsData2");
         if(liveStandingsData.payload.error == false)
         {
+          console.log("liveStandingsData3");
           if(
             JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)
           ) {
+            console.log("liveStandingsData4");
             var finalArr = [];
             var res = liveStandingsData.payload.data.powerDFSRanking;
             
