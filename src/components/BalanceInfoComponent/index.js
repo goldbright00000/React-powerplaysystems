@@ -186,6 +186,7 @@ function BalanceInfoComponent(props) {
   const handleBack = () => {
     if (activeForm > 0) {
       let _active = activeForm;
+      console.log("_active", _active - 1);
       setActiveForm(_active - 1);
     }
   };

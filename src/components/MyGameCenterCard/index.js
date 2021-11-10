@@ -205,10 +205,12 @@ const MyGameCenterCard = (props) => {
         (inProgress && "1px solid #214f24") ||
         (completed && "1px solid #8cc2ff"),
     };
+    console.log("game_type", game_type, title);
     if (title === "MLB") {
       backgroundImageStyle.backgroundImage = `url(${MLBPlayerOppsite})`;
       //backgroundImageStyle.backgroundPosition = "100px 0px";
     } else if (title === "NFL" && game_type === "PowerdFs_One") {
+      console.log("1");
       backgroundImageStyle.backgroundImage = `url(${onenflbg})`;
     } else if (title === "NFL") {
       backgroundImageStyle.backgroundImage = `url(${NFLPlayer})`;

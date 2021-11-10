@@ -25,7 +25,6 @@ function SingleView(props) {
     gameInfo = {},
     pointXpCount = {}
   } = props || {};
-  console.log("datadata", data);
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
@@ -84,7 +83,7 @@ function SingleView(props) {
                   key={ind + "-" + item?.player?.player_id}
                   data={item}
                   active={
-                    ind == 0
+                    selectedCard?.player?.player_id === item?.player?.player_id
                   }
                   onSelectCard={onSelectCard}
                   singleView

@@ -41,6 +41,7 @@ function PromoModal(props) {
   const { visible = false, onClose = () => { }, item = {} } =
     props || {};
     const { league = "MLB", Powers = [], PointsSystems = [], PrizePayouts = [] } = item || {};
+    console.log("item", item);
     const getBG = () => {
       switch(league) {
         case "MLB": 
@@ -177,6 +178,7 @@ function PromoModal(props) {
 
   const redirectToUrl = () => {
     let item = props.item;
+    console.log("item1", item);
     let url = "/mlb-select-team";
     switch(item?.league) {
       case "MLB": 
@@ -457,6 +459,7 @@ function PromoModal(props) {
                           What MLB team do you cheer for?
                       </p>
                       <select onChange={(e) => {
+                        console.log(e.target.value);
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,
@@ -549,6 +552,7 @@ function PromoModal(props) {
                           "nfl_team_id" : parseInt(freeEntryData.NFLTeam)
                         }
                         let res = saveFreeEntry(payload);
+                        console.log("res", res);
                         const { message = "", error = false } = res.data || {};
                         if (1) {
                           redirectToUrl();

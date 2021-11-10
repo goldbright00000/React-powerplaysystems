@@ -21,6 +21,7 @@ function Header3(props) {
     points = [],
     powers = []
   } = props || {};
+  console.log("Header3", props);
   const RenderLiveProgress = () => (
     <div className={classes.live_progress_container}>
       <p className={classes.live_text}>Live Game</p>

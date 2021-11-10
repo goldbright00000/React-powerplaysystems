@@ -3,6 +3,7 @@ import React from "react";
 const GameCountDown = ({ state, selectedTeam = {} }) => {
   function duration(t0, t1){
     let d = (t1) - (t0);
+    console.log(d);
     let weekdays     = Math.floor(d/1000/60/60/24/7);
     let days         = Math.floor(d/1000/60/60/24 - weekdays*7);
     let hours        = Math.floor(d/1000/60/60    - weekdays*7*24            - days*24);

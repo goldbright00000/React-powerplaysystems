@@ -22,33 +22,22 @@ const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
 export function nhlData(gameId) {
   return async (dispatch) => {
     try {
-      const response = await http.post(`https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyPlayers`, {
-        gameID: 951
-      });
-      const { data: { players: nhlSchedule = [], game_id = "", sport_id = "", matches = [], teams = [] } = {} } =
+      console.log("NHL Get Data called");
+      const response = await http.get(`${URLS.DFS.NHL}?game_id=${gameId}`);
+
+      const { data: { nhlSchedule = [], game_id = "", sport_id = "" } = {} } =
         response.data || {};
 
       const nhlPlayerList = [];
       const nhlTeams = [];
       for (let i = 0; i < nhlSchedule?.length; i++) {
         const {
-          draft: {
-            team_id = ""
-          }
-        } = nhlSchedule[i];
-        let teamDetails = teams.filter(x => x.id == team_id);
-        const {
-          id: teamID = ""
-        } = teamDetails;
-        let matchDetails = matches.filter(x => x.away == teamID || x.home == teamID);
-
-        const {
-          away: away_team = {},
-          home: home_team = {},
-          scheduled: date_time = "",
+          away_team = {},
+          home_team = {},
+          date_time = "",
           venue = {},
-          id: match_id = "",
-        } = matchDetails || {};
+          match_id = "",
+        } = nhlSchedule[i] || {};
 
         const awayTeam = getTeam(
           away_team,
@@ -80,8 +69,8 @@ export function nhlData(gameId) {
           venue,
           match_id,
           date_time,
-          awayTeam?.id,
-          homeTeam?.id
+          awayTeam?.team_id,
+          homeTeam?.team_id
         );
         const _homeTeamPlayersList = getPlayers(
           homeTeamPlayers,
@@ -90,8 +79,8 @@ export function nhlData(gameId) {
           venue,
           match_id,
           date_time,
-          homeTeam?.id,
-          awayTeam?.id
+          homeTeam?.team_id,
+          awayTeam?.team_id
         );
         const playersList = [..._awayTeamPlayersList, ..._homeTeamPlayersList];
         nhlPlayerList.push(...playersList);
@@ -646,20 +635,18 @@ export function updateUserRemainingPowers(
   game_id,
   user_id,
   power_id,
-  type = "powerDec",
-  player_id = "42cd5bc5-0f24-11e2-8525-18a905767e44"
+  type = "powerDec"
 ) {
   return async (dispatch) => {
     try {
-      
-      const response = await http.post(
-        `https://nhl.powerplaysystems.com/api/v1/services/fantasy/fantasyPowerApplied`,
+      console.log("PAYLOAD: ", game_id, user_id, power_id);
+      const response = await http.patch(
+        `${process.env.REACT_APP_API_URL}/api/v1${URLS.DFS.UPDATE_USERS_POWERS}`,
         {
-          gameID: game_id,
-          userID: user_id,
-          powerApplied: power_id,
-          timeApplied: new Date(),
-          playerID: player_id
+          game_id: game_id,
+          user_id: user_id,
+          power_id: power_id,
+          type: type,
         }
       );
       return dispatch({
