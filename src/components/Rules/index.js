@@ -23,7 +23,6 @@ const Rules = props => {
         prizes = [],
         PointsSystem = []
     } = gameDetails || [];
-    console.log("gameDetails", gameDetails);
     const teamRoasterData = [
         {
           type: "MLB",
@@ -185,7 +184,6 @@ const Rules = props => {
     let finalRoasterData = teamRoasterData[teamRoasterData.findIndex(x => x.type == league)];
     const groupedPoints = _.groupBy(PointsSystems, 'type');
     const groupedPointsmobile = _.groupBy(PointsSystem, 'type');
-    console.log("groupedPoints", groupedPoints);
     const nth = function(d) {
         if (d > 3 && d < 21) return 'th';
         switch (d % 10) {

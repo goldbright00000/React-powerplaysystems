@@ -48,7 +48,6 @@ const data = [
 
 const Hitters = ({ PointsSystem }) => {
   const groupedPoints = _.groupBy(PointsSystem, "type");
-  console.log("groupedPoints", groupedPoints);
   return (
     <div className={classes.__hitters}>
       <p className={classes.__hitters_main_title}>Point System</p>

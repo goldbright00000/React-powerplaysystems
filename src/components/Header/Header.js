@@ -182,7 +182,6 @@ const Header = (props) => {
   };
 
   useEffect(() => {
-    console.log("teeeest");
     // add when mounted
     document.addEventListener("click", function(evt) {
       

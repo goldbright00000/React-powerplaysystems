@@ -17,7 +17,6 @@ import onenflbg from "../../assets/group-3-one-nfl.png";
 import onenhlbg from "../../assets/group-3-one-nhl.png";
 
 const PowerCenterCardDetails = (props) => {
-  console.log("props", props);
   const {
     entry_fee = "",
     title = "",

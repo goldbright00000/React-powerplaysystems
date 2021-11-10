@@ -15,7 +15,6 @@ import ForwardArrow from "../../icons/ForwardArrow";
 import { isEmpty } from "lodash";
 
 function SportsTeamSelectionCard(props) {
-  console.log(props);
   const selector_all_data = useSelector((state) => state?.nfl?.allData);
   const [currentStep, setCurrentStep] = useState(0);
 
@@ -72,8 +71,7 @@ function SportsTeamSelectionCard(props) {
     let match_id = props?.item?.match_id;
     let team_id = props?.item?.team_id;
     let qbArray = qbDetails(match_id);
-    console.log(team_action.team);
-    console.log(qbArray);
+
     let a;
     if (team_action.team == "home") {
       if (qbArray[0]?.homeTeam == team_action.name) {
