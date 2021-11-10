@@ -47,17 +47,13 @@ function SportsTeamSelectionCard(props) {
     is_starTeamD,
   } = item || {};
 
-  console.log("matchVenue: ", matchVenue);
-  console.log("matchScheduled: ", matchScheduled);
 
   const { name: stadium = "" } = matchVenue || {};
   const { name: teamBName } = teamB;
   const date = moment(matchScheduled).format("yyyy-MM-DD"),
     time = moment(matchScheduled).format("h:mm A");
 
-  console.log(stadium);
-  console.log(date);
-  console.log(time);
+
 
   return (
     <div

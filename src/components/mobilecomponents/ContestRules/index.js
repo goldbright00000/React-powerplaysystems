@@ -11,7 +11,6 @@ const ContestRules = ({prizePool = 0, gameInfo = {}}) => {
     ];
   const d = new Date(gameInfo?.game?.start_date);
   const groupedPoints = _.groupBy(gameInfo?.game?.PointsSystems, 'type');
-  console.log("groupedPoints", gameInfo);
   return (
     <div className="rulesWrapper">
       <Container fluid={true}>

@@ -200,7 +200,6 @@ function SportsLiveCardTeamD(props) {
     return status;
   };
 
-  console.log("STATUS ====> ", status, status === "scheduled");
 
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
