@@ -101,6 +101,7 @@ function SportsSelectionCard3(props) {
     team = {},
   } = player || {};
 
+
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
   const { teams = [] } = seasons[seasons.length - 1] || {};
