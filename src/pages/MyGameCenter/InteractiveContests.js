@@ -275,66 +275,66 @@ const InteractiveContests = (props) => {
         );
         let tempPowers = [
           {
-              "id": 2667,
-              "PowerDfsGameId": 937,
-              "select": true,
-              "powerId": 3,
-              "powerName": "3x Point Booster",
-              "available": null,
-              "amount": "3",
-              "SocialMediaUnlock": false,
-              "createdAt": "2021-11-02T02:25:12.000Z",
-              "updatedAt": "2021-11-02T02:25:12.000Z"
+            id: 2667,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 3,
+            powerName: "3x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
           },
           {
-              "id": 2666,
-              "PowerDfsGameId": 937,
-              "select": true,
-              "powerId": 2,
-              "powerName": "2x Point Booster",
-              "available": null,
-              "amount": "3",
-              "SocialMediaUnlock": false,
-              "createdAt": "2021-11-02T02:25:12.000Z",
-              "updatedAt": "2021-11-02T02:25:12.000Z"
+            id: 2666,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 2,
+            powerName: "2x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
           },
           {
-              "id": 2665,
-              "PowerDfsGameId": 937,
-              "select": true,
-              "powerId": 8,
-              "powerName": "Power-Up",
-              "available": null,
-              "amount": "3",
-              "SocialMediaUnlock": false,
-              "createdAt": "2021-11-02T02:25:12.000Z",
-              "updatedAt": "2021-11-02T02:25:12.000Z"
+            id: 2665,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 8,
+            powerName: "Power-Up",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
           },
           {
-              "id": 2664,
-              "PowerDfsGameId": 937,
-              "select": true,
-              "powerId": 7,
-              "powerName": "Retro Boost",
-              "available": null,
-              "amount": "3",
-              "SocialMediaUnlock": false,
-              "createdAt": "2021-11-02T02:25:12.000Z",
-              "updatedAt": "2021-11-02T02:25:12.000Z"
+            id: 2664,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 7,
+            powerName: "Retro Boost",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
           },
           {
-              "id": 2668,
-              "PowerDfsGameId": 937,
-              "select": true,
-              "powerId": 1,
-              "powerName": "1.5x Point Booster",
-              "available": null,
-              "amount": "3",
-              "SocialMediaUnlock": false,
-              "createdAt": "2021-11-02T02:25:12.000Z",
-              "updatedAt": "2021-11-02T02:25:12.000Z"
-          }
-      ];
+            id: 2668,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 1,
+            powerName: "1.5x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+        ];
         return redirectTo(props, {
           path: `/nhl-select-team`,
           state: {
@@ -375,7 +375,13 @@ const InteractiveContests = (props) => {
 
   const onEnter = async (item) => {
     console.log("test", item);
-    const { game = {}, sport_id, team_id, userID: user_id, gameID:game_id } = item || {};
+    const {
+      game = {},
+      sport_id,
+      team_id,
+      userID: user_id,
+      gameID: game_id,
+    } = item || {};
     const { league = "NHL" } = game || {};
     switch (league) {
       case "MLB":
@@ -465,7 +471,7 @@ const InteractiveContests = (props) => {
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
-          title={"NHL"}//item?.game?.league}
+          title={"NHL"} //item?.game?.league}
           prize={
             item?.reward.length > 0
               ? _.reduce(
@@ -483,13 +489,9 @@ const InteractiveContests = (props) => {
           game_type={item?.gameType}
           game_id={item?.gameID}
           game_set_start={
-            getLocalDateTime(item?.startDate, item?.startTime)
-              ?.date
+            getLocalDateTime(item?.startDate, item?.startTime)?.date
           }
-          start_time={
-            getLocalDateTime(item?.startDate, item?.startTime)
-              ?.time
-          }
+          start_time={getLocalDateTime(item?.startDate, item?.startTime)?.time}
           PointsSystem={item?.pointSystem}
           Power={item?.powersAvailable}
           PrizePayout={_.sortBy(item?.reward, "from")}

@@ -145,7 +145,6 @@ function SportsLiveCardSelection(props) {
   };
 
   const onPlayerSwap = (id) => {
-    console.log("IN SWAP CLICK");
     const _dataList = [...selectedData];
     let targetPlayerIndex = _dataList?.indexOf(currentPlayer);
     let _starPlayerCount = starPlayerCount;

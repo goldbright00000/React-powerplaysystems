@@ -17,7 +17,6 @@ import onenflbg from "../../assets/group-3-one-nfl.png";
 import onenhlbg from "../../assets/group-3-one-nhl.png";
 
 const PowerCenterCardDetails = (props) => {
-  console.log("props", props);
   const {
     entry_fee = "",
     title = "",
@@ -32,6 +31,7 @@ const PowerCenterCardDetails = (props) => {
     prize = "",
     userHasEntered = false,
     game_type = "",
+    hideCard,
   } = props || {};
   const [currentIndex, setCurrentIndex] = useState(0);
   const getBackgroundImageWithStyle = () => {
@@ -114,8 +114,9 @@ const PowerCenterCardDetails = (props) => {
               setCurrentIndex(currentIndex + 1);
             } else if (currentIndex < 4) {
               setCurrentIndex(currentIndex + 1);
-            } else {
-              onNextClick();
+            } else if (currentIndex === 4) {
+              // onNextClick();
+              hideCard(false);
             }
           }}
           myGameCenter={myGameCenter}
