@@ -20,6 +20,7 @@ import moment from "moment";
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 
 export default function TeamManager(props) {
+  
   const [screenSize, setScreenSize] = useState(window.screen.width);
   window.onresize = () => {
     setScreenSize(window.screen.width);
@@ -42,9 +43,10 @@ export default function TeamManager(props) {
     POWER_IDs,
     setPowers,
   } = props || {};
+  
 
   const {
-    live_data = [],
+    live_players: live_data = [],
     starPlayerCount = 0,
     sport_id = 0,
     game_id = 0,
@@ -83,6 +85,7 @@ export default function TeamManager(props) {
     Prizes = [],
   } = selectedTeam || {};
   const onChangeXp = async (xp, player) => {
+    
     const _selectedXp = {
       xp,
     };
@@ -91,7 +94,8 @@ export default function TeamManager(props) {
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
     let indexOfPlayer = -1;
-    indexOfPlayer = live_data?.indexOf(player);
+
+    indexOfPlayer = live_data.findIndex(x => x?.id == player?.id);
     if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
 

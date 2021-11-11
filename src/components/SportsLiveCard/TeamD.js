@@ -1237,7 +1237,7 @@ function SportsLiveCardTeamD(props) {
                   </div>
                 }
               >
-                <button className={classes.team_d_icon_button}>
+                <button className={classes.team_d_icon_button} style={{background: "none", border: 0}}>
                   <ShieldIcon
                     size={30}
                     // size={largeView ? 28 : 24}
@@ -1412,8 +1412,8 @@ function SportsLiveCardTeamD(props) {
               <div style={{ opacity: 0.5 }}>
                 <ChallengePopUp
                   component={({ showPopUp }) => (
-                    <button>
-                      <Challenge size={largeView ? 28 : 24} />
+                    <button style={{background: "none", border: 0}}>
+                      <Challenge size={largeView ? 28 : 30} />
                     </button>
                   )}
                   challenge={props.challenge}
@@ -1430,8 +1430,9 @@ function SportsLiveCardTeamD(props) {
                         ? { opacity: 0.3, pointerEvents: "none" }
                         : {}
                     }
+                    style={{background: "none", border: 0}}
                   >
-                    <Challenge size={largeView ? 28 : 24} />
+                    <Challenge size={largeView ? 30 : 30} />
                   </button>
                 )}
                 challenge={props.challenge}
