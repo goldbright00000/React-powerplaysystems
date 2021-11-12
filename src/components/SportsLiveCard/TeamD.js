@@ -51,6 +51,9 @@ function SportsLiveCardTeamD(props) {
     key = "",
   } = props || {};
 
+  const {  selectedTeam = {} } = useSelector((state) => state.nhl);
+  const { powersAvailable = [] } = selectedTeam;
+
   // NHL TeamD
   const { stats } = data || {};
   const { savesAgainst = 0, goalsAgainst = 0, points = 0 } = stats || {};
@@ -154,7 +157,9 @@ function SportsLiveCardTeamD(props) {
 
   const isPowerAvailable = (type) => {
     let powerss = props.dataMain?.powersAvailable;
-
+    if(powerss == undefined) {
+      powerss = powersAvailable;
+    }
     if (powerss) {
       let available = 0;
       if (type === "Swap Player") {
@@ -926,199 +931,9 @@ function SportsLiveCardTeamD(props) {
               minHeight: 28,
             }}
           >
-            {/* {isPowerAvailable("D-Wall") === 0 ||
-            isPowerLocked("D-Wall") === 1 ? (
-              <Tooltip
-                disabled={isGameOverOrNotStarted()}
-                toolTipContent={
-                  <div className={classes.xp_icons}>
-                    {isPowerAvailable("D-Wall") === 0 ? (
-                      <div>Not Available</div>
-                    ) : isPowerLocked("D-Wall") === 1 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <p
-                          style={{
-                            paddingTop: "1px",
-                            paddingRight: "2px",
-                            paddingLeft: "5px",
-                          }}
-                        >
-                          Share to unlock:
-                        </p>
-                        <div>
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <FacebookIcon />
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <TwitterIcon />
-                          </button>
-                        </div>
-                      </div>
-                    ) : isPowerLocked("D-Wall") === 1 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <p
-                          style={{
-                            paddingTop: "1px",
-                            paddingRight: "2px",
-                            paddingLeft: "5px",
-                          }}
-                        >
-                          Share to unlock:
-                        </p>
-                        <div>
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <FacebookIcon />
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <TwitterIcon />
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                }
-              >
-                <button className={classes.team_d_icon_button}>
-                  <img
-                    alt="power icon"
-                    src={DwallIcon}
-                    width={30}
-                    height={30}
-                    // width={largeView ? 30 : 24}
-                    // height={largeView ? 30 : 24}
-                  />
-                </button>
-              </Tooltip>
-            ) : props.dwall == 0 ? (
-              <div style={{ opacity: 0.5 }}>
-                <DwallPopUp
-                  component={({ showPopUp }) => (
-                    <button className={classes.team_d_icon_button}>
-                      <img
-                        alt="power icon"
-                        src={DwallIcon}
-                        width={30}
-                        height={30}
-                        // width={largeView ? 28 : 24}
-                        // height={largeView ? 28 : 24}
-                      />
-                    </button>
-                  )}
-                  dwall={props.dwall}
-                  useDwall={props.useDwall}
-                />
-              </div>
-            ) : (
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    className={classes.team_d_icon_button}
-                    style={
-                      isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
-                    }
-                  >
-                    <img
-                      alt="power icon"
-                      src={DwallIcon}
-                      width={30}
-                      height={30}
-                      // width={largeView ? 28 : 24}
-                      // height={largeView ? 28 : 24}
-                    />
-                  </button>
-                )}
-                dwall={props.dwall}
-                useDwall={props.useDwall}
-              />
-            )} */}
-
-            {/* <button
-              className={classes.team_d_icon_button}
-              style={{ marginLeft: 13 }}
-            >
-              <img
-                alt="power icon"
-                src={ChallengeIcon}
-                width={30}
-                height={30}
-                // width={largeView ? 28 : 24}
-                // height={largeView ? 28 : 24}
-              />
-            </button> */}
+            
             <>
-              {isPowerAvailable("D-Wall") === 0 ||
-              isPowerLocked("D-Wall") === 1 ? (
+              {isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1 ? (
                 <Tooltip
                   disabled={isGameOverOrNotStarted()}
                   toolTipContent={
@@ -1263,49 +1078,54 @@ function SportsLiveCardTeamD(props) {
                     useDwall={props.useDwall}
                   />
                 </div>
-              ) : (
-                <DwallPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      style={
-                        isGameOverOrNotStarted()
-                          ? { opacity: 0.3, pointerEvents: "none" }
-                          : {}
-                      }
-                    >
-                      <ShieldIcon
-                        size={30}
-                        // size={largeView ? 28 : 24}
-                      />
-                    </button>
-                  )}
-                  dwall={props.dwall}
-                  useDwall={props.useDwall}
-                />
-              )}
-              {isPowerAvailable("Challenge") === 0 ||
-              isPowerLocked("Challenge") === 1 ? (
-                <Tooltip
-                  toolTipContent={
-                    <div className={classes.xp_icons}>
-                      {isPowerAvailable("Challenge") === 0 ? (
-                        <div>Not Available</div>
-                      ) : isPowerLocked("Challenge") === 1 ? (
-                        <div
+              )  : (
+              <DwallPopUp
+                component={({ showPopUp }) => (
+                  <button
+                    onClick={showPopUp}
+                    style={
+                      isGameOverOrNotStarted()
+                        ? { opacity: 0.3, pointerEvents: "none" }
+                        : {}
+                    }
+                    style={{background: "none", border: 0}}
+                  >
+                    <ShieldIcon
+                      size={30}
+                      // size={largeView ? 28 : 24}
+                    />
+                  </button>
+                )}
+                dwall={props.dwall}
+                useDwall={props.useDwall}
+              />
+            )}
+            {isPowerAvailable("Challenge") === 0 ||
+            isPowerLocked("Challenge") === 1 ? (
+              <Tooltip
+                toolTipContent={
+                  <div className={classes.xp_icons}>
+                    {isPowerAvailable("Challenge") === 0 ? (
+                      <div>Not Available</div>
+                    ) : isPowerLocked("Challenge") === 1 ? (
+                      <div
+                        style={{
+                          display: "flex",
+                          width: "100%",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <p
                           style={{
                             display: "flex",
                             width: "100%",
                             justifyContent: "space-evenly",
-                          }}
-                        >
-                          <p
-                            style={{
-                              paddingTop: "1px",
+                            paddingTop: "1px",
                               paddingRight: "2px",
                               paddingLeft: "5px",
-                            }}
-                          >
+                          }}
+                        >
+                         
                             Share to unlock:
                           </p>
                           <div>
@@ -1452,7 +1272,7 @@ function SportsLiveCardTeamD(props) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
   );
 
   const RenderStatus = ({ success = false, danger = false }) => (
