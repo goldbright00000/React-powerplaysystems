@@ -58,7 +58,16 @@ function SportsLiveCard(props) {
   const dispatch = useDispatch();
   const { data: mlbData = [] } = useSelector((state) => state.mlb);
   const { data: nflData = [] } = useSelector((state) => state.nfl);
-  const { data: nhlData = [] } = useSelector((state) => state.nhl);
+  const {
+    data: nhlData = [],
+    posD1Points = 0,
+    posD2Points = 0,
+    posXW1Points = 0,
+    posXW2Points = 0,
+    posXW3Points = 0,
+    posCenterPoints = 0,
+    posGoaliePts = 0,
+  } = useSelector((state) => state.nhl);
 
   const [tooltipOpen1, setTooltipOpen1] = useState(false);
   const toggle1 = () => setTooltipOpen1(!tooltipOpen1);
@@ -82,9 +91,7 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
     key = "",
   } = props || {};
-
-  const { game: { game_id: gameId } = {} } = gameInfo || {};
-
+  const { gameID: gameId } = gameInfo || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -107,7 +114,7 @@ function SportsLiveCard(props) {
     current_team = "",
     player_id = "",
     match_stats = [],
-  } = player || {};
+  } = data || {};
 
   const {
     batting_average = 0,
@@ -125,7 +132,15 @@ function SportsLiveCard(props) {
   //   // home_runs = 0,
   // } = nhl_player_season_stats[0] || {};
 
-  const { goals = 0, assists = 0, points = 0, shots = 0 } = stats || {};
+  let {
+    goals = 0,
+    assists = 0,
+    shotsOnGoal = 0,
+    shotsAgainst = 0,
+    goalsAgainst = 0,
+    points = 0,
+    status: playerStatus = "inprogress",
+  } = stats || {};
 
   const {
     match_id = 0,
@@ -140,8 +155,8 @@ function SportsLiveCard(props) {
   } = match_stats?.[0] || {};
 
   const {
-    away_team = {},
-    home_team = {},
+    away: away_team = {},
+    home: home_team = {},
     status = "",
     boxscore = [],
     scheduled = "",
@@ -269,31 +284,30 @@ function SportsLiveCard(props) {
     if (cardType === CardType.NHL) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      const response = await dispatch(nhlActions.nhlData(gameId));
-
+      const response = await dispatch(nhlActions.getFantasyPlayers(951));
+      console.log("response", response);
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
-        console.log("_nhlData", _nhlData);
         const [swapablePlayerData] = _nhlData?.filter((data) => {
           let a = primary_position;
           if (primary_position == "LW") a = "XW";
           return data?.type === `${a}`?.toLocaleLowerCase();
         });
-        console.log("swapablePlayerData", swapablePlayerData);
+
         if (
           swapablePlayerData &&
           swapablePlayerData?.listData &&
           swapablePlayerData?.listData?.length
         ) {
           const _time = moment(scheduled).clone().format("h:mm A");
-          console.log("_time", _time);
-          const newListData = swapablePlayerData?.listData?.filter(
-            (data, index) =>
-              `${data?.time}` === _time &&
-              data?.playerId !== player_id &&
-              currentPlayerList[index]?.player_id !== player_id
-          );
 
+          const newListData = swapablePlayerData?.listData?.filter(
+            (data, index) => {
+              return (
+                moment(data?.match?.scheduled).clone().format("h:mm A") == _time
+              );
+            }
+          );
           const _dataToRender = {
             type: swapablePlayerData.type,
             listData: newListData,
@@ -308,7 +322,9 @@ function SportsLiveCard(props) {
 
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.game?.Powers;
-
+    if (powerss == undefined) {
+      powerss = props?.gameInfo?.powersAvailable;
+    }
     if (!powerss || powerss === undefined) {
       return;
     }
@@ -338,7 +354,9 @@ function SportsLiveCard(props) {
   }
   function isPowerLocked(type) {
     let powerss = props.dataMain?.game?.Powers;
-
+    if (powerss == undefined) {
+      powerss = props?.gameInfo?.powersAvailable;
+    }
     if (!powerss || powerss === undefined) {
       return;
     }
@@ -394,39 +412,46 @@ function SportsLiveCard(props) {
   };
 
   const getStatus = () => {
-    if (`${status}`?.toLocaleLowerCase() === "scheduled") {
+    if (
+      `${status}`?.toLocaleLowerCase() === "scheduled" &&
+      moment().diff(moment(scheduled).format()) < 0
+    ) {
       return `${moment(scheduled).format("MMM Do")} - ${moment(
         scheduled
       ).format("hh:mm A")}`;
-    } else if (
-      `${status}`?.toLocaleLowerCase() === "closed" ||
-      `${status}`?.toLocaleLowerCase() === "completed"
-    ) {
-      return "Game Over";
-    } else if (
-      (!showEndThird() || !showMidThird()) &&
-      (type === "P" || type === "p") &&
-      player_id === pitcher?.player_id
-    ) {
-      return "Pitching";
-    } else if (
-      (!showEndThird() || !showMidThird()) &&
-      (type === "P" || type === "p") &&
-      !isPitching()
-    ) {
-      return "Dugout";
-    } else if (
-      (!showEndThird() || !showMidThird()) &&
-      player_id === hitter?.player_id &&
-      hitter
-    ) {
-      return "Hitting";
-    } else if (
-      (showEndThird() || showMidThird()) &&
-      `${status}`.toLocaleUpperCase() === "inprogress"
-    )
-      return "In Progress";
-    else if (status === "inprogress") return "In Progress";
+    } else {
+      return playerStatus;
+    }
+    // if (
+    //   `${status}`?.toLocaleLowerCase() === "closed" ||
+    //   `${status}`?.toLocaleLowerCase() === "completed"
+    // ) {
+    //   return "Game Over";
+    // }
+    // else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   (type === "P" || type === "p") &&
+    //   player_id === pitcher?.player_id
+    // ) {
+    //   return "Pitching";
+    // } else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   (type === "P" || type === "p") &&
+    //   !isPitching()
+    // ) {
+    //   return "Dugout";
+    // } else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   player_id === hitter?.player_id &&
+    //   hitter
+    // ) {
+    //   return "Hitting";
+    // } else if (
+    //   (showEndThird() || showMidThird()) &&
+    //   `${status}`.toLocaleUpperCase() === "inprogress"
+    // )
+    //   return "In Progress";
+    // else if (status === "inprogress") return "In Progress";
 
     return status;
   };
@@ -583,15 +608,129 @@ function SportsLiveCard(props) {
           ) : null}
 
           {type !== "G" ? (
-            <div
-              className={classes.stat_xp_mlbr}
-              onClick={() => onChangeXp(0, data)}
-            >
-              <XPIcon
-                className={{ opacity: 0.1 }}
-                size={singleView ? 14 : largeView ? 28 : 24}
-              />
-            </div>
+            // <div
+            //   className={classes.stat_xp_mlbr}
+            //   onClick={() => onChangeXp(0, data)}
+            // >
+            //   <XPIcon
+            //     className={{ opacity: 0.1 }}
+            //     size={singleView ? 14 : largeView ? 28 : 24}
+            //   />
+            // </div>
+            <>
+              {xp?.xp == CONSTANTS.XP.xp1_5 ||
+              xp?.xp == CONSTANTS.XP.xp2 ||
+              xp?.xp == CONSTANTS.XP.xp3 ? (
+                renderXp()
+              ) : (
+                <Tooltip
+                  disabled={false}
+                  toolTipContent={
+                    <div className={classes.xp_icons}>
+                      {isPowerAvailable("Point Booster") === 0 ? (
+                        <div>Not Available</div>
+                      ) : isPowerLocked("Point Booster") === 1 ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <p
+                            style={{
+                              paddingTop: "1px",
+                              paddingRight: "2px",
+                              paddingLeft: "5px",
+                            }}
+                          >
+                            Share to unlock:
+                          </p>
+                          <div>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <FacebookIcon />
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div
+                            className={`${classes.xp_block} ${
+                              xp1 <= 0 && classes.disabled
+                            }`}
+                          >
+                            <XP1_5
+                              onClick={() =>
+                                onChangeXp(CONSTANTS.XP.xp1_5, data)
+                              }
+                            />
+                            <p>
+                              <span>{xp1}</span> left
+                            </p>
+                          </div>
+                          <div
+                            className={`${classes.xp_block} ${
+                              xp2 <= 0 && classes.disabled
+                            }`}
+                          >
+                            <XP2Icon
+                              onClick={() => onChangeXp(CONSTANTS.XP.xp2, data)}
+                            />
+                            <p>
+                              <span>{xp2}</span> left
+                            </p>
+                          </div>
+                          <div
+                            className={`${classes.xp_block} ${
+                              xp3 <= 0 && classes.disabled
+                            }`}
+                          >
+                            <XP3
+                              onClick={() => onChangeXp(CONSTANTS.XP.xp3, data)}
+                            />
+                            <p>
+                              <span>{xp3}</span> left
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  }
+                >
+                  {renderXp()}
+                </Tooltip>
+              )}
+            </>
           ) : null}
         </>
       ) : null}
@@ -815,7 +954,7 @@ function SportsLiveCard(props) {
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
             G: {goals} | A: {assists}
             <br />
-            SOG: {shots}
+            SOG: {shotsOnGoal}
           </p>
         </div>
       </div>
@@ -841,7 +980,23 @@ function SportsLiveCard(props) {
             }}
           >
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
-              {points}
+              {fantasyPlayerPosition === "C" ? posCenterPoints : null}
+              {fantasyPlayerPosition === "G" ? posGoaliePts : null}
+              {fantasyPlayerPosition === "D" && positionID === 1
+                ? posD1Points
+                : null}
+              {fantasyPlayerPosition === "D" && positionID === 2
+                ? posD2Points
+                : null}
+              {fantasyPlayerPosition === "XW" && positionID === 1
+                ? posXW1Points
+                : null}
+              {fantasyPlayerPosition === "XW" && positionID === 2
+                ? posXW2Points
+                : null}
+              {fantasyPlayerPosition === "XW" && positionID === 3
+                ? posXW3Points
+                : null}
             </p>
             {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
               <div style={{ opacity: 0.5 }}>{renderXp()}</div>
@@ -919,7 +1074,27 @@ function SportsLiveCard(props) {
             {fantasyPlayerPosition === "XW" || type === "D"
               ? fantasyPlayerPosition + positionID
               : fantasyPlayerPosition}
-            :<span className={classes.card_header_points}>{points} Pts</span>
+            :
+            <span className={classes.card_header_points}>
+              {fantasyPlayerPosition === "C" ? posCenterPoints : null}
+              {fantasyPlayerPosition === "G" ? posGoaliePts : null}
+              {fantasyPlayerPosition === "D" && positionID === 1
+                ? posD1Points
+                : null}
+              {fantasyPlayerPosition === "D" && positionID === 2
+                ? posD2Points
+                : null}
+              {fantasyPlayerPosition === "XW" && positionID === 1
+                ? posXW1Points
+                : null}
+              {fantasyPlayerPosition === "XW" && positionID === 2
+                ? posXW2Points
+                : null}
+              {fantasyPlayerPosition === "XW" && positionID === 3
+                ? posXW3Points
+                : null}{" "}
+              Pts
+            </span>
           </span>
         ) : null}
       </p>
@@ -958,7 +1133,7 @@ function SportsLiveCard(props) {
             </div>
           ) : (
             <Replace
-              size={singleView ? 23 : 22}
+              size={singleView ? 23 : 28}
               onClick={toggleReplaceModal}
               className={isGameOverOrNotStarted()}
             />

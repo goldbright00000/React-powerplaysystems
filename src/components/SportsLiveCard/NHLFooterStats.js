@@ -21,6 +21,7 @@ function NHLFooterStats(props) {
     title = "",
   } = props || {};
 
+
   //Player Details
   const { match, OppGoalie = "" } = player || {};
   const { home, away } = match || {};

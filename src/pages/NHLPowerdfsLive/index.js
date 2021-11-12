@@ -53,7 +53,7 @@ const {
 } = CONSTANTS.SOCKET_EVENTS.NHL.LIVE;
 
 // let _socket = null;
-let _socket = socketNHL();
+let _socket;
 let isMatchUpdate = false;
 
 const POWER_IDs = {
@@ -106,7 +106,7 @@ function NHLPowerdFsLive(props) {
   const [prizes, setPrizes] = useState([]);
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
-
+  // console.log("selectedTeam", selectedTeam);
   function getGameIDFromLocalStorage() {
     const gameID = getLocalStorage(
       CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
@@ -126,7 +126,7 @@ function NHLPowerdFsLive(props) {
     live_players = [],
     live_totalTeamPts = 0,
     live_all_team_logs = [],
-    live_team_logs = [],
+    live_team_logs = {},
     live_score_details = [],
     live_teamD = {},
     live_eventData = [],
@@ -134,7 +134,6 @@ function NHLPowerdFsLive(props) {
     live_away = {},
     period = 0,
     powersApplied = [],
-    powersAvailable = "",
   } = useSelector((state) => state.nhl);
   useEffect(() => {
     console.log("live_players: ", live_players);
@@ -159,15 +158,21 @@ function NHLPowerdFsLive(props) {
     if (user_id) {
       getFantasyTeam();
     }
+    _socket = socketNHL();
+    console.log("_socket", _socket);
   }, [user_id]);
 
   const {
-    game_id: gameId = "",
-    user_id: userId = "",
+    gameID: gameId = "",
+    userID: userId = "",
     team_id: teamId = "",
     sport_id: sportId = "",
     game = {},
     Prizes = [],
+    reward = [],
+    powersAvailable = "",
+    entryFee = 0,
+    currencys = "$",
   } = selectedTeam || {};
 
   let prizePool,
@@ -176,19 +181,19 @@ function NHLPowerdFsLive(props) {
     currency;
 
   prizePool = _.reduce(
-    game?.PrizePayouts,
+    reward,
     function (memo, num) {
       return memo + parseInt(num.amount) * parseInt(num.prize);
     },
     0
   );
   topPrize = parseFloat(
-    _.max(game?.PrizePayouts, function (ele) {
+    _.max(reward, function (ele) {
       return ele.amount;
     }).amount
   );
-  entry_fee = game?.entry_fee;
-  currency = game?.currency;
+  entry_fee = entryFee;
+  currency = currencys;
 
   async function setPowers() {
     let a = await dispatch(NHLActions.getUserRemainingPowers(gameId, userId));
@@ -225,7 +230,7 @@ function NHLPowerdFsLive(props) {
           p3 = remainingPowers[i].remaining_amount;
           point_booster =
             point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "Swap") {
+        } else if (rec.name === "Swap" || rec.name === "Swap Players") {
           swap = remainingPowers[i].remaining_amount;
         } else if (rec.name === "Retro Boost") {
           retro_boost = remainingPowers[i].remaining_amount;
@@ -328,15 +333,37 @@ function NHLPowerdFsLive(props) {
     dispatch({
       type: NHLActions.NHL_UPDATE_STATE,
       payload: {
-        live_all_team_logs: [...live_all_team_logs, ...live_team_logs],
+        live_all_team_logs: [...live_all_team_logs, live_team_logs],
       },
     });
 
-    live_team_logs.forEach((item, index) => {
-      console.log(item);
+    console.log("live_team_logs: ", live_team_logs);
 
+    let {
+      posD1Points = 0,
+      posD2Points = 0,
+      posXW1Points = 0,
+      posXW2Points = 0,
+      posXW3Points = 0,
+      posCenterPoints = 0,
+      posGoaliePts = 0,
+      teamDPts = 0,
+      teamLogs = [],
+      playersActualScore = [],
+    } = live_team_logs;
+    // Players
+    let lp = [...live_players];
+
+    playersActualScore.forEach((player) => {
+      lp.forEach((playr) => {
+        if (playr.id === player.playerID) {
+          lp.stats = player;
+        }
+      });
+    });
+
+    teamLogs.forEach((item) => {
       let { fantasyLog, period, clock, totalTeamPts } = item;
-
       let {
         type,
         player,
@@ -350,115 +377,12 @@ function NHLPowerdFsLive(props) {
         awayTeamD,
       } = fantasyLog || {};
 
-      // Team D
-      let lv_teamD = live_teamD;
-      // Team D
-      if (myscore_description === "shotagainst") {
-        console.log("myscore_description: shotagainst");
-        if (lv_teamD?.stats?.savesAgainst) {
-          lv_teamD.stats.savesAgainst = lv_teamD?.stats?.savesAgainst + 1;
-        } else {
-          if (!lv_teamD.stats) {
-            lv_teamD.stats = {};
-          }
-          if (lv_teamD?.stats) {
-            lv_teamD.stats.savesAgainst = 1;
-          }
-        }
-      }
-
-      if (goal && saved === false) {
-        if (lv_teamD?.stats?.goalsAgainst) {
-          lv_teamD.stats.goalsAgainst = lv_teamD?.stats?.goalsAgainst + 1;
-        } else {
-          if (!lv_teamD.stats) {
-            lv_teamD.stats = {};
-          }
-          if (lv_teamD?.stats) {
-            lv_teamD.stats.goalsAgainst = 1;
-          }
-        }
-      }
-
-      if (homeTeamD) {
-        if (lv_teamD?.stats?.points) {
-          lv_teamD.stats.points = lv_teamD.stats.points + homeTeamD;
-        } else {
-          if (!lv_teamD.stats) {
-            lv_teamD.stats = {};
-          }
-          if (lv_teamD?.stats) {
-            lv_teamD.stats.points = homeTeamD;
-          }
-        }
-      }
-
-      if (awayTeamD) {
-        if (lv_teamD?.stats?.points) {
-          lv_teamD.stats.points = lv_teamD.stats.points + awayTeamD;
-        } else {
-          if (!lv_teamD.stats) {
-            lv_teamD.stats = {};
-          }
-          if (lv_teamD?.stats) {
-            lv_teamD.stats.points = awayTeamD;
-          }
-        }
-      }
-
-      // Players
-      let lp = [...live_players];
-
       lp.forEach((playr) => {
         if (playr.id === player.id) {
           if (!Array.isArray(playr.events)) {
             playr.events = [];
           }
-
           playr.events.push(fantasyLog);
-          if (playerPts) {
-            if (playr?.stats?.points) {
-              playr.stats.points = playr.stats.points + playerPts;
-            } else {
-              if (!playr.stats) {
-                playr.stats = {};
-              }
-              playr.stats.points = playerPts;
-            }
-          }
-
-          if (myscore_description === "goal") {
-            if (playr?.stats?.goals) {
-              playr.stats.goals = playr.stats.goals + 1;
-            } else {
-              if (!playr.stats) {
-                playr.stats = {};
-              }
-              playr.stats.goals = 1;
-            }
-
-            if (playr?.stats?.shots) {
-              playr.stats.shots = playr.stats.shots + 1;
-            } else {
-              if (!playr.stats) {
-                playr.stats = {};
-              }
-              playr.stats.shots = 1;
-            }
-          }
-
-          if (assists) {
-            if (playr?.stats?.assists) {
-              playr.stats.assists = playr.stats.assists + 1;
-            } else {
-              if (!playr.stats) {
-                playr.stats = {};
-              }
-              playr.stats.assists = 1;
-            }
-          }
-
-          console.log("Player Stats: ", playr.stats);
         }
       });
 
@@ -467,12 +391,33 @@ function NHLPowerdFsLive(props) {
         payload: {
           live_period: period,
           live_clock: clock,
-          live_totalTeamPts: live_totalTeamPts + totalTeamPts,
-          live_players: lp,
           live_strength: strength,
-          live_teamD: lv_teamD,
         },
       });
+    });
+
+    dispatch({
+      type: NHLActions.NHL_UPDATE_STATE,
+      payload: {
+        live_players: lp,
+        posD1Points,
+        posD2Points,
+        posXW1Points,
+        posXW2Points,
+        posXW3Points,
+        posCenterPoints,
+        posGoaliePts,
+        teamDPts,
+        live_totalTeamPts:
+          posD1Points +
+          posD2Points +
+          posXW1Points +
+          posXW2Points +
+          posXW3Points +
+          posCenterPoints +
+          posGoaliePts +
+          teamDPts,
+      },
     });
   };
 
@@ -558,6 +503,7 @@ function NHLPowerdFsLive(props) {
   }, []);
 
   useEffect(() => {
+    console.log("Number of times called");
     if (gameID !== 0) {
       _socket.on("disconnect", () => {
         console.log("Socket Disconnected");
@@ -583,14 +529,14 @@ function NHLPowerdFsLive(props) {
       _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
         console.log("THIS IS TEAM LOGS", data);
 
-        if (Array.isArray(data)) {
-          dispatch({
-            type: NHLActions.NHL_UPDATE_STATE,
-            payload: {
-              live_team_logs: data,
-            },
-          });
-        }
+        // if (Array.isArray(data)) {
+        dispatch({
+          type: NHLActions.NHL_UPDATE_STATE,
+          payload: {
+            live_team_logs: data,
+          },
+        });
+        // }
       });
 
       _socket.on("ROOM_DATA", (data) => {
@@ -853,6 +799,8 @@ function NHLPowerdFsLive(props) {
                         onPowerApplied={onPowerApplied}
                         POWER_IDs={POWER_IDs}
                         setPowers={setPowers}
+                        useChallenge={useChallenge}
+                        useDwall={useDwall}
                       />
                     ) : (
                       <MyScoreCard />
@@ -922,7 +870,7 @@ function NHLPowerdFsLive(props) {
                       retroBoostCounts={retroBoostCounts}
                       powerUpCounts={powerUpCounts}
                       game={game}
-                      powers={props?.location?.state?.game?.Powers}
+                      powers={powersAvailable == "" ? [] : powersAvailable}
                     />
                   </Sidebar>
                 </div>

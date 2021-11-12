@@ -28,7 +28,6 @@ const ScoreBoard = (props) => {
     key = "",
   } = props || {};
 
-  console.log(data);
 
   const { game: { game_id: gameId } = {} } = gameInfo || {};
 
