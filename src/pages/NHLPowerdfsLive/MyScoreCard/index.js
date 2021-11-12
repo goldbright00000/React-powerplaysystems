@@ -60,25 +60,25 @@ export default function MyScoreCard() {
     </div>
   );
 
-  const CalculateRow = ({ period, clock, fantasyScores }) => {
-    return (
-      <>
-        {fantasyScores.map((item) => (
-          <Row
-            position="P1"
-            name={item?.player?.full_name}
-            time={`P${period + 1} | ${clock}`}
-            plays={item.type === "shotagainst" ? "SA" : item.type[0]}
-            pts={item?.playerPts}
-            totalPts="8"
-            powers="-"
-            score={16}
-            runningTotal="16"
-          />
-        ))}
-      </>
-    );
-  };
+  // const CalculateRow = ({ period, clock, fantasyScores }) => {
+  //   return (
+  //     <>
+  //       {fantasyScores.map((item) => (
+  //         <Row
+  //           position="P1"
+  //           name={item?.player?.full_name}
+  //           time={`P${period + 1} | ${clock}`}
+  //           plays={item.type === "shotagainst" ? "SA" : item.type[0]}
+  //           pts={item?.playerPts}
+  //           totalPts="8"
+  //           powers="-"
+  //           score={16}
+  //           runningTotal="16"
+  //         />
+  //       ))}
+  //     </>
+  //   );
+  // };
 
   return (
     <>
@@ -102,23 +102,33 @@ export default function MyScoreCard() {
       </div>
 
       <div className={classes.card_body}>
-        {live_all_team_logs.map((item) => (
-          <Row
-            position="P1"
-            name={item?.fantasyLog?.player?.full_name}
-            time={`P${item?.period + 1} | ${item?.clock}`}
-            plays={
-              item?.fantasyLog?.type === "shotagainst"
-                ? "SA"
-                : item?.fantasyLog?.type[0]
-            }
-            pts={item?.fantasyLog?.playerPts}
-            totalPts="8"
-            powers="-"
-            score={item?.fantasyLog?.playerPts}
-            runningTotal="16"
-          />
-        ))}
+        {live_all_team_logs.map((item1) => {
+          let { teamLogs = [] } = item1;
+
+          return (
+            <>
+              {teamLogs.map((item) => (
+                <Row
+                  position="P1"
+                  name={item?.fantasyLog?.player?.full_name}
+                  time={`P${item?.period + 1} | ${item?.clock}`}
+                  plays={
+                    item?.fantasyLog?.type === "shotagainst"
+                      ? "SA"
+                      : item?.fantasyLog?.type === "goalagainst"
+                      ? "GA"
+                      : item?.fantasyLog?.type[0]
+                  }
+                  pts={item?.fantasyLog?.playerPts}
+                  totalPts="8"
+                  powers="-"
+                  score={item?.fantasyLog?.playerPts}
+                  runningTotal="16"
+                />
+              ))}
+            </>
+          );
+        })}
       </div>
     </>
   );
