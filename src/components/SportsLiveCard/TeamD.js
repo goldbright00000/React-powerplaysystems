@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./index.module.scss";
 import {
@@ -36,6 +37,8 @@ const text = process.env.REACT_APP_POST_SHARING_TEXT;
 function SportsLiveCardTeamD(props) {
   const [showSummary, setSummaryState] = useState(false);
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
+
+  const { teamDPts = 0 } = useSelector((state) => state.nhl);
 
   const {
     data = {},
@@ -233,7 +236,6 @@ function SportsLiveCardTeamD(props) {
 
     return status;
   };
-
 
   const RenderStatPoints = ({}) => (
     <div className={classes.stat_points}>
@@ -1115,140 +1117,163 @@ function SportsLiveCardTeamD(props) {
               />
             </button> */}
             <>
-
-            {isPowerAvailable("D-Wall") === 0 ||
-            isPowerLocked("D-Wall") === 1 ? (
-              <Tooltip
-                disabled={isGameOverOrNotStarted()}
-                toolTipContent={
-                  <div className={classes.xp_icons}>
-                    {isPowerAvailable("D-Wall") === 0 ? (
-                      <div>Not Available</div>
-                    ) : isPowerLocked("D-Wall") === 1 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <p
+              {isPowerAvailable("D-Wall") === 0 ||
+              isPowerLocked("D-Wall") === 1 ? (
+                <Tooltip
+                  disabled={isGameOverOrNotStarted()}
+                  toolTipContent={
+                    <div className={classes.xp_icons}>
+                      {isPowerAvailable("D-Wall") === 0 ? (
+                        <div>Not Available</div>
+                      ) : isPowerLocked("D-Wall") === 1 ? (
+                        <div
                           style={{
-                            paddingTop: "1px",
-                            paddingRight: "2px",
-                            paddingLeft: "5px",
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "space-evenly",
                           }}
                         >
-                          Share to unlock:
-                        </p>
-                        <div>
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
+                          <p
+                            style={{
+                              paddingTop: "1px",
+                              paddingRight: "2px",
+                              paddingLeft: "5px",
                             }}
-                            style={{ marginRight: 10, marginBottom: 5 }}
                           >
-                            <FacebookIcon />
-                          </button>
+                            Share to unlock:
+                          </p>
+                          <div>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                              style={{ marginRight: 10, marginBottom: 5 }}
+                            >
+                              <FacebookIcon />
+                            </button>
 
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <TwitterIcon />
-                          </button>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ) : isPowerLocked("D-Wall") === 1 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <p
+                      ) : isPowerLocked("D-Wall") === 1 ? (
+                        <div
                           style={{
-                            paddingTop: "1px",
-                            paddingRight: "2px",
-                            paddingLeft: "5px",
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "space-evenly",
                           }}
                         >
-                          Share to unlock:
-                        </p>
-                        <div>
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
+                          <p
+                            style={{
+                              paddingTop: "1px",
+                              paddingRight: "2px",
+                              paddingLeft: "5px",
                             }}
                           >
-                            <FacebookIcon />
-                          </button>
+                            Share to unlock:
+                          </p>
+                          <div>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <FacebookIcon />
+                            </button>
 
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <TwitterIcon />
-                          </button>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    ) : (
-                      ""
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  }
+                >
+                  <button
+                    className={classes.team_d_icon_button}
+                    style={{ background: "none", border: 0 }}
+                  >
+                    <ShieldIcon
+                      size={30}
+                      // size={largeView ? 28 : 24}
+                    />
+                  </button>
+                </Tooltip>
+              ) : props.dwall == 0 ? (
+                <div style={{ opacity: 0.5 }}>
+                  <DwallPopUp
+                    component={({ showPopUp }) => (
+                      <button>
+                        <ShieldIcon
+                          size={30}
+                          // size={largeView ? 28 : 24}
+                        />
+                      </button>
                     )}
-                  </div>
-                }
-              >
-                <button className={classes.team_d_icon_button} style={{background: "none", border: 0}}>
-                  <ShieldIcon
-                    size={30}
-                    // size={largeView ? 28 : 24}
+                    dwall={props.dwall}
+                    useDwall={props.useDwall}
                   />
-                </button>
-              </Tooltip>
-            ) : props.dwall == 0 ? (
-              <div style={{ opacity: 0.5 }}>
+                </div>
+              ) : (
                 <DwallPopUp
                   component={({ showPopUp }) => (
-                    <button>
+                    <button
+                      onClick={showPopUp}
+                      style={
+                        isGameOverOrNotStarted()
+                          ? { opacity: 0.3, pointerEvents: "none" }
+                          : {}
+                      }
+                    >
                       <ShieldIcon
                         size={30}
                         // size={largeView ? 28 : 24}
@@ -1258,190 +1283,167 @@ function SportsLiveCardTeamD(props) {
                   dwall={props.dwall}
                   useDwall={props.useDwall}
                 />
-              </div>
-            ) : (
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    style={
-                      isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
-                    }
-                  >
-                    <ShieldIcon
+              )}
+              {isPowerAvailable("Challenge") === 0 ||
+              isPowerLocked("Challenge") === 1 ? (
+                <Tooltip
+                  toolTipContent={
+                    <div className={classes.xp_icons}>
+                      {isPowerAvailable("Challenge") === 0 ? (
+                        <div>Not Available</div>
+                      ) : isPowerLocked("Challenge") === 1 ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <p
+                            style={{
+                              paddingTop: "1px",
+                              paddingRight: "2px",
+                              paddingLeft: "5px",
+                            }}
+                          >
+                            Share to unlock:
+                          </p>
+                          <div>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                              style={{ marginRight: 10, marginBottom: 5 }}
+                            >
+                              <FacebookIcon />
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </div>
+                        </div>
+                      ) : isPowerLocked("Challenge") === 1 ? (
+                        <div
+                          style={{
+                            display: "flex",
+                            width: "100%",
+                            justifyContent: "space-evenly",
+                          }}
+                        >
+                          <p
+                            style={{
+                              paddingTop: "1px",
+                              paddingRight: "2px",
+                              paddingLeft: "5px",
+                            }}
+                          >
+                            Share to unlock:
+                          </p>
+                          <div>
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <FacebookIcon />
+                            </button>
+
+                            <button
+                              onClick={() => {
+                                var left = window.screen.width / 2 - 600 / 2,
+                                  top = window.screen.height / 2 - 600 / 2;
+                                window.open(
+                                  `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
+                                  "targetWindow",
+                                  "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
+                                    left +
+                                    ",top=" +
+                                    top
+                                );
+                              }}
+                            >
+                              <TwitterIcon />
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  }
+                  disabled={isGameOverOrNotStarted()}
+                >
+                  <button className={classes.team_d_icon_button}>
+                    <Challenge
                       size={30}
                       // size={largeView ? 28 : 24}
                     />
                   </button>
-                )}
-                dwall={props.dwall}
-                useDwall={props.useDwall}
-              />
-            )}
-            {isPowerAvailable("Challenge") === 0 ||
-            isPowerLocked("Challenge") === 1 ? (
-              <Tooltip
-                toolTipContent={
-                  <div className={classes.xp_icons}>
-                    {isPowerAvailable("Challenge") === 0 ? (
-                      <div>Not Available</div>
-                    ) : isPowerLocked("Challenge") === 1 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <p
-                          style={{
-                            paddingTop: "1px",
-                            paddingRight: "2px",
-                            paddingLeft: "5px",
-                          }}
-                        >
-                          Share to unlock:
-                        </p>
-                        <div>
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                            style={{ marginRight: 10, marginBottom: 5 }}
-                          >
-                            <FacebookIcon />
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <TwitterIcon />
-                          </button>
-                        </div>
-                      </div>
-                    ) : isPowerLocked("Challenge") === 1 ? (
-                      <div
-                        style={{
-                          display: "flex",
-                          width: "100%",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <p
-                          style={{
-                            paddingTop: "1px",
-                            paddingRight: "2px",
-                            paddingLeft: "5px",
-                          }}
-                        >
-                          Share to unlock:
-                        </p>
-                        <div>
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://www.facebook.com/dialog/share?app_id=${process.env.REACT_APP_FACEBOOK_APP_ID}&display=popup&href=http://defygames.io&quote=${process.env.REACT_APP_POST_SHARING_TEXT}&redirect_uri=http://defygames.io`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <FacebookIcon />
-                          </button>
-
-                          <button
-                            onClick={() => {
-                              var left = window.screen.width / 2 - 600 / 2,
-                                top = window.screen.height / 2 - 600 / 2;
-                              window.open(
-                                `https://twitter.com/intent/tweet?text=${process.env.REACT_APP_POST_SHARING_TEXT}`,
-                                "targetWindow",
-                                "toolbar=no,location=0,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600,left=" +
-                                  left +
-                                  ",top=" +
-                                  top
-                              );
-                            }}
-                          >
-                            <TwitterIcon />
-                          </button>
-                        </div>
-                      </div>
-                    ) : (
-                      ""
+                </Tooltip>
+              ) : props.challenge == 0 ? (
+                <div style={{ opacity: 0.5 }}>
+                  <ChallengePopUp
+                    component={({ showPopUp }) => (
+                      <button style={{ background: "none", border: 0 }}>
+                        <Challenge size={largeView ? 28 : 30} />
+                      </button>
                     )}
-                  </div>
-                }
-                disabled={isGameOverOrNotStarted()}
-              >
-                <button className={classes.team_d_icon_button}>
-                  <Challenge
-                    size={30}
-                    // size={largeView ? 28 : 24}
+                    challenge={props.challenge}
+                    useChallenge={props.useChallenge}
                   />
-                </button>
-              </Tooltip>
-            ) : props.challenge == 0 ? (
-              <div style={{ opacity: 0.5 }}>
+                </div>
+              ) : (
                 <ChallengePopUp
                   component={({ showPopUp }) => (
-                    <button style={{background: "none", border: 0}}>
-                      <Challenge size={largeView ? 28 : 30} />
+                    <button
+                      onClick={showPopUp}
+                      style={
+                        isGameOverOrNotStarted()
+                          ? { opacity: 0.3, pointerEvents: "none" }
+                          : {}
+                      }
+                      style={{ background: "none", border: 0 }}
+                    >
+                      <Challenge size={largeView ? 30 : 30} />
                     </button>
                   )}
                   challenge={props.challenge}
                   useChallenge={props.useChallenge}
                 />
-              </div>
-            ) : (
-              <ChallengePopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    style={
-                      isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
-                    }
-                    style={{background: "none", border: 0}}
-                  >
-                    <Challenge size={largeView ? 30 : 30} />
-                  </button>
-                )}
-                challenge={props.challenge}
-                useChallenge={props.useChallenge}
-              />
-            )}
-
-            
-          </>
+              )}
+            </>
             {/* {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
               <div style={{ opacity: 0.5 }}>{renderXp()}</div>
             ) : (
@@ -1488,7 +1490,7 @@ function SportsLiveCardTeamD(props) {
         <span className={classes.border} />
         <span>
           Team D:
-          <span className={classes.card_header_points}>{points} Pts</span>
+          <span className={classes.card_header_points}>{teamDPts} Pts</span>
         </span>
       </p>
     </div>
