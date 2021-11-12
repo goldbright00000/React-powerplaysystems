@@ -64,6 +64,7 @@ export default function TeamManager(props) {
     selectedTeam = {}
   } = useSelector((state) => state.nhl);
 
+
   const { user = {} } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   //const selectedTeam = getTeamFromLocalStorage();
@@ -326,7 +327,7 @@ export default function TeamManager(props) {
       <>
         <TeamManagerCardHeader />
         <SingleView
-          data={live_players}
+          data={live_players.concat(live_teamD)}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}

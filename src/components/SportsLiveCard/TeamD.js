@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
-
+import { useSelector } from "react-redux";
 import classes from "./index.module.scss";
 import {
   getNumberSuffix,
@@ -47,6 +47,9 @@ function SportsLiveCardTeamD(props) {
     cardType = CardType.MLB,
     key = "",
   } = props || {};
+
+  const {  selectedTeam = {} } = useSelector((state) => state.nhl);
+  const { powersAvailable = [] } = selectedTeam;
 
   // NHL TeamD
   const { stats } = data || {};
@@ -151,7 +154,9 @@ function SportsLiveCardTeamD(props) {
 
   const isPowerAvailable = (type) => {
     let powerss = props.dataMain?.powersAvailable;
-
+    if(powerss == undefined) {
+      powerss = powersAvailable;
+    }
     if (powerss) {
       let available = 0;
       if (type === "Swap Player") {
@@ -1248,7 +1253,7 @@ function SportsLiveCardTeamD(props) {
               <div style={{ opacity: 0.5 }}>
                 <DwallPopUp
                   component={({ showPopUp }) => (
-                    <button>
+                    <button style={{background: "none", border: 0}}>
                       <ShieldIcon
                         size={30}
                         // size={largeView ? 28 : 24}
@@ -1269,6 +1274,7 @@ function SportsLiveCardTeamD(props) {
                         ? { opacity: 0.3, pointerEvents: "none" }
                         : {}
                     }
+                    style={{background: "none", border: 0}}
                   >
                     <ShieldIcon
                       size={30}

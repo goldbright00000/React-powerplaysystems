@@ -26,7 +26,14 @@ function SingleView(props) {
     pointXpCount = {},
   } = props || {};
 
+  console.log("data", data);
+  
+
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
+
+  useEffect(() => {
+    console.log("selectedCard", selectedCard);
+  }, [selectedCard]);
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -105,8 +112,7 @@ function SingleView(props) {
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        {selectedCard?.team_d_nhl_team &&
-        selectedCard?.team_d_nhl_team?.type === TD ? (
+        {selectedCard?.type === TD ? (
           <SportsLiveCardTeamD
             data={selectedCard}
             onChangeXp={onChangeXp}
@@ -118,6 +124,7 @@ function SingleView(props) {
             useChallenge={props.useChallenge}
             dataMain={props.dataMain}
             cardType="nhl"
+            
           />
         ) : (
           <SportsLiveCard
@@ -131,6 +138,7 @@ function SingleView(props) {
             dataMain={props.dataMain}
             pointXpCount={{ xp1: xp1, xp2: xp2, xp3: xp3 }}
             cardType="nhl"
+            rightSide={true}
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />

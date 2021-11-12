@@ -119,7 +119,6 @@ console.log("selectedTeam", selectedTeam);
     }
     return gameID;
   }
-
   const {
     game_id = 0,
     gameID = getGameIDFromLocalStorage(),
