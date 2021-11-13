@@ -22,7 +22,9 @@ import { checkAccountLimit } from "../../actions/userActions";
 
 const paymentGateWay = 'MyUserPay';
 let totalPrice = false;
-const user_id = "";
+const user_id = getPersonaUserId();
+
+console.log("===>>>=== user_id ===<<<===", user_id);
 
 const formatePrice = (price, currencyValue, isCad, noSign) =>
   noSign
@@ -236,8 +238,6 @@ class DepositAmountForm extends Component {
 
   onSubmit = async (e) => {
     e.preventDefault();
-
-    user_id = getPersonaUserId();
     const response = await this.state.dispatch(checkAccountLimit(user_id, this.state.form.currency));
 
     if (response?.daily?.exceeded) {
@@ -259,7 +259,8 @@ class DepositAmountForm extends Component {
             cardno: this.state.cardno,
             cvv: this.state.cvv,
             cardname: this.state.cardname,
-            expiredate: this.state.expiredate
+            expiremonth: this.state.expiremonth,
+            expireyear: this.state.expireyear,
           };
           this.props.ipaySubmitted(object);
         } else {
@@ -433,66 +434,72 @@ class DepositAmountForm extends Component {
               )}
               {currency === "USD" && (<div className={`${styles.card_wrp} w-100 d-block`}>
             <div className="row">
-              {/* <input TYPE="HIDDEN" NAME="StoreKey" VALUE="NEWSETUPhihWuZzxaSl021135" />StoreKey<br />
-              <input TYPE="HIDDEN" NAME="SubTotal" VALUE="10.00" />SubTotal<br />
-              <input TYPE="HIDDEN" NAME="PaymentType" VALUE="CC" />PaymentType<br />
-              <input TYPE="HIDDEN" NAME="CardAction" VALUE="0" />CardAction<br />
-              <input TYPE="HIDDEN" NAME="CardNumber" VALUE="4111111111111111" />CardNumber<br />
-              <input TYPE="HIDDEN" NAME="CardExpMonth" VALUE="12" />CardExpMonth<br />
-              <input TYPE="HIDDEN" NAME="CardExpYear" VALUE="13" />CardExpYear<br />
-              <input TYPE="HIDDEN" NAME="CardIDNumber" VALUE="3422" />CardIDNumber<br />  */}
               <input type="hidden" name="StoreKey" value="merchantcardcapture200024" />
-                <div className="col-md-12">
-                  <div className={`${styles.card_field} w-100 d-block`}>
-                    <h6>Cardholder Name</h6>
-                    <input
-                      type="text"
-                      name="cardname"
-                      placeholder="e.g. Mr J Smith"
-                      onChange={this.onFieldChangeHandler}
-                      value={this.state.cardname}
-                    />
-                  </div>
+              <input TYPE="HIDDEN" NAME="SubTotal" VALUE={price} />SubTotal<br />
+              <div className="col-md-12">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Cardholder Name</h6>
+                  <input
+                    type="text"
+                    name="CardName"
+                    placeholder="e.g. Mr J Smith"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.cardname}
+                  />
                 </div>
-                <div className="col-md-8">
-                  <div className={`${styles.card_field} w-100 d-block`}>
-                    <h6>Card Number</h6>
-                    <input
-                      type="number"
-                      name="cardno"
-                      placeholder="e.g. 1234 5678 1234 5678"
-                      onChange={this.onFieldChangeHandler}
-                      value={this.state.cardno}
-                    />
-                  </div>
+              </div>
+              <div className="col-md-6">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Card Number</h6>
+                  <input
+                    type="number"
+                    name="CardNumber"
+                    placeholder="e.g. 1234 5678 1234 5678"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.cardno}
+                  />
                 </div>
-                <div className="col-md-2">
-                  <div className={`${styles.card_field} w-100 d-block`}>
-                    <h6>Expiry Date</h6>
-                    <input
-                      type="number"
-                      name="expiredate"
-                      placeholder="MM / YY"
-                      onChange={this.onFieldChangeHandler}
-                      value={this.state.expiredate}
-                    />
-                  </div>
+              </div>
+              <div className="col-md-2">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Expiry Month</h6>
+                  <input
+                    type="number"
+                    name="CardExpMonth"
+                    placeholder="MM"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.expiremonth}
+                  />
                 </div>
-                <div className="col-md-2">
-                  <div className={`${styles.card_field} w-100 d-block`}>
-                    <h6>CVV</h6>
-                    <input
-                      type="number"
-                      className={styles.cvvInput}
-                      maxLength={3}
-                      minLength={3}
-                      name="cvv"
-                      placeholder="e.g. 123"
-                      onChange={this.onFieldChangeHandler}
-                      value={this.state.cvv}
-                    />
-                  </div>
+              </div>
+              <div className="col-md-2">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>Expiry Year</h6>
+                  <input
+                    type="number"
+                    name="CardExpYear"
+                    placeholder="YY"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.expireyear}
+                  />
                 </div>
+              </div>
+              <div className="col-md-2">
+                <div className={`${styles.card_field} w-100 d-block`}>
+                  <h6>CVV</h6>
+                  <input
+                    type="number"
+                    name="CardIDNumber"
+                    className={styles.cvvInput}
+                    maxLength={3}
+                    minLength={3}
+                    name="cvv"
+                    placeholder="e.g. 123"
+                    onChange={this.onFieldChangeHandler}
+                    value={this.state.cvv}
+                  />
+                </div>
+              </div>
                 {/* <div className="col-md-8">
                   <div className={`${styles.card_field} w-100 d-block`}>
                     <h6>State / Province</h6>
