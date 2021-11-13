@@ -456,7 +456,7 @@ function PromoModal(props) {
                       <p>
                           What MLB team do you cheer for?
                       </p>
-                      <select onChange={(e) => {
+                      <select class="text-black" onChange={(e) => {
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,
