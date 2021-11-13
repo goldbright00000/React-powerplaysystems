@@ -434,8 +434,9 @@ class DepositAmountForm extends Component {
               )}
               {currency === "USD" && (<div className={`${styles.card_wrp} w-100 d-block`}>
             <div className="row">
+              {/* <input TYPE="HIDDEN" NAME="StoreKey" VALUE="NEWSETUPhihWuZzxaSl021135" />StoreKey<br /> */}
               <input type="hidden" name="StoreKey" value="merchantcardcapture200024" />
-              <input TYPE="HIDDEN" NAME="SubTotal" VALUE={price} />SubTotal<br />
+              <input TYPE="HIDDEN" NAME="SubTotal" VALUE={price} />
               <div className="col-md-12">
                 <div className={`${styles.card_field} w-100 d-block`}>
                   <h6>Cardholder Name</h6>
