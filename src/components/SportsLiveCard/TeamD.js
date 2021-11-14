@@ -28,6 +28,8 @@ import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 import NHLFooterStats from "./NHLFooterStats";
 
+import ClockIcon from "../../assets/icons/nhl/clock.svg";
+
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 const NFLSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 const NHLSummaryTitles = ["Time", "Type", "Power", "Pts"];
@@ -56,7 +58,15 @@ function SportsLiveCardTeamD(props) {
 
   // NHL TeamD
   const { stats } = data || {};
-  const { savesAgainst = 0, goalsAgainst = 0, points = 0 } = stats || {};
+  const {
+    savesAgainst = 0,
+    goalsAgainst = 0,
+    points = 0,
+    status = "inprogress",
+  } = stats || {};
+  const { live_clock = "20:00", live_period = 1 } = useSelector(
+    (state) => state.nhl
+  );
 
   const {
     name = "",
@@ -81,7 +91,7 @@ function SportsLiveCardTeamD(props) {
   const {
     away_team = {},
     home_team = {},
-    status = "",
+    // status = "inprogress",
     date_time = "",
     boxscore = [],
   } = match || {};
@@ -1318,16 +1328,19 @@ function SportsLiveCardTeamD(props) {
 
   const RenderSingleViewStats = () => (
     <div className={classes.single_view_state}>
-      <p className={classes.single_view_cat}>{type}</p>
+      <p>Team D</p>
       <div>
         <p className={classes.single_view_pts}>
-          Pts: <span className={xp && xp?.xp && classes.active}>30</span>
+          Pts:&nbsp;
+          <span className={xp && xp?.xp && classes.active}>{teamDPts}</span>
         </p>
       </div>
-      <p>
-        Bot 1st
-        <span className={classes.divider_1}>|</span>2 Out
-      </p>
+      <div className={classes.single_footer_stats_row}>
+        <img src={ClockIcon} alt="Hockey Icon" width={12} height={14} />
+        <p>
+          P{live_period} | {live_clock}
+        </p>
+      </div>
     </div>
   );
 
@@ -1420,14 +1433,16 @@ function SportsLiveCardTeamD(props) {
                     {cardType === CardType.MLBR ? (
                       <RenderChallengeButton />
                     ) : (
-                      <RenderStatus
-                        success={
-                          hasText(status, "batting") ||
-                          hasText(status, "pitching") ||
-                          hasText(status, "hitting")
-                        }
-                        danger={hasText(status, "deck")}
-                      />
+                      <>
+                        <RenderStatus
+                          success={
+                            hasText(status, "batting") ||
+                            hasText(status, "pitching") ||
+                            hasText(status, "hitting")
+                          }
+                          danger={hasText(status, "deck")}
+                        />
+                      </>
                     )}
 
                     {/* {getStatus() === "Game Over" ? (

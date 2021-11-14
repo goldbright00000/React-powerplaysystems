@@ -22,25 +22,33 @@ const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
 export function nhlData(gameId) {
   return async (dispatch) => {
     try {
-      const response = await http.post(`https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyPlayers`, {
-        gameID: 951
-      });
-      const { data: { players: nhlSchedule = [], game_id = "", sport_id = "", matches = [], teams = [] } = {} } =
-        response.data || {};
+      const response = await http.post(
+        `https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyPlayers`,
+        {
+          gameID: 951,
+        }
+      );
+      const {
+        data: {
+          players: nhlSchedule = [],
+          game_id = "",
+          sport_id = "",
+          matches = [],
+          teams = [],
+        } = {},
+      } = response.data || {};
 
       const nhlPlayerList = [];
       const nhlTeams = [];
       for (let i = 0; i < nhlSchedule?.length; i++) {
         const {
-          draft: {
-            team_id = ""
-          }
+          draft: { team_id = "" },
         } = nhlSchedule[i];
-        let teamDetails = teams.filter(x => x.id == team_id);
-        const {
-          id: teamID = ""
-        } = teamDetails;
-        let matchDetails = matches.filter(x => x.away == teamID || x.home == teamID);
+        let teamDetails = teams.filter((x) => x.id == team_id);
+        const { id: teamID = "" } = teamDetails;
+        let matchDetails = matches.filter(
+          (x) => x.away == teamID || x.home == teamID
+        );
 
         const {
           away: away_team = {},
@@ -295,6 +303,21 @@ export function getFantasyTeam(payload) {
   };
 }
 
+// export function getFinalStandings(game_id) {
+//   return async (dispatch) => {
+//     try {
+//       const response = await http.get(`https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyRankings`);
+//       await dispatch({
+//         type: FINAL_STANDINGS,
+//         payload: response?.data,
+//       });
+
+//     } catch (error) {
+//       return false;
+//     }
+//   };
+// }
+
 function getTeam(currentTeam, opponentTeam, match_id, venue, date_time) {
   const time = moment(date_time).format("LT");
   const date = moment(date_time).format("YYYY-MM-DD");
@@ -371,10 +394,16 @@ function getPlayers(
 
 function getFilterPlayersList(filter = "", playersList = []) {
   let list =
-    playersList?.length &&
-    playersList?.filter(
-      (player) => `${player.primary_position}`?.toLocaleLowerCase() === filter
-    );
+    (playersList?.length &&
+      playersList?.filter(
+        (player) =>
+          `${player.fantasyPlayerPosition}`?.toLocaleLowerCase() === filter
+      )) ||
+    [];
+
+  console.log(filter);
+  console.log(playersList);
+  console.log(list);
 
   list.forEach((item) => {
     item.match_id = 1;
@@ -651,7 +680,6 @@ export function updateUserRemainingPowers(
 ) {
   return async (dispatch) => {
     try {
-      
       const response = await http.post(
         `https://nhl.powerplaysystems.com/api/v1/services/fantasy/fantasyPowerApplied`,
         {
@@ -659,7 +687,7 @@ export function updateUserRemainingPowers(
           userID: user_id,
           powerApplied: power_id,
           timeApplied: new Date(),
-          playerID: player_id
+          playerID: player_id,
         }
       );
       return dispatch({

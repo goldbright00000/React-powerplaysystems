@@ -20,7 +20,6 @@ import moment from "moment";
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 
 export default function TeamManager(props) {
-  
   const [screenSize, setScreenSize] = useState(window.screen.width);
   window.onresize = () => {
     setScreenSize(window.screen.width);
@@ -43,7 +42,6 @@ export default function TeamManager(props) {
     POWER_IDs,
     setPowers,
   } = props || {};
-  
 
   const {
     live_players: live_data = [],
@@ -61,9 +59,8 @@ export default function TeamManager(props) {
     period = 0,
     powersApplied = [],
     powersAvailable = "",
-    selectedTeam = {}
+    selectedTeam = {},
   } = useSelector((state) => state.nhl);
-
 
   const { user = {} } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -86,7 +83,6 @@ export default function TeamManager(props) {
     Prizes = [],
   } = selectedTeam || {};
   const onChangeXp = async (xp, player) => {
-    
     const _selectedXp = {
       xp,
     };
@@ -96,7 +92,7 @@ export default function TeamManager(props) {
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
     let indexOfPlayer = -1;
 
-    indexOfPlayer = live_data.findIndex(x => x?.id == player?.id);
+    indexOfPlayer = live_data.findIndex((x) => x?.id == player?.id);
     if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
 
@@ -202,7 +198,7 @@ export default function TeamManager(props) {
 
       const current_match_id = selectedTeam.players[0].match_id;
       console.log("selectedTeam", selectedTeam);
-      return
+      return;
       let requests = await dispatch(
         NHLActions.updateUserRemainingPowers(gameId, userId, 4)
       );
@@ -327,7 +323,7 @@ export default function TeamManager(props) {
       <>
         <TeamManagerCardHeader />
         <SingleView
-          data={live_players.concat(live_teamD)}
+          data={[...live_players, { ...live_teamD, isTeamD: true }]}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}

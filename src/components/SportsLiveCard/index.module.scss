@@ -226,6 +226,22 @@
             padding: 0;
           }
         }
+
+        .single_footer_stats_row {
+          display: flex !important;
+          align-items: center;
+
+          img {
+            width: 12px !important;
+            height: 14px !important;
+            margin-right: 5px;
+            align-self: flex-end;
+          }
+
+          p {
+            align-self: baseline;
+          }
+        }
       }
 
       .stat_points {

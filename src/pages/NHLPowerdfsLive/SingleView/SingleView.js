@@ -27,7 +27,6 @@ function SingleView(props) {
   } = props || {};
 
   console.log("data", data);
-  
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
@@ -69,14 +68,10 @@ function SingleView(props) {
           data?.length &&
           data?.map((item, ind) => (
             <>
-              {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
+              {item.isTeamD ? (
                 <SportsLiveCardTeamD
-                  key={ind + "-"}
                   data={item}
-                  active={
-                    selectedCard?.team_d_nhl_team?.team_id ===
-                    item?.team_d_nhl_team?.team_id
-                  }
+                  active={selectedCard?.id === item?.id}
                   singleView
                   onSelectCard={onSelectCard}
                   dwall={props.dwallCounts}
@@ -90,9 +85,7 @@ function SingleView(props) {
                 <SportsLiveCard
                   key={ind + "-" + item?.player?.player_id}
                   data={item}
-                  active={
-                    selectedCard?.player?.player_id === item?.player?.player_id
-                  }
+                  active={selectedCard?.id === item?.id}
                   onSelectCard={onSelectCard}
                   singleView
                   onChangeXp={onChangeXp}
@@ -112,7 +105,7 @@ function SingleView(props) {
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        {selectedCard?.type === TD ? (
+        {selectedCard?.isTeamD ? (
           <SportsLiveCardTeamD
             data={selectedCard}
             onChangeXp={onChangeXp}
@@ -124,7 +117,6 @@ function SingleView(props) {
             useChallenge={props.useChallenge}
             dataMain={props.dataMain}
             cardType="nhl"
-            
           />
         ) : (
           <SportsLiveCard
