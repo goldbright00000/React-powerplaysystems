@@ -19,7 +19,6 @@ let currentCard = 0;
 function SingleView(props) {
   const {
     data = [],
-    teamD = {},
     onChangeXp = (xp, player) => {},
     updateReduxState = () => {},
     starPlayerCount = 0,
@@ -27,7 +26,13 @@ function SingleView(props) {
     pointXpCount = {},
   } = props || {};
 
+  console.log("data", data);
+
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
+
+  useEffect(() => {
+    console.log("selectedCard", selectedCard);
+  }, [selectedCard]);
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -65,7 +70,7 @@ function SingleView(props) {
             <>
               {item.isTeamD ? (
                 <SportsLiveCardTeamD
-                  data={teamD}
+                  data={item}
                   active={selectedCard?.id === item?.id}
                   singleView
                   onSelectCard={onSelectCard}
@@ -96,21 +101,6 @@ function SingleView(props) {
               )}
             </>
           ))}
-
-        {/* {teamD ? (
-          <SportsLiveCardTeamD
-            data={teamD}
-            active={selectedCard?.id === teamD?.id}
-            singleView
-            onSelectCard={onSelectCard}
-            dwall={props.dwallCounts}
-            challenge={props.challengeCounts}
-            useDwall={props.useDwall}
-            useChallenge={props.useChallenge}
-            dataMain={props.dataMain}
-            cardType="nhl"
-          />
-        ) : null} */}
       </div>
 
       <div className={classes.right_side}>
@@ -140,6 +130,7 @@ function SingleView(props) {
             dataMain={props.dataMain}
             pointXpCount={{ xp1: xp1, xp2: xp2, xp3: xp3 }}
             cardType="nhl"
+            rightSide={true}
           />
         )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />

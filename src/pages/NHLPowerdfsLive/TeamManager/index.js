@@ -324,7 +324,6 @@ export default function TeamManager(props) {
         <TeamManagerCardHeader />
         <SingleView
           data={[...live_players, { ...live_teamD, isTeamD: true }]}
-          teamD={live_teamD}
           onChangeXp={onChangeXp}
           updateReduxState={updateReduxState}
           starPlayerCount={starPlayerCount}

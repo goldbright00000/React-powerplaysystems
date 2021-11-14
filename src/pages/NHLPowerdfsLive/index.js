@@ -119,7 +119,6 @@ function NHLPowerdFsLive(props) {
     }
     return gameID;
   }
-
   const {
     game_id = 0,
     gameID = getGameIDFromLocalStorage(),

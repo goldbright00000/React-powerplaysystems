@@ -21,13 +21,12 @@ function NHLFooterStats(props) {
     title = "",
   } = props || {};
 
-
   //Player Details
   const { match, OppGoalie = "" } = player || {};
   const { home, away } = match || {};
 
   //TeamD Details
-  const { name = "", teamB = {} } = teamD || {};
+  const { name = "", teamB = {}, alias = "" } = teamD || {};
 
   const {
     live_clock = "20:00",
@@ -40,14 +39,14 @@ function NHLFooterStats(props) {
       {isTeamD ? (
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-          <p>{name} vs</p>
-          <p className="bold_text"> {teamB.name}</p>
+          <p>{alias} vs</p>
+          <p className="bold_text"> {teamB.alias}</p>
         </div>
       ) : (
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-          <p>{away?.name} vs</p>
-          <p className="bold_text"> {home?.name}</p>
+          <p>{away?.alias} vs</p>
+          <p className="bold_text"> {home?.alias}</p>
         </div>
       )}
       <div className="footer_stats_row">
