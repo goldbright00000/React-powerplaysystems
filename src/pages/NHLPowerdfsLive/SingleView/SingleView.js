@@ -19,6 +19,7 @@ let currentCard = 0;
 function SingleView(props) {
   const {
     data = [],
+    teamD = {},
     onChangeXp = (xp, player) => {},
     updateReduxState = () => {},
     starPlayerCount = 0,
@@ -62,14 +63,10 @@ function SingleView(props) {
           data?.length &&
           data?.map((item, ind) => (
             <>
-              {item?.team_d_nhl_team && item?.team_d_nhl_team?.type === TD ? (
+              {item.isTeamD ? (
                 <SportsLiveCardTeamD
-                  key={ind + "-"}
-                  data={item}
-                  active={
-                    selectedCard?.team_d_nhl_team?.team_id ===
-                    item?.team_d_nhl_team?.team_id
-                  }
+                  data={teamD}
+                  active={selectedCard?.id === item?.id}
                   singleView
                   onSelectCard={onSelectCard}
                   dwall={props.dwallCounts}
@@ -83,9 +80,7 @@ function SingleView(props) {
                 <SportsLiveCard
                   key={ind + "-" + item?.player?.player_id}
                   data={item}
-                  active={
-                    selectedCard?.player?.player_id === item?.player?.player_id
-                  }
+                  active={selectedCard?.id === item?.id}
                   onSelectCard={onSelectCard}
                   singleView
                   onChangeXp={onChangeXp}
@@ -101,12 +96,26 @@ function SingleView(props) {
               )}
             </>
           ))}
+
+        {/* {teamD ? (
+          <SportsLiveCardTeamD
+            data={teamD}
+            active={selectedCard?.id === teamD?.id}
+            singleView
+            onSelectCard={onSelectCard}
+            dwall={props.dwallCounts}
+            challenge={props.challengeCounts}
+            useDwall={props.useDwall}
+            useChallenge={props.useChallenge}
+            dataMain={props.dataMain}
+            cardType="nhl"
+          />
+        ) : null} */}
       </div>
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        {selectedCard?.team_d_nhl_team &&
-        selectedCard?.team_d_nhl_team?.type === TD ? (
+        {selectedCard?.isTeamD ? (
           <SportsLiveCardTeamD
             data={selectedCard}
             onChangeXp={onChangeXp}

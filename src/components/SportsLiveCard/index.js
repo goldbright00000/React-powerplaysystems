@@ -44,6 +44,8 @@ import Baseball from "../../icons/Baseball";
 import TwitterIcon from "../../icons/TwitterIcon";
 import FacebookIcon from "../../icons/FacebookIcon";
 
+import ClockIcon from "../../assets/icons/nhl/clock.svg";
+
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 const NFLSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 const NHLSummaryTitles = ["Time", "Type", "Power", "Pts"];
@@ -60,6 +62,7 @@ function SportsLiveCard(props) {
   const { data: nflData = [] } = useSelector((state) => state.nfl);
   const {
     data: nhlData = [],
+    gameID,
     posD1Points = 0,
     posD2Points = 0,
     posXW1Points = 0,
@@ -67,6 +70,8 @@ function SportsLiveCard(props) {
     posXW3Points = 0,
     posCenterPoints = 0,
     posGoaliePts = 0,
+    live_clock = "20:00",
+    live_period = 1,
   } = useSelector((state) => state.nhl);
 
   const [tooltipOpen1, setTooltipOpen1] = useState(false);
@@ -91,7 +96,6 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
     key = "",
   } = props || {};
-  const { gameID: gameId } = gameInfo || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
@@ -103,6 +107,7 @@ function SportsLiveCard(props) {
     type1 = "",
     primary_position = "",
     fantasyPlayerPosition = "",
+    is_starPlayer = false,
     pointsSummary = [],
     totalPts = 0,
     range = "",
@@ -216,7 +221,7 @@ function SportsLiveCard(props) {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      const response = await dispatch(mlbActions.mlbData(gameId));
+      const response = await dispatch(mlbActions.mlbData(gameID));
 
       if (response?.filterdList && response?.filterdList?.length) {
         const _mlbData = [...response?.filterdList];
@@ -250,7 +255,7 @@ function SportsLiveCard(props) {
     if (cardType === CardType.NFL) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      const response = await dispatch(nflActions.nflData(gameId));
+      const response = await dispatch(nflActions.nflData(gameID));
 
       if (response?.filterdList && response?.filterdList?.length) {
         const _nflData = [...response?.filterdList];
@@ -284,15 +289,13 @@ function SportsLiveCard(props) {
     if (cardType === CardType.NHL) {
       setLoadingPlayerList(true);
       setReplaceModalState(!showReplaceModal);
-      const response = await dispatch(nhlActions.getFantasyPlayers(951));
+      const response = await dispatch(nhlActions.getFantasyPlayers(gameID));
       console.log("response", response);
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
-        const [swapablePlayerData] = _nhlData?.filter((data) => {
-          let a = primary_position;
-          if (primary_position == "LW") a = "XW";
-          return data?.type === `${a}`?.toLocaleLowerCase();
-        });
+        const [swapablePlayerData] = _nhlData?.filter(
+          (data) => data?.fantasyPlayerPosition === fantasyPlayerPosition
+        );
 
         if (
           swapablePlayerData &&
@@ -545,27 +548,21 @@ function SportsLiveCard(props) {
     return null;
   };
 
-  const checkIfIsStarPlayer = () => {
-    if (type == "p" || type == "P") {
-      if (earned_runs_average < 3.5) {
-        return true;
-      }
-    } else {
-      if (batting_average > 0.29 || home_runs > 30) {
-        return true;
-      }
-    }
-    return false;
-  };
-
-  const RenderStarPower = ({}) =>
-    checkIfIsStarPlayer() && (
-      <img
-        className={`${classes.star_power} ${singleView && classes.mini_star}`}
-        src={singleView ? MiniStar : StarPower}
-        alt=""
-      />
+  const RenderStarPower = ({}) => {
+    return (
+      <>
+        {is_starPlayer && (
+          <img
+            className={`${classes.star_power} ${
+              singleView && classes.mini_star
+            }`}
+            src={singleView ? MiniStar : StarPower}
+            alt=""
+          />
+        )}
+      </>
     );
+  };
 
   const RenderXpToolTip = () => (
     <div className={classes.stat_xp}>
@@ -1103,17 +1100,42 @@ function SportsLiveCard(props) {
 
   const RenderSingleViewStats = () => (
     <div className={classes.single_view_state}>
-      <p className={classes.single_view_cat}>{type}</p>
+      <p className={classes.single_view_cat}>
+        {fantasyPlayerPosition === "XW" || type === "D"
+          ? fantasyPlayerPosition + positionID
+          : fantasyPlayerPosition}
+      </p>
       <div>
         <p className={classes.single_view_pts}>
-          Pts: <span className={xp && xp?.xp && classes.active}>30</span>
+          Pts:&nbsp;
+          <span className={xp && xp?.xp && classes.active}>
+            {fantasyPlayerPosition === "C" ? posCenterPoints : null}
+            {fantasyPlayerPosition === "G" ? posGoaliePts : null}
+            {fantasyPlayerPosition === "D" && positionID === 1
+              ? posD1Points
+              : null}
+            {fantasyPlayerPosition === "D" && positionID === 2
+              ? posD2Points
+              : null}
+            {fantasyPlayerPosition === "XW" && positionID === 1
+              ? posXW1Points
+              : null}
+            {fantasyPlayerPosition === "XW" && positionID === 2
+              ? posXW2Points
+              : null}
+            {fantasyPlayerPosition === "XW" && positionID === 3
+              ? posXW3Points
+              : null}
+          </span>
           {renderXp()}
         </p>
       </div>
-      <p>
-        Bot 1st
-        <span className={classes.divider_1}>|</span>2 Out
-      </p>
+      <div className={classes.single_footer_stats_row}>
+        <img src={ClockIcon} alt="Hockey Icon" width={12} height={14} />
+        <p>
+          P{live_period} | {live_clock}
+        </p>
+      </div>
     </div>
   );
 
@@ -1232,8 +1254,7 @@ function SportsLiveCard(props) {
                     ) : null}
 
                     {getStatus() !== "Game Over" &&
-                    cardType === CardType.NHL &&
-                    !singleView ? (
+                    cardType === CardType.NHL ? (
                       <>
                         <RenderStatus
                           success={
@@ -1243,7 +1264,9 @@ function SportsLiveCard(props) {
                           }
                           danger={hasText(status, "deck")}
                         />
-                        <NHLFooterStats player={player} />
+                        {!singleView ? (
+                          <NHLFooterStats player={player} />
+                        ) : null}
                       </>
                     ) : null}
                   </>
