@@ -1103,7 +1103,7 @@ function SportsLiveCard(props) {
 
   const RenderNHLStatPoints = ({}) => (
     <div className={classes.stat_points}>
-      <div className={classes.stat_points_container}>
+      <div className={classes.stat_points_container} style={{position: "relative"}}>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p
             className={`${classes.stat_points_title} ${
@@ -1127,6 +1127,13 @@ function SportsLiveCard(props) {
             <br />
             SOG: {shotsOnGoal}
           </p>
+          <div style={{position: "absolute", right: 8, top: "50%", transform: "translate(0, -36%)"}}>
+            {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
+              <div style={{ opacity: 0.5 }}>{renderXp()}</div>
+            ) : (
+              <RenderXpToolTip />
+            )}
+          </div>
         </div>
       </div>
 
@@ -1169,11 +1176,6 @@ function SportsLiveCard(props) {
                 ? posXW3Points
                 : null}
             </p>
-            {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
-              <div style={{ opacity: 0.5 }}>{renderXp()}</div>
-            ) : (
-              <RenderXpToolTip />
-            )}
           </div>
         </div>
       </div>

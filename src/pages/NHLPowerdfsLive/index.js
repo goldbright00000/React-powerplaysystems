@@ -157,8 +157,8 @@ function NHLPowerdFsLive(props) {
     if (user_id) {
       getFantasyTeam();
     }
-    _socket = socketNHL();
-    console.log("_socket", _socket);
+    //_socket = socketNHL();
+    //console.log("_socket", _socket);
   }, [user_id]);
 
   const {
@@ -501,52 +501,52 @@ function NHLPowerdFsLive(props) {
     setPowers();
   }, []);
 
-  useEffect(() => {
-    console.log("Number of times called");
-    if (gameID !== 0) {
-      _socket.on("disconnect", () => {
-        console.log("Socket Disconnected");
-      });
+  // useEffect(() => {
+  //   console.log("Number of times called");
+  //   if (gameID !== 0) {
+  //     _socket.on("disconnect", () => {
+  //       console.log("Socket Disconnected");
+  //     });
 
-      _socket.on("connected", () => {
-        console.log("Socket Connected");
-        _socket.emit("NHL_CONNECT_MATCH_ROOM", {
-          gameID: gameID,
-        });
-      });
+  //     _socket.on("connected", () => {
+  //       console.log("Socket Connected");
+  //       _socket.emit("NHL_CONNECT_MATCH_ROOM", {
+  //         gameID: gameID,
+  //       });
+  //     });
 
-      _socket.on("ROOM_CONNECTED", (data) => {
-        console.log("ON ROOM CONNECTED: ", data);
-        dispatch({
-          type: NHLActions.NHL_UPDATE_STATE,
-          payload: {
-            live_score_details: data,
-          },
-        });
-      });
+  //     _socket.on("ROOM_CONNECTED", (data) => {
+  //       console.log("ON ROOM CONNECTED: ", data);
+  //       dispatch({
+  //         type: NHLActions.NHL_UPDATE_STATE,
+  //         payload: {
+  //           live_score_details: data,
+  //         },
+  //       });
+  //     });
 
-      _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
-        console.log("THIS IS TEAM LOGS", data);
+  //     _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
+  //       console.log("THIS IS TEAM LOGS", data);
 
-        // if (Array.isArray(data)) {
-        dispatch({
-          type: NHLActions.NHL_UPDATE_STATE,
-          payload: {
-            live_team_logs: data,
-          },
-        });
-        // }
-      });
+  //       // if (Array.isArray(data)) {
+  //       dispatch({
+  //         type: NHLActions.NHL_UPDATE_STATE,
+  //         payload: {
+  //           live_team_logs: data,
+  //         },
+  //       });
+  //       // }
+  //     });
 
-      _socket.on("ROOM_DATA", (data) => {
-        console.log("ROOM DATA: ", data);
-      });
-    }
-  }, [_socket, gameID]);
+  //     _socket.on("ROOM_DATA", (data) => {
+  //       console.log("ROOM DATA: ", data);
+  //     });
+  //   }
+  // }, [_socket, gameID]);
 
-  useEffect(() => {
-    setPlayerToSwap({});
-  }, [_socket]);
+  // useEffect(() => {
+  //   setPlayerToSwap({});
+  // }, [_socket]);
 
   const setMatchUpdates = () => {
     const { match_id } = matchUpdateData?.data || {};
