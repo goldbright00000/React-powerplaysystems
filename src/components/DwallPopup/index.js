@@ -25,13 +25,14 @@ const DwallPopup = props => {
                                         setShowPopUp(false);
                                     }}>Cancel</button>
                                     <button className={styles.challengePlayButton} onClick={() => {
-                                        if(props.dwall > 0)
-                                        {
-                                            props.useDwall(true);
-                                        }
-                                        else {
-                                            alert("You cannot use D-Wall power");
-                                        }
+                                        props.setIsDwallActive(true);
+                                        // if(props.dwall > 0)
+                                        // {
+                                        //     props.useDwall(true);
+                                        // }
+                                        // else {
+                                        //     alert("You cannot use D-Wall power");
+                                        // }
                                         setShowPopUp(false);
                                     }}>Activate D-Wall</button>
                                 </div>
