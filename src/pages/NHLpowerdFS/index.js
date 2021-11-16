@@ -287,7 +287,12 @@ function NHLPowerdFs(props) {
 
   //reset the states
   useEffect(() => {
-    dispatch(NHLActions.setStarPlayerCount(starPlayerCount));
+    if (isEdit) {
+      dispatch(NHLActions.setStarPlayerCount(starPlayerCount));
+    } else {
+      dispatch(NHLActions.setStarPlayerCount(0));
+    }
+
     setSidebarList(cloneDeep(SIDEBAR_INITIAL_LIST));
     setSelected(new Map());
     setSelectedFilter(FILTERS_INITIAL_VALUES[0]);
