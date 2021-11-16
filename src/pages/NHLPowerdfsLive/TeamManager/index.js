@@ -241,7 +241,7 @@ export default function TeamManager(props) {
           src={x1_2Power}
         /> */}
         <p className={classes.team_manager_card_header_title}>
-          Use your Power to increase your point total.
+          Use Powers to boost your points!
         </p>
       </div>
     );
@@ -351,7 +351,11 @@ export default function TeamManager(props) {
         {screenSize > 550 ? (
           <>
             <TeamManagerCardHeader />
-
+            <div style={{
+              display: "flex",
+              flexWrap: "wrap",
+              maxWidth: 1020
+            }}>
             {live_players.map((item, index) => (
               <SportsLiveCard
                 data={{ player: item, ...item }}
@@ -402,6 +406,7 @@ export default function TeamManager(props) {
               setPowers={setPowers}
               cardType="nhl"
             />
+            </div>
           </>
         ) : (
           <>
