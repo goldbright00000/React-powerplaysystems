@@ -199,7 +199,7 @@ function PowerCollapesible(props) {
   }) => {
     const text = process.env.REACT_APP_POST_SHARING_TEXT;
     return (
-      <Row style={{ padding: "20px 5px 20px 5px", width: "100%" }}>
+      <Row style={{ padding: "15px 5px 15px 5px", width: "100%" }}>
         <Col xs="4" className={classes.sidebar_power_header}>
           {isSvgIcon ? (
             <Icon size={54} />

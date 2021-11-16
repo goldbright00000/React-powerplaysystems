@@ -331,7 +331,7 @@ function SportsLiveCard(props) {
       powerss = powersAvailable;
     }
     if (!powerss || powerss === undefined) {
-      return;
+      return 0;
     }
 
     let available = 0;
@@ -363,7 +363,7 @@ function SportsLiveCard(props) {
       powerss = powersAvailable;
     }
     if (!powerss || powerss === undefined) {
-      return;
+      return 0;
     }
 
     let locked = 0;
@@ -602,7 +602,7 @@ function SportsLiveCard(props) {
             <div
               className={classes.stat_xp_mlbr}
               // onClick={() => onChangeXp(0, data)}
-            >
+            >1
               {/* <ShieldIcon
                 className={{ opacity: 0.1 }}
                 size={singleView ? 14 : largeView ? 30 : 30}
@@ -1092,7 +1092,7 @@ function SportsLiveCard(props) {
             {score}
           </p>
           {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
-            <div style={{ opacity: 0.5 }}>{renderXp()}</div>
+            <div style={{ opacity: 1 }}>{renderXp()}</div>
           ) : (
             <RenderXpToolTip />
           )}
@@ -1103,7 +1103,7 @@ function SportsLiveCard(props) {
 
   const RenderNHLStatPoints = ({}) => (
     <div className={classes.stat_points}>
-      <div className={classes.stat_points_container}>
+      <div className={classes.stat_points_container} style={{position: "relative"}}>
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p
             className={`${classes.stat_points_title} ${
@@ -1127,6 +1127,13 @@ function SportsLiveCard(props) {
             <br />
             SOG: {shotsOnGoal}
           </p>
+          <div style={{position: "absolute", right: 8, top: "50%", transform: "translate(0, -36%)", zIndex: 1}}>
+            {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
+              <div style={{ opacity: 0.5 }}>{renderXp()}</div>
+            ) : (
+              <RenderXpToolTip />
+            )}
+          </div>
         </div>
       </div>
 
@@ -1169,11 +1176,6 @@ function SportsLiveCard(props) {
                 ? posXW3Points
                 : null}
             </p>
-            {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
-              <div style={{ opacity: 0.5 }}>{renderXp()}</div>
-            ) : (
-              <RenderXpToolTip />
-            )}
           </div>
         </div>
       </div>

@@ -182,7 +182,7 @@ function RenderModal(props) {
                     pageType="nhl"
                   />
                 )
-              ) : (<h2 style={{margin: "40px auto"}}>No player found.</h2>)
+              ) : (<h2 style={{margin: "40px auto"}}>No players available for Swap at this time.</h2>)
             )}
           </div>
         </div>

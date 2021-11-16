@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import moment from "moment";
+import * as $ from "jquery";
 import { useDispatch, useSelector } from "react-redux";
 
 import classes from "./index.module.scss";
@@ -15,6 +16,7 @@ import ChallengeIcon from "../../assets/icons/powers/challenge-power.svg";
 import DwallIcon from "../../assets/icons/powers/d-wall-power.svg";
 import VideoIcon from "../../icons/VideoIcon";
 import ShieldIcon from "../../icons/ShieldIcon";
+import ShieldIconGrey from "../../icons/group-2@2x.png";
 import Challenge from "../../icons/Challenge";
 import { isEmpty } from "lodash";
 import RenderPointsSummary from "./RenderPointsSummary";
@@ -41,7 +43,10 @@ function SportsLiveCardTeamD(props) {
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
 
   const { teamDPts = 0 } = useSelector((state) => state.nhl);
-
+  const [showPleaseWait, setShowPleaseWait] = useState(false);
+  const [showTimer, setShowTimer] = useState(false);
+  const [showTimerText, setShowTimerText] = useState("");
+  const [isDwallActive, setIsDwallActive] = useState(false);
   const {
     data = {},
     compressedView = false,
@@ -185,6 +190,17 @@ function SportsLiveCardTeamD(props) {
     }
   };
 
+  useEffect(() => {
+    if(showTimer && isDwallActive)
+    {
+      setTimeout(() => {
+        var fiveMinutes = 60 * 2,
+        display = $('#times');
+        startTimer(fiveMinutes, display);
+      }, 2000);
+    }
+  }, [showTimer, isDwallActive]);
+
   const isPowerLocked = (type) => {
     let powerss = props.dataMain?.powersAvailable;
     let locked = 0;
@@ -248,8 +264,12 @@ function SportsLiveCardTeamD(props) {
       return "Game Over";
     } else if (`${status}`.toLocaleUpperCase() === "inprogress")
       return "In Progress";
-
-    return status;
+      if(showTimer == false){
+        setShowTimer(true);
+        return "";
+      }
+      else
+        return status;
   };
 
   const RenderStatPoints = ({}) => (
@@ -943,6 +963,9 @@ function SportsLiveCardTeamD(props) {
           >
             
             <>
+              {isDwallActive && 
+                <img src={ShieldIconGrey} style={{width: 30}}/>
+              }
               {isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1 ? (
                 <Tooltip
                   disabled={isGameOverOrNotStarted()}
@@ -1089,26 +1112,30 @@ function SportsLiveCardTeamD(props) {
                   />
                 </div>
               )  : (
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    style={
-                      isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
-                    }
-                    style={{background: "none", border: 0}}
-                  >
-                    <ShieldIcon
-                      size={30}
-                      // size={largeView ? 28 : 24}
-                    />
-                  </button>
-                )}
-                dwall={props.dwall}
-                useDwall={props.useDwall}
-              />
+                isDwallActive == false && 
+                  <DwallPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        onClick={showPopUp}
+                        style={
+                          isGameOverOrNotStarted()
+                            ? { opacity: 0.3, pointerEvents: "none" }
+                            : {}
+                        }
+                        style={{background: "none", border: 0}}
+                      >
+                        <ShieldIcon
+                          size={30}
+                          // size={largeView ? 28 : 24}
+                        />
+                      </button>
+                    )}
+                    dwall={props.dwall}
+                    useDwall={props.useDwall}
+                    setIsDwallActive={setIsDwallActive}
+                    isDwallActive={isDwallActive}
+                    setShowPleaseWait={setShowPleaseWait}
+                  />
             )}
             {isPowerAvailable("Challenge") === 0 ||
             isPowerLocked("Challenge") === 1 ? (
@@ -1284,8 +1311,30 @@ function SportsLiveCardTeamD(props) {
       </div>
       </div>
   );
+  function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    var a = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
 
-  const RenderStatus = ({ success = false, danger = false }) => (
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+        setShowTimerText("D-Wall • " + minutes + ":" + seconds);
+
+        if (--timer < 0) {
+            clearInterval(a);
+            setShowTimer(false);
+            setIsDwallActive(false);
+            setShowTimerText("");
+            return;
+        }
+    }, 1000);
+}
+
+  const RenderStatus = ({ success = false, danger = false }) => {
+    return (
     <p
       className={`${classes.container_status} ${
         singleView ? classes.margin_top_bottom_8 : classes.margin_top_bottom_16
@@ -1301,10 +1350,19 @@ function SportsLiveCardTeamD(props) {
         } 
         ${danger && classes.danger}`}
       >
-        {getStatus()}
+        {showPleaseWait && 
+          <div id="times" style={{width: "100%", color: "#8cc2ff"}}>Please Wait...</div>
+        }
+        {!showPleaseWait && 
+          <>
+            <div id="times" style={{width: "100%", color: "#8cc2ff"}}>{showTimerText}</div>
+            {isDwallActive == false ? getStatus() : ""}
+          </>
+        }
       </span>
     </p>
-  );
+    
+  )};
 
   const RenderChallengeButton = () => {
     return (

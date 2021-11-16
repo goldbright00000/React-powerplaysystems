@@ -412,6 +412,54 @@
               }
             }
           }
+          .stat_xp {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+
+            .xp_icons {
+              display: flex;
+              flex-direction: row;
+
+              .xp_block {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                &.disabled {
+                  opacity: 0.4;
+                  pointer-events: none;
+                }
+
+                p {
+                  font-family: Poppins;
+                  font-size: 12px;
+                  text-transform: lowercase;
+
+                  span {
+                    font-size: 16px;
+                    font-weight: 600;
+                  }
+                }
+
+                svg {
+                  margin: -5px 5px 5px 5px;
+                  padding: 0 !important;
+
+                  &:hover {
+                    cursor: pointer;
+                  }
+                }
+              }
+            }
+
+            .stat_xp_mlbr {
+              cursor: pointer;
+            }
+          }
         }
 
         .team_d_icons {
@@ -1184,7 +1232,7 @@
             }
 
             .stat {
-              width: 108px;
+              width: 149px;
               height: 56px;
 
               &.large_view {
@@ -1202,7 +1250,7 @@
             }
 
             .points {
-              width: 103px;
+              width: 70px;
               height: 56px;
 
               &.team_d_width {
