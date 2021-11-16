@@ -1,114 +1,114 @@
 import React, { useState } from "react";
 import { Carousel, CarouselItem, CarouselIndicators } from "reactstrap";
 import "./starter.scss";
-const items = [
-  {
-    plyerName: "Chris Carpenter",
-    rank: "SP",
-    points: [
-      {
-        name: "2.7",
-      },
-      {
-        name: "8-4",
-      },
-      {
-        name: "99",
-      },
-      {
-        name: "0.97",
-      },
-      {
-        name: "25.2",
-      },
-    ],
-    firstTeam: "Arizona Diamondbacks",
-    secondTeam: "Baltimore Orioles",
-    time: "01:07 PM",
-    calender: "2020-09-28",
-    stadium: "Empower Field",
-  },
-  {
-    plyerName: "Chris Carpenter",
-    rank: "SP",
-    points: [
-      {
-        name: "2.7",
-      },
-      {
-        name: "8-4",
-      },
-      {
-        name: "99",
-      },
-      {
-        name: "0.97",
-      },
-      {
-        name: "25.2",
-      },
-    ],
-    firstTeam: "Arizona Diamondbacks",
-    secondTeam: "Baltimore Orioles",
-    time: "01:07 PM",
-    calender: "2020-09-28",
-    stadium: "Empower Field",
-  },
-  {
-    plyerName: "Chris Carpenter",
-    rank: "SP",
-    points: [
-      {
-        name: "2.7",
-      },
-      {
-        name: "8-4",
-      },
-      {
-        name: "99",
-      },
-      {
-        name: "0.97",
-      },
-      {
-        name: "25.2",
-      },
-    ],
-    firstTeam: "Arizona Diamondbacks",
-    secondTeam: "Baltimore Orioles",
-    time: "01:07 PM",
-    calender: "2020-09-28",
-    stadium: "Empower Field",
-  },
-  {
-    plyerName: "Chris Carpenter",
-    rank: "SP",
-    points: [
-      {
-        name: "2.7",
-      },
-      {
-        name: "8-4",
-      },
-      {
-        name: "99",
-      },
-      {
-        name: "0.97",
-      },
-      {
-        name: "25.2",
-      },
-    ],
-    firstTeam: "Arizona Diamondbacks",
-    secondTeam: "Baltimore Orioles",
-    time: "01:07 PM",
-    calender: "2020-09-28",
-    stadium: "Empower Field",
-  },
-];
+// const items = [
+//   {
+//     plyerName: "Chris Carpenter",
+//     rank: "SP",
+//     points: [
+//       {
+//         name: "2.7",
+//       },
+//       {
+//         name: "8-4",
+//       },
+//       {
+//         name: "99",
+//       },
+//       {
+//         name: "0.97",
+//       },
+//       {
+//         name: "25.2",
+//       },
+//     ],
+//     firstTeam: "Arizona Diamondbacks",
+//     secondTeam: "Baltimore Orioles",
+//     time: "01:07 PM",
+//     calender: "2020-09-28",
+//     stadium: "Empower Field",
+//   },
+//   {
+//     plyerName: "Chris Carpenter",
+//     rank: "SP",
+//     points: [
+//       {
+//         name: "2.7",
+//       },
+//       {
+//         name: "8-4",
+//       },
+//       {
+//         name: "99",
+//       },
+//       {
+//         name: "0.97",
+//       },
+//       {
+//         name: "25.2",
+//       },
+//     ],
+//     firstTeam: "Arizona Diamondbacks",
+//     secondTeam: "Baltimore Orioles",
+//     time: "01:07 PM",
+//     calender: "2020-09-28",
+//     stadium: "Empower Field",
+//   },
+//   {
+//     plyerName: "Chris Carpenter",
+//     rank: "SP",
+//     points: [
+//       {
+//         name: "2.7",
+//       },
+//       {
+//         name: "8-4",
+//       },
+//       {
+//         name: "99",
+//       },
+//       {
+//         name: "0.97",
+//       },
+//       {
+//         name: "25.2",
+//       },
+//     ],
+//     firstTeam: "Arizona Diamondbacks",
+//     secondTeam: "Baltimore Orioles",
+//     time: "01:07 PM",
+//     calender: "2020-09-28",
+//     stadium: "Empower Field",
+//   },
+//   {
+//     plyerName: "Chris Carpenter",
+//     rank: "SP",
+//     points: [
+//       {
+//         name: "2.7",
+//       },
+//       {
+//         name: "8-4",
+//       },
+//       {
+//         name: "99",
+//       },
+//       {
+//         name: "0.97",
+//       },
+//       {
+//         name: "25.2",
+//       },
+//     ],
+//     firstTeam: "Arizona Diamondbacks",
+//     secondTeam: "Baltimore Orioles",
+//     time: "01:07 PM",
+//     calender: "2020-09-28",
+//     stadium: "Empower Field",
+//   },
+// ];
 
-const Player = () => {
+const Player = ({items, onSwap}) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
 
@@ -131,15 +131,17 @@ const Player = () => {
 
   const slides = items.map((item, index) => {
     return (
-      <CarouselItem
-        onExiting={() => setAnimating(true)}
-        onExited={() => setAnimating(false)}
-        key={index}
-      >
-        <div className="swap__wrapper__playerWrapper ">
+      // <CarouselItem
+      //   onExiting={() => setAnimating(true)}
+      //   onExited={() => setAnimating(false)}
+      //   key={index}
+      // >
+        
+      // </CarouselItem>
+      <div className="swap__wrapper__playerWrapper ">
           <div className="heading">
             <h2>
-              <span>{item.rank}</span> {item.plyerName}
+              <span>{item.type}</span> {item.playerName}
             </h2>
           </div>
 
@@ -149,19 +151,19 @@ const Player = () => {
               <th>W-L</th>
               <th>K</th>
               <th>WHIP</th>
-              <th>FPPG</th>
             </thead>
             <tbody>
               <tr>
-                {item.points.map((point, key) => {
-                  return <td key={key}>{point.name}</td>;
-                })}
+                <td>{item?.playerStats?.earned_runs_average}</td>
+                <td>{item?.playerStats?.wins}-{item?.playerStats?.losses}</td>
+                <td>{item?.playerStats?.strike_outs}</td>
+                <td>{item?.playerStats?.walks_hits_per_innings_pitched}</td>
               </tr>
             </tbody>
           </table>
 
           <p>
-            {item.firstTeam} <span> VS {item.secondTeam} </span>{" "}
+            {item.homeTeam} <span> VS {item.awayTeam} </span>{" "}
           </p>
           <div className="swap__wrapper__playerWrapper__icons">
             <div>
@@ -170,7 +172,7 @@ const Player = () => {
             </div>
             <div>
               <img src="/images/calendar.svg" alt="time" />
-              <p>{item.calender}</p>
+              <p>{item.date}</p>
             </div>
             <div>
               <img src="/images/stadium.svg" alt="time" />
@@ -178,29 +180,34 @@ const Player = () => {
             </div>
           </div>
 
-          <button>
+          <button onClick={() => {
+            onSwap(item.playerId, item.match_id)
+          }}>
             <img src="/images/switch.svg" alt="icon" /> Swap
           </button>
         </div>
-      </CarouselItem>
     );
   });
 
   return (
-    <Carousel
-      activeIndex={activeIndex}
-      next={next}
-      previous={previous}
-      className="swap"
-    >
-      <CarouselIndicators
-        className="dots"
-        items={items}
-        activeIndex={activeIndex}
-        onClickHandler={goToIndex}
-      />
-      {slides}
-    </Carousel>
+    // <Carousel
+    //   activeIndex={activeIndex}
+    //   next={next}
+    //   previous={previous}
+    //   className="swap"
+    // >
+    //   {/* <CarouselIndicators
+    //     className="dots"
+    //     items={items}
+    //     activeIndex={activeIndex}
+    //     onClickHandler={goToIndex}
+    //   /> */}
+    //   {slides}
+    // </Carousel>
+    <>
+    {slides}
+    </>
+    
   );
 };
 

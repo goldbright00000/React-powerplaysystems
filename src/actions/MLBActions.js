@@ -13,6 +13,8 @@ export const MLB_USER_SAVED_GAMES = "[MLB] MLB_USER_SAVED_GAMES";
 export const MLB_USER_EDITED_GAMES = "[MLB] MLB_USER_EDITED_GAMES";
 export const SET_GAME_LOGS = "[MLB] SET_GAME_LOGS";
 export const SET_SELECTED_TEAM = "[MLB] SET_SELECTED_TEAM";
+export const FINAL_STANDINGS = "[MLB] FINAL_STANDINGS";
+
 
 const { FILTERS } = CONSTANTS;
 const { P, OF, C, SS, D, XB } = FILTERS.MLB;
@@ -109,9 +111,6 @@ export function mlbData(gameId) {
         sport_id,
       });
 
-      // console.log('mlbPlayerList', mlbPlayerList)
-      // console.log('filterdList', filterdList)
-
       return {
         filterdList: filterdList,
         allData: mlbPlayerList,
@@ -129,7 +128,7 @@ export function mlbData(gameId) {
         filterdList: [],
         allData: [],
         game_id: 0,
-        sport_id: 0
+        sport_id: 0,
       };
     }
   };
@@ -307,14 +306,8 @@ export async function getSavedTeamPlayers(payload) {
 
     const { data = {} } = playersResponse.data || {};
 
-    const {
-      game_id,
-      sport_id,
-      user_id,
-      team_id,
-      teamD = {},
-      players = [],
-    } = data || {};
+    const { game_id, sport_id, user_id, team_id, teamD = {}, players = [] } =
+      data || {};
 
     for (let i = 0; i < players?.length; i++) {
       const player = players[i];
@@ -395,8 +388,8 @@ export function setEditPlayers(
 export function getUserGames(user_id) {
   return async (dispatch) => {
     try {
-      const userGamesResponse = await http.post(URLS.DFS.MLB_USER_GAMES, {
-        user_id: user_id,
+      const userGamesResponse = await http.post("https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyGames", {
+        userID: user_id,
       });
       const { data = {} } = userGamesResponse || {};
       await dispatch({
@@ -500,7 +493,7 @@ export function getUserRemainingPowers(game_id, user_id) {
   };
 }
 
-export function updateUserRemainingPowers(game_id, user_id, power_id) {
+export function updateUserRemainingPowers(game_id, user_id, power_id, type = "powerDec") {
   return async (dispatch) => {
     try {
       // console.log("PAYLOAD: ", game_id, user_id, power_id);
@@ -510,6 +503,7 @@ export function updateUserRemainingPowers(game_id, user_id, power_id) {
           game_id: game_id,
           user_id: user_id,
           power_id: power_id,
+          type: type
         }
       );
       return dispatch({
@@ -550,75 +544,46 @@ export function getLiveStandings(game_id) {
 
 //leave game delete data
 
-export function deleteLivePageTeam(payload) {
+export function leaveGame(user_id, game_id) {
   return async (dispatch) => {
     try {
-      const response = await http.delete(URLS.DFS.MLB_DELETE_PLAYERS, payload);
-      const { message = "", error = false } = response.data || {};
-      if (!error && message === "Success") {
-        //get the live page players and save them in redux
-        try {
-          if (!payload.game_id || !payload.user_id) {
-            return alert(
-              "Invalid informations",
-              payload.game_id,
-              payload.user_id,
-            );
-          }
-        } catch (er) { }
-      }
-    } catch (err) { }
-  };
-}
-
-export function deleteAdminFee(user_id, game_id) {
-  console.log('deleteAdminFee', user_id, game_id);
-  return async (dispatch) => {
-    try {
-      http.post(
-        `${process.env.REACT_APP_API_URL}/${URLS.DFS.DELETE_ADMIN_FEE}`,
-        {
-          user_id,
-          game_id,
-        }
-      );
-    } catch (err) {
-      console.log(err);
+      http.post(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.LEAVE_GAME}`, {
+        user_id,
+        game_id,
+      });
+      return true;
+    } catch (error) {
+      return false;
     }
   };
 }
 
-export function returnUserBalance(user_id, game_id) {
+export function getFinalStandings(game_id) {
   return async (dispatch) => {
     try {
-      http.post(
-        `${process.env.REACT_APP_API_URL}/${URLS.DFS.RETURN_USER_BALANCE}`,
-        {
-          user_id,
-          game_id,
-        }
-      );
-    } catch (err) {
-      console.log(err);
+      const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.GET_FINAL_STANDINGS}/${game_id}`);
+      await dispatch({
+        type: FINAL_STANDINGS,
+        payload: response?.data,
+      });
+
+    } catch (error) {
+      return false;
     }
   };
 }
 
-
-//delete on leave game
-export function returnPrizePool(user_id, game_id) {
-  return async (dispatch) => {
-    try {
-      http.post(
-        `${process.env.REACT_APP_API_URL}/${URLS.DFS.RETURN_PRIZE_POOL}`,
-        {
-          user_id,
-          game_id,
-        }
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
+export async function  getTeamsList() {
+  const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.USER.TEAM_LIST}`);
+  console.log(response);
+  return response;
 }
 
+export async function  saveFreeEntry(payload) {
+  try {
+    let res = await http.post(`${process.env.REACT_APP_API_URL}/${URLS.GAMES.FREE_ENTRY}`, payload);
+    return res;
+  } catch (error) {
+    return false;
+  }
+}

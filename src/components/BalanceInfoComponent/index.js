@@ -10,7 +10,7 @@ import Ticket from "../../icons/Ticket";
 import CashBalance from "../../assets/points-collected.png";
 import Token from "../../assets/token.png";
 import Bitcoin from "../../assets/bitcoin.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum-grey.svg";
 import Money from "../../icons/Money";
 import ListItem from "./ListItem";
 import Modal from "../Modal";
@@ -18,6 +18,8 @@ import Input from "../Input";
 import Checkbox from "../Checkbox";
 import Select from "../Select";
 import { getCountries, getStates, getProvinces, getLocalStorage } from "../../utility/shared";
+import tick from '../../assets/tick.png'
+
 import {
   getDays,
   getMonths,
@@ -119,7 +121,8 @@ function BalanceInfoComponent(props) {
     month: 10,
     year: 1998,
   });
-
+  const [isTerms, setIsTerms] = useState(false);
+  const refTerms = React.createRef();
   const dispatch = useDispatch();
 
   const [showModal, setModalState] = useState(false);
@@ -131,7 +134,12 @@ function BalanceInfoComponent(props) {
 
   useEffect(() => {
     printLog(balance);
+    //setActiveForm(0);
   }, []);
+
+  useEffect(() => {
+    console.log("activeForm",activeForm);
+  }, [activeForm]);
 
   const changeInputHandler = (e) => {
     const { target: { value = "", name = "", min, max } = {} } = e || {};
@@ -193,15 +201,34 @@ function BalanceInfoComponent(props) {
   };
 
   const checkValid = () => {
-    if (form?.addr1.length > 0 && form?.balance_amount > 0 && form?.country.length > 0 &&
-      form?.day.length > 0 && form?.fname.length > 0 && form?.lname.length > 0 &&
-      form?.month.length > 0 && form?.postCode.length > 0 && form?.region.length > 0 &&
-      form?.region.length > 0 && form?.send_to.length > 0 && form?.termsAndConditions && form?.year) {
-
+    if(isMobile)
+    {
+      if(activeForm == 2)
+      {
+        if (form?.addr1 && form?.balance_amount > 0 && form?.country &&
+          form?.day && form?.fname && form?.lname &&
+          form?.month && form?.postCode && form?.region &&
+          form?.region && form?.send_to && form?.termsAndConditions && form?.year) {
+  
+          return true;
+        } else {
+          return false;
+        }
+      }
       return true;
-    } else {
-      return false;
     }
+    else {
+      if (form?.addr1.length > 0 && form?.balance_amount > 0 && form?.country.length > 0 &&
+        form?.day.length > 0 && form?.fname.length > 0 && form?.lname.length > 0 &&
+        form?.month.length > 0 && form?.postCode.length > 0 && form?.region.length > 0 &&
+        form?.region.length > 0 && form?.send_to.length > 0 && form?.termsAndConditions && form?.year) {
+
+        return true;
+      } else {
+        return false;
+      }
+    }
+    
   }
 
   return (
@@ -569,6 +596,24 @@ function BalanceInfoComponent(props) {
                   />
                 </div>
               </div>
+              
+              {/* <div className={classes.terms}>
+                  <div className={classes.checkboxalt} onClick={() => {
+                    let currentStatus = !refTerms.current.checked;
+                    refTerms.current.checked = currentStatus;
+                    setIsTerms(currentStatus);
+                  }}>
+                    {isTerms && 
+                      <img src={tick}/>
+                    }
+                  </div>
+                  <input 
+                    type="checkbox"
+                    ref={refTerms}
+                    style={{display: "none"}}
+                  />
+                  I agree to PowerPlay Systems Terms and Conditions
+              </div> */}
 
               <div
                 className={`${classes.form_control} ${classes.margin_t_10} ${classes.form_control_center}`}

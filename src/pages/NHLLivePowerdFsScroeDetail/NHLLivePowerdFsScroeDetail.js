@@ -14,6 +14,7 @@ import SportsContestRules from "../../components/SportsContestRules";
 import MLBFooterImage from "../../assets/NHL.png";
 import NHLGear from "../../assets/nhl-gear.png";
 import LiveStandings from "../../components/LiveStandings";
+import { redirectTo } from "../../utility/shared";
 
 const basicRules = [
   "No purchase necessary.",
@@ -52,9 +53,8 @@ function NHLLivePowerdFsScroeDetail(props) {
     runningTotal,
   }) => (
     <div
-      className={`${classes.card_row} ${classes.card_row_1} ${
-        score < 0 ? classes.primary_bg : ""
-      }`}
+      className={`${classes.card_row} ${classes.card_row_1} ${score < 0 ? classes.primary_bg : ""
+        }`}
     >
       <span className={classes.child_1}>{position}</span>
       <span className={classes.child_2}>{name}</span>
@@ -85,9 +85,9 @@ function NHLLivePowerdFsScroeDetail(props) {
       <Header />
       <div className={classes.wrapper}>
         <Header3
-          titleMain1="NHL 2021"
+          titleMain1="NHL"
           titleMain2="PowerdFS"
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           subHeader1="Introducing Live-Play Fantasy Hockey"
           subHeader2="Play for your chance to win $1000!"
@@ -108,6 +108,9 @@ function NHLLivePowerdFsScroeDetail(props) {
                 }
                 onPress={toggleLiveStandingModal}
                 singleBtn
+                onGoBack={() => {
+                  redirectTo(props, { path: "/my-game-center" })
+                }}
               />
               <div className={classes.card_rank}>
                 <RankCard showButton={false} />

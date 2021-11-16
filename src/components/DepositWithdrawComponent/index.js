@@ -7,19 +7,20 @@ import TickIcon from "../../assets/icons/correct-copy.png";
 const DepositWithdrawComponent = (props) => {
   let { isMobile = false, transactions = [] } = props || {};
 
-  transactions = transactions.filter(el =>
+  transactions = transactions.filter((el) =>
     el?.transaction_type_details?.type === 'Deposit' ||
     el?.transaction_type_details?.type === 'Requested' ||
     el?.transaction_type_details?.type === 'Verification in-process' ||
     el?.transaction_type_details?.type === 'Verified payment-pending' ||
-    el?.transaction_type_details?.type === 'Paid'
+    el?.transaction_type_details?.type === 'Paid' ||
+    el?.transaction_type_details?.type?.split(' ')[0] === 'Powerup'
   );
 
   const TableRow = (props) => {
     const { transaction = {}, isMobile = false } = props || {};
 
     const getDate = (timestamp) => {
-      return moment(timestamp).format("MMMM D");
+      return moment(timestamp).format("MMM D");
     };
 
     const getTime = (timestamp) => {
@@ -39,7 +40,7 @@ const DepositWithdrawComponent = (props) => {
                 <br />{" "}
                 <span className={classes.values}>
                   {" "}
-                  {transaction?.transaction_type_details?.type === 'Deposit' ? transaction?.transaction_type_details?.type : transaction?.transaction_type || "--"}{" "}
+                  {transaction?.transaction_type_details?.type}{" "}
                 </span>{" "}
               </div>
               <div className={classes.col_details}>
@@ -59,10 +60,10 @@ const DepositWithdrawComponent = (props) => {
             <div className={classes.row}>
               <div className="mx-1 text-left text-ellipsis">{getDate(transaction.date_time)} </div>
               <div className="mx-1 text-left text-ellipsis">{getTime(transaction.date_time)} </div>
-              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type === 'Deposit' ? (transaction?.transaction_type_details?.type) : (transaction?.transaction_type) || "--"} </div>
-              <div className="mx-1 text-left text-ellipsis">{transaction.balance_type?.toUpperCase()}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type} </div>
+              <div className="mx-1 text-left text-ellipsis">{transaction.balance_type === 'cash' ? 'USD' : transaction.balance_type?.toUpperCase()}</div>
               <div className="mx-1 text-left text-ellipsis">{transaction.balance_result === 'increase' ? ` + ` : ' - '} {transaction.transaction_amount || "--"}</div>
-              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type === 'Deposit' ? (transaction.balance_result === 'increase' ? `Verified` : 'Entered') : (transaction?.transaction_type_details?.type)}</div>
+              <div className="mx-1 text-left text-ellipsis">{transaction?.transaction_type_details?.type === 'Deposit' ? (transaction.balance_result === 'increase' ? `Verified` : 'Entered') : (transaction.balance_result === 'increase' ? `Increased` : 'Decreased')}</div>
             </div>
           </>
         )}

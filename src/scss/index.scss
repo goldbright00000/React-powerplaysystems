@@ -151,3 +151,16 @@ button {
   background: rgba(0,0,0,0.2);
   padding-bottom: 15px;
 }
+
+.disabled {
+  opacity: 0.5;
+}
+
+.section-nav li.active > a {
+	color: #fb6e00;
+	font-weight: 500;
+}
+
+/* 3. ScrollSpy active styles (see JS tab for activation) */
+
+

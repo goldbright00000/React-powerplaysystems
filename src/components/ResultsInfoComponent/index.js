@@ -4,7 +4,7 @@ import Accordian from "../Accordian";
 import Power from "../../assets/power-play-sidebar-icon.png";
 import Token from "../../assets/points-collected.png";
 import Bitcoin from "../../assets/bitcoin.png";
-import Ethereum from "../../assets/ethereum.png";
+import Ethereum from "../../assets/ethereum-grey.svg";
 import { printLog } from "../../utility/shared";
 
 const data = [
@@ -13,7 +13,7 @@ const data = [
     cash: "$4500",
     dataTitle: "USD Cash Prizes",
     type: "cashBalance",
-    balanceType: "cash",
+    balanceType: "USD",
     iconWithTitle: Token,
   },
   {
@@ -21,7 +21,7 @@ const data = [
     cash: "5,000",
     dataTitle: "Power Token Prizes",
     type: "tokenBalance",
-    balanceType: "pwrs",
+    balanceType: "PWRS",
     iconWithTitle: Power,
   },
   {
@@ -29,7 +29,7 @@ const data = [
     cash: "$4500",
     dataTitle: "Bitcoin Prizes",
     type: "btcBalance",
-    balanceType: "eth",
+    balanceType: "ETH",
     iconWithTitle: Bitcoin,
   },
   {
@@ -37,14 +37,14 @@ const data = [
     cash: "$4500",
     dataTitle: "Ethereum Prizes",
     type: "ethBalance",
-    balanceType: "btc",
+    balanceType: "BTC",
     iconWithTitle: Ethereum,
   },
 ];
 
-function ResultsInforComponent(props) {
-  const [activeTab, setActiveTab] = useState();
-  const { isMobile = false, balance = {}, transactions = [] } = props || {};
+function ResultsInfoComponent(props) {
+  const [activeTab, setActiveTab] = useState(null);
+  const { isMobile = false, balance = {}, userWinnigs = [] } = props || {};
   const onClickAccordian = (index) => {
     setActiveTab(activeTab === null ? index : null);
     printLog(balance);
@@ -53,28 +53,31 @@ function ResultsInforComponent(props) {
   return (
     <>
       {data.map((v, ind) => (
-        <Accordian
-          title={v.dataTitle}
-          visible={ind === activeTab}
-          onClick={() => onClickAccordian(ind)}
-          cashTitle={v.cashTitle}
-          cash={balance[v.type]}
-          key={ind.toString()}
-          isMobile={isMobile}
-          transactions={transactions?.filter(
-            (transaction) =>
-              transaction.balance_type == v.balanceType &&
-              transaction?.transaction_type_details?.type === "Prize"
-          )}
-          iconWithTitle={v.iconWithTitle}
-        />
+        <>
+          <Accordian
+            title={v.dataTitle}
+            visible={ind === activeTab}
+            onClick={() => onClickAccordian(ind)}
+            cashTitle={v.cashTitle}
+            cash={balance[v.type]}
+            key={ind.toString()}
+            isMobile={isMobile}
+            transactions={userWinnigs?.filter(
+              (transaction) =>
+                transaction.currency === v.balanceType
+            )}
+            iconWithTitle={v.iconWithTitle}
+            getLiveStandings={props.getLiveStandings}
+          />
+        </>
       ))}
+
     </>
   );
 }
 
-ResultsInforComponent.propTypes = {
+ResultsInfoComponent.propTypes = {
   isMobile: PropTypes.bool,
 };
 
-export default ResultsInforComponent;
+export default ResultsInfoComponent;

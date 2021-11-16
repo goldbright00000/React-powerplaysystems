@@ -22,7 +22,7 @@ function Accordian(props) {
   useEffect(() => {
     let sum = 0;
     transactions.forEach((element) => {
-      sum = sum + element.transaction_amount;
+      sum = sum + element.win_amount;
     });
     setSub(cash - sum);
   }, []);
@@ -33,7 +33,7 @@ function Accordian(props) {
         <span className={classes.accoridan_bar_icon_with_title_span}>
           {iconWithTitle && (
             <span className={classes.accoridan_bar_icon}>
-              <img src={iconWithTitle} width="23" height="20" alt="" />
+              <img src={iconWithTitle}  height="20" alt="" />
             </span>
           )}
         </span>
@@ -56,7 +56,7 @@ function Accordian(props) {
               <span className={classes.amount}>{cash - sub}</span>
             </span>
           )}
-          {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} />}
+          {Icon && isSvg ? <Icon /> : Icon && <img src={Icon} alt="" />}
           <i
             className={`${classes.arrow} ${visible ? classes.up : classes.down
               }`}
@@ -65,7 +65,7 @@ function Accordian(props) {
       </div>
 
       {visible && (
-        <ResultCard isMobile={isMobile} transactions={transactions} />
+        <ResultCard isMobile={isMobile} transactions={transactions} getLiveStandings={props.getLiveStandings}/>
       )}
     </div>
   );
@@ -80,6 +80,7 @@ Accordian.propTypes = {
   isSvg: PropTypes.bool,
   onClick: PropTypes.func,
   isMobile: PropTypes.bool,
+  getLiveStandings: PropTypes.func
 };
 
 export default Accordian;

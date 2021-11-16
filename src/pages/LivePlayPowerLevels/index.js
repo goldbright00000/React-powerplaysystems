@@ -222,7 +222,7 @@ function LivePlayPowerLevels(props) {
       <Header />
       <div className={classes.wrapper}>
         <Header4
-          titleMain1="MLB 2021"
+          titleMain1="MLB"
           titleMain2="PowerdFS"
           subHeader1="Introducing Live-Play Fantasy Baseball"
           subHeader2={
@@ -231,7 +231,7 @@ function LivePlayPowerLevels(props) {
               team up the standings
             </>
           }
-          contestBtnTitle="Contest Rules"
+          contestBtnTitle="Gameplay Rules"
           prizeBtnTitle="Prize Grid"
           bgImageUri={BaseballImage}
           compressedView
@@ -250,6 +250,9 @@ function LivePlayPowerLevels(props) {
               onSingleView={() => setView(CONSTANTS.NHL_VIEW.S)}
               teamManagerLink="/mlb-live-powerdfs"
               scoreDetailLink="/mlb-live-powerdfs/my-score-details"
+              onGoBack={() => {
+                redirectTo(props, { path: "/my-game-center" })
+              }}
             />
             <Card>{RenderView()}</Card>
             <div className={classes.left_side_footer}>

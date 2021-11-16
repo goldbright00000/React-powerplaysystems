@@ -2,7 +2,7 @@
 
 .__power_center_card {
     width: 337px;
-    height: 240px;
+    height: 250px;
     border-radius: 8px;
     background-color: $black2;
 
@@ -16,7 +16,12 @@
             flex: 1;
             justify-content: flex-start;
             align-items: flex-start;
-
+            padding-right: 10px;
+            .__power_center_card_game_id{
+                font-size: 11px;
+                color: #f2f2f2;
+                opacity: 0.6;
+            }
             .__power_center_card_date_time {
                 width: 100%;
                 height: 17px;

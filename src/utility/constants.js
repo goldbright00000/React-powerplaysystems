@@ -62,6 +62,11 @@ export const CONSTANTS = {
       SUCCESS: "on_payment_success",
       FAILURE: "on_payment_failure",
     },
+    GAMES: {
+      NEWLY_ADDED: "on_newly_added_game",
+      IN_PROGRESS: "on_update_to_in_progress",
+      CANCELLED: "on_update_to_cancelled",
+    },
     MLB: {
       LIVE: {
         EMIT_ROOM: "ON_EMIT_LIVE_DATA",
@@ -76,6 +81,37 @@ export const CONSTANTS = {
         FANTASY_TEAM_UPDATE: "FANTASY_TEAM_UPDATE",
       },
     },
+    NFL: {
+      LIVE: {
+        EMIT_ROOM: "NFL_ON_EMIT_LIVE_DATA",
+        ON_ROOM_SUB: "NFL_POWER_DFS_LIVE_SUBSCRIBE",
+        ON_ROOM_UN_SUB: "NFL_POWER_DFS_LIVE_UN_SUBSCRIBE",
+        ON_POWER_APPLIED: "NFL_ON_POWER_APPLIED",
+        ON_GLOBAL_RANKING_REQUEST: "NFL_ON_GLOBAL_RANKING_REQUEST",
+        ON_FANTASY_LOGS_REQUEST: "NFL_ON_FANTASY_LOGS_REQUEST",
+        GET_GLOBAL_RANKING: "NFL_GET_GLOBAL_RANKING",
+        MATCH_UPDATE: "NFL_MATCH_UPDATE",
+        GLOBAL_RANKING: "NFL_GLOBAL_RANKING",
+        FANTASY_TEAM_UPDATE: "NFL_FANTASY_TEAM_UPDATE",
+      },
+    },
+    NHL: {
+      LIVE: {
+        NHL_CONNECT_MATCH_ROOM: "NHL_CONNECT_MATCH_ROOM",
+        NHL_GET_MATCH_ROOM_UPDATES: "NHL_GET_MATCH_ROOM_UPDATES",
+        ALL_UPDATES: "NHL_MATCH_ROOM_",
+        EMIT_ROOM: "NHL_ON_EMIT_LIVE_DATA",
+        ON_ROOM_SUB: "NHL_POWER_DFS_LIVE_SUBSCRIBE",
+        ON_ROOM_UN_SUB: "NHL_POWER_DFS_LIVE_UN_SUBSCRIBE",
+        ON_POWER_APPLIED: "NHL_ON_POWER_APPLIED",
+        ON_GLOBAL_RANKING_REQUEST: "NHL_ON_GLOBAL_RANKING_REQUEST",
+        ON_FANTASY_LOGS_REQUEST: "NHL_ON_FANTASY_LOGS_REQUEST",
+        GET_GLOBAL_RANKING: "NHL_GET_GLOBAL_RANKING",
+        MATCH_UPDATE: "NHL_MATCH_UPDATE",
+        GLOBAL_RANKING: "NHL_GLOBAL_RANKING",
+        FANTASY_TEAM_UPDATE: "NHL_FANTASY_TEAM_UPDATE",
+      },
+    },
   },
 
   LOCAL_STORAGE_KEYS: {
@@ -86,6 +122,9 @@ export const CONSTANTS = {
     ETH_BALANCE: "eth_balance",
     DISPLAY_BALANCE: "display_balance",
     MLB_LIVE_GAME: "mlb_live_game",
+    NFL_LIVE_GAME: "nfl_live_game",
+    NHL_LIVE_GAME: "nhl_live_game",
+    NHL_LIVE_GAME_ID: "nhl_live_game_id",
   },
 
   BUTTON_TYPE: {
@@ -104,6 +143,7 @@ export const CONSTANTS = {
   FILTERS: {
     NHL: {
       CENTER: "c",
+      XW: "xw",
       LW: "lw",
       RW: "rw",
       D: "d",
@@ -144,6 +184,12 @@ export const CONSTANTS = {
   },
 
   NHL_VIEW: {
+    FV: "fv",
+    C: "c",
+    S: "s",
+  },
+
+  NFL_VIEW: {
     FV: "fv",
     C: "c",
     S: "s",

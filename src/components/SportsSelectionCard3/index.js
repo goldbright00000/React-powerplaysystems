@@ -11,7 +11,8 @@ import StarIcon from "../../icons/Star";
 import ForwardArrow from "../../icons/ForwardArrow";
 import AidIcon from "../../icons/AidIcon";
 import MLBPlayerStat from "./MLBPlayerStat";
-import NFLPlayerStat from "./NLFPlayerStats";
+import NFLPlayerStat from "./NFLPlayerStats";
+import NHLPlayerStat from "./NHLPlayerStats";
 import StarterStats from "./StarterStats";
 import { PAGE_TYPES } from "./PageTypes";
 import MLBDetailStats from "./MLBDetailStats";
@@ -22,6 +23,42 @@ import { Carousel } from "react-responsive-carousel";
 import "./carousel.scss";
 
 import { useMediaQuery } from "react-responsive";
+import moment from "moment";
+
+var teamsArray = [
+  "Anaheim Ducks	Ducks	https://fanatics.93n6tx.net/c/2068372/620845/9663",
+  "Arizona Coyotes	Coyotes	https://fanatics.93n6tx.net/c/2068372/620810/9663",
+  "Boston Bruins	Bruins	https://fanatics.93n6tx.net/c/2068372/620812/9663",
+  "Buffalo Sabres	Sabres	https://fanatics.93n6tx.net/c/2068372/620814/9663",
+  "Calgary Flames	Flames	https://fanatics.93n6tx.net/c/2068372/620815/9663",
+  "Carolina Hurricanes	Hurricanes	https://fanatics.93n6tx.net/c/2068372/620816/9663",
+  "Chicago Blackhawks	Blackhawks	https://fanatics.93n6tx.net/c/2068372/620817/9663",
+  "Colorado Avalanche	Avalanche	https://fanatics.93n6tx.net/c/2068372/620819/9663",
+  "Columbus Blue Jackets	Jackets	https://fanatics.93n6tx.net/c/2068372/620820/9663",
+  "Dallas Stars	Stars	https://fanatics.93n6tx.net/c/2068372/620822/9663",
+  "Detroit Red Wings	Wings	https://fanatics.93n6tx.net/c/2068372/620823/9663",
+  "Edmonton Oilers	Oilers	https://fanatics.93n6tx.net/c/2068372/620824/9663",
+  "Florida Panthers	Panthers	https://fanatics.93n6tx.net/c/2068372/620825/9663",
+  "Los Angeles Kings	Kings	https://fanatics.93n6tx.net/c/2068372/620826/9663",
+  "Minnesota Wild	Wild	https://fanatics.93n6tx.net/c/2068372/620828/9663",
+  "Montreal Canadiens	Canadiens	https://fanatics.93n6tx.net/c/2068372/620830/9663",
+  "Nashville Predators	Predators	https://fanatics.93n6tx.net/c/2068372/620831/9663",
+  "New Jersey Devils	Devils	https://fanatics.93n6tx.net/c/2068372/620833/9663",
+  "New York Islanders	Islanders	https://fanatics.93n6tx.net/c/2068372/620835/9663",
+  "New York Rangers	Rangers	https://fanatics.93n6tx.net/c/2068372/620836/9663",
+  "Ottawa Senators	Senators	https://fanatics.93n6tx.net/c/2068372/620838/9663",
+  "Philadelphia Flyers	Flyers	https://fanatics.93n6tx.net/c/2068372/620839/9663",
+  "Pittsburgh Penguins	Penguins	https://fanatics.93n6tx.net/c/2068372/620840/9663",
+  "San Jose Sharks	Sharks	https://fanatics.93n6tx.net/c/2068372/620841/9663",
+  "Seattle Kracken	Kracken	https://fanatics.93n6tx.net/c/2068372/860547/9663?subId1=Seattle_Kraken",
+  "St. Louis Blues	Blues	https://fanatics.93n6tx.net/c/2068372/620842/9663",
+  "Tampa Bay Lightning	Lightning	https://fanatics.93n6tx.net/c/2068372/620843/9663",
+  "Toronto Maple Leafs	Leafs	https://fanatics.93n6tx.net/c/2068372/620844/9663",
+  "Vancouver Canucks	Canucks	https://fanatics.93n6tx.net/c/2068372/620845/9663",
+  "Vegas Golden Knights	Knights	https://fanatics.93n6tx.net/c/2068372/620846/9663",
+  "Washington Capitals	Capitals	https://fanatics.93n6tx.net/c/2068372/620847/9663",
+  "Winnipeg Jets	Jets	https://fanatics.93n6tx.net/c/2068372/620848/9663",
+];
 
 function SportsSelectionCard3(props) {
   const [currentStep, setCurrentStep] = useState(0);
@@ -29,7 +66,7 @@ function SportsSelectionCard3(props) {
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (playerId, matchId) => {},
+    onSelectDeselect = (id, matchId) => {},
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -39,45 +76,92 @@ function SportsSelectionCard3(props) {
   } = props || {};
 
   const {
-    playerName = "",
+    playerId = "",
+    full_name: playerName = "",
+    id = "",
+    full_name = "",
     homeTeam = "",
     awayTeam = "",
     date = "",
     time = "",
     stadium = "",
-    playerId = "",
     isStarPlayer = false,
     playerStats = {},
-    injured = false,
     position = "",
     match_id,
     primary_position = "",
     is_star_player = false,
+    is_starPlayer = false,
+    injured = false,
+    is_injured = false,
+    isInjured = false,
+    status = "",
+    match = {},
+    seasons = [],
+    team = {},
   } = player || {};
 
+
+  const { home = {}, away = {}, scheduled, venue = {} } = match || {};
+
+  const { teams = [] } = seasons[seasons.length - 1] || {};
+  const { statistics = {}, goaltending = {} } = teams[teams.length - 1] || {};
+
+  // let [teams, setTeams] = useState([]);
+  // let [statistics, setStatistics] = useState({});
+
+  // useEffect(() => {
+  //   if (seasons) {
+  //     if (seasons.length > 0) {
+  //       setTeams(seasons[seasons.length - 1]);
+  //     }
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (teams) {
+  //     for (let item of teams) {
+  //       if (item.id == team.id) {
+  //         setStatistics(item.statistics);
+  //         break;
+  //       }
+  //     }
+  //   }
+  // }, [teams]);
+
   const checkIfIsStarPlayer = () => {
-    if (type == "p" || type == "P") {
-      if (player?.playerStats?.earned_runs_average < 3.5) {
-        return true;
-      }
+    if (pageType === PAGE_TYPES.NHL) {
+      if (is_starPlayer) return true;
     } else {
-      if (
-        player?.playerStats?.batting_average > 0.29 ||
-        player?.playerStats?.home_runs > 30
-      ) {
-        return true;
+      if (type == "p" || type == "P") {
+        if (player?.playerStats?.earned_runs_average < 3.5) {
+          return true;
+        }
+      } else {
+        if (
+          player?.playerStats?.batting_average > 0.29 ||
+          player?.playerStats?.home_runs > 30
+        ) {
+          return true;
+        }
       }
     }
+
     return false;
   };
 
   const nextStep = () => {
     let _currentStep = currentStep;
-    if (currentStep !== 2) {
-      _currentStep++;
-    } else {
+    if (_currentStep == 0) {
+      _currentStep = 2;
+    } else if (_currentStep == 2) {
       _currentStep = 0;
     }
+    // if (currentStep !== 2) {
+    //   _currentStep++;
+    // } else {
+    //   _currentStep = 0;
+    // }
 
     setCurrentStep(_currentStep);
   };
@@ -99,6 +183,15 @@ function SportsSelectionCard3(props) {
             playerStats={playerStats}
             active={isSelected}
             position={primary_position}
+          />
+        );
+
+      case PAGE_TYPES.NHL:
+        return (
+          <NHLPlayerStat
+            playerStats={{ statistics, goaltending }}
+            active={isSelected}
+            position={type}
           />
         );
 
@@ -126,10 +219,19 @@ function SportsSelectionCard3(props) {
             isSelected ? classes.active : ""
           }`}
         >
-          <span>{primary_position}</span>
-          {playerName}
+          {pageType === PAGE_TYPES.NHL ? (
+            <>
+              <span>{type}</span>
+              {full_name}
+            </>
+          ) : (
+            <>
+              <span>{primary_position}</span>
+              {playerName}
+            </>
+          )}
         </p>
-        {props.player.isInjured && !isMobile && (
+        {(isInjured || is_injured || injured || status === "IR") && (
           <div className={classes.injured}>
             <AidIcon />
             <span>Injured</span>
@@ -137,7 +239,13 @@ function SportsSelectionCard3(props) {
         )}
         {!isSelected ? (
           <button
-            onClick={() => onSelectDeselect(playerId, match_id)}
+            onClick={() => {
+              if (pageType === PAGE_TYPES.NHL) {
+                onSelectDeselect(id, match_id);
+              } else {
+                onSelectDeselect(playerId, match_id);
+              }
+            }}
             className={disabled && classes.disabled}
             disabled={disabled}
           >
@@ -149,7 +257,7 @@ function SportsSelectionCard3(props) {
               <Tick2 /> Selected{" "}
               <img
                 src={DeleteIcon}
-                onClick={() => onSelectDeselect(playerId, match_id)}
+                onClick={() => onSelectDeselect(id, match_id)}
               />
             </p>
           </div>
@@ -182,15 +290,32 @@ function SportsSelectionCard3(props) {
 
                   <div className={classes.divider}></div>
                   <p className={classes.container_body_footer}>
-                    <span>
-                      <ClockIcon /> {time}
-                    </span>
-                    <span>
-                      <CalenderIcon /> {date}
-                    </span>
-                    <span>
-                      <StadiumIcon /> {stadium}
-                    </span>
+                    {pageType === PAGE_TYPES.NHL ? (
+                      <>
+                        <span>
+                          <ClockIcon /> {moment(scheduled).format("h:mm A")}
+                        </span>
+                        <span>
+                          <CalenderIcon />
+                          {moment(scheduled).format("YYYY-MM-DD")}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {venue.name}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          <ClockIcon /> {time}
+                        </span>
+                        <span>
+                          <CalenderIcon /> {date}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {stadium}
+                        </span>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>
@@ -207,21 +332,56 @@ function SportsSelectionCard3(props) {
                 <div className={classes.card_footer_left}>
                   <div className={classes.divider}></div>
                   <p className={classes.container_body_footer}>
-                    <span>
-                      <ClockIcon /> {time}
-                    </span>
-                    <span>
-                      <CalenderIcon /> {date}
-                    </span>
-                    <span>
-                      <StadiumIcon /> {stadium}
-                    </span>
+                    {pageType === PAGE_TYPES.NHL ? (
+                      <>
+                        <span>
+                          <ClockIcon /> {moment(scheduled).format("h:mm A")}
+                        </span>
+                        <span>
+                          <CalenderIcon />
+                          {moment(scheduled).format("YYYY-MM-DD")}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {venue.name}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span>
+                          <ClockIcon /> {time}
+                        </span>
+                        <span>
+                          <CalenderIcon /> {date}
+                        </span>
+                        <span>
+                          <StadiumIcon /> {stadium}
+                        </span>
+                      </>
+                    )}
                   </p>
                 </div>
               </div>
             </>
 
-            <img src={AdImage} />
+            <img
+              src={AdImage}
+              onClick={() => {
+                if (pageType == "nhl") {
+                  let teamName = player?.team?.name;
+                  if (teamName) {
+                    let teamIndex = teamsArray.findIndex(
+                      (x) => x.indexOf(teamName) >= 0
+                    );
+                    if (teamIndex >= 0) {
+                      let teamRecord = teamsArray[teamIndex];
+                      let convertSpace = teamRecord.replaceAll(/\t/g, " ");
+                      let splitted = convertSpace.split(" ");
+                      window.open(splitted[splitted.length - 1]);
+                    }
+                  }
+                }
+              }}
+            />
           </Carousel>
         ) : (
           <>
@@ -230,7 +390,25 @@ function SportsSelectionCard3(props) {
             ) : currentStep === 1 ? (
               <MLBDetailStats position={primary_position} />
             ) : (
-              <img src={AdImage} />
+              <img
+                src={AdImage}
+                onClick={() => {
+                  if (pageType == "nhl") {
+                    let teamName = player?.team?.name;
+                    if (teamName) {
+                      let teamIndex = teamsArray.findIndex(
+                        (x) => x.indexOf(teamName) >= 0
+                      );
+                      if (teamIndex >= 0) {
+                        let teamRecord = teamsArray[teamIndex];
+                        let convertSpace = teamRecord.replaceAll(/\t/g, " ");
+                        let splitted = convertSpace.split(" ");
+                        window.open(splitted[splitted.length - 1]);
+                      }
+                    }
+                  }
+                }}
+              />
             )}
           </>
         )}
@@ -241,21 +419,43 @@ function SportsSelectionCard3(props) {
           {currentStep === 0 && (
             <div className={classes.card_footer_left}>
               <p>
-                <span className={classes.teamA}>{homeTeam}</span> VS{" "}
-                <span className={classes.teamB}>{awayTeam}</span>
+                <span className={classes.teamA}>
+                  {PAGE_TYPES.NHL === pageType ? home.name : homeTeam}
+                </span>{" "}
+                VS{" "}
+                <span className={classes.teamB}>
+                  {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
+                </span>
               </p>
 
               <div className={classes.divider}></div>
               <p className={classes.container_body_footer}>
-                <span>
-                  <ClockIcon /> {time}
-                </span>
-                <span>
-                  <CalenderIcon /> {date}
-                </span>
-                <span>
-                  <StadiumIcon /> {stadium}
-                </span>
+                {pageType === PAGE_TYPES.NHL ? (
+                  <>
+                    <span>
+                      <ClockIcon /> {moment(scheduled).format("h:mm A")}
+                    </span>
+                    <span>
+                      <CalenderIcon />
+                      {moment(scheduled).format("YYYY-MM-DD")}
+                    </span>
+                    <span>
+                      <StadiumIcon /> {venue.name}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span>
+                      <ClockIcon /> {time}
+                    </span>
+                    <span>
+                      <CalenderIcon /> {date}
+                    </span>
+                    <span>
+                      <StadiumIcon /> {stadium}
+                    </span>
+                  </>
+                )}
               </p>
             </div>
           )}

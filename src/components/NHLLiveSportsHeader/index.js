@@ -6,6 +6,7 @@ import classes from "./index.module.scss";
 import BackArrow from "../../icons/BackArrow";
 import { CONSTANTS } from "../../utility/constants";
 import { redirectTo } from "../../utility/shared";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 
 function NHLLiveSportsHeader(props) {
   const {
@@ -16,6 +17,8 @@ function NHLLiveSportsHeader(props) {
     buttonTitle = "",
     singleBtn = false,
     buttonIcon = "",
+    activeTab = "",
+    handleChangeTab = () => {},
     teamManagerLink = "",
     scoreDetailLink = "",
     onPress = () => {},
@@ -26,7 +29,6 @@ function NHLLiveSportsHeader(props) {
     onGoBack = () => {},
     state = {},
   } = props || {};
-
   const renderActiveButton = () => (
     <div className={classes.right_menu}>
       <button
@@ -65,36 +67,35 @@ function NHLLiveSportsHeader(props) {
       </button>
 
       <div className={classes.container_nav}>
-        <ul>
-          <li>
-            <NavLink
-              exact
-              to={teamManagerLink || "/nhl-live-powerdfs"}
-              activeClassName={classes.active}
-              // onClick={() => alert("hello")}
-            >
-              Team Manager
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              exact
-              to={scoreDetailLink || "/nhl-live-powerdfs/my-score-details"}
-              activeClassName={classes.active}
-              onClick={() =>
-                redirectTo(props, {
-                  path:
-                    scoreDetailLink || "/nhl-live-powerdfs/my-score-details",
-                  state: state,
-                })
-              }
-            >
-              My Score Details
-            </NavLink>
-          </li>
-        </ul>
+        <Tabs
+          selectedIndex={activeTab}
+          onSelect={handleChangeTab}
+          style={{ display: "flex", width: "100%" }}
+        >
+          <TabList className={classes.tabs_header}>
+            <Tab>
+              <a
+                className={`${activeTab === 0 && classes.active}`}
+                href="/"
+                onClick={(e) => e.preventDefault()}
+              >
+                Manage My Team
+              </a>
+            </Tab>
+            <Tab>
+              <a
+                className={`${activeTab === 1 && classes.active}`}
+                href="/"
+                onClick={(e) => e.preventDefault()}
+              >
+                My Score Details
+              </a>
+            </Tab>
+          </TabList>
+        </Tabs>
+
         {!singleBtn ? (
-          renderActiveButton()
+          <>{activeTab === 0 ? renderActiveButton() : null}</>
         ) : (
           <button className={classes.btn_single} onClick={onPress}>
             {buttonIcon} {buttonTitle || "Detail View"}
@@ -116,6 +117,8 @@ NHLLiveSportsHeader.propTypes = {
   className: PropTypes.object,
   teamManagerLink: PropTypes.string,
   scoreDetailLink: PropTypes.string,
+  active: PropTypes.string,
+  handleChangeTab: PropTypes.func,
   onPress: PropTypes.func,
   onFullView: PropTypes.func,
   onCompressedView: PropTypes.func,

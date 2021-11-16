@@ -1,12 +1,48 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import styles from './styles.module.scss';
 import CreatePopUpPortal from '../../utility/CreatePopUpPortal';
 import ShieldIcon from '../../icons/ShieldIcon';
 import ChallengePowerGreyIcon from '../../assets/challenge-power-grey.svg';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 const DwallPopup = props => {
     const [showPopUp, setShowPopUp] = useState(false);
     const [popupMode, setPopupMode] = useState(0);
     const [timers, setTimers] = useState(0);
+    const {
+        live_clock = "20:00",
+        gameID = "",
+        live_teamD = {}
+    } = useSelector(state => state.nhl);
+    const userID = localStorage.getItem("PERSONA_USER_ID");
+    const applyDWall = async () => {
+        props.setShowPleaseWait(true);
+        var a = await axios.post("https://nhl.powerplaysystems.com/api/v1/services/fantasy/dWallApplied", {
+            gameID: gameID,
+            userID: userID,
+            timeApplied: live_clock,
+            teamDId:live_teamD?.id
+        })
+        .then((res) => {
+            if(res.data.code == 200)
+            {
+                props.useDwall(true);
+                props.setIsDwallActive(true);
+                setShowPopUp(false);
+                props.setShowPleaseWait(false);
+            }
+            else {
+                props.setShowPleaseWait(false);
+                alert(res.data.message);
+                setShowPopUp(false);
+            }
+        })
+        .catch((er) => {
+            props.setShowPleaseWait(false);
+            alert(er.response?.data?.message);
+            setShowPopUp(false);
+        });
+    };
     return (
         <>
             {useMemo(() => props.component && props.component({ showPopUp: () => { setPopupMode(0);setShowPopUp(true); }}), [props])}
@@ -27,12 +63,11 @@ const DwallPopup = props => {
                                     <button className={styles.challengePlayButton} onClick={() => {
                                         if(props.dwall > 0)
                                         {
-                                            props.useDwall(true);
+                                            applyDWall();
                                         }
                                         else {
                                             alert("You cannot use D-Wall power");
                                         }
-                                        setShowPopUp(false);
                                     }}>Activate D-Wall</button>
                                 </div>
                             </>

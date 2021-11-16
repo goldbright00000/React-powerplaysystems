@@ -9,6 +9,7 @@ import BasketBall from "../../icons/BasketBall";
 import Hockeys from "../../icons/Hockeys";
 import SuperBall from "../../icons/SuperBall";
 import CashPowerBalance from "../../components/CashPowerBalance";
+import OffSeasonComponent from "../../components/OffSeasonComponent";
 import {
   redirectTo,
   getDaysFromToday,
@@ -22,8 +23,14 @@ import http from "../../config/http";
 import { useMediaQuery } from "react-responsive";
 import { Carousel } from "react-responsive-carousel";
 import * as MLbActions from "../../actions/MLBActions";
+import * as NFLActions from "../../actions/NFLActions";
+import * as NHLActions from "../../actions/NHLActions";
 import _ from "underscore";
 import moment from "moment";
+import moment1 from "moment-timezone";
+import * as MLBActions from "../../actions/MLBActions";
+import { Link } from "react-router-dom";
+
 import { CONSTANTS } from "../../utility/constants";
 
 // TODO: GET GAMES OF USER FOR WHICH THEY HAVE PAID AND THEN MAKE IT DYNAMIC
@@ -192,7 +199,7 @@ const InteractiveContests = (props) => {
             prizePool: _.reduce(
               item?.game?.PrizePayouts,
               function (memo, num) {
-                return memo + parseInt(num.amount) * parseInt(num.prize);
+                return memo + parseFloat(num.amount) * parseInt(num.prize);
               },
               0
             ),
@@ -210,12 +217,172 @@ const InteractiveContests = (props) => {
             currency: item?.game?.currency,
           },
         });
+
+      case "NFL":
+        await dispatch(NFLActions.setSelectedTeam(item));
+        dispatch(
+          NFLActions.getAndSetEditPlayers({
+            game_id: item?.game_id,
+            sport_id: item?.sport_id,
+            user_id: item?.user_id,
+          })
+        );
+
+        return redirectTo(props, {
+          path: `/nfl-select-team`,
+          state: {
+            // game_id: item?.game_id,
+            // game_details: item?.game,
+            // Power: item?.game?.Powers
+
+            game_id: item?.game_id,
+            sport_id: item?.game?.sports_id,
+            start_date: item?.game?.start_date,
+            end_date: item?.game?.end_date,
+            start_time: item?.game?.start_time,
+            outOf: item?.game?.target,
+            enrolledUsers: item?.game?.enrolled_users,
+            prizePool: _.reduce(
+              item?.game?.PrizePayouts,
+              function (memo, num) {
+                return memo + parseFloat(num.amount) * parseInt(num.prize);
+              },
+              0
+            ),
+            topPrize: parseFloat(
+              _.max(item?.game?.PrizePayouts, function (ele) {
+                return ele.amount;
+              }).amount
+            ),
+            game_set_start: item?.game?.game_set_start,
+            PointsSystem: item?.game?.PointsSystems,
+            Power: item?.game?.Powers,
+            prizes: item?.game?.PrizePayouts,
+            paid_game: item?.game?.is_game_paid,
+            entry_fee: item?.game?.entry_fee,
+            currency: item?.game?.currency,
+          },
+        });
+
+      case "NHL":
+        await dispatch(NHLActions.setSelectedTeam(item));
+        dispatch(
+          NHLActions.getAndSetEditPlayers({
+            game_id: item?.game_id,
+            sport_id: item?.sport_id,
+            user_id: item?.user_id,
+          })
+        );
+        let tempPowers = [
+          {
+            id: 2667,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 3,
+            powerName: "3x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2666,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 2,
+            powerName: "2x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2665,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 8,
+            powerName: "Power-Up",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2664,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 7,
+            powerName: "Retro Boost",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+          {
+            id: 2668,
+            PowerDfsGameId: 937,
+            select: true,
+            powerId: 1,
+            powerName: "1.5x Point Booster",
+            available: null,
+            amount: "3",
+            SocialMediaUnlock: false,
+            createdAt: "2021-11-02T02:25:12.000Z",
+            updatedAt: "2021-11-02T02:25:12.000Z",
+          },
+        ];
+        return redirectTo(props, {
+          path: `/nhl-select-team`,
+          state: {
+            // game_id: item?.game_id,
+            // game_details: item?.game,
+            // Power: item?.game?.Powers
+
+            game_id: item?.game_id,
+            sport_id: item?.game?.sports_id,
+            start_date: item?.game?.start_date,
+            end_date: item?.game?.end_date,
+            start_time: item?.game?.start_time,
+            outOf: item?.game?.target,
+            enrolledUsers: item?.game?.enrolled_users,
+            prizePool: _.reduce(
+              item?.game?.PrizePayouts,
+              function (memo, num) {
+                return memo + parseFloat(num.amount) * parseInt(num.prize);
+              },
+              0
+            ),
+            topPrize: parseFloat(
+              _.max(item?.game?.PrizePayouts, function (ele) {
+                return ele.amount;
+              }).amount
+            ),
+            game_set_start: item?.game?.game_set_start,
+            PointsSystem: item?.game?.PointsSystems,
+            Power: tempPowers, //item?.game?.Powers,
+            prizes: item?.game?.PrizePayouts,
+            paid_game: item?.game?.is_game_paid,
+            entry_fee: item?.game?.entry_fee,
+            currency: item?.game?.currency,
+          },
+        });
     }
   };
 
   const onEnter = async (item) => {
-    const { game = {}, sport_id, team_id, user_id, game_id } = item || {};
-    const { league = "" } = game || {};
+    console.log("test", item);
+    const {
+      game = {},
+      sport_id,
+      team_id,
+      userID: user_id,
+      gameID: game_id,
+    } = item || {};
+    const { league = "NHL" } = game || {};
     switch (league) {
       case "MLB":
         const encData = CryptoJS.AES.encrypt(
@@ -225,105 +392,113 @@ const InteractiveContests = (props) => {
         await dispatch(MLbActions.setSelectedTeam(item));
         setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.MLB_LIVE_GAME, encData);
         return redirectTo(props, { path: "/mlb-live-powerdfs", state: item });
+      case "NFL":
+        const encData1 = CryptoJS.AES.encrypt(
+          JSON.stringify(item),
+          CONSTANTS.DATA_ENC_KEY
+        ).toString();
+        await dispatch(NFLActions.setSelectedTeam(item));
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NFL_LIVE_GAME, encData1);
+        return redirectTo(props, { path: "/nfl-live-powerdfs", state: item });
+      case "NHL":
+        const encData2 = CryptoJS.AES.encrypt(
+          JSON.stringify(item),
+          CONSTANTS.DATA_ENC_KEY
+        ).toString();
+        await dispatch(NHLActions.setSelectedTeam(item));
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME, encData2);
+        setLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID, game_id);
+        return redirectTo(props, { path: "/nhl-live-powerdfs", state: item });
     }
   };
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(
-      moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()
-    ).format("YYYY-MM-DD=hh:mm A");
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment
+      .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+      .utcOffset(offset)
+      .format("YYYY-MM-DD=hh:mm A");
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
       time: splitted[1],
     };
+
+    // const localDateTime = moment(moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").toDate()).format("YYYY-MM-DD=hh:mm A");
+    // const splitted = localDateTime.split("=");
+    // return {
+    //   date: splitted[0],
+    //   time: splitted[1],
+    // };
   };
 
   const setFilteredDataWithDate = (selectedOption) => {
-    let day = moment(selectedOption).format('YYYY-MM-DD')
+    let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
-    let data = []
+    let data = [];
     if (selectedOption === "All") {
-      setFilteredData(getUserSavedGames)
-    }
-    else if (selectedOption === "Today") {
+      setFilteredData(getUserSavedGames);
+    } else if (selectedOption === "Today") {
       myGameCenterCardData.map((item) => {
-        if (item?.game?.start_date == today.format('YYYY-MM-DD')) {
-          data.push(item)
+        if (item?.startDate == today.format("YYYY-MM-DD")) {
+          data.push(item);
         }
-      })
-      setFilteredData(data)
-    }
-    else {
+      });
+      setFilteredData(data);
+    } else {
       myGameCenterCardData.map((item) => {
-        if (item?.game?.start_date == day) {
-          data.push(item)
+        if (item?.startDate == day) {
+          data.push(item);
         }
-      })
-      setFilteredData(data)
+      });
+      setFilteredData(data);
     }
-  }
-  const myGameCenterCard = (item, redirectUri) => {
+  };
+
+  const handleViewResult = async (cardId, game_id) => {
+    setViewResults(cardId);
+    await dispatch(MLBActions.getFinalStandings(game_id));
+  };
+
+  const myGameCenterCard = (item, redirectUri, index) => {
     return (
       <div
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
+        key={index}
       >
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
-          title={item?.game?.league}
-          prize={_.reduce(
-            item?.game?.PrizePayouts,
-            function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
-            },
-            0
-          )}
+          title={"NHL"} //item?.game?.league}
+          prize={
+            item?.reward.length > 0
+              ? _.reduce(
+                  item?.reward,
+                  function (memo, num) {
+                    return memo + parseFloat(num.amount) * parseInt(num.prize);
+                  },
+                  0
+                )
+              : 0
+          }
           outOf={item?.enrolled_users}
           total={item?.game?.target}
           percent={item?.game?.percent}
-          game_type={item?.game?.game_type}
-          game_id={item?.game_id}
+          game_type={item?.gameType}
+          game_id={item?.gameID}
           game_set_start={
-            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
-              ?.date
+            getLocalDateTime(item?.startDate, item?.startTime)?.date
           }
-          start_time={
-            getLocalDateTime(item?.game?.game_set_start, item?.game?.start_time)
-              ?.time
-          }
-          PointsSystem={item?.game?.PointsSystems}
-          Power={item?.game?.Powers}
-          PrizePayout={_.sortBy(item?.game?.PrizePayouts, "from")}
-          inProgress={item?.game?.status === "In-Progress" ? true : false}
-          completed={item?.game?.status === "Completed" ? true : false}
-          editPicks={item?.game?.status === "Activated" ? true : false}
-          // inProgress={moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-          //   item?.game?.game_set_start + " " + item?.game?.start_time,
-          //   moment(item?.game?.game_set_end)
-          //     .add(1, "day")
-          //     .format("YYYY-MM-DD") + " 02:00 AM"
-          // )}
-          // completed={moment(moment().format("YYYY-MM-DD")).isAfter(
-          //   moment(item?.game?.game_set_end)
-          //     .add(1, "day")
-          //     .format("YYYY-MM-DD") + " 02:00 AM"
-          // )}
-
-          // editPicks={
-          //   item?.players?.length > 0 &&
-          //   !moment(moment().format("YYYY-MM-DD")).isAfter(
-          //     moment(item?.game?.game_set_end)
-          //       .add(1, "day")
-          //       .format("YYYY-MM-DD") + " 02:00 AM"
-          //   ) &&
-          //   !moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
-          //     item?.game?.game_set_start + " " + item?.game?.start_time,
-          //     moment(item?.game?.game_set_end)
-          //       .add(1, "day")
-          //       .format("YYYY-MM-DD") + " 02:00 AM"
-          //   )
-          // }
+          start_time={getLocalDateTime(item?.startDate, item?.startTime)?.time}
+          PointsSystem={item?.pointSystem}
+          Power={item?.powersAvailable}
+          PrizePayout={_.sortBy(item?.reward, "from")}
+          inProgress={item?.gameStatus === "In-Progress" ? true : false}
+          completed={item?.gameStatus === "closed" ? true : false}
+          editPicks={item?.gameStatus === "Activated" ? true : false}
+          currency={item?.game?.currency}
           makePicks={item.makePicks}
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}
@@ -336,7 +511,9 @@ const InteractiveContests = (props) => {
           onDetailsClick={(cardId) => setShowCardDetails(cardId)}
           onBackClick={() => setShowCardDetails(-1)}
           onNextClick={() => setShowCardDetails(-1)}
-          onViewResults={(cardId) => setViewResults(cardId)}
+          onViewResults={(cardId, game_id) => {
+            handleViewResult(cardId, game_id);
+          }}
           onViewResultsBack={() => setViewResults(-1)}
           onFinalStandings={(cardId) => setFinalStandingsModal(cardId)}
         />
@@ -349,7 +526,10 @@ const InteractiveContests = (props) => {
       <div className="__table-wrapper __mb-6">
         <div className={`${classes.__ic_scroll}`}>
           <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
+            <div
+              className="__badges-wrapper __text-in-one-line __mediam filtersTab"
+              style={{ display: "flex" }}
+            >
               {myGameCenterCardData &&
                 filters.map((item, index) => {
                   return (
@@ -358,16 +538,19 @@ const InteractiveContests = (props) => {
                         "__outline-badge __f1 " +
                         (selectedFilter == item.id && "__active")
                       }
+                      key={index}
+                      style={{ maxWidth: 120 }}
                       onClick={() => {
                         setSelectedFilter(item.id);
                         const filteredData =
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                            myGameCenterCardData.filter(
-                              (cardItem) =>
-                                cardItem?.game?.league === item.title
-                            );
+                              myGameCenterCardData.filter(
+                                (cardItem) =>
+                                  //cardItem?.game?.league === item.title
+                                  item.title === "NHL"
+                              );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -452,7 +635,13 @@ const InteractiveContests = (props) => {
             <CustomDropDown
               wrapperClassName={classes.__interactive_contests_date_wrapper}
               dropdownClassName={classes.__interactive_contests_date_dropdown}
-              value={selectedDate === "Today" ? "Today" : (selectedDate === "All" ? "All" : moment(selectedDate).format('ddd,MMM DD'))}
+              value={
+                selectedDate === "Today"
+                  ? "Today"
+                  : selectedDate === "All"
+                  ? "All"
+                  : moment(selectedDate).format("ddd,MMM DD")
+              }
               options={days}
               onChange={(selectedOption) => {
                 setSelectedDate(selectedOption);
@@ -464,6 +653,9 @@ const InteractiveContests = (props) => {
 
         {myGameCenterCardData &&
           (() => {
+            if (selectedFilter == 4) {
+              return <OffSeasonComponent />;
+            }
             const itemsInaRow = 4;
             const numberOfRows = Math.ceil(
               myGameCenterCardData.length / itemsInaRow
@@ -473,22 +665,22 @@ const InteractiveContests = (props) => {
               filteredData.map(function (power) {
                 if (
                   contentType === "In Progress" &&
-                  power.game.status === "In-Progress"
+                  power?.gameStatus === "In-Progress"
                 ) {
                   subFiltered.push(power);
                 } else if (
                   contentType === "Completed" &&
-                  power.game.status === "Completed"
+                  power?.gameStatus === "closed"
                 ) {
                   subFiltered.push(power);
                 } else if (
                   contentType === "Not Started" &&
-                  power.game.status === "Activated"
+                  power?.gameStatus === "Activated"
                 ) {
                   subFiltered.push(power);
                 } else if (
                   contentType === "All Active" &&
-                  power.game.status !== "Completed"
+                  power?.gameStatus !== "closed"
                 ) {
                   subFiltered.push(power);
                 }
@@ -563,13 +755,25 @@ const InteractiveContests = (props) => {
                 // }
               });
             }
+            if (myGameCenterCardData.length == 0) {
+              return (
+                <div className={classes.noGameDiv}>
+                  <h2>You are not currently entered in any games</h2>
+                  <p>
+                    Head over to the Power Center, browse the available games,
+                    and get in on the action!
+                  </p>
+                  <Link to="/power-center">Go to Power Center</Link>
+                </div>
+              );
+            }
             const myGameCenterCardView = Array(numberOfRows)
               .fill(undefined)
               .map((item, i) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
                 var items = subFiltered.slice(start, end);
-
+                console.log("items: ", items);
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                 //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
                 //   item?.game?.game_set_end + ' 11:59 AM'
@@ -579,11 +783,24 @@ const InteractiveContests = (props) => {
                     {isMobile ? (
                       <div>
                         {items?.length > 0 ? (
-                          items.map((power) => {
-                            return myGameCenterCard(power, power.url);
+                          items.map((power, index) => {
+                            return myGameCenterCard(power, power.url, index);
                           })
                         ) : i == 0 ? (
-                          <h1 className="nogamesmessage">No games</h1>
+                          contentType !== "Completed" ? (
+                            <div className={classes.noGameDiv}>
+                              <h2>
+                                You are not currently entered in any games
+                              </h2>
+                              <p>
+                                Head over to the Power Center, browse the
+                                available games, and get in on the action!
+                              </p>
+                              <Link to="/power-center">Go to Power Center</Link>
+                            </div>
+                          ) : (
+                            <h1 className="nogamesmessage">No games</h1>
+                          )
                         ) : (
                           ""
                         )}
@@ -596,14 +813,41 @@ const InteractiveContests = (props) => {
                           }
                         >
                           {items?.length > 0 ? (
-                            items.map((power) => {
-                              return myGameCenterCard(power, power.url);
+                            items.map((power, index) => {
+                              return myGameCenterCard(power, power.url, index);
                             })
-                          ) : i == 0 ? (
-                            <h1 className="nogamesmessage">No games</h1>
+                          ) : // _.times((4 - items.length), (i) => (
+                          //   <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`} style={{width: 280}}/>
+                          // ))
+                          i == 0 ? (
+                            contentType !== "Completed" ? (
+                              <div className={classes.noGameDiv}>
+                                <h2>
+                                  You are not currently entered in any games
+                                </h2>
+                                <p>
+                                  Head over to the Power Center, browse the
+                                  available games, and get in on the action!
+                                </p>
+                                <Link to="/power-center">
+                                  Go to Power Center
+                                </Link>
+                              </div>
+                            ) : (
+                              <h1 className="nogamesmessage">No games</h1>
+                            )
                           ) : (
                             ""
                           )}
+
+                          {items?.length > 0 &&
+                            4 - items.length > 0 &&
+                            _.times(4 - items.length, (i) => (
+                              <div
+                                className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
+                                style={{ width: 280 }}
+                              />
+                            ))}
                         </div>
                       </>
                     )}

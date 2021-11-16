@@ -14,19 +14,21 @@ import { CONSTANTS } from "../../../utility/constants";
 import SportsLiveCard from "../../../components/SportsLiveCard";
 import SportsLiveCardTeamD from "../../../components/SportsLiveCard/TeamD";
 
-const { D, P, C, OF, XB, SS } = CONSTANTS.FILTERS.MLB;
+const { D } = CONSTANTS.FILTERS.NFL;
 let currentCard = 0;
-
 function SingleView(props) {
   const {
     data = [],
-    playerList = [],
     onChangeXp = (xp, player) => {},
     updateReduxState = () => {},
     starPlayerCount = 0,
+    gameInfo = {},
+    pointXpCount = {},
   } = props || {};
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
+
+  const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   useEffect(() => {
     setSelectedCard(data[currentCard]);
@@ -60,25 +62,41 @@ function SingleView(props) {
           data?.length &&
           data?.map((item, ind) => (
             <>
-              {item?.type === D ? (
+              {item?.team_d_nfl_team && item?.team_d_nfl_team?.type === D ? (
                 <SportsLiveCardTeamD
                   key={ind + "-"}
-                  team={item}
-                  active={selectedCard?.playerId === item?.playerId}
+                  data={item}
+                  active={
+                    selectedCard?.team_d_nfl_team?.team_id ===
+                    item?.team_d_nfl_team?.team_id
+                  }
                   singleView
+                  onSelectCard={onSelectCard}
+                  dwall={props.dwallCounts}
+                  challenge={props.challengeCounts}
+                  useDwall={props.useDwall}
+                  useChallenge={props.useChallenge}
+                  dataMain={props.dataMain}
+                  cardType="nfl"
                 />
               ) : (
                 <SportsLiveCard
-                  key={ind + "-"}
-                  player={item}
-                  active={selectedCard?.playerId === item?.playerId}
+                  key={ind + "-" + item?.player?.player_id}
+                  data={item}
+                  active={
+                    selectedCard?.player?.player_id === item?.player?.player_id
+                  }
                   onSelectCard={onSelectCard}
                   singleView
                   onChangeXp={onChangeXp}
-                  playerList={playerList}
                   updateReduxState={updateReduxState}
                   starPlayerCount={starPlayerCount}
-                  currentPlayerList={data}
+                  gameInfo={gameInfo}
+                  useSwap={props.useSwap}
+                  swapCount={props.swapCounts}
+                  dataMain={props.dataMain}
+                  pointXpCount={{ xp1: xp1, xp2: xp2, xp3: xp3 }}
+                  cardType="nfl"
                 />
               )}
             </>
@@ -87,15 +105,34 @@ function SingleView(props) {
 
       <div className={classes.right_side}>
         <div onClick={onBack} className={`${classes.arrow} ${classes.left}`} />
-        <SportsLiveCard
-          largeView
-          player={selectedCard}
-          onChangeXp={onChangeXp}
-          playerList={playerList}
-          updateReduxState={updateReduxState}
-          starPlayerCount={starPlayerCount}
-          currentPlayerList={data}
-        />
+        {selectedCard?.team_d_nfl_team &&
+        selectedCard?.team_d_nfl_team?.type === D ? (
+          <SportsLiveCardTeamD
+            data={selectedCard}
+            onChangeXp={onChangeXp}
+            updateReduxState={updateReduxState}
+            starPlayerCount={starPlayerCount}
+            dwall={props.dwallCounts}
+            challenge={props.challengeCounts}
+            useDwall={props.useDwall}
+            useChallenge={props.useChallenge}
+            dataMain={props.dataMain}
+            cardType="nfl"
+          />
+        ) : (
+          <SportsLiveCard
+            data={selectedCard}
+            onChangeXp={onChangeXp}
+            updateReduxState={updateReduxState}
+            starPlayerCount={starPlayerCount}
+            gameInfo={gameInfo}
+            useSwap={props.useSwap}
+            swapCount={props.swapCounts}
+            dataMain={props.dataMain}
+            pointXpCount={{ xp1: xp1, xp2: xp2, xp3: xp3 }}
+            cardType="nfl"
+          />
+        )}
         <div onClick={onNext} className={`${classes.arrow} ${classes.right}`} />
       </div>
     </div>
@@ -106,8 +143,8 @@ SingleView.propTypes = {
   showModal: PropTypes.bool,
   starPlayerCount: PropTypes.number,
   data: PropTypes.array,
-  playerList: PropTypes.array,
   updateReduxState: PropTypes.func,
+  gameInfo: PropTypes.object,
 };
 
 export default SingleView;

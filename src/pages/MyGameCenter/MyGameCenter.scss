@@ -1,6 +1,7 @@
 @import "../../scss/colors.scss";
 
 .__my_game_center {
+  padding-top: 50px;
   .__my_game_center_banner {
     background-image: url("../../assets/power-center-banner.png");
     background-size: 100% auto;
@@ -100,6 +101,7 @@
   // }
 
   .__my_game_center {
+    padding-top: 50px;
     .__my_game_center_banner {
       background-image: url("../../assets/power-center-banner-mobile.png");
       background-size: 100% auto;

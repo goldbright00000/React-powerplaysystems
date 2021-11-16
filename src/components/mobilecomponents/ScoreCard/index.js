@@ -18,6 +18,11 @@ const ScoreCard = ({
   background,
   showFull,
   runnungTotal,
+  runs,
+  rbi,
+  plays,
+  pts,
+  hasPlay
 }) => {
   const [show, setShow] = useState(showFull);
   const [id, setId] = useState(collapseId);
@@ -56,6 +61,11 @@ const ScoreCard = ({
               myScore={myScore}
               clr={clr}
               bgClr={bgClr}
+              runs={runs}
+              rbi={rbi}
+              plays={plays}
+              pts={pts}
+              hasPlay={hasPlay}
             />
           </Row>
         </div>

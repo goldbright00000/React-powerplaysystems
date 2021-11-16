@@ -52,7 +52,7 @@ const CashPowerBalance = (props) => {
               alt=""
             />
           )}
-          <p className={classes.__entry_fee_amount}>{entryFee}</p>
+          <p className={classes.__entry_fee_amount}>{(props?.entryFee == undefined || props?.entryFee == "") ? 0 : entryFee}</p>
         </div>
 
         <div className={classes.__entry_fee_title}>

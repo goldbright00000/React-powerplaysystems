@@ -3,6 +3,8 @@ import classes from "./interactiveContests.module.scss";
 import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
+import moment1 from "moment-timezone";
+
 import { getLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 
@@ -22,81 +24,11 @@ import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmoun
 import Header from "../../components/Header/Header";
 import moment from "moment";
 import { useHistory } from "react-router-dom";
+import { socket } from "../../config/server_connection";
+import OffSeasonComponent from "../../components/OffSeasonComponent";
 
-import PromoModal from '../../components/PromoModal';
-
-const powerCenterCardData1 = [
-  {
-    id: 1,
-    title: "MLB",
-    prize: "10,000",
-    outOf: "60,589",
-    total: "200,000",
-    percent: "29",
-    url: "/mlb-select-team",
-  },
-  {
-    id: 2,
-    title: "NFL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nfl-select-team",
-  },
-  {
-    id: 3,
-    title: "NBA",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nba-select-team",
-  },
-  {
-    id: 4,
-    title: "NHL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nhl-select-team",
-  },
-  {
-    id: 5,
-    title: "NFL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/nfl-select-team",
-  },
-  {
-    id: 6,
-    title: "Levels",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-    url: "/mlb-power-levels",
-  },
-  {
-    id: 7,
-    title: "NHL",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-  },
-  {
-    id: 8,
-    title: "NBA",
-    prize: "10,000",
-    outOf: "58,589",
-    total: "200,000",
-    percent: "29",
-  },
-];
+import PromoModal from "../../components/PromoModal";
+import ComingSoonComponent from "../../components/ComingSoonComponent";
 
 const filters = [
   {
@@ -139,6 +71,10 @@ const ALL_CURRENCIES = [
     label: "Ethereum",
     value: "ethereum",
   },
+  {
+    label: "PWRS",
+    value: "pwrs",
+  },
 ];
 
 let mlbData = [];
@@ -147,12 +83,15 @@ let nbaData = [];
 let nhlData = [];
 
 const InteractiveContests = (props) => {
+  let _socket = null;
+
   let isAuthenticated = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
   const history = useHistory();
   const dispatch = useDispatch();
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
   );
+
   const { user } = useSelector((state) => state?.auth);
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
@@ -161,6 +100,7 @@ const InteractiveContests = (props) => {
   const isTablet = useMediaQuery({ query: "(max-width: 768px)" });
   const isBigScreenTablet = useMediaQuery({ query: "(max-width: 1024px)" });
 
+  const [isAgeRestricted, setIsAgeRestricted] = useState(false);
   const [selectedDate, setSelectedDate] = useState(getDaysFromToday()[0].label);
   const [showCardDetails, setShowCardDetails] = useState(-1);
   const [selectedFilter, setSelectedFilter] = useState(1);
@@ -180,7 +120,7 @@ const InteractiveContests = (props) => {
   const [tokenBalance, setTokenBalance] = useState(0);
   const [btcBalance, setBtcBalance] = useState(0);
   const [ethBalance, setEthBalance] = useState(0);
-
+  const [isLoading, setLoading] = useState(false);
   const [haveBalance, setHaveBalance] = useState(true);
 
   const [sortedBy, setSortedBy] = useState("Most Popular");
@@ -194,26 +134,100 @@ const InteractiveContests = (props) => {
   const [showPromoModal, setShowPromoModal] = useState(false);
   const [challengeGame, setChallengeGame] = useState({});
   const [propsGame, setPropsGame] = useState({});
+  const [showEntered, setShowEntered] = useState(true);
+  const [newGame, setNewGame] = useState({});
+  const [inProgressGame, setInProgressGame] = useState([]);
+  const [cancelledsGame, setCancelledGame] = useState([]);
 
   const onClosePromoModal = () => {
     setShowPromoModal(false);
     setChallengeGame({});
     setPropsGame({});
-  }
-  const onOpenPromoModal = (items, propss) => {
-    setShowPromoModal(true);
-    if(JSON.stringify(items) !== JSON.stringify(challengeGame))
-      setChallengeGame(items);
-    if(JSON.stringify(propss) !== JSON.stringify(propsGame))
-      setPropsGame(propss);
-  }
+  };
 
   useEffect(() => {
-    const maxWidth = window.matchMedia("(max-width: 1200px)");
-    responsiveHandler(maxWidth);
-    maxWidth.addEventListener("change", responsiveHandler);
-    return () => maxWidth.removeEventListener("change", responsiveHandler);
+    if (powerCenterCardData === "Age Restriction") {
+      setIsAgeRestricted(true);
+    }
+  }, [powerCenterCardData]);
+
+  const onOpenPromoModal = (items, propss) => {
+    setShowPromoModal(true);
+    if (JSON.stringify(items) !== JSON.stringify(challengeGame))
+      setChallengeGame(items);
+    if (JSON.stringify(propss) !== JSON.stringify(propsGame))
+      setPropsGame(propss);
+  };
+
+  useEffect(() => {
+    _socket = socket();
+    return function cleanUp() {
+      _socket = null;
+    };
   }, []);
+
+  useEffect(() => {
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.NEWLY_ADDED, (response) => {
+      setNewGame(response);
+    });
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.IN_PROGRESS, (response) => {
+      setInProgressGame(response);
+    });
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.GAMES.CANCELLED, (response) => {
+      setCancelledGame(response);
+    });
+  }, [_socket]);
+
+  useEffect(() => {
+    if(filteredData.length > 0) {
+      const obj = [...filteredData];
+      obj.push(newGame);
+      setFilteredData(obj);
+    }
+  }, [ newGame ]);
+
+  useEffect(() => {
+    let obj = [];
+    if(filteredData.length > 0) {
+      obj = [...filteredData];
+    }
+    if (inProgressGame.length > 0) {
+      inProgressGame.map((item, index) => {
+        obj.map((o, i) => {
+          if (o.game_id === item) {
+            obj.splice(i, 1);
+          }
+        });
+      });
+      setFilteredData(obj);
+    }
+  }, [inProgressGame]);
+
+  useEffect(() => {
+    let obj = [];
+    if(filteredData.length > 0) {
+      obj = [...filteredData];
+    }
+    if (cancelledsGame.length > 0) {
+      cancelledsGame.map((item, index) => {
+        obj.map((o, i) => {
+          if (o.game_id === item) {
+            obj.splice(i, 1);
+          }
+        });
+      });
+      setFilteredData(obj);
+    }
+  }, [cancelledsGame]);
+
+  // useEffect(() => {
+  //   const maxWidth = window.matchMedia("(max-width: 1200px)");
+  //   if(maxWidth) {
+  //     responsiveHandler(maxWidth);
+  //     maxWidth.addEventListener("change", responsiveHandler);
+  //     return () => maxWidth.removeEventListener("change", responsiveHandler);
+  //   }
+  // }, []);
 
   useEffect(() => {
     // get user balance
@@ -260,8 +274,13 @@ const InteractiveContests = (props) => {
 
   useEffect(() => {
     const user_id = getLocalStorage("PERSONA_USER_ID");
+    setLoading(true);
     async function getData() {
-      return await dispatch(getAllGames(user_id));
+      let b = await dispatch(getAllGames(user_id));
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+      return b;
     }
     getData();
   }, []);
@@ -283,6 +302,7 @@ const InteractiveContests = (props) => {
   };
 
   const checkBalace = (item, entry_fee) => {
+    if (item?.is_game_free) return true;
     switch (item?.currency) {
       case "USD":
         if (cashBalance >= entry_fee) return true;
@@ -311,6 +331,17 @@ const InteractiveContests = (props) => {
           },
         });
 
+      case "NFL":
+        return redirectTo(props, {
+          path: `/nfl-powerdfs`,
+          state: {
+            game_id: item?.game_id,
+            sport_id: item?.sports_id,
+            start_date: item?.start_date,
+            end_date: item?.end_date,
+          },
+        });
+
       default:
         return redirectTo(props, { path: "/" });
     }
@@ -321,30 +352,41 @@ const InteractiveContests = (props) => {
       history.push("/login");
       return;
     }
+
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
-    if (enoughBalance || item?.is_game_free) {
+    if (enoughBalance) {
       switch (item?.league) {
         case "MLB":
-          if(item.game_type == "PowerdFs_challenge")
-          {
-            if(isMobile)
-            {
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
               return redirectTo(props, {
                 path: `/challenge-page`,
                 state: {
                   game_id: item?.game_id,
                   sport_id: item?.sports_id,
-                  start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-                  game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-                  start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-                  end_date: item?.end_date,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
                   outOf: item?.target,
                   enrolledUsers: item?.enrolled_users,
                   prizePool: _.reduce(
                     item?.PrizePayouts,
                     function (memo, num) {
-                      return memo + parseInt(num.amount) * parseInt(num.prize);
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
                     },
                     0
                   ),
@@ -359,10 +401,67 @@ const InteractiveContests = (props) => {
                   paid_game: item?.is_game_paid,
                   entry_fee: item?.entry_fee,
                   currency: item?.currency,
+                  isPromoPage: false,
+                  game_type: item?.game_type,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
                 },
               });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
             }
-            else {
+          }
+          if (item.game_type == "PowerdFs_promo") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  isPromoPage: true,
+                  game_type: item?.game_type,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
+                },
+              });
+            } else {
               onOpenPromoModal(item, props);
               return;
             }
@@ -372,16 +471,23 @@ const InteractiveContests = (props) => {
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
-              end_date: item?.end_date,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
+              end_date: getLocalDateTime(item?.end_date, item?.end_time)?.date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -396,25 +502,142 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
+              game_type: item?.game_type,
+              league: item?.league,
             },
           });
 
         case "NFL":
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  game_type: item?.game_type,
+                  isPromoPage: false,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
+          if (item.game_type == "PowerdFs_promo") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  game_type: item?.game_type,
+                  isPromoPage: true,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
           return redirectTo(props, {
             path: `/nfl-select-team`,
             state: {
               game_id: item?.game_id,
               sport_id: item?.sports_id,
-              start_date: getLocalDateTime(item?.start_date, item?.start_time)?.date,
-              game_set_start: getLocalDateTime(item?.game_set_start, item?.start_time)?.date,
-              start_time: getLocalDateTime(item?.game_set_start, item?.start_time)?.time,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
               end_date: item?.end_date,
               outOf: item?.target,
               enrolledUsers: item?.enrolled_users,
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseInt(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
                 },
                 0
               ),
@@ -430,6 +653,157 @@ const InteractiveContests = (props) => {
               paid_game: item?.is_game_paid,
               entry_fee: item?.entry_fee,
               currency: item?.currency,
+              game_type: item?.game_type,
+            },
+          });
+        case "NHL":
+          if (item.game_type == "PowerdFs_challenge") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  game_type: item?.game_type,
+                  isPromoPage: false,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
+                },
+              });
+            } else {
+              
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
+          if (item.game_type == "PowerdFs_promo") {
+            if (isMobile) {
+              return redirectTo(props, {
+                path: `/challenge-page`,
+                state: {
+                  game_id: item?.game_id,
+                  sport_id: item?.sports_id,
+                  start_date: getLocalDateTime(
+                    item?.start_date,
+                    item?.start_time
+                  )?.date,
+                  game_set_start: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.date,
+                  start_time: getLocalDateTime(
+                    item?.game_set_start,
+                    item?.start_time
+                  )?.time,
+                  end_date: getLocalDateTime(item?.end_date, item?.end_time)
+                    ?.date,
+                  outOf: item?.target,
+                  enrolledUsers: item?.enrolled_users,
+                  prizePool: _.reduce(
+                    item?.PrizePayouts,
+                    function (memo, num) {
+                      return (
+                        memo + parseFloat(num.amount) * parseInt(num.prize)
+                      );
+                    },
+                    0
+                  ),
+                  topPrize: parseFloat(
+                    _.max(item?.PrizePayouts, function (ele) {
+                      return ele.amount;
+                    }).amount
+                  ),
+                  PointsSystem: item?.PointsSystems,
+                  Power: item?.Powers,
+                  prizes: item?.PrizePayouts,
+                  paid_game: item?.is_game_paid,
+                  entry_fee: item?.entry_fee,
+                  currency: item?.currency,
+                  game_type: item?.game_type,
+                  isPromoPage: true,
+                  league: item?.league,
+                  powerdfs_challenge_amount: item?.powerdfs_challenge_amount,
+                },
+              });
+            } else {
+              onOpenPromoModal(item, props);
+              return;
+            }
+          }
+          return redirectTo(props, {
+            path: `/nhl-select-team`,
+            state: {
+              game_id: item?.game_id,
+              sport_id: item?.sports_id,
+              start_date: getLocalDateTime(item?.start_date, item?.start_time)
+                ?.date,
+              game_set_start: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.date,
+              start_time: getLocalDateTime(
+                item?.game_set_start,
+                item?.start_time
+              )?.time,
+              end_date: item?.end_date,
+              outOf: item?.target,
+              enrolledUsers: item?.enrolled_users,
+              prizePool: _.reduce(
+                item?.PrizePayouts,
+                function (memo, num) {
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
+                },
+                0
+              ),
+              topPrize: parseFloat(
+                _.max(item?.PrizePayouts, function (ele) {
+                  return ele.amount;
+                }).amount
+              ),
+
+              PointsSystem: item?.PointsSystems,
+              Power: item?.Powers,
+              prizes: item?.PrizePayouts,
+              paid_game: item?.is_game_paid,
+              entry_fee: item?.entry_fee,
+              currency: item?.currency,
+              game_type: item?.game_type,
             },
           });
         default:
@@ -518,22 +892,26 @@ const InteractiveContests = (props) => {
     }
 
     if (type === "Min Entry") {
+      var isFreeGames = arr.filter((x) => x.is_game_free);
+      var isPaidGames = arr.filter((x) => !x.is_game_free);
       if (sortedByMEAction === "des") {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? -1
-            : parseFloat(b.target) > parseFloat(a.target)
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
               ? 1
               : 0
         );
+        return isPaidGames.concat(isFreeGames);
       } else {
-        return arr.sort((a, b) =>
-          parseFloat(a.target) > parseFloat(b.target)
+        isPaidGames = isPaidGames.sort((a, b) =>
+          parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? 1
-            : parseFloat(b.target) > parseFloat(a.target)
+            : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
               ? -1
               : 0
         );
+        return isFreeGames.concat(isPaidGames);
       }
     }
 
@@ -578,16 +956,15 @@ const InteractiveContests = (props) => {
     }
   }
   function filterCurrency(arr) {
-    console.log("arr", arr);
     var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
       if (selectedDate === "Today") {
-        var m = moment().format("YYYY-MM-DD");
+        var m = moment.utc().format("YYYY-MM-DD");
       } else {
-        var m = moment(selectedDate + " " + moment().format("YYYY")).format(
-          "YYYY-MM-DD"
-        );
+        var m = moment
+          .utc(selectedDate + " " + moment().format("YYYY"))
+          .format("YYYY-MM-DD");
       }
       var sDate = m + " 00:00";
       var eDate = m + " 23:59";
@@ -595,37 +972,51 @@ const InteractiveContests = (props) => {
       s = "0" + s;
       s = s.slice(-8);
       s = s.split(/(?=[A-Z]{2})/).join(" ");
-      var startDate = moment(power?.start_date + " " + s).format(
-        "YYYY-MM-DD hh:mm A"
-      );
-      console.log("startDate", startDate);
-      var endDate = moment(power?.end_date + " 11:59 PM").format(
-        "YYYY-MM-DD hh:mm A"
-      );
-      var isBetween1 = moment(startDate).isBetween(sDate, eDate);
+      var startDate = moment
+        .utc(power?.start_date + " " + s)
+        .format("YYYY-MM-DD hh:mm A");
+      var endDate = moment
+        .utc(power?.end_date + " 11:59 PM")
+        .format("YYYY-MM-DD hh:mm A");
+      var isBetween1 = moment.utc(startDate).isBetween(sDate, eDate);
 
-      //const isBefore = m.isBefore(endDate); // Fixed game not showing issue by this.
       if (selectedDate === "All") {
         isBetween1 = 1;
       }
       if (
-        selectedCurrencies.indexOf(arr[i].currency.toLowerCase()) > -1 &&
+        selectedCurrencies.indexOf(arr[i]?.currency?.toLowerCase()) > -1 &&
         isBetween1
       ) {
         newArr.push(arr[i]);
       }
     }
+    if (!showEntered) {
+      newArr = newArr.filter((x) => {
+        if (
+          typeof x.userHasEntered == "undefined" ||
+          x?.userHasEntered == false
+        ) {
+          return x;
+        }
+      });
+    }
     return newArr;
   }
 
   const getLocalDateTime = (date, time) => {
-    const localDateTime = moment(moment.utc(date + ' ' + time, 'YYYY-MM-DD hh:mm A').toDate()).format('YYYY-MM-DD=hh:mm A')
+    const offset = moment1?.tz("America/New_York")?.format("Z");
+    const localDateTime = moment
+      .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+      .utcOffset(offset)
+      .format("YYYY-MM-DD=hh:mm A");
+
     const splitted = localDateTime.split("=");
+
     return {
       date: splitted[0],
-      time: splitted[1]
-    }
-  }
+      time: splitted[1],
+    };
+  };
 
   const powerCenterCard = (item, redirectUri) => {
     return (
@@ -636,7 +1027,11 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return (
+                parseFloat(memo) +
+                parseFloat(num.amount == "" ? 0 : num.amount) *
+                parseInt(num.prize == "" || num.prize == null ? 1 : num.prize)
+              );
             },
             0
           )}
@@ -646,8 +1041,12 @@ const InteractiveContests = (props) => {
           total={item?.target}
           percent={item?.percent}
           game_type={item?.game_type}
-          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.time
+          }
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
           entry_fee={item?.entry_fee}
@@ -679,7 +1078,7 @@ const InteractiveContests = (props) => {
           prize={_.reduce(
             item?.PrizePayouts,
             function (memo, num) {
-              return memo + parseInt(num.amount) * parseInt(num.prize);
+              return memo + parseFloat(num.amount) * parseInt(num.prize);
             },
             0
           )}
@@ -691,8 +1090,12 @@ const InteractiveContests = (props) => {
           game_type={item?.game_type}
           paid_game={item?.is_game_paid}
           targeted_game={item?.is_game_targeted}
-          game_set_start={getLocalDateTime(item?.game_set_start, item?.start_time)?.date}
-          start_time={getLocalDateTime(item?.game_set_start, item?.start_time)?.time}
+          game_set_start={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.date
+          }
+          start_time={
+            getLocalDateTime(item?.game_set_start, item?.start_time)?.time
+          }
           entry_fee={item?.entry_fee}
           PointsSystem={item?.PointsSystems}
           Power={item?.Powers}
@@ -711,17 +1114,43 @@ const InteractiveContests = (props) => {
     );
   };
 
+  const setFilteredDataWithDate = (selectedOption) => {
+    let day = moment(selectedOption).format("YYYY-MM-DD");
+    const today = moment();
+    let data = [];
+    if (selectedOption === "All") {
+      setFilteredData(powerCenterCardData);
+    } else if (selectedOption === "Today") {
+      powerCenterCardData.map((item) => {
+        if (item?.start_date == today.format("YYYY-MM-DD")) {
+          data.push(item);
+        }
+      });
+      setFilteredData(data);
+    } else {
+      powerCenterCardData.map((item) => {
+        if (item?.start_date == day) {
+          data.push(item);
+        }
+      });
+      setFilteredData(data);
+    }
+  };
+
   return (
     <>
       <div className="__table-wrapper __mb-6">
-        <div className={isMobile || isTablet ? "" : "__flex"}>
-          <div style={{ flex: 1 }}>
-            <div className="__badges-wrapper __text-in-one-line __mediam filtersTab">
+        <div className={isMobile || isTablet ? "" : ""}>
+          <div style={{ flex: 1, display: "flex" }}>
+            <div
+              className="__badges-wrapper __text-in-one-line __mediam filtersTab"
+              style={{ display: "flex", flex: 1 }}
+            >
               {filters.map((item, index) => {
                 return (
                   <div
                     className={
-                      "__outline-badge __f1 " +
+                      "__outline-badge " +
                       (selectedFilter === item.id && "__active")
                     }
                     onClick={() => {
@@ -742,6 +1171,30 @@ const InteractiveContests = (props) => {
                 );
               })}
             </div>
+            {(!isMobile || !isTablet) && (
+              <div style={{ display: "flex", width: 330 }}>
+                <div
+                  className={`__outline-badge __f1 ${showEntered ? "__active" : ""
+                    }`}
+                  style={{ marginRight: 10, cursor: "pointer" }}
+                  onClick={() => {
+                    setShowEntered(true);
+                  }}
+                >
+                  Show Entered
+                </div>
+                <div
+                  className={`__outline-badge __f1 ${!showEntered ? "__active" : ""
+                    }`}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setShowEntered(false);
+                  }}
+                >
+                  Hide Entered
+                </div>
+              </div>
+            )}
           </div>
           <div
             style={{ display: "flex", justifyContent: "flex-end", flex: 1 }}
@@ -751,19 +1204,32 @@ const InteractiveContests = (props) => {
         {isMobile || isTablet ? (
           <div className={classes.__interactive_contests_filter}>
             <div className={classes.__interactive_contests_most_popular}>
-              <p onClick={() => {
+              <p
+                onClick={() => {
                   Sorter("Most Popular");
-                }}>
+                }}
+              >
                 Most Popular
-                <FilledArrow down={sortedByMPAction === "asc" ? false : true}
-                  up={sortedByMPAction === "asc" ? true : false} />
+                <FilledArrow
+                  down={sortedByMPAction === "asc" ? false : true}
+                  up={sortedByMPAction === "asc" ? true : false}
+                />
               </p>
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={
+                  selectedDate === "Today"
+                    ? "Today"
+                    : selectedDate === "All"
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
+                }
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption);
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
@@ -890,101 +1356,158 @@ const InteractiveContests = (props) => {
             </div>
             <div className={classes.__interactive_contests_date}>
               <CustomDropDown
-                value={selectedDate}
+                value={
+                  selectedDate === "Today"
+                    ? "Today"
+                    : selectedDate === "All"
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
+                }
                 options={days}
-                onChange={(selectedOption) => setSelectedDate(selectedOption)}
+                onChange={(selectedOption) => {
+                  setSelectedDate(selectedOption);
+                  setFilteredDataWithDate(selectedOption);
+                }}
               />
             </div>
           </div>
         )}
-        {filteredData && filterCurrency(filteredData)?.length > 0 ? (
-          isMobile ? (
-            (() => {
-              const itemsInaRow = 1;
-              const numberOfRows = Math.ceil(
-                powerCenterCardData.length / itemsInaRow
-              );
-              var filterByCurrency = filterCurrency(filteredData);
-              var a1 = sortArray(filterByCurrency);
-              const powerCenterMobileCardView = Array(numberOfRows)
-                .fill(undefined)
-                .map((item, i) => {
-                  const start = (i + 1) * itemsInaRow - 1;
-                  const end = (i + 1) * itemsInaRow;
-                  const items = a1.slice(start, end);
-                  return (
-                    <div
-                      className={
-                        classes.__interactive_contests_power_center_card_row
-                      }
-                    >
-                      {items.map((power) => {
-                        return powerCenterMobileCard(power, power.url);
-                      })}
-                    </div>
+        {!isAgeRestricted ? (
+          isLoading ? (
+            <h2>Loading ....</h2>
+          ) : isLoading == false &&
+            filteredData &&
+            filterCurrency(filteredData)?.length > 0 ? (
+            isMobile ? (
+              (() => {
+                if (selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                }
+                const itemsInaRow = 1;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterMobileCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 1;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterMobileCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterMobileCardView;
+              })()
+            ) : isTablet || isBigScreenTablet ? (
+              (() => {
+                if (selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                }
+                const itemsInaRow = 2;
+                const numberOfRows = Math.ceil(
+                  powerCenterCardData.length / itemsInaRow
+                );
+                var filterByCurrency = filterCurrency(filteredData);
+                var a1 = sortArray(filterByCurrency);
+                const powerCenterCardView = Array(numberOfRows)
+                  .fill(undefined)
+                  .map((item, i) => {
+                    const start = (i + 1) * itemsInaRow - 2;
+                    const end = (i + 1) * itemsInaRow;
+                    const items = a1.slice(start, end);
+                    return (
+                      <div
+                        className={
+                          classes.__interactive_contests_power_center_card_row
+                        }
+                      >
+                        {items.map((power) => {
+                          return powerCenterCard(power, power.url);
+                        })}
+                      </div>
+                    );
+                  });
+                return powerCenterCardView;
+              })()
+            ) : (
+              (() => {
+                if (selectedFilter == 4) {
+                  return <OffSeasonComponent />;
+                } else {
+                  const itemsInaRow = 1000;
+
+                  const numberOfRows = Math.ceil(
+                    powerCenterCardData.length / itemsInaRow
                   );
-                });
-              return powerCenterMobileCardView;
-            })()
-          ) : isTablet || isBigScreenTablet ? (
-            (() => {
-              const itemsInaRow = 2;
-              const numberOfRows = Math.ceil(
-                powerCenterCardData.length / itemsInaRow
-              );
-              var filterByCurrency = filterCurrency(filteredData);
-              var a1 = sortArray(filterByCurrency);
-              const powerCenterCardView = Array(numberOfRows)
-                .fill(undefined)
-                .map((item, i) => {
-                  const start = (i + 1) * itemsInaRow - 2;
-                  const end = (i + 1) * itemsInaRow;
-                  const items = a1.slice(start, end);
-                  return (
-                    <div
-                      className={
-                        classes.__interactive_contests_power_center_card_row
-                      }
-                    >
-                      {items.map((power) => {
-                        return powerCenterCard(power, power.url);
-                      })}
-                    </div>
-                  );
-                });
-              return powerCenterCardView;
-            })()
+
+                  var filterByCurrency = filterCurrency(filteredData);
+                  var a1 = sortArray(filterByCurrency);
+                  const powerCenterCardView = Array(numberOfRows)
+                    .fill(undefined)
+                    .map((item, i) => {
+                      const start = (i + 1) * itemsInaRow - 1000;
+                      const end = (i + 1) * itemsInaRow;
+                      const items = a1.slice(start, end);
+
+                      return (
+                        <div
+                          className={
+                            classes.__interactive_contests_power_center_card_row
+                          }
+                        >
+                          {items.map((power) => {
+                            return powerCenterCard(power, power.url);
+                          })}
+
+                          {4 - items.length > 0 &&
+                            _.times(4 - items.length, (i) => (
+                              <div
+                                className={
+                                  classes.__interactive_contests_power_center_card
+                                }
+                                style={{ width: 280 }}
+                              />
+                            ))}
+                        </div>
+                      );
+                    });
+                  return powerCenterCardView;
+                }
+              })()
+            )
           ) : (
-            (() => {
-              const itemsInaRow = 4;
-              const numberOfRows = Math.ceil(
-                powerCenterCardData.length / itemsInaRow
-              );
-              var filterByCurrency = filterCurrency(filteredData);
-              var a1 = sortArray(filterByCurrency);
-              const powerCenterCardView = Array(numberOfRows)
-                .fill(undefined)
-                .map((item, i) => {
-                  const start = (i + 1) * itemsInaRow - 4;
-                  const end = (i + 1) * itemsInaRow;
-                  const items = a1.slice(start, end);
-                  return (
-                    <div
-                      className={
-                        classes.__interactive_contests_power_center_card_row
-                      }
-                    >
-                      {items.map((power) => {
-                        return powerCenterCard(power, power.url);
-                      })}
-                    </div>
-                  );
-                });
-              return powerCenterCardView;
-            })()
+            <>
+              <ComingSoonComponent />
+            </>
           )
         ) : (
-          <h1>No games</h1>
+          <div className={classes.__age_restirction}>
+            Age Limit Restriction
+            <p className={classes.__age_restirction_desctiprion}>
+              Based on the Date of Birth you entered, you have not reached the
+              age of majority in your State or Province.
+              <p className={classes.__age_restirction_contact_us}>
+                If this is an error please contact us at
+              </p>
+              <a
+                className={classes.__age_restirction_link}
+                href="mailto:support@powerplaygames.com"
+              >
+                support@powerplaygames.com
+              </a>
+            </p>
+          </div>
         )}
         {isMobile && (
           <>
@@ -997,7 +1520,12 @@ const InteractiveContests = (props) => {
             </button>
           </>
         )}
-        <PromoModal visible={showPromoModal} onClose={onClosePromoModal} item={challengeGame} propss={propsGame}/>
+        <PromoModal
+          visible={showPromoModal}
+          onClose={onClosePromoModal}
+          item={challengeGame}
+          propss={propsGame}
+        />
       </div>
     </>
   );

@@ -24,6 +24,8 @@ function RenderModal(props) {
     loading = false,
   } = props || {};
 
+
+
   useEffect(() => {
     if (loading) return;
     setSelectedData(playerList);
@@ -37,34 +39,62 @@ function RenderModal(props) {
   //     setSelectedData(filteredData);
   //   }
   // }, [filterString]);
-
-  const { name: playerName = "", type = "", type1 = "" } = currentPlayer || {};
+  const { full_name: playerName = "", primary_position: type = "", type1 = "" } = currentPlayer || {};
 
   const onSearch = (e) => {
     const { value } = e.target;
     if (!isEmpty(value)) {
       setFilterString(value);
       const _filterdData = playerList?.listData?.filter((data) =>
-        data?.playerName
-          ?.toLocaleLowerCase()
-          ?.startsWith(value?.toLocaleLowerCase())
+        {
+          if(data?.league?.name == "NHL")
+          {
+            return data?.full_name
+            ?.toLocaleLowerCase()
+            ?.startsWith(value?.toLocaleLowerCase())
+          }
+          else {
+            return data?.playerName
+            ?.toLocaleLowerCase()
+            ?.startsWith(value?.toLocaleLowerCase())
+          }
+        }  
       );
       const _filterdDataHomeTeam = playerList?.listData?.filter((data) =>
-        data?.homeTeam
-          ?.toLocaleLowerCase()
-          ?.startsWith(value?.toLocaleLowerCase())
+        {
+          if(data?.league?.name == "NHL") {
+            return data?.match?.home?.name
+            ?.toLocaleLowerCase()
+            ?.startsWith(value?.toLocaleLowerCase())
+          }
+          else {
+            return data?.homeTeam
+            ?.toLocaleLowerCase()
+            ?.startsWith(value?.toLocaleLowerCase())
+          }
+        }
       );
       var tempObj = [];
       var tempIds = [];
       for (var i = 0; i < _filterdData.length; i++) {
-        var id = _filterdData[i].playerId;
+        if(_filterdData[i]?.league?.name == "NHL") {
+          var id = _filterdData[i].id;
+        }
+        else {
+          var id = _filterdData[i].playerId;
+        }
         if (tempIds.indexOf(id) == -1) {
           tempIds.push(id);
           tempObj.push(_filterdData[i]);
         }
       }
       for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
-        var id = _filterdDataHomeTeam[i].playerId;
+        if(_filterdDataHomeTeam[i]?.league?.name == "NHL") {
+          var id = _filterdDataHomeTeam[i].id;
+        }
+        else {
+          var id = _filterdDataHomeTeam[i].playerId;
+        }
         if (tempIds.indexOf(id) == -1) {
           tempIds.push(id);
           tempObj.push(_filterdDataHomeTeam[i]);
@@ -74,7 +104,7 @@ function RenderModal(props) {
         type: playerList?.type,
         listData: tempObj,
       };
-      setFilteredData(_filterdDataObj);
+      setSelectedData(_filterdDataObj);
     } else {
       setFilterString("");
       setSelectedData(playerList);
@@ -113,8 +143,8 @@ function RenderModal(props) {
             <div className={classes.header_left}>
               <p>Choose player to replace</p>
               <p className={classes.header_player_name}>
-                <img src={PowerPlayIcon} />
-                {playerName}
+                {currentPlayer?.is_starPlayer && <img src={PowerPlayIcon} />}
+                {(typeof currentPlayer.name !== "undefined") ? currentPlayer.name : currentPlayer.full_name}
               </p>
             </div>
             <Search
@@ -136,11 +166,11 @@ function RenderModal(props) {
                 Loading
               </p>
             ) : (
-              selectedData?.listData?.length &&
+              selectedData?.listData?.length ?
               selectedData?.listData?.map((player, ind) =>
                 starPlayerCount >= 3 &&
-                player?.isStarPlayer &&
-                !currentPlayer?.isStarPlayer ? null : (
+                player?.is_starPlayer &&
+                !currentPlayer?.is_starPlayer ? null : (
                   <SportsSelectionCard3
                     player={player}
                     btnTitle="Swap"
@@ -149,9 +179,10 @@ function RenderModal(props) {
                       onSwap(playerId, match_id)
                     }
                     type={selectedData?.type}
+                    pageType="nhl"
                   />
                 )
-              )
+              ) : (<h2 style={{margin: "40px auto"}}>No players available for Swap at this time.</h2>)
             )}
           </div>
         </div>

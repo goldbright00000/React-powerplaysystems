@@ -23,6 +23,10 @@ export const SET_CONVERSION_MARKUP = "SET_CONVERSION_MARKUP";
 export const SET_ACCOUNT_LIMITS = "SET_ACCOUNT_LIMITS";
 export const SET_COINBASE_REDIRECT_URL = "SET_COINBASE_REDIRECT_URL";
 export const REMOVE_COINBASE_REDIRECT_URL = "REMOVE_COINBASE_REDIRECT_URL";
+export const USER_WINNIGS = "USER_WINNIGS";
+export const COUNTRIES = "COUNTRIES";
+export const ACCOUNT_LIMIT = "ACCOUNT_LIMIT";
+export const PSIGATE_MONTHLY_TRANSACTION = "PSIGATE_MONTHLY_TRANSACTION";
 
 export function setUserBalance(payload) {
   setLocalStorage(
@@ -48,9 +52,11 @@ export function setAccountLimit(accountLimits) {
     return request.then((response) => {
       if (response.status === 200) {
         dispatch(createAlert(response?.data?.message, "success"));
-        return dispatch({ type: SET_ACCOUNT_LIMITS, payload: accountLimits });
+        dispatch({ type: SET_ACCOUNT_LIMITS, payload: accountLimits });
+        return response.data;
       } else {
-        return dispatch(createAlert(response?.data?.message, "error"));
+        dispatch(createAlert(response?.data?.message, "error"));
+        return response.data;
       }
     });
   };
@@ -65,6 +71,7 @@ export function fetchUserBalance() {
       .catch((err) => console.log(err?.response));
 }
 
+// PHP - In-Process this module.
 export async function payNowWithIpay(data) {
   http.post(URLS.USER.SMALL_TOKEN).then((res) => {
     let token = res.data;
@@ -75,13 +82,15 @@ export async function payNowWithIpay(data) {
       address,
       zip,
       phone_number,
-      city,
       amount,
       currency,
-      country,
-      state_or_province,
+      city,
+      // country,
+      // state_or_province,
       email,
     } = data;
+
+    // console.log("--->--- country ---<---", country);
 
     const obj = {
       api_key: process.env.REACT_APP_IPAY_API_KEY,
@@ -90,9 +99,9 @@ export async function payNowWithIpay(data) {
       first_name,
       last_name,
       address,
-      country: country.substring(0, 2)?.toUpperCase(),
-      state: state_or_province,
       city,
+      // state: state_or_province,
+      // country: country.substring(0, 2)?.toUpperCase(),
       zip,
       phone_no: phone_number,
       email,
@@ -103,12 +112,9 @@ export async function payNowWithIpay(data) {
       webhook_url: `${process.env.REACT_APP_IPAY_WEBHOOK_URL}/api/v1/users/account/balance`,
     };
 
-    axios
-      .post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj)
-      .then((res) => {
-        window.open(res.data.payment_redirect_url, "_blank");
-      })
-      .catch((er) => console.log(er));
+    axios.post("https://ipaytotal.solutions/api/hosted-pay/payment-request", obj).then((res) => {
+      window.open(res.data.payment_redirect_url, "_blank");
+    }).catch((er) => console.log(er));
   });
 }
 
@@ -188,6 +194,26 @@ export function payWithMyUserPay(data, history) {
       { history },
       {
         path: "users-gateway",
+        state: {
+          previousPath: history?.location?.pathname,
+          amount,
+          email
+        },
+      }
+    );
+  };
+}
+
+export function payWithPSiGate(data, history) {
+  const { amount, email, paymentMethod } = data;
+
+  return (dispatch) => {
+    dispatch({ type: SET_LOADING });
+
+    redirectTo(
+      { history },
+      {
+        path: "psi-gateway",
         state: {
           previousPath: history?.location?.pathname,
           amount,
@@ -318,4 +344,90 @@ export function requestBalanceWithdraw(data, changeModalState) {
       console.log(err);
     }
   };
+}
+
+export function submitContactUsForm(data) {
+
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.CONTACT_US}`,
+        data
+      );
+      return response.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function getUserWinnigs(user_id) {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.GET_USER_WINNINGS}/${user_id}`,
+      );
+
+      dispatch({
+        type: USER_WINNIGS,
+        payload: response.data,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+}
+
+export function getDBCountries() {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.GET_COUNTRIES}`,
+      )
+
+      dispatch({
+        type: COUNTRIES,
+        payload: response.data?.data,
+      })
+
+    } catch (err) {
+      console.log('Error in GET_COUNTRIES -> ', err);
+    }
+  }
+}
+
+export function checkAccountLimit(user_id, currency) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `${process.env.REACT_APP_API_URL}/api/v1/${URLS.USER.CHECK_LIMIT}`,
+        {
+          user_id, currency
+        }
+      )
+      dispatch({
+        type: ACCOUNT_LIMIT,
+        payload: response.data,
+      })
+      return response.data
+    } catch (err) {
+      console.log('Error in checkAccountLimit -> ', err)
+    }
+  }
+}
+
+export function getPSiGateMonthlyTransaction() {
+  return async (dispatch) => {
+    try {
+      const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.PAYMENT.GET_PSIGATE_MONTHLY_TRANSACTION}`)
+
+      dispatch({
+        type: PSIGATE_MONTHLY_TRANSACTION,
+        payload: response.data,
+      })
+
+    } catch (err) {
+      console.log('catch err', err);
+    }
+  }
 }

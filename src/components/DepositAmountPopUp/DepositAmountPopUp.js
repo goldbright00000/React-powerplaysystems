@@ -10,6 +10,9 @@ import { setRates } from "../../actions/userActions";
 import ArrowLeft from "../../assets/icons/ArrowLeft";
 import DepositAmountFormMobile from "./DepositAmountFormMobile";
 
+import visa from "../../assets/visa.png";
+import mastercard from "../../assets/mastercard.png";
+
 const DepositAmountPopUp = (props) => {
   const { city, address, phone_number, zip, currency, country } =
     props?.user || {};
@@ -44,26 +47,10 @@ const DepositAmountPopUp = (props) => {
                 <span></span>
               </div>
             </div>
-            <div className="modal-body">
+            <div className="modal-body p-0">
               <div className="container-fluid">
-                <div className="row align-items-center justify-content-between">
-                  <div className="col-auto">
-                    <DepositAmountForm
-                      city={city}
-                      address={address}
-                      phoneNumber={phone_number}
-                      zip={zip}
-                      currency={currency}
-                      country={country}
-                      cad={rate}
-                      ipaySubmitted={props.ipayFormSubmitted}
-                      zumSubmitted={props.zumFormSubmitted}
-                      myUserPaySubmitted={props.myUserPayFormSubmitted}
-                      coinbaseSubmitted={props.coinbaseFormSubmitted}
-                      formCurrency={formCurrency}
-                    />
-                  </div>
-                  <div className="col-auto">
+                <div className="row">
+                  <div className={`${styles.leftsidebg} col-md-3 p-0`}>
                     <div className={styles.leftSection}>
                       <div>
                         <h6 className={styles.title}>Current Balance</h6>
@@ -71,7 +58,7 @@ const DepositAmountPopUp = (props) => {
                       </div>
                       <div className={styles.creditCardDetails}>
                         <h6 className={styles.title2}>
-                          Credit / Debit / PayPal / eCheck
+                        Credit / Debit
                         </h6>
                         <p className="__mt-1 __mb-sm text-dark">
                           Minimum Deposit: <b>No Minimum</b>
@@ -80,14 +67,25 @@ const DepositAmountPopUp = (props) => {
                           Maximum Deposit: <b>$500.00 USD</b>
                         </p>
                       </div>
-                      <div>
-                        <h6 className={styles.title2}>BTC / ETH</h6>
-                        <p className="__mt-1 __mb-sm  text-dark">
+                      <div className={styles.creditCardDetails}>
+                        <h6 className={styles.title2}>
+                        BTC / ETH
+                        </h6>
+                        <p className="__mt-1 __mb-sm text-dark">
                           Minimum Deposit: <b>No Minimum</b>
                         </p>
                         <p className=" text-dark">
                           Maximum Deposit: <b>No Maximum</b>
                         </p>
+                      </div>
+                      <div className={styles.creditCardDetails}>
+                        <h6 className={styles.title2}>
+                        We Accept
+                        </h6>
+                        <div className={styles.weaccept}>
+                          <span><img src={visa}/></span>
+                          <span><img src={mastercard}/></span>
+                        </div>
                       </div>
                       <div className={styles.updateDepositSection}>
                         <h4 className="__mb-0 __mt-5 __primary-color ">
@@ -101,12 +99,29 @@ const DepositAmountPopUp = (props) => {
                       </div>
                     </div>
                   </div>
+                  <div className="col-md-9 p-0">
+                    <div className={styles.RightSideSection}>
+                    <DepositAmountForm
+                      city={city}
+                      address={address}
+                      phoneNumber={phone_number}
+                      zip={zip}
+                      currency={currency}
+                      country={country}
+                      cad={rate}
+                      dispatch={dispatch}
+                      ipaySubmitted={props.ipayFormSubmitted}
+                      zumSubmitted={props.zumFormSubmitted}
+                      myUserPaySubmitted={props.myUserPayFormSubmitted}
+                      coinbaseSubmitted={props.coinbaseFormSubmitted}
+                      formCurrency={formCurrency}
+                    />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-
           {/* Display only on small screens */}
           <div className="modal-content d-block d-xl-none bg-none">
             <div className={`${formStyles.root} pt-2 px-4 position-relative`}>
@@ -123,8 +138,12 @@ const DepositAmountPopUp = (props) => {
                   </button>
                 </div>
               }
-              <div className="modal-header px-1 py-0 border-0 mb-3">
+              <div className="modal-header px-1 py-0 border-0 mb-3 mt-3">
                 <h3 className="modal-title text-orange fw-bold">Deposit</h3>
+                <div className={styles.weaccept}>
+                          <span><img src={visa}/></span>
+                          <span><img src={mastercard}/></span>
+                        </div>
                 <div className={`${styles.crossicon} ${nextForm > 1 ? 'position-absolute' : ''}`} onClick={props.onClose} style={{
                   top: nextForm > 1 ? '3%' : '', right: nextForm > 1 ? '3%' : ''
                 }}>
@@ -199,6 +218,17 @@ const DepositAmountPopUp = (props) => {
                         <p style={{ color: '#f2f2f2', fontSize: '14px', fontWeight: '600' }}>No Maximum</p>
                       </div>
                     </div>
+                    {/* <div className="col-12">
+                    <div className={styles.creditCardDetails}>
+                        <h6  className={styles.title2}>
+                        We Accept
+                        </h6>
+                        <div className={styles.weaccept}>
+                          <span><img src={visa}/></span>
+                          <span><img src={mastercard}/></span>
+                        </div>
+                      </div>
+                    </div> */}
                     <div className="col-12">
                       <p className="fw-normal text-white">
                         View more information about how to control your game play settings on our <span className="text-orange">Responsible Gaming</span> page.

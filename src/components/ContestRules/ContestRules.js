@@ -29,7 +29,7 @@ const ContestRules = props => (
             <button className='__btn __style-3 __large-btn __white __mediam '>See Full Rules <LeftArrow className="__ml-s" /> </button>
         <div className='__flex-stretch __absolute __image-wrapper'>
             <img src={book} className='__book' alt='' />
-            <span className='__mediam __mt-s __ml-s'>Contest Rules</span>
+            <span className='__mediam __mt-s __ml-s'>Gameplay Rules</span>
         </div>
     </div>
 )

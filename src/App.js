@@ -24,6 +24,7 @@ import BingoInProgressGame from "./pages/BingoInProgressGame/BingoInProgressGame
 import Elite8 from "./pages/Elite8";
 import Elite8Draw from "./pages/Elite8Draw";
 import LoginPage from "./pages/Login";
+import ResetPasswordPage from "./pages/ResetPassword";
 import RoyalGame from "./pages/RoyalGame";
 import PowerPoker from "./pages/PowerPoker";
 import LandingPage from "./pages/LandingPage";
@@ -31,14 +32,12 @@ import AccountPage from "./pages/AccountPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MyGameCenter from "./pages/MyGameCenter/MyGameCenter";
 import MLBPowerdFs from "./pages/MLBpowerdFS";
-// import NFLPowerdFs from "./pages/NFLpowerdFS";
-import NFLPowerdFs from "./pages/NFLPowerdFS_new";
+import NFLPowerdFs from "./pages/NFLpowerdFS";
 import NHLPowerdFs from "./pages/NHLpowerdFS";
 import NBAPowerdFs from "./pages/NBApowerdFS";
-import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import MLBPowerdFsLive from "./pages/MLBPowerdfsLive";
-import NHLLivePowerdFsScroeDetail from "./pages/NHLLivePowerdFsScroeDetail/NHLLivePowerdFsScroeDetail";
-import MLBLivePowerdFsScroeDetail from "./pages/MLBLivePowerdFsScroeDetail/MLBLivePowerdFsScroeDetail";
+import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
+import NHLPowerdFsLive from "./pages/NHLPowerdfsLive";
 import ContactUSPage from "./pages/ContactUSPage/ContactUSPage";
 import { setupUser } from "./actions/authActions";
 import ResponsibleGaming from "./pages/ResponsibleGaming";
@@ -47,19 +46,21 @@ import AccountSecurityPage from "./pages/AccountSecurityPage";
 import FAQsPage from "./pages/FAQsPage";
 import TrustAndSafetyPage from "./pages/TrustAndSafetyPage";
 import HowToPlayPage from "./pages/HowToPlayPage";
+import RechargeHowToPlayPage from "./pages/HowToPlayPage/rechargePage";
 
 import PaymentFrame from "./components/ZumPayment/PaymentFrame";
 import UsersPaymentGateway from "./pages/UsersPaymentGateway/UsersGateway";
+import PSiGateway from "./pages/UsersPaymentGateway/psiGateway";
 import VerifyIdentityPage from "./pages/VerifyIdentityPage";
 import { css } from "@emotion/react";
 import ClipLoader from "react-spinners/DotLoader";
 import MLBPowerLevels from "./pages/MLBPowerLevels";
 import LivePlayPowerLevels from "./pages/LivePlayPowerLevels";
-import NFLPowerdFsLive from "./pages/NFLPowerdfsLive";
 import MLBRecharge from "./pages/MLBRecharge";
 import { isEmpty } from "lodash";
 
 import ChallengePage from "./pages/PowerCenter/ChallengePage";
+import ContestRulesPage from "./pages/ContestRules";
 
 const App = (props) => {
   // Can be a string as well. Need to ensure each key-value pair ends with ;
@@ -108,16 +109,6 @@ const App = (props) => {
             component={PowerPlaySponsorsPage}
           />
           <Route
-            exact
-            path="/nhl-live-powerdfs/my-score-details"
-            component={NHLLivePowerdFsScroeDetail}
-          />
-          <Route
-            exact
-            path="/mlb-live-powerdfs/my-score-details"
-            component={MLBLivePowerdFsScroeDetail}
-          />
-          <Route
             path="/power-play-sponsors/sponsor-a-contest"
             component={SponserAContestPage}
           />
@@ -144,6 +135,7 @@ const App = (props) => {
           <ProtectedRoute path="/my-game-center" component={MyGameCenter} />
           <Route path="/bingo-in-progress" component={BingoInProgressGame} />
           <Route path="/login" component={LoginPage} />
+          <Route path="/reset-password" component={ResetPasswordPage} />
           <Route path="/power-royals" component={RoyalGame} />
           <Route path="/power-poker" component={PowerPoker} />
           <Route path="/landing-page" component={LandingPage} />
@@ -160,11 +152,14 @@ const App = (props) => {
           <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
           <Route path="/responsible-gaming" component={ResponsibleGaming} />
           <Route path="/how-to-play" component={HowToPlayPage} />
+          <Route path="/recharge-how-to-play" component={RechargeHowToPlayPage} />
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
           <Route path="/users-gateway" component={UsersPaymentGateway} />
+          <Route path="/psi-gateway" component={PSiGateway} />
           <Route path="/livee" component={LiveStanding} />
+          <Route path="/contest-rules" component={ContestRulesPage} />
           <Route
             path="/live-play-power-levels"
             component={LivePlayPowerLevels}

@@ -26,7 +26,7 @@ import SwapIcon from "../../icons/Swap";
 import ShieldIcon from "../../icons/ShieldIcon";
 import VideoIcon from "../../icons/VideoIcon";
 
-import { dummyData } from "../../pages/NHLpowerdFS/dummyData";
+// import { dummyData } from "../../pages/NHLpowerdFS/dummyData";
 import SimpleCardView from "./SimpleCardView";
 import SearchInput from "../SearchInput";
 import StarPlayersCheck from "../StarPlayersCheck";
@@ -137,15 +137,14 @@ function SportsLiveCardSelection(props) {
     let _cat = hasText(category, "team")
       ? "td"
       : `${category}`?.replace(/1|2/g, "");
-    const [replaceData] = dummyData?.filter((_data) => _data?.cat === _cat);
+    // const [replaceData] = dummyData?.filter((_data) => _data?.cat === _cat);
 
     setReplaceModalState(!showReplaceModal);
-    setSelectedModalData(replaceData);
-    setFilterdData(replaceData);
+    // setSelectedModalData(replaceData);
+    // setFilterdData(replaceData);
   };
 
   const onPlayerSwap = (id) => {
-    console.log("IN SWAP CLICK");
     const _dataList = [...selectedData];
     let targetPlayerIndex = _dataList?.indexOf(currentPlayer);
     let _starPlayerCount = starPlayerCount;

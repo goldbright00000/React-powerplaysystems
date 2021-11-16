@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import ordinal from 'ordinal';
+import ordinal from "ordinal";
 
 import classes from "./index.module.scss";
 import Modal from "../Modal";
@@ -8,13 +8,17 @@ import CloseIcon from "../../icons/Close";
 import CupIcon from "../../icons/Cup";
 
 function PrizeModal(props) {
-  const { visible = false, sportsName = "", data = [], onClose = () => { } } =
-    props || {};
+  const {
+    visible = false,
+    sportsName = "",
+    data = [],
+    onClose = () => {},
+  } = props || {};
 
   const Item = ({ place, payout }) => (
     <div className={classes.item}>
       <div className={classes.item_text}>{place}</div>
-      <div className={`${classes.item_text} ${classes.primary}`}>{payout}</div>
+      <div className={`${classes.item_text} ${classes.primary}`}>${payout}</div>
     </div>
   );
 
@@ -46,7 +50,10 @@ function PrizeModal(props) {
                   return (
                     <>
                       {item?.from === item?.to ? (
-                        <p className={classes.__prize_grid_data_title}>
+                        <p
+                          className={classes.__prize_grid_data_title}
+                          key={ind}
+                        >
                           {
                             <Item
                               place={ordinal(parseInt(item?.from))}
@@ -56,20 +63,23 @@ function PrizeModal(props) {
                           }
                         </p>
                       ) : (
-                        <p className={classes.__prize_grid_data_title}>
+                        <p
+                          className={classes.__prize_grid_data_title}
+                          key={ind}
+                        >
                           {
                             <Item
-                              place={`${ordinal(parseInt(item?.from))} - ${ordinal(parseInt(item?.to))}`}
+                              place={`${ordinal(
+                                parseInt(item?.from)
+                              )} - ${ordinal(parseInt(item?.to))}`}
                               payout={item?.amount}
                               key={ind + "--"}
                             />
-
                           }
                         </p>
                       )}
-
                     </>
-                  )
+                  );
                 })}
             </div>
           </div>

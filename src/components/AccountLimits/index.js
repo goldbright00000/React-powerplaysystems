@@ -1,22 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "./index.module.scss";
 import { setAccountLimit } from "../../actions/userActions";
 import { useDispatch } from "react-redux";
 import CloseIconGrey from "../../assets/close-icon-grey.png";
 import InfoIconOrange from "../../assets/icons/info-icon.png";
 
+const CURRENCIES = [
+  'USD',
+  'BTC',
+  'ETH',
+]
+
 const AccountLimits = (props) => {
   const { isMobile = false } = props || {};
   const dispatch = useDispatch();
   let { accountLimit = {} } = props || {};
+  const [DailyAmountAlert, setDailyAmountAlert] = React.useState(0);
+  const [WeeklyAmountAlert, setWeeklyAmountAlert] = React.useState(0);
+  const [MonthlyAmountAlert, setMonthlyAmountAlert] = React.useState(0);
+  const [DailyAmountLimit, setDailyAmountLimit] = React.useState(0);
+  const [WeeklyAmountLimit, setWeeklyAmountLimit] = React.useState(0);
+  const [MonthlyAmountLimit, setMonthlyAmountLimit] = React.useState(0);
+  const [EntryFeeLimit, setEntryFeeLimit] = React.useState(0);
+  const [CurrentCurrency, setCurrentCurrency] = React.useState(0);
+  
+  useEffect(()=> {
+    handleLimitChanges("");
+  },[])
+
+  useEffect(()=> {
+    handleLimitChanges("");
+  },[accountLimit])
 
   let handleLimitChanges = (e) => {
-    if (e.target.value === "") accountLimit[e.target.name] = null;
-    else accountLimit[e.target.name] = e.target.value;
+    if (e == '') {
+      var CurrentVal = 'USD';
+    } else {
+      var CurrentVal = e.target.value;
+    }
+
+    setCurrentCurrency(CurrentVal);
+
+    if(CurrentVal !== "" && CurrentVal != undefined) {
+      var emptyVal = 0;
+      accountLimit.length > 0 && accountLimit.forEach(element => {
+         
+        if(CurrentVal === element.currency) {
+          emptyVal++;
+          setDailyAmountAlert(element.dailyAlert);
+          setWeeklyAmountAlert(element.weeklyAlert);
+          setMonthlyAmountAlert(element.monthlyAlert);
+          
+          setDailyAmountLimit(element.dailyLimit);
+          setWeeklyAmountLimit(element.weeklyLimit);
+          setMonthlyAmountLimit(element.monthlyLimit);
+
+          setEntryFeeLimit(element.entryFeeLimit);
+        }
+      });
+    }
+    if(emptyVal==0)
+    {
+      setDailyAmountAlert(0);
+      setWeeklyAmountAlert(0);
+      setMonthlyAmountAlert(0);
+      
+      setDailyAmountLimit(0);
+      setWeeklyAmountLimit(0);
+      setMonthlyAmountLimit(0);
+
+      setEntryFeeLimit(0);
+    }
   };
 
-  let handleApplyLimitChanges = () => {
-    dispatch(setAccountLimit(accountLimit));
+  let handleApplyLimitChanges = async () => {
+    let data = {
+      currency: CurrentCurrency,
+      dailyAlert: DailyAmountAlert,
+      dailyLimit: DailyAmountLimit,
+      monthlyAlert: MonthlyAmountAlert,
+      monthlyLimit: MonthlyAmountLimit,
+      weeklyAlert: WeeklyAmountAlert,
+      weeklyLimit: WeeklyAmountLimit,
+      entryFeeLimit: EntryFeeLimit
+    };
+    var responseData = await dispatch(setAccountLimit(data));
+    props.SetAccountList(responseData.data);
   };
 
   const renderLimitsAndAlerts = (
@@ -24,38 +93,47 @@ const AccountLimits = (props) => {
     info,
     alertFieldLabel,
     limitFieldLabel,
-    fieldType
+    fieldType,
+    alert,
+    limit,
+    SetAlertValue,
+    SetLimitValue
   ) => {
     return (
-      <div className={classes.__deposit_limits_and_alerts_content} key={key}>
-        {isMobile ? null : <div className={classes.__info}>{info}</div>}
-        <div className={classes.__input_field}>
-          <div>
-            <div>{alertFieldLabel}</div>
-            <input
-              defaultValue={accountLimit?.[`${fieldType}Alert`]}
-              name={`${fieldType}Alert`}
-              type="number"
-              className={classes.__input}
-              placeholder="No Limit"
-              onChange={handleLimitChanges}
-            />
+      <>
+        <div className={classes.__deposit_limits_and_alerts_content} key={key}>
+          {isMobile ? null : <div className={classes.__info}>{info}</div>}
+          <div className={classes.__input_field}>
+            <div>
+              <div>{alertFieldLabel}</div>
+              <input
+                defaultValue={accountLimit?.[`${fieldType}Alert`]}
+                name={`${fieldType}Alert`}
+                type="number"
+                className={classes.__input}
+                placeholder="No Limit"
+                // onChange={handleLimitChanges}
+                onChange={(e) => SetAlertValue(e.target.value) }
+                value={alert}
+              />
+            </div>
+          </div>
+          <div className={classes.__input_field}>
+            <div className="">
+              <div>{limitFieldLabel}</div>
+              <input
+                defaultValue={accountLimit?.[`${fieldType}Limit`]}
+                name={`${fieldType}Limit`}
+                type="number"
+                className={classes.__input}
+                placeholder="No Limit"
+                onChange={ (e) => SetLimitValue(e.target.value) }
+                value={limit}
+              />
+            </div>
           </div>
         </div>
-        <div className={classes.__input_field}>
-          <div className="mx-2">
-            <div>{limitFieldLabel}</div>
-            <input
-              defaultValue={accountLimit?.[`${fieldType}Limit`]}
-              name={`${fieldType}Limit`}
-              type="number"
-              className={classes.__input}
-              placeholder="No Limit"
-              onChange={handleLimitChanges}
-            />
-          </div>
-        </div>
-      </div>
+      </>
     );
   };
 
@@ -119,6 +197,7 @@ const AccountLimits = (props) => {
                   width="20px"
                   height="20px"
                   onClick={() => setInfoModal(false)}
+                  alt=""
                 />
               </div>
               <br />
@@ -154,8 +233,16 @@ const AccountLimits = (props) => {
               </p>
             </div>
 
+            <div className={classes.__currency__main}>
+               {CURRENCIES.map((item, index) => {
+                return (
+                  <input type="button" onClick={handleLimitChanges} name={item} className={`${classes.__currency__button} ${" btn mx-2"} ${item === CurrentCurrency && classes.__currency__button__active}`} value={item} />
+                )
+              })}
+            </div>
+
             <div className={classes.__main_title}>
-              Deposit Limits and Alerts{" "}
+             {CurrentCurrency} Deposit Limits and Alerts{" "}
               {isMobile ? (
                 <img
                   style={{ alignSelf: "center" }}
@@ -166,6 +253,7 @@ const AccountLimits = (props) => {
                     setInfoModal(true);
                     setInfoType("DepositAlert");
                   }}
+                  alt=""
                 />
               ) : null}
             </div>
@@ -177,7 +265,11 @@ const AccountLimits = (props) => {
               ],
               "Set Daily Alert",
               "Set Daily Limit",
-              "daily"
+              "daily",
+              DailyAmountAlert,
+              DailyAmountLimit,
+              setDailyAmountAlert,
+              setDailyAmountLimit
             )}
             {renderLimitsAndAlerts(
               2,
@@ -187,19 +279,35 @@ const AccountLimits = (props) => {
               ],
               "Set Weekly Alert",
               "Set Weekly Limit",
-              "weekly"
+              "weekly",
+              WeeklyAmountAlert,
+              WeeklyAmountLimit,
+              setWeeklyAmountAlert,
+              setWeeklyAmountLimit
             )}
             {renderLimitsAndAlerts(
               3,
               "Limitations will take effect at 12:01 AM on the following day.",
               "Set Monthly Alert",
               "Set Monthly Limit",
-              "monthly"
+              "monthly",
+              MonthlyAmountAlert,
+              MonthlyAmountLimit,
+              setMonthlyAmountAlert,
+              setMonthlyAmountLimit
             )}
           </>
         )}
         {isMobile ? (
+          
           <div className="container-fluid">
+            <div className={classes.__currency__main}>
+               {CURRENCIES.map((item, index) => {
+                return (
+                  <input type="button" onClick={handleLimitChanges} name={item} className={`${classes.__currency__button} ${" btn mx-2"} ${item === CurrentCurrency && classes.__currency__button__active}`} value={item} />
+                )
+              })}
+            </div>
             <div className={classes.__main_title}>
               Deposit Alerts{" "}
               <img
@@ -211,6 +319,7 @@ const AccountLimits = (props) => {
                   setInfoModal(true);
                   setInfoType("DepositAlert");
                 }}
+                alt=""
               />
             </div>
 
@@ -237,6 +346,7 @@ const AccountLimits = (props) => {
                   setInfoModal(true);
                   setInfoType("DepositLimit");
                 }}
+                alt=""
               />
             </div>
 
@@ -258,7 +368,7 @@ const AccountLimits = (props) => {
           <button onClick={handleApplyLimitChanges}>Apply</button>
         </div>
         <div className={`${classes.__main_title} container-fluid`}>
-          Entry Fee Limit{" "}
+        {CurrentCurrency} Entry Fee Limit{" "}
           {isMobile ? (
             <img
               style={{ alignSelf: "center" }}
@@ -269,6 +379,7 @@ const AccountLimits = (props) => {
                 setInfoModal(true);
                 setInfoType("EntryFeeLimit");
               }}
+              alt=""
             />
           ) : null}
         </div>
@@ -290,7 +401,8 @@ const AccountLimits = (props) => {
                 type="number"
                 className={`${classes.__input} w-100`}
                 placeholder="No Limit"
-                onChange={handleLimitChanges}
+                onChange={ (e) => setEntryFeeLimit(e.target.value) }
+                value={EntryFeeLimit}
               />
             </div>
           </div>

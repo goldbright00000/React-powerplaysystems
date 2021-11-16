@@ -33,7 +33,8 @@ const MobileBalance = (props) => {
     (state) => state
   );
   const history = useHistory();
-
+  const [sticky, setSticky] = React.useState();
+  const [hideExtra, setHideExtra] = React.useState(true);
   useEffect(() => {
     const displayBalance = JSON.parse(
       getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.DISPLAY_BALANCE)
@@ -41,9 +42,16 @@ const MobileBalance = (props) => {
     if (displayBalance) {
     }
   }, []);
-
+  window.onscroll = () => {
+    if (window.scrollY > 400) {
+      setSticky("stick");
+    } else {
+      setSticky("");
+    }
+  };
   return (
-    <div className={classes.__balance}>
+    <div className={`${classes.sticky} ${classes.__balance}`}>
+      <div className={classes.balanceRow}>
       <div className={classes.__balance_cash_and_balance_outer}>
         <div className={classes.__balance_cash_and_balance_icon}>
           <img src={PowerBalanceGrey} />
@@ -81,6 +89,55 @@ const MobileBalance = (props) => {
       >
         Deposit
       </div>
+    
+    
+
+    </div>
+    <div className={`${classes.balanceRow} ${hideExtra?classes.hideit:""}`}>
+      <div className={classes.__balance_cash_and_balance_outer}>
+        <div className={classes.__balance_cash_and_balance_icon}>
+          <img src={BitcoinGrey} />
+        </div>
+        <div className={classes.__balance_cash_and_balance_inner}>
+          <div className={classes.__balance_power_and_cash_balance}>
+            {userBalance.btcBalance ||
+              getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.BTC_BALANCE)}
+          </div>
+          <div className={classes.__balance_power_and_cash_balance_title}>
+            Bitcoin 
+          </div>
+        </div>
+      </div>
+      <div className={classes.__balance_cash_and_balance_outer}>
+        <div className={classes.__balance_cash_and_balance_icon}>
+          <img src={EthereumGrey} />
+        </div>
+        <div className={classes.__balance_cash_and_balance_inner}>
+          <div className={classes.__balance_power_and_cash_balance}>
+            {userBalance.ethBalance ||
+                getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.ETH_BALANCE)
+            }
+          </div>
+          <div className={classes.__balance_power_and_cash_balance_title}>
+            Ethereum
+          </div>
+        </div>
+      </div>
+      <div
+        className={classes.__balance_deposit}
+        
+      >
+        
+      </div>
+    
+    
+
+    </div>
+    <div className={classes.bottomButton} onClick={() => {
+      let oldState = hideExtra;
+      let newState = !oldState;
+      setHideExtra(newState);
+    }}></div>
     </div>
   );
 };

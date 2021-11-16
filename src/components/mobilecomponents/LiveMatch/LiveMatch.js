@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import WinningCash from "./WinningCash";
 import Chart from "./Chart";
@@ -10,20 +10,26 @@ import SwapStarter from "../SwapStarter/SwapStarter";
 import "./live_match.scss";
 import RankIcon from "../../../icons/Ranks/RankIcon";
 
-const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank }) => {
-  const [modal, setModal] = useState(false);
+import * as mlbActions from "../../../actions/MLBActions";
+import { useDispatch, useSelector } from "react-redux";
 
+const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWinnings, leader, currentRank, counts, onChangeXp = (xp, player) => {}, data, selectedPlayer, gameInfo }) => {
+  const [modal, setModal] = useState(false);
+  
   const [priceGrid, setPriceGrid] = useState(false);
   
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
-  
-  console.log("ranksranks", ranks);
+  const dispatch = useDispatch();
 
   const toggle = () => setModal(!modal);
   const priceModal = (value) => {
     setModal(value);
     setPriceGrid(!priceGrid);
   };
+  
+  
+
+  
 
   return (
     <>
@@ -31,15 +37,18 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWin
         <div className="live">
           <Container>
             <Row>
-              <Col xs={4}>
-                <WinningCash currentWinnings={currentWinnings}/>
-              </Col>
-              <Col xs={4}>
-                <RankIcon rank={currentRank} />
-              </Col>
+              <Col xs={2}></Col>
               <Col xs={4}>
                 <MyScore score={score} leader={leader}/>
               </Col>
+              <Col xs={6} style={{display: "flex",flexDirection: "column",alignItems: "flex-start",justifyContent: "flex-end"}}>
+                <WinningCash currentWinnings={currentWinnings}/>
+              </Col>
+              
+              {/* <Col xs={4}>
+                <RankIcon rank={currentRank} />
+              </Col> */}
+              
             </Row>
           </Container>
           <div className="matchWrapper__rank">
@@ -67,10 +76,11 @@ const LiveMatch = ({ swap, secondModal, boostModal, swapModal, ranks, currentWin
         priceModal={priceModal}
         swapModal={swapModal}
         setModal={setModal}
+        counts={counts}
       />
-      <BoosterPopUp secondModal={secondModal} boostModal={boostModal} />
+      <BoosterPopUp secondModal={secondModal} boostModal={boostModal} counts={counts} onChangeXp={onChangeXp} data={data} selectedPlayer={selectedPlayer}/>
       <PrizeGrid priceGrid={priceGrid} priceModal={priceModal} />
-      <SwapStarter swap={swap} swapModal={swapModal} />
+      <SwapStarter swap={swap} swapModal={swapModal} selectedPlayer={selectedPlayer}/>
     </>
   );
 };

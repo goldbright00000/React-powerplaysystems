@@ -10,12 +10,14 @@ import Points from "../../icons/Points";
 import ContestRulesPopUp from "../ContestRulesPopUp";
 import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
+import _ from "underscore";
+import group2 from '../../assets/group-2.png';
 function Header4(props) {
   const {
-    outof = '',
-    enrolledUsers = '',
-    onClickContest = () => { },
-    onClickPrize = () => { },
+    outof = "",
+    enrolledUsers = "",
+    onClickContest = () => {},
+    onClickPrize = () => {},
     titleMain1 = "",
     titleMain2 = "",
     subHeader1 = "",
@@ -29,8 +31,12 @@ function Header4(props) {
     isMobile = false,
     points = [],
     powers = [],
+    livePage = false,
+    selectedTeam = {}
   } = props || {};
-
+  const { game = {} } = selectedTeam;
+  const { game_type = "", powerdfs_challenge_amount = 0, prizePool = 0 } = game;
+  
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
@@ -41,73 +47,152 @@ function Header4(props) {
     </div>
   );
 
+  const numberWithCommas = (x) => {
+    if (x >= 10000) return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    else return x;
+  };
+
+  const getGameTypeText = (game_type) => {
+    if(game_type === "PowerdFS") {
+      return "";
+    }
+    else if(game_type === "PowerdFs_Recharge") {
+      return "";
+    }
+    else if(game_type === "PowerdFs_open") {
+      return "";
+    }
+    else if(game_type === "PowerdFs_promo") {
+      if(props.isTeamSelectionPage)
+      {
+        return <><br /> Manager Challenge </>;
+      }
+      else {
+        return "Manager Challenge";
+      }
+    }
+    else if(game_type === "PowerdFs_challenge") {
+      if(props.isTeamSelectionPage)
+      {
+        return <><br /> {powerdfs_challenge_amount} Point Challenge </>;
+      }
+      else {
+        return `${powerdfs_challenge_amount} Point Challenge`;
+      }
+    }
+    else if(game_type === "PowerdFs_Progressive") {
+      if(props.isTeamSelectionPage)
+      {
+        return <><br /> Progressive Jackpot </>;
+      }
+      else {
+        return "Progressive Jackpot";
+      }
+    }
+    else if(game_type === "PowerdFs_One") {
+      return "One";
+    }
+  }
+
   const RenderHeader = () => (
     <div
-      className={`${classes.header_container} ${compressedView && classes.compressedView
-        }`}
+      className={`${classes.header_container} ${
+        compressedView && classes.compressedView
+      }`}
       style={{ backgroundImage: "url(" + bgImageUri + ")" }}
     >
-      {
-        isMobile
-          ?
-          <div className={classes.header_top}>
+      {isMobile ? (
+        <div className={classes.header_top}>
+          <div className={classes.header_title}>Select your team</div>
+          <div>
+            <span className={classes.horizontal_line}></span>
+            <span className={classes.header_sub_title}>
+              7 starters + 1 team D
+            </span>
+            <span className={classes.horizontal_line}></span>
+          </div>
+        </div>
+      ) : (
+        <div className={classes.header_top}>
+          {titleMain1 && (
             <div className={classes.header_title}>
-              Select your team
+              <h2 className={compressedView && classes.compressedView} style={{textAlign: "center",lineHeight: "50px"}}>
+                {titleMain1} {(game_type === "PowerdFs_Recharge") ? (<img src={group2} />) : (<><span>{titleMain2}</span> {getGameTypeText(game_type)}</>)}
+              </h2>
             </div>
-            <div>
-              <span className={classes.horizontal_line}></span>
-              <span className={classes.header_sub_title}>7 starters + 1 team D</span>
-              <span className={classes.horizontal_line}></span>
-            </div>
-          </div>
-          :
-          <div className={classes.header_top}>
-            {titleMain1 && (
-              <div className={classes.header_title}>
-                <h2 className={compressedView && classes.compressedView}>
-                  {titleMain1} <span>{titleMain2}</span>
-                </h2>
-              </div>
-            )}
-            {!compressedView && subHeader1 && <p>{subHeader1}</p>}
-            {!compressedView && subHeader2 && (
-              <p className={classes.p2}>{subHeader2}</p>
-            )}
+          )}
+          
+          {(game_type === "PowerdFs_promo" || game_type === "PowerdFs_Recharge") && <p>Power your team to victory and win big!</p>}
+          {(game_type === "PowerdFs_Progressive") && <p>Jackpot starts from $1,000 and will grow with each entry!</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "NFL" || titleMain1 == "NBA")) && <p>One-Quarter Fantasy Football</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "NHL")) && <p>One-Period Fantasy Hockey</p>}
+          {(game_type === "PowerdFs_One" && (titleMain1 == "MLB")) && <p>One-Inning Fantasy Football</p>}
 
-            <div
-              className={`${classes.header_buttons} ${compressedView && classes.compressedView
-                }`}
-            >
-              {contestBtnTitle && (
-                <ContestRulesPopUp
-                  points={points}
-                  powers={powers}
-                  component={({ showPopUp }) => (
-                    <button onClick={showPopUp}>
-                      <DocIcon /> {contestBtnTitle}
-                    </button>
-                  )}
-                />
-              )}
-              {prizeBtnTitle && (
-                <button
-                  className={compressedView && classes.compressedView}
-                  onClick={onClickPrize}
-                >
-                  <Trophy /> Prize Grid
-                </button>
-              )}
-            </div>
-          </div>
-      }
+          {props?.isTeamSelectionPage && game_type !== "PowerdFS" && <p>{props.teamSelectionPageText}</p>}
 
-      {
-        (token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER))
-        &&
-        !isMobile
-        &&
-        <Balance entries={enrolledUsers} totalEntries={outof} />
-      }
+          {!compressedView && subHeader1 && game_type == "PowerdFS" && <p>{subHeader1}</p>}
+          {!compressedView && subHeader2 && game_type == "PowerdFS" && (
+            <p className={classes.p2}>{subHeader2}</p>
+          )}
+
+          {props?.isTeamSelectionPage && game_type == "PowerdFs_challenge" && <div style={{
+            fontFamily: "Teko",
+            fontSize: 60,
+            fontWeight: "bold",
+            textAlign: "center",
+            color: "#f2f2f2"
+          }}>${numberWithCommas(prizePool)}</div>}
+          
+
+          <div
+            className={`${classes.header_buttons} ${
+              compressedView && classes.compressedView
+            }`}
+          >
+            {contestBtnTitle && (
+              <ContestRulesPopUp
+                points={
+                  typeof props.selectedTeam !== "undefined"
+                    ? _.groupBy(
+                        props?.selectedTeam?.game?.PointsSystems,
+                        "type"
+                      )
+                    : points
+                }
+                powers={
+                  typeof props.selectedTeam !== "undefined"
+                    ? props?.selectedTeam?.game?.Powers
+                    : powers
+                }
+                component={({ showPopUp }) => (
+                  <button onClick={showPopUp}>
+                    <DocIcon /> {contestBtnTitle}
+                  </button>
+                )}
+                title={titleMain1.split(" ")[0]}
+              />
+            )}
+            {prizeBtnTitle && (
+              <button
+                className={compressedView && classes.compressedView}
+                onClick={onClickPrize}
+              >
+                <Trophy /> Prize Grid
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* {(token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)) &&
+        !isMobile && ( */}
+      <Balance
+        entries={enrolledUsers}
+        totalEntries={outof}
+        livePage={livePage}
+        depositClicked={props.depositClicked}
+      />
+      {/* )} */}
     </div>
   );
 

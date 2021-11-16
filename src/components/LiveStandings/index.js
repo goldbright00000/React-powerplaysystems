@@ -72,8 +72,7 @@ const dummyData = [
 ];
 
 function LiveStandings(props) {
-  const { visible = false, onClose = () => {} } = props || {};
-
+  const { visible = false, onClose = () => { }, isMobile = false } = props || {};
   const getCurrentTime = () => {
     const dd = new Date();
     const month = [
@@ -103,11 +102,6 @@ function LiveStandings(props) {
       " ET"
     );
   };
-
-  // const {
-  //   powerDFSRanking = []
-  // } = props?.liveStandingData || {}
-
   const [filteredData, setFilteredData] = useState(
     props?.liveStandingData || []
   );
@@ -140,16 +134,17 @@ function LiveStandings(props) {
       <span>{item?.ranking}</span>
       <span>{item?.team?.user?.display_name}</span>
       <span>{item?.score}</span>
-      <span>${setNumberComma(item?.winnings?.amount)}</span>
+      <span>${item?.winnings?.amount ? setNumberComma(item?.winnings?.amount) : 0}</span>
       <span>
-        {ind !== 0 && <button className={classes.button_btn}>View Team</button>}
+        {ind !== 0 && <button className={classes.button_btn}>{isMobile ? "Team" : "View Team"}</button>}
       </span>
     </div>
   );
 
   return (
     <Modal visible={visible} onClose={onClose} iconStyle={{ display: "none" }}>
-      <div className={classes.container}>
+      <div className={`${classes.container} ${isMobile ? classes.mobileContainer : ""
+        }`}>
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div className={classes.topHeadingLeft}>
@@ -177,7 +172,7 @@ function LiveStandings(props) {
           <div className={classes.body_table}>
             <div className={classes.table_header}>
               <span>Place</span>
-              <span>Display name</span>
+              <span>Name</span>
               <span>Points</span>
               <span>Winning</span>
               <span>Action</span>

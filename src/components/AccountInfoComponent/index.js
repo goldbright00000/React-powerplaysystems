@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Modal from "../Modal";
 import CloseIconGrey from "../../assets/close-icon-grey.png";
@@ -8,8 +8,7 @@ import {
   deleteUserAccount,
   changeAccountPassword,
 } from "../../actions/authActions";
-import { useDispatch } from "react-redux";
-import { getCountries, getStates, getProvinces } from "../../utility/shared";
+import { useDispatch, useSelector } from "react-redux";
 
 function AccountInfo(props) {
   const { isMobile = false } = props || {};
@@ -19,6 +18,8 @@ function AccountInfo(props) {
   const [editItem, setEditItem] = useState(-1);
 
   const dispatch = useDispatch();
+  const cont = useSelector((state) => state?.user?.countries);
+  const [countries, setCountries] = useState([]);
 
   let [password, setPassword] = useState();
   let deleteAccount = (e) => {
@@ -26,6 +27,10 @@ function AccountInfo(props) {
     setDeleteAccountModal(false);
     return dispatch(deleteUserAccount({ password }));
   };
+
+  useEffect(() => {
+    setCountries(cont);
+  }, [cont])
 
   const deleteAccountModal = () => {
     return (
@@ -38,6 +43,7 @@ function AccountInfo(props) {
                 width="20px"
                 height="20px"
                 onClick={() => setDeleteAccountModal(false)}
+                alt=""
               />
             </div>
             <div className={classes.__confirmation_message_div}>
@@ -103,6 +109,7 @@ function AccountInfo(props) {
                 width="20px"
                 height="20px"
                 onClick={() => setChangePasswordModal(false)}
+                alt=""
               />
             </div>
             <div className={classes.__confirmation_message_div}>
@@ -165,29 +172,19 @@ function AccountInfo(props) {
     );
   };
 
-  const getStatesOrProvinces = () => {
-    if (user.country == "USA") {
-      return getStates();
-    } else if (user.country == "Canada") {
-      return getProvinces();
-    } else {
-      return [];
-    }
-  };
-
   let [editedValue, setEditedValue] = useState();
   const renderItem = (
     id,
     title,
     value,
     buttonTitle,
-    onButtonClick = () => {}
+    onButtonClick = () => { }
   ) => {
     return (
       <div className={`${classes.list_item}`}>
         <span>{title}</span>
         <span>
-          {buttonTitle == "Edit" && (
+          {(buttonTitle == "Edit" || buttonTitle == 'NoEvent') && (
             <>
               {id == editItem ? (
                 <>
@@ -199,14 +196,18 @@ function AccountInfo(props) {
                       onChange={(e) => setEditedValue(e.target.value)}
                     >
                       <option value="">Country</option>
-                      {getCountries().map((opt) => (
+                      {countries && countries.map((item, index) => {
+                        return (
+                          <option key={index} value={item.name}>{item?.name}</option>
+                        )
+                      })}
+                      {/* {getCountries().map((opt) => (
                         <option key={opt} value={opt}>
                           {opt}
                         </option>
-                      ))}
+                      ))} */}
                     </select>
                   ) : null}
-
                   {id === 7 ? (
                     <select
                       id="stateOrProvince"
@@ -215,11 +216,22 @@ function AccountInfo(props) {
                       onChange={(e) => setEditedValue(e.target.value)}
                     >
                       <option value="">State/Province</option>
-                      {getStatesOrProvinces().map((opt) => (
+                      {countries && countries.map((item, index) => {
+                        return (
+                          item.name == user.country && (
+                            item.country_state_provs.map((sp, index) => {
+                              return (
+                                <option key={index} value={sp?.name}>{sp?.name}</option>
+                              )
+                            })
+                          )
+                        )
+                      })}
+                      {/* {getStatesOrProvinces().map((opt) => (
                         <option key={opt} value={opt}>
                           {opt}
                         </option>
-                      ))}
+                      ))} */}
                     </select>
                   ) : null}
 
@@ -255,7 +267,7 @@ function AccountInfo(props) {
               } else onButtonClick();
             }}
           >
-            {id == editItem ? "Save" : buttonTitle}
+            {id == editItem ? "Save" : buttonTitle !== 'NoEvent' ? buttonTitle : ''}
           </button>
         </span>
       </div>
@@ -279,8 +291,7 @@ function AccountInfo(props) {
         setEditItem(3)
       )}
       {renderItem(4, "Email", user.email, "Edit", () => setEditItem(4))}
-      {renderItem(5, "Date of Birth", user.date_of_birth, "Edit", () =>
-        setEditItem(5)
+      {renderItem(5, "Date of Birth", user.date_of_birth, "NoEvent",
       )}
       {renderItem(6, "Country", user.country, "Edit", () => setEditItem(6))}
       {renderItem(

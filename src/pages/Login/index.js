@@ -30,6 +30,7 @@ import ErrorIcon from "../../icons/ErrorIcon";
 function LoginPage(props) {
   const [user, setUser] = useState({ email: "", password: "" });
   const [isSignedUp, setSignedUp] = useState();
+  const [isUserNotFound, setIsUserNotFound] = useState(false);
   const [isIncorrectPassword, setIsIncorrectPassword] = useState(false);
   const [loading, setLoadingState] = useState(false);
 
@@ -55,7 +56,8 @@ function LoginPage(props) {
 
   const onLoginSubmit = async (e) => {
     e?.preventDefault();
-
+    setIsUserNotFound(false);
+    setIsIncorrectPassword(false);
     if (isEmpty(user.email) || isEmpty(user.password)) {
       //error message
       return;
@@ -65,6 +67,10 @@ function LoginPage(props) {
 
     setLoadingState(true);
     const res = await dispatch(authenticate(user));
+
+    if (res && `${res.message}`.match(/User Not Found/g)) {
+      setIsUserNotFound(true);
+    }
 
     if (res && `${res.message}`.match(/Password Invalid/g)) {
       setIsIncorrectPassword(true);
@@ -148,6 +154,12 @@ function LoginPage(props) {
     }
   }, [dispatch, props]);
 
+  const isValidEmail = (email) => {
+    const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    console.log("re.test(String(email).toLowerCase())", re.test(String(email).toLowerCase()));
+    return !re.test(String(email).toLowerCase());
+  };
+
   return (
     <div className={styles.root}>
       <Header isStick={true} />
@@ -180,6 +192,15 @@ function LoginPage(props) {
             required
             value={user.email}
             onChange={(e) => setUser({ ...user, email: e?.target?.value })}
+            extraclass={styles.extra}
+            extra={
+              isUserNotFound && (
+                <div className={styles.extra_text}>
+                  User Not Found <ErrorIcon />
+                </div>
+              )
+            }
+            className={isUserNotFound ? styles.password_err : {}}
           />
           <PasswordInput
             title="Password"
@@ -199,7 +220,7 @@ function LoginPage(props) {
           <button
             className={formStyles.button}
             type="submit"
-            disabled={loading || isEmpty(user.email) || isEmpty(user.password)}
+            disabled={loading || isEmpty(user.email) || isValidEmail(user.email) || isEmpty(user.password)}
           >
             {loading ? "Loading..." : "Log in"}
           </button>
@@ -209,7 +230,7 @@ function LoginPage(props) {
           <Link to="/power-up">Click here to Power-up!</Link>
         </p>
         <p className={`${styles.blogSection1}`}>
-          Forgot Password? <Link to="/power-up">Click here to reset!</Link>
+          Forgot Password? <Link to="/reset-password">Click here to reset!</Link>
         </p>
       </div>
       <Footer isBlack />

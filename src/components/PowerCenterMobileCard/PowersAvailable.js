@@ -85,6 +85,7 @@ const PowersAvailable = (props) => {
         Power = [],
         game_set_start = '',
         start_time = '',
+        showDateTime = true
     } = props || {};
 
     const getPowerCount = (name) => {
@@ -107,38 +108,23 @@ const PowersAvailable = (props) => {
 
     return (
         <div className={classes.__powers_available}>
-            <div className={classes.__powers_available_date_time}>
-                {game_set_start} | {start_time} ET
-            </div>
-            <div className={classes.__powers_available_powerdfs}>
-                <div className={classes.__power_info_main}>
-                    <div className={classes.__info_main_title}>
-                        <p className={classes.__powers_available_title}>
-                            MLB <span>PowerdFS</span>
-                        </p>
-                    </div>
-                    {/* <div className={classes.__info_icon_mobile}>
-                        < img src={InfoIcon} className={classes.__info_icon} alt="" srcset="" />
-                    </div> */}
+            {showDateTime && 
+                <div className={classes.__powers_available_date_time}>
+                    {game_set_start} | {start_time} ET
                 </div>
-                <div className={classes.__powers_available_title}>
-                    Powers Available
-                </div>
+            }
+            <div className={classes.__my_game_center_card_powerdfs}>
+                <p className={`text-left`} >
+                    <span className={classes.__my_game_center_card_powerdfs_title_first} style={{ fontSize: '18px', color: 'white' }}>
+                        {title}
+                    </span>
+                    <span className={classes.__my_game_center_card_powerdfs_title} style={{ fontSize: '18px' }}> PowerdFS </span>
+                    <span className={`${classes.__my_game_center_card_powerdfs_subtitle}`} style={{ fontSize: '14px', opacity:0.6 }}>
+                        Powers Available
+                    </span>
+                </p>
             </div>
             <div className={classes.__powers_available_data_container}>
-                <div className={classes.__powers_available_data}>
-                    <div className={classes.__powers_available_data_icon_div}>
-                        <img src={getIcon("Point Booster")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
-                        <div className={classes.__powers_available_data_power_count}>
-                            <p>
-                                {getPowerCount("Point Booster")}
-                            </p>
-                        </div>
-                    </div>
-                    <div className={classes.__powers_available_data_value_div}>
-                        <p className={classes.__powers_available_data_value}>Point Booster</p>
-                    </div>
-                </div>
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
                         <img src={getIcon("Swap Players")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
@@ -154,15 +140,28 @@ const PowersAvailable = (props) => {
                 </div>
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
-                        <img src={getIcon("D-Wall")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <img src={getIcon("Point Booster")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
                         <div className={classes.__powers_available_data_power_count}>
                             <p>
-                                {getPowerCount("D-Wall")}
+                                {getPowerCount("Point Booster")}
                             </p>
                         </div>
                     </div>
                     <div className={classes.__powers_available_data_value_div}>
-                        <p className={classes.__powers_available_data_value}>D-Wall</p>
+                        <p className={classes.__powers_available_data_value}>Point Booster</p>
+                    </div>
+                </div>
+                <div className={classes.__powers_available_data}>
+                    <div className={classes.__powers_available_data_icon_div}>
+                        <img src={getIcon("Retro Boost")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <div className={classes.__powers_available_data_power_count}>
+                            <p>
+                                {getPowerCount("Retro Boost")}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={classes.__powers_available_data_value_div}>
+                        <p className={classes.__powers_available_data_value}>Retro Boost</p>
                     </div>
                 </div>
             </div>
@@ -180,19 +179,21 @@ const PowersAvailable = (props) => {
                         <p className={classes.__powers_available_data_value}>Challenge</p>
                     </div>
                 </div>
+
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
-                        <img src={getIcon("Retro Boost")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
+                        <img src={getIcon("D-Wall")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />
                         <div className={classes.__powers_available_data_power_count}>
                             <p>
-                                {getPowerCount("Retro Boost")}
+                                {getPowerCount("D-Wall")}
                             </p>
                         </div>
                     </div>
                     <div className={classes.__powers_available_data_value_div}>
-                        <p className={classes.__powers_available_data_value}>Retro Boost</p>
+                        <p className={classes.__powers_available_data_value}>D-Wall</p>
                     </div>
                 </div>
+                
                 <div className={classes.__powers_available_data}>
                     <div className={classes.__powers_available_data_icon_div}>
                         <img src={getIcon("Power-Up")} alt="" width="34" height="34" className={classes.__powers_available_data_icon} />

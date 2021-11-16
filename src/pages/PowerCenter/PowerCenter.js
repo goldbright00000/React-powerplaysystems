@@ -18,7 +18,7 @@ import { hideDepositForm, showDepositForm } from "../../actions/uiActions";
 const PowerCenter = (props) => {
     const { url } = props.match;
     const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
-    const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
+    const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
     const isTablet = useMediaQuery({ query: "(max-width: 768px)" });
     const isBigScreenTablet = useMediaQuery({ query: "(max-width: 1024px)" });
     const dispatch = useDispatch();
@@ -27,10 +27,10 @@ const PowerCenter = (props) => {
 
     return (
         <Fragment>
-            <Header isStick={true} />
+            <Header style={{maxWidth: 1240}}/>
             <div className="__power_center">
                 <div className="__power_center_banner">
-                    <div className="__power_center_banner_left __container">
+                    <div className="__power_center_banner_left __container" style={{maxWidth: 1240}}>
                         <div className="__power_center_banner_left_icon">
                             <img
                                 src={PowerCenterBannerTitleIcon}
@@ -48,27 +48,22 @@ const PowerCenter = (props) => {
                             </div>
                         </div>
                     </div>
-                    {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
-                        <div className="__balance">
+                    
+                </div>
+                {token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
+                        <>
                             {isMobile ? (
                                 <MobileBalance depositClicked={setShowDepositModal} />
                             ) : (
-                                <Balance depositClicked={setShowDepositModal} />
+                                <div style={{backgroundColor: "#000"}}>
+                                    <Balance depositClicked={setShowDepositModal} style={{maxWidth: 1240, margin: "0 auto"}}/>
+                                </div>
                             )}
-                        </div>
+                        </>
                     ) : (
                         <div style={{ height: 50 }}></div>
                     )}
-                </div>
-                {/* <div className='__flex __power-center-links __mb-5'>
-                    <NavLink exact to={`${url}`} className='__f1 __block __right __relative'>
-                        <span className='__block'>Live-Play Fantasy Sports</span>
-                    </NavLink>
-                    <NavLink to={`${url}/contests`} className='__f1 __block __relative'>
-                        <span className='__block'>Interactive Promo<span className='__hide-on-small'>tional</span> Contests</span>
-                    </NavLink>
-                </div> */}
-                <div className="__container">
+                <div className="__container" style={{maxWidth: 1240}}>
                     <Route exact path={url} component={InteractiveContests} />
                     <Route path={`${url}/contests`} component={LivePowerPlay} />
                 </div>

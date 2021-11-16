@@ -5,7 +5,6 @@ import { useMediaQuery } from "react-responsive";
 
 import http from "../../config/http";
 import { URLS } from "../../config/urls";
-import { CONSTANTS } from "../../utility/constants";
 import { getLocalStorage } from "../../utility/shared";
 
 import classes from "./index.module.scss";
@@ -13,7 +12,7 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import AccountInfo from "../../components/AccountInfoComponent";
 import BalanceInfoComponent from "../../components/BalanceInfoComponent";
-import ResultsInforComponent from "../../components/ResultsInfoComponent";
+import ResultsInfoComponent from "../../components/ResultsInfoComponent";
 import HistoryInfoComponent from "../../components/HistoryInfoComponent";
 import DepositWithdrawComponent from '../../components/DepositWithdrawComponent';
 import AccountLimits from "../../components/AccountLimits";
@@ -21,23 +20,39 @@ import { printLog } from "../../utility/shared";
 import SnackbarAlert from "../../components/SnackbarAlert";
 import { showDepositForm } from "../../actions/uiActions";
 import * as MLbActions from "../../actions/MLBActions";
+import { getUserWinnigs } from "../../actions/userActions";
+import LiveStandings from "../../components/LiveStandings";
+import * as MLBActions from '../../actions/MLBActions';
+import { getDBCountries } from "../../actions/userActions";
+
 
 function AccountPage(props) {
   const dispatch = useDispatch();
 
   const [activeTab, setActiveTab] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
+  const [showModal, setModalState] = useState(false);
+  const [liveStandingData, setLiveStandingData] = useState([]);
+  const [AccountLimitsVal, setAccountLimitsVal] = React.useState([]);
+  const toggleLiveStandingModal = () => {
+    setModalState(!showModal);
+  };
 
   useEffect(() => {
     getUserAccount();
     getUserGames();
+    getuserWinnigs();
+  }, []);
+
+  useEffect(() => {
+    dispatch(getDBCountries());
   }, []);
 
   const { user = "" } = useSelector((state) => state?.auth);
-  const showDepositModal = useSelector((state) => state.ui?.showDepositForm);
 
-  const [userAccount, setUserAccount] = useState({});
-  const { getUserSavedGames } = useSelector((state) => state?.mlb);
+  const { userWinnigs } = useSelector((state) => state?.user)
+
+  const [userAccount, setUserAccount] = useState([]);
 
   const getUserAccount = async () => {
     const response = await http.get(URLS.AUTH.ACCOUNT);
@@ -46,6 +61,7 @@ function AccountPage(props) {
       printLog(response.data);
     } else {
       setUserAccount(response.data);
+      setAccountLimitsVal(response.data.accountLimit);
     }
   };
 
@@ -56,26 +72,49 @@ function AccountPage(props) {
     }
   };
 
-  useEffect(() => {
-    const obj = { ...userAccount };
-
-    if (getUserSavedGames?.length > 0) {
-      getUserSavedGames.forEach((element) => {
-        obj?.transactions?.push({
-          balance_result: "decrease",
-          balance_type: element?.game?.currency,
-          date_time: element?.game?.createdAt,
-          description: "Entered into Game",
-          transaction_amount: element?.game?.entry_fee,
-          transaction_type_details: { type: "Game Entry" },
-        });
-      });
-
-      console.log('onj ---> ', obj)
-
-      setUserAccount(obj);
+  const getuserWinnigs = async () => {
+    const user_id = getLocalStorage("PERSONA_USER_ID");
+    if (user_id) {
+      dispatch(getUserWinnigs(user_id));
     }
-  }, [getUserSavedGames]);
+  };
+
+  const getLiveStandings = async (game_id) => {
+    if (game_id == 0) {
+      return;
+    }
+    let liveStandingsData = await dispatch(MLBActions.getLiveStandings(game_id));
+    if (typeof liveStandingsData !== "undefined") {
+      if (liveStandingsData.payload.error == false) {
+        if (JSON.stringify(liveStandingsData.payload.data) !== JSON.stringify(liveStandingData)) {
+          var finalArr = [];
+          var res = liveStandingsData.payload.data.powerDFSRanking;
+
+          var user_id = parseInt(localStorage.PERSONA_USER_ID);
+          var userRec = "";
+          var leaderScore = 0;
+          for (var i = 0; i < res.length; i++) {
+            if (res[i].team.user.user_id == user_id) {
+              userRec = res[i];
+            }
+            else {
+              finalArr.push(res[i]);
+            }
+          }
+          if (userRec !== "") {
+            finalArr.unshift(userRec);
+          }
+          if (JSON.stringify(liveStandingData) !== JSON.stringify(finalArr))
+            setLiveStandingData(finalArr);
+        }
+      }
+    }
+    setModalState(true);
+  };
+
+  const SetAccountLists = (data) => {
+    setAccountLimitsVal(data);
+  }
 
   return (
     <>
@@ -124,10 +163,12 @@ function AccountPage(props) {
                   />
                 </TabPanel>
                 <TabPanel>
-                  <ResultsInforComponent
+                  <ResultsInfoComponent
                     isMobile={isMobile}
-                    transactions={userAccount.transactions}
+                    userWinnigs={userWinnigs}
                     balance={userAccount.balance}
+                    toggleLiveStandingModal={toggleLiveStandingModal}
+                    getLiveStandings={getLiveStandings}
                   />
                 </TabPanel>
                 <TabPanel>
@@ -135,9 +176,10 @@ function AccountPage(props) {
                     isMobile={isMobile}
                     transactions={userAccount.transactions}
                     balance={userAccount.balance}
+                    toggleLiveStandingModal={toggleLiveStandingModal}
+                    getLiveStandings={getLiveStandings}
                   />
                 </TabPanel>
-                {console.log('useraccount', userAccount)}
                 <TabPanel>
                   <DepositWithdrawComponent
                     isMobile={isMobile}
@@ -148,7 +190,8 @@ function AccountPage(props) {
                 <TabPanel>
                   <AccountLimits
                     isMobile={isMobile}
-                    accountLimit={userAccount.accountLimit}
+                    accountLimit={AccountLimitsVal}
+                    SetAccountList={SetAccountLists}
                   />
                 </TabPanel>
               </div>
@@ -157,6 +200,7 @@ function AccountPage(props) {
         </div>
       </div>
       <Footer isBlack logoOnly={false} />
+      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={0} isMobile={isMobile} />
     </>
   );
 }

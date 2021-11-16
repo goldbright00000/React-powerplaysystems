@@ -21,7 +21,6 @@ function Header3(props) {
     points = [],
     powers = []
   } = props || {};
-
   const RenderLiveProgress = () => (
     <div className={classes.live_progress_container}>
       <p className={classes.live_text}>Live Game</p>
@@ -53,7 +52,7 @@ function Header3(props) {
           <ContestRulesPopUp
             component={({ showPopUp }) => (
               <button onClick={showPopUp}>
-                <DocIcon /> Contest Rules
+                <DocIcon /> Gameplay Rules
               </button>
             )}
             points={points}

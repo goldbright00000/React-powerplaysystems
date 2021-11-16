@@ -15,8 +15,8 @@ function SimpleCardView(props) {
   const {
     item = {},
     selected = false,
-    onClickReplace = () => {},
-    onSelectCard = (item) => {},
+    onClickReplace = () => { },
+    onSelectCard = (item) => { },
   } = props || {};
 
   const {
@@ -65,12 +65,11 @@ function SimpleCardView(props) {
 
       <div
         className={`${classes.card_type} 
-                    ${
-                      hasText(live_data_steps[0]?.type, "ice")
-                        ? classes.success
-                        : hasText(live_data_steps[0]?.type, "bench") &&
-                          classes.danger
-                    }`}
+                    ${hasText(live_data_steps[0]?.type, "ice")
+            ? classes.success
+            : hasText(live_data_steps[0]?.type, "bench") &&
+            classes.danger
+          }`}
       >
         {live_data_steps[0]?.type}
       </div>

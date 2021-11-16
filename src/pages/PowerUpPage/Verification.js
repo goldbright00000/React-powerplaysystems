@@ -29,10 +29,17 @@ const Verification = (props) => {
         code,
       });
       if (response.status) {
-        redirectTo(
-          { history },
-          { path: "user-profile-info", state: props.data }
-        );
+        if (props?.page === 'reset-password') {
+          redirectTo(
+            { history },
+            { path: "reset-password", state: { ...props.data, isUserEmailValid: true } }
+          );
+        } else {
+          redirectTo(
+            { history },
+            { path: "user-profile-info", state: props.data }
+          );
+        }
       } else {
         setError(true);
       }
@@ -40,6 +47,12 @@ const Verification = (props) => {
       setError(true);
     }
   };
+
+  const onResendClick = async () => {
+    await http.post(URLS.AUTH.RESEND_VERIFICATION_EMAIL, {
+      email: props?.data?.email,
+    });
+  }
 
   return (
     <div className={styles.container}>
@@ -95,8 +108,8 @@ const Verification = (props) => {
         </button>
       </form>
       {/* style={{ left: '25%', bottom: '-12%' }} */}
-      <p className="text-center my-5 py-3">
-        Didn't get any email? <Link to="/power-up" className="text-decoration-underline">Resend Email!</Link>
+      <p className="text-center my-5 py-3" >
+        Didn't get any email? <Link onClick={onResendClick} className="text-decoration-underline">Resend Email!</Link>
       </p>
     </div>
   );

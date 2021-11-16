@@ -26,7 +26,14 @@ const CURRENCY_DATA = [
 ];
 
 const Balance = (props) => {
-  const { isMobile = false, entries = "", totalEntries = "" } = props || {};
+  const {
+    isMobile = false,
+    entries = "",
+    totalEntries = "",
+    livePage = false,
+    style = {},
+  } = props || {};
+
   const { auth: { user: { userBalance = {} } } = {} } = useSelector(
     (state) => state
   );
@@ -77,8 +84,9 @@ const Balance = (props) => {
               </div>
             )}
             <div
-              className={`${classes.__balance_cash_and_balance_outer} ${displayCurrency.length > 0 && classes.__border_right
-                }`}
+              className={`${classes.__balance_cash_and_balance_outer} ${
+                displayCurrency.length > 0 && classes.__border_right
+              }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
                 <img src={PowerBalanceGrey} alt="" />
@@ -95,10 +103,11 @@ const Balance = (props) => {
             </div>
             {displayCurrency.includes("cash") && (
               <div
-                className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("bitcoin") ||
-                  displayCurrency.includes("ethereum")) &&
+                className={`${classes.__balance_cash_and_balance_outer} ${
+                  (displayCurrency.includes("bitcoin") ||
+                    displayCurrency.includes("ethereum")) &&
                   classes.__border_right
-                  }`}
+                }`}
               >
                 <div className={classes.__balance_cash_and_balance_icon}>
                   <img src={CashBalanceGrey} />
@@ -131,10 +140,11 @@ const Balance = (props) => {
           <div className={classes.__balance}>
             {displayCurrency.includes("bitcoin") && (
               <div
-                className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("cash") ||
-                  displayCurrency.includes("ethereum")) &&
+                className={`${classes.__balance_cash_and_balance_outer} ${
+                  (displayCurrency.includes("cash") ||
+                    displayCurrency.includes("ethereum")) &&
                   classes.__border_right
-                  }`}
+                }`}
               >
                 <div className={classes.__balance_cash_and_balance_icon}>
                   <img src={BitcoinGrey} />
@@ -187,23 +197,34 @@ const Balance = (props) => {
           </div>
         </div>
       ) : (
-        <div className={classes.__balance}>
+        <div className={classes.__balance} style={style}>
           {(entries || totalEntries) && (
-            <div className={classes.__entries}>
-              Entries {entries} <span> / {totalEntries}</span>
+            <div className={classes.__left_div}>
+              <div className={classes.__entries}>
+                Entries {entries} <span> / {totalEntries}</span>
+              </div>
+              {livePage ? (
+                <div className={classes.__time_to_live}>
+                  <div>
+                    <p className={classes.__time}>5d 4h 15min</p>
+                    <p className={classes.__text}>Live Game Starts in</p>
+                  </div>
+                </div>
+              ) : null}
             </div>
           )}
           <div
             className={classes.__balance_deposit}
             onClick={() => {
-              props.depositClicked()
+              props.depositClicked();
             }}
           >
             Deposit
           </div>
           <div
-            className={`${classes.__balance_cash_and_balance_outer} ${displayCurrency.length > 0 && classes.__border_right
-              }`}
+            className={`${classes.__balance_cash_and_balance_outer} ${
+              displayCurrency.length > 0 && classes.__border_right
+            }`}
           >
             <div className={classes.__balance_cash_and_balance_icon}>
               <img src={PowerBalanceGrey} />
@@ -220,10 +241,11 @@ const Balance = (props) => {
           </div>
           {displayCurrency.includes("cash") && (
             <div
-              className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("bitcoin") ||
-                displayCurrency.includes("ethereum")) &&
+              className={`${classes.__balance_cash_and_balance_outer} ${
+                (displayCurrency.includes("bitcoin") ||
+                  displayCurrency.includes("ethereum")) &&
                 classes.__border_right
-                }`}
+              }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
                 <img src={CashBalanceGrey} />
@@ -244,10 +266,11 @@ const Balance = (props) => {
           )}
           {displayCurrency.includes("bitcoin") && (
             <div
-              className={`${classes.__balance_cash_and_balance_outer} ${(displayCurrency.includes("cash") ||
-                displayCurrency.includes("ethereum")) &&
+              className={`${classes.__balance_cash_and_balance_outer} ${
+                (displayCurrency.includes("cash") ||
+                  displayCurrency.includes("ethereum")) &&
                 classes.__border_right
-                }`}
+              }`}
             >
               <div className={classes.__balance_cash_and_balance_icon}>
                 <img src={BitcoinGrey} />
@@ -291,9 +314,10 @@ const Balance = (props) => {
                   <div
                     key={index}
                     className={`${classes.__currency_menu_item} 
-                                    ${displayCurrency.includes(item.value) &&
-                      classes.__currency_menu_selected
-                      }`}
+                                    ${
+                                      displayCurrency.includes(item.value) &&
+                                      classes.__currency_menu_selected
+                                    }`}
                     onClick={() => {
                       const newDisplayCurreny = [...displayCurrency];
                       // Check if currency exist in array

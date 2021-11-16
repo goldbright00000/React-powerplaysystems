@@ -1,11 +1,15 @@
 import React from "react";
-
+import PowerUpIcon from '../../../icons/PowerUp'
 import "./menu.scss";
 const SingleBooster = ({ src, heading, unlock, number, popUp }) => {
   return (
     <section className="boostWrapper">
-      <div className="imageHolder">
-        <img src={`/images/${src}`} alt="booster" />
+      <div className={`imageHolder ${number == 0 ? "disabled" : ""}`}>
+        {heading == "Power Up" ? (
+          <PowerUpIcon />
+        ) : (
+          <img src={`/images/${src}`} alt="booster" />
+        )}
         {unlock === false && (
           <img src={`/images/lock.svg`} alt="booster" className="lock" />
         )}
@@ -28,7 +32,7 @@ const SingleBooster = ({ src, heading, unlock, number, popUp }) => {
         </div>
       ) : (
         <div className="numberBox">
-          <p>{number} left</p>
+          <p>{number}</p>
         </div>
       )}
     </section>

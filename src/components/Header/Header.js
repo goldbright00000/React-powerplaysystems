@@ -15,6 +15,7 @@ import {
   setZumToken,
   getCoinbaseLink,
   removeCoinbaseLink,
+  payWithPSiGate
 } from "../../actions/userActions";
 import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
 import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
@@ -59,6 +60,7 @@ const Header = (props) => {
     btnBorderStyle = false,
     hasMenu = true,
     headerLogo = null,
+    style = {}
   } = props || {};
 
   const { user } = useSelector((state) => state?.auth);
@@ -66,6 +68,7 @@ const Header = (props) => {
   const coinbaseUrl = useSelector((state) => state?.user.coinbaseRedirectUrl);
   const showDepositModal = useSelector((state) => state.ui.depositFormData);
 
+  const psiGateMonthlyAmount = useSelector((state) => state?.user.PSIGATE_MONTHLY_TRANSACTION);
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
@@ -145,16 +148,31 @@ const Header = (props) => {
   const onMyUserPayment = (data) => {
     if (data.amount < 1) {
       alert("Please add amount at least more than 1.");
-    } else {
-      const { amount, paymentMethod } = data;
-      const obj = {
-        amount,
-        paymentMethod,
-        email: user?.email,
-      };
+    } else if (data.amount + psiGateMonthlyAmount < 5000) {
+      // const { amount, paymentMethod } = data;
+      // const obj = {
+      //   amount,
+      //   paymentMethod,
+      //   email: user?.email,
+      // };
 
-      dispatch(payWithMyUserPay(obj, history));
-      setHideDepositModal();
+      // dispatch(payWithPSiGate(obj, history));
+      // setHideDepositModal();
+      return false;
+    } else {
+      if(data.isMyUser){
+        const { amount, paymentMethod } = data;
+        const obj = {
+          amount,
+          paymentMethod,
+          email: user?.email,
+        };
+
+        dispatch(payWithMyUserPay(obj, history));
+        setHideDepositModal();
+      } else {
+        return true;
+      }
     }
   };
 
@@ -165,11 +183,33 @@ const Header = (props) => {
 
   useEffect(() => {
     // add when mounted
+    document.addEventListener("click", function(evt) {
+      
+      var flyoutElement = document.getElementById('menuItem2'),
+        targetElement = evt.target;  // clicked element
+      var menuAccount = document.getElementById('menuAccount1');
+      var menuAccount2 = document.getElementById('menuAccount2');
+      var menuAccount3 = document.getElementById('menuAccount3');
+      do {
+          if (targetElement == flyoutElement || targetElement == menuAccount || targetElement == menuAccount2 || targetElement == menuAccount3) {
+              // This is a click inside. Do nothing, just return.
+              return;
+          }
+          // Go up the DOM
+          targetElement = targetElement.parentNode;
+      } while (targetElement);
+
+      // This is a click outside.
+      setMyAccountMenu(false);
+    });
     document.addEventListener("mousedown", handleClick);
     // return function to be called when unmounted
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
+
+    
+
   }, []);
 
   const handleClick = (e) => {
@@ -191,7 +231,7 @@ const Header = (props) => {
       className="__Header"
       style={{ position: isStick ? "sticky" : "fixed" }}
     >
-      <div className="__container __flex __sb __f1 __light-bold">
+      <div className="__container __flex __sb __f1 __light-bold" style={style}>
         <Link to="/" className="__brand-logo __flex">
           {headerLogo ? headerLogo : <img src={logo} alt="" />}
         </Link>
@@ -207,19 +247,19 @@ const Header = (props) => {
               <span></span>
             </button>
             <ul className="__navlinks __flex">
-              <li>
+              <li key="0">
                 <NavLink to="/power-center">Power Center</NavLink>
               </li>
               {/* <li><NavLink to='/power-picks'>Powerpicks</NavLink></li> */}
               {user?.token ||
                 getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER) ? (
                 <>
-                  <li>
+                  <li key="1">
                     <NavLink to="/my-game-center">My Game Center</NavLink>
                   </li>
                   {isMobile ? (
-                    MY_ACCOUNT_MENU_OPTIONS.map((item) => (
-                      <li>
+                    MY_ACCOUNT_MENU_OPTIONS.map((item, index) => (
+                      <li key={`li-${index}`}>
                         <NavLink
                           to={item.value}
                           onClick={(e) => {
@@ -232,16 +272,17 @@ const Header = (props) => {
                       </li>
                     ))
                   ) : (
-                    <li className="__my_account_li" ref={myAccountMenuRef}>
+                    <li className="__my_account_li" ref={myAccountMenuRef} key="4" id="menuAccount1">
                       <NavLink
                         to="#"
                         onClick={(e) => { e.preventDefault(); setMyAccountMenu(!myAccountMenu) }}
+                        id="menuAccount2"
                       >
                         My Account
                         {!myAccountMenu ? (
-                          <FilledArrow down={true} />
+                          <FilledArrow down={true} id="menuAccount3"/>
                         ) : (
-                          <FilledArrow up={true} />
+                          <FilledArrow up={true} id="menuAccount3"/>
                         )}
                       </NavLink>
                       {myAccountMenu && (
@@ -260,10 +301,10 @@ const Header = (props) => {
               ) : (
                 <>
                   {/* <li><NavLink to='/power-play-sponsors'>Sponsor a Contest</NavLink></li> */}
-                  <li>
+                  <li key="5">
                     <NavLink to="/login">Log In</NavLink>
                   </li>
-                  <li>
+                  <li key="6">
                     <NavLink
                       to="/power-up"
                       className={`__btn __header-btn ${btnBorderStyle ? "__style-2 __primary-color" : ""
