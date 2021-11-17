@@ -298,7 +298,7 @@ function SportsLiveCard(props) {
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
         const [swapablePlayerData] = _nhlData?.filter(
-          (data) => data?.fantasyPlayerPosition === fantasyPlayerPosition
+          (data) => data?.type === fantasyPlayerPosition?.toLocaleLowerCase()
         );
 
         if (
@@ -386,6 +386,7 @@ function SportsLiveCard(props) {
     if (isPowerAvailable(type) == 0) {
       locked = 0;
     }
+    // console.log("isPowerAvailabletype", type, powerss, locked);
     return locked;
   }
 
@@ -608,7 +609,6 @@ function SportsLiveCard(props) {
                 className={{ opacity: 0.1 }}
                 size={singleView ? 14 : largeView ? 30 : 30}
               /> */}
-
               {isPowerAvailable("D-Wall") === 0 ||
               isPowerLocked("D-Wall") === 1 ? (
                 <Tooltip
@@ -1104,7 +1104,10 @@ function SportsLiveCard(props) {
 
   const RenderNHLStatPoints = ({}) => (
     <div className={classes.stat_points}>
-      <div className={classes.stat_points_container} style={{position: "relative"}}>
+      <div
+        className={classes.stat_points_container}
+        style={{ position: "relative" }}
+      >
         <div className={`${classes.stat} ${largeView && classes.large_view}`}>
           <p
             className={`${classes.stat_points_title} ${
@@ -1128,7 +1131,15 @@ function SportsLiveCard(props) {
             <br />
             SOG: {shotsOnGoal}
           </p>
-          <div style={{position: "absolute", right: 8, top: "50%", transform: "translate(0, -36%)", zIndex: 1}}>
+          <div
+            style={{
+              position: "absolute",
+              right: 8,
+              top: "50%",
+              transform: "translate(0, -36%)",
+              zIndex: 1,
+            }}
+          >
             {xp1 == 0 && xp2 == 0 && xp3 == 0 ? (
               <div style={{ opacity: 0.5 }}>{renderXp()}</div>
             ) : (
