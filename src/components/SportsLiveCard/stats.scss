@@ -11,7 +11,7 @@
 .footer_stats_row {
   display: flex !important;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
 
   img {
     width: 12px !important;
@@ -20,8 +20,8 @@
   }
 
   p {
-    display: contents;
-    margin: 0 0 0 14px;
+    display: block;
+    margin: 0 0 0 5px;
     font-size: 12px;
     font-weight: normal;
     font-stretch: normal;

@@ -281,6 +281,7 @@ export default function TeamManager(props) {
       const response = await dispatch(
         NHLActions.nhlData(props?.gameInfo?.game_id)
       );
+      console.log("data?.type", player?.player?.type);
       if (response?.filterdList && response?.filterdList?.length) {
         const _mlbData = [...response?.filterdList];
         const [swapablePlayerData] = _mlbData?.filter(
@@ -345,7 +346,6 @@ export default function TeamManager(props) {
       </>
     );
   } else if (live_players && live_players?.length) {
-    console.log("live_players", live_players);
     return (
       <>
         {screenSize > 550 ? (
