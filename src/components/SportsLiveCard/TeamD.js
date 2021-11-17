@@ -43,6 +43,7 @@ function SportsLiveCardTeamD(props) {
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
 
   const { teamDPts = 0 } = useSelector((state) => state.nhl);
+  const [showPleaseWait, setShowPleaseWait] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [showTimerText, setShowTimerText] = useState("");
   const [isDwallActive, setIsDwallActive] = useState(false);
@@ -193,7 +194,7 @@ function SportsLiveCardTeamD(props) {
     if(showTimer && isDwallActive)
     {
       setTimeout(() => {
-        var fiveMinutes = 10,
+        var fiveMinutes = 60 * 2,
         display = $('#times');
         startTimer(fiveMinutes, display);
       }, 2000);
@@ -965,33 +966,7 @@ function SportsLiveCardTeamD(props) {
               {isDwallActive && 
                 <img src={ShieldIconGrey} style={{width: 30}}/>
               }
-              {isDwallActive == false && 
-                <DwallPopUp
-                  component={({ showPopUp }) => (
-                    <button
-                      onClick={showPopUp}
-                      style={
-                        isGameOverOrNotStarted()
-                          ? { opacity: 0.3, pointerEvents: "none" }
-                          : {}
-                      }
-                      style={{background: "none", border: 0}}
-                    >
-                      <ShieldIcon
-                        size={30}
-                        // size={largeView ? 28 : 24}
-                      />
-                    </button>
-                  )}
-                  dwall={props.dwall}
-                  useDwall={props.useDwall}
-                  setIsDwallActive={setIsDwallActive}
-                  isDwallActive={isDwallActive}
-                />
-              }
-              
-              {/* Remove this comment to add tooltip and other feature*/}
-              {/* {isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1 ? (
+              {isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1 ? (
                 <Tooltip
                   disabled={isGameOverOrNotStarted()}
                   toolTipContent={
@@ -1137,29 +1112,31 @@ function SportsLiveCardTeamD(props) {
                   />
                 </div>
               )  : (
-              <DwallPopUp
-                component={({ showPopUp }) => (
-                  <button
-                    onClick={showPopUp}
-                    style={
-                      isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
-                    }
-                    style={{background: "none", border: 0}}
-                  >
-                    <ShieldIcon
-                      size={30}
-                      // size={largeView ? 28 : 24}
-                    />
-                  </button>
-                )}
-                dwall={props.dwall}
-                useDwall={props.useDwall}
-                setIsDwallActive={setIsDwallActive}
-                isDwallActive={isDwallActive}
-              />
-            )} */}
+                isDwallActive == false && 
+                  <DwallPopUp
+                    component={({ showPopUp }) => (
+                      <button
+                        onClick={showPopUp}
+                        style={
+                          isGameOverOrNotStarted()
+                            ? { opacity: 0.3, pointerEvents: "none" }
+                            : {}
+                        }
+                        style={{background: "none", border: 0}}
+                      >
+                        <ShieldIcon
+                          size={30}
+                          // size={largeView ? 28 : 24}
+                        />
+                      </button>
+                    )}
+                    dwall={props.dwall}
+                    useDwall={props.useDwall}
+                    setIsDwallActive={setIsDwallActive}
+                    isDwallActive={isDwallActive}
+                    setShowPleaseWait={setShowPleaseWait}
+                  />
+            )}
             {isPowerAvailable("Challenge") === 0 ||
             isPowerLocked("Challenge") === 1 ? (
               <Tooltip
@@ -1373,9 +1350,15 @@ function SportsLiveCardTeamD(props) {
         } 
         ${danger && classes.danger}`}
       >
-        
-        <div id="times" style={{width: "100%", color: "#8cc2ff"}}>{showTimerText}</div>
-        {isDwallActive == false && getStatus()}
+        {showPleaseWait && 
+          <div id="times" style={{width: "100%", color: "#8cc2ff"}}>Please Wait...</div>
+        }
+        {!showPleaseWait && 
+          <>
+            <div id="times" style={{width: "100%", color: "#8cc2ff"}}>{showTimerText}</div>
+            {isDwallActive == false ? getStatus() : ""}
+          </>
+        }
       </span>
     </p>
     
