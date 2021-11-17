@@ -61,6 +61,7 @@ var teamsArray = [
 ];
 
 function SportsSelectionCard3(props) {
+  console.log("props111", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {

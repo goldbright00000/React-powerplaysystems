@@ -393,6 +393,10 @@ function getPlayers(
 }
 
 function getFilterPlayersList(filter = "", playersList = []) {
+  if(filter == "lw" || filter == "rw")
+  {
+    filter = "xw";
+  }
   let list =
     (playersList?.length &&
       playersList?.filter(

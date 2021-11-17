@@ -31,6 +31,7 @@ function RenderModal(props) {
     setSelectedData(playerList);
   }, [loading]);
 
+
   // Similar to componentDidMount and componentDidUpdate:
   // useEffect(() => {
   //   if (filterString === "") {
@@ -39,7 +40,7 @@ function RenderModal(props) {
   //     setSelectedData(filteredData);
   //   }
   // }, [filterString]);
-  const { full_name: playerName = "", primary_position: type = "", type1 = "" } = currentPlayer || {};
+  const { full_name: playerName = "", fantasyPlayerPosition: type = "", type1 = "" } = currentPlayer || {};
 
   const onSearch = (e) => {
     const { value } = e.target;

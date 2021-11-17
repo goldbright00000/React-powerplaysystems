@@ -384,7 +384,6 @@ function SportsLiveCard(props) {
     if (isPowerAvailable(type) == 0) {
       locked = 0;
     }
-    console.log("isPowerAvailabletype", type, powerss, locked);
     return locked;
   }
 
@@ -602,7 +601,7 @@ function SportsLiveCard(props) {
             <div
               className={classes.stat_xp_mlbr}
               // onClick={() => onChangeXp(0, data)}
-            >1
+            >
               {/* <ShieldIcon
                 className={{ opacity: 0.1 }}
                 size={singleView ? 14 : largeView ? 30 : 30}
