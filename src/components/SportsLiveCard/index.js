@@ -218,7 +218,9 @@ function SportsLiveCard(props) {
   const showEndThird = () => {
     return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "b";
   };
-
+  const closeRenderModal = () => {
+    setReplaceModalState(false);
+  };
   const toggleReplaceModal = useCallback(async () => {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
@@ -290,7 +292,7 @@ function SportsLiveCard(props) {
     }
     if (cardType === CardType.NHL) {
       setLoadingPlayerList(true);
-      setReplaceModalState(!showReplaceModal);
+      setReplaceModalState(true);
       const response = await dispatch(nhlActions.getFantasyPlayers(gameID));
       console.log("response", response);
       if (response?.filterdList && response?.filterdList?.length) {
@@ -1498,7 +1500,7 @@ function SportsLiveCard(props) {
       <RenderModal
         player={player}
         visible={showReplaceModal}
-        onClose={toggleReplaceModal}
+        onClose={closeRenderModal}
         onSwap={onSwap}
         playerList={playerList}
         starPlayerCount={starPlayerCount}
