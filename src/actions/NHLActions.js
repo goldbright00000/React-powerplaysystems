@@ -192,15 +192,11 @@ export function getFantasyPlayers(gameID) {
       //filter the data on the basis of types
       const filterdList = [];
       const centerTypePlayers = getFilterPlayersList(CENTER, players);
-      const lwTypePlayers = getFilterPlayersList(LW, players);
-      const rwTypePlayers = getFilterPlayersList(RW, players);
-      const xwTypePlayers = {
-        type: XW,
-        listData: [...lwTypePlayers.listData, ...rwTypePlayers.listData],
-      };
+      const xwTypePlayers = getFilterPlayersList(XW, players);
       const dTypePlayers = getFilterPlayersList(D, players);
       const gTypePlayers = getFilterPlayersList(G, players);
       const tdTypePlayers = { type: TD, listData: teams };
+
       filterdList.push(centerTypePlayers);
       filterdList.push(xwTypePlayers);
       filterdList.push(dTypePlayers);
