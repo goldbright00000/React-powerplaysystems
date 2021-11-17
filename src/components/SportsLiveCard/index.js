@@ -299,9 +299,6 @@ function SportsLiveCard(props) {
           (data) => data?.type === fantasyPlayerPosition?.toLocaleLowerCase()
         );
 
-        console.log("_nhlData: ", _nhlData);
-        console.log("swapablePlayerData: ", swapablePlayerData);
-
         if (
           swapablePlayerData &&
           swapablePlayerData?.listData &&
@@ -387,7 +384,7 @@ function SportsLiveCard(props) {
     if (isPowerAvailable(type) == 0) {
       locked = 0;
     }
-    console.log("isPowerAvailabletype", type, powerss, locked);
+    // console.log("isPowerAvailabletype", type, powerss, locked);
     return locked;
   }
 
