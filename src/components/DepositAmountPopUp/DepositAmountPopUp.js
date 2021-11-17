@@ -12,6 +12,7 @@ import DepositAmountFormMobile from "./DepositAmountFormMobile";
 
 import visa from "../../assets/visa.png";
 import mastercard from "../../assets/mastercard.png";
+import successIcon from "../../assets/success.svg";
 
 const DepositAmountPopUp = (props) => {
   const { city, address, phone_number, zip, currency, country } =
@@ -22,7 +23,7 @@ const DepositAmountPopUp = (props) => {
 
   const [depositInfo, setDepositInfo] = useState(false);
   const [nextForm, setDepositForm] = useState(1);
-
+  
   useEffect(() => {
     if (country === "Canada") {
       dispatch(setRates());
@@ -36,6 +37,8 @@ const DepositAmountPopUp = (props) => {
   }
 
   return (
+    // aa model che.... Nisha..
+    // aa aakhu form che
     <CreatePopUpPortal>
       <div className={`modal fade show d-block ${styles.blur}`}>
         <div className="modal-dialog modal-animation modal-dialog-centered modal-xl" role="document">
@@ -49,6 +52,7 @@ const DepositAmountPopUp = (props) => {
             </div>
             <div className="modal-body p-0">
               <div className="container-fluid">
+                {props.UrlStatus!='true' && props.UrlStatus!='false' ?
                 <div className="row">
                   <div className={`${styles.leftsidebg} col-md-3 p-0`}>
                     <div className={styles.leftSection}>
@@ -119,6 +123,38 @@ const DepositAmountPopUp = (props) => {
                     </div>
                   </div>
                 </div>
+                : props.UrlStatus=='true' ?
+                  <div className={styles.despositeModalWrp}>
+                    <div className={styles.successPic}>
+                        <img src={successIcon} />
+                    </div>
+                    <div className={styles.successDesc}>
+                    <h3>Deposit Successfull!</h3>
+                    <h2><strong>
+                      {localStorage.getItem('currency') == 'USD' ? '$' + localStorage.getItem('amount') + 'USD' : '' }
+                      </strong> has been added to your account</h2>
+                    <p>Deposited funds must be entered into contests and are not available for withdrawal.</p>
+                    </div>
+                    <div className={styles.successBtn}>
+                      <button onClick={props.onClose}>Continue</button>
+                    </div>
+                  </div>
+                :
+                  <div className={styles.despositeModalWrp}>
+                    {/* <div className={styles.successPic}>
+                      <img src={successIcon} />
+                    </div> */}
+                    <div className={styles.successDesc}>
+                      <h3>Transaction Failed!</h3>
+                      <h2><strong>
+                          {localStorage.getItem('currency') == 'USD' ? '$' + localStorage.getItem('amount') + '.00 USD' : '' }
+                        </strong> has not been added to your account</h2>
+                      <p>Please try again.</p>
+                    </div>
+                    <div className={styles.successBtn}>
+                      <button onClick={props.onClose}>Continue</button>
+                    </div>
+                  </div> }
               </div>
             </div>
           </div>
