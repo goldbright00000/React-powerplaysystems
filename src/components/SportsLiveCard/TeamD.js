@@ -1351,7 +1351,7 @@ function SportsLiveCardTeamD(props) {
         ${danger && classes.danger}`}
       >
         {showPleaseWait && 
-          <div id="times" style={{width: "100%", color: "#8cc2ff"}}>Please Wait...</div>
+          <div id="times" style={{width: "100%", color: "#8cc2ff"}}>Activating</div>
         }
         {!showPleaseWait && 
           <>

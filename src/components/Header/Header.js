@@ -18,7 +18,7 @@ import {
   payWithPSiGate
 } from "../../actions/userActions";
 import { showDepositForm, hideDepositForm } from "../../actions/uiActions";
-import { getLocalStorage, removeLocalStorage } from "../../utility/shared";
+import { getLocalStorage, removeLocalStorage, redirectTo } from "../../utility/shared";
 import { removePersonaUserId } from "../../actions/personaActions";
 import { CONSTANTS } from "../../utility/constants";
 import MyAccountMenu from "../MyAccountMenu";
@@ -74,8 +74,15 @@ const Header = (props) => {
   const myAccountMenuRef = useRef(null);
 
   const [myAccountMenu, setMyAccountMenu] = useState(false);
+  const [UrlStatus, setUrlStatus] = useState("");
 
-  const setHideDepositModal = () => dispatch(hideDepositForm());
+  const setHideDepositModal = () => {
+    localStorage.removeItem('amount')
+    localStorage.removeItem('currency')
+    setUrlStatus("");
+    history.push("power-center");
+    dispatch(hideDepositForm())
+};
   const setShowDepositModal = () => dispatch(showDepositForm());
 
   useEffect(() => {
@@ -90,6 +97,16 @@ const Header = (props) => {
       window.open(coinbaseUrl, "_blank");
     }
   });
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    var statusval = params.get('status');
+    setUrlStatus(statusval);
+    if(statusval=='true' || statusval=='false')
+    {
+      setShowDepositModal();
+    }  
+  },[]);  
 
   const onLogout = () => {
     removeLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
@@ -324,6 +341,7 @@ const Header = (props) => {
                 zumFormSubmitted={onZumPayment}
                 myUserPayFormSubmitted={onMyUserPayment}
                 coinbaseFormSubmitted={coinbaseSubmitHandler}
+                UrlStatus={UrlStatus}
               />
             )}
           </>

@@ -134,9 +134,7 @@ function NHLPowerdFsLive(props) {
     period = 0,
     powersApplied = [],
   } = useSelector((state) => state.nhl);
-  useEffect(() => {
-    console.log("live_players: ", live_players);
-  }, [live_players]);
+  useEffect(() => {}, [live_players]);
 
   const { user = {} } = useSelector((state) => state.auth);
   const { token = "", user_id } = user || {};
