@@ -102,7 +102,6 @@ function SportsSelectionCard3(props) {
     team = {},
   } = player || {};
 
-
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
   const { teams = [] } = seasons[seasons.length - 1] || {};
@@ -222,7 +221,7 @@ function SportsSelectionCard3(props) {
         >
           {pageType === PAGE_TYPES.NHL ? (
             <>
-              <span>{type}</span>
+              <span>{primary_position}</span>
               {full_name}
             </>
           ) : (
