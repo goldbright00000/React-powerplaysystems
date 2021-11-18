@@ -134,7 +134,6 @@ function NHLPowerdFsLive(props) {
     period = 0,
     powersApplied = [],
   } = useSelector((state) => state.nhl);
-  useEffect(() => {}, [live_players]);
 
   const { user = {} } = useSelector((state) => state.auth);
   const { token = "", user_id } = user || {};
@@ -327,14 +326,14 @@ function NHLPowerdFsLive(props) {
   }
 
   let evaluateTeamLogs = () => {
+    console.log("live_team_logs: ", live_team_logs);
+
     dispatch({
       type: NHLActions.NHL_UPDATE_STATE,
       payload: {
         live_all_team_logs: [...live_all_team_logs, live_team_logs],
       },
     });
-
-    console.log("live_team_logs: ", live_team_logs);
 
     let {
       posD1Points = 0,
@@ -350,11 +349,10 @@ function NHLPowerdFsLive(props) {
     } = live_team_logs;
     // Players
     let lp = [...live_players];
-
     playersActualScore.forEach((player) => {
       lp.forEach((playr) => {
         if (playr.id === player.playerID) {
-          lp.stats = player;
+          playr.stats = player;
         }
       });
     });
@@ -516,18 +514,17 @@ function NHLPowerdFsLive(props) {
       _socket.on("ROOM_CONNECTED", (data) => {
         console.log("ON ROOM CONNECTED: ", data);
         if (data !== "room connection successful") {
-          dispatch({
-            type: NHLActions.NHL_UPDATE_STATE,
-            payload: {
-              live_score_details: data,
-            },
-          });
+          // dispatch({
+          //   type: NHLActions.NHL_UPDATE_STATE,
+          //   payload: {
+          //     live_score_details: data,
+          //   },
+          // });
         }
       });
 
       _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
-        console.log("THIS IS TEAM LOGS", data);
-
+        // evaluateTeamLogs(data);
         // if (Array.isArray(data)) {
         dispatch({
           type: NHLActions.NHL_UPDATE_STATE,
