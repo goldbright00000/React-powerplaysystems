@@ -161,6 +161,11 @@
         padding: 0;
         margin: 0;
         color: $lightBlue2;
+        max-width: 175px;
+        white-space: nowrap;
+        /* word-break: break-word; */
+        text-overflow: ellipsis;
+        overflow: hidden;
 
         .teamd_range {
           font-family: Poppins;

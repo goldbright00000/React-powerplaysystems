@@ -97,9 +97,11 @@ function SportsLiveCard(props) {
     pointXpCount = {},
     currentPlayerList = [],
     key = "",
+    dataMain = {}
   } = props || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
+  
 
   const {
     full_name = "",
@@ -138,6 +140,21 @@ function SportsLiveCard(props) {
   //   // earned_runs_average = 0,
   //   // home_runs = 0,
   // } = nhl_player_season_stats[0] || {};
+
+  const {
+    pointSystem = {}
+  } = dataMain;
+
+  const {
+    goalie = {},
+    skater = {},
+    teamD = {},
+  } = pointSystem;
+
+  const {
+    goalsAgainst: goalsAgaints = 0,
+    save: saves = 0
+  } = goalie;
 
   let {
     goals = 0,
@@ -1082,7 +1099,7 @@ function SportsLiveCard(props) {
             largeView && classes.large_view
           }`}
         >
-          {xp?.xpVal} Points
+          Points
         </p>
         <div
           className={`${classes.points} ${largeView && classes.large_view} ${
@@ -1126,11 +1143,19 @@ function SportsLiveCard(props) {
               <span>PGPs</span>
             </OverlayTrigger>
           </p>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            G: {goals} | A: {assists}
-            <br />
-            SOG: {shotsOnGoal}
-          </p>
+          {type == "G" ? (
+            <p className={`${classes.p} ${largeView && classes.large_view}`}>
+              Saves: {saves}
+              <br />
+              GA: {goalsAgaints}
+            </p>
+          ) : (
+            <p className={`${classes.p} ${largeView && classes.large_view}`}>
+              G: {goals} | A: {assists}
+              <br />
+              SOG: {shotsOnGoal}
+            </p>
+          )} 
           <div
             style={{
               position: "absolute",
@@ -1160,7 +1185,7 @@ function SportsLiveCard(props) {
               largeView && classes.large_view
             }`}
           >
-            {xp?.xpVal} Points
+            Points
           </p>
           <div
             style={{

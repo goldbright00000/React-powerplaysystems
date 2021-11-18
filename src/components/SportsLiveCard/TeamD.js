@@ -31,6 +31,8 @@ import FacebookIcon from "../../icons/FacebookIcon";
 import NHLFooterStats from "./NHLFooterStats";
 
 import ClockIcon from "../../assets/icons/nhl/clock.svg";
+import MiniStar from "../../assets/mini_star.png";
+import StarPower from "../../assets/star_power.png";
 
 const MLBSummaryTitles = ["Inning", "Types", "Power", "Pts"];
 const NFLSummaryTitles = ["Inning", "Types", "Power", "Pts"];
@@ -58,6 +60,8 @@ function SportsLiveCardTeamD(props) {
     key = "",
   } = props || {};
 
+  console.log("datadata", props);
+
   const {  selectedTeam = {} } = useSelector((state) => state.nhl);
   const { powersAvailable = [] } = selectedTeam;
 
@@ -69,7 +73,7 @@ function SportsLiveCardTeamD(props) {
     points = 0,
     status = "inprogress",
   } = stats || {};
-  const { live_clock = "20:00", live_period = 1 } = useSelector(
+  const { live_clock = "20:00", live_period = live_period + 1 } = useSelector(
     (state) => state.nhl
   );
 
@@ -82,6 +86,7 @@ function SportsLiveCardTeamD(props) {
     team_d_nfl_team,
     team_d_nhl_team,
     score = 0,
+    is_starTeamD = false
   } = data || {};
 
   let team = {};
@@ -1438,6 +1443,22 @@ function SportsLiveCardTeamD(props) {
     );
   };
 
+  const RenderStarPower = ({}) => {
+    return (
+      <>
+        {is_starTeamD && (
+          <img
+            className={`${classes.star_power} ${
+              singleView && classes.mini_star
+            }`}
+            src={singleView ? MiniStar : StarPower}
+            alt=""
+          />
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <div
@@ -1458,6 +1479,7 @@ function SportsLiveCardTeamD(props) {
         `}
           onClick={() => onSelectCard(data)}
         >
+          <RenderStarPower />
           <div className={classes.container_header}>
             <p
               className={`${classes.container_title} ${
@@ -1521,7 +1543,9 @@ function SportsLiveCardTeamD(props) {
                     {getStatus() !== "Game Over" &&
                     cardType === CardType.NHL &&
                     !singleView ? (
+                      <>
                       <NHLFooterStats isTeamD={true} teamD={data} />
+                      </>
                     ) : null}
                   </>
                 )}
