@@ -61,7 +61,6 @@ var teamsArray = [
 ];
 
 function SportsSelectionCard3(props) {
-  console.log("props111", props);
   const [currentStep, setCurrentStep] = useState(0);
   const isMobile = useMediaQuery({ query: "(max-width: 414px)" });
   const {
@@ -74,6 +73,7 @@ function SportsSelectionCard3(props) {
     btnIcon = "",
     pageType = PAGE_TYPES.MLB,
     type = "",
+    showArrow = true
   } = props || {};
 
   const {
@@ -459,10 +459,9 @@ function SportsSelectionCard3(props) {
               </p>
             </div>
           )}
-
-          <div className={classes.card_footer_right} onClick={nextStep}>
+          {props.showArrow && <div className={classes.card_footer_right} onClick={nextStep}>
             <ForwardArrow color={"#fb6e00"} />
-          </div>
+          </div>}
         </div>
       )}
     </div>

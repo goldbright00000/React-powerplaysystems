@@ -22,10 +22,14 @@ function RenderModal(props) {
     playerList = {},
     starPlayerCount = 0,
     loading = false,
+    dataMain = {}
   } = props || {};
-
+  const {
+    players = []
+  } = dataMain;
   useEffect(() => {
     if (loading) return;
+    if(playerList)
     setSelectedData(playerList);
   }, [loading]);
 
@@ -169,6 +173,7 @@ function RenderModal(props) {
                 starPlayerCount >= 3 &&
                 player?.is_starPlayer &&
                 !currentPlayer?.is_starPlayer ? null : (
+                  players.findIndex(x => x.id == player.id) === -1 ?
                   <SportsSelectionCard3
                     player={player}
                     btnTitle="Swap"
@@ -178,7 +183,8 @@ function RenderModal(props) {
                     }
                     type={selectedData?.type}
                     pageType="nhl"
-                  />
+                    showArrow={false}
+                  /> : null
                 )
               )
             ) : (
