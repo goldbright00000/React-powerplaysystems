@@ -285,19 +285,19 @@ function NFLPowerdFsLive(props) {
   useEffect(async () => {
     _socket = socket();
     setPowers();
-    // return function cleanUP() {
-    //   isMatchUpdate = false;
+    return function cleanUP() {
+      isMatchUpdate = false;
 
-    //   //reset logs
-    //   dispatch(NFLActions.setGameLogs([]));
+      //reset logs
+      dispatch(NFLActions.setGameLogs([]));
 
-    //   //disconnect the socket
-    //   _socket?.emit(ON_ROOM_UN_SUB);
-    //   _socket?.on(ON_ROOM_UN_SUB, () => {
-    //     _socket?.disconnect();
-    //     _socket = null;
-    //   });
-    // };
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
+    };
   }, []);
 
   useEffect(() => {

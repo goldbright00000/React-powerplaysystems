@@ -1147,7 +1147,7 @@ function SportsLiveCard(props) {
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
               Saves: {saves}
               <br />
-              GA: {goalsAgaints}
+              GA: {Math.abs(goalsAgaints)}
             </p>
           ) : (
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
@@ -1282,8 +1282,8 @@ function SportsLiveCard(props) {
         {cardType === CardType.NHL ? (
           <span>
             {fantasyPlayerPosition === "XW" || type === "D"
-              ? fantasyPlayerPosition + positionID
-              : fantasyPlayerPosition}
+              ? primary_position + positionID 
+              : primary_position}
             :
             <span className={classes.card_header_points}>
               {fantasyPlayerPosition === "C" ? posCenterPoints : null}
@@ -1541,6 +1541,7 @@ function SportsLiveCard(props) {
         playerList={playerList}
         starPlayerCount={starPlayerCount}
         loading={loadingPlayerList}
+        dataMain={dataMain}
       />
     </>
   );
