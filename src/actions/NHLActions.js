@@ -25,7 +25,7 @@ export function nhlData(gameId) {
       const response = await http.post(
         `https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyPlayers`,
         {
-          gameID: 951,
+          gameID: gameId,
         }
       );
       const {
