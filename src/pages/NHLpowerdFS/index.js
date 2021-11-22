@@ -324,6 +324,7 @@ function NHLPowerdFs(props) {
       getData();
     }
   }, [user]);
+  console.log("==>=== user ===<===", user);
 
   const getData = async () => {
     setLoading(true);
@@ -801,7 +802,7 @@ function NHLPowerdFs(props) {
         team_d_id: team?.id,
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
-        user_display_name: user.first_name + " " + user.last_name,
+        user_display_name: user.display_name,
       };
 
       const payload = {
