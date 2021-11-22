@@ -793,7 +793,6 @@ function NHLPowerdFs(props) {
     const { team = {} } = teamD || {};
 
     if (!isEmpty(team) && players?.length === 7) {
-      // TODO: Fix user_id issue
       const payload1 = {
         game_id: game_id,
         sport_id: sport_id,
@@ -802,7 +801,7 @@ function NHLPowerdFs(props) {
         team_d_id: team?.id,
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
-        display_game_name: displayGameName,
+        user_display_name: user.first_name + " " + user.last_name,
       };
 
       const payload = {
