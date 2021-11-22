@@ -227,6 +227,7 @@ function NHLPowerdFs(props) {
   );
   const [sideBarList, setSidebarList] = useState(SIDEBAR_INITIAL_LIST);
   const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
+  const [displayGameName, setDisplayGameName] = useState();
   const [selectedData, setSelectedData] = useState();
   const [filterdData, setFilterdData] = useState();
   const [selectedDropDown, setSelectedDropDown] = useState();
@@ -331,6 +332,8 @@ function NHLPowerdFs(props) {
     );
 
     console.log("response: ", response);
+    // response.display_game_name
+
     if (response) {
       setData(response?.filterdList);
 
@@ -338,6 +341,7 @@ function NHLPowerdFs(props) {
 
       setFilterdData(filterdList[0]);
       setSelectedData(filterdList[0]);
+      setDisplayGameName(response.display_game_name);
 
       //set dropdown
       const _dropDownlist = filterdList?.filter(
@@ -789,7 +793,6 @@ function NHLPowerdFs(props) {
     const { team = {} } = teamD || {};
 
     if (!isEmpty(team) && players?.length === 7) {
-      // TODO: Fix user_id issue
       const payload1 = {
         game_id: game_id,
         sport_id: sport_id,
@@ -798,6 +801,7 @@ function NHLPowerdFs(props) {
         team_d_id: team?.id,
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
+        user_display_name: user.first_name + " " + user.last_name,
       };
 
       const payload = {
