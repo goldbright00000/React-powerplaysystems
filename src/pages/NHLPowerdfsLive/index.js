@@ -52,8 +52,7 @@ const {
   FANTASY_TEAM_UPDATE,
 } = CONSTANTS.SOCKET_EVENTS.NHL.LIVE;
 
-// let _socket = null;
-let _socket;
+let _socket = null;
 let isMatchUpdate = false;
 
 const POWER_IDs = {
@@ -114,14 +113,15 @@ function NHLPowerdFsLive(props) {
     if (gameID) {
       dispatch({
         type: NHLActions.NHL_UPDATE_STATE,
-        payload: { gameID },
+        payload: { gameID: parseInt(gameID) },
       });
+      return parseInt(gameID);
     }
     return gameID;
   }
   const {
     game_id = 0,
-    gameID = getGameIDFromLocalStorage(),
+    gameID = 0,
     live_players = [],
     live_totalTeamPts = 0,
     live_all_team_logs = [],
@@ -134,9 +134,6 @@ function NHLPowerdFsLive(props) {
     period = 0,
     powersApplied = [],
   } = useSelector((state) => state.nhl);
-  useEffect(() => {
-    console.log("live_players: ", live_players);
-  }, [live_players]);
 
   const { user = {} } = useSelector((state) => state.auth);
   const { token = "", user_id } = user || {};
@@ -144,22 +141,22 @@ function NHLPowerdFsLive(props) {
   const getFantasyTeam = async () => {
     setLoading(true);
     let payload = {
-      gameID: getGameIDFromLocalStorage(),
+      gameID,
       userID: user_id,
     };
-    // NHLActions.getFantasyTeam(payload);
     await dispatch(NHLActions.getFantasyTeam(payload));
-
     setLoading(false);
   };
   useEffect(() => {
-    getGameIDFromLocalStorage();
-    if (user_id) {
+    if (user_id && gameID) {
       getFantasyTeam();
     }
-    //_socket = socketNHL();
-    //console.log("_socket", _socket);
-  }, [user_id]);
+  }, [user_id, gameID]);
+
+  useEffect(() => {
+    getGameIDFromLocalStorage();
+    _socket = socketNHL();
+  }, []);
 
   const {
     gameID: gameId = "",
@@ -329,14 +326,14 @@ function NHLPowerdFsLive(props) {
   }
 
   let evaluateTeamLogs = () => {
+    console.log("live_team_logs: ", live_team_logs);
+
     dispatch({
       type: NHLActions.NHL_UPDATE_STATE,
       payload: {
         live_all_team_logs: [...live_all_team_logs, live_team_logs],
       },
     });
-
-    console.log("live_team_logs: ", live_team_logs);
 
     let {
       posD1Points = 0,
@@ -352,11 +349,10 @@ function NHLPowerdFsLive(props) {
     } = live_team_logs;
     // Players
     let lp = [...live_players];
-
     playersActualScore.forEach((player) => {
       lp.forEach((playr) => {
         if (playr.id === player.playerID) {
-          lp.stats = player;
+          playr.stats = player;
         }
       });
     });
@@ -501,48 +497,49 @@ function NHLPowerdFsLive(props) {
     setPowers();
   }, []);
 
-  // useEffect(() => {
-  //   console.log("Number of times called");
-  //   if (gameID !== 0) {
-  //     _socket.on("disconnect", () => {
-  //       console.log("Socket Disconnected");
-  //     });
+  useEffect(() => {
+    console.log("Number of times called");
+    if (gameID !== 0) {
+      _socket.on("disconnect", () => {
+        console.log("Socket Disconnected");
+      });
 
-  //     _socket.on("connected", () => {
-  //       console.log("Socket Connected");
-  //       _socket.emit("NHL_CONNECT_MATCH_ROOM", {
-  //         gameID: gameID,
-  //       });
-  //     });
+      _socket.on("connected", (data) => {
+        console.log("Socket Connected: ", data);
+        _socket.emit("NHL_CONNECT_MATCH_ROOM", {
+          gameID: gameID,
+        });
+      });
 
-  //     _socket.on("ROOM_CONNECTED", (data) => {
-  //       console.log("ON ROOM CONNECTED: ", data);
-  //       dispatch({
-  //         type: NHLActions.NHL_UPDATE_STATE,
-  //         payload: {
-  //           live_score_details: data,
-  //         },
-  //       });
-  //     });
+      _socket.on("ROOM_CONNECTED", (data) => {
+        console.log("ON ROOM CONNECTED: ", data);
+        if (data !== "room connection successful") {
+          // dispatch({
+          //   type: NHLActions.NHL_UPDATE_STATE,
+          //   payload: {
+          //     live_score_details: data,
+          //   },
+          // });
+        }
+      });
 
-  //     _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
-  //       console.log("THIS IS TEAM LOGS", data);
+      _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
+        // evaluateTeamLogs(data);
+        // if (Array.isArray(data)) {
+        dispatch({
+          type: NHLActions.NHL_UPDATE_STATE,
+          payload: {
+            live_team_logs: data,
+          },
+        });
+        // }
+      });
 
-  //       // if (Array.isArray(data)) {
-  //       dispatch({
-  //         type: NHLActions.NHL_UPDATE_STATE,
-  //         payload: {
-  //           live_team_logs: data,
-  //         },
-  //       });
-  //       // }
-  //     });
-
-  //     _socket.on("ROOM_DATA", (data) => {
-  //       console.log("ROOM DATA: ", data);
-  //     });
-  //   }
-  // }, [_socket, gameID]);
+      _socket.on("ROOM_DATA", (data) => {
+        console.log("ROOM DATA: ", data);
+      });
+    }
+  }, [_socket, gameID]);
 
   // useEffect(() => {
   //   setPlayerToSwap({});

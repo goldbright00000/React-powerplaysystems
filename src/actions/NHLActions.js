@@ -25,7 +25,7 @@ export function nhlData(gameId) {
       const response = await http.post(
         `https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyPlayers`,
         {
-          gameID: 951,
+          gameID: gameId,
         }
       );
       const {
@@ -389,6 +389,10 @@ function getPlayers(
 }
 
 function getFilterPlayersList(filter = "", playersList = []) {
+  if(filter == "lw" || filter == "rw")
+  {
+    filter = "xw";
+  }
   let list =
     (playersList?.length &&
       playersList?.filter(

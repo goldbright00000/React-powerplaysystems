@@ -44,7 +44,6 @@ export default function TeamManager(props) {
   } = props || {};
 
   const {
-    live_players: live_data = [],
     starPlayerCount = 0,
     sport_id = 0,
     game_id = 0,
@@ -92,11 +91,11 @@ export default function TeamManager(props) {
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
     let indexOfPlayer = -1;
 
-    indexOfPlayer = live_data.findIndex((x) => x?.id == player?.id);
+    indexOfPlayer = live_players.findIndex((x) => x?.id == player?.id);
     if (indexOfPlayer !== -1) {
       player.xp = _selectedXp;
 
-      live_data[indexOfPlayer] = player;
+      live_players[indexOfPlayer] = player;
       let power = 0;
       if (_selectedXp.xpVal === "1.5x") {
         power = 1;
@@ -125,7 +124,7 @@ export default function TeamManager(props) {
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
         );
       }
-      return dispatch(NHLActions.nhlLiveData(live_data));
+      return dispatch(NHLActions.nhlLiveData(live_players));
     }
   };
 
@@ -281,6 +280,7 @@ export default function TeamManager(props) {
       const response = await dispatch(
         NHLActions.nhlData(props?.gameInfo?.game_id)
       );
+      console.log("data?.type", player?.player?.type);
       if (response?.filterdList && response?.filterdList?.length) {
         const _mlbData = [...response?.filterdList];
         const [swapablePlayerData] = _mlbData?.filter(
@@ -345,72 +345,73 @@ export default function TeamManager(props) {
       </>
     );
   } else if (live_players && live_players?.length) {
-    console.log("live_players", live_players);
     return (
       <>
         {screenSize > 550 ? (
           <>
             <TeamManagerCardHeader />
-            <div style={{
-              display: "flex",
-              flexWrap: "wrap",
-              maxWidth: 1020
-            }}>
-            {live_players.map((item, index) => (
-              <SportsLiveCard
-                data={{ player: item, ...item }}
-                // data={{
-                //   ...item,
-                //   player: {
-                //     name: item?.full_name,
-                //     positionID: item?.positionID,
-                //     primary_position: item?.primary_position,
-                //   },
-                // }}
+            <div
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                maxWidth: 1020,
+              }}
+            >
+              {live_players.map((item, index) => (
+                <SportsLiveCard
+                  data={{ player: item, ...item }}
+                  // data={{
+                  //   ...item,
+                  //   player: {
+                  //     name: item?.full_name,
+                  //     positionID: item?.positionID,
+                  //     primary_position: item?.primary_position,
+                  //   },
+                  // }}
+                  compressedView={compressedView}
+                  key={index + ""}
+                  onChangeXp={onChangeXp}
+                  updateReduxState={updateReduxState}
+                  starPlayerCount={starPlayerCount}
+                  gameInfo={selectedTeam}
+                  useSwap={useSwap}
+                  swapCount={swapCounts}
+                  dataMain={selectedTeam}
+                  setPowers={setPowers}
+                  pointXpCount={{
+                    xp1: pointBooster15x,
+                    xp2: pointBooster2x,
+                    xp3: pointBooster3x,
+                  }}
+                  cardType="nhl"
+                  counts={{
+                    swapCounts,
+                    dwallCounts,
+                    challengeCounts,
+                    retroBoostCounts,
+                    powerUpCounts,
+                    pointMultiplierCounts,
+                  }}
+                />
+              ))}
+
+              <SportsLiveCardTeamD
+                data={live_teamD}
                 compressedView={compressedView}
-                key={index + ""}
-                onChangeXp={onChangeXp}
-                updateReduxState={updateReduxState}
-                starPlayerCount={starPlayerCount}
-                gameInfo={selectedTeam}
-                useSwap={useSwap}
-                swapCount={swapCounts}
+                key={live_teamD?.id}
+                dwall={dwallCounts}
+                challenge={challengeCounts}
+                useDwall={useDwall}
+                useChallenge={useChallenge}
                 dataMain={selectedTeam}
                 setPowers={setPowers}
-                pointXpCount={{
-                  xp1: pointBooster15x,
-                  xp2: pointBooster2x,
-                  xp3: pointBooster3x,
-                }}
                 cardType="nhl"
-                counts={{
-                  swapCounts,
-                  dwallCounts,
-                  challengeCounts,
-                  retroBoostCounts,
-                  powerUpCounts,
-                  pointMultiplierCounts,
-                }}
               />
-            ))}
-
-            <SportsLiveCardTeamD
-              data={live_teamD}
-              compressedView={compressedView}
-              key={live_teamD?.id}
-              dwall={dwallCounts}
-              challenge={challengeCounts}
-              useDwall={useDwall}
-              useChallenge={useChallenge}
-              dataMain={selectedTeam}
-              setPowers={setPowers}
-              cardType="nhl"
-            />
             </div>
           </>
         ) : (
           <>
-            {live_data?.map((item, index) => (
+            {live_players?.map((item, index) => (
               <ScoreBoard
                 data={item}
                 compressedView={compressedView}

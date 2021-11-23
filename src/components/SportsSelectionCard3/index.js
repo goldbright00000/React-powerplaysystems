@@ -73,6 +73,7 @@ function SportsSelectionCard3(props) {
     btnIcon = "",
     pageType = PAGE_TYPES.MLB,
     type = "",
+    showArrow = true
   } = props || {};
 
   const {
@@ -100,7 +101,6 @@ function SportsSelectionCard3(props) {
     seasons = [],
     team = {},
   } = player || {};
-
 
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
@@ -221,7 +221,7 @@ function SportsSelectionCard3(props) {
         >
           {pageType === PAGE_TYPES.NHL ? (
             <>
-              <span>{type}</span>
+              <span>{primary_position}</span>
               {full_name}
             </>
           ) : (
@@ -459,10 +459,9 @@ function SportsSelectionCard3(props) {
               </p>
             </div>
           )}
-
-          <div className={classes.card_footer_right} onClick={nextStep}>
+          {props.showArrow && <div className={classes.card_footer_right} onClick={nextStep}>
             <ForwardArrow color={"#fb6e00"} />
-          </div>
+          </div>}
         </div>
       )}
     </div>

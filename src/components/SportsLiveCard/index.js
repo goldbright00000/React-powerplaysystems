@@ -97,9 +97,11 @@ function SportsLiveCard(props) {
     pointXpCount = {},
     currentPlayerList = [],
     key = "",
+    dataMain = {}
   } = props || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
+  
 
   const {
     full_name = "",
@@ -138,6 +140,21 @@ function SportsLiveCard(props) {
   //   // earned_runs_average = 0,
   //   // home_runs = 0,
   // } = nhl_player_season_stats[0] || {};
+
+  const {
+    pointSystem = {}
+  } = dataMain;
+
+  const {
+    goalie = {},
+    skater = {},
+    teamD = {},
+  } = pointSystem;
+
+  const {
+    goalsAgainst: goalsAgaints = 0,
+    save: saves = 0
+  } = goalie;
 
   let {
     goals = 0,
@@ -218,7 +235,9 @@ function SportsLiveCard(props) {
   const showEndThird = () => {
     return outs === 3 && `${current_inning_half}`.toLocaleLowerCase() === "b";
   };
-
+  const closeRenderModal = () => {
+    setReplaceModalState(false);
+  };
   const toggleReplaceModal = useCallback(async () => {
     if (cardType === CardType.MLB) {
       setLoadingPlayerList(true);
@@ -290,7 +309,7 @@ function SportsLiveCard(props) {
     }
     if (cardType === CardType.NHL) {
       setLoadingPlayerList(true);
-      setReplaceModalState(!showReplaceModal);
+      setReplaceModalState(true);
       const response = await dispatch(nhlActions.getFantasyPlayers(gameID));
       console.log("response", response);
       if (response?.filterdList && response?.filterdList?.length) {
@@ -298,9 +317,6 @@ function SportsLiveCard(props) {
         const [swapablePlayerData] = _nhlData?.filter(
           (data) => data?.type === fantasyPlayerPosition?.toLocaleLowerCase()
         );
-
-        console.log("_nhlData: ", _nhlData);
-        console.log("swapablePlayerData: ", swapablePlayerData);
 
         if (
           swapablePlayerData &&
@@ -387,7 +403,7 @@ function SportsLiveCard(props) {
     if (isPowerAvailable(type) == 0) {
       locked = 0;
     }
-    console.log("isPowerAvailabletype", type, powerss, locked);
+    // console.log("isPowerAvailabletype", type, powerss, locked);
     return locked;
   }
 
@@ -606,7 +622,6 @@ function SportsLiveCard(props) {
               className={classes.stat_xp_mlbr}
               // onClick={() => onChangeXp(0, data)}
             >
-              1
               {/* <ShieldIcon
                 className={{ opacity: 0.1 }}
                 size={singleView ? 14 : largeView ? 30 : 30}
@@ -1084,7 +1099,7 @@ function SportsLiveCard(props) {
             largeView && classes.large_view
           }`}
         >
-          {xp?.xpVal} Points
+          Points
         </p>
         <div
           className={`${classes.points} ${largeView && classes.large_view} ${
@@ -1128,11 +1143,19 @@ function SportsLiveCard(props) {
               <span>PGPs</span>
             </OverlayTrigger>
           </p>
-          <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            G: {goals} | A: {assists}
-            <br />
-            SOG: {shotsOnGoal}
-          </p>
+          {type == "G" ? (
+            <p className={`${classes.p} ${largeView && classes.large_view}`}>
+              Saves: {saves}
+              <br />
+              GA: {Math.abs(goalsAgaints)}
+            </p>
+          ) : (
+            <p className={`${classes.p} ${largeView && classes.large_view}`}>
+              G: {goals} | A: {assists}
+              <br />
+              SOG: {shotsOnGoal}
+            </p>
+          )} 
           <div
             style={{
               position: "absolute",
@@ -1162,7 +1185,7 @@ function SportsLiveCard(props) {
               largeView && classes.large_view
             }`}
           >
-            {xp?.xpVal} Points
+            Points
           </p>
           <div
             style={{
@@ -1259,8 +1282,8 @@ function SportsLiveCard(props) {
         {cardType === CardType.NHL ? (
           <span>
             {fantasyPlayerPosition === "XW" || type === "D"
-              ? fantasyPlayerPosition + positionID
-              : fantasyPlayerPosition}
+              ? primary_position + positionID 
+              : primary_position}
             :
             <span className={classes.card_header_points}>
               {fantasyPlayerPosition === "C" ? posCenterPoints : null}
@@ -1513,11 +1536,12 @@ function SportsLiveCard(props) {
       <RenderModal
         player={player}
         visible={showReplaceModal}
-        onClose={toggleReplaceModal}
+        onClose={closeRenderModal}
         onSwap={onSwap}
         playerList={playerList}
         starPlayerCount={starPlayerCount}
         loading={loadingPlayerList}
+        dataMain={dataMain}
       />
     </>
   );

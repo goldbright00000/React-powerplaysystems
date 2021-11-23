@@ -11,7 +11,7 @@ const PointSystem = (props) => {
   return (
     <div className={`${classes.__point_system}`}>
       <>
-        <p className={classes.__point_system_title}>Point System5</p>
+        <p className={classes.__point_system_title}>Point System</p>
         {typeOne.map((d, i) => {
           return (
             <>

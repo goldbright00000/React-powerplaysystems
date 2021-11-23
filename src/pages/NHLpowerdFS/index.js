@@ -227,6 +227,7 @@ function NHLPowerdFs(props) {
   );
   const [sideBarList, setSidebarList] = useState(SIDEBAR_INITIAL_LIST);
   const [filters, setFilters] = useState(FILTERS_INITIAL_VALUES);
+  const [displayGameName, setDisplayGameName] = useState();
   const [selectedData, setSelectedData] = useState();
   const [filterdData, setFilterdData] = useState();
   const [selectedDropDown, setSelectedDropDown] = useState();
@@ -323,6 +324,7 @@ function NHLPowerdFs(props) {
       getData();
     }
   }, [user]);
+  console.log("==>=== user ===<===", user);
 
   const getData = async () => {
     setLoading(true);
@@ -331,6 +333,8 @@ function NHLPowerdFs(props) {
     );
 
     console.log("response: ", response);
+    // response.display_game_name
+
     if (response) {
       setData(response?.filterdList);
 
@@ -338,6 +342,7 @@ function NHLPowerdFs(props) {
 
       setFilterdData(filterdList[0]);
       setSelectedData(filterdList[0]);
+      setDisplayGameName(response.display_game_name);
 
       //set dropdown
       const _dropDownlist = filterdList?.filter(
@@ -399,9 +404,12 @@ function NHLPowerdFs(props) {
         dispatch(NHLActions.setStarPlayerCount(res._starPlayerCount));
         activateFilter(
           res.currentPlayer,
-          res.currentPlayer?.type?.toLocaleLowerCase()
+          res.currentPlayer?.fantasyPlayerPosition?.toLocaleLowerCase()
         );
-        onSelectFilter(res.currentPlayer?.type?.toLocaleLowerCase(), false);
+        onSelectFilter(
+          res.currentPlayer?.fantasyPlayerPosition?.toLocaleLowerCase(),
+          false
+        );
       }
       setSelected(_selected);
       setSidebarList(_playerList);
@@ -472,32 +480,42 @@ function NHLPowerdFs(props) {
         }
 
         if (isEmpty(selectedObj)) {
-          const playerListIndex = _playersList?.indexOf(_player);
-          let player = { ..._player };
-
-          if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
-            player.team = { ...currentPlayer };
-          } else {
-            player.player = { ...currentPlayer };
-          }
-          player.type = currentPlayer?.type?.toLocaleLowerCase();
-          player.matchId = currentPlayer?.match_id;
-          player.is_starPlayer = currentPlayer?.is_starPlayer;
-          _playersList[playerListIndex] = player;
-
-          selected.set(selectionId, !selected.get(selectionId));
-          //Star Power Player selection (sidebar)
-          if (starPlayerCount < 3 && currentPlayer?.is_starPlayer) {
-            _starPlayerCount++;
-          } else if (currentPlayer?.is_starPlayer) {
+          if (
+            starPlayerCount >= 3 &&
+            (currentPlayer?.is_starPlayer || currentPlayer?.is_starTeamD)
+          ) {
             dispatch(
               showToast(
                 "You have reached the Star Power limit for your team. Please select another player or team that does not have the 'Star Power' identifier.",
                 "success"
               )
             );
+          } else {
+            const playerListIndex = _playersList?.indexOf(_player);
+            let player = { ..._player };
+
+            if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
+              player.team = { ...currentPlayer };
+              player.is_starTeamD = currentPlayer?.is_starTeamD;
+            } else {
+              player.player = { ...currentPlayer };
+            }
+            player.type = currentPlayer?.type?.toLocaleLowerCase();
+            player.matchId = currentPlayer?.match_id;
+            player.is_starPlayer = currentPlayer?.is_starPlayer;
+            _playersList[playerListIndex] = player;
+
+            selected.set(selectionId, !selected.get(selectionId));
+            //Star Power Player selection (sidebar)
+            if (
+              starPlayerCount < 3 &&
+              (currentPlayer?.is_starPlayer || currentPlayer?.is_starTeamD)
+            ) {
+              _starPlayerCount++;
+            }
+
+            selectedPlayerCount++;
           }
-          selectedPlayerCount++;
         }
       }
     } else {
@@ -515,7 +533,8 @@ function NHLPowerdFs(props) {
         selected.set(selectionId, !selected.get(selectionId));
         if (
           starPlayerCount > 0 &&
-          _playersList[existingPlayerIndex].is_starPlayer
+          (_playersList[existingPlayerIndex].is_starPlayer ||
+            _playersList[existingPlayerIndex].is_starTeamD)
         ) {
           _starPlayerCount--;
         }
@@ -526,11 +545,14 @@ function NHLPowerdFs(props) {
 
         if (currentPlayer?.type?.toLocaleLowerCase() === TD) {
           _playersList[existingPlayerIndex].team = {};
+          _playersList[existingPlayerIndex].is_starTeamD = false;
         } else {
           _playersList[existingPlayerIndex].player = {};
         }
       }
       selectedPlayerCount--;
+
+      console.log("selectedPlayerCount 1: ", selectedPlayerCount);
     }
 
     return {
@@ -584,10 +606,14 @@ function NHLPowerdFs(props) {
     let id = type === TD ? player?.id : player?.id;
     const selectionId = `${id} - ${player?.match_id}`;
 
+    if (starPlayerCount >= 3 && player.is_starPlayer) return;
+
     if (_remaining > 0) {
       if (!!!selected.get(selectionId)) {
         _remaining -= 1;
       } else if (_remaining < 2) {
+        _remaining += 1;
+      } else if (selected.get(selectionId)) {
         _remaining += 1;
       }
       if (_remaining <= 0) {
@@ -768,7 +794,6 @@ function NHLPowerdFs(props) {
     const { team = {} } = teamD || {};
 
     if (!isEmpty(team) && players?.length === 7) {
-      // TODO: Fix user_id issue
       const payload1 = {
         game_id: game_id,
         sport_id: sport_id,
@@ -777,6 +802,7 @@ function NHLPowerdFs(props) {
         team_d_id: team?.id,
         match_id: teamD?.team?.match_id,
         team_id: selector_team_id,
+        user_display_name: user.display_name,
       };
 
       const payload = {

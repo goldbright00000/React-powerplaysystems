@@ -24,8 +24,6 @@ const paymentGateWay = 'MyUserPay';
 let totalPrice = false;
 const user_id = getPersonaUserId();
 
-console.log("===>>>=== user_id ===<<<===", user_id);
-
 const formatePrice = (price, currencyValue, isCad, noSign) =>
   noSign
     ? (price * currencyValue).toFixed(2)
@@ -235,6 +233,13 @@ class DepositAmountForm extends Component {
     let { price, paymentMetod } = this.state.form;
     totalPrice = this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: false })
   }
+
+  onPayment = async (e) => {
+    localStorage.removeItem('currency');
+    localStorage.removeItem('amount');
+    localStorage.setItem('currency',this.state.form.currency);
+    localStorage.setItem('amount',this.state.form.price);
+  };
 
   onSubmit = async (e) => {
     e.preventDefault();
@@ -549,7 +554,8 @@ class DepositAmountForm extends Component {
                   {price} {currency.replace("$", "")}
                 </button>
               ) : (
-                <button className={`${styles.submitbtn} w-100 d-block`}>
+                <button className={`${styles.submitbtn} w-100 d-block`}
+                onClick={this.onPayment}>
                   Deposit • {currency === "$USD" && "$"}
                   {price}
                   {currency.replace("$", "")}
