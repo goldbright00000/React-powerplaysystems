@@ -156,6 +156,18 @@ function NHLPowerdFsLive(props) {
   useEffect(() => {
     getGameIDFromLocalStorage();
     _socket = socketNHL();
+    return function cleanUP() {
+
+      //reset logs
+      dispatch(NHLActions.setGameLogs([]));
+
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
+    };
   }, []);
 
   const {
