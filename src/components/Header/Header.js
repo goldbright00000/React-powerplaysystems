@@ -3,6 +3,7 @@ import { Link, NavLink, useHistory } from "react-router-dom";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useMediaQuery } from "react-responsive";
+import { getPSiGateMonthlyTransaction } from "../../actions/userActions";
 
 import "./Header.scss";
 import logo from "../../assets/new-logo.png";
@@ -68,7 +69,6 @@ const Header = (props) => {
   const coinbaseUrl = useSelector((state) => state?.user.coinbaseRedirectUrl);
   const showDepositModal = useSelector((state) => state.ui.depositFormData);
 
-  const psiGateMonthlyAmount = useSelector((state) => state?.user.PSIGATE_MONTHLY_TRANSACTION);
   const dispatch = useDispatch();
   const history = useHistory();
   const myAccountMenuRef = useRef(null);
@@ -99,6 +99,7 @@ const Header = (props) => {
   });
 
   useEffect(() => {
+    dispatch(getPSiGateMonthlyTransaction());
     const params = new URLSearchParams(window.location.search);
     var statusval = params.get('status');
     setUrlStatus(statusval);
@@ -162,6 +163,8 @@ const Header = (props) => {
     }
   };
 
+  const psiGateMonthlyAmount = useSelector((state) => state?.user.PSiGate_monthly_amount);
+
   const onMyUserPayment = (data) => {
     if (data.amount < 1) {
       alert("Please add amount at least more than 1.");
@@ -177,16 +180,15 @@ const Header = (props) => {
       // setHideDepositModal();
       return false;
     } else {
-      if(data.isMyUser){
+      if(data.isMyUser) {
         const { amount, paymentMethod } = data;
         const obj = {
           amount,
           paymentMethod,
           email: user?.email,
         };
-
         dispatch(payWithMyUserPay(obj, history));
-        setHideDepositModal();
+        // setHideDepositModal();
       } else {
         return true;
       }
@@ -342,6 +344,7 @@ const Header = (props) => {
                 myUserPayFormSubmitted={onMyUserPayment}
                 coinbaseFormSubmitted={coinbaseSubmitHandler}
                 UrlStatus={UrlStatus}
+                monthlyAmount={psiGateMonthlyAmount}
               />
             )}
           </>

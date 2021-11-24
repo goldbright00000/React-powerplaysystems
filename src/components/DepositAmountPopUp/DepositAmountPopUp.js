@@ -15,8 +15,8 @@ import mastercard from "../../assets/mastercard.png";
 import successIcon from "../../assets/success.svg";
 
 const DepositAmountPopUp = (props) => {
-  const { city, address, phone_number, zip, currency, country } =
-    props?.user || {};
+  const {monthlyAmount} = props;
+  const { city, address, phone_number, zip, currency, country } = props?.user || {};
   const dispatch = useDispatch();
   const rate = useSelector((state) => state?.user?.markedUpRate);
   const formCurrency = useSelector((state) => state?.ui?.depositFormData);
@@ -37,8 +37,6 @@ const DepositAmountPopUp = (props) => {
   }
 
   return (
-    // aa model che.... Nisha..
-    // aa aakhu form che
     <CreatePopUpPortal>
       <div className={`modal fade show d-block ${styles.blur}`}>
         <div className="modal-dialog modal-animation modal-dialog-centered modal-xl" role="document">
@@ -119,6 +117,7 @@ const DepositAmountPopUp = (props) => {
                       myUserPaySubmitted={props.myUserPayFormSubmitted}
                       coinbaseSubmitted={props.coinbaseFormSubmitted}
                       formCurrency={formCurrency}
+                      monthlyAmount={monthlyAmount}
                     />
                     </div>
                   </div>
@@ -208,7 +207,9 @@ const DepositAmountPopUp = (props) => {
                 zumSubmitted={props.zumFormSubmitted}
                 myUserPaySubmitted={props.myUserPayFormSubmitted}
                 coinbaseSubmitted={props.coinbaseFormSubmitted}
-                formCurrency={formCurrency} />
+                formCurrency={formCurrency}
+                monthlyAmount={monthlyAmount}
+                />
 
               <button className={formStyles.button} onClick={handleDepositFormForMobile} style={{
                 display: nextForm === 3 ? 'none' : 'block'
