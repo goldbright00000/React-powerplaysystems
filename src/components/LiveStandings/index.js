@@ -72,7 +72,7 @@ const dummyData = [
 ];
 
 function LiveStandings(props) {
-  const { visible = false, onClose = () => { }, isMobile = false } = props || {};
+  const { visible = false, onClose = () => {}, isMobile = false } = props || {};
   const getCurrentTime = () => {
     const dd = new Date();
     const month = [
@@ -131,20 +131,27 @@ function LiveStandings(props) {
 
   const Row = (item, ind) => (
     <div className={`${classes.table_row} ${ind == 0 && classes.active}`}>
-      <span>{item?.ranking}</span>
+      <span>{item?.rank}</span>
       <span>{item?.team?.user?.display_name}</span>
-      <span>{item?.score}</span>
-      <span>${item?.winnings?.amount ? setNumberComma(item?.winnings?.amount) : 0}</span>
+      <span>{item?.totalValue}</span>
+      <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
       <span>
-        {ind !== 0 && <button className={classes.button_btn}>{isMobile ? "Team" : "View Team"}</button>}
+        {ind !== 0 && (
+          <button className={classes.button_btn}>
+            {isMobile ? "Team" : "View Team"}
+          </button>
+        )}
       </span>
     </div>
   );
 
   return (
     <Modal visible={visible} onClose={onClose} iconStyle={{ display: "none" }}>
-      <div className={`${classes.container} ${isMobile ? classes.mobileContainer : ""
-        }`}>
+      <div
+        className={`${classes.container} ${
+          isMobile ? classes.mobileContainer : ""
+        }`}
+      >
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div className={classes.topHeadingLeft}>
