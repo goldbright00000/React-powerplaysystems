@@ -19,7 +19,6 @@ import { redirectTo } from "../../../utility/shared";
 
 export default function MyScoreCard() {
   const { live_all_team_logs } = useSelector((state) => state.nhl);
-
   const Row = ({
     position,
     name,
@@ -123,7 +122,7 @@ export default function MyScoreCard() {
                   totalPts="8"
                   powers="-"
                   score={item?.fantasyLog?.playerPts}
-                  runningTotal="16"
+                  runningTotal={item?.totalTeamPts}
                 />
               ))}
             </>

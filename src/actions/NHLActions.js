@@ -675,7 +675,7 @@ export function updateUserRemainingPowers(
   game_id,
   user_id,
   power_id,
-  type = "powerDec",
+  live_clock,
   player_id = "42cd5bc5-0f24-11e2-8525-18a905767e44"
 ) {
   return async (dispatch) => {
@@ -686,7 +686,7 @@ export function updateUserRemainingPowers(
           gameID: game_id,
           userID: user_id,
           powerApplied: power_id,
-          timeApplied: new Date(),
+          timeApplied: live_clock,
           playerID: player_id,
         }
       );

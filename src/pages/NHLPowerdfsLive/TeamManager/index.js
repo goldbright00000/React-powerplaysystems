@@ -41,6 +41,7 @@ export default function TeamManager(props) {
     onPowerApplied,
     POWER_IDs,
     setPowers,
+    powers = []
   } = props || {};
 
   const {
@@ -59,6 +60,7 @@ export default function TeamManager(props) {
     powersApplied = [],
     powersAvailable = "",
     selectedTeam = {},
+    live_clock = "20:00"
   } = useSelector((state) => state.nhl);
 
   const { user = {} } = useSelector((state) => state.auth);
@@ -171,7 +173,7 @@ export default function TeamManager(props) {
     if (action) {
       const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, 6)
+        NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, 6, live_clock, live_teamD?.id)
       );
       console.log("requests", requests);
       if (requests.payload) {
@@ -406,6 +408,7 @@ export default function TeamManager(props) {
                 dataMain={selectedTeam}
                 setPowers={setPowers}
                 cardType="nhl"
+                powers={powers}
               />
             </div>
           </>

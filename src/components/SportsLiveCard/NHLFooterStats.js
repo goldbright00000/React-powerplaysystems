@@ -30,9 +30,10 @@ function NHLFooterStats(props) {
 
   const {
     live_clock = "20:00",
-    live_period = 1,
+    live_period = 0,
     live_strength = "even",
   } = useSelector((state) => state.nhl);
+
 
   return (
     <div>
@@ -56,13 +57,13 @@ function NHLFooterStats(props) {
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          P{live_period} | {live_clock}
+          P{live_period + 1} | {live_clock}
         </p>
       </div>
       <div className="footer_stats_row">
         <img src={SoccerJerseyIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          DET -{" "}
+          {isTeamD ? teamB.alias : player?.team?.alias} -{" "}
           {live_strength === "even"
             ? "Even Strength"
             : _.startCase(_.toLower(live_strength))}{" "}
