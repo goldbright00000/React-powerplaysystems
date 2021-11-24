@@ -21,7 +21,6 @@ import { getPersonaUserId } from "../../actions/personaActions";
 import { checkAccountLimit } from "../../actions/userActions";
 
 const paymentGateWay = 'MyUserPay';
-let totalPrice = false;
 const user_id = getPersonaUserId();
 
 const formatePrice = (price, currencyValue, isCad, noSign) =>
@@ -53,7 +52,8 @@ class DepositAmountForm extends Component {
     expiredate: this.props.expiredate,
     cardname: this.props.cardname,
     canadianVisible: this.props.country === "Canada",
-    dispatch: this.props.dispatch
+    dispatch: this.props.dispatch,
+    currentAmount: 25
   };
 
   onCurrencyChange = (e) => {
@@ -70,7 +70,7 @@ class DepositAmountForm extends Component {
     const { value, type } = e.target;
     const newForm = { ...this.state.form };
     newForm.price = +value;
-    this.setState({ form: newForm, isOtherAmount: type === "number" });
+    this.setState({ form: newForm, isOtherAmount: type === "number", currentAmount:value});
   };
 
   onPaymentMethodChange = (e) => {
@@ -231,7 +231,7 @@ class DepositAmountForm extends Component {
 
   componentDidMount() {
     let { price, paymentMetod } = this.state.form;
-    totalPrice = this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: false })
+    this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: false })
   }
 
   onPayment = async (e) => {
@@ -288,9 +288,7 @@ class DepositAmountForm extends Component {
     const { isOtherAmount } = this.state;
     return (
       <>
-        {!totalPrice ?
-          <form action='https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger' method="post" className={styles.form}>
-            <section className={styles.formSection}>
+      <section className={styles.formSection}>
               <h6>Select Currency</h6>
               <div className="row align-items-center">
                 {Object.keys(this.prices).map((key, index) => (
@@ -338,6 +336,8 @@ class DepositAmountForm extends Component {
                 </div>
               </div>
             </section>
+        { parseInt(this.props.monthlyAmount) + parseInt(this.state.currentAmount) < 5000 ? 
+          <form action='https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger' method="post" className={styles.form}>
             {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
               < section className={styles.formSection}>
                 <h6>Add Payment Details</h6>
@@ -567,54 +567,6 @@ class DepositAmountForm extends Component {
             <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged ${price}.00 by PowerPlay Systems Inc.</p>
           </form> :
           <form className={styles.form} onSubmit={this.onSubmit}>
-            <section className={styles.formSection}>
-              <h6>Select Currency</h6>
-              <div className="row align-items-center">
-                {Object.keys(this.prices).map((key, index) => (
-                  <div className="col-auto mx-0 my-2 px-1">
-                    <ChooseItem
-                      name="currency"
-                      title={this.prices[key].title}
-                      value={key}
-                      key={index}
-                      checked={currency === key}
-                      onChange={this.onCurrencyChange}
-                    />
-                  </div>
-                ))}
-              </div>
-            </section>
-            <section className={`${styles.formSection}`}>
-              <h6>Select Amount ({currency})</h6>
-              <div className="row align-items-center">
-                {this.prices[currency].values.map((data, index) => (
-                  <div className="col-auto mx-0 my-2 px-1">
-                    <ChooseItem
-                      name="price"
-                      key={index}
-                      onChange={this.onPriceChange}
-                      // helperText={
-                      //   this.state.canadianVisible
-                      //     ? formatePrice(data.value, this.props.cad, true)
-                      //     : null
-                      // }
-                      {...data}
-                      checked={!isOtherAmount && price === data.value}
-                    />
-                  </div>
-                ))}
-                <div className="col-auto mx-0 my-2 px-1">
-                  <ChooseItem
-                    name="price"
-                    title="Other"
-                    helperText="Your Amount"
-                    type="number"
-                    onChange={this.onPriceChange}
-                    value={isOtherAmount ? price : ""}
-                  />
-                </div>
-              </div>
-            </section>
             {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
               < section className={styles.formSection}>
                 <h6>Add Payment Details</h6>

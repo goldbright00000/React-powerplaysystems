@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
@@ -14,6 +14,7 @@ import { CONSTANTS } from "../../utility/constants";
 import Balance from "../../components/Balance";
 import MobileBalance from "../../components/MobileBalance";
 import { hideDepositForm, showDepositForm } from "../../actions/uiActions";
+import { getPSiGateMonthlyTransaction } from "../../actions/userActions";
 
 const PowerCenter = (props) => {
     const { url } = props.match;
@@ -24,6 +25,10 @@ const PowerCenter = (props) => {
     const dispatch = useDispatch();
 
     const setShowDepositModal = () => dispatch(showDepositForm());
+
+    useEffect(() => {
+        dispatch(getPSiGateMonthlyTransaction());
+    }, [])
 
     return (
         <Fragment>
