@@ -132,7 +132,7 @@ function LiveStandings(props) {
   const Row = (item, ind) => (
     <div className={`${classes.table_row} ${ind == 0 && classes.active}`}>
       <span>{item?.rank}</span>
-      <span>{item?.team?.user?.display_name}</span>
+      <span>{item?._id?.user_display_name}</span>
       <span>{item?.totalValue}</span>
       <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
       <span>
