@@ -526,12 +526,12 @@ function NHLPowerdFsLive(props) {
       _socket.on("ROOM_CONNECTED", (data) => {
         console.log("ON ROOM CONNECTED: ", data);
         if (data !== "room connection successful") {
-          // dispatch({
-          //   type: NHLActions.NHL_UPDATE_STATE,
-          //   payload: {
-          //     live_score_details: data,
-          //   },
-          // });
+          dispatch({
+            type: NHLActions.NHL_UPDATE_STATE,
+            payload: {
+              live_score_details: data,
+            },
+          });
         }
       });
 
@@ -809,6 +809,7 @@ function NHLPowerdFsLive(props) {
                         setPowers={setPowers}
                         useChallenge={useChallenge}
                         useDwall={useDwall}
+                        powers={powersAvailable == "" ? [] : powersAvailable}
                       />
                     ) : (
                       <MyScoreCard />
