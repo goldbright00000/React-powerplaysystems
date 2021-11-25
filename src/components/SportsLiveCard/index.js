@@ -345,14 +345,15 @@ function SportsLiveCard(props) {
   }, [mlbData, nflData, nhlData]);
 
   function isPowerAvailable(type) {
-    let powerss = props.dataMain?.game?.Powers;
+    let powerss = props.dataMain?.powersAvailable;
     if (powerss == undefined) {
       powerss = powersAvailable;
     }
+    if(powerss == "") powerss = [];
     if (!powerss || powerss === undefined) {
       return 0;
     }
-
+    
     let available = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -377,10 +378,11 @@ function SportsLiveCard(props) {
     return available;
   }
   function isPowerLocked(type) {
-    let powerss = props.dataMain?.game?.Powers;
+    let powerss = props.dataMain?.powersAvailable;
     if (powerss == undefined) {
       powerss = powersAvailable;
     }
+    if(powerss == "") powerss = [];
     if (!powerss || powerss === undefined) {
       return 0;
     }
@@ -626,14 +628,19 @@ function SportsLiveCard(props) {
                 className={{ opacity: 0.1 }}
                 size={singleView ? 14 : largeView ? 30 : 30}
               /> */}
-              {isPowerAvailable("D-Wall") === 0 ||
+              {isPowerAvailable("D-Wall") === 0 ?
+                  <div style={{
+                    opacity: 0.5
+                  }}><ShieldIcon
+                  size={30}
+                  // size={largeView ? 28 : 24}
+                /></div>
+                :
               isPowerLocked("D-Wall") === 1 ? (
                 <Tooltip
                   toolTipContent={
                     <div className={classes.xp_icons}>
-                      {isPowerAvailable("D-Wall") === 0 ? (
-                        <div>Not Available</div>
-                      ) : isPowerLocked("D-Wall") === 1 ? (
+                      {isPowerLocked("D-Wall") === 1 ? (
                         <div
                           style={{
                             display: "flex",
@@ -812,13 +819,18 @@ function SportsLiveCard(props) {
               xp?.xp == CONSTANTS.XP.xp3 ? (
                 renderXp()
               ) : (
+                isPowerAvailable("Point Booster") === 0 ?
+                  <div style={{
+                    opacity: 0.5
+                  }}><XPIcon
+                    size={30}
+                  /></div>
+                :
                 <Tooltip
                   disabled={false}
                   toolTipContent={
                     <div className={classes.xp_icons}>
-                      {isPowerAvailable("Point Booster") === 0 ? (
-                        <div>Not Available</div>
-                      ) : isPowerLocked("Point Booster") === 1 ? (
+                      {isPowerLocked("Point Booster") === 1 ? (
                         <div
                           style={{
                             display: "flex",
@@ -1282,8 +1294,8 @@ function SportsLiveCard(props) {
         {cardType === CardType.NHL ? (
           <span>
             {fantasyPlayerPosition === "XW" || type === "D"
-              ? primary_position + positionID 
-              : primary_position}
+              ? fantasyPlayerPosition + positionID 
+              : fantasyPlayerPosition}
             :
             <span className={classes.card_header_points}>
               {fantasyPlayerPosition === "C" ? posCenterPoints : null}
@@ -1359,11 +1371,10 @@ function SportsLiveCard(props) {
     <>
       {!showSummary && (
         <>
-          {props.swapCount === 0 ? (
+          {isPowerAvailable("Swap") === 0 ? (
             <div style={{ opacity: 0.5 }}>
               <Replace
                 size={singleView ? 23 : 22}
-                className={classes.disabled}
               />
             </div>
           ) : (
@@ -1479,7 +1490,7 @@ function SportsLiveCard(props) {
                           danger={hasText(status, "deck")}
                         />
                         {!singleView ? (
-                          <NHLFooterStats player={player} />
+                          <NHLFooterStats player={player}/>
                         ) : null}
                       </>
                     ) : null}

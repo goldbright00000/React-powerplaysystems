@@ -22,7 +22,7 @@ function NHLFooterStats(props) {
   } = props || {};
 
   //Player Details
-  const { match, OppGoalie = "" } = player || {};
+  const { match, OppGoalie = "0" } = player || {};
   const { home, away } = match || {};
 
   //TeamD Details
@@ -52,7 +52,7 @@ function NHLFooterStats(props) {
       )}
       <div className="footer_stats_row">
         <img src={SoccerIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>Opp. G: {OppGoalie}</p>
+        <p>{away?.alias} G: {OppGoalie}</p>
       </div>
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
