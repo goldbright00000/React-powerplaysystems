@@ -157,7 +157,6 @@ function NHLPowerdFsLive(props) {
     getGameIDFromLocalStorage();
     _socket = socketNHL();
     return function cleanUP() {
-
       //reset logs
       dispatch(NHLActions.setGameLogs([]));
 
@@ -676,7 +675,9 @@ function NHLPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = async () => {
+    await dispatch(NHLActions.getFinalStandings(gameID));
+  };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -863,7 +864,6 @@ function NHLPowerdFsLive(props) {
                       ranks={ranks}
                       currentWin={100000}
                       onClickStandings={onClickStandings}
-                      game_id={selectedTeam.game_id}
                       prizePool={prizePool}
                       {...props}
                     />
