@@ -27,11 +27,11 @@ const UsersGateway = (props) => {
   }, []);
 
   useEffect(() => {
-    _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, () => {
+    _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, (response) => {
       redirectTo(
         { history },
         {
-          path: `${state.previousPath}`,
+          path: `${state.previousPath}?status=true`,
         }
       );
     });
