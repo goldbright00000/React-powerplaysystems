@@ -60,4 +60,7 @@ export const URLS = {
   PAYMENT: {
     GET_PSIGATE_MONTHLY_TRANSACTION: "api/v1/users/get-monthly-transaction",
   },
+  SERVICE: {
+    ENTER_FANTASY_GAME: "https://nhl.powerplaysystems.com/api/v1/services/fantasy/enterFantasyGame",
+  },
 };

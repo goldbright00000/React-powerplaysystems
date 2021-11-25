@@ -19,7 +19,7 @@ import FilledArrow from "../../components/FilledArrow";
 import PowerCenterMobileCard from "../../components/PowerCenterMobileCard";
 import { getAllGames } from "../../actions/powerCenterActions";
 import { hideDepositForm, showDepositForm } from "../../actions/uiActions";
-import { fetchUserBalance } from "../../actions/userActions";
+import { fetchUserBalance, enterIntoGame } from "../../actions/userActions";
 import DepositAmountPopUp from "../../components/DepositAmountPopUp/DepositAmountPopUp";
 import Header from "../../components/Header/Header";
 import moment from "moment";
@@ -138,6 +138,11 @@ const InteractiveContests = (props) => {
   const [newGame, setNewGame] = useState({});
   const [inProgressGame, setInProgressGame] = useState([]);
   const [cancelledsGame, setCancelledGame] = useState([]);
+
+  // const params = new URLSearchParams(window.location.search);
+  //   console.log('params ---> ', params)
+  //   var statusval = params.get('status');
+  //   console.log('statusval --> ', statusval)
 
   const onClosePromoModal = () => {
     setShowPromoModal(false);
@@ -352,7 +357,12 @@ const InteractiveContests = (props) => {
       history.push("/login");
       return;
     }
-
+    const data = {
+      userID: user.user_id,
+      user_game_name: item.game_display_name,
+      gameID: item.game_id,
+    }
+    dispatch(enterIntoGame(data));
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
