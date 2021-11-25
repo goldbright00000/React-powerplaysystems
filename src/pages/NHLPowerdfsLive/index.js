@@ -157,7 +157,6 @@ function NHLPowerdFsLive(props) {
     getGameIDFromLocalStorage();
     _socket = socketNHL();
     return function cleanUP() {
-
       //reset logs
       dispatch(NHLActions.setGameLogs([]));
 
@@ -526,12 +525,12 @@ function NHLPowerdFsLive(props) {
       _socket.on("ROOM_CONNECTED", (data) => {
         console.log("ON ROOM CONNECTED: ", data);
         if (data !== "room connection successful") {
-          // dispatch({
-          //   type: NHLActions.NHL_UPDATE_STATE,
-          //   payload: {
-          //     live_score_details: data,
-          //   },
-          // });
+          dispatch({
+            type: NHLActions.NHL_UPDATE_STATE,
+            payload: {
+              live_score_details: data,
+            },
+          });
         }
       });
 
@@ -676,7 +675,9 @@ function NHLPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = async () => {
+    await dispatch(NHLActions.getFinalStandings(gameID));
+  };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -809,6 +810,7 @@ function NHLPowerdFsLive(props) {
                         setPowers={setPowers}
                         useChallenge={useChallenge}
                         useDwall={useDwall}
+                        powers={powersAvailable == "" ? [] : powersAvailable}
                       />
                     ) : (
                       <MyScoreCard />
@@ -862,7 +864,6 @@ function NHLPowerdFsLive(props) {
                       ranks={ranks}
                       currentWin={100000}
                       onClickStandings={onClickStandings}
-                      game_id={selectedTeam.game_id}
                       prizePool={prizePool}
                       {...props}
                     />

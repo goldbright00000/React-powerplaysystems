@@ -487,7 +487,8 @@ function NHLPowerdFs(props) {
             dispatch(
               showToast(
                 "You have reached the Star Power limit for your team. Please select another player or team that does not have the 'Star Power' identifier.",
-                "success"
+                "success",
+                { placement: "bottom-center" }
               )
             );
           } else {

@@ -58,6 +58,7 @@ function SportsLiveCardTeamD(props) {
     onSelectCard = () => {},
     cardType = CardType.MLB,
     key = "",
+    powers = []
   } = props || {};
 
   console.log("datadata", props);
@@ -176,6 +177,7 @@ function SportsLiveCardTeamD(props) {
   } = boxscore[0] || {};
 
   const isPowerAvailable = (type) => {
+    console.log("props.dataMain", props.dataMain);
     let powerss = props.dataMain?.powersAvailable;
     if(powerss == undefined) {
       powerss = powersAvailable;
