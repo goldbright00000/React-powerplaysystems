@@ -34,8 +34,8 @@ function Header4(props) {
     livePage = false,
     selectedTeam = {}
   } = props || {};
-  const { game = {} } = selectedTeam;
-  const { game_type = "", powerdfs_challenge_amount = 0, prizePool = 0 } = game;
+  const { game = {}, gameType: game_type = "" } = selectedTeam;
+  const {  powerdfs_challenge_amount = 0, prizePool = 0 } = game;
   
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
@@ -191,6 +191,7 @@ function Header4(props) {
         totalEntries={outof}
         livePage={livePage}
         depositClicked={props.depositClicked}
+        selectedTeam={selectedTeam}
       />
       {/* )} */}
     </div>

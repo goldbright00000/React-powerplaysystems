@@ -32,8 +32,8 @@ const Balance = (props) => {
     totalEntries = "",
     livePage = false,
     style = {},
+    selectedTeam = {}
   } = props || {};
-
   const { auth: { user: { userBalance = {} } } = {} } = useSelector(
     (state) => state
   );
@@ -72,6 +72,44 @@ const Balance = (props) => {
       setCurrencyMenu(false);
     }
   };
+
+  function duration(t0, t1){
+    let d = (t1) - (t0);
+    let weekdays     = Math.floor(d/1000/60/60/24/7);
+    let days         = Math.floor(d/1000/60/60/24 - weekdays*7);
+    let hours        = Math.floor(d/1000/60/60    - weekdays*7*24            - days*24);
+    let minutes      = Math.floor(d/1000/60       - weekdays*7*24*60         - days*24*60         - hours*60);
+    let seconds      = Math.floor(d/1000          - weekdays*7*24*60*60      - days*24*60*60      - hours*60*60      - minutes*60);
+    let milliseconds = Math.floor(d               - weekdays*7*24*60*60*1000 - days*24*60*60*1000 - hours*60*60*1000 - minutes*60*1000 - seconds*1000);
+    let t = {};
+    ['weekdays', 'days', 'hours', 'minutes', 'seconds', 'milliseconds'].forEach(q=>{ if (eval(q)>0) { t[q] = eval(q); } });
+    return t;
+  }
+  const getDateStringValue = () => {
+    let  date1 = new Date(selectedTeam?.startDate + " " + selectedTeam?.startTime);
+    let  date3 = new Date(selectedTeam?.endDate + " 00:00:00");
+    let timeOffsetInMS = date1.getTimezoneOffset() * 60000;
+    date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset())
+    let  date2 = new Date();
+    if(date1 < date2 && date2 > date3)
+    {
+      return {
+        "status": 1,
+        "message": "IN PROGRESS"
+      }
+    }
+    let diffInSeconds = Math.abs(date1 - date2) / 1000;
+    let days = Math.floor(diffInSeconds / 60 / 60 / 24);
+    let hours = Math.floor(diffInSeconds / 60 / 60 % 24);
+    let minutes = Math.floor(diffInSeconds / 60 % 60);
+    let seconds = Math.floor(diffInSeconds % 60);
+    let milliseconds = Math.round((diffInSeconds - Math.floor(diffInSeconds)) * 1000);
+    let txt = (days?(days + "d "):"")+(hours?(hours + "h "):"") + minutes + "min";
+    return {
+      "status": 0,
+      "message": txt
+    }
+  }
 
   return (
     <>
@@ -206,8 +244,8 @@ const Balance = (props) => {
               {livePage ? (
                 <div className={classes.__time_to_live}>
                   <div>
-                    <p className={classes.__time}>5d 4h 15min</p>
                     <p className={classes.__text}>Live Game Starts in</p>
+                    <p className={classes.__time}>{getDateStringValue().message}</p>
                   </div>
                 </div>
               ) : null}

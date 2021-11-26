@@ -179,7 +179,6 @@ export default function TeamManager(props) {
       let requests = await dispatch(
         NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, 6, live_clock, live_teamD?.id)
       );
-      console.log("requests", requests);
       if (requests.payload) {
         setPowers();
         onPowerApplied({

@@ -105,7 +105,6 @@ function NHLPowerdFsLive(props) {
   const [prizes, setPrizes] = useState([]);
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
-  // console.log("selectedTeam", selectedTeam);
   function getGameIDFromLocalStorage() {
     const gameID = getLocalStorage(
       CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
@@ -509,7 +508,6 @@ function NHLPowerdFsLive(props) {
   }, []);
 
   useEffect(() => {
-    console.log("Number of times called");
     if (gameID !== 0) {
       _socket.on("disconnect", () => {
         console.log("Socket Disconnected");
@@ -890,7 +888,7 @@ function NHLPowerdFsLive(props) {
           <PrizeModal
             visible={showPrizeModal}
             sportsName="NHL"
-            data={selectedTeam?.game?.PrizePayouts}
+            data={selectedTeam?.reward}
             onClose={() => setPrizeModalState(false)}
           />
         </>
