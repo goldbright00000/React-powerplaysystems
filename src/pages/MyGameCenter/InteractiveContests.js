@@ -474,12 +474,12 @@ const InteractiveContests = (props) => {
           prize={
             item?.reward.length > 0
               ? _.reduce(
-                  item?.reward,
-                  function (memo, num) {
-                    return memo + parseFloat(num.amount) * parseInt(num.prize);
-                  },
-                  0
-                )
+                item?.reward,
+                function (memo, num) {
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
+                },
+                0
+              )
               : 0
           }
           outOf={item?.enrolled_users}
@@ -515,6 +515,7 @@ const InteractiveContests = (props) => {
           }}
           onViewResultsBack={() => setViewResults(-1)}
           onFinalStandings={(cardId) => setFinalStandingsModal(cardId)}
+          totalPoints={item.challenge_amount || 0}
         />
       </div>
     );
@@ -545,11 +546,11 @@ const InteractiveContests = (props) => {
                           item.id === 1
                             ? myGameCenterCardData
                             : myGameCenterCardData?.length > 0 &&
-                              myGameCenterCardData.filter(
-                                (cardItem) =>
-                                  //cardItem?.game?.league === item.title
-                                  item.title === "NHL"
-                              );
+                            myGameCenterCardData.filter(
+                              (cardItem) =>
+                                //cardItem?.game?.league === item.title
+                                item.title === "NHL"
+                            );
                         setFilteredData(filteredData);
                       }}
                     >
@@ -638,8 +639,8 @@ const InteractiveContests = (props) => {
                 selectedDate === "Today"
                   ? "Today"
                   : selectedDate === "All"
-                  ? "All"
-                  : moment(selectedDate).format("ddd,MMM DD")
+                    ? "All"
+                    : moment(selectedDate).format("ddd,MMM DD")
               }
               options={days}
               onChange={(selectedOption) => {
@@ -649,7 +650,6 @@ const InteractiveContests = (props) => {
             />
           </div>
         </div>
-
         {myGameCenterCardData &&
           (() => {
             if (selectedFilter == 4) {
@@ -816,28 +816,28 @@ const InteractiveContests = (props) => {
                               return myGameCenterCard(power, power.url, index);
                             })
                           ) : // _.times((4 - items.length), (i) => (
-                          //   <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`} style={{width: 280}}/>
-                          // ))
-                          i == 0 ? (
-                            contentType !== "Completed" ? (
-                              <div className={classes.noGameDiv}>
-                                <h2>
-                                  You are not currently entered in any games
-                                </h2>
-                                <p>
-                                  Head over to the Power Center, browse the
-                                  available games, and get in on the action!
-                                </p>
-                                <Link to="/power-center">
-                                  Go to Power Center
-                                </Link>
-                              </div>
+                            //   <div className={`${classes.__interactive_contests_power_center_card} col-auto my-2`} style={{width: 280}}/>
+                            // ))
+                            i == 0 ? (
+                              contentType !== "Completed" ? (
+                                <div className={classes.noGameDiv}>
+                                  <h2>
+                                    You are not currently entered in any games
+                                  </h2>
+                                  <p>
+                                    Head over to the Power Center, browse the
+                                    available games, and get in on the action!
+                                  </p>
+                                  <Link to="/power-center">
+                                    Go to Power Center
+                                  </Link>
+                                </div>
+                              ) : (
+                                <h1 className="nogamesmessage">No games</h1>
+                              )
                             ) : (
-                              <h1 className="nogamesmessage">No games</h1>
-                            )
-                          ) : (
-                            ""
-                          )}
+                              ""
+                            )}
 
                           {items?.length > 0 &&
                             4 - items.length > 0 &&
