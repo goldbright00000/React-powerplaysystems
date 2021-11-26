@@ -97,7 +97,8 @@ function SportsLiveCard(props) {
     pointXpCount = {},
     currentPlayerList = [],
     key = "",
-    dataMain = {}
+    dataMain = {},
+    rightSide = false
   } = props || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
@@ -311,7 +312,6 @@ function SportsLiveCard(props) {
       setLoadingPlayerList(true);
       setReplaceModalState(true);
       const response = await dispatch(nhlActions.getFantasyPlayers(gameID));
-      console.log("response", response);
       if (response?.filterdList && response?.filterdList?.length) {
         const _nhlData = [...response?.filterdList];
         const [swapablePlayerData] = _nhlData?.filter(
@@ -336,7 +336,6 @@ function SportsLiveCard(props) {
             type: swapablePlayerData.type,
             listData: newListData,
           };
-          console.log("_dataToRender", _dataToRender);
           setPlayerList(_dataToRender);
         }
       }
@@ -1490,7 +1489,7 @@ function SportsLiveCard(props) {
                           danger={hasText(status, "deck")}
                         />
                         {!singleView ? (
-                          <NHLFooterStats player={player}/>
+                          <NHLFooterStats player={rightSide ? data : player}/>
                         ) : null}
                       </>
                     ) : null}

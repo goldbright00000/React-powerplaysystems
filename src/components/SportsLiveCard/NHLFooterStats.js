@@ -19,15 +19,15 @@ function NHLFooterStats(props) {
     showSummary = false,
     largeView = false,
     title = "",
+
   } = props || {};
 
   //Player Details
-  const { match, OppGoalie = "0" } = player || {};
+  const { match, OppGoalie = "0", team = {} } = player || {};
   const { home, away } = match || {};
 
   //TeamD Details
   const { name = "", teamB = {}, alias = "" } = teamD || {};
-
   const {
     live_clock = "20:00",
     live_period = 0,
@@ -46,14 +46,20 @@ function NHLFooterStats(props) {
       ) : (
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-          <p>{away?.alias} vs</p>
-          <p className="bold_text"> {home?.alias}</p>
+          {team?.id == match?.away?.id && 
+            <><p>{match?.home?.alias} vs</p>
+            <p className="bold_text"> {match?.away?.alias}</p></>
+          }
+          {team?.id == match?.home?.id && 
+            <><p>{match?.away?.alias} vs</p>
+            <p className="bold_text"> {match?.home?.alias}</p></>
+          }
         </div>
       )}
-      <div className="footer_stats_row">
+      {/* <div className="footer_stats_row">
         <img src={SoccerIcon} alt="Hockey Icon" width={12} height={12} />
         <p>{away?.alias} G: {OppGoalie}</p>
-      </div>
+      </div> */}
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
         <p>

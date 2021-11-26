@@ -26,12 +26,10 @@ function SingleView(props) {
     pointXpCount = {},
   } = props || {};
 
-  console.log("data", data);
 
   const [selectedCard, setSelectedCard] = useState(data[currentCard]);
 
   useEffect(() => {
-    console.log("selectedCard", selectedCard);
   }, [selectedCard]);
 
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
@@ -43,7 +41,6 @@ function SingleView(props) {
   const onSelectCard = (player) => {
     let index = data?.length && data?.indexOf(player);
     currentCard = index;
-
     setSelectedCard(player);
   };
 

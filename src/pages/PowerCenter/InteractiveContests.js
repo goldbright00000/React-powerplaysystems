@@ -797,7 +797,7 @@ const InteractiveContests = (props) => {
               prizePool: _.reduce(
                 item?.PrizePayouts,
                 function (memo, num) {
-                  return memo + parseFloat(num.amount) * parseInt(num.prize);
+                  return memo + parseFloat(num.amount == "" ? 0 : num.amount) * parseInt(num.prize == "" ? 1 : num.prize);
                 },
                 0
               ),

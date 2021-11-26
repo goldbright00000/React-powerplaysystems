@@ -16,9 +16,12 @@ import MLBFooterImage from "../../../assets/NHL.png";
 import NHLGear from "../../../assets/nhl-gear.png";
 import LiveStandings from "../../../components/LiveStandings";
 import { redirectTo } from "../../../utility/shared";
-
+let tempCounter = 0;
 export default function MyScoreCard() {
   const { live_all_team_logs } = useSelector((state) => state.nhl);
+  useEffect(() => {
+    tempCounter = 0;
+  }, []);
   const Row = ({
     position,
     name,
@@ -50,7 +53,7 @@ export default function MyScoreCard() {
       <span className={classes.center}>{powers}</span>
       <span className={classes.center}>
         <p className={score < 0 ? classes.danger : classes.success}>
-          {score < 0 ? `Reversed ${score}` : score}
+          {score < 0 ? `${score}` : score}
         </p>
       </span>
       <span className={classes.center}>
@@ -101,14 +104,31 @@ export default function MyScoreCard() {
       </div>
 
       <div className={classes.card_body}>
-        {live_all_team_logs.map((item1) => {
+        {live_all_team_logs.map((item1, index) => {
           let { teamLogs = [] } = item1;
-
+          
           return (
             <>
-              {teamLogs.map((item) => (
+              {teamLogs.map((item, index1) => { 
+                if(index == 0 && index1 == 0) {
+                  tempCounter = 0;
+                }
+                else {
+                  tempCounter = item?.fantasyLog?.playerPts;
+                }
+                let poss = "P1";
+                if(item?.fantasyLog?.fantasyPlayerPosition)
+                {
+                  if(item?.fantasyLog?.fantasyPlayerPosition === "XW" || item?.fantasyLog?.fantasyPlayerPosition === " D") {
+                    poss = item?.fantasyLog?.fantasyPlayerPosition + item?.fantasyLog?.positionID;
+                  }
+                  else {
+                    poss = item?.fantasyLog?.fantasyPlayerPosition;
+                  }
+                }
+                return (
                 <Row
-                  position="P1"
+                  position={poss}
                   name={item?.fantasyLog?.player?.full_name}
                   time={`P${item?.period + 1} | ${item?.clock}`}
                   plays={
@@ -122,9 +142,9 @@ export default function MyScoreCard() {
                   totalPts="8"
                   powers="-"
                   score={item?.fantasyLog?.playerPts}
-                  runningTotal={item?.totalTeamPts}
+                  runningTotal={item?.fantasyLog?.playerPts + tempCounter}
                 />
-              ))}
+              )})}
             </>
           );
         })}
