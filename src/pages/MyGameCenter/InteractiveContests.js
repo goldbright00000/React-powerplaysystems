@@ -374,7 +374,6 @@ const InteractiveContests = (props) => {
   };
 
   const onEnter = async (item) => {
-    console.log("test", item);
     const {
       game = {},
       sport_id,
