@@ -532,6 +532,10 @@ function NHLPowerdFsLive(props) {
         }
       });
 
+      _socket.on("EMIT_MATCH_EVENTS", (data) => {
+        console.log("Match Events", data);
+      });
+
       _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
         // evaluateTeamLogs(data);
         // if (Array.isArray(data)) {
