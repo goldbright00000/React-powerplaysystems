@@ -15,6 +15,7 @@ export const NHL_USER_SAVED_GAMES = "[NHL] NHL_USER_SAVED_GAMES";
 export const NHL_USER_EDITED_GAMES = "[NHL] NHL_USER_EDITED_GAMES";
 export const SET_GAME_LOGS = "[NHL] SET_GAME_LOGS";
 export const SET_SELECTED_TEAM = "[NHL] SET_SELECTED_TEAM";
+export const NHL_FINAL_STANDINGS = "[NHL] FINAL_STANDINGS";
 
 const { FILTERS } = CONSTANTS;
 const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
@@ -299,20 +300,29 @@ export function getFantasyTeam(payload) {
   };
 }
 
-// export function getFinalStandings(game_id) {
-//   return async (dispatch) => {
-//     try {
-//       const response = await http.get(`https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyRankings`);
-//       await dispatch({
-//         type: FINAL_STANDINGS,
-//         payload: response?.data,
-//       });
+export function getFinalStandings(gameID, userID) {
+  return async (dispatch) => {
+    try {
+      const response = await http.post(
+        `https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyRankings`,
+        { gameID, userID }
+      );
 
-//     } catch (error) {
-//       return false;
-//     }
-//   };
-// }
+      let finalPoints = response?.data?.finalPoints;
+
+      finalPoints = finalPoints.sort((a, b) =>
+        a.rank > b.rank ? 1 : b.rank > a.rank ? -1 : 0
+      );
+
+      await dispatch({
+        type: NHL_FINAL_STANDINGS,
+        payload: finalPoints,
+      });
+    } catch (error) {
+      return false;
+    }
+  };
+}
 
 function getTeam(currentTeam, opponentTeam, match_id, venue, date_time) {
   const time = moment(date_time).format("LT");
@@ -389,8 +399,7 @@ function getPlayers(
 }
 
 function getFilterPlayersList(filter = "", playersList = []) {
-  if(filter == "lw" || filter == "rw")
-  {
+  if (filter == "lw" || filter == "rw") {
     filter = "xw";
   }
   let list =
@@ -675,7 +684,7 @@ export function updateUserRemainingPowers(
   game_id,
   user_id,
   power_id,
-  type = "powerDec",
+  live_clock,
   player_id = "42cd5bc5-0f24-11e2-8525-18a905767e44"
 ) {
   return async (dispatch) => {
@@ -686,7 +695,7 @@ export function updateUserRemainingPowers(
           gameID: game_id,
           userID: user_id,
           powerApplied: power_id,
-          timeApplied: new Date(),
+          timeApplied: live_clock,
           playerID: player_id,
         }
       );

@@ -58,6 +58,7 @@ function SportsLiveCardTeamD(props) {
     onSelectCard = () => {},
     cardType = CardType.MLB,
     key = "",
+    powers = []
   } = props || {};
 
   console.log("datadata", props);
@@ -180,6 +181,7 @@ function SportsLiveCardTeamD(props) {
     if(powerss == undefined) {
       powerss = powersAvailable;
     }
+    if(powerss == "") powerss = [];
     if (powerss) {
       let available = 0;
       if (type === "Swap Player") {
@@ -971,14 +973,17 @@ function SportsLiveCardTeamD(props) {
               {isDwallActive && 
                 <img src={ShieldIconGrey} style={{width: 30}}/>
               }
-              {isPowerAvailable("D-Wall") === 0 || isPowerLocked("D-Wall") === 1 ? (
+              {isPowerAvailable("D-Wall") === 0 ? <div style={{
+                opacity: 0.5
+              }}><ShieldIcon
+                      size={30}
+                      // size={largeView ? 28 : 24}
+                    /></div> : isPowerLocked("D-Wall") === 1 ? (
                 <Tooltip
                   disabled={isGameOverOrNotStarted()}
                   toolTipContent={
                     <div className={classes.xp_icons}>
-                      {isPowerAvailable("D-Wall") === 0 ? (
-                        <div>Not Available</div>
-                      ) : isPowerLocked("D-Wall") === 1 ? (
+                      {isPowerLocked("D-Wall") === 1 ? (
                         <div
                           style={{
                             display: "flex",
@@ -1142,14 +1147,14 @@ function SportsLiveCardTeamD(props) {
                     setShowPleaseWait={setShowPleaseWait}
                   />
             )}
-            {isPowerAvailable("Challenge") === 0 ||
+            {isPowerAvailable("Challenge") === 0 ? <div style={{opacity: 0.5}}>
+            <Challenge size={largeView ? 28 : 30} />
+            </div> :
             isPowerLocked("Challenge") === 1 ? (
               <Tooltip
                 toolTipContent={
                   <div className={classes.xp_icons}>
-                    {isPowerAvailable("Challenge") === 0 ? (
-                      <div>Not Available</div>
-                    ) : isPowerLocked("Challenge") === 1 ? (
+                    {isPowerLocked("Challenge") === 1 ? (
                       <div
                         style={{
                           display: "flex",

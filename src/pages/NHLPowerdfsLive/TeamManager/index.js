@@ -41,6 +41,7 @@ export default function TeamManager(props) {
     onPowerApplied,
     POWER_IDs,
     setPowers,
+    powers = []
   } = props || {};
 
   const {
@@ -59,6 +60,7 @@ export default function TeamManager(props) {
     powersApplied = [],
     powersAvailable = "",
     selectedTeam = {},
+    live_clock = "20:00"
   } = useSelector((state) => state.nhl);
 
   const { user = {} } = useSelector((state) => state.auth);
@@ -104,11 +106,15 @@ export default function TeamManager(props) {
       } else if (_selectedXp.xpVal === "3x") {
         power = 3;
       }
+      // let requests = await dispatch(
+      //   NHLActions.updateUserRemainingPowers(gameId, userId, power)
+      // );
+      const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, power)
+        NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, power, live_clock, live_teamD?.id)
       );
       // throw new Error("FOUND");
-      if (requests.payload) {
+      if (requests?.payload) {
         setPowers();
         onPowerApplied({
           fantasyTeamId: selectedTeam.team_id,
@@ -171,9 +177,8 @@ export default function TeamManager(props) {
     if (action) {
       const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, 6)
+        NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, 6, live_clock, live_teamD?.id)
       );
-      console.log("requests", requests);
       if (requests.payload) {
         setPowers();
         onPowerApplied({
@@ -193,15 +198,14 @@ export default function TeamManager(props) {
 
   async function useSwap(action) {
     if (action) {
-      console.log("Details for swap: ", gameId, userId, selectedPlayer);
-
+      // let requests = await dispatch(
+      //   NHLActions.updateUserRemainingPowers(gameId, userId, 4)
+      // );
       const current_match_id = selectedTeam.players[0].match_id;
-      console.log("selectedTeam", selectedTeam);
-      return;
       let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, 4)
+        NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, 4, live_clock, live_teamD?.id)
       );
-      if (requests.payload) {
+      if (requests?.payload) {
         setPowers();
         onPowerApplied({
           fantasyTeamId: selectedTeam.team_id,
@@ -406,6 +410,7 @@ export default function TeamManager(props) {
                 dataMain={selectedTeam}
                 setPowers={setPowers}
                 cardType="nhl"
+                powers={powers}
               />
             </div>
           </>

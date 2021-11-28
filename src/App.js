@@ -88,6 +88,7 @@ const App = (props) => {
       addToast(toastData.message, {
         appearance: toastData.appearance,
         autoDismiss: true,
+        ...toastData.options,
       });
     }
   }, [toastData]);
@@ -152,7 +153,10 @@ const App = (props) => {
           <Route path="/mlb-live-powerdfs" component={MLBPowerdFsLive} />
           <Route path="/responsible-gaming" component={ResponsibleGaming} />
           <Route path="/how-to-play" component={HowToPlayPage} />
-          <Route path="/recharge-how-to-play" component={RechargeHowToPlayPage} />
+          <Route
+            path="/recharge-how-to-play"
+            component={RechargeHowToPlayPage}
+          />
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />

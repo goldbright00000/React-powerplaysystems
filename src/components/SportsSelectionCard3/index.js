@@ -73,7 +73,7 @@ function SportsSelectionCard3(props) {
     btnIcon = "",
     pageType = PAGE_TYPES.MLB,
     type = "",
-    showArrow = true
+    showArrow = true,
   } = props || {};
 
   const {
@@ -284,8 +284,8 @@ function SportsSelectionCard3(props) {
               <div className={classes.container_card_footer_main}>
                 <div className={classes.card_footer_left}>
                   <p>
-                    <span className={classes.teamA}>{homeTeam}</span> VS{" "}
-                    <span className={classes.teamB}>{awayTeam}</span>
+                    <span className={classes.teamB}>{awayTeam}</span> VS{" "}
+                    <span className={classes.teamA}>{homeTeam}</span>
                   </p>
 
                   <div className={classes.divider}></div>
@@ -419,13 +419,13 @@ function SportsSelectionCard3(props) {
           {currentStep === 0 && (
             <div className={classes.card_footer_left}>
               <p>
+                <span className={classes.teamB}>
+                  {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
+                </span>{" "}
+                VS{" "}
                 <span className={classes.teamA}>
                   {PAGE_TYPES.NHL === pageType ? home.name : homeTeam}
                 </span>{" "}
-                VS{" "}
-                <span className={classes.teamB}>
-                  {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
-                </span>
               </p>
 
               <div className={classes.divider}></div>
@@ -459,9 +459,11 @@ function SportsSelectionCard3(props) {
               </p>
             </div>
           )}
-          {props.showArrow && <div className={classes.card_footer_right} onClick={nextStep}>
-            <ForwardArrow color={"#fb6e00"} />
-          </div>}
+          {props.showArrow && (
+            <div className={classes.card_footer_right} onClick={nextStep}>
+              <ForwardArrow color={"#fb6e00"} />
+            </div>
+          )}
         </div>
       )}
     </div>

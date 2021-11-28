@@ -41,7 +41,8 @@ const ChallengePopUp = props => {
                                                         var random = a1[Math.floor(Math.random()*a1.length)];
                                                         setPopupMode(random);
                                                         setTimeout(function() {
-                                                            props.useChallenge(true);
+                                                            if(random == 2)
+                                                                props.useChallenge(true);
                                                             setShowPopUp(false);
                                                         },2000);
                                                     }

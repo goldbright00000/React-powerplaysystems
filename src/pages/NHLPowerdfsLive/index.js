@@ -105,7 +105,6 @@ function NHLPowerdFsLive(props) {
   const [prizes, setPrizes] = useState([]);
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
-  // console.log("selectedTeam", selectedTeam);
   function getGameIDFromLocalStorage() {
     const gameID = getLocalStorage(
       CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
@@ -156,6 +155,17 @@ function NHLPowerdFsLive(props) {
   useEffect(() => {
     getGameIDFromLocalStorage();
     _socket = socketNHL();
+    return function cleanUP() {
+      //reset logs
+      dispatch(NHLActions.setGameLogs([]));
+
+      //disconnect the socket
+      _socket?.emit(ON_ROOM_UN_SUB);
+      _socket?.on(ON_ROOM_UN_SUB, () => {
+        _socket?.disconnect();
+        _socket = null;
+      });
+    };
   }, []);
 
   const {
@@ -498,7 +508,6 @@ function NHLPowerdFsLive(props) {
   }, []);
 
   useEffect(() => {
-    console.log("Number of times called");
     if (gameID !== 0) {
       _socket.on("disconnect", () => {
         console.log("Socket Disconnected");
@@ -514,12 +523,12 @@ function NHLPowerdFsLive(props) {
       _socket.on("ROOM_CONNECTED", (data) => {
         console.log("ON ROOM CONNECTED: ", data);
         if (data !== "room connection successful") {
-          // dispatch({
-          //   type: NHLActions.NHL_UPDATE_STATE,
-          //   payload: {
-          //     live_score_details: data,
-          //   },
-          // });
+          dispatch({
+            type: NHLActions.NHL_UPDATE_STATE,
+            payload: {
+              live_score_details: data,
+            },
+          });
         }
       });
 
@@ -664,7 +673,9 @@ function NHLPowerdFsLive(props) {
     _socket.emit(ON_POWER_APPLIED, data);
   };
 
-  const onClickStandings = () => {};
+  const onClickStandings = async () => {
+    await dispatch(NHLActions.getFinalStandings(gameID));
+  };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
@@ -797,6 +808,7 @@ function NHLPowerdFsLive(props) {
                         setPowers={setPowers}
                         useChallenge={useChallenge}
                         useDwall={useDwall}
+                        powers={powersAvailable == "" ? [] : powersAvailable}
                       />
                     ) : (
                       <MyScoreCard />
@@ -850,7 +862,6 @@ function NHLPowerdFsLive(props) {
                       ranks={ranks}
                       currentWin={100000}
                       onClickStandings={onClickStandings}
-                      game_id={selectedTeam.game_id}
                       prizePool={prizePool}
                       {...props}
                     />
@@ -877,7 +888,7 @@ function NHLPowerdFsLive(props) {
           <PrizeModal
             visible={showPrizeModal}
             sportsName="NHL"
-            data={selectedTeam?.game?.PrizePayouts}
+            data={selectedTeam?.reward}
             onClose={() => setPrizeModalState(false)}
           />
         </>

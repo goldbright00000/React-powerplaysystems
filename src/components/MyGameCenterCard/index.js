@@ -1122,7 +1122,7 @@ const MyGameCenterCard = (props) => {
                 </div>
               )}
               {!completed && (
-                <OutlineButton title="Manage My Team" onClick={onEnter} />
+                <OutlineButton title="Manage my Team" onClick={onEnter} />
               )}
 
               {editPicks && (
