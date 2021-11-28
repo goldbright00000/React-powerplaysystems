@@ -518,9 +518,6 @@ function NHLPowerdFsLive(props) {
         _socket.emit("NHL_CONNECT_MATCH_ROOM", {
           gameID: gameID,
         });
-        socket.emit("EMIT_MATCH_EVENT",{
-          gameID:gameID
-        })
       });
 
       _socket.on("ROOM_CONNECTED", (data) => {
@@ -539,9 +536,6 @@ function NHLPowerdFsLive(props) {
         console.log("Match Events", data);
       });
 
-      _socket.on("NHL_MATCH_EVENT", (data) => {
-        console.log("New event: ",data);
-      });
       _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
         // evaluateTeamLogs(data);
         // if (Array.isArray(data)) {
