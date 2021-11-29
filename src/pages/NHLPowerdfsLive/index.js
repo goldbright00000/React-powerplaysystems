@@ -535,6 +535,9 @@ function NHLPowerdFsLive(props) {
 
       _socket.on("EMIT_MATCH_EVENTS", (data) => {
         console.log("Match Events", data);
+        if(JSON.stringify(data) !== JSON.stringify(matchEvents)) {
+          setMatchEvents(data);
+        }
       });
 
       _socket.on("NHL_MATCH_EVENT", (data) => {
@@ -741,6 +744,7 @@ function NHLPowerdFsLive(props) {
   const toggleLiveStandingModal = () => {
     setModalState(!showModal);
   };
+  const [matchEvents, setMatchEvents] = useState([]);
 
   return (
     <>
@@ -817,6 +821,7 @@ function NHLPowerdFsLive(props) {
                         useChallenge={useChallenge}
                         useDwall={useDwall}
                         powers={powersAvailable == "" ? [] : powersAvailable}
+                        matchEvents={matchEvents}
                       />
                     ) : (
                       <MyScoreCard />
