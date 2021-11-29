@@ -184,16 +184,16 @@ const InteractiveContests = (props) => {
   }, [_socket]);
 
   useEffect(() => {
-    if(filteredData.length > 0) {
+    if (filteredData.length > 0) {
       const obj = [...filteredData];
       obj.push(newGame);
       setFilteredData(obj);
     }
-  }, [ newGame ]);
+  }, [newGame]);
 
   useEffect(() => {
     let obj = [];
-    if(filteredData.length > 0) {
+    if (filteredData.length > 0) {
       obj = [...filteredData];
     }
     if (inProgressGame.length > 0) {
@@ -210,7 +210,7 @@ const InteractiveContests = (props) => {
 
   useEffect(() => {
     let obj = [];
-    if(filteredData.length > 0) {
+    if (filteredData.length > 0) {
       obj = [...filteredData];
     }
     if (cancelledsGame.length > 0) {
@@ -357,12 +357,6 @@ const InteractiveContests = (props) => {
       history.push("/login");
       return;
     }
-    const data = {
-      userID: user.user_id,
-      user_game_name: item.game_display_name,
-      gameID: item.game_id,
-    }
-    dispatch(enterIntoGame(data));
     const enoughBalance = await checkBalace(item, parseFloat(item?.entry_fee));
 
     if (enoughBalance) {
@@ -717,7 +711,7 @@ const InteractiveContests = (props) => {
                 },
               });
             } else {
-              
+
               onOpenPromoModal(item, props);
               return;
             }
