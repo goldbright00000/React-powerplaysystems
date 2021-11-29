@@ -88,6 +88,7 @@ const Balance = (props) => {
   const getDateStringValue = () => {
     let  date1 = new Date(selectedTeam?.startDate + " " + selectedTeam?.startTime);
     let  date3 = new Date(selectedTeam?.endDate + " 00:00:00");
+    
     let timeOffsetInMS = date1.getTimezoneOffset() * 60000;
     date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset())
     let  date2 = new Date();

@@ -343,6 +343,8 @@ function SportsLiveCard(props) {
     }
   }, [mlbData, nflData, nhlData]);
 
+  
+
   function isPowerAvailable(type) {
     let powerss = props.dataMain?.powersAvailable;
     if (powerss == undefined) {
@@ -1489,7 +1491,7 @@ function SportsLiveCard(props) {
                           danger={hasText(status, "deck")}
                         />
                         {!singleView ? (
-                          <NHLFooterStats player={rightSide ? data : player}/>
+                          <NHLFooterStats player={rightSide ? data : player} matchEvents={props.matchEvents}/>
                         ) : null}
                       </>
                     ) : null}
