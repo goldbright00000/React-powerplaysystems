@@ -71,16 +71,6 @@ export function fetchUserBalance() {
       .catch((err) => console.log(err?.response));
 }
 
-export function enterIntoGame(data) {
-  console.log('enterIntoGame data --> ', data)
-  const request = axios.post(URLS.SERVICE.ENTER_FANTASY_GAME, data);
-
-  return (dispatch) =>
-    request
-      .then((response) => {console.log('response --> ', response)})
-      .catch((err) => console.log('catch error --> ', err?.response));
-}
-
 // PHP - In-Process this module.
 export async function payNowWithIpay(data) {
   http.post(URLS.USER.SMALL_TOKEN).then((res) => {
@@ -430,7 +420,7 @@ export function getPSiGateMonthlyTransaction() {
   return async (dispatch) => {
     try {
       const response = await http.get(`${process.env.REACT_APP_API_URL}/${URLS.PAYMENT.GET_PSIGATE_MONTHLY_TRANSACTION}`)
-console.log('response monthly --> ', response);
+      console.log('response monthly --> ', response);
       dispatch({
         type: PSIGATE_MONTHLY_TRANSACTION,
         payload: response.data,
