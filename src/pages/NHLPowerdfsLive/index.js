@@ -105,7 +105,6 @@ function NHLPowerdFsLive(props) {
   const [prizes, setPrizes] = useState([]);
   const dispatch = useDispatch();
   const selectedTeam = getTeamFromLocalStorage();
-  // console.log("selectedTeam", selectedTeam);
   function getGameIDFromLocalStorage() {
     const gameID = getLocalStorage(
       CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
@@ -509,7 +508,6 @@ function NHLPowerdFsLive(props) {
   }, []);
 
   useEffect(() => {
-    console.log("Number of times called");
     if (gameID !== 0) {
       _socket.on("disconnect", () => {
         console.log("Socket Disconnected");
@@ -520,6 +518,7 @@ function NHLPowerdFsLive(props) {
         _socket.emit("NHL_CONNECT_MATCH_ROOM", {
           gameID: gameID,
         });
+        _socket.emit("EMIT_MATCH_EVENTS",{gameID});
       });
 
       _socket.on("ROOM_CONNECTED", (data) => {
@@ -534,6 +533,13 @@ function NHLPowerdFsLive(props) {
         }
       });
 
+      _socket.on("EMIT_MATCH_EVENTS", (data) => {
+        console.log("Match Events", data);
+      });
+
+      _socket.on("NHL_MATCH_EVENT", (data) => {
+        console.log("New event: ",data);
+      });
       _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
         // evaluateTeamLogs(data);
         // if (Array.isArray(data)) {
@@ -890,7 +896,7 @@ function NHLPowerdFsLive(props) {
           <PrizeModal
             visible={showPrizeModal}
             sportsName="NHL"
-            data={selectedTeam?.game?.PrizePayouts}
+            data={selectedTeam?.reward}
             onClose={() => setPrizeModalState(false)}
           />
         </>
