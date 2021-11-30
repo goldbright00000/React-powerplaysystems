@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import moment from "moment";
 import * as $ from "jquery";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useHistory } from "react-router-dom";
 import classes from "./index.module.scss";
 import {
   getNumberSuffix,
@@ -61,7 +61,13 @@ function SportsLiveCardTeamD(props) {
     powers = []
   } = props || {};
 
-  console.log("datadata", props);
+  const { live_team_logs = [] } = useSelector((state) => state.nhl);
+  const { teamDActual = [] } = live_team_logs;  
+
+  const history = useHistory();
+  const {
+    powersAvailable: powersAvailables = []
+  } = history?.location?.state || {};
 
   const {  selectedTeam = {} } = useSelector((state) => state.nhl);
   const { powersAvailable = [] } = selectedTeam;
@@ -177,7 +183,7 @@ function SportsLiveCardTeamD(props) {
   } = boxscore[0] || {};
 
   const isPowerAvailable = (type) => {
-    let powerss = props.dataMain?.powersAvailable;
+    let powerss = powersAvailables;
     if(powerss == undefined) {
       powerss = powersAvailable;
     }
@@ -209,7 +215,7 @@ function SportsLiveCardTeamD(props) {
   }, [showTimer, isDwallActive]);
 
   const isPowerLocked = (type) => {
-    let powerss = props.dataMain?.powersAvailable;
+    let powerss = powersAvailables;
     let locked = 0;
     if (type === "Swap Player") {
       type = "Swap";
@@ -552,7 +558,7 @@ function SportsLiveCardTeamD(props) {
                   </div>
                 }
               >
-                <button className={classes.team_d_icon_button}>
+                <button className={classes.team_d_icon_button} style={{ background: "none", border: 0 }}>
                   <ShieldIcon
                     size={30}
                     // size={largeView ? 28 : 24}
@@ -563,7 +569,7 @@ function SportsLiveCardTeamD(props) {
               <div style={{ opacity: 0.5 }}>
                 <DwallPopUp
                   component={({ showPopUp }) => (
-                    <button className={classes.team_d_icon_button}>
+                    <button className={classes.team_d_icon_button} style={{ background: "none", border: 0 }}>
                       <ShieldIcon
                         size={30}
                         // size={largeView ? 28 : 24}
@@ -582,8 +588,8 @@ function SportsLiveCardTeamD(props) {
                     className={classes.team_d_icon_button}
                     style={
                       isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
+                        ? { opacity: 0.3, pointerEvents: "none", background: "none", border: 0  }
+                        : {background: "none", border: 0}
                     }
                   >
                     <ShieldIcon
@@ -879,7 +885,7 @@ function SportsLiveCardTeamD(props) {
                   </div>
                 }
               >
-                <button className={classes.team_d_icon_button}>
+                <button className={classes.team_d_icon_button} style={{background: "none", border: 0 }}>
                   <ShieldIcon
                     size={30}
                     // size={largeView ? 28 : 24}
@@ -890,7 +896,7 @@ function SportsLiveCardTeamD(props) {
               <div style={{ opacity: 0.5 }}>
                 <DwallPopUp
                   component={({ showPopUp }) => (
-                    <button>
+                    <button style={{background: "none", border: 0 }}>
                       <ShieldIcon
                         size={30}
                         // size={largeView ? 28 : 24}
@@ -908,8 +914,8 @@ function SportsLiveCardTeamD(props) {
                     onClick={showPopUp}
                     style={
                       isGameOverOrNotStarted()
-                        ? { opacity: 0.3, pointerEvents: "none" }
-                        : {}
+                        ? { opacity: 0.3, pointerEvents: "none", background: "none", border: 0 }
+                        : {background: "none", border: 0 }
                     }
                   >
                     <ShieldIcon
@@ -940,9 +946,9 @@ function SportsLiveCardTeamD(props) {
             PGPs
           </p>
           <p className={`${classes.p} ${largeView && classes.large_view}`}>
-            GA: {goalsAgainst}
+            GA: {teamDActual?.goalsAgainst}
             <br />
-            SA: {savesAgainst}
+            SA: {teamDActual?.shotsAgainst}
           </p>
         </div>
       </div>
@@ -1110,7 +1116,9 @@ function SportsLiveCardTeamD(props) {
                 <div style={{ opacity: 0.5 }}>
                   <DwallPopUp
                     component={({ showPopUp }) => (
-                      <button>
+                      <button
+                      style={{ background: "none", border: 0 }}
+                      >
                         <ShieldIcon
                           size={30}
                           // size={largeView ? 28 : 24}

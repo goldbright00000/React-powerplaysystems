@@ -535,9 +535,7 @@ function NHLPowerdFsLive(props) {
 
       _socket.on("EMIT_MATCH_EVENTS", (data) => {
         console.log("Match Events", data);
-        if(JSON.stringify(data) !== JSON.stringify(matchEvents)) {
-          setMatchEvents(data);
-        }
+        dispatch(NHLActions.add_live_events(data));
       });
 
       _socket.on("NHL_MATCH_EVENT", (data) => {

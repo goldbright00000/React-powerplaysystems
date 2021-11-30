@@ -755,6 +755,8 @@ function NHLPowerdFs(props) {
         playerId: sideBarList[i]?.player?.id,
         matchId: sideBarList[i]?.player?.match_id,
       });
+      let t = sideBarList[i]?.player;
+      delete t.seasons;
       players.push(sideBarList[i]?.player);
     }
 
@@ -814,7 +816,6 @@ function NHLPowerdFs(props) {
         teamD: team,
       };
       console.log("payload: ", payload);
-
       if (isEdit) {
         await dispatch(NHLActions.editDfsTeamPlayer(payload1));
         await dispatch(NHLActions.editFantasyTeam(payload));

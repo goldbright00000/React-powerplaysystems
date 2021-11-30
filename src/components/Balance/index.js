@@ -92,11 +92,11 @@ const Balance = (props) => {
     let timeOffsetInMS = date1.getTimezoneOffset() * 60000;
     date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset())
     let  date2 = new Date();
-    if(date1 < date2 && date2 > date3)
+    if(date1 < date2 && date2 < date3)
     {
       return {
         "status": 1,
-        "message": "IN PROGRESS"
+        "message": "Live Game in Progress"
       }
     }
     let diffInSeconds = Math.abs(date1 - date2) / 1000;
@@ -245,8 +245,28 @@ const Balance = (props) => {
               {livePage ? (
                 <div className={classes.__time_to_live}>
                   <div>
-                    <p className={classes.__text}>Live Game Starts in</p>
-                    <p className={classes.__time}>{getDateStringValue().message}</p>
+                    {getDateStringValue().status == 0 && 
+                      <>
+                        <p className={classes.__text}>Live Game Starts in</p>
+                        <p className={classes.__time}>{getDateStringValue().message}</p>
+                      </>
+                    }
+                    {getDateStringValue().status == 1 && 
+                      <div style={{
+                        color: "#3f9946",
+                        display: "flex",
+                        alignItems: "center"
+                      }}>
+                        <div style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 100,
+                          backgroundColor: "#3f9946",
+                          marginRight: 7
+                        }}></div>
+                        <div>{getDateStringValue().message}</div>
+                      </div>
+                    }
                   </div>
                 </div>
               ) : null}
