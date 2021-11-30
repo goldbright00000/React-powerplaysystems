@@ -19,7 +19,6 @@ import { redirectTo } from "../../../utility/shared";
 let tempCounter = 0;
 export default function MyScoreCard() {
   const { live_team_logs } = useSelector((state) => state.nhl);
-  console.log("live_team_logs", live_team_logs);
   useEffect(() => {
     tempCounter = 0;
   }, []);
@@ -118,6 +117,9 @@ export default function MyScoreCard() {
             if(allPositionPoints[key] !== 0) {
               if(key.toLocaleLowerCase() == "centerpts") {
                 poss = "C";
+              }
+              else if(key.toLocaleLowerCase() == "teamdpts") {
+                poss = "TD";
               }
               else {
                 poss = key.replace("pts", "");

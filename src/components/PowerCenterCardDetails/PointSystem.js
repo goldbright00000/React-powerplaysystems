@@ -4,9 +4,8 @@ import _ from "underscore";
 
 const PointSystem = (props) => {
   const { title = "", isMobile = false, PointsSystem = [] } = props || {};
-
   const groupedPoints = _.groupBy(PointsSystem, 'type');
-  const typeOne = Object.keys(groupedPoints);
+  const typeOne = Object.keys(PointsSystem);
 
   return (
     <div className={`${classes.__point_system}`}>
@@ -18,7 +17,7 @@ const PointSystem = (props) => {
             <div className={classes.__point_system_heading}>{d}</div>
               <div className={classes.__points_grid_data2}>
                 <div className={classes.__points_grid_data1}>
-                {groupedPoints[d]?.map((item, index) => {
+                  {Object.keys(PointsSystem[d]).map(function(item, index) {
                     return (
                       <>
                           <div className={classes.__point_system_data}>
@@ -28,7 +27,7 @@ const PointSystem = (props) => {
                               <p
                                 className={`${classes.__point_system_data_title} mr-1`}
                               >
-                                {item?.plays}
+                                {item}
                               </p>
                             </div>
                             <div
@@ -37,13 +36,39 @@ const PointSystem = (props) => {
                               <p
                                 className={`${classes.__point_system_data_value} ml-1`}
                               >
-                                {item?.action} {item?.points} Pts
+                                {PointsSystem[d][item]}
                               </p>
                             </div>
                           </div>
                       </>
                     );
                   })}
+                {/* {Object.entries(PointsSystem[d]).forEach((item, value) => {
+                    return (
+                      <>
+                          <div className={classes.__point_system_data}>
+                            <div
+                              className={`${classes.__point_system_data_title_div}`}
+                            >
+                              <p
+                                className={`${classes.__point_system_data_title} mr-1`}
+                              >
+                                {item[0]}
+                              </p>
+                            </div>
+                            <div
+                              className={`${classes.__point_system_data_value_div}`}
+                            >
+                              <p
+                                className={`${classes.__point_system_data_value} ml-1`}
+                              >
+                                {item[1]}
+                              </p>
+                            </div>
+                          </div>
+                      </>
+                    );
+                  })} */}
                 </div>
 
                 {/* <div className={classes.__points_grid_data1}>

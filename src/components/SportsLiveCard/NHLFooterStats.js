@@ -21,8 +21,17 @@ function NHLFooterStats(props) {
     title = "",
 
   } = props || {};
+  const {
+    live_match_events = {}
+  } = useSelector((state) => state.nhl);
   const getTeamPoints = (id) => {
-    return "";
+    let filteredData = live_match_events.filter(x => x.id == id);
+    
+    if(filteredData.length > 0)
+    {
+      return filteredData[filteredData.length - 1];
+    }
+    return false;
   };
   //Player Details
   const { match, OppGoalie = "0", team = {} } = player || {};
@@ -49,12 +58,12 @@ function NHLFooterStats(props) {
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
           {team?.id == match?.away?.id && 
-            <><p>{match?.home?.alias} {getTeamPoints(match?.home?.id)} vs</p>
-            <p className="bold_text"> {match?.away?.alias}</p></>
+            <><p>{match?.home?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.home?.points:0} vs</p>
+            <p className="bold_text"> {match?.away?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.away?.points:0}</p></>
           }
           {team?.id == match?.home?.id && 
-            <><p>{match?.away?.alias} {getTeamPoints(match?.away?.id)} vs</p>
-            <p className="bold_text"> {match?.home?.alias}</p></>
+            <><p>{match?.away?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.away?.points:0} vs</p>
+            <p className="bold_text"> {match?.home?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.home?.points:0}</p></>
           }
         </div>
       )}
@@ -65,13 +74,13 @@ function NHLFooterStats(props) {
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          P{live_period + 1} | {live_clock}
+          P{getTeamPoints(match?.id) !== false ? (getTeamPoints(match?.id)?.period + 1) : (live_period + 1)} | {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.eventData?.clock : live_clock}
         </p>
       </div>
       <div className="footer_stats_row">
         <img src={SoccerJerseyIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          {isTeamD ? teamB.alias : player?.team?.alias} -{" "}
+          {live_strength !== "even" ? isTeamD ? teamB.alias + " - " : player?.team?.alias + " - " : ""}
           {live_strength === "even"
             ? "Even Strength"
             : _.startCase(_.toLower(live_strength))}{" "}

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import moment from "moment";
 import * as mlbActions from "../../actions/MLBActions";
 import * as nflActions from "../../actions/NFLActions";
@@ -57,7 +58,10 @@ function SportsLiveCard(props) {
   const [playerList, setPlayerList] = useState({});
   const [loadingPlayerList, setLoadingPlayerList] = useState(false);
   const [isMatchOver, setIsMatchOver] = useState(false);
-
+  const history = useHistory();
+  const {
+    powersAvailable: powersAvailables = []
+  } = history?.location?.state || {};
   const dispatch = useDispatch();
   const { data: mlbData = [] } = useSelector((state) => state.mlb);
   const { data: nflData = [] } = useSelector((state) => state.nfl);
@@ -102,7 +106,9 @@ function SportsLiveCard(props) {
   } = props || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
-  
+
+  const { live_team_logs = [] } = useSelector((state) => state.nhl);
+  const { playersActualScore = [] } = live_team_logs;   
 
   const {
     full_name = "",
@@ -124,6 +130,7 @@ function SportsLiveCard(props) {
     current_team = "",
     player_id = "",
     match_stats = [],
+    id:pid = ""
   } = data || {};
 
   const {
@@ -346,7 +353,7 @@ function SportsLiveCard(props) {
   
 
   function isPowerAvailable(type) {
-    let powerss = props.dataMain?.powersAvailable;
+    let powerss = powersAvailables;
     if (powerss == undefined) {
       powerss = powersAvailable;
     }
@@ -379,7 +386,7 @@ function SportsLiveCard(props) {
     return available;
   }
   function isPowerLocked(type) {
-    let powerss = props.dataMain?.powersAvailable;
+    let powerss = powersAvailables;
     if (powerss == undefined) {
       powerss = powersAvailable;
     }
@@ -1158,9 +1165,10 @@ function SportsLiveCard(props) {
           </p>
           {type == "G" ? (
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
-              Saves: {saves}
+              
+              Saves: {playersActualScore.find(x => x.playerID == pid)?playersActualScore.find(x => x.playerID == pid)?.saves : "0"}
               <br />
-              GA: {Math.abs(goalsAgaints)}
+              GA: {Math.abs(playersActualScore.find(x => x.playerID == pid)?playersActualScore.find(x => x.playerID == pid)?.goalsAgainst : "")}
             </p>
           ) : (
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
