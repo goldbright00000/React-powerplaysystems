@@ -41,7 +41,8 @@ export default function TeamManager(props) {
     onPowerApplied,
     POWER_IDs,
     setPowers,
-    powers = []
+    powers = [],
+    matchEvents = []
   } = props || {};
 
   const {
@@ -396,6 +397,7 @@ export default function TeamManager(props) {
                     powerUpCounts,
                     pointMultiplierCounts,
                   }}
+                  matchEvents={matchEvents}
                 />
               ))}
 

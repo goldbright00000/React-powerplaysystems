@@ -15,8 +15,6 @@ function PrizeModal(props) {
     onClose = () => {},
   } = props || {};
 
-  console.log("data123", data);
-
   const Item = ({ place, payout }) => (
     <div className={classes.item}>
       <div className={classes.item_text}>{place}</div>

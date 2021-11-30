@@ -18,7 +18,8 @@ import LiveStandings from "../../../components/LiveStandings";
 import { redirectTo } from "../../../utility/shared";
 let tempCounter = 0;
 export default function MyScoreCard() {
-  const { live_all_team_logs } = useSelector((state) => state.nhl);
+  const { live_team_logs } = useSelector((state) => state.nhl);
+  console.log("live_team_logs", live_team_logs);
   useEffect(() => {
     tempCounter = 0;
   }, []);
@@ -104,18 +105,60 @@ export default function MyScoreCard() {
       </div>
 
       <div className={classes.card_body}>
-        {live_all_team_logs.map((item1, index) => {
+        {live_team_logs?.teamLogs?.map((item, index1) => {
+          if(index1 == 0) {
+            tempCounter = 0;
+          }
+          else {
+            tempCounter += live_team_logs?.teamLogs[index1-1]?.fantasyLog?.playerPts;
+          }
+          let poss = "P1";
+          let allPositionPoints = item?.positionPoints;
+          for(const key in allPositionPoints) {
+            if(allPositionPoints[key] !== 0) {
+              if(key.toLocaleLowerCase() == "centerpts") {
+                poss = "C";
+              }
+              else {
+                poss = key.replace("pts", "");
+              }
+            }
+          }
+          return (
+            <>
+              <Row
+                  position={poss}
+                  name={item?.fantasyLog?.player?.full_name}
+                  time={`P${item?.period + 1} | ${item?.clock}`}
+                  plays={
+                    item?.fantasyLog?.type === "shotagainst"
+                      ? "SA"
+                      : item?.fantasyLog?.type === "goalagainst"
+                      ? "GA"
+                      : item?.fantasyLog?.type[0]
+                  }
+                  pts={item?.fantasyLog?.playerPts}
+                  totalPts="8"
+                  powers="-"
+                  score={item?.fantasyLog?.playerPts}
+                  runningTotal={item?.fantasyLog?.playerPts + tempCounter}
+                />
+            </>
+          );
+        })}
+        {/* {live_team_logs?.teamLogs.map((item1, index) => {
           let { teamLogs = [] } = item1;
           
           return (
             <>
               {teamLogs.map((item, index1) => { 
-                if(index == 0 && index1 == 0) {
+                if(index == 1 && index1 == 0) {
                   tempCounter = 0;
                 }
                 else {
-                  tempCounter = item?.fantasyLog?.playerPts;
+                  tempCounter += teamLogs[index1-1]?.fantasyLog?.playerPts;
                 }
+                console.log("index1", index, index1, tempCounter);
                 let poss = "P1";
                 if(item?.fantasyLog?.fantasyPlayerPosition)
                 {
@@ -147,7 +190,7 @@ export default function MyScoreCard() {
               )})}
             </>
           );
-        })}
+        })} */}
       </div>
     </>
   );

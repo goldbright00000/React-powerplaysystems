@@ -21,7 +21,9 @@ function NHLFooterStats(props) {
     title = "",
 
   } = props || {};
-
+  const getTeamPoints = (id) => {
+    return "";
+  };
   //Player Details
   const { match, OppGoalie = "0", team = {} } = player || {};
   const { home, away } = match || {};
@@ -47,11 +49,11 @@ function NHLFooterStats(props) {
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
           {team?.id == match?.away?.id && 
-            <><p>{match?.home?.alias} vs</p>
+            <><p>{match?.home?.alias} {getTeamPoints(match?.home?.id)} vs</p>
             <p className="bold_text"> {match?.away?.alias}</p></>
           }
           {team?.id == match?.home?.id && 
-            <><p>{match?.away?.alias} vs</p>
+            <><p>{match?.away?.alias} {getTeamPoints(match?.away?.id)} vs</p>
             <p className="bold_text"> {match?.home?.alias}</p></>
           }
         </div>
