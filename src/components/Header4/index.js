@@ -16,8 +16,8 @@ function Header4(props) {
   const {
     outof = "",
     enrolledUsers = "",
-    onClickContest = () => {},
-    onClickPrize = () => {},
+    onClickContest = () => { },
+    onClickPrize = () => { },
     titleMain1 = "",
     titleMain2 = "",
     subHeader1 = "",
@@ -34,9 +34,9 @@ function Header4(props) {
     livePage = false,
     selectedTeam = {}
   } = props || {};
-  const { game = {}, gameType: game_type = "" } = selectedTeam;
-  const {  powerdfs_challenge_amount = 0, prizePool = 0 } = game;
-  
+  const { game = {}, gameType: game_type = "", challenge_amount = 0 } = selectedTeam;
+  const { prizePool = 0 } = game;
+
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
@@ -53,52 +53,48 @@ function Header4(props) {
   };
 
   const getGameTypeText = (game_type) => {
-    if(game_type === "PowerdFS") {
+    if (game_type === "PowerdFS") {
       return "";
     }
-    else if(game_type === "PowerdFs_Recharge") {
+    else if (game_type === "PowerdFs_Recharge") {
       return "";
     }
-    else if(game_type === "PowerdFs_open") {
+    else if (game_type === "PowerdFs_open") {
       return "";
     }
-    else if(game_type === "PowerdFs_promo") {
-      if(props.isTeamSelectionPage)
-      {
+    else if (game_type === "PowerdFs_promo") {
+      if (props.isTeamSelectionPage) {
         return <><br /> Manager Challenge </>;
       }
       else {
         return "Manager Challenge";
       }
     }
-    else if(game_type === "PowerdFs_challenge") {
-      if(props.isTeamSelectionPage)
-      {
-        return <><br /> {powerdfs_challenge_amount} Point Challenge </>;
+    else if (game_type === "PowerdFs_challenge") {
+      if (props.isTeamSelectionPage) {
+        return <><br /> {challenge_amount} Point Challenge </>;
       }
       else {
-        return `${powerdfs_challenge_amount} Point Challenge`;
+        return `${challenge_amount} Point Challenge PHP`;
       }
     }
-    else if(game_type === "PowerdFs_Progressive") {
-      if(props.isTeamSelectionPage)
-      {
+    else if (game_type === "PowerdFs_Progressive") {
+      if (props.isTeamSelectionPage) {
         return <><br /> Progressive Jackpot </>;
       }
       else {
         return "Progressive Jackpot";
       }
     }
-    else if(game_type === "PowerdFs_One") {
+    else if (game_type === "PowerdFs_One") {
       return "One";
     }
   }
 
   const RenderHeader = () => (
     <div
-      className={`${classes.header_container} ${
-        compressedView && classes.compressedView
-      }`}
+      className={`${classes.header_container} ${compressedView && classes.compressedView
+        }`}
       style={{ backgroundImage: "url(" + bgImageUri + ")" }}
     >
       {isMobile ? (
@@ -116,12 +112,12 @@ function Header4(props) {
         <div className={classes.header_top}>
           {titleMain1 && (
             <div className={classes.header_title}>
-              <h2 className={compressedView && classes.compressedView} style={{textAlign: "center",lineHeight: "50px"}}>
+              <h2 className={compressedView && classes.compressedView} style={{ textAlign: "center", lineHeight: "50px" }}>
                 {titleMain1} {(game_type === "PowerdFs_Recharge") ? (<img src={group2} />) : (<><span>{titleMain2}</span> {getGameTypeText(game_type)}</>)}
               </h2>
             </div>
           )}
-          
+
           {(game_type === "PowerdFs_promo" || game_type === "PowerdFs_Recharge") && <p>Power your team to victory and win big!</p>}
           {(game_type === "PowerdFs_Progressive") && <p>Jackpot starts from $1,000 and will grow with each entry!</p>}
           {(game_type === "PowerdFs_One" && (titleMain1 == "NFL" || titleMain1 == "NBA")) && <p>One-Quarter Fantasy Football</p>}
@@ -142,21 +138,20 @@ function Header4(props) {
             textAlign: "center",
             color: "#f2f2f2"
           }}>${numberWithCommas(prizePool)}</div>}
-          
+
 
           <div
-            className={`${classes.header_buttons} ${
-              compressedView && classes.compressedView
-            }`}
+            className={`${classes.header_buttons} ${compressedView && classes.compressedView
+              }`}
           >
             {contestBtnTitle && (
               <ContestRulesPopUp
                 points={
                   typeof props.selectedTeam !== "undefined"
                     ? _.groupBy(
-                        props?.selectedTeam?.game?.PointsSystems,
-                        "type"
-                      )
+                      props?.selectedTeam?.game?.PointsSystems,
+                      "type"
+                    )
                     : points
                 }
                 powers={
