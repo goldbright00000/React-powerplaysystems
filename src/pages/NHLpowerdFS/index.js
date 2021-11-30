@@ -822,7 +822,7 @@ function NHLPowerdFs(props) {
         setIsLoading(false);
       } else {
         await dispatch(NHLActions.saveAndGetSelectPlayers(payload1));
-        await dispatch(NHLActions.createFantasyTeam(payload));
+        await dispatch(NHLActions.createFantasyTeam(payload1));
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
             dispatch(NHLActions.calculateAdminFee(user_id, game_id));
@@ -1082,8 +1082,8 @@ function NHLPowerdFs(props) {
                   {loading
                     ? "Loading..."
                     : isEdit
-                    ? "Edit your team"
-                    : "Select your team"}
+                      ? "Edit your team"
+                      : "Select your team"}
                 </h2>
                 <div className={classes.container_left_header_2}>
                   <p>7 starters + 1 team D</p> <span className={classes.line} />
@@ -1167,11 +1167,11 @@ function NHLPowerdFs(props) {
                                     onSelectDeselect={onPlayerSelectDeselect}
                                     pageType={PAGE_TYPES.NHL}
                                     type={selectedData?.type}
-                                    // disabled={
-                                    //   item.is_starPlayer &&
-                                    //   item.is_starPlayer &&
-                                    //   starPlayerCount >= 3
-                                    // }
+                                  // disabled={
+                                  //   item.is_starPlayer &&
+                                  //   item.is_starPlayer &&
+                                  //   starPlayerCount >= 3
+                                  // }
                                   />
                                 </>
                               </>
@@ -1297,9 +1297,8 @@ function NHLPowerdFs(props) {
                             Scoring
                           </Tab>
                           <Tab
-                            className={`${activeTab === 2 && classes.active} ${
-                              classes.__last_tab_header
-                            }`}
+                            className={`${activeTab === 2 && classes.active} ${classes.__last_tab_header
+                              }`}
                           >
                             Powers Available
                           </Tab>
