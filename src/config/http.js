@@ -6,7 +6,7 @@ import { CONSTANTS } from "../utility/constants";
 
 const http = axios.create({
   baseURL: `${process.env.REACT_APP_API_URL}/api/v1` /*|| apiUrl*/,
-  //timeout: 60000, //60 seconds timeout
+  timeout: 60000, //60 seconds timeout
   timeoutErrorMessage: "Request time out, please try again later",
   maxRedirects: 3,
 });
