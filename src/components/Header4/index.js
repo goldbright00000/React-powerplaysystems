@@ -75,7 +75,7 @@ function Header4(props) {
         return <><br /> {challenge_amount} Point Challenge </>;
       }
       else {
-        return `${challenge_amount} Point Challenge PHP`;
+        return `${challenge_amount} Point Challenge`;
       }
     }
     else if (game_type === "PowerdFs_Progressive") {
