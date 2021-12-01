@@ -772,7 +772,6 @@ const InteractiveContests = (props) => {
                 const start = (i + 1) * itemsInaRow - 4;
                 const end = (i + 1) * itemsInaRow;
                 var items = subFiltered.slice(start, end);
-                console.log("items: ", items);
                 // console.log("power1", moment(moment().format("YYYY-MM-DD hh:mm A")).isBetween(
                 //   item?.game?.game_set_start + ' ' + item?.game?.start_time,
                 //   item?.game?.game_set_end + ' 11:59 AM'

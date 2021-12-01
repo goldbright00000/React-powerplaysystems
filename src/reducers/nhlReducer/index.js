@@ -38,6 +38,7 @@ const INITIAL_STATE = {
   teamDPts: 0,
   powersApplied: [],
   powersAvailable: "",
+  live_match_events: [],
 
   // Rankings/Standings
   liveStandings: [],
@@ -52,7 +53,7 @@ const nhlReducer = (state = INITIAL_STATE, actions) => {
       };
     case Actions.NHL_FINAL_STANDINGS:
       return { ...state, liveStandings: actions.payload };
-
+    
     case Actions.NHL_DATA:
       return {
         ...state,
@@ -104,6 +105,12 @@ const nhlReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         selectedTeam: actions.payload,
+      };
+    
+    case Actions.NHL_LIVE_MATCH_EVENTS:
+      return {
+        ...state,
+        live_match_events: actions.payload
       };
 
     default:

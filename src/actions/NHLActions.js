@@ -16,6 +16,7 @@ export const NHL_USER_EDITED_GAMES = "[NHL] NHL_USER_EDITED_GAMES";
 export const SET_GAME_LOGS = "[NHL] SET_GAME_LOGS";
 export const SET_SELECTED_TEAM = "[NHL] SET_SELECTED_TEAM";
 export const NHL_FINAL_STANDINGS = "[NHL] FINAL_STANDINGS";
+export const NHL_LIVE_MATCH_EVENTS = "[NHL] LIVE_MATCH_EVENTS";
 
 const { FILTERS } = CONSTANTS;
 const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
@@ -297,6 +298,13 @@ export function getFantasyTeam(payload) {
     } catch (err) {
       console.log(err);
     }
+  };
+}
+
+export function add_live_events(data) {
+  return {
+    type: NHL_LIVE_MATCH_EVENTS,
+    payload: data
   };
 }
 
