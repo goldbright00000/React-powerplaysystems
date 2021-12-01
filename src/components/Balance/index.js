@@ -99,6 +99,13 @@ const Balance = (props) => {
         "message": "Live Game in Progress"
       }
     }
+    if(date2 > date3)
+    {
+      return {
+        "status": 2,
+        "message": "Closed"
+      }
+    }
     let diffInSeconds = Math.abs(date1 - date2) / 1000;
     let days = Math.floor(diffInSeconds / 60 / 60 / 24);
     let hours = Math.floor(diffInSeconds / 60 / 60 % 24);
@@ -262,6 +269,22 @@ const Balance = (props) => {
                           height: 10,
                           borderRadius: 100,
                           backgroundColor: "#3f9946",
+                          marginRight: 7
+                        }}></div>
+                        <div>{getDateStringValue().message}</div>
+                      </div>
+                    }
+                    {getDateStringValue().status == 2 && 
+                      <div style={{
+                        color: "red",
+                        display: "flex",
+                        alignItems: "center"
+                      }}>
+                        <div style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 100,
+                          backgroundColor: "red",
                           marginRight: 7
                         }}></div>
                         <div>{getDateStringValue().message}</div>
