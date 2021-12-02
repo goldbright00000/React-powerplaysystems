@@ -121,6 +121,9 @@ export default function MyScoreCard() {
               else if(key.toLocaleLowerCase() == "teamdpts") {
                 poss = "TD";
               }
+              else if(key.toLocaleLowerCase() == "goaliepts") {
+                poss = "G";
+              }
               else {
                 poss = key.replace("pts", "");
               }
@@ -133,8 +136,10 @@ export default function MyScoreCard() {
                   name={item?.fantasyLog?.player?.full_name}
                   time={`P${item?.period + 1} | ${item?.clock}`}
                   plays={
-                    item?.fantasyLog?.type === "shotagainst"
+                    item?.fantasyLog?.type === "shotagainst" && item?.fantasyLog?.saved == true
                       ? "SA"
+                      : item?.fantasyLog?.type === "shotagainst" && item?.fantasyLog?.saved == false ? 
+                      "GA" 
                       : item?.fantasyLog?.type === "goalagainst"
                       ? "GA"
                       : item?.fantasyLog?.type[0]

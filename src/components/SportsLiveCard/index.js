@@ -68,16 +68,10 @@ function SportsLiveCard(props) {
   const {
     data: nhlData = [],
     gameID,
-    posD1Points = 0,
-    posD2Points = 0,
-    posXW1Points = 0,
-    posXW2Points = 0,
-    posXW3Points = 0,
-    posCenterPoints = 0,
-    posGoaliePts = 0,
     live_clock = "20:00",
     live_period = 1,
     selectedTeam = {},
+    match_status = []
   } = useSelector((state) => state.nhl);
   const { powersAvailable = [] } = selectedTeam;
   const [tooltipOpen1, setTooltipOpen1] = useState(false);
@@ -108,7 +102,13 @@ function SportsLiveCard(props) {
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   const { live_team_logs = [] } = useSelector((state) => state.nhl);
-  const { playersActualScore = [] } = live_team_logs;   
+  const { playersActualScore = [], posD1Points = 0,
+    posD2Points = 0,
+    posXW1Points = 0,
+    posXW2Points = 0,
+    posXW3Points = 0,
+    posCenterPoints = 0,
+    posGoaliePts = 0 } = live_team_logs;   
 
   const {
     full_name = "",
@@ -458,6 +458,12 @@ function SportsLiveCard(props) {
         scheduled
       ).format("hh:mm A")}`;
     } else {
+      let getMatchStatusDetails = match_status?.filter(x => x?.id == match?.id);
+      if(getMatchStatusDetails.length > 0)
+      {
+        let a = getMatchStatusDetails[getMatchStatusDetails.length - 1];
+        return a?.status;
+      }
       return playerStatus;
     }
     // if (
