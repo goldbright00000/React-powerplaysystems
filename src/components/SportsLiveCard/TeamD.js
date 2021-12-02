@@ -60,8 +60,8 @@ function SportsLiveCardTeamD(props) {
     key = "",
     powers = []
   } = props || {};
-  
-  const { live_team_logs = [], nhl_match_status = [] } = useSelector((state) => state.nhl);
+
+  const { live_team_logs = [] } = useSelector((state) => state.nhl);
   const { teamDActual = [] } = live_team_logs;  
 
   const history = useHistory();
@@ -266,14 +266,23 @@ function SportsLiveCardTeamD(props) {
   };
 
   const getStatus = () => {
-    let mid = data?.id;
-    let getMatchStatusData = nhl_match_status.nhl_match_status.length > 0 ? nhl_match_status.nhl_match_status.find(x => x.id == mid) : "";
-    if(getMatchStatusData !== undefined) {
-      return getMatchStatusData?.status;
-    }
-    else {
-      return "Scheduled";
-    }
+    if (`${status}`?.toLocaleLowerCase() === "scheduled") {
+      return `${moment(date_time).format("MMM Do")} - ${moment(
+        date_time
+      ).format("hh:mm A")}`;
+    } else if (
+      `${status}`?.toLocaleLowerCase() === "closed" ||
+      `${status}`?.toLocaleLowerCase() === "completed"
+    ) {
+      return "Game Over";
+    } else if (`${status}`.toLocaleUpperCase() === "inprogress")
+      return "In Progress";
+      if(showTimer == false){
+        setShowTimer(true);
+        return "";
+      }
+      else
+        return status;
   };
 
   const RenderStatPoints = ({}) => (

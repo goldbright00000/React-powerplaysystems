@@ -57,18 +57,14 @@ function NHLFooterStats(props) {
       ) : (
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-
-          <><p className={team?.id == match?.away?.id ? "bold_text": ""}>{match?.away?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.away?.points:0} vs</p>
-          <p className={team?.id == match?.home?.id ? "bold_text": ""}> {match?.home?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.home?.points:0}</p></>
-
-          {/* {team?.id == match?.away?.id && 
+          {team?.id == match?.away?.id && 
             <><p>{match?.home?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.home?.points:0} vs</p>
             <p className="bold_text"> {match?.away?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.away?.points:0}</p></>
           }
           {team?.id == match?.home?.id && 
             <><p>{match?.away?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.away?.points:0} vs</p>
             <p className="bold_text"> {match?.home?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.home?.points:0}</p></>
-          } */}
+          }
         </div>
       )}
       {/* <div className="footer_stats_row">

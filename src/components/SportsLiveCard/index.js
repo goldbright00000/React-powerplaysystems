@@ -78,7 +78,6 @@ function SportsLiveCard(props) {
     live_clock = "20:00",
     live_period = 1,
     selectedTeam = {},
-    nhl_match_status = []
   } = useSelector((state) => state.nhl);
   const { powersAvailable = [] } = selectedTeam;
   const [tooltipOpen1, setTooltipOpen1] = useState(false);
@@ -459,14 +458,7 @@ function SportsLiveCard(props) {
         scheduled
       ).format("hh:mm A")}`;
     } else {
-      let mid = match?.id;
-      let getMatchStatusData = nhl_match_status.nhl_match_status.length > 0 ? nhl_match_status.nhl_match_status.find(x => x.id == mid) : "";
-      if(getMatchStatusData !== undefined) {
-        return getMatchStatusData?.status;
-      }
-      else {
-        return status;
-      }
+      return playerStatus;
     }
     // if (
     //   `${status}`?.toLocaleLowerCase() === "closed" ||
