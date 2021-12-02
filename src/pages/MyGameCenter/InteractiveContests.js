@@ -154,7 +154,7 @@ const InteractiveContests = (props) => {
   useEffect(() => {
     const user_id = getLocalStorage("PERSONA_USER_ID");
     dispatch(MLbActions.getUserGames(user_id));
-  }, [dispatch, user]);
+  }, []);
 
   useEffect(() => {
     setMyGameCenterCardData(getUserSavedGames);
