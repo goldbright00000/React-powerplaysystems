@@ -39,9 +39,9 @@ const INITIAL_STATE = {
   powersApplied: [],
   powersAvailable: "",
   live_match_events: [],
+
   // Rankings/Standings
   liveStandings: [],
-  nhl_match_status: []
 };
 
 const nhlReducer = (state = INITIAL_STATE, actions) => {
@@ -111,12 +111,6 @@ const nhlReducer = (state = INITIAL_STATE, actions) => {
       return {
         ...state,
         live_match_events: actions.payload
-      };
-
-    case Actions.NHL_MATCH_STATUS:
-      return {
-        ...state,
-        nhl_match_status: actions.payload
       };
 
     default:
