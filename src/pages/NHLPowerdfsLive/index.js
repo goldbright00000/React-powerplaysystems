@@ -156,13 +156,16 @@ function NHLPowerdFsLive(props) {
     getGameIDFromLocalStorage();
     _socket = socketNHL();
     return function cleanUP() {
+      _socket?.disconnect();
       //reset logs
       dispatch(NHLActions.setGameLogs([]));
 
       //disconnect the socket
       _socket?.emit(ON_ROOM_UN_SUB);
       _socket?.on(ON_ROOM_UN_SUB, () => {
+        console.log("muki");
         _socket?.disconnect();
+        console.log("Socket Diconnected");
         _socket = null;
       });
     };
@@ -544,6 +547,7 @@ function NHLPowerdFsLive(props) {
       _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
         // evaluateTeamLogs(data);
         // if (Array.isArray(data)) {
+          console.log("NHL-GAME-DATA", data);
         dispatch({
           type: NHLActions.NHL_UPDATE_STATE,
           payload: {
@@ -555,6 +559,16 @@ function NHLPowerdFsLive(props) {
 
       _socket.on("ROOM_DATA", (data) => {
         console.log("ROOM DATA: ", data);
+      });
+      _socket.emit("EMIT_MATCH_STATUS");
+      _socket.on("EMIT_MATCH_STATUS", (data) => {
+        console.log("EMIT_MATCH_STATUS DATA: ", data);
+        dispatch({
+          type: NHLActions.NHL_MATCH_STATUS,
+          payload: {
+            nhl_match_status: data
+          },
+        });
       });
     }
   }, [_socket, gameID]);
