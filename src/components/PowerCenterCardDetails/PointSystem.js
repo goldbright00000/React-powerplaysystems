@@ -5,7 +5,7 @@ import _ from "underscore";
 const PointSystem = (props) => {
   const { title = "", isMobile = false, PointsSystem = [] } = props || {};
   const groupedPoints = _.groupBy(PointsSystem, 'type');
-  const typeOne = Object.keys(PointsSystem);
+  const typeOne = Object.keys(groupedPoints);
 
   return (
     <div className={`${classes.__point_system}`}>
@@ -14,36 +14,36 @@ const PointSystem = (props) => {
         {typeOne.map((d, i) => {
           return (
             <>
-            <div className={classes.__point_system_heading}>{d}</div>
+              <div className={classes.__point_system_heading}>{d}</div>
               <div className={classes.__points_grid_data2}>
                 <div className={classes.__points_grid_data1}>
-                  {Object.keys(PointsSystem[d]).map(function(item, index) {
+                  {groupedPoints[d].map(function (item, index) {
                     return (
                       <>
-                          <div className={classes.__point_system_data}>
-                            <div
-                              className={`${classes.__point_system_data_title_div}`}
+                        <div className={classes.__point_system_data}>
+                          <div
+                            className={`${classes.__point_system_data_title_div}`}
+                          >
+                            <p
+                              className={`${classes.__point_system_data_title} mr-1`}
                             >
-                              <p
-                                className={`${classes.__point_system_data_title} mr-1`}
-                              >
-                                {item}
-                              </p>
-                            </div>
-                            <div
-                              className={`${classes.__point_system_data_value_div}`}
-                            >
-                              <p
-                                className={`${classes.__point_system_data_value} ml-1`}
-                              >
-                                {PointsSystem[d][item]}
-                              </p>
-                            </div>
+                              {item.plays}
+                            </p>
                           </div>
+                          <div
+                            className={`${classes.__point_system_data_value_div}`}
+                          >
+                            <p
+                              className={`${classes.__point_system_data_value} ml-1`}
+                            >
+                              {item.action + item.points}
+                            </p>
+                          </div>
+                        </div>
                       </>
                     );
                   })}
-                {/* {Object.entries(PointsSystem[d]).forEach((item, value) => {
+                  {/* {Object.entries(PointsSystem[d]).forEach((item, value) => {
                     return (
                       <>
                           <div className={classes.__point_system_data}>
@@ -99,8 +99,8 @@ const PointSystem = (props) => {
                 </div> */}
               </div>
             </>
-           );
-        })} 
+          );
+        })}
       </>
     </div>
   );
