@@ -20,18 +20,18 @@ const PowerCenterCardDetails = (props) => {
   const {
     entry_fee = "",
     title = "",
-    onBackClick = () => {},
-    onNextClick = () => {},
+    onBackClick = () => { },
+    onNextClick = () => { },
     myGameCenter = false,
     PointsSystem = [],
     Power = [],
     PrizePayout = [],
-    onEnter = () => {},
+    onEnter = () => { },
     game_set_start = "",
     prize = "",
     userHasEntered = false,
     game_type = "",
-    hideCard,
+    hideCard = () => { },
   } = props || {};
   const [currentIndex, setCurrentIndex] = useState(0);
   const getBackgroundImageWithStyle = () => {
@@ -115,7 +115,7 @@ const PowerCenterCardDetails = (props) => {
             } else if (currentIndex < 4) {
               setCurrentIndex(currentIndex + 1);
             } else if (currentIndex === 4) {
-              // onNextClick();
+              onNextClick();
               hideCard(false);
             }
           }}

@@ -66,7 +66,7 @@ function SportsSelectionCard3(props) {
   const {
     player = {},
     loading = false,
-    onSelectDeselect = (id, matchId) => {},
+    onSelectDeselect = (id, matchId) => { },
     disabled = false,
     isSelected = false,
     btnTitle = "+ Select",
@@ -202,11 +202,10 @@ function SportsSelectionCard3(props) {
 
   return (
     <div
-      className={`${classes.container_body_card} ${
-        checkIfIsStarPlayer()
-          ? classes.container_body_card_start_power_background
-          : ``
-      } ${isSelected ? classes.activeBorder : ""}`}
+      className={`${classes.container_body_card} ${checkIfIsStarPlayer()
+        ? classes.container_body_card_start_power_background
+        : ``
+        } ${isSelected ? classes.activeBorder : ""}`}
     >
       {checkIfIsStarPlayer() && (
         <span className={classes.container_body_card_start_power}>
@@ -215,9 +214,8 @@ function SportsSelectionCard3(props) {
       )}
       <div className={classes.container_body_card_header}>
         <p
-          className={`${classes.container_selected_p} ${
-            isSelected ? classes.active : ""
-          }`}
+          className={`${classes.container_selected_p} ${isSelected ? classes.active : ""
+            }`}
         >
           {pageType === PAGE_TYPES.NHL ? (
             <>
@@ -277,7 +275,7 @@ function SportsSelectionCard3(props) {
             autoPlay={false}
             infiniteLoop={false}
             interval={1e11}
-            // className=".carousel .control-dots"
+          // className=".carousel .control-dots"
           >
             <>
               {renderStats()}
@@ -419,11 +417,11 @@ function SportsSelectionCard3(props) {
           {currentStep === 0 && (
             <div className={classes.card_footer_left}>
               <p>
-                <span className={classes.teamB}>
+                <span className={classes.teamA}>
                   {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
                 </span>{" "}
                 VS{" "}
-                <span className={classes.teamA}>
+                <span className={classes.teamB}>
                   {PAGE_TYPES.NHL === pageType ? home.name : homeTeam}
                 </span>{" "}
               </p>
