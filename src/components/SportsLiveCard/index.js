@@ -642,6 +642,7 @@ function SportsLiveCard(props) {
                 className={{ opacity: 0.1 }}
                 size={singleView ? 14 : largeView ? 30 : 30}
               /> */}
+              
               {isPowerAvailable("D-Wall") === 0 ?
                   <div style={{
                     opacity: 0.5
@@ -777,21 +778,6 @@ function SportsLiveCard(props) {
                     />
                   </button>
                 </Tooltip>
-              ) : props.dwall == 0 ? (
-                <div style={{ opacity: 0.5 }}>
-                  <DwallPopUp
-                    component={({ showPopUp }) => (
-                      <button style={{ background: "none", border: 0 }}>
-                        <ShieldIcon
-                          size={30}
-                          // size={largeView ? 28 : 24}
-                        />
-                      </button>
-                    )}
-                    dwall={props.dwall}
-                    useDwall={props.useDwall}
-                  />
-                </div>
               ) : (
                 <DwallPopUp
                   component={({ showPopUp }) => (
