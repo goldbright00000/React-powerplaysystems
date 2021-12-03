@@ -822,6 +822,7 @@ function NHLPowerdFs(props) {
       } else {
         await dispatch(NHLActions.saveAndGetSelectPlayers(payload1));
         await dispatch(NHLActions.createFantasyTeam(payload1));
+
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
             dispatch(NHLActions.calculateAdminFee(user_id, game_id));
