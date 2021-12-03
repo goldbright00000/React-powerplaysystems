@@ -807,7 +807,6 @@ function NHLPowerdFs(props) {
         team_id: selector_team_id,
         user_display_name: user.display_name,
       };
-
       const payload = {
         userID: user_id,
         gameID: game_id,
