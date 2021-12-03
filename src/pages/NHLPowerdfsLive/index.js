@@ -14,23 +14,15 @@ import BaseballImage from "../../assets/hockey1.png";
 import Card from "../../components/PowerpickCard";
 import Sidebar from "../../components/Sidebar";
 import CashPowerBalance from "../../components/CashPowerBalance";
-import XPIcon from "../../icons/XPIcon";
-import LockIcon from "../../icons/Lock";
-import TwitterIcon from "../../icons/TwitterIcon";
-import FacebookIcon from "../../icons/FacebookIcon";
 import PowerSidebar from "../../components/PowerCollapesible";
 import NHLLiveSportsHeader from "../../components/NHLLiveSportsHeader";
 import FooterImage from "../../assets/NHL-live-footer.png";
 import RankCard from "../../components/RankCard";
 import { CONSTANTS } from "../../utility/constants";
-import SingleView from "./SingleView/SingleView";
-import SportsLiveCard from "../../components/SportsLiveCard";
 import { getLocalStorage, printLog, redirectTo } from "../../utility/shared";
 import { socket, socketNHL } from "../../config/server_connection";
-import SportsLiveCardTeamD from "../../components/SportsLiveCard/TeamD";
 import Mobile from "../../pages/Mobile/Mobile";
 import PrizeModal from "../../components/PrizeModal";
-
 import LiveStandings from "../../components/LiveStandings";
 import MyScoreCard from "./MyScoreCard";
 import TeamManager from "./TeamManager";
@@ -67,30 +59,18 @@ const POWER_IDs = {
 
 function NHLPowerdFsLive(props) {
   const [loading, setLoading] = useState(false);
-  const [updatesLoaded, setUpdatesLoading] = useState(false);
   const [screenSize, setScreenSize] = useState(window.screen.width);
-
   const [compressedView, setCompressedView] = useState(false);
   const [selectedView, setSelectedView] = useState(CONSTANTS.NHL_VIEW.FV);
-  const [learnMoreModal, setLearnMoreModal] = useState(false);
-  const [points, setPoints] = useState(0);
-
-  const [playerIds, setPlayerIds] = useState([]);
   const [matchUpdateData, setMatchUpdateData] = useState({});
+  const [points, setPoints] = useState(0);
   const [ranks, setRanks] = useState({
     ranking: 0,
     score: 0,
     game_id: 0,
     team_id: 0,
   });
-  const [powersInventory, setPowersInventory] = useState({
-    swap: 2,
-    point_multiplier: 0,
-    d_wall: 1,
-    challenge: 1,
-  });
   const [playerToSwap, setPlayerToSwap] = useState({});
-
   const [swapCounts, setSwapCounts] = useState(0);
   const [dwallCounts, setDwallCounts] = useState(0);
   const [challengeCounts, setChallengeCounts] = useState(0);
@@ -100,11 +80,16 @@ function NHLPowerdFsLive(props) {
   const [pointBooster3x, setPointBooster3xCounts] = useState(0);
   const [retroBoostCounts, setRetroBoostCounts] = useState(0);
   const [powerUpCounts, setPowerUpCounts] = useState(0);
-  const [showGameLogs, setGameLogsPageState] = useState(false);
   const [showPrizeModal, setPrizeModalState] = useState(false);
-  const [prizes, setPrizes] = useState([]);
   const dispatch = useDispatch();
-  const selectedTeam = getTeamFromLocalStorage();
+  function getTeamFromLocalStorage() {
+    const encData = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME);
+    const byteData = CryptoJS.AES.decrypt(encData, CONSTANTS.DATA_ENC_KEY);
+    const decSelectedTeamData = JSON.parse(
+      byteData.toString(CryptoJS.enc.Utf8)
+    );
+    return decSelectedTeamData;
+  }
   function getGameIDFromLocalStorage() {
     const gameID = getLocalStorage(
       CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME_ID
@@ -118,9 +103,9 @@ function NHLPowerdFsLive(props) {
     }
     return gameID;
   }
+  const selectedTeam = getTeamFromLocalStorage();
+  const {gameID: gid = 0} = selectedTeam;
   const {
-    game_id = 0,
-    gameID = 0,
     live_players = [],
     live_totalTeamPts = 0,
     live_all_team_logs = [],
@@ -133,33 +118,30 @@ function NHLPowerdFsLive(props) {
     period = 0,
     powersApplied = [],
   } = useSelector((state) => state.nhl);
-
   const { user = {} } = useSelector((state) => state.auth);
-  const { token = "", user_id } = user || {};
-
+  const { token = "", user_id: userID } = user || {};
   const getFantasyTeam = async () => {
     setLoading(true);
     let payload = {
-      gameID,
-      userID: user_id,
+      gameID: gid,
+      userID: userID,
     };
     await dispatch(NHLActions.getFantasyTeam(payload));
     setLoading(false);
   };
   useEffect(() => {
-    if (user_id && gameID) {
+    if (userID && gid) {
       getFantasyTeam();
     }
-  }, [user_id, gameID]);
-
+  }, [userID, gid]);
   useEffect(() => {
     getGameIDFromLocalStorage();
     _socket = socketNHL();
     return function cleanUP() {
       //reset logs
       dispatch(NHLActions.setGameLogs([]));
-
       //disconnect the socket
+      _socket?.disconnect();
       _socket?.emit(ON_ROOM_UN_SUB);
       _socket?.on(ON_ROOM_UN_SUB, () => {
         _socket?.disconnect();
@@ -167,25 +149,29 @@ function NHLPowerdFsLive(props) {
       });
     };
   }, []);
-
   const {
-    gameID: gameId = "",
-    userID: userId = "",
-    team_id: teamId = "",
-    sport_id: sportId = "",
-    game = {},
-    Prizes = [],
+    challenge_amount= 0,
+    entryFees = 0,
+    gameType = "",
+    playersActualScore = [],
+    pointSystem = {},
+    posCenterPoints = 0,
+    posD1Points = 0,
+    posD2Points = 0,
+    posGoaliePts= 25,
+    posXW1Points= 0,
+    posXW2Points= 6,
+    posXW3Points= 23,
+    powersAvailable = [],
     reward = [],
-    powersAvailable = "",
-    entryFee = 0,
+    teamDPts = 0,
+    status = "",
     currencys = "$",
-  } = selectedTeam || {};
-
+  } = selectedTeam;
   let prizePool,
     topPrize = 0,
     entry_fee = 0,
     currency;
-
   prizePool = _.reduce(
     reward,
     function (memo, num) {
@@ -198,143 +184,8 @@ function NHLPowerdFsLive(props) {
       return ele.amount;
     }).amount
   );
-  entry_fee = entryFee;
+  entry_fee = entryFees;
   currency = currencys;
-
-  async function setPowers() {
-    let a = await dispatch(NHLActions.getUserRemainingPowers(gameId, userId));
-    if (a === undefined) {
-      return;
-    }
-
-    let remainingPowers = a.payload;
-    let challenge = 0;
-    let swap = 0;
-    let point_booster = 0;
-    let p15 = 0;
-    let p2 = 0;
-    let p3 = 0;
-    let dwall = 0;
-    let retro_boost = 0;
-    let power_up = 0;
-    for (let i = 0; i < remainingPowers.length; i++) {
-      let rec = remainingPowers[i].fantasy_powers;
-      if (rec !== undefined && rec !== null) {
-        if (rec.name === "D-Wall") {
-          dwall = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "Challenge") {
-          challenge = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "1.5x Point Booster") {
-          p15 = remainingPowers[i].remaining_amount;
-          point_booster =
-            point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "2x Point Booster") {
-          p2 = remainingPowers[i].remaining_amount;
-          point_booster =
-            point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "3x Point Booster") {
-          p3 = remainingPowers[i].remaining_amount;
-          point_booster =
-            point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "Swap" || rec.name === "Swap Players") {
-          swap = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "Retro Boost") {
-          retro_boost = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "Power-Up") {
-          power_up = remainingPowers[i].remaining_amount;
-        }
-      }
-    }
-    setChallengeCounts(challenge);
-    setSwapCounts(swap);
-    setDwallCounts(dwall);
-    setPointMultiplierCounts(point_booster);
-    setRetroBoostCounts(retro_boost);
-    setPowerUpCounts(power_up);
-    setPointBooster15xCounts(p15);
-    setPointBooster2xCounts(p2);
-    setPointBooster3xCounts(p3);
-  }
-
-  async function useSwap(action) {
-    if (action) {
-      const current_match_id = selectedTeam.players[0].match_id;
-      let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, 4)
-      );
-      if (requests.payload) {
-        setPowers();
-        onPowerApplied({
-          fantasyTeamId: selectedTeam.team_id,
-          matchId: current_match_id,
-          powerId: 4,
-          userId: userId,
-          gameId: game_id,
-        });
-      } else {
-        alert(
-          "We are experiencing technical issues with the Power functionality. Please try again shortly."
-        );
-      }
-    }
-  }
-
-  async function useDwall(action) {
-    if (action) {
-      const current_match_id = selectedTeam.players[0].match_id;
-      let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, 5)
-      );
-      if (requests.payload) {
-        setPowers();
-        onPowerApplied({
-          fantasyTeamId: selectedTeam.team_id,
-          matchId: current_match_id,
-          powerId: 5,
-          userId: userId,
-          gameId: gameId,
-        });
-      } else {
-        alert(
-          "We are experiencing technical issues with the Power functionality. Please try again shortly."
-        );
-      }
-    }
-  }
-
-  async function useChallenge(action) {
-    if (action) {
-      const current_match_id = selectedTeam.players[0].match_id;
-      let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, 6)
-      );
-      if (requests.payload) {
-        setPowers();
-        onPowerApplied({
-          fantasyTeamId: selectedTeam.team_id,
-          matchId: current_match_id,
-          powerId: 6,
-          userId: userId,
-          gameId: gameId,
-        });
-      } else {
-        alert(
-          "We are experiencing technical issues with the Power functionality. Please try again shortly."
-        );
-      }
-    }
-  }
-
-  function getTeamFromLocalStorage() {
-    const encData = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.NHL_LIVE_GAME);
-    const byteData = CryptoJS.AES.decrypt(encData, CONSTANTS.DATA_ENC_KEY);
-    const decSelectedTeamData = JSON.parse(
-      byteData.toString(CryptoJS.enc.Utf8)
-    );
-
-    return decSelectedTeamData;
-  }
-
   let evaluateTeamLogs = () => {
     console.log("live_team_logs: ", live_team_logs);
 
@@ -494,21 +345,142 @@ function NHLPowerdFsLive(props) {
       }
     });
   };
-
   useEffect(() => {
     evaluateTeamLogs();
   }, [live_team_logs]);
-
   useEffect(() => {
     evaluateEventData();
   }, [live_eventData]);
+  async function setPowers() {
+    let a = await dispatch(NHLActions.getUserRemainingPowers(gid, userID));
+    if (a === undefined) {
+      return;
+    }
+
+    let remainingPowers = a.payload;
+    let challenge = 0;
+    let swap = 0;
+    let point_booster = 0;
+    let p15 = 0;
+    let p2 = 0;
+    let p3 = 0;
+    let dwall = 0;
+    let retro_boost = 0;
+    let power_up = 0;
+    for (let i = 0; i < remainingPowers.length; i++) {
+      let rec = remainingPowers[i].fantasy_powers;
+      if (rec !== undefined && rec !== null) {
+        if (rec.name === "D-Wall") {
+          dwall = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Challenge") {
+          challenge = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "1.5x Point Booster") {
+          p15 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "2x Point Booster") {
+          p2 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "3x Point Booster") {
+          p3 = remainingPowers[i].remaining_amount;
+          point_booster =
+            point_booster + parseInt(remainingPowers[i].remaining_amount);
+        } else if (rec.name === "Swap" || rec.name === "Swap Players") {
+          swap = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Retro Boost") {
+          retro_boost = remainingPowers[i].remaining_amount;
+        } else if (rec.name === "Power-Up") {
+          power_up = remainingPowers[i].remaining_amount;
+        }
+      }
+    }
+    setChallengeCounts(challenge);
+    setSwapCounts(swap);
+    setDwallCounts(dwall);
+    setPointMultiplierCounts(point_booster);
+    setRetroBoostCounts(retro_boost);
+    setPowerUpCounts(power_up);
+    setPointBooster15xCounts(p15);
+    setPointBooster2xCounts(p2);
+    setPointBooster3xCounts(p3);
+  }
+
+  async function useSwap(action) {
+    if (action) {
+      const current_match_id = selectedTeam.players[0].match_id;
+      let requests = await dispatch(
+        NHLActions.updateUserRemainingPowers(gid, userID, 4)
+      );
+      if (requests.payload) {
+        setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          matchId: current_match_id,
+          powerId: 4,
+          userId: userID,
+          gameId: gid,
+        });
+      } else {
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
+      }
+    }
+  }
+
+  async function useDwall(action) {
+    if (action) {
+      const current_match_id = selectedTeam.players[0].match_id;
+      let requests = await dispatch(
+        NHLActions.updateUserRemainingPowers(gid, userID, 5)
+      );
+      if (requests.payload) {
+        setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          matchId: current_match_id,
+          powerId: 5,
+          userId: userID,
+          gameId: gid,
+        });
+      } else {
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
+      }
+    }
+  }
+
+  async function useChallenge(action) {
+    if (action) {
+      const current_match_id = selectedTeam.players[0].match_id;
+      let requests = await dispatch(
+        NHLActions.updateUserRemainingPowers(gid, userID, 6)
+      );
+      if (requests.payload) {
+        setPowers();
+        onPowerApplied({
+          fantasyTeamId: selectedTeam.team_id,
+          matchId: current_match_id,
+          powerId: 6,
+          userId: userID,
+          gameId: gid,
+        });
+      } else {
+        alert(
+          "We are experiencing technical issues with the Power functionality. Please try again shortly."
+        );
+      }
+    }
+  }
 
   useEffect(async () => {
     setPowers();
   }, []);
 
   useEffect(() => {
-    if (gameID !== 0) {
+    if (gid !== 0) {
       _socket.on("disconnect", () => {
         console.log("Socket Disconnected");
       });
@@ -516,9 +488,9 @@ function NHLPowerdFsLive(props) {
       _socket.on("connected", (data) => {
         console.log("Socket Connected: ", data);
         _socket.emit("NHL_CONNECT_MATCH_ROOM", {
-          gameID: gameID,
+          gameID: gid,
         });
-        _socket.emit("EMIT_MATCH_EVENTS", { gameID });
+        _socket.emit("EMIT_MATCH_EVENTS",{gid});
       });
 
       _socket.on("ROOM_CONNECTED", (data) => {
@@ -541,7 +513,8 @@ function NHLPowerdFsLive(props) {
       _socket.on("NHL_MATCH_EVENT", (data) => {
         console.log("New event: ", data);
       });
-      _socket.on(`NHL-GAME-${gameID}-${user_id}`, (data) => {
+      _socket.on(`NHL-GAME-${gid}-${userID}`, (data) => {
+        console.log("NHL-GAME Room", data);
         // evaluateTeamLogs(data);
         // if (Array.isArray(data)) {
         dispatch({
@@ -556,8 +529,13 @@ function NHLPowerdFsLive(props) {
       _socket.on("ROOM_DATA", (data) => {
         console.log("ROOM DATA: ", data);
       });
+
+      _socket.on("EMIT_MATCH_STATUS", (data) => {
+        console.log("NHL_MATCH_STATUS", data);
+        dispatch(NHLActions.add_match_status(data));
+      })
     }
-  }, [_socket, gameID]);
+  }, [_socket, gid]);
 
   // useEffect(() => {
   //   setPlayerToSwap({});
@@ -655,7 +633,7 @@ function NHLPowerdFsLive(props) {
         power = 3;
       }
       let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(gameId, userId, power)
+        NHLActions.updateUserRemainingPowers(gid, userID, power)
       );
       // throw new Error("FOUND");
       if (requests.payload) {
@@ -666,8 +644,8 @@ function NHLPowerdFsLive(props) {
           multiplier: _selectedXp.xpVal,
           playerId: player.player_id,
           matchId: current_match_id,
-          userId: userId,
-          gameId: gameId,
+          userId: userID,
+          gameId: gid,
         });
       } else {
         alert(
@@ -683,7 +661,7 @@ function NHLPowerdFsLive(props) {
   };
 
   const onClickStandings = async () => {
-    await dispatch(NHLActions.getFinalStandings(gameID));
+    await dispatch(NHLActions.getFinalStandings(gid));
   };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
@@ -701,7 +679,6 @@ function NHLPowerdFsLive(props) {
       gameId: game_id,
     });
   };
-
   const setView = (viewType = CONSTANTS.NHL_VIEW.FV) => {
     switch (viewType) {
       case CONSTANTS.NHL_VIEW.FV:
@@ -729,11 +706,9 @@ function NHLPowerdFsLive(props) {
         <span className={classes.span_text}>Live Game Stars in</span>
       </p>
     );
-
-  window.onresize = () => {
-    setScreenSize(window.screen.width);
-  };
-
+    window.onresize = () => {
+      setScreenSize(window.screen.width);
+    };
   const [activeTab, setActiveTab] = useState(0);
   const handleChangeTab = () => {
     setActiveTab(activeTab === 0 ? 1 : 0);
@@ -743,7 +718,6 @@ function NHLPowerdFsLive(props) {
     setModalState(!showModal);
   };
   const [matchEvents, setMatchEvents] = useState([]);
-
   return (
     <>
       {screenSize > 550 ? (
@@ -886,7 +860,7 @@ function NHLPowerdFsLive(props) {
                       pointBooster3x={pointBooster3x}
                       retroBoostCounts={retroBoostCounts}
                       powerUpCounts={powerUpCounts}
-                      game={game}
+                      game={selectedTeam}
                       powers={powersAvailable == "" ? [] : powersAvailable}
                     />
                   </Sidebar>

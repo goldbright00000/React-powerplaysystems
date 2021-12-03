@@ -22,14 +22,29 @@ function NHLFooterStats(props) {
 
   } = props || {};
   const {
-    live_match_events = {}
+    live_match_events = {},
+    match_status = []
   } = useSelector((state) => state.nhl);
-  const getTeamPoints = (id) => {
-    let filteredData = live_match_events.filter(x => x.id == id);
-    
+  const getTeamPoints = (id, id2) => {
+    let filteredData = match_status.filter(x => x.id == id);
     if(filteredData.length > 0)
     {
-      return filteredData[filteredData.length - 1];
+      let a = filteredData[filteredData.length - 1];
+      if(a.away.id == id2){
+        return a?.away?.points;
+      }
+      if(a.home.id == id2){
+        return a?.home?.points;
+      }
+    }
+    return false;
+  };
+  const getTeamPoints1 = (id) => {
+    let filteredData = match_status.filter(x => x.id == id);
+    if(filteredData.length > 0)
+    {
+      let a = filteredData[filteredData.length - 1];
+      return a;
     }
     return false;
   };
@@ -57,14 +72,18 @@ function NHLFooterStats(props) {
       ) : (
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-          {team?.id == match?.away?.id && 
+          <>
+            <p className={team?.id == match?.away?.id ? "bold_text" : ""}>{match?.away?.alias} {getTeamPoints(match?.id, match?.away?.id) !== false? getTeamPoints(match?.id, match?.away?.id):0}  vs</p>
+            <p className={team?.id == match?.home?.id ? "bold_text" : ""}> {match?.home?.alias} {getTeamPoints(match?.id, match?.home?.id) !== false ? getTeamPoints(match?.id, match?.home?.id):0}</p>
+          </>
+          {/* {team?.id == match?.away?.id && 
             <><p>{match?.home?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.home?.points:0} vs</p>
             <p className="bold_text"> {match?.away?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.away?.points:0}</p></>
           }
           {team?.id == match?.home?.id && 
             <><p>{match?.away?.alias} {getTeamPoints(match?.id) !== false? getTeamPoints(match?.id)?.away?.points:0} vs</p>
             <p className="bold_text"> {match?.home?.alias} {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.home?.points:0}</p></>
-          }
+          } */}
         </div>
       )}
       {/* <div className="footer_stats_row">
@@ -74,7 +93,7 @@ function NHLFooterStats(props) {
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          P{getTeamPoints(match?.id) !== false ? (getTeamPoints(match?.id)?.period + 1) : (live_period + 1)} | {getTeamPoints(match?.id) !== false ? getTeamPoints(match?.id)?.eventData?.clock : live_clock}
+          P{getTeamPoints1(match?.id) !== false ? (getTeamPoints1(match?.id)?.period + 1) : (live_period + 1)} | {getTeamPoints1(match?.id) !== false ? getTeamPoints1(match?.id)?.eventData?.clock : live_clock}
         </p>
       </div>
       <div className="footer_stats_row">

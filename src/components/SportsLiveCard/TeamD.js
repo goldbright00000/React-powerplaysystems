@@ -44,7 +44,7 @@ function SportsLiveCardTeamD(props) {
   const [showSummary, setSummaryState] = useState(false);
   const [showVideoOverlay, setVideoOverlayState] = useState(true);
 
-  const { teamDPts = 0 } = useSelector((state) => state.nhl);
+  const { teamDPts = 0, match_status = [] } = useSelector((state) => state.nhl);
   const [showPleaseWait, setShowPleaseWait] = useState(false);
   const [showTimer, setShowTimer] = useState(false);
   const [showTimerText, setShowTimerText] = useState("");
@@ -111,6 +111,7 @@ function SportsLiveCardTeamD(props) {
     // status = "inprogress",
     date_time = "",
     boxscore = [],
+    scheduled = "",
   } = match || {};
 
   const {
@@ -265,24 +266,77 @@ function SportsLiveCardTeamD(props) {
     return status === "scheduled" || getStatus() === "Game Over";
   };
 
+  // const getStatus = () => {
+  //   if (`${status}`?.toLocaleLowerCase() === "scheduled") {
+  //     return `${moment(date_time).format("MMM Do")} - ${moment(
+  //       date_time
+  //     ).format("hh:mm A")}`;
+  //   } else if (
+  //     `${status}`?.toLocaleLowerCase() === "closed" ||
+  //     `${status}`?.toLocaleLowerCase() === "completed"
+  //   ) {
+  //     return "Game Over";
+  //   } else if (`${status}`.toLocaleUpperCase() === "inprogress")
+  //     return "In Progress";
+  //     if(showTimer == false){
+  //       setShowTimer(true);
+  //       return "";
+  //     }
+  //     else
+  //       return status;
+  // };
+
   const getStatus = () => {
-    if (`${status}`?.toLocaleLowerCase() === "scheduled") {
-      return `${moment(date_time).format("MMM Do")} - ${moment(
-        date_time
-      ).format("hh:mm A")}`;
-    } else if (
-      `${status}`?.toLocaleLowerCase() === "closed" ||
-      `${status}`?.toLocaleLowerCase() === "completed"
+    
+    if (
+      `${status}`?.toLocaleLowerCase() === "scheduled" &&
+      moment().diff(moment(scheduled).format()) < 0
     ) {
-      return "Game Over";
-    } else if (`${status}`.toLocaleUpperCase() === "inprogress")
-      return "In Progress";
-      if(showTimer == false){
-        setShowTimer(true);
-        return "";
+      return `${moment(scheduled).format("MMM Do")} - ${moment(
+        scheduled
+      ).format("hh:mm A")}`;
+    } else {
+      
+      let getMatchStatusDetails = match_status?.filter(x => (x?.home?.id == data?.id || x?.away?.id == data?.id));
+      if(getMatchStatusDetails.length > 0)
+      {
+        let a = getMatchStatusDetails[getMatchStatusDetails.length - 1];
+        return a?.status;
       }
-      else
-        return status;
+      return status;
+    }
+    // if (
+    //   `${status}`?.toLocaleLowerCase() === "closed" ||
+    //   `${status}`?.toLocaleLowerCase() === "completed"
+    // ) {
+    //   return "Game Over";
+    // }
+    // else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   (type === "P" || type === "p") &&
+    //   player_id === pitcher?.player_id
+    // ) {
+    //   return "Pitching";
+    // } else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   (type === "P" || type === "p") &&
+    //   !isPitching()
+    // ) {
+    //   return "Dugout";
+    // } else if (
+    //   (!showEndThird() || !showMidThird()) &&
+    //   player_id === hitter?.player_id &&
+    //   hitter
+    // ) {
+    //   return "Hitting";
+    // } else if (
+    //   (showEndThird() || showMidThird()) &&
+    //   `${status}`.toLocaleUpperCase() === "inprogress"
+    // )
+    //   return "In Progress";
+    // else if (status === "inprogress") return "In Progress";
+
+    return status;
   };
 
   const RenderStatPoints = ({}) => (
