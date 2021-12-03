@@ -511,7 +511,7 @@ function NHLPowerdFsLive(props) {
       });
 
       _socket.on("NHL_MATCH_EVENT", (data) => {
-        console.log("New event: ",data);
+        console.log("New event: ", data);
       });
       _socket.on(`NHL-GAME-${gid}-${userID}`, (data) => {
         console.log("NHL-GAME Room", data);
@@ -834,13 +834,12 @@ function NHLPowerdFsLive(props) {
                         width: "100%",
                         marginTop: "-40px",
                       }}
-                      entryTitle="Entry Fee"
                       cashTitle="Prize Pool"
                       powerTitle="Top Prize"
                       entryTitle="Entry Fee"
                       centered
                       showIcons={false}
-                      entryFee={selectedTeam?.game?.entry_fee}
+                      entryFee={selectedTeam?.entryFees}
                       currency={"USD"}
                     />
                     <RankCard
