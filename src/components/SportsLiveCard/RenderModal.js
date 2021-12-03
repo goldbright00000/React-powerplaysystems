@@ -18,7 +18,7 @@ function RenderModal(props) {
     visible = false,
     player: currentPlayer = {},
     onClose = () => {},
-    onSwap = (playerId, match_id) => {},
+    onSwap = (player, swapPlayer) => {},
     playerList = {},
     starPlayerCount = 0,
     loading = false,
@@ -178,8 +178,9 @@ function RenderModal(props) {
                     player={player}
                     btnTitle="Swap"
                     key={ind + "--"}
-                    onSelectDeselect={(playerId, match_id) =>
-                      onSwap(playerId, match_id)
+                    onSelectDeselect={(swapPlayer) =>{
+                      onSwap(currentPlayer, swapPlayer);
+                      }
                     }
                     type={selectedData?.type}
                     pageType="nhl"

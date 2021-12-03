@@ -117,7 +117,9 @@ function NHLPowerdFsLive(props) {
     live_away = {},
     period = 0,
     powersApplied = [],
+    swappedPlayers= []
   } = useSelector((state) => state.nhl);
+  
   const { user = {} } = useSelector((state) => state.auth);
   const { token = "", user_id: userID } = user || {};
   const getFantasyTeam = async () => {
@@ -142,6 +144,10 @@ function NHLPowerdFsLive(props) {
       dispatch(NHLActions.setGameLogs([]));
       //disconnect the socket
       _socket?.disconnect();
+      // dispatch({
+      //   type: NHLActions.NHL_RESET,
+      //   payload: []
+      // });
       _socket?.emit(ON_ROOM_UN_SUB);
       _socket?.on(ON_ROOM_UN_SUB, () => {
         _socket?.disconnect();
@@ -352,12 +358,12 @@ function NHLPowerdFsLive(props) {
     evaluateEventData();
   }, [live_eventData]);
   async function setPowers() {
-    let a = await dispatch(NHLActions.getUserRemainingPowers(gid, userID));
+    let a = powersAvailable;
     if (a === undefined) {
       return;
     }
 
-    let remainingPowers = a.payload;
+    let remainingPowers = a;
     let challenge = 0;
     let swap = 0;
     let point_booster = 0;
@@ -368,30 +374,30 @@ function NHLPowerdFsLive(props) {
     let retro_boost = 0;
     let power_up = 0;
     for (let i = 0; i < remainingPowers.length; i++) {
-      let rec = remainingPowers[i].fantasy_powers;
+      let rec = remainingPowers[i];
       if (rec !== undefined && rec !== null) {
-        if (rec.name === "D-Wall") {
-          dwall = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "Challenge") {
-          challenge = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "1.5x Point Booster") {
-          p15 = remainingPowers[i].remaining_amount;
+        if (rec.powerName === "D-Wall") {
+          dwall = remainingPowers[i].amount;
+        } else if (rec.powerName === "Challenge") {
+          challenge = remainingPowers[i].amount;
+        } else if (rec.powerName === "1.5x Point Booster") {
+          p15 = remainingPowers[i].amount;
           point_booster =
-            point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "2x Point Booster") {
-          p2 = remainingPowers[i].remaining_amount;
+            point_booster + parseInt(remainingPowers[i].amount);
+        } else if (rec.powerName === "2x Point Booster") {
+          p2 = remainingPowers[i].amount;
           point_booster =
-            point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "3x Point Booster") {
-          p3 = remainingPowers[i].remaining_amount;
+            point_booster + parseInt(remainingPowers[i].amount);
+        } else if (rec.powerName === "3x Point Booster") {
+          p3 = remainingPowers[i].amount;
           point_booster =
-            point_booster + parseInt(remainingPowers[i].remaining_amount);
-        } else if (rec.name === "Swap" || rec.name === "Swap Players") {
-          swap = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "Retro Boost") {
-          retro_boost = remainingPowers[i].remaining_amount;
-        } else if (rec.name === "Power-Up") {
-          power_up = remainingPowers[i].remaining_amount;
+            point_booster + parseInt(remainingPowers[i].amount);
+        } else if (rec.powerName === "Swap" || rec.powerName === "Swap Players") {
+          swap = remainingPowers[i].amount;
+        } else if (rec.powerName === "Retro Boost") {
+          retro_boost = remainingPowers[i].amount;
+        } else if (rec.powerName === "Power-Up") {
+          power_up = remainingPowers[i].amount;
         }
       }
     }
@@ -666,6 +672,7 @@ function NHLPowerdFsLive(props) {
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
+    console.log("selectedTeam", selectedTeam);
     const { team_id, user_id, game_id } = selectedTeam || {};
     setPlayerToSwap(currentPlayer);
     onPowerApplied({
@@ -675,8 +682,8 @@ function NHLPowerdFsLive(props) {
       playerId2: newPlayer.playerId,
       matchIdP2: newPlayer.match_id,
       powerId: POWER_IDs.SWAP_POWER,
-      userId: user_id,
-      gameId: game_id,
+      userId: userID,
+      gameId: gid,
     });
   };
   const setView = (viewType = CONSTANTS.NHL_VIEW.FV) => {
@@ -794,6 +801,7 @@ function NHLPowerdFsLive(props) {
                         useDwall={useDwall}
                         powers={powersAvailable == "" ? [] : powersAvailable}
                         matchEvents={matchEvents}
+                        getFantasyTeam={getFantasyTeam}
                       />
                     ) : (
                       <MyScoreCard />

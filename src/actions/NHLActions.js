@@ -18,6 +18,7 @@ export const SET_SELECTED_TEAM = "[NHL] SET_SELECTED_TEAM";
 export const NHL_FINAL_STANDINGS = "[NHL] FINAL_STANDINGS";
 export const NHL_LIVE_MATCH_EVENTS = "[NHL] LIVE_MATCH_EVENTS";
 export const NHL_LIVE_MATCH_STATUS = "[NHL] LIVE_MATCH_STATUS";
+export const NHL_RESET = "[NHL] RESET";
 
 const { FILTERS } = CONSTANTS;
 const { CENTER, XW, LW, RW, D, G, TD } = FILTERS.NHL;
@@ -268,7 +269,22 @@ export function editFantasyTeam(payload) {
     } catch (err) {}
   };
 }
-
+const getFinalLivePlayers = (live_players, swappedPlayers) => {
+  let finalList = [];
+  for(let i = 0; i < live_players.length; i++)
+  {
+    let rec = live_players[i];
+    let findPlayerInSwapped = swappedPlayers.findIndex(x => x.previousPlayerID == rec.id);
+    if(findPlayerInSwapped == -1)
+    {
+      finalList.push(rec);
+    }
+    else {
+      finalList.push(swappedPlayers.find(x => x.previousPlayerID == rec.id).newPlayerData);
+    }
+  }
+  return finalList;
+};
 export function getFantasyTeam(payload) {
   return async (dispatch) => {
     try {
@@ -286,11 +302,12 @@ export function getFantasyTeam(payload) {
         dispatch({
           type: NHL_LIVE_DATA_UPDATE,
           payload: {
-            live_players: fantasyTeam.players,
+            live_players: getFinalLivePlayers(fantasyTeam.players, (typeof fantasyTeam?.swappedPlayer !== "undefined") ? fantasyTeam.swappedPlayer : []),
             live_teamD: fantasyTeam.teamD,
             gameID: fantasyTeam.gameID,
             powersApplied: fantasyTeam.powersApplied,
             powersAvailable: fantasyTeam.powersAvailable,
+            swappedPlayers: (typeof fantasyTeam?.swappedPlayer !== "undefined") ? fantasyTeam.swappedPlayer : []
           },
         });
       } catch (er) {
@@ -701,24 +718,22 @@ export function updateUserRemainingPowers(
   user_id,
   power_id,
   live_clock,
-  player_id = "42cd5bc5-0f24-11e2-8525-18a905767e44"
+  player_id
 ) {
   return async (dispatch) => {
     try {
+      const time = moment().format("YYYY-MM-DD HH:mm:ss");
       const response = await http.post(
         `https://nhl.powerplaysystems.com/api/v1/services/fantasy/fantasyPowerApplied`,
         {
           gameID: game_id,
           userID: user_id,
           powerApplied: power_id,
-          timeApplied: live_clock,
+          timeApplied: time,
           playerID: player_id,
         }
       );
-      return dispatch({
-        type: "userPowers",
-        payload: response.data,
-      });
+      return response;
     } catch (err) {
       console.log(err);
     }
@@ -743,3 +758,9 @@ export function setNhlData(payload) {
 export function starPlayerCount(payload) {
   return (dispatch) => dispatch({ type: NHL_STAR_PLAYER_COUNT, payload });
 }
+
+export const swapPlayer = async (payload) => {
+  console.log(payload);
+  const response = await http.post('https://nhl.powerplaysystems.com/api/v1/services/fantasy/swapFantasyPlayer', payload);
+  return response;
+};
