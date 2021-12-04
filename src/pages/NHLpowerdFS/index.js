@@ -811,8 +811,9 @@ function NHLPowerdFs(props) {
         userID: user_id,
         gameID: game_id,
         players: [...players],
-        powers: "",
+        powers: [],
         teamD: team,
+        user_display_name:user.display_name
       };
       console.log("payload: ", payload);
       if (isEdit) {
@@ -821,7 +822,7 @@ function NHLPowerdFs(props) {
         setIsLoading(false);
       } else {
         await dispatch(NHLActions.saveAndGetSelectPlayers(payload1));
-        await dispatch(NHLActions.createFantasyTeam(payload1));
+        await dispatch(NHLActions.createFantasyTeam(payload));
 
         if (isPaid || isPaid === null) {
           if (currency !== "PWRS") {
