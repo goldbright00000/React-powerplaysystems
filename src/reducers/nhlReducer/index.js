@@ -42,6 +42,7 @@ const INITIAL_STATE = {
   match_status: [],
   // Rankings/Standings
   liveStandings: [],
+  swappedPlayers: []
 };
 
 const nhlReducer = (state = INITIAL_STATE, actions) => {
@@ -118,6 +119,9 @@ const nhlReducer = (state = INITIAL_STATE, actions) => {
         ...state,
         live_match_events: actions.payload
       };
+    
+    case Actions.NHL_RESET:
+      return INITIAL_STATE;
 
     default:
       return state;

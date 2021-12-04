@@ -211,6 +211,28 @@ function SportsLiveCard(props) {
     current_inning_half = null,
   } = boxscore[0] || {};
 
+//   function startTimer(duration, display) {
+//     var timer = duration, minutes, seconds;
+//     var a = setInterval(function () {
+//         minutes = parseInt(timer / 60, 10);
+//         seconds = parseInt(timer % 60, 10);
+
+//         minutes = minutes < 10 ? "0" + minutes : minutes;
+//         seconds = seconds < 10 ? "0" + seconds : seconds;
+
+//         display.textContent = minutes + ":" + seconds;
+//         setShowTimerText("D-Wall • " + minutes + ":" + seconds);
+
+//         if (--timer < 0) {
+//             clearInterval(a);
+//             setShowTimer(false);
+//             setIsDwallActive(false);
+//             setShowTimerText("");
+//             return;
+//         }
+//     }, 1000);
+// }
+
   useEffect(() => {
     if (boxscore?.length) {
       setIsMatchOver(false);
@@ -417,7 +439,10 @@ function SportsLiveCard(props) {
     return locked;
   }
 
-  const onSwap = (playerId, match_id) => {
+  const onSwap = async (player,swapPlayer) => {
+    console.log("onSwap", player, swapPlayer);
+    
+    // console.log("swapResponse", swapResponse);
     // console.log("props.swapCount", props.swapCount);
     if (props.swapCount === 0) {
       alert("You cannot swap the players.");
@@ -427,14 +452,27 @@ function SportsLiveCard(props) {
       !isEmpty(playerList) &&
       playerList?.listData?.length &&
       playerList?.listData?.filter(
-        (player) =>
-          player?.playerId === playerId && player?.match_id === match_id
+        (player1) =>
+          player1?.id === swapPlayer?.id && player1?.match?.id === swapPlayer?.match?.id
       );
 
+
     if (swapablePlayer) {
-      updateReduxState(data, swapablePlayer);
-      toggleReplaceModal();
-      props.useSwap(true);
+      let payload = {
+        gameID: gameID,
+        userID: localStorage.getItem('PERSONA_USER_ID'),
+        playerID: player?.id,
+        swapPlayerID: swapPlayer?.id,
+        period: live_period,
+        timeApplied: live_clock
+      }
+      let swapResponse = await nhlActions.swapPlayer(payload);
+      if(swapResponse.status == 200) {
+        updateReduxState(player, swapablePlayer);
+        closeRenderModal();
+        props.getFantasyTeam();
+        //props.useSwap(player, true);
+      }
     }
   };
 
@@ -570,19 +608,19 @@ function SportsLiveCard(props) {
   const renderXp = () => {
     let svgSize = singleView ? 14 : largeView ? 30 : 30;
     if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
-      return <XP1_5_1 className={classes.xp_svg} size={svgSize} />;
+      return <><XP1_5_1 className={classes.xp_svg} size={svgSize} /></>;
     else if (xp && xp?.xp === CONSTANTS.XP.xp2)
       return <XP2Icon_1 className={classes.xp_svg} size={svgSize} />;
     else if (xp && xp?.xp === CONSTANTS.XP.xp3)
       return <XP3_1 className={classes.xp_svg} size={svgSize} />;
 
     if (!singleView && cardType !== CardType.NHL) {
-      return <XPIcon size={svgSize} />;
+      return <><div id="times" style={{width: "100%", color: "#8cc2ff"}}>&nbsp;</div><XPIcon size={svgSize} /></>;
     } else if (!singleView && cardType === CardType.NHL) {
       if (type === "G") {
         return <ShieldIcon size={svgSize} />;
       } else {
-        return <XPIcon size={svgSize} />;
+        return <><div id="times" style={{fontSize:13, fontWeight: 300}}>&nbsp;</div><XPIcon size={svgSize} /></>;
       }
     }
 
@@ -1173,7 +1211,7 @@ function SportsLiveCard(props) {
             style={{
               position: "absolute",
               right: 8,
-              top: "50%",
+              top: "35%",
               transform: "translate(0, -36%)",
               zIndex: 1,
             }}

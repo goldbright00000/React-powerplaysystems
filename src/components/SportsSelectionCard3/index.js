@@ -239,7 +239,13 @@ function SportsSelectionCard3(props) {
           <button
             onClick={() => {
               if (pageType === PAGE_TYPES.NHL) {
-                onSelectDeselect(id, match_id);
+                if(btnTitle == "Swap" || btnTitle == "swap")
+                {
+                  onSelectDeselect(player);
+                }
+                else {
+                  onSelectDeselect(id, match_id);
+                }
               } else {
                 onSelectDeselect(playerId, match_id);
               }

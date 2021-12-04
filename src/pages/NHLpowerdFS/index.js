@@ -419,7 +419,7 @@ function NHLPowerdFs(props) {
 
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
-      //if (loading) return;
+     // if (loading) return;
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
