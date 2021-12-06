@@ -1592,6 +1592,7 @@ function SportsLiveCard(props) {
         starPlayerCount={starPlayerCount}
         loading={loadingPlayerList}
         dataMain={dataMain}
+        pageType="nhl"
       />
     </>
   );
