@@ -1,4 +1,4 @@
-@import "../../scss/colors.scss";
+@import '../../scss/colors.scss';
 
 :root {
   --font-size-24: 24px;
@@ -815,10 +815,10 @@
       }
 
       .teamB {
-        color: $grey2;
+        color: #688fbd;
+        font-weight: 600;
         font-size: var(--font-size-14);
-        font-weight: normal;
-        opacity: 0.8;
+        opacity: 1;
       }
     }
 

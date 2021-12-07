@@ -237,17 +237,17 @@ export function createFantasyTeam(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          if (!payload.game_id || !payload.sport_id || !payload.user_id) {
+          if (!payload.gameID || !payload?.sport_id || !payload.userID) {
             return alert(
               "Invalid informations",
               payload.game_id,
-              payload.user_id,
+              payload.userId,
               payload.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
@@ -265,7 +265,7 @@ export function editFantasyTeam(payload) {
         type: NHL_USER_EDITED_GAMES,
         payload: data?.data,
       });
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
@@ -475,17 +475,17 @@ export function saveAndGetSelectPlayers(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          if (!payload.game_id || !payload.sport_id || !payload.user_id) {
+          if (!payload.gameID || !payload?.sport_id || !payload.userId) {
             return alert(
               "Invalid informations",
-              payload.game_id,
-              payload.user_id,
-              payload.sport_id
+              payload.gameID,
+              payload.userId,
+              payload?.sport_id
             );
           }
-        } catch (er) {}
+        } catch (er) { }
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 }
 
