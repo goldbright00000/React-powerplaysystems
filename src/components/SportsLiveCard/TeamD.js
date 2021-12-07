@@ -80,7 +80,7 @@ function SportsLiveCardTeamD(props) {
     points = 0,
     status = "inprogress",
   } = stats || {};
-  const { live_clock = "20:00", live_period = live_period + 1 } = useSelector(
+  const { live_clock = "20:00", live_period } = useSelector(
     (state) => state.nhl
   );
 

@@ -130,7 +130,8 @@ function SportsLiveCard(props) {
     current_team = "",
     player_id = "",
     match_stats = [],
-    id:pid = ""
+    id:pid = "",
+    status = ""
   } = data || {};
 
   const {
@@ -171,7 +172,6 @@ function SportsLiveCard(props) {
     shotsAgainst = 0,
     goalsAgainst = 0,
     points = 0,
-    status: playerStatus = "inprogress",
   } = stats || {};
 
   const {
@@ -189,7 +189,6 @@ function SportsLiveCard(props) {
   const {
     away: away_team = {},
     home: home_team = {},
-    status = "",
     boxscore = [],
     scheduled = "",
     last_updated = "",
@@ -463,6 +462,7 @@ function SportsLiveCard(props) {
         userID: localStorage.getItem('PERSONA_USER_ID'),
         playerID: player?.id,
         swapPlayerID: swapPlayer?.id,
+        swapPlayerPositionID: player?.fantasyPlayerPosition + player?.positionID,
         period: live_period,
         timeApplied: live_clock
       }
@@ -502,7 +502,7 @@ function SportsLiveCard(props) {
         let a = getMatchStatusDetails[getMatchStatusDetails.length - 1];
         return a?.status;
       }
-      return playerStatus;
+      return status;
     }
     // if (
     //   `${status}`?.toLocaleLowerCase() === "closed" ||

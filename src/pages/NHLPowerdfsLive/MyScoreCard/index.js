@@ -17,6 +17,7 @@ import NHLGear from "../../../assets/nhl-gear.png";
 import LiveStandings from "../../../components/LiveStandings";
 import { redirectTo } from "../../../utility/shared";
 let tempCounter = 0;
+let lasPos = "";
 export default function MyScoreCard() {
   const { live_team_logs } = useSelector((state) => state.nhl);
   useEffect(() => {
@@ -105,13 +106,8 @@ export default function MyScoreCard() {
 
       <div className={classes.card_body}>
         {live_team_logs?.teamLogs?.map((item, index1) => {
-          if(index1 == 0) {
-            tempCounter = 0;
-          }
-          else {
-            tempCounter += live_team_logs?.teamLogs[index1-1]?.fantasyLog?.playerPts;
-          }
           let poss = "P1";
+          
           let allPositionPoints = item?.positionPoints;
           for(const key in allPositionPoints) {
             if(allPositionPoints[key] !== 0) {
@@ -129,11 +125,23 @@ export default function MyScoreCard() {
               }
             }
           }
+          if(index1 == 0) {
+            tempCounter = 0;
+          }
+          else {
+            if(lasPos == "TD") {
+              tempCounter += live_team_logs?.teamLogs[index1-1]?.fantasyLog?.homeTeamD;
+            }
+            else {
+              tempCounter += live_team_logs?.teamLogs[index1-1]?.fantasyLog?.playerPts;
+            }
+          }
+          lasPos = poss;
           return (
             <>
               <Row
                   position={poss}
-                  name={item?.fantasyLog?.player?.full_name}
+                  name={poss == "TD" ? item?.fantasyLog?.team.name :item?.fantasyLog?.player?.full_name}
                   time={`P${item?.period + 1} | ${item?.clock}`}
                   plays={
                     item?.fantasyLog?.type === "shotagainst" && item?.fantasyLog?.saved == true
@@ -144,11 +152,11 @@ export default function MyScoreCard() {
                       ? "GA"
                       : item?.fantasyLog?.type[0]
                   }
-                  pts={item?.fantasyLog?.playerPts}
+                  pts={poss == "TD" ? item?.fantasyLog?.homeTeamD : item?.fantasyLog?.playerPts}
                   totalPts="8"
                   powers="-"
-                  score={item?.fantasyLog?.playerPts}
-                  runningTotal={item?.fantasyLog?.playerPts + tempCounter}
+                  score={poss == "TD" ? item?.fantasyLog?.homeTeamD : item?.fantasyLog?.playerPts}
+                  runningTotal={poss == "TD" ? (item?.fantasyLog?.homeTeamD+tempCounter) : (item?.fantasyLog?.playerPts+tempCounter)}
                 />
             </>
           );

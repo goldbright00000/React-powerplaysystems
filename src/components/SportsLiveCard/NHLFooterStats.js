@@ -53,7 +53,7 @@ function NHLFooterStats(props) {
   const { home, away } = match || {};
 
   //TeamD Details
-  const { name = "", teamB = {}, alias = "" } = teamD || {};
+  const { name = "", teamB = {}, alias = "", match: teamDMatch = {} } = teamD || {};
   const {
     live_clock = "20:00",
     live_period = 0,
@@ -67,7 +67,7 @@ function NHLFooterStats(props) {
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
           <p>{alias} vs</p>
-          <p className="bold_text"> {teamB.alias}</p>
+          <p className="bold_text">{teamDMatch?.away?.alias == alias ? teamDMatch?.home?.alias : teamDMatch?.away?.alias}</p>
         </div>
       ) : (
         <div className="footer_stats_row">
@@ -93,7 +93,7 @@ function NHLFooterStats(props) {
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
         <p>
-          P{getTeamPoints1(match?.id) !== false ? (getTeamPoints1(match?.id)?.period + 1) : (live_period + 1)} | {getTeamPoints1(match?.id) !== false ? getTeamPoints1(match?.id)?.eventData?.clock : live_clock}
+          P{getTeamPoints1(match?.id) !== false ? (getTeamPoints1(match?.id)?.period) : (live_period)} | {getTeamPoints1(match?.id) !== false ? getTeamPoints1(match?.id)?.eventData?.clock : live_clock}
         </p>
       </div>
       <div className="footer_stats_row">
