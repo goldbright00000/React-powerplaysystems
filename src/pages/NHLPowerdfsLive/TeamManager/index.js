@@ -61,9 +61,9 @@ export default function TeamManager(props) {
     powersApplied = [],
     powersAvailable = "",
     selectedTeam = {},
-    live_clock = "20:00"
+    live_clock = "20:00",
+    swappedPlayers=[]
   } = useSelector((state) => state.nhl);
-
   const { user = {} } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   //const selectedTeam = getTeamFromLocalStorage();
@@ -76,6 +76,7 @@ export default function TeamManager(props) {
 
     return decSelectedTeamData;
   }
+ 
   const {
     game_id: gameId = "",
     user_id: userId = "",
@@ -88,7 +89,7 @@ export default function TeamManager(props) {
     const _selectedXp = {
       xp,
     };
-    const current_match_id = selectedTeam.players[0].match_id;
+    const current_match_id = player?.match?.id;
     if (xp === CONSTANTS.XP.xp1_5) _selectedXp.xpVal = "1.5x";
     else if (xp === CONSTANTS.XP.xp2) _selectedXp.xpVal = "2x";
     else if (xp === CONSTANTS.XP.xp3) _selectedXp.xpVal = "3x";
@@ -110,44 +111,46 @@ export default function TeamManager(props) {
       // let requests = await dispatch(
       //   NHLActions.updateUserRemainingPowers(gameId, userId, power)
       // );
-      const current_match_id = selectedTeam.players[0].match_id;
+      //const current_match_id = selectedTeam.players[0].match_id;
       let requests = await dispatch(
-        NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, power, live_clock, live_teamD?.id)
+        NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, _selectedXp.xpVal, live_clock, live_teamD?.id)
       );
+      console.log("requests", requests);
       // throw new Error("FOUND");
-      if (requests?.payload) {
+      if (requests?.data?.code == 200) {
         setPowers();
         onPowerApplied({
-          fantasyTeamId: selectedTeam.team_id,
+          fantasyTeamId: player?.team?.id,
           powerId: power,
           multiplier: _selectedXp.xpVal,
-          playerId: player.player_id,
+          playerId: player?.id,
           matchId: current_match_id,
-          userId: userId,
-          gameId: gameId,
+          userId: selectedTeam?.userID,
+          gameId: gameID,
         });
+        return dispatch(NHLActions.nhlLiveData(live_players));
       } else {
         alert(
           "We are experiencing technical issues with the Power functionality. Please try again shortly."
         );
       }
-      return dispatch(NHLActions.nhlLiveData(live_players));
+      
     }
   };
 
   const updateReduxState = (currentPlayer, newPlayer) => {
     if (!currentPlayer || !newPlayer) return;
-    const { team_id, user_id, game_id } = selectedTeam || {};
+    const { userID, gameID } = selectedTeam || {};
     setPlayerToSwap(currentPlayer);
     onPowerApplied({
-      fantasyTeamId: team_id,
-      matchId: currentPlayer.match_id,
-      playerId: currentPlayer.player_id,
-      playerId2: newPlayer.playerId,
-      matchIdP2: newPlayer.match_id,
+      fantasyTeamId: currentPlayer?.team?.id,
+      matchId: currentPlayer.match?.id,
+      playerId: currentPlayer.id,
+      playerId2: newPlayer.id,
+      matchIdP2: newPlayer?.match?.i,
       powerId: POWER_IDs.SWAP_POWER,
-      userId: user_id,
-      gameId: game_id,
+      userId: userID,
+      gameId: gameID,
     });
   };
 
@@ -197,23 +200,23 @@ export default function TeamManager(props) {
     }
   }
 
-  async function useSwap(action) {
+  async function useSwap(currentPlayer,action) {
     if (action) {
       // let requests = await dispatch(
       //   NHLActions.updateUserRemainingPowers(gameId, userId, 4)
       // );
-      const current_match_id = selectedTeam.players[0].match_id;
+      const current_match_id = currentPlayer?.match?.id;
       let requests = await dispatch(
         NHLActions.updateUserRemainingPowers(selectedTeam?.gameID, selectedTeam?.userID, 4, live_clock, live_teamD?.id)
       );
       if (requests?.payload) {
         setPowers();
         onPowerApplied({
-          fantasyTeamId: selectedTeam.team_id,
+          fantasyTeamId: currentPlayer?.team?.id,
           matchId: current_match_id,
           powerId: 4,
-          userId: userId,
-          gameId: game_id,
+          userId: selectedTeam?.userID,
+          gameId: selectedTeam?.gameID,
         });
       } else {
         alert(
@@ -398,6 +401,7 @@ export default function TeamManager(props) {
                     pointMultiplierCounts,
                   }}
                   matchEvents={matchEvents}
+                  getFantasyTeam={props.getFantasyTeam}
                 />
               ))}
 

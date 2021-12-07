@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {useSelector} from 'react-redux';
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 import classes from "./index.module.scss";
@@ -15,10 +16,13 @@ function RenderModal(props) {
   const [filteredData, setFilteredData] = useState([]);
   const [filterString, setFilterString] = useState("");
   const {
+    live_players = []
+  } = useSelector(state => state.nhl)
+  const {
     visible = false,
     player: currentPlayer = {},
     onClose = () => {},
-    onSwap = (playerId, match_id) => {},
+    onSwap = (player, swapPlayer) => {},
     playerList = {},
     starPlayerCount = 0,
     loading = false,
@@ -29,9 +33,20 @@ function RenderModal(props) {
   } = dataMain;
   useEffect(() => {
     if (loading) return;
-    if(playerList)
-    setSelectedData(playerList);
-  }, [loading]);
+    if(playerList){
+      let old = playerList?.listData;
+      if(old !== undefined) {
+        old = playerList?.listData.filter(x => {
+          if(live_players.findIndex(y => y.id == x.id) == -1)
+          {
+            return x;
+          }
+        });
+        playerList['listData'] = old;
+      }
+      setSelectedData(playerList);
+    }
+  }, [loading, playerList]);
 
   // Similar to componentDidMount and componentDidUpdate:
   // useEffect(() => {
@@ -53,7 +68,7 @@ function RenderModal(props) {
     if (!isEmpty(value)) {
       setFilterString(value);
       const _filterdData = playerList?.listData?.filter((data) => {
-        if (data?.league?.name == "NHL") {
+        if (props?.pageType == "nhl") {
           return data?.full_name
             ?.toLocaleLowerCase()
             ?.startsWith(value?.toLocaleLowerCase());
@@ -64,7 +79,7 @@ function RenderModal(props) {
         }
       });
       const _filterdDataHomeTeam = playerList?.listData?.filter((data) => {
-        if (data?.league?.name == "NHL") {
+        if (props?.pageType == "nhl") {
           return data?.match?.home?.name
             ?.toLocaleLowerCase()
             ?.startsWith(value?.toLocaleLowerCase());
@@ -77,7 +92,7 @@ function RenderModal(props) {
       var tempObj = [];
       var tempIds = [];
       for (var i = 0; i < _filterdData.length; i++) {
-        if (_filterdData[i]?.league?.name == "NHL") {
+        if (props?.pageType == "nhl") {
           var id = _filterdData[i].id;
         } else {
           var id = _filterdData[i].playerId;
@@ -88,7 +103,7 @@ function RenderModal(props) {
         }
       }
       for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
-        if (_filterdDataHomeTeam[i]?.league?.name == "NHL") {
+        if (props?.pageType == "nhl") {
           var id = _filterdDataHomeTeam[i].id;
         } else {
           var id = _filterdDataHomeTeam[i].playerId;
@@ -178,8 +193,9 @@ function RenderModal(props) {
                     player={player}
                     btnTitle="Swap"
                     key={ind + "--"}
-                    onSelectDeselect={(playerId, match_id) =>
-                      onSwap(playerId, match_id)
+                    onSelectDeselect={(swapPlayer) =>{
+                      onSwap(currentPlayer, swapPlayer);
+                      }
                     }
                     type={selectedData?.type}
                     pageType="nhl"
