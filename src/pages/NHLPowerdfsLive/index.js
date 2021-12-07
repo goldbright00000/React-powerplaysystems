@@ -496,7 +496,11 @@ function NHLPowerdFsLive(props) {
         _socket.emit("NHL_CONNECT_MATCH_ROOM", {
           gameID: gid,
         });
-        _socket.emit("EMIT_MATCH_EVENTS",{gid});
+        _socket.emit("EMIT_MATCH_EVENTS",{gameID: gid});
+      });
+
+      _socket.on("NHL_CONNECT_MATCH_ROOM", (data) => {
+        console.log("NHL_CONNECT_MATCH_ROOM", data);
       });
 
       _socket.on("ROOM_CONNECTED", (data) => {
