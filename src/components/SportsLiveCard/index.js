@@ -71,7 +71,9 @@ function SportsLiveCard(props) {
     live_clock = "20:00",
     live_period = 1,
     selectedTeam = {},
-    match_status = []
+    match_status = [],
+    swappedPlayers = [],
+    live_players = []
   } = useSelector((state) => state.nhl);
   const { powersAvailable = [] } = selectedTeam;
   const [tooltipOpen1, setTooltipOpen1] = useState(false);
@@ -131,7 +133,6 @@ function SportsLiveCard(props) {
     player_id = "",
     match_stats = [],
     id:pid = "",
-    status = ""
   } = data || {};
 
   const {
@@ -192,6 +193,7 @@ function SportsLiveCard(props) {
     boxscore = [],
     scheduled = "",
     last_updated = "",
+    status = "Scheduled"
   } = match || {};
 
   const {
@@ -488,6 +490,7 @@ function SportsLiveCard(props) {
   };
 
   const getStatus = () => {
+
     if (
       `${status}`?.toLocaleLowerCase() === "scheduled" &&
       moment().diff(moment(scheduled).format()) < 0
