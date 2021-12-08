@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { isEmpty } from "lodash";
 
@@ -7,7 +7,8 @@ import Modal from "../Modal";
 import { setNumberComma } from "../../utility/shared";
 import SearchInput from "../SearchInput";
 import CloseIcon from "../../icons/Close";
-
+import TeamPointsModal from '../../pages/MyGameCenter/TeamPointsModal';
+import { useSelector } from "react-redux";
 const dummyData = [
   {
     id: 1,
@@ -72,7 +73,7 @@ const dummyData = [
 ];
 
 function LiveStandings(props) {
-  const { visible = false, onClose = () => {}, isMobile = false } = props || {};
+  const { visible = false, onClose = () => { }, isMobile = false } = props || {};
   const getCurrentTime = () => {
     const dd = new Date();
     const month = [
@@ -102,10 +103,30 @@ function LiveStandings(props) {
       " ET"
     );
   };
-  const [filteredData, setFilteredData] = useState(
-    props?.liveStandingData || []
-  );
+  const [filteredData, setFilteredData] = useState([]);
   const [filteredString, setFilteredString] = useState("");
+  const [teamPointsModal, setTeamPointsModal] = useState(false);
+
+  const { user_id } = useSelector((state) => state.auth.user);
+
+  useEffect(() => {
+
+    const obj = props.liveStandingData;
+
+    if (!!obj && obj.length > 0) {
+      obj.forEach((item, index) => {
+        if (!!item._id) {
+          if (item._id.userID === user_id) {
+            if (index !== 0) {
+              obj.unshift(item);
+              obj.splice(index + 1, 1);
+            }
+          }
+        }
+      })
+    }
+    setFilteredData(obj);
+  }, [props?.liveStandingData])
 
   const onSearch = (e) => {
     const { value } = e?.target || {};
@@ -128,29 +149,45 @@ function LiveStandings(props) {
       setFilteredData([]);
     }
   };
+  const handleViewTeam = () => {
+    setTeamPointsModal(true);
+  }
 
   const Row = (item, ind) => (
-    <div className={`${classes.table_row} ${ind == 0 && classes.active}`}>
-      <span>{item?.rank}</span>
-      <span>{item?._id?.user_display_name}</span>
-      <span>{item?.totalValue}</span>
-      <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
-      <span>
-        {ind !== 0 && (
-          <button className={classes.button_btn}>
-            {isMobile ? "Team" : "View Team"}
-          </button>
-        )}
-      </span>
-    </div>
+    <>
+      <div className={`${classes.table_row} ${ind == 0 && classes.active}`}>
+        <span>{item?.rank}</span>
+        <span>{item?._id?.user_display_name}</span>
+        <span>{item?.totalValue}</span>
+        <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
+        <span>
+          {ind !== 0 && (
+            <button className={classes.button_btn} onClick={handleViewTeam}>
+              {isMobile ? "Team" : "View1 Team"}
+            </button>
+          )}
+          {
+            teamPointsModal
+            &&
+
+            <TeamPointsModal
+              isVisible={teamPointsModal}
+              onClose={() => setTeamPointsModal(false)}
+              item={item}
+              gameId={item._id.gameID}
+              userId={item._id.userID}
+            />
+          }
+        </span>
+      </div>
+    </>
   );
 
   return (
     <Modal visible={visible} onClose={onClose} iconStyle={{ display: "none" }}>
       <div
-        className={`${classes.container} ${
-          isMobile ? classes.mobileContainer : ""
-        }`}
+        className={`${classes.container} ${isMobile ? classes.mobileContainer : ""
+          }`}
       >
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
@@ -201,7 +238,7 @@ function LiveStandings(props) {
           </div>
         </div>
       </div>
-    </Modal>
+    </Modal >
   );
 }
 
