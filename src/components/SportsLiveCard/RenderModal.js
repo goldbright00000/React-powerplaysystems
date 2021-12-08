@@ -9,7 +9,8 @@ import PowerPlayIcon from "../../assets/star.svg";
 import StarPlayer from "../StarPlayersCheck";
 import Search from "../SearchInput";
 import SportsSelectionCard3 from "../SportsSelectionCard3";
-
+import MiniStar from "../../assets/mini_star.png";
+import switch1 from "../../assets/switch.svg";
 function RenderModal(props) {
   const [replaceData, setReplaceData] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
@@ -159,7 +160,7 @@ function RenderModal(props) {
             <div className={classes.header_left}>
               <p>Choose player to replace</p>
               <p className={classes.header_player_name}>
-                {currentPlayer?.is_starPlayer && <img src={PowerPlayIcon} />}
+                {currentPlayer?.is_starPlayer && <img src={MiniStar} />}
                 {typeof currentPlayer.name !== "undefined"
                   ? currentPlayer.name
                   : currentPlayer.full_name}
@@ -168,6 +169,7 @@ function RenderModal(props) {
             <Search
               placeholder={"Search by player or team name..."}
               onSearch={onSearch}
+              setStyle={{width: "auto"}}
             />
           </div>
 
@@ -200,6 +202,7 @@ function RenderModal(props) {
                     type={selectedData?.type}
                     pageType="nhl"
                     showArrow={false}
+                    btnIcon={(<img src={switch1} />)}
                   /> : null
                 )
               )

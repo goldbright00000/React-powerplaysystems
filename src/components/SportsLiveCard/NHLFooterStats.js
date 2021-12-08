@@ -66,8 +66,9 @@ function NHLFooterStats(props) {
       {isTeamD ? (
         <div className="footer_stats_row">
           <img src={HockeyIcon} alt="Hockey Icon" width={12} height={12} />
-          <p>{alias} vs</p>
-          <p className="bold_text">{teamDMatch?.away?.alias == alias ? teamDMatch?.home?.alias : teamDMatch?.away?.alias}</p>
+          {}
+          <p className={alias == teamDMatch?.away?.alias ? "bold_text" : ""}>{teamDMatch?.away?.alias} vs</p>
+          <p className={alias == teamDMatch?.home?.alias ? "bold_text" : ""}>{teamDMatch?.home?.alias}</p>
         </div>
       ) : (
         <div className="footer_stats_row">

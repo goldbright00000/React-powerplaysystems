@@ -74,6 +74,8 @@
       }
     }
 
+    
+
     button {
       background-color: $lightBlack6;
       border: none;
@@ -87,6 +89,21 @@
       display: flex;
       align-items: center;
       justify-content: space-evenly;
+
+      width: 84px;
+      height: 28px;
+      /* margin: 2px 0 85px 75px; */
+      padding: 5px 16px 6px;
+      border-radius: 8px;
+      background-color: #688fbd;
+      font-family: Poppins;
+      font-size: 12px;
+      font-weight: 600;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: normal;
+      letter-spacing: normal;
+      color: #111;
 
       &:hover {
         cursor: pointer;
@@ -1129,8 +1146,8 @@
       button {
         font-size: var(--font-size-10);
         font-weight: 500;
-        width: 74px;
-        height: 24px;
+        width: 84px;
+        height: 28px;
       }
 
       .container_selected {
@@ -1303,10 +1320,12 @@
       }
 
       button {
-        font-size: var(--font-size-10);
-        font-weight: 500;
-        width: 74px;
-        height: 24px;
+        font-size: var(--font-size-12);
+        font-weight: 600;
+        width: 84px;
+        height: 28px;
+        font-family: Poppins;
+        color: #111;
       }
 
       .container_selected {
@@ -1579,7 +1598,6 @@
         .container_body_footer {
           padding: 0;
           margin: 0;
-
           span {
             font-size: var(--font-size-12);
 
@@ -2004,5 +2022,54 @@
         margin-right: 2px;
       }
     }
+  }
+}
+.swap_div {
+  font-family: Poppins;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #688fbd;
+  display: flex;
+  .swap_span_first{
+    font-family: Poppins;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #688fbd !important;
+    padding-right: 8px;
+    opacity: 1 !important;
+  }
+  .swap_span_second {
+    padding-left: 10px;
+    font-family: Poppins;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #688fbd !important;
+    padding-right: 8px;
+    opacity: 1 !important;
+  }
+  .swap_span_last {
+    padding-left: 10px;
+    font-family: Poppins;
+    font-size: 14px !important;
+    font-weight: normal !important;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #688fbd !important;
+    padding-right: 8px;
+    opacity: 1 !important;
   }
 }
