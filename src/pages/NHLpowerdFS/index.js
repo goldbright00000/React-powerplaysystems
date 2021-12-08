@@ -675,17 +675,19 @@ function NHLPowerdFs(props) {
           }
         }
       } else {
+        console.log("selectedData", selectedData);
+        if(selectedData == null)
+        {
+          return;
+        }
         var _filterdData = selectedData?.listData?.filter(
           (player) =>
-            player?.first_name
-              ?.toLocaleLowerCase()
-              ?.startsWith(value?.toLocaleLowerCase()) ||
-            player?.last_name
+            player?.full_name
               ?.toLocaleLowerCase()
               ?.startsWith(value?.toLocaleLowerCase())
         );
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
-          player?.team?.market
+          player?.match?.home?.name
             ?.toLocaleLowerCase()
             ?.includes(value?.toLocaleLowerCase())
         );
