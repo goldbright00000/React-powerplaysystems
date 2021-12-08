@@ -4,7 +4,7 @@ const StandingBanner = (props) => {
   return (
     <div className="bannerWrapper">
       <h2>Live Standings</h2>
-      <p>{props?.getCurrentTime()}</p>
+      <p>{`${props?.getCurrentTime()} ET`}</p>
     </div>
   );
 };

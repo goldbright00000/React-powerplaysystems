@@ -77,6 +77,7 @@ const GetUserInfoPage = (props) => {
     username: props.location.state.username,
     email: props.location.state.email,
     password: props.location.state.password,
+    country: "Canada",
   });
   const [countries, setCountries] = useState([]);
 
