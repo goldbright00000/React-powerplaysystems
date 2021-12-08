@@ -9,6 +9,8 @@ import SearchInput from "../SearchInput";
 import CloseIcon from "../../icons/Close";
 import TeamPointsModal from '../../pages/MyGameCenter/TeamPointsModal';
 import { useSelector } from "react-redux";
+import moment from "moment-timezone";
+
 const dummyData = [
   {
     id: 1,
@@ -75,6 +77,11 @@ const dummyData = [
 function LiveStandings(props) {
   const { visible = false, onClose = () => { }, isMobile = false } = props || {};
   const getCurrentTime = () => {
+
+    const offset = moment?.tz("America/New_York")?.format("Z");
+
+    return moment(moment().format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm");
+
     const dd = new Date();
     const month = [
       "Jan",
@@ -193,7 +200,7 @@ function LiveStandings(props) {
         <div className={classes.header}>
           <div className={classes.topHeadingLeft}>
             <p className={classes.header_p}>Live Standings</p>
-            <span>{getCurrentTime()}</span>
+            <span>{`${getCurrentTime()} ET`}</span>
           </div>
 
           <div className={classes.header_right}>

@@ -6,9 +6,16 @@ import LiveMatch from "../../components/mobilecomponents/LiveMatch/LiveMatch";
 import * as CryptoJS from "crypto-js";
 import { getLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
+import moment from "moment-timezone";
+
 import "./mainStyle.scss";
 const LiveStanding = () => {
   const getCurrentTime = () => {
+
+    const offset = moment?.tz("America/New_York")?.format("Z");
+
+    return moment(moment().format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm");
+
     const dd = new Date();
     const month = [
       "Jan",
@@ -51,11 +58,11 @@ const LiveStanding = () => {
       <Header />
 
       <div className="standingWrapper">
-        <StandingBanner getCurrentTime={getCurrentTime}/>
+        <StandingBanner getCurrentTime={getCurrentTime} />
         <PrizePool />
       </div>
 
-      <LiveMatch/>
+      <LiveMatch />
     </section>
   );
 };
