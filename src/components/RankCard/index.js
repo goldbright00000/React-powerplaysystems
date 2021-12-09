@@ -25,6 +25,19 @@ function RankCard(props) {
   const { ranking = 0, score = 0, game_id = 0, team_id = 0 } = ranks || {};
 
   const { gameID, liveStandings = [] } = useSelector((state) => state.nhl);
+  const { user_id } = useSelector((state) => state.auth.user);
+
+  React.useEffect(() => {
+    if(liveStandings.length > 0) {
+      liveStandings.forEach(element => {
+        if(element._id.userID == user_id) {
+          setCurrentRank(element.rank);
+          setLeader(element.totalValue);
+          setCurrentWinnings(element.prize);
+        }
+      });
+    }
+  }, []);
 
   React.useEffect(() => {
     if (gameID) {
