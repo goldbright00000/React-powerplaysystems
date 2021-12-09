@@ -26,6 +26,8 @@ import PrizeModal from "../../components/PrizeModal";
 import LiveStandings from "../../components/LiveStandings";
 import MyScoreCard from "./MyScoreCard";
 import TeamManager from "./TeamManager";
+import RightPrizeBlock from "../../components/RightPrizeBlock";
+import RightRankBox from "../../components/RightRankBox";
 
 const { CENTER, XW, D, G, TD } = CONSTANTS.FILTERS.NHL;
 const {
@@ -837,30 +839,40 @@ function NHLPowerdFsLive(props) {
 
                 <div className={classes.sidebar_container}>
                   <Sidebar>
-                    <CashPowerBalance
-                      entryFee={entry_fee}
-                      currency={currency}
-                      powerBalance={topPrize}
-                      cashBalance={prizePool}
-                      styles={{
-                        width: "100%",
-                        marginTop: "-40px",
-                      }}
-                      cashTitle="Prize Pool"
-                      powerTitle="Top Prize"
-                      entryTitle="Entry Fee"
-                      centered
-                      showIcons={false}
-                      entryFee={selectedTeam?.entryFees}
-                      currency={"USD"}
-                    />
-                    <RankCard
-                      ranks={ranks}
-                      currentWin={100000}
-                      onClickStandings={onClickStandings}
-                      prizePool={prizePool}
-                      {...props}
-                    />
+                    {gameType == "PowerdFs_challenge" ? (
+                      <>
+                        <RightPrizeBlock targetPrize={100000}/>
+                        <RightRankBox />
+                      </>
+                    ) : (
+                      <>
+                        <CashPowerBalance
+                          entryFee={entry_fee}
+                          currency={currency}
+                          powerBalance={topPrize}
+                          cashBalance={prizePool}
+                          styles={{
+                            width: "100%",
+                            marginTop: "-40px",
+                          }}
+                          cashTitle="Prize Pool"
+                          powerTitle="Top Prize"
+                          entryTitle="Entry Fee"
+                          centered
+                          showIcons={false}
+                          entryFee={selectedTeam?.entryFees}
+                          currency={"USD"}
+                        /> 
+                        <RankCard
+                          ranks={ranks}
+                          currentWin={100000}
+                          onClickStandings={onClickStandings}
+                          prizePool={prizePool}
+                          {...props}
+                        />
+                      </>
+                    )}
+                    
                     <PowerSidebar
                       collapse={false}
                       swapCounts={swapCounts}

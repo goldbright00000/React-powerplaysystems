@@ -437,11 +437,11 @@ function SportsSelectionCard3(props) {
           {currentStep === 0 && (
             <div className={classes.card_footer_left}>
               <p>
-                <span className={classes.teamA} style={btnTitle == "Swap" ? {color: "#f2f2f2"} : away.name.indexOf(team.name) > -1 ? {color: "#688fbd !important"} : {color: "#f2f2f2"}}>
+                <span className={classes.teamA} style={btnTitle == "Swap" ? {color: "#f2f2f2", fontWeight: 300} : away.name.indexOf(team.name) > -1 ? {color: "#688fbd !important", fontWeight: 600} : {color: "#f2f2f2", fontWeight: 300}}>
                   {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
                 </span>{" "}
                 VS{" "}
-                <span className={classes.teamB} style={btnTitle == "Swap" ? {color: "#f2f2f2"} : home.name.indexOf(team.name) !== -1 ? {color: "#688fbd"} : {color: "#f2f2f2"}}>
+                <span className={classes.teamB} style={btnTitle == "Swap" ? {color: "#f2f2f2", fontWeight: 300} : home.name.indexOf(team.name) !== -1 ? {color: "#688fbd", fontWeight: 600} : {color: "#f2f2f2", fontWeight: 300}}>
                   {PAGE_TYPES.NHL === pageType ? home.name : homeTeam}
                 </span>{" "}
               </p>
