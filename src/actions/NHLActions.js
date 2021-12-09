@@ -280,7 +280,10 @@ const getFinalLivePlayers = (live_players, swappedPlayers) => {
       finalList.push(rec);
     }
     else {
-      finalList.push(swappedPlayers.find(x => x.previousPlayerID == rec.id).newPlayerData);
+      let a = swappedPlayers.find(x => x.previousPlayerID == rec.id).newPlayerData;
+      a["match"] = swappedPlayers.find(x => x.previousPlayerID == rec.id).match;
+      a["positionID"] = parseInt(swappedPlayers.find(x => x.previousPlayerID == rec.id).newPlayerPosition.replace( /^\D+/g, ''));
+      finalList.push(a);
     }
   }
   return finalList;
