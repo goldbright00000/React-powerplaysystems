@@ -533,7 +533,7 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.pointSystem}
           Power={item?.powersAvailable}
           PrizePayout={_.sortBy(item?.reward, "from")}
-          inProgress={getDateStringValue(item).status == 1 ? true : false}
+          inProgress={item?.gameStatus === "closed" ? false : getDateStringValue(item).status == 1 ? true : false}
           completed={item?.gameStatus === "closed" ? true : false}
           editPicks={item?.gameStatus === "Activated" ? true : false}
           currency={item?.game?.currency}
@@ -703,7 +703,7 @@ const InteractiveContests = (props) => {
               filteredData.map(function (power) {
                 if (
                   contentType === "In Progress" &&
-                  power?.gameStatus === "In-Progress"
+                  power?.gameStatus !== "closed" && getDateStringValue(power).status == 1
                 ) {
                   subFiltered.push(power);
                 } else if (
