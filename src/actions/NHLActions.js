@@ -227,28 +227,27 @@ export function getFantasyPlayers(gameID) {
   };
 }
 
-export function createFantasyTeam(payload) {
+export function createFantasyTeam(payload1) {
   return async (dispatch) => {
     try {
       const response = await http.post(
         "https://nhl.powerplaysystems.com/api/v1/services/fantasy/createTeam",
-        payload
+        payload1
       );
       const { message = "", error = false } = response.data || {};
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          if (!payload.gameID || !payload?.sport_id || !payload.userID) {
+          if (!payload1.gameID || !payload1.userID) {
             return alert(
-              "Invalid informations",
-              payload.game_id,
-              payload.userId,
-              payload.sport_id
+              "Invalid informations...",
+              payload1.game_id,
+              payload1.userId,
             );
           }
-        } catch (er) { }
+        } catch (er) { console.log('er >> ', er); }
       }
-    } catch (err) { }
+    } catch (err) { console.log('err >> ', err); }
   };
 }
 
@@ -271,12 +270,10 @@ export function editFantasyTeam(payload) {
 }
 const getFinalLivePlayers = (live_players, swappedPlayers) => {
   let finalList = [];
-  for(let i = 0; i < live_players.length; i++)
-  {
+  for (let i = 0; i < live_players.length; i++) {
     let rec = live_players[i];
     let findPlayerInSwapped = swappedPlayers.findIndex(x => x.previousPlayerID == rec.id);
-    if(findPlayerInSwapped == -1)
-    {
+    if (findPlayerInSwapped == -1) {
       finalList.push(rec);
     }
     else {
@@ -443,9 +440,9 @@ function getFilterPlayersList(filter = "", playersList = []) {
       )) ||
     [];
 
-  console.log(filter);
-  console.log(playersList);
-  console.log(list);
+  // console.log(filter);
+  // console.log(playersList);
+  // console.log(list);
 
   list.forEach((item) => {
     item.match_id = 1;
@@ -492,17 +489,17 @@ export function saveAndGetSelectPlayers(payload) {
       if (!error && message === "Success") {
         //get the live page players and save them in redux
         try {
-          if (!payload.gameID || !payload?.sport_id || !payload.userId) {
+          if (!payload.game_id || !payload.sport_id || !payload.sport_id) {
             return alert(
               "Invalid informations",
-              payload.gameID,
-              payload.userId,
+              payload.game_id,
+              payload.user_id,
               payload?.sport_id
             );
           }
-        } catch (er) { }
+        } catch (er) { console.log('1. er >> ', er); }
       }
-    } catch (err) { }
+    } catch (err) { console.log('2. err >> ', err); }
   };
 }
 
@@ -760,7 +757,6 @@ export function starPlayerCount(payload) {
 }
 
 export const swapPlayer = async (payload) => {
-  console.log(payload);
   const response = await http.post('https://nhl.powerplaysystems.com/api/v1/services/fantasy/swapFantasyPlayer', payload);
   return response;
 };
