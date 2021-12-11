@@ -102,6 +102,7 @@ function SportsSelectionCard3(props) {
     team = {},
   } = player || {};
 
+
   const { home = {}, away = {}, scheduled, venue = {} } = match || {};
 
   const { teams = [] } = seasons[seasons.length - 1] || {};
@@ -252,6 +253,19 @@ function SportsSelectionCard3(props) {
             }}
             className={disabled && classes.disabled}
             disabled={disabled}
+            style = {btnTitle !== "Swap" ? {
+              backgroundColor: "#f2f2f233",
+              border: "none",
+              color: "#a9a9a9",
+              fontSize: 12,
+              fontWeight: 600,
+              width: 84,
+              height: 28,
+              borderRadius: 4,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-evenly"
+            } : {}}
           >
             {btnIcon && btnIcon} {btnTitle || "+ Select"}
           </button>
@@ -423,19 +437,32 @@ function SportsSelectionCard3(props) {
           {currentStep === 0 && (
             <div className={classes.card_footer_left}>
               <p>
-                <span className={classes.teamA}>
+                <span className={classes.teamA} style={btnTitle == "Swap" ? {color: "#f2f2f2", fontWeight: 300} : away.name.indexOf(team.name) > -1 ? {color: "#688fbd !important", fontWeight: 600} : {color: "#f2f2f2", fontWeight: 300}}>
                   {PAGE_TYPES.NHL === pageType ? away.name : awayTeam}
                 </span>{" "}
                 VS{" "}
-                <span className={classes.teamB}>
+                <span className={classes.teamB} style={btnTitle == "Swap" ? {color: "#f2f2f2", fontWeight: 300} : home.name.indexOf(team.name) !== -1 ? {color: "#688fbd", fontWeight: 600} : {color: "#f2f2f2", fontWeight: 300}}>
                   {PAGE_TYPES.NHL === pageType ? home.name : homeTeam}
                 </span>{" "}
               </p>
 
               <div className={classes.divider}></div>
-              <p className={classes.container_body_footer}>
+              <p className={classes.container_body_footer} style={btnTitle == "Swap" ? {justifyContent: "left"} : {}}>
                 {pageType === PAGE_TYPES.NHL ? (
-                  <>
+                  btnTitle == "Swap" ? (
+                    <div className={classes.swap_div}>
+                      <span className={classes.swap_span_first}>
+                        Bot. 7
+                      </span> | 
+                      <span className={classes.swap_span_second}>
+                        2 Out
+                      </span> | 
+                      <span className={classes.swap_span_last}>
+                        {venue.name}
+                      </span>
+                    </div>
+                  ) : (
+                    <>
                     <span>
                       <ClockIcon /> {moment(scheduled).format("h:mm A")}
                     </span>
@@ -447,6 +474,7 @@ function SportsSelectionCard3(props) {
                       <StadiumIcon /> {venue.name}
                     </span>
                   </>
+                  )
                 ) : (
                   <>
                     <span>

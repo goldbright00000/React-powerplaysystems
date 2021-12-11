@@ -1087,18 +1087,31 @@
         }
 
         .header_player_name {
+          position: relative;
           display: flex;
           font-weight: 500;
           color: $primary;
-          padding: 7px 12px;
+          padding: 3px 20px;
           border-radius: 8px;
           background-color: $primaryLight5;
           margin-left: 10px;
-
+          border: 1px solid #fb6e00;
+          background: rgba(251, 110, 0, 0.1);
+          height: 34px;
+          font-family: Poppins;
+          font-size: 16px;
+          font-weight: 500 !important;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: normal;
+          letter-spacing: normal;
           img {
-            width: 22px;
-            height: 22px;
             margin-right: 3px;
+            position: absolute;
+            top: -5px;
+            left: -6px;
+            width: 30px;
+            height: 24px;
           }
         }
       }
@@ -1531,7 +1544,7 @@
 
   .modal_container {
     //width: 1137px;
-    height: 67%;
+    //height: 67%;
     padding: 38px 39px 51px 40px;
 
     .modal_header {
@@ -1605,13 +1618,16 @@
           }
 
           .header_player_name {
-            padding: 7px 12px;
+            padding: 3px 20px;
             margin-left: 10px;
 
             img {
-              width: 24px;
-              height: 24px;
               margin-right: 3px;
+              position: absolute;
+              top: -5px;
+              left: -6px;
+              width: 30px;
+              height: 24px;
             }
           }
         }
@@ -2106,13 +2122,16 @@
           }
 
           .header_player_name {
-            padding: 7px 12px;
+            padding: 3px 20px;
             margin-left: 10px;
 
             img {
-              width: 22px;
-              height: 22px;
               margin-right: 3px;
+            position: absolute;
+            top: -5px;
+            left: -6px;
+            width: 30px;
+            height: 24px;
             }
           }
         }
@@ -2207,13 +2226,16 @@
           }
 
           .header_player_name {
-            padding: 7px 12px;
+            padding: 3px 20px;
             margin-left: 10px;
 
             img {
-              width: 22px;
-              height: 22px;
               margin-right: 3px;
+            position: absolute;
+            top: -5px;
+            left: -6px;
+            width: 30px;
+            height: 24px;
             }
           }
         }

@@ -42,7 +42,7 @@ function SearchInput(props) {
   };
 
   return (
-    <form className={classes.search_form}>
+    <form className={classes.search_form} style={props?.setStyle ? props?.setStyle : {}}>
       <span>
         <SearchIcon />
         <input
