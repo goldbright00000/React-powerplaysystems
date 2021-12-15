@@ -5,9 +5,12 @@ const CustomDropDown = (props) => {
   const {
     value = "",
     options = [{}],
-    onChange = () => {},
+    onChange = () => { },
     wrapperClassName = "",
     dropdownClassName = "",
+    wrapperHeaderClassName = "",
+    wrapperHeaderMain = "",
+    dropdownListItem = ""
   } = props || {};
   const wrapperRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -19,7 +22,7 @@ const CustomDropDown = (props) => {
     return () => {
       document.removeEventListener("mousedown", handleClick);
     };
-    
+
   }, []);
 
   const handleClick = (e) => {
@@ -34,10 +37,10 @@ const CustomDropDown = (props) => {
       ref={wrapperRef}
     >
       <div
-        className={classes.__custom_drop_down_wrapper_header}
+        className={`${classes.__custom_drop_down_wrapper_header} ${wrapperHeaderMain}`}
         onClick={() => setIsVisible(!isVisible)}
       >
-        <div className={classes.__custom_drop_down_wrapper_header_title}>
+        <div className={`${classes.__custom_drop_down_wrapper_header_title} ${wrapperHeaderClassName}`}>
           {value}{" "}
           <span
             className={classes.__custom_drop_down_wrapper_header_down_arrow}
@@ -53,19 +56,16 @@ const CustomDropDown = (props) => {
               <div
                 key={index}
                 className={`${classes.__custom_drop_down_wrapper_list_item}
-                                         ${
-                                           item.value === value &&
-                                           classes.__custom_drop_down_wrapper_list_item_selected
-                                         }
-                                         ${
-                                           index == 0 &&
-                                           classes.__custom_drop_down_wrapper_list_item_border_radius_top
-                                         }
-                                         ${
-                                           options.length - 1 == index &&
-                                           classes.__custom_drop_down_wrapper_list_item_border_radius_bottom
-                                         }
-                                        `}
+                                         ${item.value === value &&
+                  classes.__custom_drop_down_wrapper_list_item_selected
+                  }
+                                         ${index == 0 &&
+                  classes.__custom_drop_down_wrapper_list_item_border_radius_top
+                  }
+                                         ${options.length - 1 == index &&
+                  classes.__custom_drop_down_wrapper_list_item_border_radius_bottom
+                  }
+                  ${dropdownListItem}`}
                 onClick={() => {
                   onChange(item.value);
                   setIsVisible(!isVisible);

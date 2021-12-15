@@ -12,11 +12,10 @@
     flex-direction: row;
     flex: 1;
     position: relative;
-
     .container_left {
       display: flex;
       flex-direction: column;
-      // flex: 0.67;
+      flex: 0.75 1;
       width: 1024px;
       margin: 60px 0 60px 9em;
 
@@ -54,6 +53,54 @@
           flex-wrap: wrap;
           padding: 10px 0;
           justify-content: space-between;
+          @media (max-width: 1700px){
+            display: block;
+          }
+          .container_searchList{
+            display: flex;
+            align-items: center;
+            @media (max-width: 1700px){
+             margin-top:40px;
+            }
+            @media (max-width: 575px){
+              display: block;
+             }
+            .sort_dropdown{
+              .select_sorted{
+                width: 100% !important;
+                background-color: #35363a;
+                padding: 6px 20px;
+                border-radius: 12px;
+                min-width: 250px;
+                .select_header_main{
+                  height: 50px;
+                  @media (min-width: 1901px){
+                    height: 40px;
+                  }
+                  @media (max-width: 1440px){
+                    height: 37px;
+                  }
+                  .select_header_title{
+                    font-size: 16px;
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                  }
+                }
+                .select_dropdown{
+                  top: 64px;
+                  left: 0;
+                  .select_list_menuItem:hover{
+                    // :hover{
+                      color: #fb6e00;
+                      background-color: #161719;
+                    // }
+                  }
+                }
+              }
+            }
+          }
         }
       }
 
@@ -102,7 +149,7 @@
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: space-between;
+          justify-content: flex-start;
           align-items: center;
           margin-top: 30px;
           width: 100%;

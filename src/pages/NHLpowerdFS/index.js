@@ -28,6 +28,7 @@ import SelectionCard3 from "../../components/SportsSelectionCard3";
 import EmployeeIcon from "../../icons/Employee";
 import SportsFilters from "../../components/SportsFilters";
 import Search from "../../components/SearchInput";
+import CustomDropDown from "../../components/CustomDropDown";
 import PowerCollapesible from "../../components/PowerCollapesible";
 import { CONSTANTS } from "../../utility/constants";
 import AcceleRadar from "../../assets/partners/acceleradar.png";
@@ -214,6 +215,29 @@ const headerText = [
   },
 ];
 
+const MenuDataList = [
+  {
+    label: `Sort by Start Time`,
+    value: "Sort by Start Time",
+  },
+  {
+    label: `Team Name`,
+    value: `Team Name`,
+  },
+  {
+    label: `Start Time`,
+    value: `Start Time`,
+  },
+  {
+    label: `Goals Scored`,
+    value: `Goals Scored`,
+  },
+  {
+    label: 'Total Points',
+    value: `Total Points`,
+  }
+];
+
 let starPowerIndex = 0;
 let selectedPlayerCount = 0;
 
@@ -248,6 +272,7 @@ function NHLPowerdFs(props) {
   const [searchText, setSearchText] = useState("");
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
+  const [selectMenuData, setSelectMenuData] = useState(MenuDataList[0].label);
 
   let {
     // data = [],
@@ -419,7 +444,7 @@ function NHLPowerdFs(props) {
 
   const onPlayerSelectDeselect = useCallback(
     (id, matchId) => {
-     // if (loading) return;
+      // if (loading) return;
 
       const _selected = new Map(selected);
       const res = setPlayerSelection(id, matchId, _selected, sideBarList);
@@ -676,8 +701,7 @@ function NHLPowerdFs(props) {
         }
       } else {
         console.log("selectedData", selectedData);
-        if(selectedData == null)
-        {
+        if (selectedData == null) {
           return;
         }
         var _filterdData = selectedData?.listData?.filter(
@@ -815,7 +839,7 @@ function NHLPowerdFs(props) {
         players: [...players],
         powers: [],
         teamD: team,
-        user_display_name:user.display_name
+        user_display_name: user.display_name
       };
       console.log("payload: ", payload);
       if (isEdit) {
@@ -1031,6 +1055,50 @@ function NHLPowerdFs(props) {
     );
   };
 
+  const handleFilterDataList = (selectedOptionValue) => {
+    let FilterListView = filterdData?.listData;
+
+    if (selectedOptionValue === "Team Name") {
+      let sortByName = () => {
+        let sorterFullName = (a, b) => {
+          return (a.full_name > b.full_name) ? 1 : -1;
+        }
+        FilterListView.sort(sorterFullName);
+      };
+      sortByName(filterdData);
+      setFilterdData(filterdData)
+    } else if (selectedOptionValue === "Start Time") {
+      let sortByDateTime = () => {
+        let sorterDate = (a, b) => {
+          return (a.match.scheduled > b.match.scheduled) ? 1 : -1;
+        }
+        FilterListView.sort(sorterDate);
+      }
+      sortByDateTime(filterdData)
+      setFilterdData(filterdData)
+
+    } else if (selectedOptionValue === "Goals Scored") {
+      let sortByGoals = () => {
+        let sorterGoals = (a, b) => {
+          return (a.seasons.map((val) => val.teams.map((data) => data.statistics.total.goals)) < b.seasons.map((val) => val.teams.map((data) => data.statistics.total.goals))) ? 1 : -1;
+        }
+        FilterListView.sort(sorterGoals);
+      }
+      sortByGoals(filterdData)
+      setFilterdData(filterdData)
+    } else if (selectedOptionValue === "Total Points") {
+      let sortBypoints = () => {
+        let sorterPoints = (a, b) => {
+          return (parseInt(a.seasons.map((val) => val.teams.map((data) => data.statistics.total.points))) < parseInt(b.seasons.map((val) => val.teams.map((data) => data.statistics.total.points)))) ? 1 : -1;
+        }
+        FilterListView.sort(sorterPoints);
+      }
+      sortBypoints(filterdData)
+      setFilterdData(filterdData)
+
+    }
+  }
+
   return (
     <>
       <Header />
@@ -1102,14 +1170,38 @@ function NHLPowerdFs(props) {
                   onSelect={onSelectFilter}
                   selectedFilter={selectedFilter}
                 />
+                <div className={classes.container_searchList}>
+                  <Search
+                    onSearch={onSearch}
+                    //onSelect={onSelectSearchDropDown}
+                    //dropDown={dropDownState}
+                    selected={selectedDropDown}
+                    placeholder={"Search by player or team name..."}
+                  />
+                  <div className={classes.sort_dropdown}>
+                    <CustomDropDown
+                      value={
+                        selectMenuData === "Sort by Start Time" ? "Sort by Start Time"
+                          : selectMenuData === "Start Time" ? "Start Time"
+                            : selectMenuData === "Team Name" ? "Team Name"
+                              : selectMenuData === "Goals Scored" ? "Goals Scored"
+                                : selectMenuData === "Total Points" ? "Total Points" : ""
+                      }
+                      options={MenuDataList}
+                      onChange={(selectedOption) => {
+                        setSelectMenuData(selectedOption);
+                        handleFilterDataList(selectedOption);
+                      }}
+                      wrapperClassName={classes.select_sorted}
+                      wrapperHeaderMain={classes.select_header_main}
+                      wrapperHeaderClassName={classes.select_header_title}
+                      dropdownClassName={classes.select_dropdown}
+                      dropdownListItem={classes.select_list_menuItem}
+                    />
+                  </div>
 
-                <Search
-                  onSearch={onSearch}
-                  //onSelect={onSelectSearchDropDown}
-                  //dropDown={dropDownState}
-                  selected={selectedDropDown}
-                  placeholder={"Search by player or team name..."}
-                />
+
+                </div>
               </div>
             </div>
             {isMobile && (
