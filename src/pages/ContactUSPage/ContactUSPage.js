@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { isEmpty } from "lodash";
@@ -11,9 +11,10 @@ import {
     getPersonaUserId,
 } from "../../actions/personaActions";
 import { submitContactUsForm } from '../../actions/userActions';
+import ThankYouModal from '../../components/ThankYou';
 
 const ContactUSPage = props => {
-
+    const formRef = useRef();
     const dispatch = useDispatch();
     const [item, setItem] = useState({
         topic: '',
@@ -24,6 +25,7 @@ const ContactUSPage = props => {
     });
 
     const [errorMsg, setErrorMsg] = useState('');
+    const [showModal, setModalState] = useState(false);
 
     const onSubmit = e => {
         e.preventDefault();
@@ -36,6 +38,7 @@ const ContactUSPage = props => {
     }
 
     const handleSubmit = () => {
+        
         if (
             isEmpty(item.topic) ||
             isEmpty(item.displayName) ||
@@ -50,17 +53,18 @@ const ContactUSPage = props => {
             setErrorMsg('Message length should be less than 2000 character.');
             return;
         }
-
         const user_id = getPersonaUserId();
-        dispatch(submitContactUsForm({ ...item, user_id }));
-        window.location.reload();
+        //dispatch(submitContactUsForm({ ...item, user_id }));
+        formRef.current.reset()
+        setModalState(true);
+        //window.location.reload();
     }
 
     return (
         <div>
             <Header isStick={true} />
             <main className={styles.root}>
-                <form className='__dark-white-color' onSubmit={onSubmit}>
+                <form className='__dark-white-color' onSubmit={onSubmit} ref={formRef}>
                     <p>For more questions, please see our <Link to='/faqs' className='__bold __primary-color'>FAQ Page.</Link></p>
                     {!isEmpty(errorMsg) && (
                         <Alert renderMsg={() => <p>{errorMsg}</p>} danger />
@@ -79,21 +83,21 @@ const ContactUSPage = props => {
                             </div>
                             <div className={styles.inputField}>
                                 <label htmlFor='displayName'>Display name:</label>
-                                <input type='text' id='displayName' placeholder='Enter your name' onChange={onChange} required={true} />
+                                <input type='text' id='displayName' placeholder='Enter your name' onChange={onChange} />
                             </div>
                             <div className={styles.inputField}>
                                 <label htmlFor='email'>* Email:</label>
-                                <input type='email' id='email' placeholder='Enter you email' onChange={onChange} required={true} />
+                                <input type='email' id='email' placeholder='Enter you email' onChange={onChange} />
                             </div>
                             <div className={styles.inputField}>
                                 <label htmlFor='subject'>* Subject:</label>
-                                <input type='subject' id='subject' placeholder='Subject for your message' onChange={onChange} required={true} />
+                                <input type='subject' id='subject' placeholder='Subject for your message' onChange={onChange} />
                             </div>
                         </section>
                         <div className={styles.textAreaWrapper}>
                             <div className={`${styles.inputField} `}>
                                 <label htmlFor='message'>* Message:</label>
-                                <textarea id='message' placeholder='Enter message' onChange={onChange} required={true}></textarea>
+                                <textarea id='message' placeholder='Enter message' onChange={onChange}></textarea>
                                 <span>2000 characters max</span>
                             </div>
                             <button className={styles.btn} onClick={handleSubmit}>Submit</button>
@@ -118,8 +122,12 @@ const ContactUSPage = props => {
                         </section>
                     </div>
                 </form>
+                {showModal && <ThankYouModal closeModal={() => {
+                    setModalState(false);
+                }}/>}
             </main>
             <Footer isBlack={true} />
+            
         </div>
     )
 }

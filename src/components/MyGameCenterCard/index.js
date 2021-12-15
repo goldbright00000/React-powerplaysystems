@@ -44,12 +44,13 @@ import EthCurrency from "../../assets/ethereum-white.png";
 import OrangePowerCurrency from "../../assets/power-orange.png";
 import OrangeBtcCurrency from "../../assets/btc-orange.png";
 import OrangeEthCurrency from "../../assets/ethereum-orange.png";
-
+import LiveStandings from "../../components/LiveStandings";
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
 const MyGameCenterCard = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { liveStandings = [] } = useSelector((state) => state.nhl);
   const {
     ON_ROOM_SUB,
     ON_ROOM_UN_SUB,
@@ -163,7 +164,7 @@ const MyGameCenterCard = (props) => {
   const [leaveGameModal, setLeaveGameModal] = useState(false);
   const [powerLearnMoreModal, setPowerLearnMoreModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [showModal, setModalState] = useState(false);
   const [isCompleted, setCompleted] = React.useState(0);
 
   // React.useEffect(async () => {
@@ -726,7 +727,10 @@ const MyGameCenterCard = (props) => {
                   {completed && (
                     <OutlineButton
                       title="View Results"
-                      onClick={() => onFinalStandings(id)}
+                      onClick={(game_id) => {
+                        console.log("game_id", game_id);
+                        //onFinalStandings(game_id)
+                      }}
                       styles={{
                         // marginTop: 14,
                         margin: ".25rem",
@@ -1148,7 +1152,12 @@ const MyGameCenterCard = (props) => {
               {completed && (
                 <OutlineButton
                   title="View Results"
-                  onClick={() => onFinalStandings(id)}
+                  onClick={() => {
+                    //console.log("game_id", game_id);
+                    onFinalStandings(game_id);
+                    setModalState(true);
+                    
+                  }}
                   styles={{
                     marginTop: 14,
                     backgroundColor: "rgba(104, 143, 189, 0.06)",
@@ -1255,6 +1264,7 @@ const MyGameCenterCard = (props) => {
           />
         </>
       )}
+      <LiveStandings visible={showModal} onClose={() => {setModalState(false)}} liveStandingData={liveStandings}/>
     </>
   );
 };

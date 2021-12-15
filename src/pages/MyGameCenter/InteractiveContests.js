@@ -134,7 +134,10 @@ const InteractiveContests = (props) => {
   const { user } = useSelector((state) => state?.auth);
   const [userGames, setUserGames] = useState({});
   const { getUserSavedGames } = useSelector((state) => state?.mlb);
-
+  
+  // const toggleLiveStandingModal = () => {
+  //   setModalState(!showModal);
+  // };
   const applyFilter = (type) => {
     setContentType(type);
   };
@@ -433,6 +436,10 @@ const InteractiveContests = (props) => {
     // };
   };
 
+  const onClickStandings = async (gid) => {
+    await dispatch(NHLActions.getFinalStandings(gid));
+  };
+
   const setFilteredDataWithDate = (selectedOption) => {
     let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
@@ -541,7 +548,7 @@ const InteractiveContests = (props) => {
           timeToStart={item.timeToStart}
           showDetails={showCardDetails === item?.team_id}
           viewResults={viewResults === item?.team_id}
-          finalStandingsModal={finalStandingsModal === item?.team_id}
+          finalStandingsModal={finalStandingsModal === item?.gameID}
           onEnter={() => onEnter(item)}
           onEdit={() => {
             onEdit(item);
@@ -553,7 +560,11 @@ const InteractiveContests = (props) => {
             handleViewResult(cardId, game_id);
           }}
           onViewResultsBack={() => setViewResults(-1)}
-          onFinalStandings={(cardId) => setFinalStandingsModal(cardId)}
+          onFinalStandings={(id) => {
+            console.log("game_idd", id);
+            onClickStandings(id);
+            //setModalState(true);
+          }}
           totalPoints={item.challenge_amount || 0}
         />
       </div>
@@ -894,6 +905,7 @@ const InteractiveContests = (props) => {
             return myGameCenterCardView;
           })()}
       </div>
+      
     </>
   );
 };

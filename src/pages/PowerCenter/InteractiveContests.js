@@ -4,7 +4,7 @@ import { useMediaQuery } from "react-responsive";
 import { useDispatch, useSelector } from "react-redux";
 import _ from "underscore";
 import moment1 from "moment-timezone";
-
+import axios from 'axios';
 import { getLocalStorage } from "../../utility/shared";
 import { CONSTANTS } from "../../utility/constants";
 
@@ -91,7 +91,7 @@ const InteractiveContests = (props) => {
   const powerCenterCardData = useSelector(
     (state) => state.powerCenter.allGames
   );
-
+  const [powerCenterDataEntered, setEnteredData] = useState([]);
   const { user } = useSelector((state) => state?.auth);
   const [isMobileDevice, setMobileDevice] = useState(false);
   const responsiveHandler = (maxWidth) => setMobileDevice(maxWidth.matches);
@@ -138,7 +138,7 @@ const InteractiveContests = (props) => {
   const [newGame, setNewGame] = useState({});
   const [inProgressGame, setInProgressGame] = useState([]);
   const [cancelledsGame, setCancelledGame] = useState([]);
-
+  const [enteredGames, setGamesEntered] = useState([]);
   // const params = new URLSearchParams(window.location.search);
   //   console.log('params ---> ', params)
   //   var statusval = params.get('status');
@@ -149,6 +149,15 @@ const InteractiveContests = (props) => {
     setChallengeGame({});
     setPropsGame({});
   };
+
+  useEffect(async () => {
+    let res = await axios.get(`https://nhl.powerplaysystems.com/api/v1/services/fantasy/getPowerCenterGames?userID=${localStorage.PERSONA_USER_ID}`);
+    console.log("ress", res);
+    if(res.data.code == 200) {
+      if(JSON.stringify(enteredGames) !== JSON.stringify(res.data.Games))
+        setGamesEntered(res.data.Games);
+    }
+  }, []);
 
   useEffect(() => {
     if (powerCenterCardData === "Age Restriction") {
@@ -1004,11 +1013,13 @@ const InteractiveContests = (props) => {
     }
     if (!showEntered) {
       newArr = newArr.filter((x) => {
-        if (
-          typeof x.userHasEntered == "undefined" ||
-          x?.userHasEntered == false
-        ) {
+        if(enteredGames.findIndex(x1 => x1.gameID == x?.game_id) == -1) {
           return x;
+        }
+        else {
+          if(enteredGames.find(x1 => x1.gameID == x?.game_id).userHasEntered == false) {
+            return x;
+          }
         }
       });
     }
@@ -1071,7 +1082,7 @@ const InteractiveContests = (props) => {
             PrizePayout={item?.PrizePayouts.sort(function (a, b) {
               return parseInt(a.from) - parseInt(b.from);
             })}
-            userHasEntered={item?.userHasEntered}
+            userHasEntered={(enteredGames.findIndex(x => x.gameID == item?.game_id) > -1) ? enteredGames.find(x => x.gameID == item?.game_id).userHasEntered : false}
             showDetails={showCardDetails === item?.game_id}
             totalPoints={item?.powerdfs_challenge_amount}
             onEnter={() => {

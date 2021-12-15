@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
@@ -14,12 +14,14 @@ import { CONSTANTS } from "../../utility/constants";
 import Balance from "../../components/Balance";
 import MobileBalance from "../../components/MobileBalance";
 import { showDepositForm } from "../../actions/uiActions";
+import LiveStandings from "../../components/LiveStandings";
 
 const MyGameCenter = (props) => {
   const isMobile = useMediaQuery({ query: "(max-width: 540px)" });
   const { url } = props.match;
   const { auth: { user: { token = "" } } = {} } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [showModal, setModalState] = useState(false);
 
   const setShowDepositModal = () => dispatch(showDepositForm());
 
@@ -47,6 +49,7 @@ const MyGameCenter = (props) => {
         </div>
       </div>
       <Footer isBlack={true} />
+      {/* <LiveStandings visible={showModal} onClose={setModalState(false)} /> */}
     </Fragment>
   );
 };
