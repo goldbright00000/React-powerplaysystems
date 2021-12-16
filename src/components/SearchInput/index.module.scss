@@ -178,7 +178,7 @@
     span {
       background-color: $lightBlack5;
       padding: 3px 15px;
-      width: 518px;
+      width: 100%;
 
       svg {
         width: 20px;
@@ -311,8 +311,8 @@
     width: 47%;
 
     span {
-      padding: 2px 7px;
-      width: 300px;
+      padding: 4px 7px;
+      width: 100%;
 
       svg {
         margin: 0 7px;
@@ -377,11 +377,11 @@
 
 @media (max-width: 1280px) {
   .search_form {
-    width: 45%;
+    width: 50%;
 
     span {
       padding:7px;
-      width: 280px;
+      width: 100%;
 
       svg {
         margin: 0 7px;
@@ -447,11 +447,12 @@
 @media (max-width: 1024px) {
   .search_form {
     width: 100%;
+    margin-bottom: 14px;
 
     span {
       padding: 7px;
       width: 100%;
-      margin: 0 10px 0 0;
+      margin: 0;
 
       svg {
         margin: 0 7px;
