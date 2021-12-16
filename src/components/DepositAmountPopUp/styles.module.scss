@@ -529,6 +529,12 @@ text-align: center;
   padding: 15px 169px 14px 168px;
 }
 
+.errorMessage{
+  color: red !important;
+  font-size: 12px;
+  float: right;
+  text-align: right;
+}
 
 @media (min-width:481px) {
   .customDepositBtn {
