@@ -96,6 +96,8 @@ const MyGameCenterCard = (props) => {
     game_id = 0,
     currency = "USD",
     game_type = "PowerdFS",
+    end_time = "",
+    game_set_end = ""
   } = props || {};
 
   const [showDetails, setShowDetails] = useState(false);
@@ -1148,12 +1150,10 @@ const MyGameCenterCard = (props) => {
               {makePicks && (
                 <OutlineButton title="Make Picks" onClick={onEnter} />
               )}
-
               {completed && (
                 <OutlineButton
                   title="View Results"
                   onClick={() => {
-                    //console.log("game_id", game_id);
                     onFinalStandings(game_id);
                     setModalState(true);
                     
@@ -1264,7 +1264,14 @@ const MyGameCenterCard = (props) => {
           />
         </>
       )}
-      <LiveStandings visible={showModal} onClose={() => {setModalState(false)}} liveStandingData={liveStandings}/>
+      <LiveStandings
+        visible={showModal}
+        onClose={() => { setModalState(false) }}
+        liveStandingData={liveStandings}
+        endTime={end_time}
+        gameSetEnd={game_set_end}
+        completed={completed}
+      />
     </>
   );
 };

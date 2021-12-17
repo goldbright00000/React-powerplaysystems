@@ -75,12 +75,15 @@ const dummyData = [
 ];
 
 function LiveStandings(props) {
-  const { visible = false, onClose = () => { }, isMobile = false } = props || {};
+  const { visible = false, onClose = () => { }, isMobile = false, completed = "", endTime = "", gameSetEnd = "" } = props || {};
   const getCurrentTime = () => {
 
     const offset = moment?.tz("America/New_York")?.format("Z");
+    const dateTime = completed !== true ?
+      moment(moment().format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm") :
+      moment(moment(`${gameSetEnd} ${endTime}`).format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm")
 
-    return moment(moment().format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm");
+    return dateTime;
 
     const dd = new Date();
     const month = [
@@ -199,7 +202,7 @@ function LiveStandings(props) {
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div className={classes.topHeadingLeft}>
-            <p className={classes.header_p}>Live Standings</p>
+            <p className={classes.header_p}>{completed !== true ? "Live Standings" : "Final Standings"}</p>
             <span>{`${getCurrentTime()} ET`}</span>
           </div>
 

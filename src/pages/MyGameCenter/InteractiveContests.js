@@ -500,7 +500,7 @@ const InteractiveContests = (props) => {
     let minutes = Math.floor(diffInSeconds / 60 % 60);
     let seconds = Math.floor(diffInSeconds % 60);
     let milliseconds = Math.round((diffInSeconds - Math.floor(diffInSeconds)) * 1000);
-    let txt = (days?(days + "d "):"")+(hours?(hours + "h "):"") + minutes + "min";
+    let txt = (days?(days + "d "):"") + (hours ? (hours + "h ") : "") + minutes + "min";
     return {
       "status": 0,
       "message": txt
@@ -566,6 +566,10 @@ const InteractiveContests = (props) => {
             //setModalState(true);
           }}
           totalPoints={item.challenge_amount || 0}
+          game_set_end={
+            getLocalDateTime(item?.endDate, item?.endTime)?.date
+          }
+          end_time={getLocalDateTime(item?.endDate, item?.endTime)?.time}
         />
       </div>
     );
@@ -905,7 +909,7 @@ const InteractiveContests = (props) => {
             return myGameCenterCardView;
           })()}
       </div>
-      
+
     </>
   );
 };
