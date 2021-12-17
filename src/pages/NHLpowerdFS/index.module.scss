@@ -108,6 +108,22 @@
                 }
                 .select_header_main{
                   height: 50px;
+                  position: relative;
+                    &::after{
+                      content: '';
+                      position: absolute;
+                      width: 0px;
+                      height: 0px;
+                      border-left: 5px solid transparent;
+                      border-right: 5px solid transparent;
+                      border-bottom: 5px solid #fff;
+                      margin: 0 0 15px 0;
+                      right: 0px;
+                      top: 23px;
+                      transform: rotate(
+                        180deg
+                        );
+                    }
                   @media (min-width: 1901px){
                     height: 40px;
                   }
@@ -123,9 +139,13 @@
                   .select_header_title{
                     font-size: 16px;
                     width: 100%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: space-between;
+                    white-space: nowrap;
+                    width: 130px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    color: #fff;
+                    display: block;
+                    line-height: 50px;
                   }
                 }
                 .select_dropdown{

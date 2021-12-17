@@ -218,19 +218,19 @@ const headerText = [
 const MenuDataList = [
   {
     label: `Start Time`,
-    value: `Start Time`,
+    value: `Sort Players by Start Time`,
   },
   {
     label: `Player Name`,
-    value: `Player Name`,
+    value: `Sort Players by Player Name`,
   },
   {
     label: `Goals Scored`,
-    value: `Goals Scored`,
+    value: `Sort Players by Goals Scored`,
   },
   {
     label: 'Total Points',
-    value: `Total Points`,
+    value: `Sort Players by Total Points`,
   }
 ];
 
@@ -268,7 +268,7 @@ function NHLPowerdFs(props) {
   const [searchText, setSearchText] = useState("");
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
-  const [selectMenuData, setSelectMenuData] = useState(MenuDataList[0].label);
+  const [selectMenuData, setSelectMenuData] = useState(MenuDataList[0].value);
 
   let {
     // data = [],
@@ -1054,7 +1054,7 @@ function NHLPowerdFs(props) {
   const handleFilterDataList = (selectedOptionValue) => {
     let FilterListView = filterdData?.listData;
 
-    if (selectedOptionValue === "Player Name") {
+    if (selectedOptionValue === "Sort Players by Player Name") {
       let sortByName = () => {
         let sorterFullName = (a, b) => {
           return (a.full_name > b.full_name) ? 1 : -1;
@@ -1063,7 +1063,7 @@ function NHLPowerdFs(props) {
       };
       sortByName(filterdData);
       setFilterdData(filterdData)
-    } else if (selectedOptionValue === "Start Time") {
+    } else if (selectedOptionValue === "Sort Players by Start Time") {
       let sortByDateTime = () => {
         let sorterDate = (a, b) => {
           return (a.match.scheduled > b.match.scheduled) ? 1 : -1;
@@ -1073,7 +1073,7 @@ function NHLPowerdFs(props) {
       sortByDateTime(filterdData)
       setFilterdData(filterdData)
 
-    } else if (selectedOptionValue === "Goals Scored") {
+    } else if (selectedOptionValue === "Sort Players by Goals Scored") {
       let sortByGoals = () => {
         let sorterGoals = (a, b) => {
           return (a.seasons.map((val) => val.teams.map((data) => data.statistics.total.goals)) < b.seasons.map((val) => val.teams.map((data) => data.statistics.total.goals))) ? 1 : -1;
@@ -1082,7 +1082,7 @@ function NHLPowerdFs(props) {
       }
       sortByGoals(filterdData)
       setFilterdData(filterdData)
-    } else if (selectedOptionValue === "Total Points") {
+    } else if (selectedOptionValue === "Sort Players by Total Points") {
       let sortBypoints = () => {
         let sorterPoints = (a, b) => {
           return (parseInt(a.seasons.map((val) => val.teams.map((data) => data.statistics.total.points))) < parseInt(b.seasons.map((val) => val.teams.map((data) => data.statistics.total.points)))) ? 1 : -1;
@@ -1177,10 +1177,10 @@ function NHLPowerdFs(props) {
                   <div className={classes.sort_dropdown}>
                     <CustomDropDown
                       value={
-                        selectMenuData === "Start Time" ? "Start Time"
-                          : selectMenuData === "Player Name" ? "Player Name"
-                            : selectMenuData === "Goals Scored" ? "Goals Scored"
-                              : selectMenuData === "Total Points" ? "Total Points" : ""
+                        selectMenuData === "Sort Players by Start Time" ? "Sort Players by Start Time"
+                          : selectMenuData === "Sort Players by Player Name" ? "Sort Players by Player Name"
+                            : selectMenuData === "Sort Players by Goals Scored" ? "Sort Players by Goals Scored"
+                              : selectMenuData === "Sort Players by Total Points" ? "Sort Players by Total Points" : ""
                       }
                       options={MenuDataList}
                       onChange={(selectedOption) => {
