@@ -217,16 +217,12 @@ const headerText = [
 
 const MenuDataList = [
   {
-    label: `Sort by Start Time`,
-    value: "Sort by Start Time",
-  },
-  {
-    label: `Team Name`,
-    value: `Team Name`,
-  },
-  {
     label: `Start Time`,
     value: `Start Time`,
+  },
+  {
+    label: `Player Name`,
+    value: `Player Name`,
   },
   {
     label: `Goals Scored`,
@@ -1058,7 +1054,7 @@ function NHLPowerdFs(props) {
   const handleFilterDataList = (selectedOptionValue) => {
     let FilterListView = filterdData?.listData;
 
-    if (selectedOptionValue === "Team Name") {
+    if (selectedOptionValue === "Player Name") {
       let sortByName = () => {
         let sorterFullName = (a, b) => {
           return (a.full_name > b.full_name) ? 1 : -1;
@@ -1181,11 +1177,10 @@ function NHLPowerdFs(props) {
                   <div className={classes.sort_dropdown}>
                     <CustomDropDown
                       value={
-                        selectMenuData === "Sort by Start Time" ? "Sort by Start Time"
-                          : selectMenuData === "Start Time" ? "Start Time"
-                            : selectMenuData === "Team Name" ? "Team Name"
-                              : selectMenuData === "Goals Scored" ? "Goals Scored"
-                                : selectMenuData === "Total Points" ? "Total Points" : ""
+                        selectMenuData === "Start Time" ? "Start Time"
+                          : selectMenuData === "Player Name" ? "Player Name"
+                            : selectMenuData === "Goals Scored" ? "Goals Scored"
+                              : selectMenuData === "Total Points" ? "Total Points" : ""
                       }
                       options={MenuDataList}
                       onChange={(selectedOption) => {
