@@ -217,8 +217,8 @@ const headerText = [
 
 const MenuDataList = [
   {
-    label: `Start Time`,
-    value: `Start Time`,
+    label: `Sort Players by Start Time`,
+    value: `Sort Players by Start Time`,
   },
   {
     label: `Player Name`,
@@ -1063,7 +1063,7 @@ function NHLPowerdFs(props) {
       };
       sortByName(filterdData);
       setFilterdData(filterdData)
-    } else if (selectedOptionValue === "Start Time") {
+    } else if (selectedOptionValue === "Sort Players by Start Time") {
       let sortByDateTime = () => {
         let sorterDate = (a, b) => {
           return (a.match.scheduled > b.match.scheduled) ? 1 : -1;
@@ -1177,7 +1177,7 @@ function NHLPowerdFs(props) {
                   <div className={classes.sort_dropdown}>
                     <CustomDropDown
                       value={
-                        selectMenuData === "Start Time" ? "Start Time"
+                        selectMenuData === "Sort Players by Start Time" ? "Sort Players by Start Time"
                           : selectMenuData === "Player Name" ? "Player Name"
                             : selectMenuData === "Goals Scored" ? "Goals Scored"
                               : selectMenuData === "Total Points" ? "Total Points" : ""
