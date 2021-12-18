@@ -174,7 +174,8 @@ const InteractiveContests = (props) => {
   };
 
   const onEdit = async (item) => {
-    switch (item?.game?.league) {
+    console.log("edit------>",item);
+    switch (item?.game?.league?item?.game?.league:item?.league) {
       case "MLB":
         await dispatch(MLbActions.setSelectedTeam(item));
         dispatch(
@@ -268,12 +269,15 @@ const InteractiveContests = (props) => {
         });
 
       case "NHL":
-        await dispatch(NHLActions.setSelectedTeam(item));
-        dispatch(
+
+        let ab=  await dispatch(NHLActions.setSelectedTeam(item));
+        console.log("===>",ab);
+
+       dispatch(
           NHLActions.getAndSetEditPlayers({
-            game_id: item?.game_id,
-            sport_id: item?.sport_id,
-            user_id: item?.user_id,
+            game_id: item?.gameID,
+            sport_id: item?.gameID,
+            user_id: item?.userID,
           })
         );
         let tempPowers = [
@@ -345,28 +349,28 @@ const InteractiveContests = (props) => {
             // game_details: item?.game,
             // Power: item?.game?.Powers
 
-            game_id: item?.game_id,
-            sport_id: item?.game?.sports_id,
-            start_date: item?.game?.start_date,
-            end_date: item?.game?.end_date,
-            start_time: item?.game?.start_time,
-            outOf: item?.game?.target,
-            enrolledUsers: item?.game?.enrolled_users,
+            game_id: item?.gameID,
+            sport_id: item?.gameID,
+            start_date: item?.startDate,
+            end_date: item?.endDate,
+            start_time: item?.startTime,
+            outOf: item?.game?.targetUser,
+            enrolledUsers: item?.enrolled_users,
             prizePool: _.reduce(
-              item?.game?.PrizePayouts,
+              item?.reward,
               function (memo, num) {
                 return memo + parseFloat(num.amount) * parseInt(num.prize);
               },
               0
             ),
             topPrize: parseFloat(
-              _.max(item?.game?.PrizePayouts, function (ele) {
+              _.max(item?.reward, function (ele) {
                 return ele.amount;
               }).amount
             ),
             game_set_start: item?.game?.game_set_start,
             PointsSystem: item?.game?.PointsSystems,
-            Power: tempPowers, //item?.game?.Powers,
+            Power:item?.powersAvailable,
             prizes: item?.game?.PrizePayouts,
             paid_game: item?.game?.is_game_paid,
             entry_fee: item?.game?.entry_fee,
@@ -509,10 +513,12 @@ const InteractiveContests = (props) => {
 
   const myGameCenterCard = (item, redirectUri, index) => {
     return (
+      <>
       <div
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
         key={index}
       >
+        {console.log("item======>",item)}
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
@@ -572,6 +578,7 @@ const InteractiveContests = (props) => {
           end_time={getLocalDateTime(item?.endDate, item?.endTime)?.time}
         />
       </div>
+      </>
     );
   };
 

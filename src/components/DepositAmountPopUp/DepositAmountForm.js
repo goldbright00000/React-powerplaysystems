@@ -573,48 +573,48 @@ class DepositAmountForm extends Component {
               </section>
             ) : (<></>)}
             {currency === "USD" && !this.state.canadianVisible && (
-              // <section className={styles.cardSectionn}>
-              //   <div className={styles.cardDetails}>
-              //     <form>
-              //       <input
-              //         placeholder="City"
-              //         value={this.state.city}
-              //         name="city"
-              //         onChange={this.onFieldChangeHandler}
-              //       />
-              //       <input
-              //         placeholder="Address"
-              //         name="address"
-              //         onChange={this.onFieldChangeHandler}
-              //         value={this.state.address}
-              //       />
-              //       <input
-              //         placeholder="Phone Number"
-              //         type="phone"
-              //         name="phoneNumber"
-              //         onChange={this.onFieldChangeHandler}
-              //         value={this.state.phoneNumber}
-              //       />
-              //       <input
-              //         placeholder="Zip"
-              //         name="zip"
-              //         value={this.state.zip}
-              //         onChange={this.onFieldChangeHandler}
-              //       />
-              //       <select
-              //         onChange={this.onFieldChangeHandler}
-              //         value={this.state.currency}
-              //         name="currency"
-              //       >
-              //         <option value="USD">USD</option>
-              //         <option value="EUR">EUR</option>
-              //       </select>
-              //     </form>
-              //   </div>
-              // </section>
-              <></>
-            )}
-            {currency === "USD" && (
+                // <section className={styles.cardSectionn}>
+                //   <div className={styles.cardDetails}>
+                //     <form>
+                //       <input
+                //         placeholder="City"
+                //         value={this.state.city}
+                //         name="city"
+                //         onChange={this.onFieldChangeHandler}
+                //       />
+                //       <input
+                //         placeholder="Address"
+                //         name="address"
+                //         onChange={this.onFieldChangeHandler}
+                //         value={this.state.address}
+                //       />
+                //       <input
+                //         placeholder="Phone Number"
+                //         type="phone"
+                //         name="phoneNumber"
+                //         onChange={this.onFieldChangeHandler}
+                //         value={this.state.phoneNumber}
+                //       />
+                //       <input
+                //         placeholder="Zip"
+                //         name="zip"
+                //         value={this.state.zip}
+                //         onChange={this.onFieldChangeHandler}
+                //       />
+                //       <select
+                //         onChange={this.onFieldChangeHandler}
+                //         value={this.state.currency}
+                //         name="currency"
+                //       >
+                //         <option value="USD">USD</option>
+                //         <option value="EUR">EUR</option>
+                //       </select>
+                //     </form>
+                //   </div>
+                // </section>
+                <></>
+              )}
+              {currency === "USD" && (
               <div className={`${styles.card_wrp} w-100 d-block`}>
                 {/* <div className="row">
                   <div className="col-md-12">

@@ -54,7 +54,8 @@ const ContactUSPage = props => {
             return;
         }
         const user_id = getPersonaUserId();
-        //dispatch(submitContactUsForm({ ...item, user_id }));
+        dispatch(submitContactUsForm({ ...item, user_id }));
+        
         formRef.current.reset()
         setModalState(true);
         //window.location.reload();

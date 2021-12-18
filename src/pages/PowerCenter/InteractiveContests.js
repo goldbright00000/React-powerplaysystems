@@ -1043,9 +1043,12 @@ const InteractiveContests = (props) => {
 
   const powerCenterCard = (item, redirectUri) => {
     return (
-      <div className={classes.__interactive_contests_power_center_card}>
-        {moment.utc(item.start_date_without_timezone).format("X") >=
+      <>
+      {
+        moment.utc(item.start_date_without_timezone).format("X") >=
         moment.utc().format("X") ? (
+          <div className={classes.__interactive_contests_power_center_card}>
+
           <PowerCenterCard
             id={item?.game_id}
             title={item?.league}
@@ -1092,15 +1095,18 @@ const InteractiveContests = (props) => {
             onBackClick={() => setShowCardDetails(-1)}
             onNextClick={() => setShowCardDetails(-1)}
           />
+          </div>
+
         ) : (
           ""
         )}
-      </div>
+      </>
     );
   };
 
   const powerCenterMobileCard = (item, redirectUri) => {
     return (
+      <>
       <div className={classes.__interactive_contests_power_center_card}>
         <PowerCenterMobileCard
           id={item?.game_id}
@@ -1141,6 +1147,8 @@ const InteractiveContests = (props) => {
           onNextClick={() => setShowCardDetails(-1)}
         />
       </div>
+      </>
+
     );
   };
 
@@ -1166,7 +1174,9 @@ const InteractiveContests = (props) => {
       setFilteredData(data);
     }
   };
-
+const onEnteredChange=()=>{
+  setShowEntered(!showEntered)
+}
   return (
     <>
       <div className="__table-wrapper __mb-6">
@@ -1202,8 +1212,8 @@ const InteractiveContests = (props) => {
               })}
             </div>
             {(!isMobile || !isTablet) && (
-              <div style={{ display: "flex", width: 330 }}>
-                <div
+              <div style={{ display: "flex", width: 330,justifyContent:"end" }}>
+                {/* <div
                   className={`__outline-badge __f1 ${
                     showEntered ? "__active" : ""
                   }`}
@@ -1224,6 +1234,21 @@ const InteractiveContests = (props) => {
                   }}
                 >
                   Hide Entered
+                </div> */}
+                      <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
+                        {showEntered ? "Show Entered" :"Hide Entered"}
+                      </label>
+                    <div className="form-check form-switch">
+                
+                  <input  
+                    className="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="flexSwitchCheckDefault"
+                    checked={showEntered}
+                    onChange={()=>onEnteredChange()}
+                  />
+            
                 </div>
               </div>
             )}

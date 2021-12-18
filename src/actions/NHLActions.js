@@ -516,7 +516,6 @@ export async function getSavedTeamPlayers(payload) {
         userID: payload.user_id,
       }
     );
-
     const { fantasyTeam = {} } = playersResponse.data || {};
 
     const {
@@ -537,7 +536,6 @@ export async function getSavedTeamPlayers(payload) {
 
     //   delete player?.name;
     // }
-
     return {
       players,
       teamD,
@@ -579,10 +577,9 @@ export function getAndSetEditPlayers(
     const teamDObj = teamD;
 
     savedPlayers.push(teamDObj);
-
     return dispatch(
       setEditPlayers({
-        team_id: teamPlayers.team_id,
+        team_id: teamPlayers?.team_id,
         data: savedPlayers,
         isEdit: true,
       })
