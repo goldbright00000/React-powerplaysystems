@@ -75,7 +75,7 @@ const dummyData = [
 ];
 
 function LiveStandings(props) {
-  const { visible = false, onClose = () => { }, isMobile = false, completed = "", endTime = "", gameSetEnd = "" } = props || {};
+  const { visible = false, onClose = () => { }, isMobile = false, completed = "", endTime = "", gameSetEnd = "" , userAccount={} } = props || {};
   const getCurrentTime = () => {
 
     const offset = moment?.tz("America/New_York")?.format("Z");
@@ -202,7 +202,7 @@ function LiveStandings(props) {
         <CloseIcon className={classes.svg} onClick={onClose} />
         <div className={classes.header}>
           <div className={classes.topHeadingLeft}>
-            <p className={classes.header_p}>{completed !== true ? "Live Standings" : "Final Standings"}</p>
+            <p className={classes.header_p}>{completed !== true  && !userAccount ? "Live Standings" : "Final Standings"}</p>
             <span>{`${getCurrentTime()} ET`}</span>
           </div>
 

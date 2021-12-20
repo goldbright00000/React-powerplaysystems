@@ -1083,15 +1083,15 @@ function NHLPowerdFs(props) {
       sortByGoals(filterdData)
       setFilterdData(filterdData)
     } else if (selectedOptionValue === "Sort Players by Total Points") {
-      let sortBypoints = () => {
-        let sorterPoints = (a, b) => {
-          return (parseInt(a.seasons.map((val) => val.teams.map((data) => data.statistics.total.points))) < parseInt(b.seasons.map((val) => val.teams.map((data) => data.statistics.total.points)))) ? 1 : -1;
+      let sorterPoints;
+      if(FilterListView?.filter(dataList => dataList.seasons.length > 0)){
+        sorterPoints = (a, b) => {
+           return parseInt(b.seasons.map((val) => val.teams.map((data) => data.statistics.total.points)) - 
+                 parseInt(a.seasons.map((val) => val.teams.map((data) => data.statistics.total.points))))
+           }
+          FilterListView.sort(sorterPoints)
+          setFilterdData(filterdData)
         }
-        FilterListView.sort(sorterPoints);
-      }
-      sortBypoints(filterdData)
-      setFilterdData(filterdData)
-
     }
   }
 
