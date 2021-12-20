@@ -200,7 +200,13 @@ function AccountPage(props) {
         </div>
       </div>
       <Footer isBlack logoOnly={false} />
-      <LiveStandings visible={showModal} onClose={toggleLiveStandingModal} liveStandingData={liveStandingData} prizePool={0} isMobile={isMobile} />
+      <LiveStandings 
+          visible={showModal} 
+          onClose={toggleLiveStandingModal} 
+          liveStandingData={liveStandingData} 
+          prizePool={0} isMobile={isMobile} 
+          userAccount={userAccount.transactions}    
+      />
     </>
   );
 }
