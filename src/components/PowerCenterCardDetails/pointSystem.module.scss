@@ -1,5 +1,4 @@
 @import "../../scss/colors.scss";
-
 .__point_system {
   margin-left: 20px;
   margin-right: 20px;
@@ -100,7 +99,12 @@
     letter-spacing: normal;
     color: $lightBlue;
   }
-
+.__point_game_handling{
+  width: initial;
+  height: initial;
+  margin: 0;
+  text-transform: capitalize;  
+}
   @media (max-width: 540px) {
     .__my_game_center_card_powerdfs {
       display: flex;
