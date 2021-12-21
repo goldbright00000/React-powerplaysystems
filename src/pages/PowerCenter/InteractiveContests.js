@@ -1048,7 +1048,6 @@ const InteractiveContests = (props) => {
         moment.utc(item.start_date_without_timezone).format("X") >=
         moment.utc().format("X") ? (
           <div className={classes.__interactive_contests_power_center_card}>
-
           <PowerCenterCard
             id={item?.game_id}
             title={item?.league}

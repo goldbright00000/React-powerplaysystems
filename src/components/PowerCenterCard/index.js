@@ -397,7 +397,10 @@ const PowerCenterCard = (props) => {
       </div>
       <div className={classes.__power_center_card_status_and_details}>
         <div className={classes.__power_center_card_total}>
-          {targeted_game ? (
+          {console.log("targeted_game===>",targeted_game),
+          console.log("targeted_game==total=>",total),
+          console.log("targeted_game==totaloutOf=>",outOf)}
+          {total ? (
             <p>
               {outOf} <span>of {total}</span>
             </p>

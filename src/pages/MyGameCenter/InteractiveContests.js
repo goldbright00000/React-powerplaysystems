@@ -174,7 +174,6 @@ const InteractiveContests = (props) => {
   };
 
   const onEdit = async (item) => {
-    console.log("edit------>",item);
     switch (item?.game?.league?item?.game?.league:item?.league) {
       case "MLB":
         await dispatch(MLbActions.setSelectedTeam(item));

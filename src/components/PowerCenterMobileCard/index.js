@@ -119,7 +119,7 @@ const PowerCenterMobileCard = (props) => {
               </p>
             </div>
             <div className={classes.__power_center_card_total}>
-              {targeted_game || targeted_game == null ? (
+              {total || total == null ? (
                 <p>
                   {outOf} <span>of {total}</span>
                 </p>
