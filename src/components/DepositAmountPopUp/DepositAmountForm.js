@@ -284,7 +284,7 @@ class DepositAmountForm extends Component {
 
   render() {
     const { currency, price, paymentMetod, walletAddress } = this.state.form;
-    const { isOtherAmount } = this.state;
+    const { isOtherAmount,cardname,cardno,cvv,expiremonth,expireyear  } = this.state;
     return (
       <>
         <section className={styles.formSection}>
@@ -333,8 +333,10 @@ class DepositAmountForm extends Component {
                 value={isOtherAmount ? price : ""}
               />
             </div>
-            {price > 500 &&
+            {price > 500 ?
               <div className={`${styles.errorMessage}`}>Maximum deposit amount is $500.00</div>
+              : price === 100 &&
+              <div className={`${styles.errorMessage}`}>You can't able to add $100.00</div>
             }
           </div>
         </section>
@@ -432,7 +434,7 @@ class DepositAmountForm extends Component {
                     <h6>Cardholder Name</h6>
                     <input
                       type="text"
-                      name="CardName"
+                      name="cardname"
                       placeholder="e.g. Mr J Smith"
                       onChange={this.onFieldChangeHandler}
                       value={this.state.cardname}
@@ -444,7 +446,7 @@ class DepositAmountForm extends Component {
                     <h6>Card Number</h6>
                     <input
                       type="number"
-                      name="CardNumber"
+                      name="cardno"
                       placeholder="e.g. 1234 5678 1234 5678"
                       onChange={this.onFieldChangeHandler}
                       value={this.state.cardno}
@@ -456,7 +458,7 @@ class DepositAmountForm extends Component {
                     <h6>Expiry Month</h6>
                     <input
                       type="number"
-                      name="CardExpMonth"
+                      name="expiremonth"
                       placeholder="MM"
                       onChange={this.onFieldChangeHandler}
                       value={this.state.expiremonth}
@@ -468,7 +470,7 @@ class DepositAmountForm extends Component {
                     <h6>Expiry Year</h6>
                     <input
                       type="number"
-                      name="CardExpYear"
+                      name="expireyear"
                       placeholder="YY"
                       onChange={this.onFieldChangeHandler}
                       value={this.state.expireyear}
@@ -480,7 +482,7 @@ class DepositAmountForm extends Component {
                     <h6>CVV</h6>
                     <input
                       type="number"
-                      name="CardIDNumber"
+                      name="cvv"
                       className={styles.cvvInput}
                       maxLength={3}
                       minLength={3}
@@ -534,13 +536,16 @@ class DepositAmountForm extends Component {
 
                 //   </div>
                 // </section>
-                <button className={`${styles.submitbtn} w-100 d-block`}>
+                <button className={`${styles.submitbtn} w-100 d-block`}
+               >
                   Deposit • {currency === "$USD" && "$"}
                   {price} {currency.replace("$", "")}
                 </button>
               ) : (
                 <button className={`${styles.submitbtn} w-100 d-block`}
-                  onClick={this.onPayment}>
+                  onClick={this.onPayment}
+                  disabled={price === 100 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear  ? true : false}
+                  >
                   Deposit • {currency === "$USD" && "$"}
                   {price}
                   {currency.replace("$", "")}
@@ -700,7 +705,9 @@ class DepositAmountForm extends Component {
                 {price} {currency.replace("$", "")}
               </button>
             ) : (
-              <button className={`${styles.submitbtn} w-100 d-block`} onClick={this.onSubmit}>
+              <button className={`${styles.submitbtn} w-100 d-block`} 
+                onClick={this.onSubmit}
+                >
                 Deposit • {currency === "$USD" && "$"}
                 {price}
                 {currency.replace("$", "")}

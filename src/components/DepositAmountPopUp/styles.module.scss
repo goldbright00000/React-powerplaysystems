@@ -64,7 +64,7 @@ body {
 .title,
 .title2 {
   color: $grey9;
-  font-size: 1.143rem;
+  font-size: 16px;
   margin: 0 0 0.375rem 0;
 }
 
@@ -261,6 +261,11 @@ body {
   border: 1px solid $primary;
 }
 
+.submitbtn:disabled{
+  background-color: #ffb47a;
+  border: 1px solid #ffb47a;
+}
+
 .buyCoinBtn {
   border: 1px solid;
   color: #688fbd;
@@ -374,7 +379,7 @@ body {
 }
 .card_field h6{
   color: #7f7f7f;
-  font-size: 0.9143rem;
+  font-size: 16px;
   margin: 0 0 0.375rem 0;
   white-space: pre;
 }
