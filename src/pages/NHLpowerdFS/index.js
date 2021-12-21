@@ -606,6 +606,7 @@ function NHLPowerdFs(props) {
         setSelectedData(_selectedData);
         setSelectedFilter(_selectedFilter);
         setFilterdData(_selectedData);
+        setSelectMenuData(MenuDataList[0].value)
       }
     },
     [
@@ -1066,7 +1067,7 @@ function NHLPowerdFs(props) {
     } else if (selectedOptionValue === "Sort Players by Start Time") {
       let sortByDateTime = () => {
         let sorterDate = (a, b) => {
-          return (a.match.scheduled > b.match.scheduled) ? 1 : -1;
+          return (a?.match?.scheduled > b?.match?.scheduled) ? 1 : -1;
         }
         FilterListView.sort(sorterDate);
       }
@@ -1074,20 +1075,20 @@ function NHLPowerdFs(props) {
       setFilterdData(filterdData)
 
     } else if (selectedOptionValue === "Sort Players by Goals Scored") {
-      let sortByGoals = () => {
+      if(FilterListView?.filter(dataList => dataList?.seasons?.length > 0)?.length){
         let sorterGoals = (a, b) => {
-          return (a.seasons.map((val) => val.teams.map((data) => data.statistics.total.goals)) < b.seasons.map((val) => val.teams.map((data) => data.statistics.total.goals))) ? 1 : -1;
+          return parseInt(b?.seasons?.map((val) => val?.teams?.map((data) => data.statistics.total.goals)) -
+          parseInt(a?.seasons?.map((val) => val?.teams?.map((data) => data.statistics.total.goals))));
         }
         FilterListView.sort(sorterGoals);
-      }
-      sortByGoals(filterdData)
-      setFilterdData(filterdData)
+        setFilterdData(filterdData)
+    }
     } else if (selectedOptionValue === "Sort Players by Total Points") {
       let sorterPoints;
-      if(FilterListView?.filter(dataList => dataList.seasons.length > 0)){
+      if(FilterListView?.filter(dataList => dataList?.seasons?.length > 0)?.length){
         sorterPoints = (a, b) => {
-           return parseInt(b.seasons.map((val) => val.teams.map((data) => data.statistics.total.points)) - 
-                 parseInt(a.seasons.map((val) => val.teams.map((data) => data.statistics.total.points))))
+           return parseInt(b?.seasons?.map((val) => val?.teams?.map((data) => data.statistics.total.points)) - 
+                 parseInt(a?.seasons?.map((val) => val?.teams?.map((data) => data.statistics.total.points))))
            }
           FilterListView.sort(sorterPoints)
           setFilterdData(filterdData)
