@@ -28,6 +28,7 @@
             line-height: normal;
             letter-spacing: 0.12px;
             color: $grey2;
+            text-align: start;
 
             span {
                 color: $primary;
@@ -94,12 +95,21 @@
             }
         }
 
+
+        // .__team_points_modal_card_div::-webkit-scrollbar {
+        //     width: 10px !important; 
+        // }
+
+        // .__team_points_modal_card_div::-webkit-scrollbar-track {
+        //     background-color: rgba(242, 242, 242, 0.06) !important;
+        //     border-radius: 50px !important;
+        // }
         .__team_points_modal_card_div {
             width: 100%;
-            overflow: scroll;
-            height: 480px;
+          
             margin-top: 10px;
 
+            
             > div {
                 display: flex;
                 flex-direction: row;
@@ -107,4 +117,100 @@
             }
         }
     }
+}
+
+
+
+.game__card .card__header {display: flex;align-items: center;}
+
+.cardWrap {
+    padding: 20px;
+}
+
+.line__game__card {
+    background-color: #fb6e00;
+    height: 7px;
+    border-radius: 7px;
+    width: 20%;
+}
+
+.cardWrap .game__card .card__header {
+    font-weight: bold;
+}
+
+.cardWrap .game__card .card__header .card__number {
+    margin-right: 10px;
+    font-style: italic;
+}
+
+.cardWrap .game__card .card__header .card__pts {
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(124deg, #fb6e00 36%, #fa3800 72%);
+}
+
+.card__main__box {
+    padding: 20px ;
+    border-radius: 8px;
+    box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.5);
+    background-color: #1a1b1f;
+    margin-top: 15px;
+    height: 325px;
+
+}
+
+
+.card__main__idea{
+    min-height: auto;
+    max-height: 281px;
+    overflow-y: auto;
+    padding-right: 10px !important;       
+}
+
+.card__main__idea::-webkit-scrollbar-track {
+    background-color: rgba(242, 242, 242, 0.06) !important;
+    border-radius: 50px !important;
+}
+.card__main__idea::-webkit-scrollbar {
+    width: 5px !important; 
+}
+
+
+.card__main__box h6 {
+    color: #688fbd;
+}
+
+.card__main__box .main__table__box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.main__table__header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+
+
+.main__table__header 
+ .right__side {
+    font-weight: bold;
+}
+
+.game__card__scroll{
+    display: block !important;
+    overflow: scroll;
+    height: 480px;
+    margin-right: 5px !important;
+}
+
+.game__card__scroll::-webkit-scrollbar {
+    width: 10px !important; 
+}
+
+.game__card__scroll::-webkit-scrollbar-track {
+    background-color: rgba(242, 242, 242, 0.06) !important;
+    border-radius: 50px !important;
 }

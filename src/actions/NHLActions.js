@@ -506,8 +506,10 @@ export function saveAndGetSelectPlayers(payload) {
   };
 }
 
-export async function getSavedTeamPlayers(payload) {
+export  function getSavedTeamPlayers(payload) {
   try {
+    return async function(dispatch) {
+
     const playersResponse = await http.post(
       "https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyTeam",
       {
@@ -540,10 +542,11 @@ export async function getSavedTeamPlayers(payload) {
       players,
       teamD,
       team_id,
-    };
+    }};
   } catch (err) {
     console.log(err);
   }
+
 }
 
 export function getMlbLivePlayPlayerTeamData(payload) {

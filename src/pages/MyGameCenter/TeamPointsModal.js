@@ -7,36 +7,57 @@ import { getMlbLivePlayPlayerTeamData } from "../../actions/MLBActions";
 import { useDispatch } from "react-redux";
 import _ from "lodash";
 import SportsSavedPlayerCard from "../../components/SportsSavedPlayerCard";
+import { getSavedTeamPlayers } from "../../actions/NHLActions";
 
 const TeamPointsModal = (props) => {
   const dispatch = useDispatch();
-
+console.log("props==>",props);
   const { isVisible = false, onClose = () => {}, item = {} } = props || {};
   const [activeTab, setActiveTab] = useState(1);
 
   const [savedTeam, setSavedTeam] = useState([]);
+  const [tempStorageData, setTempStorageData] = useState([]);
 
   useEffect(() => {
     async function getData() {
-      const teamData = await dispatch(
-        getMlbLivePlayPlayerTeamData({
-          user_id: item?.user_id,
-          game_id: item?.game_id,
-          sport_id: item?.power_dfs_games?.sports_id
-            ? item?.power_dfs_games?.sports_id
-            : item?.power_dfs_games?.league === "MLB"
-            ? 1
-            : 2,
-        })
-      );
+      let teamData;
+      if (item._id) {
+        teamData = await dispatch(
+          getSavedTeamPlayers({
+            user_id: item?._id?.userID,
+            game_id: item?._id?.gameID,
+            sport_id: item?.power_dfs_games?.sports_id
+              ? item?.power_dfs_games?.sports_id
+              : item?.power_dfs_games?.league === "MLB"
+              ? 1
+              : 2,
+          })
+        );
+      } else {
+        teamData = await dispatch(
+          getMlbLivePlayPlayerTeamData({
+            user_id: item?.user_id,
+            game_id: item?.game_id,
+            sport_id: item?.power_dfs_games?.sports_id
+              ? item?.power_dfs_games?.sports_id
+              : item?.power_dfs_games?.league === "MLB"
+              ? 1
+              : 2,
+          })
+        );
+      }
       const tempStorage = await teamData;
-
+      if (_.isEmpty(tempStorageData)) {
+        setTempStorageData(tempStorage);
+      }
+      console.log("tempStorage===>", !_.isEmpty(tempStorage));
       if (!_.isEmpty(tempStorage)) {
-        setSavedTeam([...tempStorage.players, ...tempStorage.teamD]);
+        setSavedTeam([tempStorage.players, tempStorage.teamD]);
       }
     }
     getData();
   }, [item]);
+  console.log(" savedTeam.length > 0=>", item);
 
   return (
     <Modal visible={isVisible}>
@@ -53,8 +74,12 @@ const TeamPointsModal = (props) => {
             />
           </div>
           <div className={classes.__team_points_modal_main_title}>
-            Team Points for Display name:{" "}
-            <span>{item?.users?.display_name}</span>
+            Results of Display Name:{" "}
+            <span>
+              {item._id
+                ? item?._id?.user_display_name
+                : item?.users?.display_name}
+            </span>
           </div>
           <hr />
           <div className={classes.__team_points_modal_nav_links}>
@@ -65,7 +90,7 @@ const TeamPointsModal = (props) => {
                   className={activeTab == 1 && classes.active}
                   onClick={() => setActiveTab(1)}
                 >
-                  Manage My Team
+                  Team Manager
                 </a>
               </li>
               {/* <li>
@@ -82,16 +107,24 @@ const TeamPointsModal = (props) => {
               Total Points: <span>999</span>
             </div>
           </div>
-          <div className={classes.__team_points_modal_card_div}>
-            <Card>
-              {savedTeam &&
-                savedTeam.length > 0 &&
-                savedTeam.map((item, index) => {
-                  return (
-                    <>
-                      {item.team_d_mlb_team ? (
-                        <></>
-                      ) : (
+          <Card>
+            <div className={classes.__team_points_modal_card_div}>
+              {console.log("tempStorageData", tempStorageData)}
+              {tempStorageData &&
+                console.log(" savedTeam.length > 0=>", savedTeam)}
+              <div className={classes.game__card__scroll}>
+              <div className={`${classes.cardWrap} ${"row"}`}>
+                {savedTeam &&
+                  savedTeam.length > 0 &&
+                  savedTeam.map((items, index) => {
+                    return (
+                      <>
+                        {items.team_d_mlb_team ? (
+                          <></>
+                        ) : (
+                          <>
+                          {!item?._id?(
+                            /* {item?.league?.name!=="NHL"? (
                         // <SportsLiveCardTeamD
                         // data={item}
                         // compressedView={compressedView}
@@ -103,8 +136,10 @@ const TeamPointsModal = (props) => {
                         // dataMain={selectedTeam}
                         // setPowers={setPowers}
                         // />
-                        <SportsSavedPlayerCard
-                          data={item}
+                        */
+                        
+                            <SportsSavedPlayerCard
+                          data={items}
                           // compressedView={compressedView}
                           // key={index + ""}
                           // onChangeXp={onChangeXp}
@@ -121,16 +156,61 @@ const TeamPointsModal = (props) => {
                           //     xp3: pointBooster3x,
                           // }}
                         />
-                        //  <SportsSavedPlayerCard
+                            /* //  <SportsSavedPlayerCard
                         //     item={item}
                         //     key={index + ""}
                         // />
-                      )}
-                    </>
-                  );
-                })}
-            </Card>
-            {/* <Card>
+                        ):(  */
+                          ):(
+                            index===0 && 
+                            <div className="col-md-3">
+                              <div className={classes.game__card}>
+                                <div className={classes.line__game__card}></div>
+                               
+                                <div className={classes.card__header}>
+                                  <div className={classes.card__number}>{items[0]?.type}:</div>
+                                  <div className={classes.card__pts}>
+                                    14 Pts
+                                  </div>
+                                </div>
+                                <div className={classes.card__main__box}>
+                                  <div className={classes.card__main__idea}>
+                                    <div className={classes.main__table__box}>
+                                      <div className={classes.card__left}>
+                                        <h6>Player</h6>
+                                      </div>
+                                      <div className={classes.card__right}>
+                                        <h6>Points</h6>
+                                      </div>
+                                    </div>
+                                   
+
+                                    <div
+                                      className={classes.main__table__header}
+                                    >
+                                      <div className={classes.left__side}>
+                                       {items[0].full_name}
+                                      </div>
+                                      <div className={classes.right__side}>
+                                       {items[0].grandTotal}
+                                      </div>
+                                    </div>
+                                    
+
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            )}
+                            {/* )} */}
+                          </>
+                        )}
+                      </>
+                    );
+                  })}
+              </div>
+              </div>
+              {/* <Card>
                             {
                                 dummyData.map((item, index) => {
                                     return (
@@ -145,7 +225,8 @@ const TeamPointsModal = (props) => {
                                 })
                             }
                         </Card> */}
-          </div>
+            </div>
+          </Card>
         </div>
       </div>
     </Modal>
