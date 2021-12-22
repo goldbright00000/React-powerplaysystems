@@ -116,11 +116,11 @@ function LiveStandings(props) {
   const [filteredData, setFilteredData] = useState([]);
   const [filteredString, setFilteredString] = useState("");
   const [teamPointsModal, setTeamPointsModal] = useState(false);
+  const [teamPointsModalId, setTeamPointsModalId] = useState("");
 
   const { user_id } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
-
     const obj = props.liveStandingData;
 
     if (!!obj && obj.length > 0) {
@@ -159,8 +159,9 @@ function LiveStandings(props) {
       setFilteredData([]);
     }
   };
-  const handleViewTeam = () => {
+  const handleViewTeam = (id) => {
     setTeamPointsModal(true);
+    setTeamPointsModalId(id)
   }
 
   const Row = (item, ind) => (
@@ -172,14 +173,13 @@ function LiveStandings(props) {
         <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
         <span>
           {ind !== 0 && (
-            <button className={classes.button_btn} onClick={handleViewTeam}>
-              {isMobile ? "Team" : "View1 Team"}
+            <button className={classes.button_btn} onClick={()=>handleViewTeam(item?._id?.userID)}>
+              {isMobile ? "Team" : "View Team"}
             </button>
           )}
           {
-            teamPointsModal
+            teamPointsModal &&teamPointsModalId===item?._id?.userID
             &&
-
             <TeamPointsModal
               isVisible={teamPointsModal}
               onClose={() => setTeamPointsModal(false)}

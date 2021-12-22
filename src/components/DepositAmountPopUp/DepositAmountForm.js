@@ -724,7 +724,7 @@ class DepositAmountForm extends Component {
             <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged ${price}.00 by PowerPlay Systems Inc.</p>
           </form>
         }
-        {price > 5000 &&
+        {price > 4999 &&
         <UsersGateway  amount={price} paymentMethod={paymentMetod} email={emailValue} />
         }
       </>

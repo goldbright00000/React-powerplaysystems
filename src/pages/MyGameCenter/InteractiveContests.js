@@ -270,7 +270,6 @@ const InteractiveContests = (props) => {
       case "NHL":
 
         let ab=  await dispatch(NHLActions.setSelectedTeam(item));
-        console.log("===>",ab);
 
        dispatch(
           NHLActions.getAndSetEditPlayers({
@@ -517,7 +516,6 @@ const InteractiveContests = (props) => {
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
         key={index}
       >
-        {console.log("item======>",item)}
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
@@ -534,7 +532,7 @@ const InteractiveContests = (props) => {
               : 0
           }
           outOf={item?.enrolled_users}
-          total={item?.game?.target}
+          total={item?.target}
           percent={item?.game?.percent}
           game_type={item?.gameType}
           game_id={item?.gameID}

@@ -542,6 +542,7 @@ export  function getSavedTeamPlayers(payload) {
       players,
       teamD,
       team_id,
+      fantasyTeam,
     }};
   } catch (err) {
     console.log(err);

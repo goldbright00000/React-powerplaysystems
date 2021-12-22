@@ -133,6 +133,9 @@
     border-radius: 7px;
     width: 20%;
 }
+.game__card{
+    margin-bottom: 30px;
+}
 
 .cardWrap .game__card .card__header {
     font-weight: bold;
@@ -201,9 +204,10 @@
 
 .game__card__scroll{
     display: block !important;
-    overflow: scroll;
-    height: 480px;
+    overflow-y: auto;
+    height: 380px;
     margin-right: 5px !important;
+    overflow-x: hidden;
 }
 
 .game__card__scroll::-webkit-scrollbar {
