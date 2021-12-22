@@ -10,12 +10,10 @@ import "./userGateway.css";
 
 let _socket = null;
 
-const UsersGateway = (props) => {
+const UsersGateway = ({amount, paymentMethod, email}) => {
   const history = useHistory();
-  const {
-    location: { state },
-  } = props;
-
+ 
+  
   const user_id = getLocalStorage("PERSONA_USER_ID");
   const token = getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER);
 
@@ -28,12 +26,7 @@ const UsersGateway = (props) => {
 
   useEffect(() => {
     _socket?.on(CONSTANTS.SOCKET_EVENTS.PAYMENT.SUCCESS, (response) => {
-      redirectTo(
-        { history },
-        {
-          path: `${state.previousPath}?status=true`,
-        }
-      );
+      
     });
   }, [_socket]);
 
@@ -61,12 +54,12 @@ const UsersGateway = (props) => {
         method="post"
       >
         <input type="hidden" name="token" value={`Bearer ${token}`} />
-        <input type="hidden" name="amount" value={state.amount} />
+        <input type="hidden" name="amount" value={amount} />
         <input type="hidden" name="user_id" value={user_id} />
         <script
           class="myuserPay-button"
           data-public_key={process.env.REACT_APP_MYUSERPAY_PUBLIC_KEY}
-          data-amount={state.amount * 100}
+          data-amount={amount * 100}
           data-description="Deposit Money"
           data-name="Defy Games Demo"
           data-image="Item or your picture,logo"

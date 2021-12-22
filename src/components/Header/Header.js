@@ -187,8 +187,8 @@ const Header = (props) => {
           paymentMethod,
           email: user?.email,
         };
-        dispatch(payWithMyUserPay(obj, history));
         // setHideDepositModal();
+        dispatch(payWithMyUserPay(obj));
       } else {
         return true;
       }

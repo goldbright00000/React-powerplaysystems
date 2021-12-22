@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
 
 import { createAlert } from "../../actions/notificationActions";
 import ChooseItem from "../../ui/ChooseItem/ChooseItem";
@@ -19,6 +20,8 @@ import copyImage from "../../assets/copy.png";
 import copyTextToClipBoard from "../../utility/copyTextToClipBoard";
 import { getPersonaUserId } from "../../actions/personaActions";
 import { checkAccountLimit } from "../../actions/userActions";
+
+import UsersGateway from "../../pages/UsersPaymentGateway/UsersGateway"
 
 const paymentGateWay = 'MyUserPay';
 const user_id = getPersonaUserId();
@@ -231,6 +234,7 @@ class DepositAmountForm extends Component {
 
   componentDidMount() {
     let { price, paymentMetod } = this.state.form;
+    console.log("this.....",this.state.form)
     this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: false })
   }
 
@@ -285,6 +289,8 @@ class DepositAmountForm extends Component {
   render() {
     const { currency, price, paymentMetod, walletAddress } = this.state.form;
     const { isOtherAmount,cardname,cardno,cvv,expiremonth,expireyear  } = this.state;
+    const emailValue = this.props.auth.user.email;
+    console.log("state-----------",emailValue)
     return (
       <>
         <section className={styles.formSection}>
@@ -542,6 +548,7 @@ class DepositAmountForm extends Component {
                   {price} {currency.replace("$", "")}
                 </button>
               ) : (
+              price < 500 &&
                 <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
                   disabled={price === 100 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear  ? true : false}
@@ -717,9 +724,21 @@ class DepositAmountForm extends Component {
             <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged ${price}.00 by PowerPlay Systems Inc.</p>
           </form>
         }
+        {price > 5000 &&
+        <UsersGateway  amount={price} paymentMethod={paymentMetod} email={emailValue} />
+        }
       </>
     );
   }
 }
 
-export default DepositAmountForm;
+
+const mapStateToProps = state => {
+  return {
+      auth: state.auth
+  }
+}
+
+export default connect(mapStateToProps)(DepositAmountForm)
+
+

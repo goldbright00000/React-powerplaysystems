@@ -160,7 +160,7 @@ const App = (props) => {
           <Route path="/verify-your-identity" component={VerifyIdentityPage} />
           <Route path="/mlb-power-levels" component={MLBPowerLevels} />
           <Route path="/mlb-recharge" component={MLBRecharge} />
-          <Route path="/users-gateway" component={UsersPaymentGateway} />
+          {/* <Route path="/power-center" component={UsersPaymentGateway} /> */}
           <Route path="/psi-gateway" component={PSiGateway} />
           <Route path="/livee" component={LiveStanding} />
           <Route path="/contest-rules" component={ContestRulesPage} />
