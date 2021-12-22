@@ -10,7 +10,7 @@ import SearchIcon from "../../icons/SearchIcon";
  * @param {*} dropDown - if array of objects then it must have key name title or array of strings
  */
 function SearchInput(props) {
-  const [search, setSearch] = useState("");
+  
   const [showTeamSelection, setTeamSelectionState] = useState(false);
 
   const {
@@ -20,7 +20,9 @@ function SearchInput(props) {
     selected = "",
     placeholder = "",
     searchText = "",
-    isReset = false
+    isReset = false,
+    setSearch = "",
+    search = "",
   } = props || {};
 
   React.useEffect(() => {
@@ -32,8 +34,6 @@ function SearchInput(props) {
   },[isReset]);
 
   const onChange = (e) => {
-    const { value } = e.target;
-    setSearch(value);
     onSearch(e);
   };
 
@@ -103,6 +103,8 @@ SearchInput.propTypes = {
   placeholder: PropTypes.string,
   onSelect: PropTypes.func,
   onSearch: PropTypes.func,
+  setSearch:PropTypes.string,
+  search:PropTypes.string,
 };
 
 export default SearchInput;

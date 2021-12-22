@@ -265,10 +265,10 @@ function NHLPowerdFs(props) {
   const [topPrize, setTopPrize] = useState(0);
   const [prizes, setPrizes] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [searchText, setSearchText] = useState("");
   const [isPaid, setIsPaid] = useState(true);
   const [data, setData] = useState([]);
   const [selectMenuData, setSelectMenuData] = useState(MenuDataList[0].value);
+  const [search, setSearch] = useState("");
 
   let {
     // data = [],
@@ -607,7 +607,8 @@ function NHLPowerdFs(props) {
         setSelectedFilter(_selectedFilter);
         setFilterdData(_selectedData);
         setSelectMenuData(MenuDataList[0].value)
-      }
+        setSearch("")
+       }
     },
     [
       selectedFilter,
@@ -670,7 +671,7 @@ function NHLPowerdFs(props) {
     var tempObj = [];
     var tempIds = [];
     if (!isEmpty(value)) {
-      setSearchText(value);
+      setSearch(value)
       if (selectedData?.type == "td") {
         var _filterdData = selectedData?.listData?.filter((player) =>
           player?.city
@@ -707,6 +708,7 @@ function NHLPowerdFs(props) {
               ?.toLocaleLowerCase()
               ?.startsWith(value?.toLocaleLowerCase())
         );
+        // console.log("_filterdData",_filterdData)
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
           player?.match?.home?.name
             ?.toLocaleLowerCase()
@@ -721,6 +723,7 @@ function NHLPowerdFs(props) {
         }
         for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
           var id = _filterdDataHomeTeam[i].id;
+          console.log("id......",id)
           if (tempIds.indexOf(id) == -1) {
             tempIds.push(id);
             tempObj.push(_filterdDataHomeTeam[i]);
@@ -733,6 +736,7 @@ function NHLPowerdFs(props) {
       };
       setFilterdData(_filterdDataObj);
     } else {
+      setSearch("")
       setFilterdData(selectedData);
     }
   };
@@ -1170,6 +1174,8 @@ function NHLPowerdFs(props) {
                 <div className={classes.container_searchList}>
                   <Search
                     onSearch={onSearch}
+                    search={search}
+                    setSearch={setSearch}
                     //onSelect={onSelectSearchDropDown}
                     //dropDown={dropDownState}
                     selected={selectedDropDown}
