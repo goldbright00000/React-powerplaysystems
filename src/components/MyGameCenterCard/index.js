@@ -1205,7 +1205,7 @@ const MyGameCenterCard = (props) => {
                   <div
                     className={classes.__my_game_center_card_details_link}
                     onClick={() => {
-                      onDetailsClick(id);
+                      onDetailsClick(game_id);
                       setShowDetails(true);
                     }}
                   >
@@ -1253,7 +1253,7 @@ const MyGameCenterCard = (props) => {
             PrizePayout={PrizePayout}
             PointsSystem={PointsSystem}
             title={title}
-            onBackClick={() => onBackClick()}
+            onBackClick={() => {onBackClick(); setShowDetails(false)}}
             onNextClick={() => onNextClick()}
             myGameCenter={true}
             game_set_start={game_set_start}
