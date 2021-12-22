@@ -184,23 +184,12 @@ export function payWithZum(data, history) {
 }
 
 
-export function payWithMyUserPay(data, history) {
+export function payWithMyUserPay(data) {
   const { amount, email, paymentMethod } = data;
 
   return (dispatch) => {
-    dispatch({ type: SET_LOADING });
+    dispatch({ type: SET_LOADING , payload:data});
 
-    redirectTo(
-      { history },
-      {
-        path: "users-gateway",
-        state: {
-          previousPath: history?.location?.pathname,
-          amount,
-          email
-        },
-      }
-    );
   };
 }
 
