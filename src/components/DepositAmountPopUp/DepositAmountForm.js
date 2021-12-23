@@ -548,7 +548,6 @@ class DepositAmountForm extends Component {
                   {price} {currency.replace("$", "")}
                 </button>
               ) : (
-              price < 500 &&
                 <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
                   disabled={price === 100 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear ? true : false}
