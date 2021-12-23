@@ -235,7 +235,6 @@ class DepositAmountForm extends Component {
 
   componentDidMount() {
     let { price, paymentMetod } = this.state.form;
-    console.log("this.....",this.state.form)
     this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: false })
   }
 
@@ -275,8 +274,10 @@ class DepositAmountForm extends Component {
         } else {
           let { price, paymentMetod } = this.state.form;
           // price = parseFloat((price * this.props.cad).toFixed(2));
-          this.setState({ paymentInfo: true })
-          this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: true })
+          if(price === 5000){
+            this.setState({ paymentInfo: true })
+            this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: true })
+          }
 
           // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
           // this.props.zumSubmitted({ amount: price, paymentMethod: paymentMetod });
@@ -548,9 +549,9 @@ class DepositAmountForm extends Component {
                   {price} {currency.replace("$", "")}
                 </button>
               ) : (
-                <button className={`${styles.submitbtn} w-100 d-block`}
+              <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
-                  disabled={price === 100 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear ? true : false}
+                  disabled={price === 100 || price > 5000 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear ? true : false}
                 >
                   Deposit • {currency === "$USD" && "$"}
                   {price}
@@ -713,6 +714,7 @@ class DepositAmountForm extends Component {
             ) : (
               <button className={`${styles.submitbtn} w-100 d-block`}
                 onClick={this.onSubmit}
+                disabled={price > 5000 ? true : false}
               >
                 Deposit • {currency === "$USD" && "$"}
                 {price}
@@ -723,7 +725,7 @@ class DepositAmountForm extends Component {
             <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged ${price}.00 by PowerPlay Systems Inc.</p>
           </form>
         }
-        {paymentInfo === true &&
+       {paymentInfo === true &&
           <UsersGateway amount={price} paymentMethod={paymentMetod} email={emailValue} />
         }
       </>
