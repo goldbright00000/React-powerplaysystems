@@ -119,6 +119,7 @@ const DepositAmountPopUp = (props) => {
                       coinbaseSubmitted={props.coinbaseFormSubmitted}
                       formCurrency={formCurrency}
                       monthlyAmount={monthlyAmount}
+                      setPaymentInfo={setPaymentInfo}
                       paymentInfo={paymentInfo}
                     />
                     </div>
