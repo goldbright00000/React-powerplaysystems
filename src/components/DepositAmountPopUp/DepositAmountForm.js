@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import { createAlert } from "../../actions/notificationActions";
 import ChooseItem from "../../ui/ChooseItem/ChooseItem";
@@ -56,7 +56,8 @@ class DepositAmountForm extends Component {
     cardname: this.props.cardname,
     canadianVisible: this.props.country === "Canada",
     dispatch: this.props.dispatch,
-    currentAmount: 25
+    currentAmount: 25,
+    paymentInfo: this.props.paymentInfo
   };
 
   onCurrencyChange = (e) => {
@@ -274,6 +275,7 @@ class DepositAmountForm extends Component {
         } else {
           let { price, paymentMetod } = this.state.form;
           // price = parseFloat((price * this.props.cad).toFixed(2));
+          this.setState({ paymentInfo: true })
           this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod, isMyUser: true })
 
           // To enable USD payment using zum - DO NOT REMOVE THIS LINE OF CODE!!
@@ -288,9 +290,8 @@ class DepositAmountForm extends Component {
 
   render() {
     const { currency, price, paymentMetod, walletAddress } = this.state.form;
-    const { isOtherAmount,cardname,cardno,cvv,expiremonth,expireyear  } = this.state;
+    const { isOtherAmount, cardname, cardno, cvv, expiremonth, expireyear, paymentInfo } = this.state;
     const emailValue = this.props.auth.user.email;
-    console.log("state-----------",emailValue)
     return (
       <>
         <section className={styles.formSection}>
@@ -542,8 +543,7 @@ class DepositAmountForm extends Component {
 
                 //   </div>
                 // </section>
-                <button className={`${styles.submitbtn} w-100 d-block`}
-               >
+                <button className={`${styles.submitbtn} w-100 d-block`}>
                   Deposit • {currency === "$USD" && "$"}
                   {price} {currency.replace("$", "")}
                 </button>
@@ -551,8 +551,8 @@ class DepositAmountForm extends Component {
               price < 500 &&
                 <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
-                  disabled={price === 100 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear  ? true : false}
-                  >
+                  disabled={price === 100 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear ? true : false}
+                >
                   Deposit • {currency === "$USD" && "$"}
                   {price}
                   {currency.replace("$", "")}
@@ -585,48 +585,48 @@ class DepositAmountForm extends Component {
               </section>
             ) : (<></>)}
             {currency === "USD" && !this.state.canadianVisible && (
-                // <section className={styles.cardSectionn}>
-                //   <div className={styles.cardDetails}>
-                //     <form>
-                //       <input
-                //         placeholder="City"
-                //         value={this.state.city}
-                //         name="city"
-                //         onChange={this.onFieldChangeHandler}
-                //       />
-                //       <input
-                //         placeholder="Address"
-                //         name="address"
-                //         onChange={this.onFieldChangeHandler}
-                //         value={this.state.address}
-                //       />
-                //       <input
-                //         placeholder="Phone Number"
-                //         type="phone"
-                //         name="phoneNumber"
-                //         onChange={this.onFieldChangeHandler}
-                //         value={this.state.phoneNumber}
-                //       />
-                //       <input
-                //         placeholder="Zip"
-                //         name="zip"
-                //         value={this.state.zip}
-                //         onChange={this.onFieldChangeHandler}
-                //       />
-                //       <select
-                //         onChange={this.onFieldChangeHandler}
-                //         value={this.state.currency}
-                //         name="currency"
-                //       >
-                //         <option value="USD">USD</option>
-                //         <option value="EUR">EUR</option>
-                //       </select>
-                //     </form>
-                //   </div>
-                // </section>
-                <></>
-              )}
-              {currency === "USD" && (
+              // <section className={styles.cardSectionn}>
+              //   <div className={styles.cardDetails}>
+              //     <form>
+              //       <input
+              //         placeholder="City"
+              //         value={this.state.city}
+              //         name="city"
+              //         onChange={this.onFieldChangeHandler}
+              //       />
+              //       <input
+              //         placeholder="Address"
+              //         name="address"
+              //         onChange={this.onFieldChangeHandler}
+              //         value={this.state.address}
+              //       />
+              //       <input
+              //         placeholder="Phone Number"
+              //         type="phone"
+              //         name="phoneNumber"
+              //         onChange={this.onFieldChangeHandler}
+              //         value={this.state.phoneNumber}
+              //       />
+              //       <input
+              //         placeholder="Zip"
+              //         name="zip"
+              //         value={this.state.zip}
+              //         onChange={this.onFieldChangeHandler}
+              //       />
+              //       <select
+              //         onChange={this.onFieldChangeHandler}
+              //         value={this.state.currency}
+              //         name="currency"
+              //       >
+              //         <option value="USD">USD</option>
+              //         <option value="EUR">EUR</option>
+              //       </select>
+              //     </form>
+              //   </div>
+              // </section>
+              <></>
+            )}
+            {currency === "USD" && (
               <div className={`${styles.card_wrp} w-100 d-block`}>
                 {/* <div className="row">
                   <div className="col-md-12">
@@ -712,9 +712,9 @@ class DepositAmountForm extends Component {
                 {price} {currency.replace("$", "")}
               </button>
             ) : (
-              <button className={`${styles.submitbtn} w-100 d-block`} 
+              <button className={`${styles.submitbtn} w-100 d-block`}
                 onClick={this.onSubmit}
-                >
+              >
                 Deposit • {currency === "$USD" && "$"}
                 {price}
                 {currency.replace("$", "")}
@@ -724,8 +724,8 @@ class DepositAmountForm extends Component {
             <p className={`${styles.submitbtnlabel} w-100 d-block`}>You will be charged ${price}.00 by PowerPlay Systems Inc.</p>
           </form>
         }
-        {price > 4999 &&
-        <UsersGateway  amount={price} paymentMethod={paymentMetod} email={emailValue} />
+        {paymentInfo === true &&
+          <UsersGateway amount={price} paymentMethod={paymentMetod} email={emailValue} />
         }
       </>
     );
@@ -735,7 +735,7 @@ class DepositAmountForm extends Component {
 
 const mapStateToProps = state => {
   return {
-      auth: state.auth
+    auth: state.auth
   }
 }
 
