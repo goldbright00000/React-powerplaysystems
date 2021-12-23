@@ -22,6 +22,7 @@ const DepositAmountPopUp = (props) => {
   const formCurrency = useSelector((state) => state?.ui?.depositFormData);
 
   const [depositInfo, setDepositInfo] = useState(false);
+  const [paymentInfo, setPaymentInfo] = useState(false);
   const [nextForm, setDepositForm] = useState(1);
   
   useEffect(() => {
@@ -118,6 +119,7 @@ const DepositAmountPopUp = (props) => {
                       coinbaseSubmitted={props.coinbaseFormSubmitted}
                       formCurrency={formCurrency}
                       monthlyAmount={monthlyAmount}
+                      paymentInfo={paymentInfo}
                     />
                     </div>
                   </div>
