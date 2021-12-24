@@ -260,3 +260,15 @@ label.form-check-label {
   box-shadow: none !important;
   border: 0 !important;
 }
+
+
+
+.text-black {color: #fff !important;}
+.text-black  option { color: #000; }
+.text-black  option:first-child{
+  color: #000;
+}
+
+select.text-black {
+    color: #fff !important;
+}

@@ -9,9 +9,9 @@ export function getApi() {
 
 export function getApiNHL() {
   if (process.env.NODE_ENV === "development") {
-    // return "https://nhl.powerplaysystems.com";
-    return "http://localhost:4000";
+    return "https://nhl.powerplaysystems.com";
+    // return "http://localhost:4000";
   }
-  return "http://localhost:4000";
-  // return "https://nhl.powerplaysystems.com";
+  // return "http://localhost:4000";
+  return "https://nhl.powerplaysystems.com";
 }

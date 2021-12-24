@@ -345,7 +345,7 @@ function NHLPowerdFs(props) {
       getData();
     }
   }, [user]);
-  console.log("==>=== user ===<===", user);
+  // console.log("==>=== user ===<===", user);
 
   const getData = async () => {
     setLoading(true);
@@ -1224,7 +1224,7 @@ function NHLPowerdFs(props) {
                         <p>{headerText[selectedFilter?.id - 1]?.text}</p>
                       </div>
                     )}
-
+                    {console.log("filterdData===>",filterdData)}
                     <div className={classes.card_body}>
                       {filterdData && filterdData?.listData?.length ? (
                         filterdData?.listData?.map((item, index) => (

@@ -172,11 +172,11 @@ function LiveStandings(props) {
         <span>{item?.totalValue}</span>
         <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
         <span>
-          {ind !== 0 && (
+          {/* {ind !== 0 && ( */}
             <button className={classes.button_btn} onClick={()=>handleViewTeam(item?._id?.userID)}>
               {isMobile ? "Team" : "View Team"}
             </button>
-          )}
+          {/* )} */}
           {
             teamPointsModal &&teamPointsModalId===item?._id?.userID
             &&

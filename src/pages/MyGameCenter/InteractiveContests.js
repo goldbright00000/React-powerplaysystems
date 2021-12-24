@@ -269,8 +269,7 @@ const InteractiveContests = (props) => {
 
       case "NHL":
 
-        let ab=  await dispatch(NHLActions.setSelectedTeam(item));
-
+      await dispatch(NHLActions.setSelectedTeam(item));
        dispatch(
           NHLActions.getAndSetEditPlayers({
             game_id: item?.gameID,

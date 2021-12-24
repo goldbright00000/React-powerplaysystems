@@ -456,7 +456,7 @@ function PromoModal(props) {
                       <p>
                           What MLB team do you cheer for?
                       </p>
-                      <select class="text-black" onChange={(e) => {
+                      <select className="text-black" onChange={(e) => {
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,
@@ -467,7 +467,7 @@ function PromoModal(props) {
                           <option value="">Select your MLB team</option>
                           {teamData.mlb_teams && teamData.mlb_teams.map((item, index) => {
                             return  (
-                              <option value={`${item.team_id}`}>{item.name}</option>
+                              <option className="promo_options" value={`${item.team_id}`}>{item.name}</option>
                             )
                           })}
                       </select>
@@ -477,7 +477,7 @@ function PromoModal(props) {
                       <p>
                           What NFL team do you cheer for?
                       </p>
-                      <select onChange={(e) => {
+                      <select  className="text-black"  onChange={(e) => {
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,
@@ -493,12 +493,12 @@ function PromoModal(props) {
                           })}
                       </select>
                   </div>
-
+                          {console.log("teamData==>",teamData)}
                   <div className={classes.formElem}>
                       <p>
                           What NBA team do you cheer for?
                       </p>
-                      <select onChange={(e) => {
+                      <select className="text-black"  onChange={(e) => {
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,
@@ -507,11 +507,11 @@ function PromoModal(props) {
                         });
                       }}>
                           <option value="">Select your NBA team</option>
-                          <option value="one">One</option>
-                          <option value="two">Two</option>
-                          <option value="three">Three</option>
-                          <option value="four">Four</option>
-                          <option value="five">Five</option>
+                          {teamData?.nba_teams && teamData?.nba_teams.map((item, index) => {
+                            return  (
+                              <option value={`${item.team_id}`}>{item.name}</option>
+                            )
+                          })}
                       </select>
                   </div>
 
@@ -519,7 +519,7 @@ function PromoModal(props) {
                       <p>
                           What NHL team do you cheer for?
                       </p>
-                      <select onChange={(e) => {
+                      <select  className="text-black"  onChange={(e) => {
                         setFreeEntryData(prevState => {
                           return {
                           ...prevState,

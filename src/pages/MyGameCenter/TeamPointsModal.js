@@ -116,8 +116,6 @@ console.log("props==>",props);
           </div>
           <Card>
             <div className={classes.__team_points_modal_card_div}>
-              {tempStorageData &&
-                console.log(" savedTeam.length > 0=>", savedTeam.fantasyTeam)}
               <div className={classes.game__card__scroll}>
               <div className={`${classes.cardWrap} ${"row"}`}>
                 {    !item?._id && savedTeam &&
@@ -174,7 +172,7 @@ console.log("props==>",props);
                       </>
                     );
                   })}
-                  { item?._id
+                  { item?._id && savedTeam && savedTeam?.fantasyTeam?.players
                      && (
                        <>{
                       

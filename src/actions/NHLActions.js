@@ -214,7 +214,7 @@ export function getFantasyPlayers(gameID) {
         game_id: gameID,
         sport_id: 2,
       });
-
+      console.log("filterdList=222222222=>", filterdList);
       return {
         filterdList: filterdList,
         allData: [...players, ...teams],
@@ -242,12 +242,16 @@ export function createFantasyTeam(payload1) {
             return alert(
               "Invalid informations...",
               payload1.game_id,
-              payload1.userId,
+              payload1.userId
             );
           }
-        } catch (er) { console.log('er >> ', er); }
+        } catch (er) {
+          console.log("er >> ", er);
+        }
       }
-    } catch (err) { console.log('err >> ', err); }
+    } catch (err) {
+      console.log("err >> ", err);
+    }
   };
 }
 
@@ -265,21 +269,30 @@ export function editFantasyTeam(payload) {
         type: NHL_USER_EDITED_GAMES,
         payload: data?.data,
       });
-    } catch (err) { }
+    } catch (err) {}
   };
 }
 const getFinalLivePlayers = (live_players, swappedPlayers) => {
   let finalList = [];
   for (let i = 0; i < live_players.length; i++) {
     let rec = live_players[i];
-    let findPlayerInSwapped = swappedPlayers.findIndex(x => x.previousPlayerID == rec.id);
+    let findPlayerInSwapped = swappedPlayers.findIndex(
+      (x) => x.previousPlayerID == rec.id
+    );
     if (findPlayerInSwapped == -1) {
       finalList.push(rec);
-    }
-    else {
-      let a = swappedPlayers.find(x => x.previousPlayerID == rec.id).newPlayerData;
-      a["match"] = swappedPlayers.find(x => x.previousPlayerID == rec.id).match;
-      a["positionID"] = parseInt(swappedPlayers.find(x => x.previousPlayerID == rec.id).newPlayerPosition.replace( /^\D+/g, ''));
+    } else {
+      let a = swappedPlayers.find(
+        (x) => x.previousPlayerID == rec.id
+      ).newPlayerData;
+      a["match"] = swappedPlayers.find(
+        (x) => x.previousPlayerID == rec.id
+      ).match;
+      a["positionID"] = parseInt(
+        swappedPlayers
+          .find((x) => x.previousPlayerID == rec.id)
+          .newPlayerPosition.replace(/^\D+/g, "")
+      );
       finalList.push(a);
     }
   }
@@ -302,12 +315,20 @@ export function getFantasyTeam(payload) {
         dispatch({
           type: NHL_LIVE_DATA_UPDATE,
           payload: {
-            live_players: getFinalLivePlayers(fantasyTeam.players, (typeof fantasyTeam?.swappedPlayer !== "undefined") ? fantasyTeam.swappedPlayer : []),
+            live_players: getFinalLivePlayers(
+              fantasyTeam.players,
+              typeof fantasyTeam?.swappedPlayer !== "undefined"
+                ? fantasyTeam.swappedPlayer
+                : []
+            ),
             live_teamD: fantasyTeam.teamD,
             gameID: fantasyTeam.gameID,
             powersApplied: fantasyTeam.powersApplied,
             powersAvailable: fantasyTeam.powersAvailable,
-            swappedPlayers: (typeof fantasyTeam?.swappedPlayer !== "undefined") ? fantasyTeam.swappedPlayer : []
+            swappedPlayers:
+              typeof fantasyTeam?.swappedPlayer !== "undefined"
+                ? fantasyTeam.swappedPlayer
+                : [],
           },
         });
       } catch (er) {
@@ -322,14 +343,14 @@ export function getFantasyTeam(payload) {
 export function add_live_events(data) {
   return {
     type: NHL_LIVE_MATCH_EVENTS,
-    payload: data
+    payload: data,
   };
 }
 
 export function add_match_status(data) {
   return {
     type: NHL_LIVE_MATCH_STATUS,
-    payload: data
+    payload: data,
   };
 }
 
@@ -500,54 +521,58 @@ export function saveAndGetSelectPlayers(payload) {
               payload?.sport_id
             );
           }
-        } catch (er) { console.log('1. er >> ', er); }
+        } catch (er) {
+          console.log("1. er >> ", er);
+        }
       }
-    } catch (err) { console.log('2. err >> ', err); }
+    } catch (err) {
+      console.log("2. err >> ", err);
+    }
   };
 }
 
-export  function getSavedTeamPlayers(payload) {
+export function getSavedTeamPlayers(payload) {
   try {
-    return async function(dispatch) {
+    return async function (dispatch) {
+      const playersResponse = await http.post(
+        "https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyTeam",
+        {
+          gameID: payload.game_id,
+          sportID: payload.sport_id,
+          userID: payload.user_id,
+        }
+      );
 
-    const playersResponse = await http.post(
-      "https://nhl.powerplaysystems.com/api/v1/services/fantasy/getFantasyTeam",
-      {
-        gameID: payload.game_id,
-        sportID: payload.sport_id,
-        userID: payload.user_id,
-      }
-    );
-    const { fantasyTeam = {} } = playersResponse.data || {};
+      const { fantasyTeam = {} } = playersResponse.data || {};
 
-    const {
-      game_id,
-      sport_id,
-      user_id,
-      _id: team_id = "",
-      teamD = {},
-      players = [],
-    } = fantasyTeam || {};
+      const {
+        game_id,
+        sport_id,
+        user_id,
+        _id: team_id = "",
+        teamD = {},
+        players = [],
+      } = fantasyTeam || {};
 
-    // for (let i = 0; i < players?.length; i++) {
-    //   const player = players[i];
-    //   Object.assign(player, {
-    //     playerName: player?.name,
-    //     playerId: player?.player_id,
-    //   });
+      // for (let i = 0; i < players?.length; i++) {
+      //   const player = players[i];
+      //   Object.assign(player, {
+      //     playerName: player?.name,
+      //     playerId: player?.player_id,
+      //   });
 
-    //   delete player?.name;
-    // }
-    return {
-      players,
-      teamD,
-      team_id,
-      fantasyTeam,
-    }};
+      //   delete player?.name;
+      // }
+      return {
+        players,
+        teamD,
+        team_id,
+        fantasyTeam,
+      };
+    };
   } catch (err) {
     console.log(err);
   }
-
 }
 
 export function getMlbLivePlayPlayerTeamData(payload) {
@@ -562,7 +587,7 @@ export function getAndSetEditPlayers(
   payload = { game_id: 0, sport_id: 0, user_id: 0 }
 ) {
   return async (dispatch) => {
-    const teamPlayers = await getSavedTeamPlayers(payload);
+    const teamPlayers = await dispatch(getSavedTeamPlayers(payload));
     const players = teamPlayers?.players || [];
     const teamD = teamPlayers?.teamD || {};
     const savedPlayers = [...players];
@@ -581,6 +606,7 @@ export function getAndSetEditPlayers(
     const teamDObj = teamD;
 
     savedPlayers.push(teamDObj);
+    // console.log("savedPlayers==>", teamD);
     return dispatch(
       setEditPlayers({
         team_id: teamPlayers?.team_id,
@@ -761,6 +787,9 @@ export function starPlayerCount(payload) {
 }
 
 export const swapPlayer = async (payload) => {
-  const response = await http.post('https://nhl.powerplaysystems.com/api/v1/services/fantasy/swapFantasyPlayer', payload);
+  const response = await http.post(
+    "https://nhl.powerplaysystems.com/api/v1/services/fantasy/swapFantasyPlayer",
+    payload
+  );
   return response;
 };
