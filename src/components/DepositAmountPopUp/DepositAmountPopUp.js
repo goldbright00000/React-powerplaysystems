@@ -57,7 +57,7 @@ const DepositAmountPopUp = (props) => {
                     <div className={styles.leftSection}>
                       <div>
                         <h6 className={styles.title}>Current Balance</h6>
-                        <h1 className={styles.currentBalanceTitle}>$3.50</h1>
+                        <h1 className={styles.currentBalanceTitle}>${localStorage.getItem("cash_balance")}</h1>
                       </div>
                       <div className={styles.creditCardDetails}>
                         <h6 className={styles.title2}>
