@@ -50,8 +50,8 @@ class DepositAmountForm extends Component {
     zip: this.props.zip,
     currency: this.props.currency ? this.props.currency : "USD",
     country: this.props.country,
-    cvv: this.props.cvv,
-    cardno: this.props.cardno,
+    CardIDNumber: this.props.CardIDNumber,
+    CardNumber: this.props.CardNumber,
     expiredate: this.props.expiredate,
     cardname: this.props.cardname,
     canadianVisible: this.props.country === "Canada",
@@ -264,11 +264,11 @@ class DepositAmountForm extends Component {
             address: this.state.address,
             zip: this.state.zip,
             phone_number: this.state.phoneNumber,
-            cardno: this.state.cardno,
-            cvv: this.state.cvv,
+            CardNumber: this.state.CardNumber,
+            CardIDNumber: this.state.CardIDNumber,
             cardname: this.state.cardname,
-            expiremonth: this.state.expiremonth,
-            expireyear: this.state.expireyear,
+            CardExpMonth: this.state.CardExpMonth,
+            CardExpYear: this.state.CardExpYear,
           };
           this.props.ipaySubmitted(object);
         } else {
@@ -291,7 +291,7 @@ class DepositAmountForm extends Component {
 
   render() {
     const { currency, price, paymentMetod, walletAddress } = this.state.form;
-    const { isOtherAmount, cardname, cardno, cvv, expiremonth, expireyear, paymentInfo } = this.state;
+    const { isOtherAmount, cardname, CardIDNumber, CardExpMonth, CardExpYear, paymentInfo } = this.state;
     const emailValue = this.props.auth.user.email;
     return (
       <>
@@ -434,9 +434,8 @@ class DepositAmountForm extends Component {
               )}
             {currency === "USD" && (<div className={`${styles.card_wrp} w-100 d-block`}>
               <div className="row">
-                {/* <input TYPE="HIDDEN" NAME="StoreKey" VALUE="NEWSETUPhihWuZzxaSl021135" />StoreKey<br /> */}
                 <input type="hidden" name="StoreKey" value="merchantcardcapture200024" />
-                <input TYPE="HIDDEN" NAME="SubTotal" VALUE={price} />
+                <input type="hidden" name="SubTotal" value={price} />
                 <div className="col-md-12">
                   <div className={`${styles.card_field} w-100 d-block`}>
                     <h6>Cardholder Name</h6>
@@ -454,10 +453,10 @@ class DepositAmountForm extends Component {
                     <h6>Card Number</h6>
                     <input
                       type="number"
-                      name="cardno"
+                      name="CardNumber"
                       placeholder="e.g. 1234 5678 1234 5678"
                       onChange={this.onFieldChangeHandler}
-                      value={this.state.cardno}
+                      value={this.state.CardNumber}
                     />
                   </div>
                 </div>
@@ -466,10 +465,10 @@ class DepositAmountForm extends Component {
                     <h6>Expiry Month</h6>
                     <input
                       type="number"
-                      name="expiremonth"
+                      name="CardExpMonth"
                       placeholder="MM"
                       onChange={this.onFieldChangeHandler}
-                      value={this.state.expiremonth}
+                      value={this.state.CardExpMonth}
                     />
                   </div>
                 </div>
@@ -478,10 +477,10 @@ class DepositAmountForm extends Component {
                     <h6>Expiry Year</h6>
                     <input
                       type="number"
-                      name="expireyear"
+                      name="CardExpYear"
                       placeholder="YY"
                       onChange={this.onFieldChangeHandler}
-                      value={this.state.expireyear}
+                      value={this.state.CardExpYear}
                     />
                   </div>
                 </div>
@@ -490,14 +489,13 @@ class DepositAmountForm extends Component {
                     <h6>CVV</h6>
                     <input
                       type="number"
-                      name="cvv"
+                      name="CardIDNumber"
                       className={styles.cvvInput}
                       maxLength={3}
                       minLength={3}
-                      name="cvv"
                       placeholder="e.g. 123"
                       onChange={this.onFieldChangeHandler}
-                      value={this.state.cvv}
+                      value={this.state.CardIDNumber}
                     />
                   </div>
                 </div>
@@ -551,7 +549,7 @@ class DepositAmountForm extends Component {
               ) : (
               <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
-                  disabled={price === 100 || price > 5000 || price > 500 || !cardname || !cardno || !cvv || !expiremonth || !expireyear ? true : false}
+                  disabled={price === 100 || price > 5000 || price > 500 || !CardIDNumber || !cardname || !CardExpMonth || !CardExpYear || !CardIDNumber  ? true : false}
                 >
                   Deposit • {currency === "$USD" && "$"}
                   {price}
