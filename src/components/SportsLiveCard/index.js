@@ -611,11 +611,11 @@ function SportsLiveCard(props) {
   const renderXp = () => {
     let svgSize = singleView ? 14 : largeView ? 30 : 30;
     if (xp && xp?.xp === CONSTANTS.XP.xp1_5)
-      return <><XP1_5_1 className={classes.xp_svg} size={svgSize} /></>;
+      return <div><div className={classes.point_timer}>2:00</div><XP1_5_1 className={classes.xp_svg} size={svgSize} /></div>;
     else if (xp && xp?.xp === CONSTANTS.XP.xp2)
-      return <XP2Icon_1 className={classes.xp_svg} size={svgSize} />;
+      return  <div><div className={classes.point_timer}>2:00</div><XP2Icon_1 className={classes.xp_svg} size={svgSize} /></div>;
     else if (xp && xp?.xp === CONSTANTS.XP.xp3)
-      return <XP3_1 className={classes.xp_svg} size={svgSize} />;
+      return  <div><div className={classes.point_timer}>2:00</div><XP3_1 className={classes.xp_svg} size={svgSize} /></div>;
 
     if (!singleView && cardType !== CardType.NHL) {
       return <><div id="times" style={{width: "100%", color: "#8cc2ff"}}>&nbsp;</div><XPIcon size={svgSize} /></>;

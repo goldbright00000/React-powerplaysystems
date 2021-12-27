@@ -32,6 +32,9 @@ function PromoModal(props) {
   const [isFreeEntryMode, setIsFreeEntryMode] = useState(false);
   const [isValidated, setIsValidated] = useState(false);
   const [teamData, setTeamData] = useState([]);
+  const [gameStartDate, setGameStartDate] = useState("");
+  const [gameStartTime, setGameStartTime] = useState("");
+
   const [freeEntryData, setFreeEntryData] = useState({
     MLBTeam: "",
     NHLTeam: "",
@@ -301,6 +304,8 @@ function PromoModal(props) {
 
   useEffect(() => {
     powersList();
+    setGameStartDate(getLocalDateTime(item?.start_date, item?.start_time)?.date)
+    setGameStartTime(getLocalDateTime(item?.start_date, item?.start_time)?.time)
   }, [item]);
 
   return (<>
@@ -411,7 +416,7 @@ function PromoModal(props) {
                 </div>
               </div>
               <div className={classes.extraDesc}>
-                <p>No purchase necessary. Contest entry closes at <span>{item.game_set_start + " " + item.start_time}.</span></p>
+                <p>No purchase necessary. Contest entry closes at <span>{gameStartDate + " " + gameStartTime} ET.</span></p>
                 <p>Open to residents of Canada (excluding Quebec) and United States who are over the age of majority.</p>
               </div>
               <div className={classes.rules}>

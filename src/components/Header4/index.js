@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-
+import { useDispatch } from "react-redux";
 import classes from "./index.module.scss";
 import DocIcon from "../../icons/Doc";
 import Trophy from "../../icons/Trophy";
@@ -12,6 +12,8 @@ import Balance from "../Balance";
 import { CONSTANTS } from "../../utility/constants";
 import _ from "underscore";
 import group2 from '../../assets/group-2.png';
+import { showDepositForm } from "../../actions/uiActions";
+
 function Header4(props) {
   const {
     outof = "",
@@ -32,11 +34,16 @@ function Header4(props) {
     points = [],
     powers = [],
     livePage = false,
-    selectedTeam = {}
+    selectedTeam = {},
+    // depositClicked,
   } = props || {};
   const { game = {}, gameType: game_type = "", challenge_amount = 0 } = selectedTeam;
   const { prizePool = 0 } = game;
-
+// const depositClicked=()=>{
+  // eslint-disable-next-line no-undef
+  const dispatch = useDispatch();
+  const setShowDepositModal = () => dispatch(showDepositForm());
+// }
   const FooterSection = ({ Icon, isSvg, title, footerText }) => (
     <div className={classes.footer_section}>
       {Icon && !isSvg ? <img src={Icon} /> : Icon && <Icon />}
@@ -185,7 +192,7 @@ function Header4(props) {
         entries={enrolledUsers}
         totalEntries={outof}
         livePage={livePage}
-        depositClicked={props.depositClicked}
+        depositClicked={setShowDepositModal}
         selectedTeam={selectedTeam}
       />
       {/* )} */}

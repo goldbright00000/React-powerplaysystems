@@ -179,7 +179,7 @@ console.log("props==>",props);
                       savedTeam?.fantasyTeam?.players?.map((player,i)=>{return(
                       <div className="col-md-3">
                               <div className={classes.game__card}>
-                                {console.log("savedTeam?.fantasyTeam?.posCenterPoints=>",savedTeam?.fantasyTeam?.posCenterPoints)}
+                                {console.log("savedTeam?.fantasyTeam?.posCenterPoints=>",savedTeam)}
                                 <div className={classes.line__game__card}></div>
                                
                                 <div className={classes.card__header}>

@@ -135,13 +135,15 @@ function RenderModal(props) {
             <CloseIcon size={16} onClick={onClose} />
           </div>
           <div className={classes.modal_header_bottom}>
-            <p className={classes.modal_title}>
-              Swap Your{" "}
-              <span>
-                {fantasyPlayerPosition ? fantasyPlayerPosition : type}
-              </span>
-            </p>
-
+              <div>
+                <p className={classes.modal_title}>
+                  Swap Your{" "}
+                  <span>
+                    {fantasyPlayerPosition ? fantasyPlayerPosition : type}
+                  </span>
+                </p>
+                <p>Players only accumulate points for your team while they are on your team. Any points obtained before being added to your team will not count towards your My Score total </p>
+            </div>
             <div className={classes.modal_star_player_container}>
               <img src={PowerPlayIcon} />
               <div className={classes.star_player_right}>

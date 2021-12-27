@@ -225,6 +225,7 @@
             color: $lightBlue;
             font-weight: bold;
           }
+          
 
           .xp_svg {
             margin: 0 2px;
@@ -996,6 +997,12 @@
       align-items: flex-end;
       position: relative;
 
+
+      > div{
+        flex: 0 0 70%;
+        margin-bottom: 10px;
+      }
+
       .modal_title {
         font-family: Teko;
         font-size: 52px;
@@ -1575,7 +1582,9 @@
           width: 290px;
           height: 91px;
           right: 5px;
-
+          flex: 0 0 30%;
+          position: relative;
+          bottom: -10px;
           img {
             width: 68px;
             height: 68px;
@@ -2308,4 +2317,13 @@
       }
     }
   }
+}
+.point_timer{
+  font-family: "Poppins";
+  font-size: 12px;
+  font-weight: 300;
+  color: #f2f2f2;
+  line-height: 1.25;
+  padding-left: 2px;
+  padding-bottom: 2px;
 }

@@ -147,6 +147,7 @@
 .cardWrap .game__card .card__header .card__number {
     margin-right: 10px;
     font-style: italic;
+    color: #fff;
 }
 
 .cardWrap .game__card .card__header .card__pts {
@@ -199,6 +200,16 @@
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
+
+    & > div{
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 160px;
+        text-align: left;
+        flex: 0 0 58%;
+        color: #fff;
+    }
 }
 
 
@@ -206,6 +217,9 @@
 .main__table__header 
  .right__side {
     font-weight: bold;
+    flex: 0 0 36%;
+    text-align: right;
+   
 }
 
 .game__card__scroll{

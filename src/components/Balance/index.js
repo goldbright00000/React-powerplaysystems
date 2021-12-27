@@ -32,7 +32,8 @@ const Balance = (props) => {
     totalEntries = "",
     livePage = false,
     style = {},
-    selectedTeam = {}
+    selectedTeam = {},
+    depositClicked=()=>{},
   } = props || {};
   const { auth: { user: { userBalance = {} } } = {} } = useSelector(
     (state) => state
@@ -171,7 +172,7 @@ const Balance = (props) => {
             )}
             <div
               className={classes.__balance_deposit}
-              onClick={() => props.depositClicked()}
+              onClick={() => depositClicked()}
             >
               Deposit
             </div>
@@ -229,7 +230,7 @@ const Balance = (props) => {
             )}
             <div
               className={classes.__balance_deposit1}
-              onClick={() => props.depositClicked()}
+              onClick={() => depositClicked()}
             >
               Deposit
             </div>
@@ -275,7 +276,7 @@ const Balance = (props) => {
           <div
             className={classes.__balance_deposit}
             onClick={() => {
-              props.depositClicked();
+              depositClicked();
             }}
           >
             Deposit

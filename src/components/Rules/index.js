@@ -2,11 +2,14 @@ import React, { useState, useMemo, useEffect } from 'react';
 import styles from './styles.module.scss';
 import CreatePopUpPortal from '../../utility/CreatePopUpPortal';
 import { useMediaQuery } from "react-responsive";
+import moment from "moment";
+import moment1 from "moment-timezone";
 import _ from 'underscore';
 
 const Rules = props => {
     const [titled, setTitled] = useState("");
     const [showPopUp, setShowPopUp] = useState(false);
+    const [gameStartTime, setGameStartTime] = useState("");
     const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
     const {
         title = "MLB",
@@ -222,9 +225,19 @@ const Rules = props => {
             elem.style.display = "block";  
         }  
     };
+    const getLocalDateTime = (date, time) => {
+        const offset = moment1?.tz("America/New_York")?.format("Z");
+        const localDateTime = moment.utc(date + " " + time, 'YYYY-MM-DD hh:mm A').utcOffset(offset).format('YYYY-MM-DD=hh:mm A')
+        const splitted = localDateTime.split("="); 
+        return {
+          date: splitted[0],
+          time: splitted[1]
+        }
+      }
     useEffect(() => {
         setTitled(title);
-    }, [title]);
+        setGameStartTime(getLocalDateTime(gameDetails?.start_date, gameDetails?.start_time)?.time)
+    }, [title,gameDetails]);
     return (
         <>
             {useMemo(() => props.component && props.component({ showPopUp: () => {setShowPopUp(true) } }), [props])}
@@ -262,7 +275,7 @@ const Rules = props => {
                 <h2>1. ENTRY PERIOD & CONTEST SPONSOR.</h2>
                 <ol>
                 <li>The Contest is brought to you by the following entity (the "Contest Sponsor"): PowerPlay Systems Inc.</li> 
-                <li>The contest entry period (the "Entry Period") starts at {start_time} on {startDateString} and continues until the conclusion of the games that started on {startDateString}. All times referenced in these Official Rules are Eastern Time (ET).</li>
+                <li>The contest entry period (the "Entry Period") starts at {gameStartTime} on {startDateString} and continues until the conclusion of the games that started on {startDateString}. All times referenced in these Official Rules are Eastern Time (ET).</li>
                 </ol>
             </section>
             <section id="point2">
@@ -270,7 +283,7 @@ const Rules = props => {
                 <p className={styles.light}>No purchase necessary to enter this Contest. Entry is subject to these OfficialRules, including without limitation the conditions of entry set forth below.</p>
                 <ol>
                     <li>
-                    During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS {powerdfs_challenge_amount} Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the {league} Player Selection page. Then during the live {league} games starting on {startDateString} at {start_time} ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
+                    During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS {powerdfs_challenge_amount} Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the {league} Player Selection page. Then during the live {league} games starting on {startDateString} at {gameStartTime} ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
                     </li>
                     <li>
                     <b>ENTRY LIMIT</b>: One (1) entry per person, per email address. By way of illustration, if two (2) or more otherwise eligible individuals share a single email address, only one (1) of them may create a profile; and, if an eligible individual has multiple email addresses, he or she may only have one profile.
@@ -298,7 +311,7 @@ const Rules = props => {
                         })}
                         . This will be the participants team. High performing players and high performing team defences (based on season-to-date performance or expected performance) available to be chosen for each position will be assigned a Star Power label. A participant's selections must not exceed 3 Premium selections.</li>
                     <li>The Contest Sponsor reserves the right to add fantasy baseball players during the Contest leading up to the start of the Contest. </li>
-                    <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is {startDateString} at {start_time} ET, subject to change in the event of a change in the {league} schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
+                    <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is {startDateString} at {gameStartTime} ET, subject to change in the event of a change in the {league} schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
                     <li>Point Scoring System
                         <div className={styles.tableHeader}>
                             <div className={styles.headerTitle}>
@@ -453,7 +466,7 @@ const Rules = props => {
                     <h2>1. ENTRY PERIOD & CONTEST SPONSOR.</h2>
                     <ol>
                     <li>The Contest is brought to you by the following entity (the "Contest Sponsor"): PowerPlay Systems Inc.</li> 
-                    <li>The contest entry period (the "Entry Period") starts at {start_time} on {startDateString} and continues until the conclusion of the games that started on {startDateString}. All times referenced in these Official Rules are Eastern Time (ET).</li>
+                    <li>The contest entry period (the "Entry Period") starts at {gameStartTime} on {startDateString} and continues until the conclusion of the games that started on {startDateString}. All times referenced in these Official Rules are Eastern Time (ET).</li>
                     </ol>
                     </section>
                     <button onClick={() => toggleSection("point2")}>2. HOW TO ENTER AND PARTICIPATE</button>
@@ -462,7 +475,7 @@ const Rules = props => {
                         <p className={styles.light}>No purchase necessary to enter this Contest. Entry is subject to these OfficialRules, including without limitation the conditions of entry set forth below.</p>
                         <ol>
                             <li>
-                            During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS {powerdfs_challenge_amount} Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the {league} Player Selection page. Then during the live {league} games starting on {startDateString} at {start_time} ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
+                            During the Entry Period, go to defygames.io and proceed to the PowerCenter (the "Contest Website") and follow the instructions to enter the “PowerdFS {powerdfs_challenge_amount} Point Challenge Contest”. Enter the game by clicking “Enter’ and proceed to pick and submit your selections from the {league} Player Selection page. Then during the live {league} games starting on {startDateString} at {gameStartTime} ET, visit My Game Center to play the game as set out in section 3 of these Official Rules (the "Contest Game"). Participants may be eligible to win a prize in this Contest depending on the ‘My Score’ point total of eachparticipant via his/her participation in the Contest as set put in section 6 of these official riles (the “Prize Description” section). A participant may not create more than one Contest profile.
                             </li>
                             <li>
                             <b>ENTRY LIMIT</b>: One (1) entry per person, per email address. By way of illustration, if two (2) or more otherwise eligible individuals share a single email address, only one (1) of them may create a profile; and, if an eligible individual has multiple email addresses, he or she may only have one profile.
@@ -491,7 +504,7 @@ const Rules = props => {
                             })}
                                 . This will be the participants team. High performing players and high performing team defences (based on season-to-date performance or expected performance) available to be chosen for each position will be assigned a Star Power label. A participant's selections must not exceed 3 Premium selections.</li>
                             <li>The Contest Sponsor reserves the right to add fantasy baseball players during the Contest leading up to the start of the Contest. </li>
-                            <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is {startDateString} at {start_time} ET, subject to change in the event of a change in the {league} schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
+                            <li>The deadline for entering and/or changing fantasy football players (the "Selection Deadline") will be posted on the Selection Page. The Selection Deadline is {startDateString} at {gameStartTime} ET, subject to change in the event of a change in the {league} schedule. No submissions will be accepted by the Contest Sponsor for any reason after the Selection Deadline as posted on the Selections Page have transpired. Participants may change the players on their team any time before the Selection Deadline. Any picks received after the Selection Deadline will be void. The sole determinant of time for the purposes of the Contest will be the Contest Website servers.</li>
                             <li>Point Scoring System
                                 <div className={styles.tableHeader}>
                                     <div className={styles.headerTitle}>

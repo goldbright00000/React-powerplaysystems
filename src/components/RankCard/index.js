@@ -130,6 +130,7 @@ function RankCard(props) {
       )}
 
       <LiveStandings
+        isInProgressGame={true}
         visible={showModal}
         onClose={closeModal}
         liveStandingData={liveStandings}
