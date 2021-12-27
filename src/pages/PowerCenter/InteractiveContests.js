@@ -975,7 +975,7 @@ const InteractiveContests = (props) => {
     return gameEndDateTime < moment();
   };
   function filterCurrency(arr) {
-    var newArr = [];
+   var newArr = [];
     for (var i = 0; i < arr.length; i++) {
       var power = arr[i];
       let isCompleted = isGameCompleted(moment(power?.end_date + " 23:59"));
@@ -984,8 +984,8 @@ const InteractiveContests = (props) => {
         var m = moment().format("YYYY-MM-DD");
       } else {
         var m = moment
-          .utc(selectedDate + " " + moment().format("YYYY"))
-          .format("YYYY-MM-DD");
+        .utc(selectedDate + " " + moment().format("YYYY"))
+        .format("YYYY-MM-DD");
       }
       var sDate = m + " 00:00";
       var eDate = m + " 23:59";
@@ -995,19 +995,17 @@ const InteractiveContests = (props) => {
       s = s.split(/(?=[A-Z]{2})/).join(" ");
       var startDate = moment(power?.start_date + " " + s).format(
         "YYYY-MM-DD hh:mm A"
-      );
+        );
       var endDate = moment(power?.end_date + " 11:59 PM").format(
         "YYYY-MM-DD hh:mm A"
       );
       var isBetween1 = moment(startDate).isBetween(sDate, eDate);
-
+      
       if (selectedDate === "All") {
         isBetween1 = 1;
-      }
-      if (
-        selectedCurrencies.indexOf(arr[i]?.currency?.toLowerCase()) > -1 &&
-        isBetween1
-      ) {
+      } else if(m === power?.start_date &&  isBetween1 > 1) {
+        newArr.push(arr[i]);
+      }else{
         newArr.push(arr[i]);
       }
     }
@@ -1030,9 +1028,7 @@ const InteractiveContests = (props) => {
     const offset = moment1?.tz("America/New_York")?.format("Z");
     const localDateTime = moment
       .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
-      .utcOffset(offset)
       .format("YYYY-MM-DD=hh:mm A");
-
     const splitted = localDateTime.split("=");
 
     return {
@@ -1095,8 +1091,7 @@ const InteractiveContests = (props) => {
             onNextClick={() => setShowCardDetails(-1)}
           />
           </div>
-
-        ) : (
+          ) : (
           ""
         )}
       </>
@@ -1166,13 +1161,14 @@ const InteractiveContests = (props) => {
       setFilteredData(data);
     } else {
       powerCenterCardData.map((item) => {
-        if (item?.start_date == day) {
+       if (item?.start_date === day) {
           data.push(item);
-        }
+       }
       });
-      setFilteredData(data);
+     setFilteredData(data);
     }
   };
+  
 const onEnteredChange=()=>{
   setShowEntered(!showEntered)
 }
@@ -1429,12 +1425,13 @@ const onEnteredChange=()=>{
             </div>
           </div>
         )}
-        {!isAgeRestricted ? (
+       {!isAgeRestricted ? (
           isLoading ? (
             <h2>Loading ....</h2>
           ) : isLoading == false &&
-            filteredData &&
-            filterCurrency(filteredData)?.length > 0 ? (
+            filteredData 
+            ? 
+            (
             isMobile ? (
               (() => {
                 if (selectedFilter == 4) {
@@ -1445,7 +1442,7 @@ const onEnteredChange=()=>{
                   powerCenterCardData.length / itemsInaRow
                 );
                 var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filterByCurrency);
+                var a1 = sortArray(filteredData);
                 const powerCenterMobileCardView = Array(numberOfRows)
                   .fill(undefined)
                   .map((item, i) => {
@@ -1467,7 +1464,7 @@ const onEnteredChange=()=>{
                 return powerCenterMobileCardView;
               })()
             ) : isTablet || isBigScreenTablet ? (
-              (() => {
+            (() => {
                 if (selectedFilter == 4) {
                   return <OffSeasonComponent />;
                 }
@@ -1476,7 +1473,7 @@ const onEnteredChange=()=>{
                   powerCenterCardData.length / itemsInaRow
                 );
                 var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filterByCurrency);
+                var a1 = sortArray(filteredData);
                 const powerCenterCardView = Array(numberOfRows)
                   .fill(undefined)
                   .map((item, i) => {
@@ -1499,7 +1496,7 @@ const onEnteredChange=()=>{
               })()
             ) : (
               (() => {
-                if (selectedFilter == 4) {
+                if (selectedFilter === 4) {
                   return <OffSeasonComponent />;
                 } else {
                   const itemsInaRow = 1000;
@@ -1507,23 +1504,22 @@ const onEnteredChange=()=>{
                   const numberOfRows = Math.ceil(
                     powerCenterCardData.length / itemsInaRow
                   );
-
+                  
                   var filterByCurrency = filterCurrency(filteredData);
-                  var a1 = sortArray(filterByCurrency);
+                  var a1 = sortArray(filteredData);
                   const powerCenterCardView = Array(numberOfRows)
                     .fill(undefined)
                     .map((item, i) => {
                       const start = (i + 1) * itemsInaRow - 1000;
                       const end = (i + 1) * itemsInaRow;
                       const items = a1.slice(start, end);
-
                       return (
                         <div
                           className={
                             classes.__interactive_contests_power_center_card_row
                           }
                         >
-                          {items.map((power) => {
+                         {items.map((power) => {
                             return powerCenterCard(power, power.url);
                           })}
 
