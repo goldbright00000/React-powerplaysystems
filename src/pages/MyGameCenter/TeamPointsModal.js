@@ -68,7 +68,7 @@ console.log("props==>",props);
 
   return (
     <Modal visible={isVisible}>
-      <div className={classes.__team_points_modal}>
+      <div className={`${classes.__team_points_modal} ${"main__teams__point"}`}>
         <div className={classes.__team_points_modal_main_content}>
           <div className={classes.__team_points_modal_close_icon}>
             <img
@@ -219,7 +219,6 @@ console.log("props==>",props);
                                       {(player?.type==="D" || player?.type==="d")&& player?.positionID===1 && savedTeam?.fantasyTeam?.posD1Points}
                                       {(player?.type==="D" || player?.type==="d")&& player?.positionID===2 && savedTeam?.fantasyTeam?.posD2Points}
                                       {(player?.type==="G" || player?.type==="g") && savedTeam?.fantasyTeam?.posGoaliePts}
-                                        point
                                       </div>
                                     </div>
                                   </div>

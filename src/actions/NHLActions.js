@@ -254,7 +254,21 @@ export function createFantasyTeam(payload1) {
     }
   };
 }
+export function getLiveWinningStatus(payload) {
+  try {
+    return async function (dispatch) {
+       return await http.get(
+        `https://nhl.powerplaysystems.com/api/v1/services/fantasy/getUserFantasyRanking?userID=${payload.userID}`,
+      );
+      // const { playerRank = [] } = playersResponse.finalRankings || [];
+      // console.log("playersResponse==1212121212121212>",playerRank);
 
+     
+    };
+  } catch (err) {
+    console.log(err);
+  }
+}
 export function editFantasyTeam(payload) {
   return async (dispatch) => {
     try {

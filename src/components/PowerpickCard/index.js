@@ -11,7 +11,7 @@ const PowerPickCard = (props) => {
     <div
       className={`${classes.card_wrapper} ${
         props?.shadow && classes.card_shadow
-      } ${props?.className}`}
+      } ${props?.className} ${"main__card__inner"}`}
       style={styles}
     >
       {props.ranks ? (

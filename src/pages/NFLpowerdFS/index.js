@@ -1423,12 +1423,22 @@ function NFLPowerdFs(props) {
                   Submitting...
                 </button>
               ) : (
-                <button
-                  className={classes.sidebar_button}
-                  onClick={onSubmitNFL}
-                >
-                  Submit!
-                </button>
+                <>
+                {sideBarList.length ===selectedPlayerCount ?(
+                  <button
+                    className={classes.sidebar_button}
+                    onClick={onSubmitNFL}
+                  >
+                    Submit!
+                  </button>
+                  ):(
+                    <button
+                    className={classes.sidebar_button}
+                  >
+                    Select your team
+                  </button>
+                  )}
+                </>
               )}
             </Sidebar>
           </div>

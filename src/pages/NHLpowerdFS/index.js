@@ -1581,17 +1581,28 @@ function NHLPowerdFs(props) {
                 starIcon={StarImg}
                 selectedPlayerCount={selectedPlayerCount}
               />
+              {console.log("selectedPlayerCount===>",sideBarList.length)}
               {isLoading ? (
                 <button className={classes.sidebar_button}>
                   Submitting...
                 </button>
               ) : (
-                <button
-                  className={classes.sidebar_button}
-                  onClick={onSubmitNHL}
-                >
-                  Submit!
-                </button>
+               <>
+                {sideBarList.length ===selectedPlayerCount ?(
+                  <button
+                    className={classes.sidebar_button}
+                    onClick={onSubmitNHL}
+                  >
+                    Submit!
+                  </button>
+                  ):(
+                    <button
+                    className={classes.sidebar_button}
+                  >
+                    Select your team
+                  </button>
+                  )}
+                </>
               )}
             </Sidebar>
           </div>

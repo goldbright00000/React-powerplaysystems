@@ -68,6 +68,8 @@ const MyGameCenterCard = (props) => {
     id = null,
     title = "NHL",
     prize = 0,
+    currentRank=0,
+    currentWinnig=0,
     prize_currency = "USD",
     totalPoints = 0,
     outOf = null,
@@ -101,7 +103,7 @@ const MyGameCenterCard = (props) => {
   } = props || {};
 
   const [showDetails, setShowDetails] = useState(false);
-
+  
   const [ranks, setRanks] = React.useState({
     ranking: 0,
     score: 0,
@@ -626,7 +628,7 @@ const MyGameCenterCard = (props) => {
                     }
                   >
                     <CurrencyFormat
-                      value={prize}
+                      value={currentWinnig}
                       displayType={"text"}
                       // thousandSeparator={true}
                       thousandSeparator={prize >= 10000 ? true : false}
@@ -668,7 +670,7 @@ const MyGameCenterCard = (props) => {
                       classes.__my_game_center_card_buttons_your_current_rank
                     }
                   >
-                    {ranks.ranking}
+                    {title==="NHL" ? currentRank:ranks.ranking}
                     <br /> <span>Your Current Rank</span>
                   </div>
                 )}
@@ -1071,7 +1073,6 @@ const MyGameCenterCard = (props) => {
               className={classes.__my_game_center_card_prize_pool}
               style={{
                 margin: 0,
-                paddingLeft: 24,
                 textAlign: game_type === "PowerdFS" ? "center" : "left",
               }}
             >
@@ -1085,10 +1086,12 @@ const MyGameCenterCard = (props) => {
                   textAlign: game_type === "PowerdFS" ? "center" : "left",
                 }}
               >
+                {/* {console.log("currentRank==>", currentRank?._id?.gameID==game_id)}
+                {console.log(currentRank?._id?.userID==user_id && currentRank?._id?.gameID==game_id ?(currentRank.prize):(prize))} */}
                 <CurrencyFormat
-                  value={prize}
+                  value={currentWinnig}
                   displayType={"text"}
-                  thousandSeparator={prize >= 10000 ? true : false}
+                  thousandSeparator={currentWinnig >= 10000 ? true : false}
                   prefix={"$"}
                   renderText={(value) => <div>{value}</div>}
                 />
@@ -1106,6 +1109,22 @@ const MyGameCenterCard = (props) => {
               >
                 {inProgress ? "Currently Winning" : "Prize Pool"}
               </p>
+              <p>
+              {inProgress && (
+                <div
+                  className={
+                    classes.__my_game_center_card_buttons_your_current_rank
+                  }
+                >
+                  {/* {currentRank && console.log("ranjnkjsnfkjdsfjd==>",currentRank)} */}
+                  <div className={classes.rank__number}>
+                    {console.log("currentRank==>",currentRank)}
+                  {title==="NHL" ? currentRank:ranks.ranking}
+                  </div>
+                  <div className={classes.rank__title}>Your Current Rank</div> 
+                </div>
+              )}
+              </p>
             </div>
             <div className={classes.__my_game_center_card_buttons}>
               {timeToStart && (
@@ -1118,15 +1137,7 @@ const MyGameCenterCard = (props) => {
                 </div>
               )}
 
-              {inProgress && (
-                <div
-                  className={
-                    classes.__my_game_center_card_buttons_your_current_rank
-                  }
-                >
-                  Your Current Rank: {ranks.ranking}
-                </div>
-              )}
+            
               {!completed && (
                 <OutlineButton title="Manage my Team" onClick={onEnter} />
               )}

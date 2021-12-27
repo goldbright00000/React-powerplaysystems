@@ -134,10 +134,34 @@ const InteractiveContests = (props) => {
   const { user } = useSelector((state) => state?.auth);
   const [userGames, setUserGames] = useState({});
   const { getUserSavedGames } = useSelector((state) => state?.mlb);
+  const { finalRankings } = useSelector((state) => state?.nhl);
+
   
   // const toggleLiveStandingModal = () => {
   //   setModalState(!showModal);
   // };
+  const [currentWinnings, setCurrentWinnings] = useState(0);
+  const [leader, setLeader] = useState(0);
+  const [currentRank, setCurrentRank] = useState([]);
+  // const toggleLiveStandingModal = () => {
+  //   setModalState(!showModal);
+  // };
+  const { user_id } = useSelector((state) => state.auth.user);
+
+
+  useEffect(async() => {
+    console.log("dsfdsfd==>",user_id);
+    if (user_id) {      
+      let liveRanking= await dispatch(
+          NHLActions.getLiveWinningStatus({
+           userID:user_id,
+          })
+        );
+        setCurrentRank(liveRanking?.data?.finalRankings)
+
+    }
+  }, [dispatch, user_id]);
+ console.log("currentRankcurrentRankcurrentRankcurrentRank=>",currentRank);
   const applyFilter = (type) => {
     setContentType(type);
   };
@@ -489,6 +513,7 @@ const InteractiveContests = (props) => {
     date1.setMinutes(date1.getMinutes() - date1.getTimezoneOffset())
     let  date2 = new Date();
     if(date1 < date2 && date2 < date3)
+
     {
       return {
         "status": 1,
@@ -507,7 +532,36 @@ const InteractiveContests = (props) => {
       "message": txt
     }
   }
-
+const liveGameRankAndPrize=(item,index)=>{
+  let data;
+currentRank &&
+    currentRank?.map((finalRank,ix1)=>{
+        item?.gameID===finalRank?.gameID && 
+        currentRank[ix1]?.gameID  &&
+          currentRank[ix1]?.rankings?.map((liveData,ix)=>{
+           if(liveData?._id?.userID===item?.userID )
+           {
+            data= liveData?.prize
+           }
+          })
+    })
+    return data;
+}
+const liveGameRankAndRank=(item,index)=>{
+  let data;
+currentRank &&
+    currentRank?.map((finalRank,ix1)=>{
+        item?.gameID===finalRank?.gameID && 
+        currentRank[ix1]?.gameID  &&
+          currentRank[ix1]?.rankings?.map((liveData,ix)=>{
+           if(liveData?._id?.userID===item?.userID )
+           {
+            data= liveData?.rank
+           }
+          })
+    })
+    return data;
+}
   const myGameCenterCard = (item, redirectUri, index) => {
     return (
       <>
@@ -515,6 +569,8 @@ const InteractiveContests = (props) => {
         className={`${classes.__interactive_contests_power_center_card} col-auto my-2`}
         key={index}
       >
+
+       
         <MyGameCenterCard
           isMobile={isMobile}
           id={item?.team_id}
@@ -530,6 +586,18 @@ const InteractiveContests = (props) => {
               )
               : 0
           }
+          currentWinnig={item?.gameStatus === "In-Progress" ?liveGameRankAndPrize(item,index):
+            item?.reward.length > 0
+              ? _.reduce(
+                item?.reward,
+                function (memo, num) {
+                  return memo + parseFloat(num.amount) * parseInt(num.prize);
+                },
+                0
+              )
+              : 0
+          }
+          currentRank={item?.gameStatus === "In-Progress" &&liveGameRankAndRank(item,index)}
           outOf={item?.enrolled_users}
           total={item?.target}
           percent={item?.game?.percent}
@@ -542,7 +610,8 @@ const InteractiveContests = (props) => {
           PointsSystem={item?.pointSystem}
           Power={item?.powersAvailable}
           PrizePayout={_.sortBy(item?.reward, "from")}
-          inProgress={item?.gameStatus === "closed" ? false : getDateStringValue(item).status == 1 ? true : false}
+          // inProgress={item?.gameStatus === "closed" ? false : getDateStringValue(item).status == 1 ? true : false}
+          inProgress={item?.gameStatus === "In-Progress" ? true : false}
           completed={item?.gameStatus === "closed" ? true : false}
           editPicks={item?.gameStatus === "Activated" ? true : false}
           currency={item?.game?.currency}
