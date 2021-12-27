@@ -348,7 +348,7 @@ class DepositAmountForm extends Component {
             }
           </div>
         </section>
-        {parseInt(this.props.monthlyAmount) + parseInt(this.state.currentAmount) < 5000 ?
+        {(parseInt(this.props.monthlyAmount) + parseInt(this.state.currentAmount)) < 5000 ?
           < form action='https://stagingcheckout.psigate.com/HTMLPost/HTMLMessenger' method="post" className={styles.form}>
             {currency === "USD" && paymentGateWay !== 'MyUserPay' ? (
               < section className={styles.formSection}>
@@ -549,7 +549,7 @@ class DepositAmountForm extends Component {
               ) : (
               <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
-                  disabled={price === 100 || price > 5000 || price > 500 || !CardIDNumber || !cardname || !CardExpMonth || !CardExpYear || !CardIDNumber  ? true : false}
+                  disabled={price === 100  || price > 500 || !CardIDNumber || !cardname || !CardExpMonth || !CardExpYear || !CardIDNumber   ? true : false}
                 >
                   Deposit • {currency === "$USD" && "$"}
                   {price}
@@ -712,7 +712,7 @@ class DepositAmountForm extends Component {
             ) : (
               <button className={`${styles.submitbtn} w-100 d-block`}
                 onClick={this.onSubmit}
-                disabled={price > 5000 ? true : false}
+                disabled={price >= 1600? true : false}
               >
                 Deposit • {currency === "$USD" && "$"}
                 {price}
