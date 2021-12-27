@@ -8,7 +8,6 @@ import TickIcon from "../../assets/icons/correct-copy.png";
 
 const HistoryInfoComponent = (props) => {
   let { isMobile = false, transactions = [] } = props || {};
-  transactions = transactions.filter(el => el?.transaction_type_details?.type === "Game Entry" || el?.transaction_type_details?.type === "Game Exit");
   const getLiveStandingsButton =  (game_id) => {
     props.getLiveStandings(game_id);
   };
