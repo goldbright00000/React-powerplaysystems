@@ -23,6 +23,7 @@ const DepositAmountPopUp = (props) => {
 
   const [depositInfo, setDepositInfo] = useState(false);
   const [paymentInfo, setPaymentInfo] = useState(false);
+  const [priceValue, setPriceValue] = useState("");
   const [nextForm, setDepositForm] = useState(1);
   
   useEffect(() => {
@@ -36,6 +37,10 @@ const DepositAmountPopUp = (props) => {
       setDepositForm(nextForm + 1);
     }
   }
+
+   const handlePriceValue = (data) => {
+    setPriceValue(data);
+   }
 
   return (
     <CreatePopUpPortal>
@@ -161,7 +166,7 @@ const DepositAmountPopUp = (props) => {
             </div>
           </div>
           {/* Display only on small screens */}
-          <div className="modal-content d-block d-xl-none bg-none">
+         <div className="modal-content d-block d-xl-none bg-none">
             <div className={`${formStyles.root} pt-2 px-4 position-relative`}>
               {
                 nextForm > 1 && nextForm <= 3 &&
@@ -212,13 +217,30 @@ const DepositAmountPopUp = (props) => {
                 coinbaseSubmitted={props.coinbaseFormSubmitted}
                 formCurrency={formCurrency}
                 monthlyAmount={monthlyAmount}
+                onchangePriceValue={handlePriceValue}
                 />
-
-              <button className={formStyles.button} onClick={handleDepositFormForMobile} style={{
-                display: nextForm === 3 ? 'none' : 'block'
-              }}>
-                {nextForm !== 3 ? 'Next' : 'Deposit'}
-              </button>
+                {nextForm === 1 ?
+                 <button className={formStyles.button} onClick={handleDepositFormForMobile} 
+                >
+                  Next
+                </button> 
+                :
+                nextForm === 2 &&
+                <button className={formStyles.btnNext} onClick={handleDepositFormForMobile} 
+                 disabled={priceValue == 100 || priceValue > 500 ? true : false}
+                >
+                  Next
+                </button> 
+                }
+                {nextForm === 3 &&
+                 <button className={formStyles.button} onClick={handleDepositFormForMobile} 
+                 style={{
+                  display:'none'
+                 }}
+                >
+                Deposit
+                </button> 
+                }
             </div>
           </div>
         </div>

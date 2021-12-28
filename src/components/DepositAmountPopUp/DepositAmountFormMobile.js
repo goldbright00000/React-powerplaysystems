@@ -36,7 +36,7 @@ class DepositAmountFormMobile extends Component {
                 this.props.country === "Canada" ? "EFT" : "Credit or Debit Card",
             walletAddress: "",
         },
-        isOtherAmount: false,
+       isOtherAmount: false,
         city: this.props.city,
         address: this.props.address,
         phoneNumber: this.props.phoneNumber,
@@ -62,6 +62,7 @@ class DepositAmountFormMobile extends Component {
 
     onPriceChange = (e) => {
         const { value, type } = e.target;
+        this.props.onchangePriceValue(value);     
         const newForm = { ...this.state.form };
         newForm.price = +value;
         this.setState({ form: newForm, isOtherAmount: type === "number" });
@@ -519,7 +520,6 @@ class DepositAmountFormMobile extends Component {
                             </button>
                         ) : (
                             <button className={`${styles.submitbtn} w-100 d-block position-absolute ${styles.customDepositBtn}`}
-                            disabled={price === 100  || price > 500  ? true : false}
                             >
                                 Deposit • {currency === "$USD" && "$"}
                                 {price}
