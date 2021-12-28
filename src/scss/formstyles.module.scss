@@ -24,7 +24,7 @@
         gap: 0.7143rem;
     }
 }
-.button{
+.button,.btnNext{
     border: none;
     outline: none;
     font-size: 1.4286rem;
@@ -67,7 +67,10 @@
         animation: buttonAnimation 0.2s forwards;
     }
 }
-
+.btnNext:disabled {
+    background-color: #ffb47a;
+    border: 1px solid #ffb47a;
+}
 .header{
     margin: -2.142rem -2.142rem 0 -2.142rem;
 }
@@ -100,7 +103,7 @@
         display: none;
         margin: 0;
     }
-    .button{
+    .button,.btnNext{
         font-size: 1.4285rem;
         width: 11em;
         height: 2.4em;
