@@ -311,6 +311,11 @@ class DepositAmountFormMobile extends Component {
                                     value={isOtherAmount ? price : ""}
                                 />
                             </div>
+                            {price > 500 ?
+                                 <div className={`${styles.errorMessage}`}>Maximum deposit amount is $500.00</div>
+                            : price === 100 &&
+                                  <div className={`${styles.errorMessage}`}>You can't able to add $100.00</div>
+                         }
                         </div>
                     </section>
                 }
@@ -513,7 +518,9 @@ class DepositAmountFormMobile extends Component {
                                 {price} {currency.replace("$", "")}
                             </button>
                         ) : (
-                            <button className={`${styles.submitbtn} w-100 d-block position-absolute ${styles.customDepositBtn}`}>
+                            <button className={`${styles.submitbtn} w-100 d-block position-absolute ${styles.customDepositBtn}`}
+                            disabled={price === 100  || price > 500  ? true : false}
+                            >
                                 Deposit • {currency === "$USD" && "$"}
                                 {price}
                                 {currency.replace("$", "")}

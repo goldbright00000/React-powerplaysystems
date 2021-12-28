@@ -538,6 +538,9 @@ text-align: center;
   color: red !important;
   font-size: 12px;
   text-align: right;
+  @media (max-height: 1199px) {
+    text-align: left;
+  }
 }
 
 @media (min-width:481px) {
