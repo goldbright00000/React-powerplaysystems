@@ -47,6 +47,7 @@ import OrangeEthCurrency from "../../assets/ethereum-orange.png";
 import LiveStandings from "../../components/LiveStandings";
 import * as MLbActions from "../../actions/MLBActions";
 import { useDispatch, useSelector } from "react-redux";
+import WinnersPlayerDetails from "./WinnersPlayerDetails";
 const MyGameCenterCard = (props) => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -103,6 +104,8 @@ const MyGameCenterCard = (props) => {
   } = props || {};
 
   const [showDetails, setShowDetails] = useState(false);
+  const [showWinners, setShowWinners] = useState(false);
+
   
   const [ranks, setRanks] = React.useState({
     ranking: 0,
@@ -1007,7 +1010,11 @@ const MyGameCenterCard = (props) => {
             />
           )}
         </>
-      ) : !showDetails ? (
+      ) : 
+     !showWinners ?(
+    
+     !showDetails   ? 
+      (
         !viewResults ? (
           <div
             className={classes.__my_game_center_card}
@@ -1208,7 +1215,11 @@ const MyGameCenterCard = (props) => {
                 {completed ? (
                   <div
                     className={classes.__my_game_center_card_details_link}
-                    onClick={() => onViewResults(id, game_id)}
+                    onClick={() =>{
+                      // onViewResults(id, game_id);
+                      setShowWinners(true);
+                      setShowDetails(false);
+                    }}
                   >
                     Winners
                   </div>
@@ -1218,6 +1229,7 @@ const MyGameCenterCard = (props) => {
                     onClick={() => {
                       onDetailsClick(game_id);
                       setShowDetails(true);
+                      setShowWinners(false);
                     }}
                   >
                     Details
@@ -1258,7 +1270,7 @@ const MyGameCenterCard = (props) => {
           />
         )
       ) : (
-        <>
+        <>{
           <PowerCenterCardDetails
             Power={Power}
             PrizePayout={PrizePayout}
@@ -1272,9 +1284,24 @@ const MyGameCenterCard = (props) => {
             hideCard={() => {
               setShowDetails(false);
             }}
-          />
+          />}
         </>
-      )}
+      )
+  ):( 
+    <>
+    <WinnersPlayerDetails
+        isWinner={true}
+        gameId={game_id}
+        title={title}
+        onBackClick={() => {setShowWinners(false)}}
+        prize={prize}
+        endTime={end_time}
+        gameSetEnd={game_set_end}
+        completed={completed}
+       
+      />
+    </>
+  )}
       <LiveStandings
         visible={showModal}
         onClose={() => { setModalState(false) }}

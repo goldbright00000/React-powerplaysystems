@@ -9,7 +9,8 @@ const Footer = (props) => {
         onEnter = () => { },
         myGameCenter = false,
         userHasEntered = false,
-        game_type = ""
+        game_type = "",
+        isCompleted=false
     } = props || {};
     return (
         <div className={classes.__power_center_card_details_footer}>
@@ -21,6 +22,8 @@ const Footer = (props) => {
                     Back
                 </div>
             </div>
+            {!isCompleted &&(<>
+            
             {
                 !myGameCenter
                 &&
@@ -41,6 +44,7 @@ const Footer = (props) => {
                     {">"}
                 </div>
             </div>
+            </>)}
         </div >
     );
 };

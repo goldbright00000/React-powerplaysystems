@@ -341,10 +341,8 @@ class DepositAmountForm extends Component {
                 value={isOtherAmount ? price : ""}
               />
             </div>
-            {price > 500 ?
+            {price > 500 &&
               <div className={`${styles.errorMessage}`}>Maximum deposit amount is $500.00</div>
-              : price === 100 &&
-              <div className={`${styles.errorMessage}`}>You can't able to add $100.00</div>
             }
           </div>
         </section>
@@ -549,7 +547,7 @@ class DepositAmountForm extends Component {
               ) : (
               <button className={`${styles.submitbtn} w-100 d-block`}
                   onClick={this.onPayment}
-                  disabled={price === 100  || price > 500 || !CardIDNumber || !cardname || !CardExpMonth || !CardExpYear || !CardIDNumber   ? true : false}
+                  disabled={price > 500 || !CardIDNumber || !cardname || !CardExpMonth || !CardExpYear || !CardIDNumber   ? true : false}
                 >
                   Deposit • {currency === "$USD" && "$"}
                   {price}

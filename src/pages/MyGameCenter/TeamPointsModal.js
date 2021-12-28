@@ -111,7 +111,7 @@ console.log("props==>",props);
                             </li> */}
             </ul>
             <div className={classes.__team_points_modal_total_points_text}>
-              Total Points: <span> {item?.totalValue}</span>
+              Total Points: &nbsp;<span> {item?.totalValue}</span>
             </div>
           </div>
           <Card>

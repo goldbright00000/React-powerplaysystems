@@ -196,7 +196,7 @@ const DepositAmountPopUp = (props) => {
               <div className="d-flex align-items-top justify-content-between mb-5">
                 <div>
                   <h6 className={`${styles.title} fw-bold`} style={{ color: '#7f7f7f', fontSize: '16px' }}>Current Balance</h6>
-                  <h1 className={styles.currentBalanceTitle}>$3.50</h1>
+                  <h1 className={styles.currentBalanceTitle}>${localStorage.getItem("cash_balance")}</h1>
                 </div>
                 <div>
                   <span className="text-decoration-underline text-orange cursor-pointer" style={{ fontSize: '12px' }} onClick={() => setDepositInfo(true)}>See Deposit Limits</span>
@@ -227,7 +227,7 @@ const DepositAmountPopUp = (props) => {
                 :
                 nextForm === 2 &&
                 <button className={formStyles.btnNext} onClick={handleDepositFormForMobile} 
-                 disabled={priceValue == 100 || priceValue > 500 ? true : false}
+                 disabled={priceValue > 500 ? true : false}
                 >
                   Next
                 </button> 

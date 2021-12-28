@@ -81,7 +81,7 @@ function LiveStandings(props) {
     const offset = moment?.tz("America/New_York")?.format("Z");
     const dateTime = completed !== true ?
       moment(moment().format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm") :
-      moment(moment(`${gameSetEnd} ${endTime}`).format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | HH:mm")
+      moment(moment(`${gameSetEnd} ${endTime}`).format("YYYY-MM-DD HH:mm:ss") + offset).format("MMM DD, YYYY | hh:mm a")
 
     return dateTime;
 
@@ -163,7 +163,14 @@ function LiveStandings(props) {
     setTeamPointsModal(true);
     setTeamPointsModalId(id)
   }
-
+const setPrizePool=(item)=>{
+  let totalPrize=0
+  item.map((data)=>{
+  if(data?.prize){
+      totalPrize+=parseFloat(data?.prize)
+     }})
+    return totalPrize  
+}
   const Row = (item, ind) => (
     <>
       <div className={`${classes.table_row} ${ind == 0 && classes.active}`}>
@@ -209,7 +216,8 @@ function LiveStandings(props) {
 
           <div className={classes.header_right}>
             <p className={classes.header_p}>
-              ${setNumberComma(props.prizePool, 2)}
+             ${props?.prizePool &&<>{setNumberComma(props.prizePool, 2)}</>}
+             {props?.liveStandingData?.length && <>{setPrizePool(props.liveStandingData)}</>}
             </p>
             <span>Prize Pool</span>
           </div>
