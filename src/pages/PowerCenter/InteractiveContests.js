@@ -802,7 +802,7 @@ const InteractiveContests = (props) => {
                   return (
                     memo +
                     parseFloat(num.amount == "" ? 0 : num.amount) *
-                      parseInt(num.prize == "" ? 1 : num.prize)
+                    parseInt(num.prize == "" ? 1 : num.prize)
                   );
                 },
                 0
@@ -893,16 +893,16 @@ const InteractiveContests = (props) => {
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? -1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(a.enrolled_users) > parseFloat(b.enrolled_users)
             ? 1
             : parseFloat(b.enrolled_users) > parseFloat(a.enrolled_users)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -915,8 +915,8 @@ const InteractiveContests = (props) => {
           parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? -1
             : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
         return isPaidGames.concat(isFreeGames);
       } else {
@@ -924,8 +924,8 @@ const InteractiveContests = (props) => {
           parseFloat(a.entry_fee) > parseFloat(b.entry_fee)
             ? 1
             : parseFloat(b.entry_fee) > parseFloat(a.entry_fee)
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
         return isFreeGames.concat(isPaidGames);
       }
@@ -937,16 +937,16 @@ const InteractiveContests = (props) => {
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? -1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getPriceTotal(a)) > parseFloat(getPriceTotal(b))
             ? 1
             : parseFloat(getPriceTotal(b)) > parseFloat(getPriceTotal(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -957,16 +957,16 @@ const InteractiveContests = (props) => {
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? -1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? 1
-            : 0
+              ? 1
+              : 0
         );
       } else {
         return arr.sort((a, b) =>
           parseFloat(getTopPrize(a)) > parseFloat(getTopPrize(b))
             ? 1
             : parseFloat(getTopPrize(b)) > parseFloat(getTopPrize(a))
-            ? -1
-            : 0
+              ? -1
+              : 0
         );
       }
     }
@@ -1000,15 +1000,15 @@ const InteractiveContests = (props) => {
         "YYYY-MM-DD hh:mm A"
       );
       var isBetween1 = moment(startDate).isBetween(sDate, eDate);
-      
       if (selectedDate === "All") {
         isBetween1 = 1;
-      } else if(m === power?.start_date &&  isBetween1 > 1) {
-        newArr.push(arr[i]);
-      }else{
+      }
+
+      if (selectedCurrencies.indexOf(arr[i]?.currency?.toLowerCase()) > -1 && isBetween1) {
         newArr.push(arr[i]);
       }
     }
+
     if (!showEntered) {
       newArr = newArr.filter((x) => {
         if(enteredGames.findIndex(x1 => x1.gameID == x?.game_id) == -1) {
@@ -1025,7 +1025,6 @@ const InteractiveContests = (props) => {
   }
 
   const getLocalDateTime = (date, time) => {
-    const offset = moment1?.tz("America/New_York")?.format("Z");
     const localDateTime = moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").local().format("YYYY-MM-DD=hh:mm A");
     const splitted = localDateTime.split("=");
 
@@ -1051,9 +1050,9 @@ const InteractiveContests = (props) => {
                 return (
                   parseFloat(memo) +
                   parseFloat(num.amount == "" ? 0 : num.amount) *
-                    parseInt(
-                      num.prize == "" || num.prize == null ? 1 : num.prize
-                    )
+                  parseInt(
+                    num.prize == "" || num.prize == null ? 1 : num.prize
+                  )
                 );
               },
               0
@@ -1159,7 +1158,7 @@ const InteractiveContests = (props) => {
       setFilteredData(data);
     } else {
       powerCenterCardData.map((item) => {
-       if (item?.start_date === day) {
+        if (item?.start_date === day) {
           data.push(item);
        }
       });
@@ -1192,9 +1191,9 @@ const onEnteredChange=()=>{
                         item?.id === 1
                           ? powerCenterCardData
                           : powerCenterCardData?.length > 0 &&
-                            powerCenterCardData.filter(
-                              (cardItem) => cardItem.league === item.title
-                            );
+                          powerCenterCardData.filter(
+                            (cardItem) => cardItem.league === item.title
+                          );
                       setFilteredData(filteredData);
                     }}
                   >
@@ -1218,9 +1217,8 @@ const onEnteredChange=()=>{
                   Show Entered
                 </div>
                 <div
-                  className={`__outline-badge __f1 ${
-                    !showEntered ? "__active" : ""
-                  }`}
+                  className={`__outline-badge __f1 ${!showEntered ? "__active" : ""
+                    }`}
                   style={{ cursor: "pointer" }}
                   onClick={() => {
                     setShowEntered(false);
@@ -1272,8 +1270,8 @@ const onEnteredChange=()=>{
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
@@ -1380,12 +1378,11 @@ const onEnteredChange=()=>{
                       <div
                         key={index}
                         className={`${classes.__currency_menu_item}
-                                                ${
-                                                  selectedCurrencies?.includes(
-                                                    item.value
-                                                  ) &&
-                                                  classes.__currency_menu_selected
-                                                }`}
+                                                ${selectedCurrencies?.includes(
+                          item.value
+                        ) &&
+                          classes.__currency_menu_selected
+                          }`}
                         onClick={() => {
                           const newCurrencyData = [...selectedCurrencies];
                           // Check if currency exist in array
@@ -1411,8 +1408,8 @@ const onEnteredChange=()=>{
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd,MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
