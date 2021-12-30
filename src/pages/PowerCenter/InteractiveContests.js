@@ -1026,7 +1026,9 @@ const InteractiveContests = (props) => {
 
   const getLocalDateTime = (date, time) => {
     const offset = moment1?.tz("America/New_York")?.format("Z");
-    const localDateTime = moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").local().format("YYYY-MM-DD=hh:mm A");
+    const localDateTime = moment
+      .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
+      .format("YYYY-MM-DD=hh:mm A");
     const splitted = localDateTime.split("=");
 
     return {
