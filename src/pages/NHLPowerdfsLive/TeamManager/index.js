@@ -42,7 +42,8 @@ export default function TeamManager(props) {
     POWER_IDs,
     setPowers,
     powers = [],
-    matchEvents = []
+    matchEvents = [],
+    nhlEventData={}
   } = props || {};
 
   const {
@@ -402,6 +403,7 @@ export default function TeamManager(props) {
                   }}
                   matchEvents={matchEvents}
                   getFantasyTeam={props.getFantasyTeam}
+                  nhlEventData={nhlEventData}
                 />
               ))}
 

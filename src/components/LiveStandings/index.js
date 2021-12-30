@@ -169,7 +169,7 @@ const setPrizePool=(item)=>{
   if(data?.prize){
       totalPrize+=parseFloat(data?.prize)
      }})
-    return totalPrize  
+    return (totalPrize).toFixed(2)  
 }
   const Row = (item, ind) => (
     <>
@@ -177,7 +177,7 @@ const setPrizePool=(item)=>{
         <span>{item?.rank}</span>
         <span>{item?._id?.user_display_name}</span>
         <span>{item?.totalValue}</span>
-        <span>${item?.prize ? setNumberComma(item?.prize) : 0}</span>
+        <span>${item?.prize ? setNumberComma(item?.prize,2) : 0}</span>
         <span>
           {/* {ind !== 0 && ( */}
             <button className={classes.button_btn} onClick={()=>handleViewTeam(item?._id?.userID)}>
@@ -191,8 +191,8 @@ const setPrizePool=(item)=>{
               isVisible={teamPointsModal}
               onClose={() => setTeamPointsModal(false)}
               item={item}
-              gameId={item._id.gameID}
-              userId={item._id.userID}
+              gameId={item?._id?.gameID}
+              userId={item?._id?.userID}
             />
           }
         </span>
@@ -216,8 +216,8 @@ const setPrizePool=(item)=>{
 
           <div className={classes.header_right}>
             <p className={classes.header_p}>
-             ${props?.prizePool &&<>{setNumberComma(props.prizePool, 2)}</>}
-             {props?.liveStandingData?.length && <>{setPrizePool(props.liveStandingData)}</>}
+             $<>{setNumberComma(props.prizePool, 2)}</>
+           
             </p>
             <span>Prize Pool</span>
           </div>

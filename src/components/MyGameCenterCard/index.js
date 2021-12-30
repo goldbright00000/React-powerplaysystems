@@ -1309,6 +1309,7 @@ const MyGameCenterCard = (props) => {
         endTime={end_time}
         gameSetEnd={game_set_end}
         completed={completed}
+        prizePool={prize}
       />
     </>
   );

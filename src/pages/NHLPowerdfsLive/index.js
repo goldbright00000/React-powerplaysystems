@@ -157,6 +157,452 @@ function NHLPowerdFsLive(props) {
       });
     };
   }, []);
+  const nhlEventData=[
+  {
+    "_id":{
+       "$oid":"61ccf9804cb1da50e2ef5df7"
+    },
+    "event":12,
+    "id":"401ecf52-29dc-4a38-b2ba-8a4e658c78b0",
+    "period":0,
+    "away":{
+       "id":"441781b9-0f24-11e2-8525-18a905767e44",
+       "name":"Rangers",
+       "market":"New York",
+       "points":1,
+       "reference":"3"
+    },
+    "created_date":"2021-12-30 00:11:16",
+    "eventData":{
+       "id":"1fd6add2-ed10-4730-b0b5-bfa7f578935f",
+       "clock":"19:33",
+       "official":true,
+       "updated":"2021-12-30T00:10:14Z",
+       "wall_clock":"2021-12-30T00:10:09Z",
+       "description":"Dryden Hunt won faceoff against Eetu Luostarinen in offensive zone",
+       "clock_decimal":"19:34",
+       "sequence":1640822995833,
+       "strength":"even",
+       "zone":"offensive",
+       "event_type":"faceoff",
+       "attribution":{
+          "id":"441781b9-0f24-11e2-8525-18a905767e44",
+          "name":"Rangers",
+          "market":"New York",
+          "team_goal":"left",
+          "sr_id":"sr:team:3701",
+          "reference":"3"
+       },
+       "location":{
+          "coord_x":2016,
+          "coord_y":240,
+          "action_area":"outsideleftcircle"
+       },
+       "statistics":[
+          {
+             "win":true,
+             "type":"faceoff",
+             "strength":"even",
+             "zone":"offensive",
+             "team":{
+                "id":"441781b9-0f24-11e2-8525-18a905767e44",
+                "name":"Rangers",
+                "market":"New York",
+                "sr_id":"sr:team:3701",
+                "reference":"3"
+             },
+             "player":{
+                "id":"f9b52899-9d41-4838-9a61-df6311c9cf91",
+                "full_name":"Dryden Hunt",
+                "jersey_number":"29",
+                "sr_id":"sr:player:967865",
+                "reference":"8478211"
+             }
+          },
+          {
+             "type":"faceoff",
+             "strength":"even",
+             "zone":"defensive",
+             "team":{
+                "id":"4418464d-0f24-11e2-8525-18a905767e44",
+                "name":"Panthers",
+                "market":"Florida",
+                "sr_id":"sr:team:3687",
+                "reference":"13"
+             },
+             "player":{
+                "id":"fa00c140-0523-45ee-a492-e966042081ce",
+                "full_name":"Eetu Luostarinen",
+                "jersey_number":"27",
+                "sr_id":"sr:player:1083694",
+                "reference":"8480185"
+             }
+          }
+       ],
+       "on_ice":[
+          {
+             "team":{
+                "sr_id":"sr:team:3687",
+                "id":"4418464d-0f24-11e2-8525-18a905767e44",
+                "name":"Panthers",
+                "market":"Florida",
+                "reference":"13",
+                "players":[
+                   {
+                      "sr_id":"sr:player:1052865",
+                      "position":"F",
+                      "primary_position":"LW",
+                      "id":"08c092f7-e369-437b-9aa4-2366f5266dfe",
+                      "full_name":"Ryan Lomberg",
+                      "jersey_number":"94",
+                      "reference":"8479066"
+                   },
+                   {
+                      "sr_id":"sr:player:1083694",
+                      "position":"F",
+                      "primary_position":"C",
+                      "id":"fa00c140-0523-45ee-a492-e966042081ce",
+                      "full_name":"Eetu Luostarinen",
+                      "jersey_number":"27",
+                      "reference":"8480185"
+                   },
+                   {
+                      "sr_id":"sr:player:318321",
+                      "position":"D",
+                      "primary_position":"D",
+                      "id":"43493300-0f24-11e2-8525-18a905767e44",
+                      "full_name":"Radko Gudas",
+                      "jersey_number":"7",
+                      "reference":"8475462"
+                   },
+                   {
+                      "sr_id":"sr:player:600624",
+                      "position":"D",
+                      "primary_position":"D",
+                      "id":"a24e0f46-9cad-49dd-b07f-7835e0848d99",
+                      "full_name":"Gustav Forsling",
+                      "jersey_number":"42",
+                      "reference":"8478055"
+                   },
+                   {
+                      "sr_id":"sr:player:88027",
+                      "position":"G",
+                      "primary_position":"G",
+                      "id":"433d0416-0f24-11e2-8525-18a905767e44",
+                      "full_name":"Sergei Bobrovsky",
+                      "jersey_number":"72",
+                      "reference":"8475683"
+                   },
+                   {
+                      "sr_id":"sr:player:29855",
+                      "position":"F",
+                      "primary_position":"RW",
+                      "id":"42cb7241-0f24-11e2-8525-18a905767e44",
+                      "full_name":"Patric Hornqvist",
+                      "jersey_number":"70",
+                      "reference":"8471887"
+                   }
+                ]
+             }
+          },
+          {
+             "team":{
+                "sr_id":"sr:team:3701",
+                "id":"441781b9-0f24-11e2-8525-18a905767e44",
+                "name":"Rangers",
+                "market":"New York",
+                "reference":"3",
+                "players":[
+                   {
+                      "sr_id":"sr:player:782610",
+                      "position":"D",
+                      "primary_position":"D",
+                      "id":"c105f594-7c77-4356-84ef-9501810bcba1",
+                      "full_name":"Libor Hajek",
+                      "jersey_number":"25",
+                      "reference":"8479333"
+                   },
+                   {
+                      "sr_id":"sr:player:984105",
+                      "position":"D",
+                      "primary_position":"D",
+                      "id":"9309562d-2fde-4678-8e5a-3ed1cad45d2a",
+                      "full_name":"Adam Fox",
+                      "jersey_number":"23",
+                      "reference":"8479323"
+                   },
+                   {
+                      "sr_id":"sr:player:185265",
+                      "position":"F",
+                      "primary_position":"C",
+                      "id":"4325c36b-0f24-11e2-8525-18a905767e44",
+                      "full_name":"Ryan Strome",
+                      "jersey_number":"16",
+                      "reference":"8476458"
+                   },
+                   {
+                      "sr_id":"sr:player:104807",
+                      "position":"F",
+                      "primary_position":"LW",
+                      "id":"019e74ad-95fb-478a-bff7-b549fceadabf",
+                      "full_name":"Artemi Panarin",
+                      "jersey_number":"10",
+                      "reference":"8478550"
+                   },
+                   {
+                      "sr_id":"sr:player:884434",
+                      "position":"G",
+                      "primary_position":"G",
+                      "id":"30d3b91d-c0d2-40e0-ba17-2a21882c43af",
+                      "full_name":"Igor Shesterkin",
+                      "jersey_number":"31",
+                      "reference":"8478048"
+                   },
+                   {
+                      "sr_id":"sr:player:967865",
+                      "position":"F",
+                      "primary_position":"LW",
+                      "id":"f9b52899-9d41-4838-9a61-df6311c9cf91",
+                      "full_name":"Dryden Hunt",
+                      "jersey_number":"29",
+                      "reference":"8478211"
+                   }
+                ]
+             }
+          }
+       ]
+    },
+    "home":{
+       "id":"4418464d-0f24-11e2-8525-18a905767e44",
+       "name":"Panthers",
+       "market":"Florida",
+       "points":0,
+       "reference":"13"
+    },
+    "last_updated":"2021-12-30 02:14:28"
+ },{
+  "_id":{
+     "$oid":"61ccf9804cb1da50e2ef5df7"
+  },
+  "event":12,
+  "id":"401ecf52-29dc-4a38-b2ba-8a4e658c78b0",
+  "period":0,
+  "away":{
+     "id":"441781b9-0f24-11e2-8525-18a905767e44",
+     "name":"Rangers",
+     "market":"New York",
+     "points":1,
+     "reference":"3"
+  },
+  "created_date":"2021-12-30 00:11:16",
+  "eventData":{
+     "id":"1fd6add2-ed10-4730-b0b5-bfa7f578935f",
+     "clock":"19:34",
+     "official":true,
+     "updated":"2021-12-30T00:10:14Z",
+     "wall_clock":"2021-12-30T00:10:09Z",
+     "description":"Dryden Hunt won faceoff against Eetu Luostarinen in offensive zone",
+     "clock_decimal":"19:34",
+     "sequence":1640822995833,
+     "strength":"even",
+     "zone":"offensive",
+     "event_type":"faceoff",
+     "attribution":{
+        "id":"441781b9-0f24-11e2-8525-18a905767e44",
+        "name":"Rangers",
+        "market":"New York",
+        "team_goal":"left",
+        "sr_id":"sr:team:3701",
+        "reference":"3"
+     },
+     "location":{
+        "coord_x":2016,
+        "coord_y":240,
+        "action_area":"outsideleftcircle"
+     },
+     "statistics":[
+        {
+           "win":true,
+           "type":"faceoff",
+           "strength":"even",
+           "zone":"offensive",
+           "team":{
+              "id":"441781b9-0f24-11e2-8525-18a905767e44",
+              "name":"Rangers",
+              "market":"New York",
+              "sr_id":"sr:team:3701",
+              "reference":"3"
+           },
+           "player":{
+              "id":"f9b52899-9d41-4838-9a61-df6311c9cf91",
+              "full_name":"Dryden Hunt",
+              "jersey_number":"29",
+              "sr_id":"sr:player:967865",
+              "reference":"8478211"
+           }
+        },
+        {
+           "type":"faceoff",
+           "strength":"even",
+           "zone":"defensive",
+           "team":{
+              "id":"4418464d-0f24-11e2-8525-18a905767e44",
+              "name":"Panthers",
+              "market":"Florida",
+              "sr_id":"sr:team:3687",
+              "reference":"13"
+           },
+           "player":{
+              "id":"fa00c140-0523-45ee-a492-e966042081ce",
+              "full_name":"Eetu Luostarinen",
+              "jersey_number":"27",
+              "sr_id":"sr:player:1083694",
+              "reference":"8480185"
+           }
+        }
+     ],
+     "on_ice":[
+        {
+           "team":{
+              "sr_id":"sr:team:3687",
+              "id":"4418464d-0f24-11e2-8525-18a905767e44",
+              "name":"Panthers",
+              "market":"Florida",
+              "reference":"13",
+              "players":[
+                 {
+                    "sr_id":"sr:player:1052865",
+                    "position":"F",
+                    "primary_position":"LW",
+                    "id":"08c092f7-e369-437b-9aa4-2366f5266dfe",
+                    "full_name":"Ryan Lomberg",
+                    "jersey_number":"94",
+                    "reference":"8479066"
+                 },
+                 {
+                    "sr_id":"sr:player:1083694",
+                    "position":"F",
+                    "primary_position":"C",
+                    "id":"fa00c140-0523-45ee-a492-e966042081ce",
+                    "full_name":"Eetu Luostarinen",
+                    "jersey_number":"27",
+                    "reference":"8480185"
+                 },
+                 {
+                    "sr_id":"sr:player:318321",
+                    "position":"D",
+                    "primary_position":"D",
+                    "id":"43493300-0f24-11e2-8525-18a905767e44",
+                    "full_name":"Radko Gudas",
+                    "jersey_number":"7",
+                    "reference":"8475462"
+                 },
+                 {
+                    "sr_id":"sr:player:600624",
+                    "position":"D",
+                    "primary_position":"D",
+                    "id":"a24e0f46-9cad-49dd-b07f-7835e0848d99",
+                    "full_name":"Gustav Forsling",
+                    "jersey_number":"42",
+                    "reference":"8478055"
+                 },
+                 {
+                    "sr_id":"sr:player:88027",
+                    "position":"G",
+                    "primary_position":"G",
+                    "id":"433d0416-0f24-11e2-8525-18a905767e44",
+                    "full_name":"Sergei Bobrovsky",
+                    "jersey_number":"72",
+                    "reference":"8475683"
+                 },
+                 {
+                    "sr_id":"sr:player:29855",
+                    "position":"F",
+                    "primary_position":"RW",
+                    "id":"42cb7241-0f24-11e2-8525-18a905767e44",
+                    "full_name":"Patric Hornqvist",
+                    "jersey_number":"70",
+                    "reference":"8471887"
+                 }
+              ]
+           }
+        },
+        {
+           "team":{
+              "sr_id":"sr:team:3701",
+              "id":"441781b9-0f24-11e2-8525-18a905767e44",
+              "name":"Rangers",
+              "market":"New York",
+              "reference":"3",
+              "players":[
+                 {
+                    "sr_id":"sr:player:782610",
+                    "position":"D",
+                    "primary_position":"D",
+                    "id":"c105f594-7c77-4356-84ef-9501810bcba1",
+                    "full_name":"Libor Hajek",
+                    "jersey_number":"25",
+                    "reference":"8479333"
+                 },
+                 {
+                    "sr_id":"sr:player:984105",
+                    "position":"D",
+                    "primary_position":"D",
+                    "id":"9309562d-2fde-4678-8e5a-3ed1cad45d2a",
+                    "full_name":"Adam Fox",
+                    "jersey_number":"23",
+                    "reference":"8479323"
+                 },
+                 {
+                    "sr_id":"sr:player:185265",
+                    "position":"F",
+                    "primary_position":"C",
+                    "id":"4325c36b-0f24-11e2-8525-18a905767e44",
+                    "full_name":"Ryan Strome",
+                    "jersey_number":"16",
+                    "reference":"8476458"
+                 },
+                 {
+                    "sr_id":"sr:player:104807",
+                    "position":"F",
+                    "primary_position":"LW",
+                    "id":"019e74ad-95fb-478a-bff7-b549fceadabf",
+                    "full_name":"Artemi Panarin",
+                    "jersey_number":"10",
+                    "reference":"8478550"
+                 },
+                 {
+                    "sr_id":"sr:player:884434",
+                    "position":"G",
+                    "primary_position":"G",
+                    "id":"30d3b91d-c0d2-40e0-ba17-2a21882c43af",
+                    "full_name":"Igor Shesterkin",
+                    "jersey_number":"31",
+                    "reference":"8478048"
+                 },
+                 {
+                    "sr_id":"sr:player:967865",
+                    "position":"F",
+                    "primary_position":"LW",
+                    "id":"f9b52899-9d41-4838-9a61-df6311c9cf91",
+                    "full_name":"Dryden Hunt",
+                    "jersey_number":"29",
+                    "reference":"8478211"
+                 }
+              ]
+           }
+        }
+     ]
+  },
+  "home":{
+     "id":"4418464d-0f24-11e2-8525-18a905767e44",
+     "name":"Panthers",
+     "market":"Florida",
+     "points":0,
+     "reference":"13"
+  },
+  "last_updated":"2021-12-30 02:14:28"
+}]
   const {
     challenge_amount= 0,
     entryFees = 0,
@@ -808,6 +1254,7 @@ function NHLPowerdFsLive(props) {
                         powers={powersAvailable == "" ? [] : powersAvailable}
                         matchEvents={matchEvents}
                         getFantasyTeam={getFantasyTeam}
+                        nhlEventData={nhlEventData}
                       />
                     ) : (
                       <MyScoreCard />

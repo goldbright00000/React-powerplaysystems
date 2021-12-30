@@ -19,6 +19,9 @@ function NHLFooterStats(props) {
     showSummary = false,
     largeView = false,
     title = "",
+    liveClockD,
+    livePlayerPeriod,
+    playerStrength
 
   } = props || {};
   const {
@@ -59,7 +62,6 @@ function NHLFooterStats(props) {
     live_period = 0,
     live_strength = "even",
   } = useSelector((state) => state.nhl);
-
 
   return (
     <div>

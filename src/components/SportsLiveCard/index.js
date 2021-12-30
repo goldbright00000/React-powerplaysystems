@@ -58,6 +58,7 @@ function SportsLiveCard(props) {
   const [playerList, setPlayerList] = useState({});
   const [loadingPlayerList, setLoadingPlayerList] = useState(false);
   const [isMatchOver, setIsMatchOver] = useState(false);
+  const [liveClockData, setLiveClockData] = useState("")
   const history = useHistory();
   const {
     powersAvailable: powersAvailables = []
@@ -98,7 +99,8 @@ function SportsLiveCard(props) {
     currentPlayerList = [],
     key = "",
     dataMain = {},
-    rightSide = false
+    rightSide = false,
+    nhlEventData={}
   } = props || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
@@ -140,6 +142,32 @@ function SportsLiveCard(props) {
     earned_runs_average = 0,
     home_runs = 0,
   } = mlb_player_stats[0] || {};
+  let liveClockD=0;
+let livePlayerPeriod;
+let playerStrength;
+
+
+useEffect(() => {
+  function getdata (){
+    live_team_logs?.players?.forEach((player) => {
+    // console.log("nhlEventData==>",nhlEventData);
+    nhlEventData?.forEach((playr) => {
+    
+        if (playr && playr?.eventData?.id === player?.match?.id) {
+          // setLiveClockData(playr?.eventData?.clock)
+           liveClockD=playr?.eventData?.clock
+           livePlayerPeriod=playr?.period
+           playerStrength=playr?.eventData?.strength
+        
+        }
+      });
+    })
+    }
+getdata();
+}, [live_team_logs,nhlEventData])
+
+
+
 
   // const {
   //   games_played = 0,
@@ -1532,7 +1560,7 @@ function SportsLiveCard(props) {
                           danger={hasText(status, "deck")}
                         />
                         {!singleView ? (
-                          <NHLFooterStats player={rightSide ? data : player} matchEvents={props.matchEvents}/>
+                          <NHLFooterStats player={rightSide ? data : player} matchEvents={props.matchEvents} liveClockD={liveClockD} livePlayerPeriod={livePlayerPeriod} playerStrength={playerStrength}/>
                         ) : null}
                       </>
                     ) : null}

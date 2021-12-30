@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
-import { getApi, getApiNHL } from "./environment";
+import { getApi, getNhlSocket } from "./environment";
 
 export function socket() {
   const _socket = io(getApi(), {
@@ -11,7 +11,7 @@ export function socket() {
 }
 
 export function socketNHL() {
-  const _socket = io(getApiNHL(), {
+  const _socket = io(getNhlSocket(), {
     transports: ["websocket"],
     reconnection: true,
     upgrade: false,

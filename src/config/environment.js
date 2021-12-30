@@ -15,3 +15,10 @@ export function getApiNHL() {
   // return "http://localhost:4000";
   return "https://nhl.powerplaysystems.com";
 }
+
+export function getNhlSocket(){
+  if(process.env.NODE_ENV === "development"){
+    return "https://ppg-websocket-35nzxdmika-uc.a.run.app";
+  }
+  return "https://ppg-websocket-35nzxdmika-uc.a.run.app";
+}
