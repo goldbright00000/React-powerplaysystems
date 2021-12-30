@@ -1026,7 +1026,7 @@ const InteractiveContests = (props) => {
 
   const getLocalDateTime = (date, time) => {
     const offset = moment1?.tz("America/New_York")?.format("Z");
-    const localDateTime = moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").local().format("YYYY-MM-DD=hh:mm A");
+    const localDateTime = moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").utcOffset(offset).format("YYYY-MM-DD=hh:mm A");
     const splitted = localDateTime.split("=");
 
     return {
@@ -1148,18 +1148,21 @@ const InteractiveContests = (props) => {
     let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
     let data = [];
+    const offset = moment1?.tz("America/New_York")?.format("Z");
     if (selectedOption === "All") {
       setFilteredData(powerCenterCardData);
     } else if (selectedOption === "Today") {
       powerCenterCardData.map((item) => {
-        if (item?.start_date == today.format("YYYY-MM-DD")) {
+        const localDateTime = moment.utc(item?.game_set_start , "YYYY-MM-DD").utcOffset(offset).format("YYYY-MM-DD");
+        if (localDateTime === today.format("YYYY-MM-DD")) {
           data.push(item);
         }
       });
       setFilteredData(data);
     } else {
       powerCenterCardData.map((item) => {
-       if (item?.start_date === day) {
+        const localDateTime = moment.utc(item?.game_set_start , "YYYY-MM-DD").utcOffset(offset).format("YYYY-MM-DD");
+        if (localDateTime === day) {
           data.push(item);
        }
       });
@@ -1272,8 +1275,8 @@ const onEnteredChange=()=>{
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd, MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
@@ -1282,7 +1285,7 @@ const onEnteredChange=()=>{
                 }}
               />
             </div>
-          </div>
+           </div>
         ) : (
           <div className={classes.__interactive_contests_filter}>
             <div
@@ -1411,8 +1414,8 @@ const onEnteredChange=()=>{
                   selectedDate === "Today"
                     ? "Today"
                     : selectedDate === "All"
-                    ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                      ? "All"
+                      : moment(selectedDate).format("ddd, MMM DD")
                 }
                 options={days}
                 onChange={(selectedOption) => {
