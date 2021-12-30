@@ -469,11 +469,13 @@ const InteractiveContests = (props) => {
     let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
     let data = [];
+    const offset = moment1?.tz("America/New_York")?.format("Z");
     if (selectedOption === "All") {
       setFilteredData(getUserSavedGames);
     } else if (selectedOption === "Today") {
       myGameCenterCardData.map((item) => {
-        if (item?.startDate == today.format("YYYY-MM-DD")) {
+        const localDateTime = moment.utc(item?.game_set_start , "YYYY-MM-DD").utcOffset(offset).format("YYYY-MM-DD");
+        if (localDateTime == today.format("YYYY-MM-DD")) {
           data.push(item);
         }
       });
@@ -766,7 +768,7 @@ currentRank &&
                   ? "Today"
                   : selectedDate === "All"
                     ? "All"
-                    : moment(selectedDate).format("ddd,MMM DD")
+                    : moment(selectedDate).format("ddd, MMM DD")
               }
               options={days}
               onChange={(selectedOption) => {
