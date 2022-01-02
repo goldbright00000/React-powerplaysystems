@@ -63,6 +63,7 @@ const PointSystem = (props) => {
     } = props || {};
 
     const groupedPoints = _.groupBy(PointsSystem, 'type');
+    console.log("groupedPoints",  groupedPoints);
     const typeOne = Object.keys(groupedPoints)[0];
     const typeTwo = Object.keys(groupedPoints)[1];
 
@@ -82,12 +83,17 @@ const PointSystem = (props) => {
                     </span>
                 </p>
             </div>
-            <div className={classes.__point_system_data_container}>
+            <div className={classes.__point_system_data_container} style={{
+                display: "block"
+            }}>
                 <div className={classes.__point_system_data_content}>
                     <>
-                        <div className={classes.__point_system_heading}>{typeOne}</div>
-                        {groupedPoints[typeOne]?.map((item, index) => {
-                            if (index < 5) {
+                        <div className={classes.__point_system_heading} style={{
+                            paddingLeft: 15
+                        }}>{groupedPoints["Skater"] ? "Skater" : ""}</div>
+                        {groupedPoints["Skater"]?.map((item, index) => {
+                            console.log('item', item);
+                            
                                 return (
                                     <div className={classes.__point_system_data} key={index}>
                                         <div className={classes.__point_system_data_title_div}>
@@ -98,7 +104,7 @@ const PointSystem = (props) => {
                                         </div>
                                     </div>
                                 );
-                            }
+                            
                         })}
                     </>
                 </div>

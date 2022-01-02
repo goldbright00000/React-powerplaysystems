@@ -38,7 +38,8 @@ const ContactUSPage = props => {
     }
 
     const handleSubmit = () => {
-        
+        setModalState(true);
+        return;
         if (
             isEmpty(item.topic) ||
             isEmpty(item.displayName) ||

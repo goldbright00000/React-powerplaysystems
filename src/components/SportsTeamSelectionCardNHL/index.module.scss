@@ -1312,8 +1312,9 @@
     }
   }
 }
-@media (max-width: 414px) {
+@media (max-width: 500px) {
   .container_body_card {
+    width: auto !important;
     &.inset {
       width: 96% !important;
       background-color: #35363a;

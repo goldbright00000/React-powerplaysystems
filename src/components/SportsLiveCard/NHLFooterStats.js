@@ -8,6 +8,8 @@ import HockeyIcon from "../../assets/icons/nhl/hockey.svg";
 import ClockIcon from "../../assets/icons/nhl/clock.svg";
 import SoccerIcon from "../../assets/icons/nhl/soccer.svg";
 import SoccerJerseyIcon from "../../assets/icons/nhl/soccer-jersey.svg";
+import * as NHLActions from "../../actions/NHLActions";
+
 
 function NHLFooterStats(props) {
   const {
@@ -19,15 +21,18 @@ function NHLFooterStats(props) {
     showSummary = false,
     largeView = false,
     title = "",
-    liveClockD,
-    livePlayerPeriod,
-    playerStrength
-
+    cardType
   } = props || {};
   const {
     live_match_events = {},
-    match_status = []
+    match_status = [],
+    live_clock_data
   } = useSelector((state) => state.nhl);
+  const { live_team_logs = [] } = useSelector((state) => state.nhl);
+  const {setNhlEventData=[]}=useSelector((state)=>state.nhl)
+  const dispatch = useDispatch();
+
+  const { players}=live_team_logs;
   const getTeamPoints = (id, id2) => {
     let filteredData = match_status.filter(x => x.id == id);
     if(filteredData.length > 0)
@@ -43,18 +48,42 @@ function NHLFooterStats(props) {
     return false;
   };
   const getTeamPoints1 = (id) => {
-    let filteredData = match_status.filter(x => x.id == id);
-    if(filteredData.length > 0)
+    let filteredData = match_status.filter(x => x?.id == id);
+    if(filteredData?.length > 0)
     {
       let a = filteredData[filteredData.length - 1];
       return a;
     }
     return false;
   };
+  const getTeamData = () => {
+    let liveClockData=[];
+    if(live_team_logs && setNhlEventData ){
+      live_team_logs?.players?.forEach((livePlayer) => {
+      // console.log("nhlEventData==>",nhlEventData);
+      if(player?.id===livePlayer?.id){
+        setNhlEventData?.forEach((playr) => {          
+            if (playr && playr?.eventData?.id === livePlayer?.match?.id) {
+              liveClockData.push({
+                clock:playr?.eventData?.clock,
+                period:playr?.period,
+                strength:playr?.eventData?.strength,
+               })
+              }
+            });
+          }
+        })
+      }
+      if(liveClockData?.length > 0)
+      {
+        let a = liveClockData[liveClockData.length - 1];
+        return a;
+      }
+    return false
+  };
   //Player Details
   const { match, OppGoalie = "0", team = {} } = player || {};
   const { home, away } = match || {};
-
   //TeamD Details
   const { name = "", teamB = {}, alias = "", match: teamDMatch = {} } = teamD || {};
   const {
@@ -95,18 +124,33 @@ function NHLFooterStats(props) {
       </div> */}
       <div className="footer_stats_row">
         <img src={ClockIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>
+      {cardType!=="nhl" ?(
+         <p>
           P{getTeamPoints1(match?.id) !== false ? (getTeamPoints1(match?.id)?.period) : (live_period)} | {getTeamPoints1(match?.id) !== false ? (typeof getTeamPoints1(match?.id)?.eventData !== "undefined") ? getTeamPoints1(match?.id)?.eventData?.clock : live_clock : live_clock}
+         </p> 
+          ):(
+        <p>
+          P{ getTeamData() !== false ? (getTeamData()?.period+1) : (live_period)} | {getTeamData() !== false ? (typeof getTeamData()?.clock !== "undefined") ? getTeamData()?.clock : live_clock : live_clock}
         </p>
+      )}
       </div>
       <div className="footer_stats_row">
         <img src={SoccerJerseyIcon} alt="Hockey Icon" width={12} height={12} />
-        <p>
-          {live_strength !== "even" ? isTeamD ? teamB.alias + " - " : player?.team?.alias + " - " : ""}
-          {live_strength === "even"
-            ? "Even Strength"
-            : _.startCase(_.toLower(live_strength))}{" "}
-        </p>
+        {cardType!=="nhl" ?(
+          <p>
+            {live_strength !== "even" ? isTeamD ? teamB.alias + " - " : player?.team?.alias + " - " : ""}
+            {live_strength === "even"
+              ? "Even Strength"
+              : _.startCase(_.toLower(live_strength))}{" "}
+          </p>
+        ):(
+          <p>
+            { getTeamData() !== false && (getTeamData()?.strength)!=="even" ? isTeamD ? teamB.alias + " - " : player?.team?.alias + " - " : ""}
+            {getTeamData() !== false && (getTeamData()?.strength)==="even" 
+              ? "Even Strength"
+              : (match?.home?.alias)+" Powerplay"}
+          </p>
+        )}
       </div>
     </div>
   );

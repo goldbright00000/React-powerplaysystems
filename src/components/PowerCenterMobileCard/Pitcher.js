@@ -65,8 +65,8 @@ const Pitchers = (props) => {
 
     const groupedPoints = _.groupBy(PointsSystem, 'type');
 
-    const teamDData = groupedPoints["Team_D"];
-    const pitcherData = groupedPoints["Pitcher"];
+    const teamDData = groupedPoints["Team-D"];
+    const pitcherData = groupedPoints["Goalie"];
 
     
     const typeOne = Object.keys(groupedPoints)[0];
@@ -91,6 +91,25 @@ const Pitchers = (props) => {
                 </p>
             </div>
             <div className={classes.__point_system_data_container}>
+            <div className={classes.__point_system_data_content}>
+                    <>
+                        <div className={classes.__point_system_heading}>{pitcherData?"Goalie":""}</div>
+                        {pitcherData && pitcherData.map((item, index) => {
+                            if(index < 5) {
+                                return (
+                                    <div className={classes.__point_system_data} key={index}>
+                                        <div className={classes.__point_system_data_title_div}>
+                                            <p className={classes.__point_system_data_title}>{item?.plays}</p>
+                                        </div>
+                                        <div className={classes.__point_system_data_value_div}>
+                                            <p className={classes.__point_system_data_value}>{item?.action} {item?.points} Pts</p>
+                                        </div>
+                                    </div>
+                                );
+                            }
+                        })}
+                    </>
+                </div>
                 <div className={classes.__point_system_data_content}>
                     <>
                         <div className={classes.__point_system_heading}>{teamDData?"Team_D":""}</div>
@@ -110,25 +129,7 @@ const Pitchers = (props) => {
                         })}
                     </>
                 </div>
-                <div className={classes.__point_system_data_content}>
-                    <>
-                        <div className={classes.__point_system_heading}>{pitcherData?"Pitcher":""}</div>
-                        {pitcherData && pitcherData.map((item, index) => {
-                            if(index < 5) {
-                                return (
-                                    <div className={classes.__point_system_data} key={index}>
-                                        <div className={classes.__point_system_data_title_div}>
-                                            <p className={classes.__point_system_data_title}>{item?.plays}</p>
-                                        </div>
-                                        <div className={classes.__point_system_data_value_div}>
-                                            <p className={classes.__point_system_data_value}>{item?.action} {item?.points} Pts</p>
-                                        </div>
-                                    </div>
-                                );
-                            }
-                        })}
-                    </>
-                </div>
+                
             </div>
             
         </div>

@@ -188,13 +188,15 @@ function Header4(props) {
 
       {/* {(token || getLocalStorage(CONSTANTS.LOCAL_STORAGE_KEYS.USER)) &&
         !isMobile && ( */}
-      <Balance
-        entries={enrolledUsers}
-        totalEntries={outof}
-        livePage={livePage}
-        depositClicked={setShowDepositModal}
-        selectedTeam={selectedTeam}
-      />
+      {!isMobile &&
+        <Balance
+          entries={enrolledUsers}
+          totalEntries={outof}
+          livePage={livePage}
+          depositClicked={setShowDepositModal}
+          selectedTeam={selectedTeam}
+        />
+      }
       {/* )} */}
     </div>
   );

@@ -48,7 +48,7 @@ const contents = [
                 <h3>Can I change my Defy Games Display Name? </h3>
                 <p>You may change your display name one (1) time. After you make a change, you display name is locked you can not make any more changes. </p>
                 <h3>Can I create more than one account? </h3>
-                <p>Powerplay Systems prohibits participants from opening more than one account, in order to ensure fair play and uphold the integrity of our contests. If for some reason you forget your password you can reset it <a href='https://myaccount.draftkings.com/resetpassword' target='_blank'>here</a>:  If you forget your username or email used to register please contact <a href='mailto:support@powerplaysystems.com' target='_blank'>support@powerplaysystems.com</a> and an agent will be happy to assist you with retrieving that information. </p>
+                <p>Powerplay Systems prohibits participants from opening more than one account, in order to ensure fair play and uphold the integrity of our contests. If for some reason you forget your password you can reset it <a href='https://test.powerplaysystems.com/reset-password' target='_blank'>here</a>:  If you forget your username or email used to register please contact <a href='mailto:support@powerplaysystems.com' target='_blank'>support@powerplaysystems.com</a> and an agent will be happy to assist you with retrieving that information. </p>
                 <p>Please note: if the same individual sets up multiple accounts, Powerplay Systems will deactivate all accounts except one, and any potential winnings may not be honored from all accounts. Any accounts that are set up illegitimately will be deactivated and winnings will not be honored. </p>
                 <h3>Can I permanently delete my account? </h3>
                 <p>Yes, use the Delete Account link in the My Account page. </p>
@@ -92,7 +92,7 @@ const contents = [
                 <h3>What happens if one of my players does not play or has their game cancelled? </h3>
                 <p>If one of your players does not play, and you do not swap them during the live game, that player will receive 0 points.</p>
                 <h3>What Happens If A Real-Life Game Is Cancelled/Delayed/Postponed? </h3>
-                <p>Please visit the respective <a href='https://www.draftkings.com/help/mlb' target='_blank'>Contest Rules</a> page for each sport offered to view the cancellation and postponement policies. </p>
+                <p>Please visit the respective Contest Rules page for each sport offered to view the cancellation and postponement policies. </p>
                 <h3>What happens if two participants tie in a contest?</h3>
                 <p>If there is a tie at the end of the contest, participants included in the tie will evenly split the related prize pool positions.</p>
                 <p>For example: </p>

@@ -545,7 +545,7 @@ const MyGameCenterCard = (props) => {
               showStatus={false}
               showThumbs={false}
               autoPlay={false}
-              infiniteLoop={false}
+              infiniteLoop={true}
               interval={300000}
             >
               <>
@@ -1125,7 +1125,6 @@ const MyGameCenterCard = (props) => {
                 >
                   {/* {currentRank && console.log("ranjnkjsnfkjdsfjd==>",currentRank)} */}
                   <div className={classes.rank__number}>
-                    {console.log("currentRank==>",currentRank)}
                   {title==="NHL" ? currentRank:ranks.ranking}
                   </div>
                   <div className={classes.rank__title}>Your Current Rank</div> 

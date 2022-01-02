@@ -87,21 +87,24 @@ const ListHeader = (
           {balance}
         </span>
       </div>
-
-      <div className={classes.list_right_side}>
-        <div className={`d-flex align-items-center justify-content-around w-100`}>
-          <Button title={firstBtnTitle} onClick={firstBtnOnClick} className="mx-1 h-100" />
-          <Button
-            className="mx-1 h-100"
-            title={btnTitle}
-            onClick={balance != 0 && onClick}
-            styles={{ opacity: balance == 0 ? 0.5 : 1.0 }}
-          />
-        </div>
-        <div className={`${classes.list_right_side_text} w-100 my-2`}>
-          <span>{minAmount}</span>
-        </div>
+      
+      <div className={classes.list_right_side}> 
+      {title.toLowerCase() !== "power token balance" &&
+          <><div className={`d-flex align-items-center justify-content-around w-100`}>
+            <Button title={firstBtnTitle} onClick={firstBtnOnClick} className="mx-1 h-100" />
+            <Button
+              className="mx-1 h-100"
+              title={btnTitle}
+              onClick={balance != 0 && onClick}
+              styles={{ opacity: balance == 0 ? 0.5 : 1.0 }}
+            />
+          </div>
+          <div className={`${classes.list_right_side_text} w-100 my-2`}>
+            <span>{minAmount}</span>
+          </div></>
+        }
       </div>
+      
     </div >
   );
 };

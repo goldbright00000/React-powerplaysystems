@@ -35,8 +35,8 @@ const Banner = (props) => {
               {cardType.toUpperCase()} <span className="color">PowerdFS</span>{" "}
             </h1>
             <h2>
-              Entries <span className="ten">{selectedTeam.enrolled_users}</span>{" "}
-              <span className="tens">/ {selectedTeam.game.target}</span>
+              Entries <span className="ten">{selectedTeam?.enrolled_users}</span>{" "}
+              <span className="tens">/ {selectedTeam?.game?.target}</span>
             </h2>
           </Col>
         </Row>

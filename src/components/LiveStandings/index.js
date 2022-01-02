@@ -143,20 +143,35 @@ function LiveStandings(props) {
     setFilteredString(value);
     if (!isEmpty(value)) {
       const result = props?.liveStandingData?.filter((data) => {
+        if(data?._id){
+          const [firstName, lastName] = `${data?._id?.user_display_name}`.split(
+            " "
+          );
+          
+          if (firstName && lastName) {
+            return firstName?.startsWith(value) || lastName?.startsWith(value);
+          }
+          let aaa = data?._id?.user_display_name;
+  
+          return aaa?.toLowerCase()?.startsWith(value);
+      }
+      else{
         const [firstName, lastName] = `${data?.team?.user?.display_name}`.split(
           " "
         );
-
+        
         if (firstName && lastName) {
           return firstName?.startsWith(value) || lastName?.startsWith(value);
         }
         let aaa = data?.team?.user?.display_name;
 
         return aaa?.toLowerCase()?.startsWith(value);
+      }
       });
       setFilteredData(result);
+      console.log("result---",result);
     } else {
-      setFilteredData([]);
+      setFilteredData(props?.liveStandingData);
     }
   };
   const handleViewTeam = (id) => {
@@ -177,7 +192,7 @@ const setPrizePool=(item)=>{
         <span>{item?.rank}</span>
         <span>{item?._id?.user_display_name}</span>
         <span>{item?.totalValue}</span>
-        <span>${item?.prize ? setNumberComma(item?.prize,2) : 0}</span>
+        <span>${item?.prize ? (item?.prize).toFixed(2) : 0}</span>
         <span>
           {/* {ind !== 0 && ( */}
             <button className={classes.button_btn} onClick={()=>handleViewTeam(item?._id?.userID)}>
@@ -227,6 +242,7 @@ const setPrizePool=(item)=>{
         <div className={classes.body}>
           <div className={classes.body_header}>
             <SearchInput
+            search={filteredString}
               placeholder="Search by Display name"
               onSearch={onSearch}
             />

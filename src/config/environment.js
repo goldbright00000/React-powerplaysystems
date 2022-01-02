@@ -18,7 +18,9 @@ export function getApiNHL() {
 
 export function getNhlSocket(){
   if(process.env.NODE_ENV === "development"){
-    return "https://ppg-websocket-35nzxdmika-uc.a.run.app";
+    return "https://ws.powerplaysystems.com/";
+    // return "http://localhost:4000";
   }
-  return "https://ppg-websocket-35nzxdmika-uc.a.run.app";
+  return "https://ws.powerplaysystems.com/";
+  // return "http://localhost:4000";
 }

@@ -45,3 +45,58 @@
         color: #fff;
     }
 }
+
+@media (max-width: 414px) {
+    .thankYouDiv{
+        width: 95%;
+        height: 400px;
+        margin: 7px 420px 3px 0px;
+        padding: 0px 0px 0 0px;
+        border-radius: 12px;
+        //box-shadow: 0 2px 24px 0 rgb(0 0 0 / 50%);
+        background-color: #2d2f33;
+        position: absolute;
+        top: 400px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        .closeButton {
+            position: absolute;
+            right: 30px;
+            top: 25px;
+        }
+        img {
+            position: absolute;
+            top: 85px;
+            left: 50%;
+            transform: translate(-50%, 0);
+        }
+        .title {
+            width: auto;
+            height: 40px;
+            margin: 210px auto 0px;
+            font-family: Teko;
+            font-size: 40px;
+            font-weight: 600;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: 42px;
+            letter-spacing: normal;
+            text-align: center;
+            color: #fff;
+        }
+        .subtitle {
+            width: 200px;
+            height: 23px;
+            margin: 0 auto;
+            font-family: Poppins;
+            font-size: 16px;
+            font-weight: 500;
+            font-stretch: normal;
+            font-style: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            text-align: center;
+            color: #fff;
+        }
+    }
+}

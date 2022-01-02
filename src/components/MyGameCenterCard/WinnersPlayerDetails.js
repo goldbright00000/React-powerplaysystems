@@ -95,13 +95,12 @@ const handleViewTeam = (id) => {
           <div className={classes.result__main}>
             Winners
           </div>
-         
+          <div className={classes.price__title}>
+              <h6 className={classes.mainTitle}>Prize Payouts</h6>
+            </div>
             { liveStandings?.map((item,i)=>{
                return(
           <div className={user_id===item?._id?.userID?`${classes.prize__main} ${classes.active}`:`${classes.prize__main}`}>
-           {i===0&& <div className={classes.price__title}>
-              <h6 className={classes.mainTitle}>Prize Payouts</h6>
-            </div>}
             <div className={classes.content__main__scroll}>
           
             <div className={classes.price__content}>

@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 import dateFormat from "dateformat";
 import _ from "underscore";
 import { showToast } from "../../actions/uiActions";
-
+import MobileBalance from "../../components/MobileBalance";
 import * as NHLActions from "../../actions/NHLActions";
 import classes from "./index.module.scss";
 import Header from "../../components/Header/Header";
@@ -698,7 +698,6 @@ function NHLPowerdFs(props) {
           }
         }
       } else {
-        console.log("selectedData", selectedData);
         if (selectedData == null) {
           return;
         }
@@ -712,7 +711,12 @@ function NHLPowerdFs(props) {
         var _filterdDataHomeTeam = selectedData?.listData?.filter((player) =>
           player?.match?.home?.name
             ?.toLocaleLowerCase()
-            ?.includes(value?.toLocaleLowerCase())
+            ?.startsWith(value?.toLocaleLowerCase())
+        );
+        var _filterdDataAwayTeam = selectedData?.listData?.filter((player) =>
+          player?.match?.away?.name
+            ?.toLocaleLowerCase()
+            ?.startsWith(value?.toLocaleLowerCase())
         );
         for (var i = 0; i < _filterdData.length; i++) {
           var id = _filterdData[i].id;
@@ -723,10 +727,16 @@ function NHLPowerdFs(props) {
         }
         for (var i = 0; i < _filterdDataHomeTeam.length; i++) {
           var id = _filterdDataHomeTeam[i].id;
-          console.log("id......",id)
           if (tempIds.indexOf(id) == -1) {
             tempIds.push(id);
             tempObj.push(_filterdDataHomeTeam[i]);
+          }
+        }
+        for (var i = 0; i < _filterdDataAwayTeam.length; i++) {
+          var id = _filterdDataAwayTeam[i].id;
+          if (tempIds.indexOf(id) == -1) {
+            tempIds.push(id);
+            tempObj.push(_filterdDataAwayTeam[i]);
           }
         }
       }
@@ -1104,6 +1114,7 @@ function NHLPowerdFs(props) {
     <>
       <Header />
       <div className={classes.wrapper}>
+        
         <Header4
           outof={outOf}
           enrolledUsers={enrolledUsers}
@@ -1135,7 +1146,7 @@ function NHLPowerdFs(props) {
           isTeamSelectionPage={true}
           teamSelectionPageText={`Manage your team to ${powerdfs_challenge_amount} points and win`}
         />
-
+        {isMobile && <MobileBalance depositClicked={setShowDepositModal} />}
         <div className={classes.container}>
           <div className={classes.container_left}>
             {!isMobile && (
@@ -1208,8 +1219,7 @@ function NHLPowerdFs(props) {
             </div>
             {isMobile && (
               <div className={classes.select_team_info}>
-                Select 1 Team Defense, Goals against result in negative points
-                for your team.
+                <p>{headerText[selectedFilter?.id - 1]?.text}</p>
               </div>
             )}
 

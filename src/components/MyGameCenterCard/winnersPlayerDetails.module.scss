@@ -16,7 +16,7 @@
 }
 .content__main__scroll{
     min-height: auto;
-    max-height: 220px;
+    max-height: 180px;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -59,13 +59,30 @@
 }
 
 .prize__main .price__content {
-  margin-top: 10px;
+  margin-top: 5px;
   display: flex;
   justify-content: space-between;
 }
 
+
+.price__index{
+  flex:  0 0 20%;
+}
+
+.price__name{
+  flex: 0 0 50%;
+}
+
+.price__dollar{
+  flex: 0 0 20%;
+}
+
+.icon{
+  flex: 0 0 10%;
+}
+
 .prize__main {
-  padding: 15px;
+  padding: 0 15px;
 }
 
 .prize__main .price__title {
@@ -99,7 +116,7 @@
 }
 
 .price__content {
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
   padding-right: 10px;
 }
 
@@ -110,7 +127,7 @@
     color: #f2f2f2;
     font-weight: bold;
     width: auto;
-    margin: 0;
+    margin-left: 15px;
     display: inline-block;
   }
 }

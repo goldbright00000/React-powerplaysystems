@@ -30,14 +30,14 @@ function RankCard(props) {
   React.useEffect(() => {
     if(liveStandings.length > 0) {
       liveStandings.forEach(element => {
-        if(element._id.userID == user_id) {
-          setCurrentRank(element.rank);
-          setLeader(element.totalValue);
-          setCurrentWinnings(element.prize);
+        if(element?._id?.userID == user_id) {
+          setCurrentRank(element?.rank);
+          setLeader(element?.totalValue);
+          setCurrentWinnings(element?.prize);
         }
       });
     }
-  }, []);
+  }, [liveStandings]);
 
   React.useEffect(() => {
     if (gameID) {
@@ -83,7 +83,7 @@ function RankCard(props) {
                 className={`${classes.sidebar_header_p1} ${classes.sidebar_header_p1_1}`}
                 style={{ fontSize: 24, fontFamily: "Teko" }}
               >
-                {" "}
+                {" "}{console.log("leader==>0",leader)}
                 {leader}{" "}
               </p>
             </div>

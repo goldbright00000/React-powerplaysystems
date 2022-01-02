@@ -61,7 +61,7 @@ p {
       flex-direction: column;
       justify-content: center;
       align-items: center;
-
+      min-width: 394px;
       .list_right_side_btns {
         > :first-child {
           width: 134px;
@@ -94,7 +94,7 @@ p {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-
+        min-width: auto;
         .list_right_side_btns {
           display: flex;
 
@@ -358,7 +358,7 @@ p {
         justify-content: center;
         align-items: center;
         margin: 10px 0;
-
+        
         span {
           font-size: 14px;
           margin-top: 10px;

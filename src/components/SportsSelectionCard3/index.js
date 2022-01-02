@@ -302,8 +302,8 @@ function SportsSelectionCard3(props) {
               <div className={classes.container_card_footer_main}>
                 <div className={classes.card_footer_left}>
                   <p>
-                    <span className={classes.teamB}>{awayTeam}</span> VS{" "}
-                    <span className={classes.teamA}>{homeTeam}</span>
+                    <span className={player?.isFromAwayTeam ? classes.teamA : classes.teamB}>{away.name}</span> VS{" "}
+                    <span className={player?.isFromHomeTeam ? classes.teamA : classes.teamB}>{home.name}</span>
                   </p>
 
                   <div className={classes.divider}></div>
@@ -339,9 +339,9 @@ function SportsSelectionCard3(props) {
               </div>
             </>
 
-            <MLBDetailStats position={primary_position} />
+            {/* <MLBDetailStats position={primary_position} /> */}
 
-            <>
+            {/* <>
               <StarterStats position={primary_position} />
               <div
                 className={classes.container_card_footer_main}
@@ -379,9 +379,9 @@ function SportsSelectionCard3(props) {
                   </p>
                 </div>
               </div>
-            </>
+            </> */}
 
-            <img
+            {/* <img
               src={AdImage}
               onClick={() => {
                 if (pageType == "nhl") {
@@ -399,7 +399,7 @@ function SportsSelectionCard3(props) {
                   }
                 }
               }}
-            />
+            /> */}
           </Carousel>
         ) : (
           <>

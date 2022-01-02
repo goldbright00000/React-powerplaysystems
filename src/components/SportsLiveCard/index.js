@@ -58,7 +58,6 @@ function SportsLiveCard(props) {
   const [playerList, setPlayerList] = useState({});
   const [loadingPlayerList, setLoadingPlayerList] = useState(false);
   const [isMatchOver, setIsMatchOver] = useState(false);
-  const [liveClockData, setLiveClockData] = useState("")
   const history = useHistory();
   const {
     powersAvailable: powersAvailables = []
@@ -100,20 +99,20 @@ function SportsLiveCard(props) {
     key = "",
     dataMain = {},
     rightSide = false,
-    nhlEventData={}
   } = props || {};
   const { player = {}, match = {}, xp = {}, score = 0 } = data || {};
   const { xp1 = 0, xp2 = 1, xp3 = 2 } = pointXpCount || {};
 
   const { live_team_logs = [] } = useSelector((state) => state.nhl);
-  const { playersActualScore = [], posD1Points = 0,
+  const {setNhlEventData=[]}=useSelector((state)=>state.nhl)
+
+  const { playerActualScore = [], posD1Points = 0,
     posD2Points = 0,
     posXW1Points = 0,
     posXW2Points = 0,
     posXW3Points = 0,
     posCenterPoints = 0,
     posGoaliePts = 0 } = live_team_logs;   
-
   const {
     full_name = "",
     positionID = "",
@@ -142,30 +141,6 @@ function SportsLiveCard(props) {
     earned_runs_average = 0,
     home_runs = 0,
   } = mlb_player_stats[0] || {};
-  let liveClockD=0;
-let livePlayerPeriod;
-let playerStrength;
-
-
-useEffect(() => {
-  function getdata (){
-    live_team_logs?.players?.forEach((player) => {
-    // console.log("nhlEventData==>",nhlEventData);
-    nhlEventData?.forEach((playr) => {
-    
-        if (playr && playr?.eventData?.id === player?.match?.id) {
-          // setLiveClockData(playr?.eventData?.clock)
-           liveClockD=playr?.eventData?.clock
-           livePlayerPeriod=playr?.period
-           playerStrength=playr?.eventData?.strength
-        
-        }
-      });
-    })
-    }
-getdata();
-}, [live_team_logs,nhlEventData])
-
 
 
 
@@ -1227,15 +1202,18 @@ getdata();
           {type == "G" ? (
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
               
-              Saves: {playersActualScore.find(x => x.playerID == pid)?playersActualScore.find(x => x.playerID == pid)?.saves : "0"}
+              Saves: {playerActualScore.find(x => x.playerID == pid)?playerActualScore.find(x => x.playerID == pid)?.saves : "0"}
               <br />
-              GA: {Math.abs(playersActualScore.find(x => x.playerID == pid)?playersActualScore.find(x => x.playerID == pid)?.goalsAgainst : "")}
+              GA: {Math.abs(playerActualScore.find(x => x.playerID == pid)?playerActualScore.find(x => x.playerID == pid)?.goalsAgainst : "")}
             </p>
           ) : (
+          
             <p className={`${classes.p} ${largeView && classes.large_view}`}>
-              G: {goals} | A: {assists}
+              {/* G: {goals} | A: {assists} */}
+              G: {playerActualScore?.find(x => x.playerID == player?.id)?playerActualScore?.find(x => x.playerID == player?.id)?.goals+playerActualScore?.find(x => x.playerID == player?.id)?.overTimeGoals+playerActualScore?.find(x => x.playerID == player?.id)?.shortHandedGoals : "0"} | A: {playerActualScore?.find(x => x.playerID == player?.id)?playerActualScore?.find(x => x.playerID == player?.id)?.assists:"0"}
               <br />
-              SOG: {shotsOnGoal}
+              {/* SOG: {shotsOnGoal} */}
+              SOG: {playerActualScore?.find(x => x.playerID ==  player?.id)?playerActualScore?.find(x => x.playerID ==  player?.id)?.shotsOnGoal:"0"}
             </p>
           )} 
           <div
@@ -1560,7 +1538,7 @@ getdata();
                           danger={hasText(status, "deck")}
                         />
                         {!singleView ? (
-                          <NHLFooterStats player={rightSide ? data : player} matchEvents={props.matchEvents} liveClockD={liveClockD} livePlayerPeriod={livePlayerPeriod} playerStrength={playerStrength}/>
+                          <NHLFooterStats player={rightSide ? data : player} matchEvents={props.matchEvents} cardType={cardType}/>
                         ) : null}
                       </>
                     ) : null}

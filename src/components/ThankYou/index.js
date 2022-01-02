@@ -7,7 +7,8 @@ const ThankYouModal = (props) => {
             width: "100%",
             height: "100vh",
             position: "fixed",
-            top: 0
+            top: 0,
+            zIndex: 1
         }}>
         <div className={classes.thankYouDiv}>
             <div className={classes.closeButton} style={{

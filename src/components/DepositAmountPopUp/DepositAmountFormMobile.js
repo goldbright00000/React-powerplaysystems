@@ -225,6 +225,7 @@ class DepositAmountFormMobile extends Component {
     };
 
     onSubmit = (e) => {
+        console.log("ttttest",this.state.canadianVisible);
         e.preventDefault();
 
         if (this.state.form.currency === "USD"){
@@ -244,6 +245,7 @@ class DepositAmountFormMobile extends Component {
 
                 this.props.ipaySubmitted(object);
             } else {
+                console.log("teeest",this.state.form);
                 let { price, paymentMetod } = this.state.form;
                 // price = parseFloat((price * this.props.cad).toFixed(2));
                 this.props.myUserPaySubmitted({ amount: price, paymentMethod: paymentMetod })
@@ -471,7 +473,7 @@ class DepositAmountFormMobile extends Component {
                                     />
                                     </div>
                                 </div>
-                                <div className="col-6">
+                                {/* <div className="col-6">
                                     <div className={`${styles.card_field} w-100 d-block`}>
                                     <h6>State / Province</h6>
                                     <select>
@@ -486,7 +488,7 @@ class DepositAmountFormMobile extends Component {
                                     <h6>ZIP / Postal Code</h6>
                                     <input type="number" name="zip" placeholder="e.g. 12345"/>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                         </div>)}
                         {currency !== "USD" ? (
@@ -514,7 +516,7 @@ class DepositAmountFormMobile extends Component {
                             // </section>
                             <button className={`${styles.submitbtn} w-100 d-block position-absolute ${styles.customDepositBtn}`}>
                                 Deposit • {currency === "$USD" && "$"}
-                                {price} {currency.replace("$", "")}
+                                {price} {currency.replace("$", "")}1
                             </button>
                         ) : (
                             <button className={`${styles.submitbtn} w-100 d-block position-absolute ${styles.customDepositBtn}`}

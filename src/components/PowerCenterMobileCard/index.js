@@ -77,7 +77,7 @@ const PowerCenterMobileCard = (props) => {
         showStatus={false}
         showThumbs={false}
         autoPlay={false}
-        infiniteLoop={false}
+        infiniteLoop={true}
         interval={300000}
         className=".carousel .control-dots"
       >
