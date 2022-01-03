@@ -1013,17 +1013,13 @@ const InteractiveContests = (props) => {
   
     }
     if (!showEntered) {
+      console.log("newArr------",newArr)
       newArr = newArr.filter((x) => {
-        if(enteredGames.findIndex(x1 => x1.gameID == x?.game_id) == -1) {
-          return x;
-        }
-        else {
-          if(enteredGames.find(x1 => x1.gameID == x?.game_id).userHasEntered == false) {
+       if(enteredGames.find(x1 => x1.gameID == x?.game_id).userHasEntered !== true) {
             return x;
           }
-        }
-      });
-    }
+       });
+   }
     return newArr;
   }
 
