@@ -224,7 +224,7 @@ function PowerCollapesible(props) {
               </div>
             ) : (
               <div className={classes.power_footer}>
-                {isPowerLocked(title) === 0 ? (
+                {isPowerLocked(title) === 1 ? (
                   <>
                     <p>Share to unlock:</p>
 
