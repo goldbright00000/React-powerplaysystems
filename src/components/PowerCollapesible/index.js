@@ -224,12 +224,13 @@ function PowerCollapesible(props) {
               </div>
             ) : (
               <div className={classes.power_footer}>
-                {isPowerLocked(title) === 1 ? (
+                {isPowerLocked(title) === 0 ? (
                   <>
                     <p>Share to unlock:</p>
 
                     <button
                       onClick={() => {
+                        if(history?.location?.pathname  === "/nhl-live-powerdfs") {
                         var left = window.screen.width / 2 - 600 / 2,
                           top = window.screen.height / 2 - 600 / 2;
                         window.open(
@@ -240,6 +241,7 @@ function PowerCollapesible(props) {
                             ",top=" +
                             top
                         );
+                      }
                       }}
                     >
                       <FacebookIcon />
@@ -247,6 +249,7 @@ function PowerCollapesible(props) {
 
                     <button
                       onClick={() => {
+                        if(history?.location?.pathname  === "/nhl-live-powerdfs") {
                         var left = window.screen.width / 2 - 600 / 2,
                           top = window.screen.height / 2 - 600 / 2;
                         window.open(
@@ -257,6 +260,7 @@ function PowerCollapesible(props) {
                             ",top=" +
                             top
                         );
+                      }
                       }}
                     >
                       <TwitterIcon />

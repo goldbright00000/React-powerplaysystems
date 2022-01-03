@@ -440,10 +440,9 @@ const InteractiveContests = (props) => {
   };
 
   const getLocalDateTime = (date, time) => {
-    const offset = moment1?.tz("America/New_York")?.format("Z");
-    const localDateTime = moment
+   const localDateTime = moment
       .utc(date + " " + time, "YYYY-MM-DD hh:mm A")
-      .utcOffset(offset)
+      .local()
       .format("YYYY-MM-DD=hh:mm A");
 
     const splitted = localDateTime.split("=");
@@ -469,20 +468,18 @@ const InteractiveContests = (props) => {
     let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
     let data = [];
-    const offset = moment1?.tz("America/New_York")?.format("Z");
     if (selectedOption === "All") {
       setFilteredData(getUserSavedGames);
     } else if (selectedOption === "Today") {
       myGameCenterCardData.map((item) => {
-        const localDateTime = moment.utc(item?.game_set_start , "YYYY-MM-DD").utcOffset(offset).format("YYYY-MM-DD");
-        if (localDateTime == today.format("YYYY-MM-DD")) {
+        if (getLocalDateTime(item?.startDate, item?.startTime)?.date === today.format("YYYY-MM-DD")) {
           data.push(item);
         }
       });
       setFilteredData(data);
     } else {
       myGameCenterCardData.map((item) => {
-        if (item?.startDate == day) {
+        if (getLocalDateTime(item?.startDate, item?.startTime)?.date === day) {
           data.push(item);
         }
       });

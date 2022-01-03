@@ -1003,11 +1003,14 @@ const InteractiveContests = (props) => {
       
       if (selectedDate === "All") {
         isBetween1 = 1;
-      } else if(m === power?.start_date &&  isBetween1 > 1) {
-        newArr.push(arr[i]);
+      }
+     
+      if ( selectedCurrencies.indexOf(arr[i]?.currency?.toLowerCase()) > -1 && isBetween1) {
+            newArr.push(arr[i]);
       }else{
         newArr.push(arr[i]);
       }
+  
     }
     if (!showEntered) {
       newArr = newArr.filter((x) => {
@@ -1025,8 +1028,7 @@ const InteractiveContests = (props) => {
   }
 
   const getLocalDateTime = (date, time) => {
-    const offset = moment1?.tz("America/New_York")?.format("Z");
-    const localDateTime = moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").utcOffset(offset).format("YYYY-MM-DD=hh:mm A");
+    const localDateTime = moment.utc(date + " " + time, "YYYY-MM-DD hh:mm A").local().format("YYYY-MM-DD=hh:mm A");
     const splitted = localDateTime.split("=");
 
     return {
@@ -1148,21 +1150,18 @@ const InteractiveContests = (props) => {
     let day = moment(selectedOption).format("YYYY-MM-DD");
     const today = moment();
     let data = [];
-    const offset = moment1?.tz("America/New_York")?.format("Z");
-    if (selectedOption === "All") {
+      if (selectedOption === "All") {
       setFilteredData(powerCenterCardData);
     } else if (selectedOption === "Today") {
       powerCenterCardData.map((item) => {
-        const localDateTime = moment.utc(item?.game_set_start , "YYYY-MM-DD").utcOffset(offset).format("YYYY-MM-DD");
-        if (localDateTime === today.format("YYYY-MM-DD")) {
+       if (getLocalDateTime(item?.game_set_start, item?.start_time)?.date === today.format("YYYY-MM-DD")) {
           data.push(item);
         }
       });
       setFilteredData(data);
     } else {
       powerCenterCardData.map((item) => {
-        const localDateTime = moment.utc(item?.game_set_start , "YYYY-MM-DD").utcOffset(offset).format("YYYY-MM-DD");
-        if (localDateTime === day) {
+         if (getLocalDateTime(item?.game_set_start, item?.start_time)?.date === day) {
           data.push(item);
        }
       });
@@ -1443,7 +1442,7 @@ const onEnteredChange=()=>{
                   powerCenterCardData.length / itemsInaRow
                 );
                 var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filteredData);
+                var a1 = sortArray(filterByCurrency);
                 const powerCenterMobileCardView = Array(numberOfRows)
                   .fill(undefined)
                   .map((item, i) => {
@@ -1474,7 +1473,7 @@ const onEnteredChange=()=>{
                   powerCenterCardData.length / itemsInaRow
                 );
                 var filterByCurrency = filterCurrency(filteredData);
-                var a1 = sortArray(filteredData);
+                var a1 = sortArray(filterByCurrency);
                 const powerCenterCardView = Array(numberOfRows)
                   .fill(undefined)
                   .map((item, i) => {
@@ -1507,7 +1506,7 @@ const onEnteredChange=()=>{
                   );
                   
                   var filterByCurrency = filterCurrency(filteredData);
-                  var a1 = sortArray(filteredData);
+                  var a1 = sortArray(filterByCurrency);
                   const powerCenterCardView = Array(numberOfRows)
                     .fill(undefined)
                     .map((item, i) => {
